@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.59 2010-07-13 04:29:49 mp Exp $
+# $Id: AgentTicketMove.pm,v 1.60 2010-07-13 08:04:04 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -742,269 +742,266 @@ sub Run {
                 URL => $Self->{LastScreenOverview},
             },
         );
-        $Output
-            .= $Self->{ LayoutObject
-                ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-                $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-                return $Output;
-            }
-            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-        $Self->{LayoutObject}->Block(
-            Name => 'LoadParentURLAndClose',
-            Data => {
-                URL => $Self->{LastScreenView},
-            },
-        );
-        $Output .= $Self->{LayoutObject}
-            ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
         $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
         return $Output;
     }
+    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+    $Self->{LayoutObject}->Block(
+        Name => 'LoadParentURLAndClose',
+        Data => {
+            URL => $Self->{LastScreenView},
+        },
+    );
+    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    return $Output;
+}
 
-    sub AgentMove {
-        my ( $Self, %Param ) = @_;
+sub AgentMove {
+    my ( $Self, %Param ) = @_;
 
-        my %Data       = %{ $Param{MoveQueues} };
-        my %MoveQueues = %Data;
-        my %UsedData;
-        my %UserHash;
-        if ( $Param{OldUser} ) {
-            my $Counter = 0;
-            for my $User ( reverse @{ $Param{OldUser} } ) {
-                if ($Counter) {
-                    if ( !$UserHash{ $User->{UserID} } ) {
-                        $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                            . "$User->{UserFirstname} ($User->{UserLogin})";
-                    }
-                }
-                $Counter++;
-            }
-        }
-        my $OldUserSelectedID = $Param{OldUserID};
-        if ( !$OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
-            $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
-        }
-
-        # build string
-        $Param{OldUserStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%UserHash,
-            SelectedID   => $OldUserSelectedID,
-            Name         => 'OldUserID',
-            Translation  => 0,
-            PossibleNone => 1,
-            OnClick      => "change_selected(2)",
-        );
-
-        # build next states string
-        $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => $Param{NextStates},
-            Name         => 'NewStateID',
-            SelectedID   => $Param{NewStateID},
-            Translation  => 1,
-            PossibleNone => 1,
-        );
-
-        # build next priority string
-        $Param{NextPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => $Param{NextPriorities},
-            Name         => 'NewPriorityID',
-            SelectedID   => $Param{NewPriorityID},
-            Translation  => 1,
-            PossibleNone => 1,
-        );
-
-        # build owner string
-        $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => $Self->_GetUsers(
-                QueueID  => $Param{DestQueueID},
-                AllUsers => $Param{OwnerAll}
-            ),
-            Name         => 'NewUserID',
-            SelectedID   => $Param{NewUserID},
-            Translation  => 0,
-            PossibleNone => 1,
-        );
-
-        # set state
-        if ( $Self->{Config}->{State} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'State',
-                Data => {%Param},
-            );
-        }
-
-        # set priority
-        if ( $Self->{Config}->{Priority} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Priority',
-                Data => {%Param},
-            );
-        }
-
-        # set move queues
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { %MoveQueues, '' => '-' },
-            Multiple       => 0,
-            Size           => 0,
-            Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestQueueIDInvalid},
-            Name           => 'DestQueueID',
-            SelectedID     => $Param{DestQueueID},
-            OnChangeSubmit => 0,
-        );
-
-        # show time accounting box
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-            $Param{TimeUnitsRequired} = (
-                $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-                ? 'Validate_Required'
-                : ''
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TimeUnits',
-                Data => \%Param,
-            );
-        }
-
-        # show spell check
-        if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SpellCheck',
-                Data => {},
-            );
-        }
-
-        # show attachments
-        for my $Attachment ( @{ $Param{Attachments} } ) {
-            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
-            $Self->{LayoutObject}->Block(
-                Name => 'Attachment',
-                Data => $Attachment,
-            );
-        }
-
-        # ticket free text
-        for my $Count ( 1 .. 16 ) {
-            if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeText',
-                    Data => {
-                        TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                        TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                        Count               => $Count,
-                        %Param,
-                    },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeText' . $Count,
-                    Data => { %Param, Count => $Count },
-                );
-            }
-        }
-        for my $Count ( 1 .. 6 ) {
-            if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTime',
-                    Data => {
-                        TicketFreeTimeKey =>
-                            $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                        TicketFreeTime => $Param{ 'TicketFreeTime' . $Count },
-                        Count          => $Count,
-                    },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTime' . $Count,
-                    Data => { %Param, Count => $Count },
-                );
-            }
-        }
-
-        # add rich text editor
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'RichText',
-                Data => \%Param,
-            );
-        }
-
-        return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
-    }
-
-    sub _GetUsers {
-        my ( $Self, %Param ) = @_;
-
-        # get users
-        my %ShownUsers;
-        my %AllGroupsMembers = $Self->{UserObject}->UserList(
-            Type  => 'Long',
-            Valid => 1,
-        );
-
-        # just show only users with selected custom queue
-        if ( $Param{QueueID} && !$Param{AllUsers} ) {
-            my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-            for my $Key ( keys %AllGroupsMembers ) {
-                my $Hit = 0;
-                for my $UID (@UserIDs) {
-                    if ( $UID eq $Key ) {
-                        $Hit = 1;
-                    }
-                }
-                if ( !$Hit ) {
-                    delete $AllGroupsMembers{$Key};
+    my %Data       = %{ $Param{MoveQueues} };
+    my %MoveQueues = %Data;
+    my %UsedData;
+    my %UserHash;
+    if ( $Param{OldUser} ) {
+        my $Counter = 0;
+        for my $User ( reverse @{ $Param{OldUser} } ) {
+            if ($Counter) {
+                if ( !$UserHash{ $User->{UserID} } ) {
+                    $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
+                        . "$User->{UserFirstname} ($User->{UserLogin})";
                 }
             }
+            $Counter++;
         }
+    }
+    my $OldUserSelectedID = $Param{OldUserID};
+    if ( !$OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
+        $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
+    }
 
-        # show all system users
-        if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-            %ShownUsers = %AllGroupsMembers;
-        }
+    # build string
+    $Param{OldUserStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%UserHash,
+        SelectedID   => $OldUserSelectedID,
+        Name         => 'OldUserID',
+        Translation  => 0,
+        PossibleNone => 1,
+        OnClick      => "change_selected(2)",
+    );
 
-        # show all users who are rw in the queue group
-        elsif ( $Param{QueueID} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $GID,
-                Type    => 'owner',
-                Result  => 'HASH',
+    # build next states string
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => $Param{NextStates},
+        Name         => 'NewStateID',
+        SelectedID   => $Param{NewStateID},
+        Translation  => 1,
+        PossibleNone => 1,
+    );
+
+    # build next priority string
+    $Param{NextPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => $Param{NextPriorities},
+        Name         => 'NewPriorityID',
+        SelectedID   => $Param{NewPriorityID},
+        Translation  => 1,
+        PossibleNone => 1,
+    );
+
+    # build owner string
+    $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => $Self->_GetUsers(
+            QueueID  => $Param{DestQueueID},
+            AllUsers => $Param{OwnerAll}
+        ),
+        Name         => 'NewUserID',
+        SelectedID   => $Param{NewUserID},
+        Translation  => 0,
+        PossibleNone => 1,
+    );
+
+    # set state
+    if ( $Self->{Config}->{State} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'State',
+            Data => {%Param},
+        );
+    }
+
+    # set priority
+    if ( $Self->{Config}->{Priority} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Priority',
+            Data => {%Param},
+        );
+    }
+
+    # set move queues
+    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        Data => { %MoveQueues, '' => '-' },
+        Multiple       => 0,
+        Size           => 0,
+        Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestQueueIDInvalid},
+        Name           => 'DestQueueID',
+        SelectedID     => $Param{DestQueueID},
+        OnChangeSubmit => 0,
+    );
+
+    # show time accounting box
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
+
+    # show spell check
+    if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SpellCheck',
+            Data => {},
+        );
+    }
+
+    # show attachments
+    for my $Attachment ( @{ $Param{Attachments} } ) {
+        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $Attachment,
+        );
+    }
+
+    # ticket free text
+    for my $Count ( 1 .. 16 ) {
+        if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText',
+                Data => {
+                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+                    Count               => $Count,
+                    %Param,
+                },
             );
-            for my $Key ( keys %MemberList ) {
-                if ( $AllGroupsMembers{$Key} ) {
-                    $ShownUsers{$Key} = $AllGroupsMembers{$Key};
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText' . $Count,
+                Data => { %Param, Count => $Count },
+            );
+        }
+    }
+    for my $Count ( 1 .. 6 ) {
+        if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime',
+                Data => {
+                    TicketFreeTimeKey =>
+                        $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                    TicketFreeTime => $Param{ 'TicketFreeTime' . $Count },
+                    Count          => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime' . $Count,
+                Data => { %Param, Count => $Count },
+            );
+        }
+    }
+
+    # add rich text editor
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+    }
+
+    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
+}
+
+sub _GetUsers {
+    my ( $Self, %Param ) = @_;
+
+    # get users
+    my %ShownUsers;
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type  => 'Long',
+        Valid => 1,
+    );
+
+    # just show only users with selected custom queue
+    if ( $Param{QueueID} && !$Param{AllUsers} ) {
+        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
+        for my $Key ( keys %AllGroupsMembers ) {
+            my $Hit = 0;
+            for my $UID (@UserIDs) {
+                if ( $UID eq $Key ) {
+                    $Hit = 1;
                 }
             }
+            if ( !$Hit ) {
+                delete $AllGroupsMembers{$Key};
+            }
         }
-        return \%ShownUsers;
     }
 
-    sub _GetPriorities {
-        my ( $Self, %Param ) = @_;
-
-        # get priority
-        my %Priorities;
-        if ( $Param{QueueID} || $Param{TicketID} ) {
-            %Priorities = $Self->{TicketObject}->TicketPriorityList(
-                %Param,
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
-            );
-        }
-        return \%Priorities;
+    # show all system users
+    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+        %ShownUsers = %AllGroupsMembers;
     }
 
-    sub _GetNextStates {
-        my ( $Self, %Param ) = @_;
-
-        my %NextStates;
-        if ( $Param{QueueID} || $Param{TicketID} ) {
-            %NextStates = $Self->{TicketObject}->TicketStateList(
-                %Param,
-                Type   => 'DefaultNextMove',
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
-            );
+    # show all users who are rw in the queue group
+    elsif ( $Param{QueueID} ) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type    => 'owner',
+            Result  => 'HASH',
+        );
+        for my $Key ( keys %MemberList ) {
+            if ( $AllGroupsMembers{$Key} ) {
+                $ShownUsers{$Key} = $AllGroupsMembers{$Key};
+            }
         }
-        return \%NextStates;
     }
+    return \%ShownUsers;
+}
 
-    1;
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    # get priority
+    my %Priorities;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Priorities = $Self->{TicketObject}->TicketPriorityList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Priorities;
+}
+
+sub _GetNextStates {
+    my ( $Self, %Param ) = @_;
+
+    my %NextStates;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %NextStates = $Self->{TicketObject}->TicketStateList(
+            %Param,
+            Type   => 'DefaultNextMove',
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%NextStates;
+}
+
+1;
