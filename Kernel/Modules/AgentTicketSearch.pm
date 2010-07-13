@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.88 2010-07-05 13:46:56 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.89 2010-07-13 13:22:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1102,6 +1102,694 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+    }
+    elsif ( $Self->{Subaction} eq 'AJAX' ) {
+
+        my @Attributes = (
+            {
+                Key   => 'TicketNumber',
+                Value => 'Ticket Number',
+            },
+            {
+                Key   => 'Fulltext',
+                Value => 'Fulltext',
+            },
+            {
+                Key   => 'Title',
+                Value => 'Title',
+            },
+            {
+                Key   => 'From',
+                Value => 'From',
+            },
+            {
+                Key   => 'To',
+                Value => 'To',
+            },
+            {
+                Key   => 'Cc',
+                Value => 'Cc',
+            },
+            {
+                Key   => 'Subject',
+                Value => 'Subject',
+            },
+            {
+                Key   => 'Body',
+                Value => 'Body',
+            },
+            {
+                Key   => 'CustomerID',
+                Value => 'CustomerID',
+            },
+            {
+                Key   => 'CustomerUserLogin',
+                Value => 'Customer User Login',
+            },
+            {
+                Key   => 'StateIDs',
+                Value => 'State',
+            },
+            {
+                Key   => 'QueueIDs',
+                Value => 'Queue',
+            },
+            {
+                Key   => 'PriorityIDs',
+                Value => 'Priority',
+            },
+            {
+                Key   => 'OwnerIDs',
+                Value => 'Owner',
+            },
+            {
+                Key   => 'CreatedQueueIDs',
+                Value => 'Created in Queue',
+            },
+            {
+                Key   => 'CreatedUserIDs',
+                Value => 'Created by',
+            },
+            {
+                Key   => 'WatchUserIDs',
+                Value => 'Watcher',
+            },
+            {
+                Key   => 'ResponsibleIDs',
+                Value => 'Responsible',
+            },
+            {
+                Key   => 'TypeIDs',
+                Value => 'Type',
+            },
+            {
+                Key   => 'ServiceIDs',
+                Value => 'Service',
+            },
+            {
+                Key   => 'SLAIDs',
+                Value => 'SLA',
+            },
+            {
+                Key   => 'LockIDs',
+                Value => 'Lock',
+            },
+            {
+                Key   => 'TicketChangeTime',
+                Value => 'Ticket Change Time',
+            },
+            {
+                Key   => 'TicketCreateTime',
+                Value => 'Ticket Create Time',
+            },
+            {
+                Key   => 'TicketCloseTime',
+                Value => 'Ticket Close Time',
+            },
+            {
+                Key   => 'ArticleCreateTime',
+                Value => 'Article Create Time',
+            },
+        );
+        $Param{AttributesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data     => \@Attributes,
+            Name     => 'Attribute',
+            Multiple => 0,
+        );
+        $Param{AttributesOrigStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data     => \@Attributes,
+            Name     => 'AttributeOrig',
+            Multiple => 0,
+        );
+
+        # get user of own groups
+        my %ShownUsers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1,
+        );
+        if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            my %Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
+                UserID => $Self->{UserID},
+                Type   => 'ro',
+            );
+            for my $UserID ( keys %ShownUsers ) {
+                if ( !$Involved{$UserID} ) {
+                    delete $ShownUsers{$UserID};
+                }
+            }
+        }
+        $Param{UserStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%ShownUsers,
+            Name       => 'OwnerIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{OwnerIDs},
+        );
+        $Param{CreatedUserStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%ShownUsers,
+            Name       => 'CreatedUserIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{CreatedUserIDs},
+        );
+        $Param{ResultFormStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                Normal => 'Normal',
+                Print  => 'Print',
+                CSV    => 'CSV',
+            },
+            Name => 'ResultForm',
+            SelectedID => $Param{ResultForm} || 'Normal',
+        );
+
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+            $Param{SearchInArchiveStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    ArchivedTickets    => 'Search in archived tickets only',
+                    NotArchivedTickets => 'Search in not archived tickets only',
+                    AllTickets         => 'Search in all tickets',
+                },
+                Name => 'SearchInArchive',
+                SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
+            );
+        }
+
+        $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                '', '-',
+                $Self->{SearchProfileObject}->SearchProfileList(
+                    Base      => 'TicketSearch',
+                    UserLogin => $Self->{UserLogin},
+                ),
+            },
+            Name       => 'Profile',
+            SelectedID => $Param{Profile},
+        );
+        $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                $Self->{StateObject}->StateList(
+                    UserID => $Self->{UserID},
+                    Action => $Self->{Action},
+                ),
+            },
+            Name       => 'StateIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{StateIDs},
+        );
+        my %AllQueues = $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type   => 'ro',
+        );
+        $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data           => \%AllQueues,
+            Size           => 5,
+            Multiple       => 1,
+            Name           => 'QueueIDs',
+            SelectedID     => $Param{QueueIDs},
+            OnChangeSubmit => 0,
+        );
+        $Param{CreatedQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data           => \%AllQueues,
+            Size           => 5,
+            Multiple       => 1,
+            Name           => 'CreatedQueueIDs',
+            SelectedID     => $Param{CreatedQueueIDs},
+            OnChangeSubmit => 0,
+        );
+        $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                $Self->{PriorityObject}->PriorityList(
+                    UserID => $Self->{UserID},
+                    Action => $Self->{Action},
+                ),
+            },
+            Name       => 'PriorityIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{PriorityIDs},
+        );
+        $Param{LocksStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                $Self->{LockObject}->LockList(
+                    UserID => $Self->{UserID},
+                    Action => $Self->{Action},
+                ),
+            },
+            Name       => 'LockIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Param{LockIDs},
+        );
+
+        $Param{ArticleCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                1  => ' 1',
+                2  => ' 2',
+                3  => ' 3',
+                4  => ' 4',
+                5  => ' 5',
+                6  => ' 6',
+                7  => ' 7',
+                8  => ' 8',
+                9  => ' 9',
+                10 => '10',
+                11 => '11',
+                12 => '12',
+                13 => '13',
+                14 => '14',
+                15 => '15',
+                16 => '16',
+                17 => '17',
+                18 => '18',
+                19 => '19',
+                20 => '20',
+                21 => '21',
+                22 => '22',
+                23 => '23',
+                24 => '24',
+                25 => '25',
+                26 => '26',
+                27 => '27',
+                28 => '28',
+                29 => '29',
+                30 => '30',
+                31 => '31',
+                32 => '32',
+                33 => '33',
+                34 => '34',
+                35 => '35',
+                36 => '36',
+                37 => '37',
+                38 => '38',
+                39 => '39',
+                40 => '40',
+                41 => '41',
+                42 => '42',
+                43 => '43',
+                44 => '44',
+                45 => '45',
+                46 => '46',
+                47 => '47',
+                48 => '48',
+                49 => '49',
+                50 => '50',
+                51 => '51',
+                52 => '52',
+                53 => '53',
+                54 => '54',
+                55 => '55',
+                56 => '56',
+                57 => '57',
+                58 => '58',
+                59 => '59',
+            },
+            Name       => 'ArticleCreateTimePoint',
+            SelectedID => $Param{ArticleCreateTimePoint},
+        );
+        $Param{ArticleCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'ArticleCreateTimePointStart',
+            SelectedID => $Param{ArticleCreateTimePointStart} || 'Last',
+        );
+        $Param{ArticleCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'ArticleCreateTimePointFormat',
+            SelectedID => $Param{ArticleCreateTimePointFormat},
+        );
+        $Param{ArticleCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'ArticleCreateTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{ArticleCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'ArticleCreateTimeStop',
+            Format => 'DateInputFormat',
+        );
+        $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                1  => ' 1',
+                2  => ' 2',
+                3  => ' 3',
+                4  => ' 4',
+                5  => ' 5',
+                6  => ' 6',
+                7  => ' 7',
+                8  => ' 8',
+                9  => ' 9',
+                10 => '10',
+                11 => '11',
+                12 => '12',
+                13 => '13',
+                14 => '14',
+                15 => '15',
+                16 => '16',
+                17 => '17',
+                18 => '18',
+                19 => '19',
+                20 => '20',
+                21 => '21',
+                22 => '22',
+                23 => '23',
+                24 => '24',
+                25 => '25',
+                26 => '26',
+                27 => '27',
+                28 => '28',
+                29 => '29',
+                30 => '30',
+                31 => '31',
+                32 => '32',
+                33 => '33',
+                34 => '34',
+                35 => '35',
+                36 => '36',
+                37 => '37',
+                38 => '38',
+                39 => '39',
+                40 => '40',
+                41 => '41',
+                42 => '42',
+                43 => '43',
+                44 => '44',
+                45 => '45',
+                46 => '46',
+                47 => '47',
+                48 => '48',
+                49 => '49',
+                50 => '50',
+                51 => '51',
+                52 => '52',
+                53 => '53',
+                54 => '54',
+                55 => '55',
+                56 => '56',
+                57 => '57',
+                58 => '58',
+                59 => '59',
+            },
+            Name       => 'TicketCreateTimePoint',
+            SelectedID => $Param{TicketCreateTimePoint},
+        );
+        $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketCreateTimePointStart',
+            SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+        );
+        $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketCreateTimePointFormat',
+            SelectedID => $Param{TicketCreateTimePointFormat},
+        );
+        $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketCreateTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketCreateTimeStop',
+            Format => 'DateInputFormat',
+        );
+
+        for ( 1 .. 6 ) {
+            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix   => 'TicketFreeTime' . $_ . 'Start',
+                Format   => 'DateInputFormat',
+                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            );
+            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+                Format   => 'DateInputFormat',
+                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+            );
+        }
+
+        $Param{TicketChangeTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                1  => ' 1',
+                2  => ' 2',
+                3  => ' 3',
+                4  => ' 4',
+                5  => ' 5',
+                6  => ' 6',
+                7  => ' 7',
+                8  => ' 8',
+                9  => ' 9',
+                10 => '10',
+                11 => '11',
+                12 => '12',
+                13 => '13',
+                14 => '14',
+                15 => '15',
+                16 => '16',
+                17 => '17',
+                18 => '18',
+                19 => '19',
+                20 => '20',
+                21 => '21',
+                22 => '22',
+                23 => '23',
+                24 => '24',
+                25 => '25',
+                26 => '26',
+                27 => '27',
+                28 => '28',
+                29 => '29',
+                30 => '30',
+                31 => '31',
+                32 => '32',
+                33 => '33',
+                34 => '34',
+                35 => '35',
+                36 => '36',
+                37 => '37',
+                38 => '38',
+                39 => '39',
+                40 => '40',
+                41 => '41',
+                42 => '42',
+                43 => '43',
+                44 => '44',
+                45 => '45',
+                46 => '46',
+                47 => '47',
+                48 => '48',
+                49 => '49',
+                50 => '50',
+                51 => '51',
+                52 => '52',
+                53 => '53',
+                54 => '54',
+                55 => '55',
+                56 => '56',
+                57 => '57',
+                58 => '58',
+                59 => '59',
+            },
+            Name       => 'TicketChangeTimePoint',
+            SelectedID => $Param{TicketChangeTimePoint},
+        );
+        $Param{TicketChangeTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketChangeTimePointStart',
+            SelectedID => $Param{TicketChangeTimePointStart} || 'Last',
+        );
+        $Param{TicketChangeTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketChangeTimePointFormat',
+            SelectedID => $Param{TicketChangeTimePointFormat},
+        );
+        $Param{TicketChangeTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketChangeTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketChangeTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketChangeTimeStop',
+            Format => 'DateInputFormat',
+        );
+
+        $Param{TicketCloseTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                1  => ' 1',
+                2  => ' 2',
+                3  => ' 3',
+                4  => ' 4',
+                5  => ' 5',
+                6  => ' 6',
+                7  => ' 7',
+                8  => ' 8',
+                9  => ' 9',
+                10 => '10',
+                11 => '11',
+                12 => '12',
+                13 => '13',
+                14 => '14',
+                15 => '15',
+                16 => '16',
+                17 => '17',
+                18 => '18',
+                19 => '19',
+                20 => '20',
+                21 => '21',
+                22 => '22',
+                23 => '23',
+                24 => '24',
+                25 => '25',
+                26 => '26',
+                27 => '27',
+                28 => '28',
+                29 => '29',
+                30 => '30',
+                31 => '31',
+                32 => '32',
+                33 => '33',
+                34 => '34',
+                35 => '35',
+                36 => '36',
+                37 => '37',
+                38 => '38',
+                39 => '39',
+                40 => '40',
+                41 => '41',
+                42 => '42',
+                43 => '43',
+                44 => '44',
+                45 => '45',
+                46 => '46',
+                47 => '47',
+                48 => '48',
+                49 => '49',
+                50 => '50',
+                51 => '51',
+                52 => '52',
+                53 => '53',
+                54 => '54',
+                55 => '55',
+                56 => '56',
+                57 => '57',
+                58 => '58',
+                59 => '59',
+            },
+            Name       => 'TicketCloseTimePoint',
+            SelectedID => $Param{TicketCloseTimePoint},
+        );
+        $Param{TicketCloseTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketCloseTimePointStart',
+            SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
+        );
+        $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketCloseTimePointFormat',
+            SelectedID => $Param{TicketCloseTimePointFormat},
+        );
+        $Param{TicketCloseTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketCloseTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketCloseTimeStop',
+            Format => 'DateInputFormat',
+        );
+
+        for ( 1 .. 6 ) {
+            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix   => 'TicketFreeTime' . $_ . 'Start',
+                Format   => 'DateInputFormat',
+                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            );
+            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+                Format   => 'DateInputFormat',
+                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+            );
+        }
+
+        # build type string
+        if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
+            my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+            $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data        => \%Type,
+                Name        => 'TypeIDs',
+                SelectedID  => $Param{TypeIDs},
+                Sort        => 'AlphanumericValue',
+                Size        => 3,
+                Multiple    => 1,
+                Translation => 0,
+            );
+        }
+
+        # html search mask output
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchAJAX',
+            Data => \%Param,
+        );
+
+        my $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketSearch',
+            Data         => \%Param,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
     }
 
     # empty search site
