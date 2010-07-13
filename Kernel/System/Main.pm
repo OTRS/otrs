@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.52 2010-07-07 13:34:05 ub Exp $
+# $Id: Main.pm,v 1.53 2010-07-13 08:54:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Encode;
 use Unicode::Normalize;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -852,6 +852,15 @@ You can pass several additional filters at once:
 The result strings are absolute paths, and they are converted to the
 internally used charset utf-8, if it is configured.
 
+Use the 'Silent' parameter to suppress log messages when a directory
+does not have to exist:
+
+    my @FilesInDirectory = $MainObject->DirectoryRead(
+        Directory => '/special/optional/directory/',
+        Filter    => '*',
+        Silent    => 1,     # will not log errors if the directory does not exist
+    );
+
 =cut
 
 sub DirectoryRead {
@@ -869,7 +878,7 @@ sub DirectoryRead {
     }
 
     # if directory doesn't exists stop
-    if ( !-d $Param{Directory} ) {
+    if ( !-d $Param{Directory} && !$Param{Silent} ) {
         $Self->{LogObject}->Log(
             Message  => "Directory doesn't exists: $Param{Directory}: $!",
             Priority => 'error',
@@ -954,6 +963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2010-07-07 13:34:05 $
+$Revision: 1.53 $ $Date: 2010-07-13 08:54:25 $
 
 =cut
