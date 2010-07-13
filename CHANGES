@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1248 2010-07-13 18:38:55 ep Exp $
+# $Id: CHANGES,v 1.1249 2010-07-13 20:18:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -326,6 +326,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/07/13) Fixed bug#5210 - LinkQuote consumes all CPU memory when processing a
+    large amount of data.
  - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - (2010/07/07) Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - (2010/07/01) Fixed bug#5512 - Bulk Action No Access is displayed incorrectly.
