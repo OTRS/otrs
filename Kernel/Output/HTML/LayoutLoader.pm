@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.22 2010-07-07 12:07:38 mg Exp $
+# $Id: LayoutLoader.pm,v 1.23 2010-07-13 09:47:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Kernel::System::Loader;
 
@@ -202,7 +202,7 @@ sub LoaderCreateAgentJSCalls {
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
 
-    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js_new';
+    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
     {
@@ -432,7 +432,7 @@ sub LoaderCreateCustomerJSCalls {
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
 
-    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js_new';
+    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
     {
@@ -532,7 +532,7 @@ sub _HandleJSList {
             $Self->Block(
                 Name => $Param{BlockName},
                 Data => {
-                    JSDirectory => 'js_new',
+                    JSDirectory => '',
                     Filename    => $JSFile,
                 },
             );
@@ -550,7 +550,7 @@ sub _HandleJSList {
         $Self->Block(
             Name => $Param{BlockName},
             Data => {
-                JSDirectory => 'js_new/js-cache',
+                JSDirectory => 'js-cache/',
                 Filename    => $MinifiedFile,
             },
         );
@@ -574,6 +574,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-07-07 12:07:38 $
+$Revision: 1.23 $ $Date: 2010-07-13 09:47:15 $
 
 =cut

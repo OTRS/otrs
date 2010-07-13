@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.25 2010-06-04 11:19:32 mn Exp $
+# $Id: CustomerFooter.dtl,v 1.26 2010-07-13 09:46:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
 </div>
 
 <!-- dtl:block:CommonJS -->
-    <script type="text/javascript" src="$Config{"Frontend::WebPath"}$QData{"JSDirectory"}/$QData{"Filename"}"></script>
+    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
 <!-- dtl:block:CommonJS -->
 
 <script type="text/javascript">
