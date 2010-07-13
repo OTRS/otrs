@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.103 2010-07-12 08:45:33 bes Exp $
+# $Id: AdminSysConfig.pm,v 1.104 2010-07-13 12:47:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -700,6 +700,9 @@ sub Run {
             SubGroup => $SubGroup
         );
 
+        # get the config level of the admin user
+        my $ConfigLevel = $Self->{ConfigObject}->Get('ConfigLevel') || 0;
+
         # Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
@@ -729,6 +732,7 @@ sub Run {
             my $ItemKeyID = $ItemHash{Name};
             $ItemKeyID =~ s{\#}{_}gsm;
 
+            # show the config element block
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
@@ -740,6 +744,40 @@ sub Run {
                     Required    => $Required,
                 },
             );
+
+            # the admin users config level is not sufficient to edit this config item
+            if ( $ItemHash{ConfigLevel} && $ItemHash{ConfigLevel} < $ConfigLevel ) {
+
+                # only show the name of the config item
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementInsufficientConfigLevel',
+                    Data => {
+                        ItemKey     => $ItemHash{Name},
+                        ItemKeyID   => $ItemKeyID,
+                        Description => $Description,
+                        Valid       => $Valid,
+                        Validstyle  => $Validstyle,
+                        Required    => $Required,
+                    },
+                );
+            }
+            else {
+
+                # show the complete config item
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSufficientConfigLevel',
+                    Data => {
+                        ItemKey     => $ItemHash{Name},
+                        ItemKeyID   => $ItemKeyID,
+                        Description => $Description,
+                        Valid       => $Valid,
+                        Validstyle  => $Validstyle,
+                        Required    => $Required,
+                    },
+                );
+            }
+
+            # show icon to reset the config item to default
             if ( $ItemHash{Diff} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementBlockReset',
@@ -750,6 +788,7 @@ sub Run {
             # ListConfigItem
             $Self->ListConfigItem( Hash => \%ItemHash );
         }
+
         $Data{SubGroup} = $SubGroup;
         $Data{Group}    = $Group;
         my $Output .= $Self->{LayoutObject}->Header( Value => "$Group -> $SubGroup" );
