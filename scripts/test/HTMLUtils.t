@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.20 2010-07-12 20:43:59 en Exp $
+# $Id: HTMLUtils.t,v 1.21 2010-07-13 08:08:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -607,18 +607,25 @@ for my $Test (@Tests) {
     );
 }
 
+#
+# Special performance test for a large amount of data
+#
 my $XML = $Self->{MainObject}->FileRead(
     Location => $Self->{ConfigObject}->Get('Home')
         . '/scripts/test/sample/HTMLUtils/obstacles_upd2.xml',
 );
 $XML = ${$XML};
 
-my $Target;
+my $StartSeconds = $Self->{TimeObject}->SystemTime();
 
 my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
     String => \$XML,
 );
 
-print STDERR ${$HTML};
+my $EndSeconds = $Self->{TimeObject}->SystemTime();
+$Self->True(
+    ( $EndSeconds - $StartSeconds ) < 5,
+    'LinkQuote - Performance on large data set',
+);
 
 1;
