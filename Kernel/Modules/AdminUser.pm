@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.72 2010-05-21 06:34:16 cg Exp $
+# $Id: AdminUser.pm,v 1.73 2010-07-13 16:17:34 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,7 +40,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
+    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
 
     # ------------------------------------------------------------ #
     #  switch to user
@@ -189,7 +189,7 @@ sub Run {
             }
 
             if ( !$Note ) {
-                $Self->_Overview( Search => $Search, );
+                $Self->_Overview( Search => $Search );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Notify( Info => 'Agent updated!' );
@@ -344,7 +344,7 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->_Overview( Search => $Search, );
+        $Self->_Overview( Search => $Search );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
