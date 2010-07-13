@@ -1,8 +1,8 @@
 # --
 # HTMLUtils.t - HTMLUtils tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13.2.3 2009-12-07 16:51:47 martin Exp $
+# $Id: HTMLUtils.t,v 1.13.2.4 2010-07-13 18:58:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -483,6 +483,14 @@ for my $Test (@Tests) {
         Target    => '',
         TargetAdd => 1,
     },
+    {
+        Input =>
+            'Test www.otrs.org www.otrs3.org <sometag attribute="www.otrs4.org">www.otrs4.org</sometag> <sometag attribute="www5.otrs.org"> www.otrs5.org </sometag>',
+        Result =>
+            'Test <a href="http://www.otrs.org" target="_blue" title="http://www.otrs.org">www.otrs.org</a> <a href="http://www.otrs3.org" target="_blue" title="http://www.otrs3.org">www.otrs3.org</a> <sometag attribute="www.otrs4.org"><a href="http://www.otrs4.org" target="_blue" title="http://www.otrs4.org">www.otrs4.org</a></sometag> <sometag attribute="www5.otrs.org"> <a href="http://www.otrs5.org" target="_blue" title="http://www.otrs5.org">www.otrs5.org</a> </sometag>',
+        Name   => 'LinkQuote - complex test with other tags ',
+        Target => '_blue',
+    },
 );
 
 for my $Test (@Tests) {
@@ -497,5 +505,26 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
+
+#
+# Special performance test for a large amount of data
+#
+my $XML = $Self->{MainObject}->FileRead(
+    Location => $Self->{ConfigObject}->Get('Home')
+        . '/scripts/test/sample/obstacles_upd2.xml',
+);
+$XML = ${$XML};
+
+my $StartSeconds = $Self->{TimeObject}->SystemTime();
+
+my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
+    String => \$XML,
+);
+
+my $EndSeconds = $Self->{TimeObject}->SystemTime();
+$Self->True(
+    ( $EndSeconds - $StartSeconds ) < 5,
+    'LinkQuote - Performance on large data set',
+);
 
 1;
