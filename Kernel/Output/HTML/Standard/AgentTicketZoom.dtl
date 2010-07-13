@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.109 2010-07-12 11:49:38 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.110 2010-07-13 16:29:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -299,14 +299,14 @@ $Data{"ArticleItems"}
             <table id="FixedTable" class="TableSmall">
                 <thead>
                     <tr>
-                        <th class="UnreadArticles"><a class="UnreadArticles" href=""><span class="UnreadArticles"></span></a></th>
-                        <th class="No"><a href="">$Text{"No."}</a></th>
-                        <th class="Type"><a href="">$Text{"Type"}</a></th>
-                        <th class="Direction SortAscending"><a href="" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
-                        <th class="From"><a href="">$Text{"From"}</a></th>
-                        <th class="Subject"><a href="">$Text{"Subject"}</a></th>
-                        <th class="Created SortAscending"><a href="">$Text{"Created"}</a></th>
-                        <th class="Attachments Last"><a href=""><span><!--Attachments--></span></a></th>
+                        <th class="UnreadArticles"><a class="UnreadArticles" href="#"><span class="UnreadArticles"></span></a></th>
+                        <th class="No Sortable InitialSorting"><a href="#">$Text{"No."}</a></th>
+                        <th class="Type Sortable"><a href="#">$Text{"Type"}</a></th>
+                        <th class="Direction Sortable"><a href="#" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
+                        <th class="From Sortable"><a href="#">$Text{"From"}</a></th>
+                        <th class="Subject Sortable"><a href="#">$Text{"Subject"}</a></th>
+                        <th class="Created Sortable"><a href="#">$Text{"Created"}</a></th>
+                        <th class="Attachments Last"><a href="#"><span><!--Attachments--></span></a></th>
                     </tr>
                 </thead>
                 <tbody>
