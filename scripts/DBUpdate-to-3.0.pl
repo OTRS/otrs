@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# DBUpdate-to-2.5.pl - update script to migrate OTRS 2.4.x to 2.5.x
+# DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.5.pl,v 1.3 2010-05-31 07:20:12 mb Exp $
+# $Id: DBUpdate-to-3.0.pl,v 1.1 2010-07-13 13:29:48 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ use Kernel::System::User;
 my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
-    print "DBUpdate-to-2.5.pl <Revision $VERSION> - Database migration script\n";
+    print "DBUpdate-to-3.0.pl <Revision $VERSION> - Database migration script\n";
     print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     exit 1;
 }
@@ -60,7 +60,7 @@ print "Start migration of the system...\n\n";
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-DBUpdate-to-2.5',
+    LogPrefix => 'OTRS-DBUpdate-to-3.0',
     %CommonObject,
 );
 $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
