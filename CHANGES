@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1246 2010-07-12 11:35:41 ub Exp $
+# $Id: CHANGES,v 1.1247 2010-07-13 18:34:37 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - (2010/07/09) Fixed bug#5545 - LIKE pattern must not end with escape character.
  - (2010/07/09) Fixed bug#5494 - Handle attachments with java script.
  - (2010/07/09) Fixed bug#5544 - Wrong handling of underscore in LIKE
@@ -102,6 +103,7 @@
     opm.pl                          ->  otrs.PackageManager.pl
 
 2.5.0 beta1 (????/??/??)
+ - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - (2010/06/18) Updated CPAN module JSON::PP to version 2.21
  - (2010/04/07) Fixed bug#5118 - Printing an article should indicate that
     only 1 article is printed not the whole ticket.
@@ -322,6 +324,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - (2010/07/07) Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - (2010/07/01) Fixed bug#5512 - Bulk Action No Access is displayed incorrectly.
  - (2010/06/25) Updated Danish translation, thanks to Jesper Rønnov,
