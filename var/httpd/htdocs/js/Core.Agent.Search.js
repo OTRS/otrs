@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.1 2010-07-13 13:22:58 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.2 2010-07-13 14:08:31 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,14 +26,11 @@ Core.Agent.Search = (function (TargetNS) {
     function RebuildSelection () {
 
         // get original selection
-        var SelectionOriginal = $('#AttributeOrig').clone();
-        SelectionOriginal.attr( 'id', 'Attribute');
-
-        // replace selection with original selection
-        $('#Attribute').replaceWith( SelectionOriginal );
+        var $AttributeClone = $('#AttributeOrig').clone();
+        $AttributeClone.attr( 'id', 'Attribute');
 
         // strip all already used attributes
-        $('#Attribute option').each( function () {
+        $AttributeClone.find('option').each( function () {
             var $Attribute = $(this);
             $('#SearchInsert label').each( function () {
                 if ( $(this).attr('for') == $Attribute.attr('value') ) {
@@ -41,6 +38,10 @@ Core.Agent.Search = (function (TargetNS) {
                 }
             });
         });
+
+        // replace selection with original selection
+        $('#Attribute').replaceWith( $AttributeClone );
+
         return true;
     }
 
@@ -57,9 +58,9 @@ Core.Agent.Search = (function (TargetNS) {
                 // register add of attribute
                 Core.UI.RegisterEvent('click', $('.Add'), function(){
                     var Attribute = $(this).prev().prev().val()
-                    Element1 = $("#Search" + Attribute ).prev().clone();
-                    Element2 = $("#Search" + Attribute ).clone();
-                    Element3 = $("#Search" + Attribute ).next().clone();
+                    var Element1 = $("#Search" + Attribute ).prev().clone();
+                    var Element2 = $("#Search" + Attribute ).clone();
+                    var Element3 = $("#Search" + Attribute ).next().clone();
                     Element1.appendTo('#SearchInsert');
                     Element2.appendTo('#SearchInsert');
                     Element3.appendTo('#SearchInsert');
@@ -72,7 +73,6 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register remove of attribute
                 Core.UI.RegisterLiveEvent('click', $('.Remove'), function(){
-                    var Attribute = $(this).prev().attr('name');
                     var Element = $(this).parent();
                     Element.prev().prev().remove();
                     Element.prev().remove();
