@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.50 2010-07-13 04:34:53 mp Exp $
+# $Id: AgentLinkObject.pm,v 1.51 2010-07-13 21:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -177,20 +177,11 @@ sub Run {
 
         # redirect to overview if list is empty
         if ( !$LinkListWithData || !%{$LinkListWithData} ) {
-
-            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-            $Self->{LayoutObject}->Block(
-                Name => 'LoadParentURLAndClose',
-                Data => {
-                    URL => "Action=$Self->{Action};Mode=$Form{Mode}"
-                        . ";SourceObject=$Form{SourceObject};SourceKey=$Form{SourceKey}"
-                        . ";TargetIdentifier=$Form{TargetIdentifier}",
-                },
+            return $Self->{LayoutObject}->PopupClose(
+                URL => "Action=$Self->{Action};Mode=$Form{Mode}"
+                    . ";SourceObject=$Form{SourceObject};SourceKey=$Form{SourceKey}"
+                    . ";TargetIdentifier=$Form{TargetIdentifier}",
             );
-            $Output
-                .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-            return $Output;
         }
 
         # create the link table

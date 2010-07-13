@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.102 2010-07-12 22:58:04 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.103 2010-07-13 21:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -652,30 +652,13 @@ sub Run {
 
         # redirect
         if ( $StateData{TypeName} =~ /^close/i ) {
-            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-            $Self->{LayoutObject}->Block(
-                Name => 'LoadParentURLAndClose',
-                Data => {
-                    URL => $Self->{LastScreenOverview},
-                },
-            );
-            $Output .= $Self->{LayoutObject}
-                ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-            return $Output;
+            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
         }
 
         # load new URL in parent window and close popup
-        my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-        $Self->{LayoutObject}->Block(
-            Name => 'LoadParentURLAndClose',
-            Data => {
-                URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
-            },
+        return $Self->{LayoutObject}->PopupClose(
+            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
         );
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-        return $Output;
     }
     else {
         my $Output = $Self->{LayoutObject}->Header(

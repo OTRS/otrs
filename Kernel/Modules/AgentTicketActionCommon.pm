@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.9 2010-07-12 00:21:43 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.10 2010-07-13 21:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -752,31 +752,14 @@ sub Run {
 
             # redirect parent window to last screen overview on closed tickets
             if ( $StateData{TypeName} =~ /^close/i ) {
-                my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-                $Self->{LayoutObject}->Block(
-                    Name => 'LoadParentURLAndClose',
-                    Data => {
-                        URL => $Self->{LastScreenOverview},
-                    },
-                );
-                $Output .= $Self->{LayoutObject}
-                    ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-                $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-                return $Output;
+                return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
             }
         }
 
         # load new URL in parent window and close popup
-        my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-        $Self->{LayoutObject}->Block(
-            Name => 'LoadParentURLAndClose',
-            Data => {
-                URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
-            },
+        return $Self->{LayoutObject}->PopupClose(
+            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
         );
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-        return $Output;
     }
     else {
 

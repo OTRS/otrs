@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.76 2010-07-13 19:25:35 cg Exp $
+# $Id: AgentTicketForward.pm,v 1.77 2010-07-13 21:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -791,30 +791,12 @@ sub SendEmail {
 
     # redirect
     if ( $StateData{TypeName} =~ /^close/i ) {
-        my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-        $Self->{LayoutObject}->Block(
-            Name => 'LoadParentURLAndClose',
-            Data => {
-                URL => $Self->{LastScreenView},
-            },
-        );
-        $Output .= $Self->{LayoutObject}
-            ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-        return $Output;
+        return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
     }
 
-    # load new URL in parent window and close popup
-    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-    $Self->{LayoutObject}->Block(
-        Name => 'LoadParentURLAndClose',
-        Data => {
-            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
-        },
+    return $Self->{LayoutObject}->PopupClose(
+        URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
     );
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-    return $Output;
 }
 
 sub _GetNextStates {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.42 2010-07-13 19:25:56 cg Exp $
+# $Id: AgentTicketBounce.pm,v 1.43 2010-07-13 21:17:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -421,30 +421,10 @@ $Param{Signature}";
 
         # redirect
         if ( $StateData{TypeName} =~ /^close/i ) {
-            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-            $Self->{LayoutObject}->Block(
-                Name => 'LoadParentURLAndClose',
-                Data => {
-                    URL => $Self->{LastScreenOverView},
-                },
-            );
-            $Output .= $Self->{LayoutObject}
-                ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-            return $Output;
+            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-            $Self->{LayoutObject}->Block(
-                Name => 'LoadParentURLAndClose',
-                Data => {
-                    URL => $Self->{LastScreenView},
-                },
-            );
-            $Output .= $Self->{LayoutObject}
-                ->Output( TemplateFile => 'AgentTicketActionBulkClose' );
-            $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-            return $Output;
+            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
         }
     }
     return $Self->{LayoutObject}->ErrorScreen(
