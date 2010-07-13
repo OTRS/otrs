@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.21 2010-07-13 08:08:24 mg Exp $
+# $Id: HTMLUtils.t,v 1.22 2010-07-13 08:33:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -591,6 +591,14 @@ for my $Test (@Tests) {
         Result => 'Some Text with url thisisnotanwww.link',
         Name   => 'LinkQuote - Not valid www url ',
         Target => '',
+    },
+    {
+        Input =>
+            'Test www.otrs.org www.otrs3.org <sometag attribute="www.otrs4.org">www.otrs4.org</sometag> <sometag attribute="www5.otrs.org"> www.otrs5.org </sometag>',
+        Result =>
+            'Test <a href="http://www.otrs.org" target="_blue" title="http://www.otrs.org">www.otrs.org</a> <a href="http://www.otrs3.org" target="_blue" title="http://www.otrs3.org">www.otrs3.org</a> <sometag attribute="www.otrs4.org"><a href="http://www.otrs4.org" target="_blue" title="http://www.otrs4.org">www.otrs4.org</a></sometag> <sometag attribute="www5.otrs.org"> <a href="http://www.otrs5.org" target="_blue" title="http://www.otrs5.org">www.otrs5.org</a> </sometag>',
+        Name   => 'LinkQuote - complex test with other tags ',
+        Target => '_blue',
     },
 );
 
