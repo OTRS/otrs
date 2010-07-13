@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.276 2010-07-13 08:48:34 mg Exp $
+# $Id: Layout.pm,v 1.277 2010-07-13 18:33:10 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.276 $) [1];
+$VERSION = qw($Revision: 1.277 $) [1];
 
 =head1 NAME
 
@@ -250,6 +250,12 @@ sub new {
             # on android disable rich text editor
             elsif ( $HttpUserAgent =~ /android/ ) {
                 $Self->{BrowserRichText} = 0;
+            }
+
+            # chrome
+            elsif ( $HttpUserAgent =~ /chrome/ ) {
+                $Self->{Browser}     = 'Chrome';
+                $Self->{BrowserWrap} = 'soft';
             }
         }
 
@@ -4686,6 +4692,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.276 $ $Date: 2010-07-13 08:48:34 $
+$Revision: 1.277 $ $Date: 2010-07-13 18:33:10 $
 
 =cut
