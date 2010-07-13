@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.33 2010-07-12 13:11:28 mg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.34 2010-07-13 19:23:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,16 +24,18 @@
             <h1>$Text{"Bounce Ticket: $QData{"TicketNumber"}"}</h1>
 
 <!-- dtl:block:TicketBack -->
-            <a href="$Env{"Baselink"}$Env{"LastScreenView"}">
-                $Text{"Cancel & close window"}
-            </a>
+            <p>
+                <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+            </p>
 <!-- dtl:block:TicketBack -->
-<!-- dtl:block:TicketLocked -->
-            $Text{"The ticket was locked"}.
-            <a href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}">
-                $Text{"Undo & close window"}
-            </a>
-<!-- dtl:block:TicketLocked -->
+<!-- dtl:block:PropertiesLock -->
+            <p>
+                $Text{"The ticket was locked"}.
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
+                    $Text{"Undo & close window"}
+                </a>
+            </p>
+<!-- dtl:block:PropertiesLock -->
 
         </div>
 
