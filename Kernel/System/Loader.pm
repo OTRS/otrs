@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.9 2010-06-17 21:39:40 cr Exp $
+# $Id: Loader.pm,v 1.10 2010-07-14 08:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -190,20 +190,42 @@ sub MinifyFiles {
             if ( $Param{Type} eq 'CSS' ) {
                 $Content .= "/* begin $Label */\n";
 
-                $Content .= $Self->GetMinifiedFile(
-                    Location => $Location,
-                    Type     => $Param{Type},
-                );
+                eval {
+                    $Content .= $Self->GetMinifiedFile(
+                        Location => $Location,
+                        Type     => $Param{Type},
+                    );
+                };
+
+                if ($@) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => "Error during file minification: $@",
+                    );
+                }
 
                 $Content .= "\n/* end $Label */\n";
             }
             elsif ( $Param{Type} eq 'JavaScript' ) {
                 $Content .= "// begin $Label\n";
 
-                $Content .= $Self->GetMinifiedFile(
-                    Location => $Location,
-                    Type     => $Param{Type},
-                );
+                eval {
+                    $Content .= $Self->GetMinifiedFile(
+                        Location => $Location,
+                        Type     => $Param{Type},
+                    );
+                };
+
+                if ($@) {
+                    my $JSError = "Error during minification of file $Location: $@";
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => $JSError,
+                    );
+                    $JSError =~ s/'/\\'/gsmx;
+                    $JSError =~ s/\r?\n/ /gsmx;
+                    $Content .= "alert('$JSError');";
+                }
 
                 $Content .= "\n// end $Label\n";
             }
@@ -228,6 +250,9 @@ Uses caching internally.
         Location => $Filename,
         Type     => 'CSS',      # CSS | JavaScript
     );
+
+Warning: this function may cause a die() if there are errors in the file,
+protect against that with eval().
 
 =cut
 
@@ -306,6 +331,9 @@ returns a minified version of the given CSS Code
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
+Warning: this function may cause a die() if there are errors in the file,
+protect against that with eval().
+
 =cut
 
 sub MinifyCSS {
@@ -335,9 +363,12 @@ sub MinifyCSS {
 
 =item MinifyJavaScript()
 
-returns a minified version of the given JavaScript Code
+returns a minified version of the given JavaScript Code.
 
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
+
+Warning: this function may cause a die() if there are errors in the file,
+protect against that with eval().
 
 =cut
 
@@ -372,6 +403,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.10 $ $Date: 2010-07-14 08:37:33 $
 
 =cut
