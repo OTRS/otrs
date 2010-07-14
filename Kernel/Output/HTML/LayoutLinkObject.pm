@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.20 2010-07-05 21:29:13 dz Exp $
+# $Id: LayoutLinkObject.pm,v 1.21 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -548,7 +548,6 @@ sub LinkObjectSelectableObjectList {
         Data     => \@SelectableObjectList,
         Name     => 'TargetIdentifier',
         TreeView => 1,
-        OnChange => 'document.compose.submit(); return false;',
     );
 
     return $TargetObjectStrg;

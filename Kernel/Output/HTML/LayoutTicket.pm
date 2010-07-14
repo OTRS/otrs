@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.84 2010-07-08 16:18:05 cg Exp $
+# $Id: LayoutTicket.pm,v 1.85 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -237,7 +237,7 @@ sub AgentQueueListOption {
     my $Multiple = $Param{Multiple} ? 'multiple = "multiple"' : '';
     my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
     if ($OnChangeSubmit) {
-        $OnChangeSubmit = " onchange=\"submit()\"";
+        $OnChangeSubmit = " onchange=\"submit();\"";
     }
     else {
         $OnChangeSubmit = '';
@@ -259,10 +259,12 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "Core.AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
+        $Param{OnChange}
+            = "Core.AJAX.FormUpdate($('#"
+            . $Param{Name} . "'), '"
+            . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
             . " ['"
-            . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
             . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
     }
 

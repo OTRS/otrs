@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.37 2010-07-12 20:12:53 mp Exp $
+# $Id: AgentLinkObject.dtl,v 1.38 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,6 +46,13 @@
                         </label>
                         <div class="Field">
                             $Data{"TargetObjectStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#TargetIdentifier'), function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                             <button class="Primary" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
                         </div>
                     </fieldset>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.95 2010-07-05 13:46:56 mg Exp $
+# $Id: AgentStats.pm,v 1.96 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1351,7 +1351,6 @@ sub Run {
             Size       => 5,
             SelectedID => $Stat->{Format}
                 || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
-            OnChange => "Core.Agent.Stats.FormatGraphSizeRelation()",
         );
 
         # create multiselectboxes 'graphsize'

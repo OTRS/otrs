@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.53 2010-07-14 10:47:35 mn Exp $
+# $Id: AgentTicketMove.dtl,v 1.54 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,8 +81,15 @@
 
                     <label for="OldUserID">$Text{"Previous Owner"}:</label>
                     <div class="Field">
-                        <input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/>
+                        <input type="radio" id="UserSelection" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/>
                         $Data{"OldUserStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#OldUserID'), function (Event) {
+        $('#UserSelection').attr('checked', 'checked');
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 

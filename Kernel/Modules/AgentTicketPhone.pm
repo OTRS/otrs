@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.148 2010-07-07 22:55:49 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.149 2010-07-14 14:23:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.148 $) [1];
+$VERSION = qw($Revision: 1.149 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1457,62 +1457,6 @@ sub _MaskPhoneNew {
             Name           => 'Dest',
             SelectedID     => $Param{ToSelected},
             OnChangeSubmit => 0,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
     }
     else {
@@ -1521,62 +1465,6 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             SelectedID  => $Param{ToSelected},
             Translation => 0,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewResponsibleID',
-                    'NextStateID',
-                    'PriorityID',
-                    'ServiceID',
-                    'SLAID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'Dest',
-                    'SelectedCustomerUser',
-                    'NextStateID',
-                    'PriorityID',
-                    'TypeID',
-                    'ServiceID',
-                    'SLAID',
-                    'OwnerAll',
-                    'ResponsibleAll',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
-            },
         );
     }
 
