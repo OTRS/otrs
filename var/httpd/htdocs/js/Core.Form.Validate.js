@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.2 2010-07-14 22:19:19 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -118,6 +118,9 @@ Core.Form.Validate = (function (TargetNS) {
         }
         else {
             Form.submit();
+        }
+        if ( $(Form).hasClass("PreventMultipleSubmits") ) {
+            Core.Form.DisableForm(Form);
         }
     }
 
