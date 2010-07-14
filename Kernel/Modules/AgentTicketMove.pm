@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.63 2010-07-14 14:23:42 mn Exp $
+# $Id: AgentTicketMove.pm,v 1.64 2010-07-14 21:26:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,11 +103,15 @@ sub Run {
     for my $Parameter (
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
+        Year Month Day Hour Minute
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         )
         )
     {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+    }
+    if ( !$GetParam{DestQueueID} ) {
+        $GetParam{OwnerAll} = 1;
     }
 
     # get ticket free text params
@@ -364,9 +368,39 @@ sub Run {
     }
 
     if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
-        for my $Keys (qw( DestQueueID Subject Body TimeUnits )) {
+        for my $Keys (qw( DestQueueID Subject Body )) {
             if ( ( !$IsUpload ) && ( $GetParam{$Keys} eq '' ) ) {
                 $Error{ $Keys . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # check pending time
+        if ( $GetParam{NewStateID} ) {
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NewStateID},
+            );
+
+            # check state type
+            if ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # check needed stuff
+                for my $TimeParameter (qw(Year Month Day Hour Minute)) {
+                    if ( !defined $GetParam{$TimeParameter} ) {
+                        $Error{'DateInvalid'} = 'ServerError';
+                    }
+                }
+
+                # check date
+                if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+                if (
+                    $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                    < $Self->{TimeObject}->SystemTime()
+                    )
+                {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
             }
         }
     }
@@ -798,7 +832,7 @@ sub AgentMove {
     $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => $Self->_GetUsers(
             QueueID  => $Param{DestQueueID},
-            AllUsers => $Param{OwnerAll}
+            AllUsers => $Param{OwnerAll},
         ),
         Name         => 'NewUserID',
         SelectedID   => $Param{NewUserID},
@@ -812,6 +846,27 @@ sub AgentMove {
             Name => 'State',
             Data => {%Param},
         );
+    }
+
+    for my $StateID ( sort keys %{ $Param{NextStates} } ) {
+        next if !$StateID;
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+        if ( $StateData{TypeName} =~ /pending/i ) {
+            $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+                Format           => 'DateInputFormatLong',
+                YearPeriodPast   => 0,
+                YearPeriodFuture => 5,
+                DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
+                    || 0,
+                %Param,
+                Class => $Param{DateInvalid} || ' ',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'StatePending',
+                Data => \%Param,
+            );
+            last;
+        }
     }
 
     # set priority
@@ -923,20 +978,20 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $Key ( keys %AllGroupsMembers ) {
+        for ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $Key ) {
+                if ( $UID eq $_ ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$Key};
+                delete $AllGroupsMembers{$_};
             }
         }
     }
 
-    # show all system users
+    # check show users
     if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
         %ShownUsers = %AllGroupsMembers;
     }
@@ -949,9 +1004,9 @@ sub _GetUsers {
             Type    => 'owner',
             Result  => 'HASH',
         );
-        for my $Key ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$Key} ) {
-                $ShownUsers{$Key} = $AllGroupsMembers{$Key};
+        for my $MemberUsers ( keys %MemberList ) {
+            if ( $AllGroupsMembers{$MemberUsers} ) {
+                $ShownUsers{$MemberUsers} = $AllGroupsMembers{$MemberUsers};
             }
         }
     }
