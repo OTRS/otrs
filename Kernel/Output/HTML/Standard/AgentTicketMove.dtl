@@ -1,8 +1,8 @@
 # --
 # AgentTicketMove.dtl - provides HTML form for move mask
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.20.2.8 2009-12-07 15:53:10 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.20.2.9 2010-07-14 21:51:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -221,7 +221,14 @@ $Include{"RichTextEditor"}
                                     <td class="contentvalue"></td>
                                     <td width="80%">$Data{"NextStatesStrg"}</td>
                                 </tr>
+<!-- dtl:block:StatePending -->
+                                <tr>
+                                    <td colspan="2" class="contentkey">$Text{"Pending date"}:</td>
+                                    <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+                                </tr>
+<!-- dtl:block:StatePending -->
 <!-- dtl:block:State -->
+
 <!-- dtl:block:Priority -->
                                 <tr>
                                     <td colspan="2" class="contentkey">$Text{"Priority"}:</td>
@@ -248,7 +255,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
                                 <tr>
-                                    <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                                    <td colspan="2" class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
                                     <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                                 </tr>
 <!-- dtl:block:TicketFreeTime -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.6 2010-04-01 19:16:14 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.7 2010-07-14 21:51:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.6 $) [1];
+$VERSION = qw($Revision: 1.37.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,7 +106,7 @@ sub Run {
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
-        AttachmentUpload
+        AttachmentUpload Year Month Day Hour Minute
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -235,6 +235,36 @@ sub Run {
             )
         {
             $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+        }
+    }
+
+    # check pending time
+    if ( $GetParam{NewStateID} ) {
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $GetParam{NewStateID},
+        );
+
+        # check state type
+        if ( $StateData{TypeName} =~ /^pending/i ) {
+
+            # check needed stuff
+            for (qw(Year Month Day Hour Minute)) {
+                if ( !defined $GetParam{$_} ) {
+                    $Error{'Date invalid'} = '* invalid';
+                }
+            }
+
+            # check date
+            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                $Error{'Date invalid'} = '* invalid';
+            }
+            if (
+                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                < $Self->{TimeObject}->SystemTime()
+                )
+            {
+                $Error{'Date invalid'} = '* invalid';
+            }
         }
     }
 
@@ -789,6 +819,25 @@ sub AgentMove {
             Name => 'State',
             Data => {%Param},
         );
+    }
+    for my $StateID ( sort keys %{ $Param{NextStates} } ) {
+        next if !$StateID;
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+        if ( $StateData{TypeName} =~ /pending/i ) {
+            $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+                Format           => 'DateInputFormatLong',
+                YearPeriodPast   => 0,
+                YearPeriodFuture => 5,
+                DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
+                    || 0,
+                %Param,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'StatePending',
+                Data => \%Param,
+            );
+            last;
+        }
     }
 
     # set priority
