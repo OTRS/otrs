@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,23 +20,22 @@
 input[type=text],
 input[type=password],
 textarea {
-    border: 1px solid #888;
-    /* a slight padding to relax the design */
-    padding: 2px;
-    /* rounded corners */
-    border-radius: 3px;
-    /* Firefox */
-    -moz-border-radius: 3px;
-    /* Webkit */
-    -webkit-border-radius: 3px;
+    padding: 3px;
+    font-size: 12px;
+    color: #595959;
+    border: 1px solid #C9C9C9;
+    border-top-color: #C0C0C0;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
+    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+    box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }
 
 input[type=text]:focus,
 input[type=password]:focus,
 textarea:focus {
-    border: 1px solid #F92;
+    border-color: #F92;
 }
 
 /**
@@ -201,12 +200,13 @@ fieldset.TableLike {
 fieldset.TableLike > label {
     display: block;
     float: left;
-    line-height: 1.3em;
+    line-height: 23px;
     width: 30%;
     text-align: right;
     color: #929292;
-    padding-top: 3px;
-    padding-bottom: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-shadow: 0 1px 0 #FAFAFA;
 }
 
 .RTL fieldset.TableLike > label {
@@ -220,7 +220,7 @@ fieldset.TableLike > label > select {
 }
 
 fieldset.TableLike > .Field {
-    line-height: 1.3em;
+    line-height: 1.2em;
     margin-left: 30%;
     margin-right: 0;
     padding-top: 3px;
@@ -234,6 +234,10 @@ fieldset.TableLike > .Field {
     margin-right: 30%;
     padding-left: 0;
     padding-right: 10px;
+}
+
+fieldset.TableLike select {
+    margin-top: 1px;
 }
 
 /**
