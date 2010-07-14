@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.8 2010-06-28 14:01:20 mh Exp $
+# $Id: otrs.CheckModules.pl,v 1.9 2010-07-14 10:16:41 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -106,6 +106,7 @@ my @NeededModules = (
     },
     {
         Module   => 'JavaScript::Minifier',
+        Version  => '1.05',
         Required => 1,
     },
     {
@@ -123,7 +124,7 @@ my @NeededModules = (
             {
                 Module   => 'JSON::XS',
                 Required => 0,
-                Comment  => 'Optional, install it for faster AJAX/JavaScript handling.',
+                Comment  => 'Install it for faster AJAX/JavaScript handling.',
             },
         ],
     },
