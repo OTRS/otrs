@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -349,7 +349,7 @@ dd {
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     position: relative;
-    z-index: -1;
+    z-index: 1;
 }
 
 .RTL .MessageBox {
@@ -372,6 +372,10 @@ dd {
 .MessageBox p,
 .MessageBox a {
     color: #442A0B;
+}
+    
+.MessageBox a {
+    text-decoration: underline;
 }
 
 .MessageBox > p + p {
