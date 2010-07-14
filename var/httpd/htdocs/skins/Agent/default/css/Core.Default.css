@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -339,8 +339,15 @@ dd {
     margin: -2px 18px 0 10px;
     border: 1px solid #B9821C;
     background: #F39C19;
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
     -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
-    -moz-border-radius: 0 0 4px 4px;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     position: relative;
     z-index: -1;
 }
@@ -354,7 +361,12 @@ dd {
     font-weight: bold;
     border-left: 1px solid #F6AF2F;
     border-right: 1px solid #F6AF2F;
-    -moz-border-radius: 0 0 1px 1px;
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
     
 .MessageBox p,
