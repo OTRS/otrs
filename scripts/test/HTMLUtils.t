@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13.2.4 2010-07-13 18:58:26 en Exp $
+# $Id: HTMLUtils.t,v 1.13.2.5 2010-07-14 16:28:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,6 +133,9 @@ for my $Test (@Tests) {
     my $Ascii = $Self->{HTMLUtilsObject}->ToAscii(
         String => $Test->{Input},
     );
+
+    # this line is for Windows check-out
+    $Test->{Result} =~ s{\r\n}{\n}smxg;
     $Self->Is(
         $Ascii,
         $Test->{Result},
