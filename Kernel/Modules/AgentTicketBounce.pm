@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.43 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketBounce.pm,v 1.44 2010-07-14 22:33:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-    my $OutputAux = '';
 
     # check needed stuff
     for (qw(ArticleID TicketID QueueID)) {
