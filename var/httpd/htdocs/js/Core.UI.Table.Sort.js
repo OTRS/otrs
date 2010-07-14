@@ -1,8 +1,8 @@
 // --
-// Core.UI.TableSort.js - table sorting functions
+// Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.TableSort.js,v 1.1 2010-07-13 16:29:03 mn Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.1 2010-07-14 10:09:47 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@
 
 var Core = Core || {};
 Core.UI = Core.UI || {};
+Core.UI.Table = Core.UI.Table || {};
 
 /**
  * @namespace
@@ -20,7 +21,7 @@ Core.UI = Core.UI || {};
  * @description
  *      This namespace contains all functions for client side table sorting
  */
-Core.UI.TableSort = (function (TargetNS) {
+Core.UI.Table.Sort = (function (TargetNS) {
     /**
      * @function
      * @description
@@ -61,4 +62,4 @@ Core.UI.TableSort = (function (TargetNS) {
     };
 
     return TargetNS;
-}(Core.UI.TableSort || {}));
+}(Core.UI.Table.Sort || {}));
