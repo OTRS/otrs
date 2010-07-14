@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.2 2010-07-14 10:47:35 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.3 2010-07-14 12:15:47 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -356,7 +356,7 @@ Core.UI.Dialog = (function (TargetNS) {
         // Add CloseOnClickOutside functionality
         if (Params.CloseOnClickOutside) {
             $(document).unbind('click.Dialog').bind('click.Dialog', function (event) {
-                if ($(event.target).closest('div.Dialog').length === 0) {
+                if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
                     TargetNS.CloseDialog($('div.Dialog:visible'));
                 }
             });
