@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.110 2010-07-13 16:29:03 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.111 2010-07-14 21:10:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,15 +87,15 @@
                         <label>$Text{"First Response Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                            <font color="red">
+                            <span class="Notice">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
-                                $QData{"FirstResponseTimeHuman"}
-                                <br/>
-                                $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
-                            </div>
+                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
+                                    $QData{"FirstResponseTimeHuman"}
+                                    <br/>
+                                    $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
+                                </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                            </font>
+                            </span>
 <!-- dtl:block:FirstResponseTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
@@ -104,15 +104,15 @@
                         <label>$Text{"Update Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:UpdateTimeFontStart -->
-                            <font color="red">
+                            <span class="Notice">
 <!-- dtl:block:UpdateTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
-                                $QData{"UpdateTimeHuman"}
-                                <br/>
-                                $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
-                            </div>
+                                <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
+                                    $QData{"UpdateTimeHuman"}
+                                    <br/>
+                                    $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
+                                </div>
 <!-- dtl:block:UpdateTimeFontStop -->
-                            </font>
+                            </span>
 <!-- dtl:block:UpdateTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
@@ -121,15 +121,15 @@
                         <label>$Text{"Solution Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:SolutionTimeFontStart -->
-                            <font color="red">
+                            <span class="Notice">
 <!-- dtl:block:SolutionTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
-                                $QData{"SolutionTimeHuman"}
-                                <br/>
-                                $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
-                            </div>
+                                <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
+                                    $QData{"SolutionTimeHuman"}
+                                    <br/>
+                                    $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
+                                </div>
 <!-- dtl:block:SolutionTimeFontStop -->
-                            </font>
+                            </span>
 <!-- dtl:block:SolutionTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
@@ -299,14 +299,14 @@ $Data{"ArticleItems"}
             <table id="FixedTable" class="TableSmall">
                 <thead>
                     <tr>
-                        <th class="UnreadArticles"><a class="UnreadArticles" href="#"><span class="UnreadArticles"></span></a></th>
+                        <th class="UnreadArticles"><a class="UnreadArticles" href="#" title="$Text{"Unread articles"}"><span class="UnreadArticles"></span></a></th>
                         <th class="No Sortable InitialSorting"><a href="#">$Text{"No."}</a></th>
                         <th class="Type Sortable"><a href="#">$Text{"Type"}</a></th>
                         <th class="Direction Sortable"><a href="#" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
                         <th class="From Sortable"><a href="#">$Text{"From"}</a></th>
                         <th class="Subject Sortable"><a href="#">$Text{"Subject"}</a></th>
                         <th class="Created Sortable"><a href="#">$Text{"Created"}</a></th>
-                        <th class="Attachments Last"><a href="#"><span><!--Attachments--></span></a></th>
+                        <th class="Attachments Last"><a href="#" title="$Text{"Attachments"}"><span><!--Attachments--></span></a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -322,13 +322,16 @@ $Data{"ArticleItems"}
 #                </tr>
 #<!-- dtl:block:ArticleFilterDialogLink -->
 <!-- dtl:block:TreeItem -->
-                    <tr class="$QData{"ClassRow"}" onclick="Core.AJAXContentUpdate('ArticleItems','$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};'); return false;">
+                    <tr class="$QData{"ClassRow"} EventUpdate" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
 <!-- dtl:block:TreeItemNewArticle -->
                             <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
 <!-- dtl:block:TreeItemNewArticle -->
                         </td>
-                        <td class="No">$QData{"Count"}</td>
+                        <td class="No">
+                            $QData{"Count"}
+                            <input type="hidden" id="Link$LQData{"Count"}" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
+                        </td>
                         <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
                         <td class="Direction">dir</td>
                         <td class="From"><div title="$QData{"From"}"><a href="#">$RQData{"From","34"}</a></div></td>
@@ -362,14 +365,28 @@ $Data{"ArticleItems"}
 </div>
 <!-- dtl:block:Tree -->
 
-
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('.EventUpdate'), function (Event) {
+        var CurrentId = $(this).attr('id');
+        CurrentId = CurrentId.substr(3, CurrentId.length);
+        Core.AJAX.ContentUpdate($('#ArticleItems'), $( '#Link'+CurrentId ).val(), function () {
+            Core.UI.RegisterEvent('click', $('#ArticleItems a.AsPopup'), function (Event) {
+                Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+                return false;
+            });
+        });
+        return false;
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:ArticleItem -->
 <div>
     <a name="$QData{"ArticleID"}"></a>
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
-            <div class="WidgetAction Toggle"><a href="#"><span></span></a></div>
+            <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content."}"><span></span></a></div>
             <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
         </div>
         <div class="LightRow Bottom">
@@ -464,28 +481,31 @@ $Data{"Body"}
 <!-- dtl:block:BodyHTML -->
             </div>
 # show compose links
-<!-- dtl:block:AgentAnswerCompose -->
-            <div style="margin: 20px 0;">
-                <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-                <br/>
-                <table border="0">
-                    <tr>
-                        <td>
-                            $Data{"StandardResponsesStrg"}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-<!-- dtl:block:AgentAnswerCompose -->
+#<!-- dtl:block:AgentAnswerCompose -->
+#            <div style="margin: 20px 0;">
+#                <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+#                <br/>
+#                <table border="0">
+#                    <tr>
+#                        <td>
+#                            $Data{"StandardResponsesStrg"}
+#                        </td>
+#                    </tr>
+#                </table>
+#            </div>
+#<!-- dtl:block:AgentAnswerCompose -->
 <!-- dtl:block:Move -->
-            <div style="margin: 20px 0;">
-                <b>$Text{"Change queue"}:</b><br/>
+            <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="get">
                     <input type="hidden" name="Action" value="AgentTicketMove"/>
                     <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
                     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                    $Data{"MoveQueuesStrg"}
-                    <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
+                    <fieldset class="TableLike FixedLabelSmall Tight">
+                        <label for="DestQueueID">$Text{"Change queue"}: </label>
+                        $Data{"MoveQueuesStrg"}
+                        <button class="Principal" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
+                        <div class="Clear"></div>
+                    </fieldset>
                 </form>
             </div>
 <!-- dtl:block:Move -->
