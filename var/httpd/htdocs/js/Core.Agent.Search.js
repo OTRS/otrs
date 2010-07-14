@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.2 2010-07-13 14:08:31 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.3 2010-07-14 10:27:14 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,23 +47,20 @@ Core.Agent.Search = (function (TargetNS) {
 
     TargetNS.OpenSearchDialog = function () {
         Core.AJAX.ContentUpdate(
-            $('#SearchOverlay'),
+            $('#UIElementPool #Content'),
             Core.Config.Get('CGIHandle') + '?Action=AgentTicketSearch;Subaction=AJAX',
             function () {
-                Core.UI.Dialog.ShowContentDialog($('#SearchOverlay'), '', '10px', 'Center', true);
-
-                // WORKAROUND for ShowContentDialog and duplicate id attribute
-                $('#SearchOverlay').remove();
+                Core.UI.Dialog.ShowContentDialog('', '', '10px', 'Center', true);
 
                 // register add of attribute
                 Core.UI.RegisterEvent('click', $('.Add'), function(){
                     var Attribute = $(this).prev().prev().val()
-                    var Element1 = $("#Search" + Attribute ).prev().clone();
-                    var Element2 = $("#Search" + Attribute ).clone();
-                    var Element3 = $("#Search" + Attribute ).next().clone();
-                    Element1.appendTo('#SearchInsert');
-                    Element2.appendTo('#SearchInsert');
-                    Element3.appendTo('#SearchInsert');
+                    var $Element1 = $("#Search" + Attribute ).prev().clone();
+                    var $Element2 = $("#Search" + Attribute ).clone();
+                    var $Element3 = $("#Search" + Attribute ).next().clone();
+                    $Element1.appendTo('#SearchInsert');
+                    $Element2.appendTo('#SearchInsert');
+                    $Element3.appendTo('#SearchInsert');
 
                     // rebuild selection
                     RebuildSelection();
@@ -73,10 +70,10 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register remove of attribute
                 Core.UI.RegisterLiveEvent('click', $('.Remove'), function(){
-                    var Element = $(this).parent();
-                    Element.prev().prev().remove();
-                    Element.prev().remove();
-                    Element.remove();
+                    var $Element = $(this).parent();
+                    $Element.prev().prev().remove();
+                    $Element.prev().remove();
+                    $Element.remove();
 
                     // rebuild selection
                     RebuildSelection();
