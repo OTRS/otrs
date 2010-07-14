@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -77,12 +77,13 @@
 }
 
 #AdminSysConfig .Setting .DefaultValue {
-    margin-top: 3px;
-    color: gray;
+    margin: 2px;
+    color: #AAA;
+    font-size: 11px;
 }
 
 #AdminSysConfig input {
-    margin-bottom: 1px;
+    margin-bottom: 3px;
 }
 
 /**
