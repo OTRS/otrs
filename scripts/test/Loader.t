@@ -2,7 +2,7 @@
 # Loader.t - Loader backend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.t,v 1.6 2010-06-22 22:00:52 dz Exp $
+# $Id: Loader.t,v 1.7 2010-07-14 10:13:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,6 +147,28 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
 
     $Self->{MainObject}->FileDelete(
         Location => $Self->{ConfigObject}->Get('TempDir') . "/$MinifiedJSFilename",
+    );
+}
+
+my @JSTests = (
+
+    # this next test shows a case where the minification currently only works with
+    # parens around the regular expression. Without them, CSS::Minifier (currently 1.05) will die.
+    {
+        Source => 'function test(s) { return (/\d{1,2}/).test(s); }',
+        Result => 'function test(s){return(/\d{1,2}/).test(s);}',
+        Name   => 'Regexp minification',
+    }
+);
+
+for my $Test (@JSTests) {
+    my $Result = $LoaderObject->MinifyJavaScript(
+        Code => $Test->{Source},
+    );
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+        $Test->{Name},
     );
 }
 

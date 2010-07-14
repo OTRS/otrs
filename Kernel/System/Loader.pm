@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.10 2010-07-14 08:37:33 mg Exp $
+# $Id: Loader.pm,v 1.11 2010-07-14 10:13:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -370,6 +370,17 @@ returns a minified version of the given JavaScript Code.
 Warning: this function may cause a die() if there are errors in the file,
 protect against that with eval().
 
+This function internally uses the CPAN module JavaScript::Minifier.
+As of version 1.05 of that module, there is an issue with regular expressions:
+
+This will cause a die:
+
+    function test(s) { return /\d{1,2}/.test(s); }
+
+A workaround is to enclose the regular expression in parentheses:
+
+    function test(s) { return (/\d{1,2}/).test(s); }
+
 =cut
 
 sub MinifyJavaScript {
@@ -403,6 +414,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2010-07-14 08:37:33 $
+$Revision: 1.11 $ $Date: 2010-07-14 10:13:53 $
 
 =cut
