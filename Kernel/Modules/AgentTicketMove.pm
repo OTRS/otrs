@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.61 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketMove.pm,v 1.62 2010-07-14 09:28:54 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,6 +212,8 @@ sub Run {
 
     # error handling
     my %Error;
+
+    # distinguish between action concerning attachments and the move action
     my $IsUpload = 0;
 
     # DestQueueID lookup
