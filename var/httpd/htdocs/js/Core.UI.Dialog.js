@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.2 2010-07-14 10:47:35 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -172,7 +172,8 @@ Core.UI.Dialog = (function (TargetNS) {
      * @description The main dialog function used for all different types of dialogs.
      */
     function ShowDialog(Params) {
-        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight;
+        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight,
+            DialogHTML = '<div class="Dialog"><div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></span></div><div class="Content"></div><div class="Footer"><span class="LeftCorner"></span><span></span></div></div>';
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
@@ -190,7 +191,7 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         // Build Dialog HTML
-        $Dialog = $('#UIElementPool div.Dialog').clone();
+        $Dialog = $(DialogHTML);
 
         if (Params.Modal) {
             $Dialog.addClass('Modal');

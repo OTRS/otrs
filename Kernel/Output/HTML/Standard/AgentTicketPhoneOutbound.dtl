@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.39 2010-07-13 16:45:45 cg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.40 2010-07-14 10:47:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,18 +195,4 @@ $Include{"RichTextEditor"}
     Core.Agent.TicketAction.Init();
 //]]></script>
 <!--dtl:js_on_document_complete-->
-
-<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-    <input type="hidden" name="Action" value="AgentSpelling"/>
-    <input type="hidden" name="Body" value=""/>
-    <input type="hidden" name="spell_lang" value=""/>
-</form>
-
-<div id="UIElementPool">
-    <div class="Dialog">
-        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-        <div class="Content"></div>
-        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-    </div>
-</div>
 <!-- end form -->

@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.38 2010-07-13 16:45:45 cg Exp $
+# $Id: AgentTicketMerge.dtl,v 1.39 2010-07-14 10:47:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,11 +100,3 @@ $Include{"RichTextEditor"}
         </div>
     </div>
 </form>
-
-<div id="UIElementPool">
-    <div class="Dialog">
-        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-        <div class="Content"></div>
-        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-    </div>
-</div>

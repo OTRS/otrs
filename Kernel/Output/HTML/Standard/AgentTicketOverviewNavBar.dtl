@@ -2,34 +2,29 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.29 2010-07-13 16:45:45 cg Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.30 2010-07-14 10:47:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div id="UIElementPool">
-    <div class="Dialog">
-        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-        <div class="Content"></div>
-        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-    </div>
-    <div id="DialogSettings">
-        <form action="$Env{"CGIHandle"}" method="post" id="DialogSettingsForm" name="DialogSettingsForm">
-            <input type="hidden" name="Action" value="AgentPreferences"/>
-            <input type="hidden" name="Subaction" value="Update"/>
-            <input type="hidden" name="Group" value="$QData{"Group"}"/>
-            <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
-            <fieldset class="TableLike">
-                <label for="$QData{"PreferencesKey"}">$Text{"Max. shown Tickets a page"}:</label>
-                <div class="Field">
-                    $Data{"PageShownString"}
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-        </form>
-    </div>
+
+<div id="DialogSettings" class="Hidden">
+    <form action="$Env{"CGIHandle"}" method="post" id="DialogSettingsForm" name="DialogSettingsForm">
+        <input type="hidden" name="Action" value="AgentPreferences"/>
+        <input type="hidden" name="Subaction" value="Update"/>
+        <input type="hidden" name="Group" value="$QData{"Group"}"/>
+        <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
+        <fieldset class="TableLike">
+            <label for="$QData{"PreferencesKey"}">$Text{"Max. shown Tickets a page"}:</label>
+            <div class="Field">
+                $Data{"PageShownString"}
+            </div>
+            <div class="Clear"></div>
+        </fieldset>
+    </form>
 </div>
+
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.Dialog.RegisterContentDialog($('#DialogSet'), $('#DialogSettings'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);

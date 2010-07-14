@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.34 2010-07-13 19:23:24 cg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.35 2010-07-14 10:47:34 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,12 +106,4 @@ $Include{"RichTextEditor"}
         </div>
     </div>
 </form>
-
-<div id="UIElementPool">
-    <div class="Dialog">
-        <div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="Close" href="#"></a></span></div>
-        <div class="Content"></div>
-        <div class="Footer"><span class="LeftCorner"></span><span></span></div>
-    </div>
-</div>
 <!-- end bounce form -->
