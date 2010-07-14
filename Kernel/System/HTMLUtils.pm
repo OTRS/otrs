@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.12.2.3 2010-07-13 18:57:51 en Exp $
+# $Id: HTMLUtils.pm,v 1.12.2.4 2010-07-14 14:57:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.3 $) [1];
+$VERSION = qw($Revision: 1.12.2.4 $) [1];
 
 =head1 NAME
 
@@ -757,7 +757,7 @@ sub LinkQuote {
         }egxsi;
     }
 
-    # remove existing "<a href" an all other tags (to find not linked urls) and remember it
+    # remove existing "<a href" on all other tags (to find not linked urls) and remember it
     my $Counter = 0;
     my %LinkHash;
     ${$String} =~ s{
@@ -777,43 +777,68 @@ sub LinkQuote {
         $Target = " target=\"$Param{Target}\"";
     }
     ${$String} =~ s{
-        ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
-
-        (                                              #2
-            (?:                                      # http or only www
-                (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
-                (?: (?: www | ftp ) \.)                 # www. and ftp.
-            )
-            .*?               # this part should be better defined!
+        (                                          # $1 greater-than and less-than sign
+            > | < | \s+ | \#{6} |
+            (?: &[a-zA-Z0-9]+; )                   # get html entities
         )
-        (                               # $3
-            [\?,;!\.\)] (?: \s | $ )    # \)\s this construct is because of bug# 2450
-            | \s
-            | \"
-            | &quot;
-            | &nbsp;
-            | ]
-            | '
-            | >                           # greater-than and less-than sign
-            | <                           # "
-            | &gt;                        # "
-            | &lt;                        # "
-            | \#\#\#\#\#\#                # ending LinkHash
-            | $                           # bug# 2715
-        )        }
+
+        (                                          # $2
+            (?:                                    # http or only www
+                (?: (?: http s? | ftp ) :\/\/) |   # http://,https:// and ftp://
+                (?: (?: www | ftp ) \.)            # www. and ftp.
+            )
+        )
+        (                                          # $3
+            (?: [a-z0-9]+ \. )*                    # get subdomains
+            [a-z0-9]+ \. [a-z0-9]+                 # get at least second and top leveldomain
+            .*?                                    # this part should be better defined!
+        )
+        (                                          # $4
+            ?=(?:
+                [\?,;!\.\)] (?: \s | $ )           # \)\s this construct is because of bug# 2450
+                | \"
+                | \]
+                | \s+
+                | '
+                | >                               # greater-than and less-than sign
+                | <                               # "
+                | (?: &[a-zA-Z0-9]+; )+            # html entities
+                | $                                # bug# 2715
+            )
+            | \#{6}                                # ending LinkHash
+        )
+    }
     {
-        my $Start = $1;
-        my $Link  = $2;
-        my $End   = $3;
-        if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
-            if ($Link =~ m{^ ftp }smx ) {
-                $Link = 'ftp://' . $Link;
+        my $Start    = $1;
+        my $Protocol = $2;
+        my $Link     = $3;
+        my $End      = $4 || '';
+
+        # there may different links for href and link body
+        my $HrefLink;
+        my $DisplayLink;
+
+        if ( $Protocol =~ m{\A ( http | https | ftp ) : \/ \/ }xi ) {
+            $DisplayLink = $Protocol . $Link;
+            $HrefLink    = $DisplayLink;
+        }
+        else {
+            if ($Protocol =~ m{\A ftp }smx ) {
+                $HrefLink = 'ftp://';
             }
             else {
-                $Link = 'http://' . $Link;
+                $HrefLink = 'http://';
             }
+
+            if ( $Protocol ) {
+                $HrefLink   .= $Protocol;
+                $DisplayLink = $Protocol;
+            }
+
+            $DisplayLink .= $Link;
+            $HrefLink    .= $Link;
         }
-        $Start . "<a href=\"$Link\"$Target title=\"$Link\">$Link<\/a>" . $End;
+        $Start . "<a href=\"$HrefLink\"$Target title=\"$HrefLink\">$DisplayLink<\/a>" . $End;
     }egxism;
 
     my ( $Key, $Value );
@@ -844,6 +869,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12.2.3 $ $Date: 2010-07-13 18:57:51 $
+$Revision: 1.12.2.4 $ $Date: 2010-07-14 14:57:16 $
 
 =cut
