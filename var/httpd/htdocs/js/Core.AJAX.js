@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.AJAX.js,v 1.2 2010-07-14 11:00:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -293,9 +293,10 @@ Core.AJAX = (function (TargetNS) {
      * @param {String} URL The URL which is called via Ajax
      * @param {Object} Data The data hash or data query string
      * @param {Function} Callback The callback function which is called after the request returned from the server
+     * @param {String} DataType Optional, defines teh datatype, default 'json', could also be 'html'
      * @return nothing
      */
-    TargetNS.FunctionCall = function (URL, Data, Callback) {
+    TargetNS.FunctionCall = function (URL, Data, Callback, DataType) {
         if (typeof Data === 'string') {
             Data += SerializeData(GetSessionInformation());
         } else {
@@ -305,7 +306,7 @@ Core.AJAX = (function (TargetNS) {
             type: 'POST',
             url: URL,
             data: Data,
-            dataType: 'json',
+            dataType: (typeof DataType === 'undefined') ? 'json' : DataType,
             success: function (Response) {
                 if (!Response) {
                     Core.Exception.Throw("No content from: " + URL, 'CommunicationError');
