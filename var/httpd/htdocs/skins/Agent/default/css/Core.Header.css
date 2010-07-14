@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -24,6 +24,7 @@
     background: url(../img/header_bg.png) repeat-x;
     color: #FFF;
     position: relative;
+    z-index: 10;
 }
 
 /**
@@ -286,6 +287,7 @@
     top: 51px;
     left: 10px;
     position: absolute;
+    z-index: 20;
 }
 
 .RTL #Navigation {
