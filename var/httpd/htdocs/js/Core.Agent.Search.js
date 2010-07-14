@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.3 2010-07-14 10:27:14 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.4 2010-07-14 10:47:40 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,11 +46,15 @@ Core.Agent.Search = (function (TargetNS) {
     }
 
     TargetNS.OpenSearchDialog = function () {
-        Core.AJAX.ContentUpdate(
-            $('#UIElementPool #Content'),
-            Core.Config.Get('CGIHandle') + '?Action=AgentTicketSearch;Subaction=AJAX',
-            function () {
-                Core.UI.Dialog.ShowContentDialog('', '', '10px', 'Center', true);
+        var Data = {
+            Action: 'AgentTicketSearch',
+            Subaction: 'AJAX',
+        };
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('CGIHandle'),
+            Data,
+            function (HTML) {
+                Core.UI.Dialog.ShowContentDialog(HTML, '', '10px', 'Center', true);
 
                 // register add of attribute
                 Core.UI.RegisterEvent('click', $('.Add'), function(){
