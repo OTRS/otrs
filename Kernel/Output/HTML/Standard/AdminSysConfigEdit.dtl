@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.73 2010-07-13 12:49:27 ub Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.74 2010-07-14 12:53:09 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@
 
 <!-- dtl:block:ConfigElementString -->
                             <div class="String">
-                                <input name="$QData{"ElementKey"}" value="$QData{"Content"}"/>
+                                <input type="text" name="$QData{"ElementKey"}" value="$QData{"Content"}"/>
                                 <p class="DefaultValue">
                                     $Text{"Default value"}: $QData{"Default","45"}
                                 </p>
