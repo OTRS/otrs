@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.54 2010-07-14 14:23:42 mn Exp $
+# $Id: AgentTicketMove.dtl,v 1.55 2010-07-14 21:26:31 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,6 +49,8 @@
                     <label for="DestQueueID">$Text{"New Queue"}:</label>
                     <div class="Field">
                         $Data{"MoveQueuesStrg"}
+                        <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
+                        <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.UI.RegisterEvent('change', $('#DestQueueID'), function (Event) {
@@ -57,8 +59,6 @@
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                        <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>$Text{"Queue is required."}</p></div>
-                        <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
                     </div>
                     <div class="Clear"></div>
 
@@ -76,12 +76,13 @@
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
+
                     </div>
                     <div class="Clear"></div>
 
                     <label for="OldUserID">$Text{"Previous Owner"}:</label>
                     <div class="Field">
-                        <input type="radio" id="UserSelection" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/>
+                        <input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/>
                         $Data{"OldUserStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -162,6 +163,17 @@ $Include{"RichTextEditor"}
                         $Data{"NextStatesStrg"}
                     </div>
                     <div class="Clear"></div>
+
+<!-- dtl:block:StatePending -->
+                    <label>$Text{"Pending date"}:</label>
+                    <div class="Field">
+                        $Data{"DateString"}
+                        <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:StatePending -->
 <!-- dtl:block:State -->
 
 <!-- dtl:block:Priority -->
@@ -225,8 +237,6 @@ $Include{"RichTextEditor"}
                     <div class="Field">
                         <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
