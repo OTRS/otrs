@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -336,40 +336,49 @@ dd {
  * @subsection  MessageBox
  */
 
-div.MessageBox {
-    border: 1px solid #BBB;
-    padding: 5px 20px 5px 7px;
-    margin: 6px;
+.MessageBox {
+    margin: -2px 18px 0 10px;
+    border: 1px solid #B9821C;
+    background: #F39C19;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    -moz-border-radius: 0 0 4px 4px;
     position: relative;
+    z-index: -1;
 }
 
-.RTL div.MessageBox {
-    padding: 5px 7px 5px 20px;
+.RTL .MessageBox {
+    margin: -2px 10px 0 18px;
+}
+    
+.MessageBox p {
+    padding: 7px 12px 6px;
+    font-weight: bold;
+    border-left: 1px solid #F6AF2F;
+    border-right: 1px solid #F6AF2F;
+    -moz-border-radius: 0 0 1px 1px;
+}
+    
+.MessageBox p,
+.MessageBox a {
+    color: #442A0B;
 }
 
-div.MessageBox > p + p {
+.MessageBox > p + p {
     margin-top: 2px;
 }
-
-div.MessageBox > a.Close {
-    display: block;
-    position: absolute;
-    top: 7px;
-    left: auto;
-    right: 5px;
-    background: url(../img/messagebox_close.png) no-repeat;
-    width: 12px;
-    height: 12px;
-    text-indent: -9999px;
+    
+.MessageBox.Error {
+    border-color: #A6281C;
+    background: #F03432;
 }
 
-div.MessageBox > a.Close:hover {
-    background-position: 0 -12px;
+.MessageBox.Error p {
+    border-color: #F25146;
 }
-
-.RTL div.MessageBox > a.Close {
-    left: 5px;
-    right: auto;
+    
+.MessageBox.Error p,
+.MessageBox.Error a {
+    color: #420F0E;
 }
 
 /**
