@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.357 2010-07-09 10:37:53 mg Exp $
+# $Id: Defaults.pm,v 1.358 2010-07-14 22:18:26 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.357 $) [1];
+$VERSION = qw($Revision: 1.358 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -1031,7 +1031,7 @@ sub LoadDefaults {
         PasswordMin2Lower2UpperCharacters => 0,
         PasswordMin2Characters            => 0,
         PasswordNeedDigit                 => 0,
-        Activ                             => 1,
+        Active                             => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::PreferencesGeneric',
@@ -1051,7 +1051,7 @@ sub LoadDefaults {
         },
         PrefKey => 'UserSpellDict',
         Prio    => 5000,
-        Activ   => 1,
+        Active   => 1,
     };
     $Self->{PreferencesGroups}->{Comment} = {
         Module  => 'Kernel::Output::HTML::PreferencesGeneric',
@@ -1062,7 +1062,7 @@ sub LoadDefaults {
         Data    => '$Env{"UserComment"}',
         PrefKey => 'UserComment',
         Prio    => 6000,
-        Activ   => 0,
+        Active   => 0,
     };
 
 #    $Self->{PreferencesGroups}->{FreeText} = {
@@ -1074,7 +1074,7 @@ sub LoadDefaults {
 #        Data    => '$Env{"UserFreeText"}',
 #        PrefKey => 'UserFreeText',
 #        Prio    => 7000,
-#        Activ   => 1,
+#        Active   => 1,
 #    };
 
     $Self->{PreferencesGroups}->{Language} = {
@@ -1084,7 +1084,7 @@ sub LoadDefaults {
         Desc    => 'Select your frontend language.',
         PrefKey => 'UserLanguage',
         Prio    => 1000,
-        Activ   => 1,
+        Active   => 1,
     };
     $Self->{PreferencesGroups}->{Theme} = {
         Module  => 'Kernel::Output::HTML::PreferencesTheme',
@@ -1093,7 +1093,7 @@ sub LoadDefaults {
         Desc    => 'Select your frontend Theme.',
         PrefKey => 'UserTheme',
         Prio    => 2000,
-        Activ   => 1,
+        Active   => 1,
     };
 
     # --------------------------------------------------- #
@@ -2211,6 +2211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.357 $ $Date: 2010-07-09 10:37:53 $
+$Revision: 1.358 $ $Date: 2010-07-14 22:18:26 $
 
 =cut

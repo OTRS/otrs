@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.347 2010-07-14 10:09:47 mn Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.348 2010-07-14 22:18:25 dz Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6343,7 +6343,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserSendNewTicketNotification</Item>
                 <Item Key="Prio">1000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6367,7 +6367,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserSendFollowUpNotification</Item>
                 <Item Key="Prio">2000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6391,7 +6391,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserSendLockTimeoutNotification</Item>
                 <Item Key="Prio">3000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6415,7 +6415,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserSendMoveNotification</Item>
                 <Item Key="Prio">4000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6439,7 +6439,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserSendWatcherNotification</Item>
                 <Item Key="Prio">5000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6456,7 +6456,7 @@ $QData{"Signature"}
                 <Item Key="Key" Translatable="1">My Queues</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Permission">ro</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6484,7 +6484,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserRefreshTime</Item>
                 <Item Key="Prio">2000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6511,7 +6511,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">25</Item>
                 <Item Key="PrefKey">UserTicketOverviewSmallPageShown</Item>
                 <Item Key="Prio">8000</Item>
-                <Item Key="Activ">0</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6538,7 +6538,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">20</Item>
                 <Item Key="PrefKey">UserTicketOverviewMediumPageShown</Item>
                 <Item Key="Prio">8100</Item>
-                <Item Key="Activ">0</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6565,7 +6565,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">15</Item>
                 <Item Key="PrefKey">UserTicketOverviewPreviewPageShown</Item>
                 <Item Key="Prio">8200</Item>
-                <Item Key="Activ">0</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6588,7 +6588,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected"></Item>
                 <Item Key="PrefKey">UserCreateNextMask</Item>
                 <Item Key="Prio">3000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7163,7 +7163,7 @@ $QData{"Signature"}
                 <Item Key="DataSelected">25</Item>
                 <Item Key="PrefKey">UserShowTickets</Item>
                 <Item Key="Prio">4000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7190,7 +7190,7 @@ $QData{"Signature"}
                 <Item Key="PrefKey">UserRefreshTime</Item>
                 <Item Key="DataSelected"></Item>
                 <Item Key="Prio">4000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>

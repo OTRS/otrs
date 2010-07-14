@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.335 2010-07-13 13:31:07 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.336 2010-07-14 22:18:25 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2935,7 +2935,7 @@ Your OTRS Notification Master
                 <Item Key="PasswordMin2Characters">0</Item>
                 <Item Key="PasswordNeedDigit">0</Item>
                 <Item Key="PasswordMaxLoginFailed">0</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2958,7 +2958,7 @@ Your OTRS Notification Master
                 <Item Key="DataSelected">english</Item>
                 <Item Key="PrefKey">UserSpellDict</Item>
                 <Item Key="Prio">2000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
         <!-- $Self->{PreferencesGroups}->{SpellDict} = {
@@ -2996,7 +2996,7 @@ Your OTRS Notification Master
                 <Item Key="Data">$Env{"UserComment"}</Item>
                 <Item Key="PrefKey">UserComment</Item>
                 <Item Key="Prio">6000</Item>
-                <Item Key="Activ">0</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3014,7 +3014,7 @@ Your OTRS Notification Master
                 <Item Key="Data">$Env{"UserFreeText"}</Item>
                 <Item Key="PrefKey">UserFreeText</Item>
                 <Item Key="Prio">7000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3030,7 +3030,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Frontend language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">1000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3046,7 +3046,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Frontend theme</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">3000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3063,7 +3063,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserOutOfOffice</Item>
                 <Item Key="Prio">4000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3079,7 +3079,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">5000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3114,7 +3114,7 @@ Your OTRS Notification Master
                 <Item Key="DataSelected">0</Item>
                 <Item Key="PrefKey">UserCSVSeparator</Item>
                 <Item Key="Prio">4000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3658,7 +3658,7 @@ Your OTRS Notification Master
                 <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
                 <Item Key="PasswordMin2Characters">0</Item>
                 <Item Key="PasswordNeedDigit">0</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3674,7 +3674,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Your language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3690,7 +3690,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Select your frontend Theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">1000</Item>
-                <Item Key="Activ">0</Item>
+                <Item Key="Active">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3706,7 +3706,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">5000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3722,7 +3722,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">PGP Key Upload</Item>
                 <Item Key="PrefKey">UserPGPKey</Item>
                 <Item Key="Prio">10000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3738,7 +3738,7 @@ Your OTRS Notification Master
                 <Item Key="Key" Translatable="1">S/MIME Certificate Upload</Item>
                 <Item Key="PrefKey">UserSMIMEKey</Item>
                 <Item Key="Prio">11000</Item>
-                <Item Key="Activ">1</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>

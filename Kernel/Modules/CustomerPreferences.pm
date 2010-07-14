@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.30 2010-05-21 06:36:37 cg Exp $
+# $Id: CustomerPreferences.pm,v 1.31 2010-07-14 22:18:25 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,7 +185,7 @@ sub CustomerPreferencesForm {
             next if !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group};
 
             my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
-            next if !$Preference{Activ};
+            next if !$Preference{Active};
 
             # load module
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
