@@ -2,7 +2,7 @@
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.18 2010-05-05 07:18:58 mg Exp $
+# $Id: Notify.dtl,v 1.19 2010-07-14 09:38:11 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,6 @@
         </a>
 <!-- dtl:block:LinkStop -->
     </p>
-    <a class="Close" title="$Text{"Close this message"}" href="">$Text{"Close this message"}</a>
+#    <a class="Close" title="$Text{"Close this message"}" href="">$Text{"Close this message"}</a>
 </div>
 <!-- end Notify -->
