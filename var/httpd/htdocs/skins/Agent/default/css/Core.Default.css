@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -199,6 +199,15 @@ dd {
 }
 
 /**
+ * @note    Use the class InvisibleText to hide text from the screen,
+ *          while it is still recognized and read by screen readers.
+ */
+.InvisibleText {
+    display: inline-block;
+    text-indent: -9999px;
+}
+
+/**
  * @subsection  Spacings
  */
 .Spacing {
@@ -251,16 +260,6 @@ dd {
  */
 .AsBlock {
     display: block;
-}
-    
-/**
- * @subsection InvisibleText
- *
- */
- 
-.InvisibleText {
-    display: inline-block;
-    text-indent: -9999px;
 }
 
 /**
@@ -365,7 +364,7 @@ dd {
 .RTL .MessageBox {
     margin: -2px 10px 0 18px;
 }
-    
+
 .MessageBox p {
     padding: 7px 12px 6px;
     font-weight: bold;
@@ -378,12 +377,12 @@ dd {
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
 }
-    
+
 .MessageBox p,
 .MessageBox a {
     color: #442A0B;
 }
-    
+
 .MessageBox a {
     text-decoration: underline;
 }
@@ -391,7 +390,7 @@ dd {
 .MessageBox > p + p {
     margin-top: 2px;
 }
-    
+
 .MessageBox.Error {
     border-color: #A6281C;
     background: #F03432;
@@ -400,12 +399,12 @@ dd {
 .MessageBox.Error p {
     border-color: #F25146;
 }
-    
+
 .MessageBox.Error p,
 .MessageBox.Error a {
     color: #000;
 }
-    
+
 .MessageBox.Confirmation {
     border-color: #049E35;
     background: #1AEE47;
@@ -414,7 +413,7 @@ dd {
 .MessageBox.Confirmation p {
     border-color: #36F374;
 }
-    
+
 .MessageBox.Confirmation p,
 .MessageBox.Confirmation a {
     color: #044016;
