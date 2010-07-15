@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.24 2010-05-14 10:29:39 fn Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.25 2010-07-15 13:15:44 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@
 #                <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
 #                <tr valign="top">
 #                    <td class="$Env{"Color"}">
-#                        <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">
+#                        <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};QueueID=$Data{"QueueID"}">
 #                            $Data{"TicketNumber"}
 #                        </a>
 #                    </td>
