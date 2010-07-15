@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.7 2010-07-14 21:51:53 en Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.8 2010-07-15 22:45:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.7 $) [1];
+$VERSION = qw($Revision: 1.37.2.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{StateObject}      = Kernel::System::State->new(%Param);
@@ -56,9 +56,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID)) {
-        if ( !$Self->{$_} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $_!", );
+    for my $Needed (qw(TicketID)) {
+        if ( !$Self->{$Needed} ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $Needed!", );
         }
     }
 
@@ -102,11 +102,11 @@ sub Run {
 
     # get params
     my %GetParam = ();
-    for (
+    for my $Parameter (
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
-        AttachmentUpload Year Month Day Hour Minute
+        AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
@@ -114,19 +114,23 @@ sub Run {
         )
         )
     {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+    }
+    for my $Parameter (qw(Year Month Day Hour Minute)) {
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || 0;
     }
 
     # get ticket free text params
-    for ( 1 .. 16 ) {
-        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
-        if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
-            $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"};
+    for my $Count ( 1 .. 16 ) {
+        $GetParam{"TicketFreeKey$Count"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
+        $GetParam{"TicketFreeText$Count"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
+        if ( !defined $GetParam{"TicketFreeKey$Count"} && $Ticket{"TicketFreeKey$Count"} ) {
+            $GetParam{"TicketFreeKey$Count"} = $Ticket{"TicketFreeKey$Count"};
         }
-        if ( !defined $GetParam{"TicketFreeText$_"} && $Ticket{"TicketFreeText$_"} ) {
-            $GetParam{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"};
+        if ( !defined $GetParam{"TicketFreeText$Count"} && $Ticket{"TicketFreeText$Count"} ) {
+            $GetParam{"TicketFreeText$Count"} = $Ticket{"TicketFreeText$Count"};
         }
     }
 
@@ -228,13 +232,13 @@ sub Run {
     }
 
     # check required FreeTextField (if configured)
-    for ( 1 .. 16 ) {
+    for my $Count ( 1 .. 16 ) {
         if (
-            $Self->{Config}->{'TicketFreeText'}->{$_} == 2
-            && $GetParam{"TicketFreeText$_"} eq ''
+            $Self->{Config}->{'TicketFreeText'}->{$Count} == 2
+            && $GetParam{"TicketFreeText$Count"} eq ''
             )
         {
-            $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+            $Error{"TicketFreeTextField$Count invalid"} = '* invalid';
         }
     }
 
@@ -248,8 +252,8 @@ sub Run {
         if ( $StateData{TypeName} =~ /^pending/i ) {
 
             # check needed stuff
-            for (qw(Year Month Day Hour Minute)) {
-                if ( !defined $GetParam{$_} ) {
+            for my $Needed (qw(Year Month Day Hour Minute)) {
+                if ( !defined $GetParam{$Needed} ) {
                     $Error{'Date invalid'} = '* invalid';
                 }
             }
@@ -309,10 +313,10 @@ sub Run {
 
         # get free text config options
         my @TicketFreeTextConfig = ();
-        for ( 1 .. 16 ) {
+        for my $Count ( 1 .. 16 ) {
             my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeKey$_",
+                Type     => "TicketFreeKey$Count",
                 Action   => $Self->{Action},
                 QueueID  => $GetParam{DestQueueID} || 0,
                 UserID   => $Self->{UserID},
@@ -321,9 +325,9 @@ sub Run {
                 push(
                     @TicketFreeTextConfig,
                     {
-                        Name        => "TicketFreeKey$_",
+                        Name        => "TicketFreeKey$Count",
                         Data        => $ConfigKey,
-                        SelectedID  => $GetParam{"TicketFreeKey$_"},
+                        SelectedID  => $GetParam{"TicketFreeKey$Count"},
                         Translation => 0,
                         Max         => 100,
                     }
@@ -331,7 +335,7 @@ sub Run {
             }
             my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeText$_",
+                Type     => "TicketFreeText$Count",
                 Action   => $Self->{Action},
                 QueueID  => $GetParam{DestQueueID} || 0,
                 UserID   => $Self->{UserID},
@@ -340,9 +344,9 @@ sub Run {
                 push(
                     @TicketFreeTextConfig,
                     {
-                        Name        => "TicketFreeText$_",
+                        Name        => "TicketFreeText$Count",
                         Data        => $ConfigValue,
-                        SelectedID  => $GetParam{"TicketFreeText$_"},
+                        SelectedID  => $GetParam{"TicketFreeText$Count"},
                         Translation => 0,
                         Max         => 100,
                     }
@@ -391,16 +395,16 @@ sub Run {
 
         # ticket free text
         my %TicketFreeText = ();
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        for my $Count ( 1 .. 16 ) {
+            $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeKey$_",
+                Type     => "TicketFreeKey$Count",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type     => "TicketFreeText$_",
+                Type     => "TicketFreeText$Count",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
@@ -480,12 +484,12 @@ sub Run {
         my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
 
         # attachment delete
-        for ( 1 .. 16 ) {
-            if ( $GetParam{"AttachmentDelete$_"} ) {
+        for my $Count ( 1 .. 16 ) {
+            if ( $GetParam{"AttachmentDelete$Count"} ) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
                     FormID => $Self->{FormID},
-                    FileID => $_,
+                    FileID => $Count,
                 );
             }
         }
@@ -578,6 +582,21 @@ sub Run {
                 TicketID => $Self->{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},
+            );
+        }
+
+        # set pending time on pendig state
+        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+            # set pending time
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Year     => $GetParam{Year},
+                Month    => $GetParam{Month},
+                Day      => $GetParam{Day},
+                Hour     => $GetParam{Hour},
+                Minute   => $GetParam{Minute},
             );
         }
     }
@@ -681,36 +700,36 @@ sub Run {
     }
 
     # set ticket free text
-    for ( 1 .. 16 ) {
-        if ( defined $GetParam{"TicketFreeKey$_"} ) {
+    for my $Count ( 1 .. 16 ) {
+        if ( defined $GetParam{"TicketFreeKey$Count"} ) {
             $Self->{TicketObject}->TicketFreeTextSet(
                 TicketID => $Self->{TicketID},
-                Key      => $GetParam{"TicketFreeKey$_"},
-                Value    => $GetParam{"TicketFreeText$_"},
-                Counter  => $_,
+                Key      => $GetParam{"TicketFreeKey$Count"},
+                Value    => $GetParam{"TicketFreeText$Count"},
+                Counter  => $Count,
                 UserID   => $Self->{UserID},
             );
         }
     }
 
     # set ticket free time
-    for ( 1 .. 6 ) {
+    for my $Count ( 1 .. 6 ) {
         if (
-            defined $GetParam{ "TicketFreeTime" . $_ . "Year" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Month" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Day" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Hour" }
-            && defined $GetParam{ "TicketFreeTime" . $_ . "Minute" }
+            defined $GetParam{ "TicketFreeTime" . $Count . "Year" }
+            && defined $GetParam{ "TicketFreeTime" . $Count . "Month" }
+            && defined $GetParam{ "TicketFreeTime" . $Count . "Day" }
+            && defined $GetParam{ "TicketFreeTime" . $Count . "Hour" }
+            && defined $GetParam{ "TicketFreeTime" . $Count . "Minute" }
             )
         {
 
             # set time stamp to NULL if field is not used/checked
-            if ( !$GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
-                $GetParam{ 'TicketFreeTime' . $_ . 'Year' }   = 0;
-                $GetParam{ 'TicketFreeTime' . $_ . 'Month' }  = 0;
-                $GetParam{ 'TicketFreeTime' . $_ . 'Day' }    = 0;
-                $GetParam{ 'TicketFreeTime' . $_ . 'Hour' }   = 0;
-                $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } = 0;
+            if ( !$GetParam{ 'TicketFreeTime' . $Count . 'Used' } ) {
+                $GetParam{ 'TicketFreeTime' . $Count . 'Year' }   = 0;
+                $GetParam{ 'TicketFreeTime' . $Count . 'Month' }  = 0;
+                $GetParam{ 'TicketFreeTime' . $Count . 'Day' }    = 0;
+                $GetParam{ 'TicketFreeTime' . $Count . 'Hour' }   = 0;
+                $GetParam{ 'TicketFreeTime' . $Count . 'Minute' } = 0;
             }
 
             # set free time
@@ -718,7 +737,7 @@ sub Run {
                 %GetParam,
                 Prefix   => "TicketFreeTime",
                 TicketID => $Self->{TicketID},
-                Counter  => $_,
+                Counter  => $Count,
                 UserID   => $Self->{UserID},
             );
         }
@@ -1022,15 +1041,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for ( keys %AllGroupsMembers ) {
+        for my $KeyGropMember ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $_ ) {
+                if ( $UID eq $KeyGropMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$_};
+                delete $AllGroupsMembers{$KeyGropMember};
             }
         }
     }
@@ -1049,9 +1068,9 @@ sub _GetUsers {
             Result  => 'HASH',
             Cached  => 1,
         );
-        for ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$_} ) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
+        for my $KeyMember ( keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
