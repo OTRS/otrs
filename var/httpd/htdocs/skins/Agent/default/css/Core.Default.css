@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -251,6 +251,16 @@ dd {
  */
 .AsBlock {
     display: block;
+}
+    
+/**
+ * @subsection InvisibleText
+ *
+ */
+ 
+.InvisibleText {
+    display: inline-block;
+    text-indent: -9999px;
 }
 
 /**
