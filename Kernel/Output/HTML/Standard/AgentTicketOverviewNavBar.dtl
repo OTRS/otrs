@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.30 2010-07-14 10:47:35 mn Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.31 2010-07-15 07:46:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,24 +58,14 @@
                 </ul>
 <!-- dtl:block:OverviewNavBarFilter -->
                 <ul class="ContextFunctions">
-                    <li class="ContextHelp">
-                        <a href="#" title="Context Help"><span>Context Help</span></a>
-                    </li>
                     <li class="ContextSettings">
                         <a href="#" id="DialogSet" title="Context Settings"><span>Context Settings</span></a>
                     </li>
-#<!-- view settings start -->
-#                            <a href="#" id="DialogSet" onclick="return false;" title="$Text{"Overview Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-inactive.png" /></a>
-#                            <img src="$Config{"Frontend::ImagePath"}h-line-small.png" />
-#<!-- view settings end -->
                 </ul>
             </div>
             <div class="ActionRow">
                 <div class="OverviewActions">
                     $Data{"ActionRow"}
-#            <ul class="Actions">
-#                <li><a href="#">Multiple Action</a></li>
-#            </ul>
                     <ul class="OverviewZoom">
 <!-- dtl:block:OverviewNavBarViewMode -->
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
@@ -94,11 +84,6 @@
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->
                     </ul>
-#            <form class="Pagination" action="">
-#                <a href="#" class="ArrowLeft" title="Previous Page"><span>Previous</span></a>
-#                <span><input type="text" id="Page"/>/ 9</span>
-#                <a href="#" class="ArrowRight" title="Next Page"><span>Next</span></a>
-#            </form>
 <!-- dtl:block:OverviewNavBarPageBack -->
                     <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkBack"}">$Text{"Change search options"}</a>
 <!-- dtl:block:OverviewNavBarPageBack -->
