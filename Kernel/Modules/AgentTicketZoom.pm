@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.102 2010-07-15 10:00:43 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.103 2010-07-15 11:23:10 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1566,6 +1566,8 @@ sub _ArticleItem {
 
     # get MoveQueuesStrg
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+        $Param{MoveQueues}->{0}
+            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Change Queue') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name       => 'DestQueueID',
             Data       => $Param{MoveQueues},
