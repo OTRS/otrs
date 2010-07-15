@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -553,9 +553,17 @@ iframe.TextOption.Customer {
     width: 800px;
 }
 
+/**
+ * @subsection  global search
+ */
+#SearchForm {
+    width: 500px;
+}
+
 #ArticleFilterDialogForm {
     width: 450px;
     height: 300px;
 }
 
 } /* end @media */
+

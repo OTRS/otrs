@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.5 2010-07-14 11:00:15 mn Exp $
+// $Id: Core.Agent.Search.js,v 1.6 2010-07-15 13:49:28 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -45,10 +45,13 @@ Core.Agent.Search = (function (TargetNS) {
         return true;
     }
 
-    TargetNS.OpenSearchDialog = function () {
+    TargetNS.OpenSearchDialog = function (Action) {
+        if ( !Action ) {
+            Action = Core.Config.Get('Action'),
+        }
         var Data = {
-            Action: 'AgentTicketSearch',
-            Subaction: 'AJAX',
+            Action: 'AgentSearch',
+            Referrer: Action
         };
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
@@ -59,9 +62,9 @@ Core.Agent.Search = (function (TargetNS) {
                 // register add of attribute
                 Core.UI.RegisterEvent('click', $('.Add'), function(){
                     var Attribute = $(this).prev().prev().val()
-                    var $Element1 = $("#Search" + Attribute ).prev().clone();
-                    var $Element2 = $("#Search" + Attribute ).clone();
-                    var $Element3 = $("#Search" + Attribute ).next().clone();
+                    var $Element1 = $('#Search' + Attribute ).prev().clone();
+                    var $Element2 = $('#Search' + Attribute ).clone();
+                    var $Element3 = $('#Search' + Attribute ).next().clone();
                     $Element1.appendTo('#SearchInsert');
                     $Element2.appendTo('#SearchInsert');
                     $Element3.appendTo('#SearchInsert');
@@ -83,6 +86,14 @@ Core.Agent.Search = (function (TargetNS) {
                     RebuildSelection();
 
                     return false;
+                });
+
+                // register return key
+                $('#SearchForm').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+                    if ((Event.charCode || Event.keyCode) === 13) {
+                        $('#SearchForm').submit();
+                        return false;
+                    }
                 });
 
                 // register submit
