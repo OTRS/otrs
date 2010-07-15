@@ -2,14 +2,12 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.11 2010-07-14 10:47:35 mn Exp $
+# $Id: FooterJS.dtl,v 1.12 2010-07-15 13:20:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}otrs.js"></script>
 
 <!-- dtl:block:CommonJS -->
 <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
