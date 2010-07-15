@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.53 2010-07-05 13:46:56 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.54 2010-07-15 14:52:26 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -193,13 +193,13 @@ sub Run {
 
     # get time option
     if ( !$GetParam{TimeSearchType} ) {
-        $GetParam{'TimeSearchType::None'} = 'checked';
+        $GetParam{'TimeSearchType::None'} = 'checked="checked"';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'TimeSearchType::TimePoint'} = 'checked';
+        $GetParam{'TimeSearchType::TimePoint'} = 'checked="checked"';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'TimeSearchType::TimeSlot'} = 'checked';
+        $GetParam{'TimeSearchType::TimeSlot'} = 'checked="checked"';
     }
 
     # set result form env
@@ -347,7 +347,7 @@ sub Run {
                 $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' } = undef;
             }
             else {
-                $GetParam{ 'TicketFreeTime' . $_ } = 'checked';
+                $GetParam{ 'TicketFreeTime' . $_ } = 'checked="checked"';
                 if (
                     $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
                     && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
@@ -716,7 +716,7 @@ sub Run {
             AllHits   => $Counter,
             Action    => "Action=CustomerTicketSearch;Subaction=Search",
             Link =>
-                "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1&",
+                "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1;",
             IDPrefix => "CustomerTicketSearch",
         );
 
