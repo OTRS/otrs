@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -42,19 +42,16 @@
 }
 
 .Flag {
-    top: 5px;
-    left: 5px;
+    top: 4px;
+    left: 6px;
     width: 21px;
-    height: 15px;
+    height: 16px;
     text-indent: -9999px;
-    background: #FFF;
     position: absolute;
-    box-shadow: 0 0 2px #DDD;
-    -moz-box-shadow: 0 0 2px #DDD;
-    -webkit-box-shadow: 0 0 2px #DDD;
-    border-radius: 1px;
-    -moz-border-radius: 1px;
-    -webkit-border-radius: 1px;
+    -moz-box-shadow: 0 1px 0 #EEE;
+    -webkit-box-shadow: 0 1px 0 #EEE;
+    box-shadow: 0 1px 0 #EEE;
+    display: block;
 }
 
 .RTL .Flag {
@@ -62,23 +59,30 @@
     right: 7px;
 }
 
-.Flag > div {
+.Flag > span {
     height: 15px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    display: block;
 }
 
 .Flag.Open {
-    border: 1px solid #0D871A;
+    border: 1px solid #28A530;
 }
 
-.Flag.Open > div {
-    background: #0FB71C;
+.Flag.Open > span {
+    background: #24ee31;
+    border-color: #56f856;
+    -moz-box-shadow: 0 -1px 0 #46c946;
+    -webkit-box-shadow: 0 -1px 0 #46c946;
+    box-shadow: 0 -1px 0 #46c946;
 }
 
 .Flag.Closed {
     border: 1px solid #7F0C0C;
 }
 
-.Flag.Closed > div {
+.Flag.Closed > span {
     background: #BD1212;
 }
 
@@ -269,7 +273,7 @@
 }
 
 .MessageContent {
-    padding: 5px 6px 5px;
+    padding: 13px 8px;
     background: #FFF;
     border-bottom: 1px solid #E9E9E9;
 }
