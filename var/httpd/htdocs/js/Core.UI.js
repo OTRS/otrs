@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.js,v 1.2 2010-07-15 08:53:50 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -261,7 +261,7 @@ Core.UI = (function (TargetNS) {
         if (isJQueryObject($Element) && $Element.length) {
             window.scrollTo(0, $Element.offset().top);
         }
-    }
+    };
 
     return TargetNS;
 }(Core.UI || {}));
