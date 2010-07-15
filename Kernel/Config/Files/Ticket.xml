@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.349 2010-07-15 05:09:52 mp Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.350 2010-07-15 08:53:50 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5595,7 +5595,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
-                <Item Key="Name">Email Ticket</Item>
+                <Item Key="Name">New email ticket</Item>
                 <Item Key="Priority">1009999</Item>
                 <Item Key="Link">Action=AgentTicketEmail</Item>
                 <Item Key="Action">AgentTicketEmail</Item>
@@ -5611,7 +5611,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
-                <Item Key="Name">Phone Ticket</Item>
+                <Item Key="Name">New phone ticket</Item>
                 <Item Key="Priority">1009998</Item>
                 <Item Key="Link">Action=AgentTicketPhone</Item>
                 <Item Key="Action">AgentTicketPhone</Item>
@@ -5627,7 +5627,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
-                <Item Key="Name">Queue View</Item>
+                <Item Key="Name">Queue view</Item>
                 <Item Key="Priority">1012000</Item>
                 <Item Key="Link">Action=AgentTicketQueue</Item>
                 <Item Key="Action">AgentTicketQueue</Item>
@@ -5643,7 +5643,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
-                <Item Key="Name">Status View</Item>
+                <Item Key="Name">Status view</Item>
                 <Item Key="Priority">1012001</Item>
                 <Item Key="Link">Action=AgentTicketStatusView</Item>
                 <Item Key="Action">AgentTicketStatusView</Item>
@@ -5659,7 +5659,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
-                <Item Key="Name">Escalation View</Item>
+                <Item Key="Name">Escalation view</Item>
                 <Item Key="Priority">1012002</Item>
                 <Item Key="Link">Action=AgentTicketEscalationView</Item>
                 <Item Key="Action">AgentTicketEscalationView</Item>
@@ -7365,7 +7365,7 @@ $QData{"Signature"}
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets</Description>
-                    <Name Translatable="1">Queue View</Name>
+                    <Name Translatable="1">Queue view</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
@@ -7394,12 +7394,12 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new Phone Ticket</Description>
-                <Title>Phone-Ticket</Title>
+                <Description>Create new phone picket</Description>
+                <Title>New phone ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create new Phone Ticket (Inbound)</Description>
-                    <Name Translatable="1">Phone Ticket</Name>
+                    <Description Translatable="1">Create new phone ticket (inbound)</Description>
+                    <Name Translatable="1">New phone ticket</Name>
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
                     <LinkOption></LinkOption>
@@ -7437,12 +7437,12 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new email Ticket</Description>
-                <Title>Email-Ticket</Title>
+                <Description>Create new email ticket</Description>
+                <Title>New email ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create new Email Ticket and send this out (Outbound)</Description>
-                    <Name Translatable="1">Email Ticket</Name>
+                    <Description Translatable="1">Create new email ticket and send this out (outbound)</Description>
+                    <Name Translatable="1">New email ticket</Name>
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
                     <LinkOption></LinkOption>
@@ -7549,11 +7549,11 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Overview of all open tickets</Description>
-                <Title>Status View</Title>
+                <Title>Status view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets.</Description>
-                    <Name Translatable="1">Status View</Name>
+                    <Name Translatable="1">Status view</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
@@ -7572,11 +7572,11 @@ $QData{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Overview of all escalated tickets</Description>
-                <Title>Escalation View</Title>
+                <Title>Escalation view</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
                     <Description Translatable="1">Overview Escalated Tickets</Description>
-                    <Name Translatable="1">Escalation View</Name>
+                    <Name Translatable="1">Escalation view</Name>
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <NavBar>Ticket</NavBar>
