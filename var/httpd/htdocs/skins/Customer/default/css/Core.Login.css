@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -23,17 +23,14 @@
 #Slider {
     margin-bottom: 34px;
     width: 642px;
+    height: 200px;
     overflow: hidden;
-}
-
-#SlideArea {
-    width: 3000px;
 }
 
 #SlideArea > div {
     width: 500px;
+    height: 200px;
     padding-left: 142px;
-    float: left;
     position: relative;
 }
 
@@ -74,8 +71,8 @@
 .Login input[type='password']  {
     width: 177px;
     padding: 3px 5px;
+    font-size: 14px;
     background-color: transparent;
-    border: 1px solid #AAA;
     display: block;
 }
 
