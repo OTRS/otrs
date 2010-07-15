@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.114 2010-07-15 10:00:43 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.115 2010-07-15 11:23:37 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -389,7 +389,7 @@ $Data{"ArticleItems"}
 <!-- dtl:block:ArticleMenu-->
 <!-- dtl:block:Move -->
                 <li>
-                    <form action="$Env{"CGIHandle"}" method="get">
+                    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
                         <input type="hidden" name="Action" value="AgentTicketMove"/>
                         <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
                         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
