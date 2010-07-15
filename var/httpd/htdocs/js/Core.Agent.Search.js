@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.6 2010-07-15 13:49:28 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.7 2010-07-15 16:57:28 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ Core.Agent.Search = (function (TargetNS) {
 
     TargetNS.OpenSearchDialog = function (Action) {
         if ( !Action ) {
-            Action = Core.Config.Get('Action'),
+            Action = Core.Config.Get('Action');
         }
         var Data = {
             Action: 'AgentSearch',
@@ -61,7 +61,7 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register add of attribute
                 Core.UI.RegisterEvent('click', $('.Add'), function(){
-                    var Attribute = $(this).prev().prev().val()
+                    var Attribute = $(this).prev().prev().val();
                     var $Element1 = $('#Search' + Attribute ).prev().clone();
                     var $Element2 = $('#Search' + Attribute ).clone();
                     var $Element3 = $('#Search' + Attribute ).next().clone();
