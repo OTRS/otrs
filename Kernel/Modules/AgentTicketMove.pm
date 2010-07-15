@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.64 2010-07-14 21:26:55 en Exp $
+# $Id: AgentTicketMove.pm,v 1.65 2010-07-15 22:47:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,10 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission(
+            Message    => "You need move permissions!",
+            WithHeader => 'yes',
+        );
     }
 
     # check if ticket is locked
@@ -93,6 +96,12 @@ sub Run {
             );
             return $Output;
         }
+
+        # show back link
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketBack',
+            Data => { %Param, TicketID => $Self->{TicketID} },
+        );
     }
 
     # ticket attributes
@@ -103,12 +112,14 @@ sub Run {
     for my $Parameter (
         qw(Subject Body TimeUnits
         NewUserID OldUserID NewStateID NewPriorityID
-        Year Month Day Hour Minute
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         )
         )
     {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+    }
+    for my $Parameter (qw(Year Month Day Hour Minute)) {
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || 0;
     }
     if ( !$GetParam{DestQueueID} ) {
         $GetParam{OwnerAll} = 1;
@@ -212,6 +223,12 @@ sub Run {
             %GetParam,
             Prefix => $Prefix
         );
+    }
+
+    # rewrap body if no rich text is used
+    if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
+        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
+        $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
 
     # error handling
@@ -369,7 +386,7 @@ sub Run {
 
     if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
         for my $Keys (qw( DestQueueID Subject Body )) {
-            if ( ( !$IsUpload ) && ( $GetParam{$Keys} eq '' ) ) {
+            if ( $GetParam{$Keys} eq '' ) {
                 $Error{ $Keys . 'Invalid' } = 'ServerError';
             }
         }
@@ -405,7 +422,7 @@ sub Run {
         }
     }
 
-    # move queue
+    # check errors
     if (%Error) {
 
         # ticket free text
@@ -425,13 +442,15 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the freetextfield is required
             if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
                 $TicketFreeText{Required}->{$Count} = 1;
             }
 
             if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
 
-                # If Key has value 2, this means that the freetextfield is required
+                # check required FreeTextField (if configured)
                 if (
                     ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 )
                     && ( $GetParam{$Text} eq '' )
@@ -553,7 +572,7 @@ sub Run {
         return $Output;
     }
 
-    # move ticket (send notification of no new owner is selected)
+    # move ticket (send notification if no new owner is selected)
     my $BodyAsText = '';
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $BodyAsText = $Self->{LayoutObject}->RichText2Ascii(
@@ -602,6 +621,21 @@ sub Run {
                 TicketID => $Self->{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Self->{UserID},
+            );
+        }
+
+        # set pending time on pendig state
+        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+            # set pending time
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Year     => $GetParam{Year},
+                Month    => $GetParam{Month},
+                Day      => $GetParam{Day},
+                Hour     => $GetParam{Hour},
+                Minute   => $GetParam{Minute},
             );
         }
     }
@@ -695,6 +729,9 @@ sub Run {
             HistoryComment => '%%Move',
             NoAgentNotify  => 1,
         );
+        if ( !$ArticleID ) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
 
         # write attachments
         for my $Attachment (@AttachmentData) {
@@ -978,15 +1015,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for ( keys %AllGroupsMembers ) {
+        for my $UserGroupMember ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $_ ) {
+                if ( $UID eq $UserGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$_};
+                delete $AllGroupsMembers{$UserGroupMember};
             }
         }
     }
