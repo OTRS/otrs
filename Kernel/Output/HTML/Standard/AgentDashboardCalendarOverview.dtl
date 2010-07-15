@@ -2,7 +2,7 @@
 # AgentDashboardCalendarOverview.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCalendarOverview.dtl,v 1.7 2010-07-15 13:15:44 mn Exp $
+# $Id: AgentDashboardCalendarOverview.dtl,v 1.8 2010-07-15 13:18:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
             <td>
                 <a href="$Env{"Baselink"}$Data{"Link"}" title="$QData{"Title"}">$Data{"ObjectNumber"}</a> $QData{"Title","50"}
                 <br/>
-                <i class="small" title="$TimeShort{"$QData{"TimeStamp"}"}">($Text{"$Data{"Text"}"} $Text{"in"} $QData{"In"})</i>
+                <em title="$TimeShort{"$QData{"TimeStamp"}"}">($Text{"$Data{"Text"}"} $Text{"in"} $QData{"In"})</em>
             </td>
         </tr>
 <!-- dtl:block:ContentSmallCalendarOverviewRow -->
