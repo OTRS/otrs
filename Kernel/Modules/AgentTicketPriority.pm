@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.58.2.5 2010-04-01 19:16:14 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.58.2.6 2010-07-15 05:53:26 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.5 $) [1];
+$VERSION = qw($Revision: 1.58.2.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -916,6 +916,11 @@ sub _Mask {
         );
     }
     if ( $Self->{Config}->{Owner} ) {
+
+        #check if owner must be set by agent
+        if ( $Self->{Config}->{OwnerMandatory} ) {
+            $Param{OwnerMandatory} = 'Yes';
+        }
 
         # get user of own groups
         my %ShownUsers       = ();
