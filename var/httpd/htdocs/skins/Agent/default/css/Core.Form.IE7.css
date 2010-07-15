@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -20,7 +20,7 @@
 
 input.Focus,
 textarea.Focus {
-    border: 1px solid #F92;
+    border-color: #F92;
 }
 
 /**
