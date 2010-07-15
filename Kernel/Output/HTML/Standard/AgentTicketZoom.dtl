@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.117 2010-07-15 13:36:52 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.118 2010-07-15 14:21:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -464,23 +464,7 @@ $Data{"Body"}
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
                 <div class="message">
-                            <script type="text/javascript">//<![CDATA[
-                            <!--
-                            function IframeAutoHeight( IframeID ) {
-                                var iframe = document.getElementById(IframeID);
-                                var newHeight = iframe.contentWindow.document.body.scrollHeight;
-                                if ( !newHeight || isNaN( newHeight ) ) {
-                                    newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
-                                }
-                                else
-                                    if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
-                                        newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
-                                    }
-                                iframe.style.height = newHeight + 'px';
-                            }
-                            //-->
-                            //]]></script>
-                    <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                    <iframe width="100%" height="250" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}'));" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>

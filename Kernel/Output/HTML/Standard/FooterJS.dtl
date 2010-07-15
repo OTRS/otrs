@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.12 2010-07-15 13:20:19 mn Exp $
+# $Id: FooterJS.dtl,v 1.13 2010-07-15 14:21:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,8 @@
             Images: '$Config{"Frontend::ImagePath"}',
             UserLanguage: '$Env{"UserLanguage"}',
             AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+            HTMLArticleHeightDefault: $Config{"Ticket::Frontend::HTMLArticleHeightDefault"},
+            HTMLArticleHeightMax: $Config{"Ticket::Frontend::HTMLArticleHeightMax"},
             ValidateServerErrorTitle: '$JSText{"Error"}',
             ValidateServerErrorMsg: '$JSText{"One or more errors occured!"}',
             PopupLeaveParentWindowMsg: '$JSText{"If you now leave this page, all open popup windows will be closed, too!"}',

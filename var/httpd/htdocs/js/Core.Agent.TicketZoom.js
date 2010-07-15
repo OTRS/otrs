@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.3 2010-07-14 10:09:47 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.4 2010-07-15 14:21:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,27 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains the special module functions for TicketZoom.
  */
 Core.Agent.TicketZoom = (function (TargetNS) {
+    /**
+     * @function
+     * @param {jQueryObject} $Iframe The iframe which should be auto-heighted
+     * @return nothing
+     *      This function initializes the special module functions
+     */
+    TargetNS.IframeAutoHeight = function ($Iframe) {
+        if (isJQueryObject($Iframe)) {
+            var NewHeight = $Iframe.get(0).contentWindow.document.body.scrollHeight;
+            if (!NewHeight || isNaN(NewHeight)) {
+                NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
+            }
+            else {
+                if (NewHeight > Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax')) {
+                    NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax');
+                }
+            }
+            $Iframe.height(NewHeight + 'px');
+        }
+    };
+
     /**
      * @function
      * @return nothing
