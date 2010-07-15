@@ -1,24 +1,25 @@
 # --
 # UPGRADING - upgrading OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.38 2009-11-09 15:24:13 mn Exp $
+# $Id: UPGRADING,v 1.39 2010-07-15 13:58:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-These instructions are for people upgrading OTRS from "2.3" to "2.4".
+These instructions are for people upgrading OTRS from "2.4" to "3.0".
 
 If you are running a lower version of OTRS you need to follow the upgrade path
-to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
+to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...).
 
 
-1) Stop all your services
-   ----------------------
+1) Stop all relevant services
+   --------------------------
 
     e. g. (depends on used services):
+
     shell> /etc/init.d/cron stop
     shell> /etc/init.d/postfix stop
     shell> /etc/init.d/apache stop
@@ -38,11 +39,10 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
 3) Make sure that you have backed up everything ;-)
    ------------------------------------------------
 
-4) Setup new system
-   ----------------
+4) Setup new system (optional)
+   ---------------------------
 
-   If possible try this install on a separate machine, although
-   I had always only production machines to upgrade
+   If possible try this install on a separate machine for testing first.
 
 
 5) Install the new release (tar or RPM)
@@ -66,29 +66,31 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
 
     Restore old config files not needed, done by RPM.
 
-6) Own themes:
-   -----------
+6) Own themes
+   ----------
 
-   The OTRS themes from 2.3 and 2.4 are _not_ compatible (don't use the old themes)!
+   The OTRS themes from 2.4 and 3.0 are _not_ compatible (don't use the old themes)!
 
    Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
 
 
-7) If the tarball is used, execute:
-   --------------------------------
+7) Set file permissions
+   --------------------
+
+   If the tarball is used, execute:
 
      shell> bin/otrs.SetPermissions.pl!
 
 
-8) Update the database changes with (part 1/2):
-   --------------------------------------------
+8) Apply the database changes (part 1/2):
+   --------------------------------------
 
      shell> cd /opt/otrs/
 
     MySQL:
-     shell> cat scripts/DBUpdate-to-2.4.mysql.sql | mysql -p -f -u root otrs
+     shell> cat scripts/DBUpdate-to-3.0.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-     shell> cat scripts/DBUpdate-to-2.4.postgresql.sql | psql otrs
+     shell> cat scripts/DBUpdate-to-3.0.postgresql.sql | psql otrs
 
 
 9) Run the migration script (as OTRS user, _not_ as root):
@@ -97,29 +99,56 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
    You must execute the migration script to migrate some data from the old database
    structure to the new one. Please run
 
-     shell> scripts/DBUpdate-to-2.4.pl
+     shell> scripts/DBUpdate-to-3.0.pl
 
 
-10) Update the database changes with (part 2/2):
-    --------------------------------------------
+10) Apply the database changes (part 2/2):
+    --------------------------------------
 
     MySQL:
-     shell> cat scripts/DBUpdate-to-2.4-post.mysql.sql | mysql -p -f -u root otrs
+     shell> cat scripts/DBUpdate-to-3.0-post.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-     shell> cat scripts/DBUpdate-to-2.4-post.postgresql.sql | psql otrs
+     shell> cat scripts/DBUpdate-to-3.0-post.postgresql.sql | psql otrs
 
 
-11) Restart your services
+11) Refresh the configuration cache and delete caches
+    -------------------------------------------------
+
+    Please run:
+
+    shell> bin/otrs.RebuildConfig.pl
+    shell> bin/otrs.DeleteCache.pl
+
+
+12) Restart your services
     ---------------------
 
     e. g. (depends on used services):
+
     shell> /etc/init.d/mysql start
     shell> /etc/init.d/apache start
     shell> /etc/init.d/postfix start
     shell> /etc/init.d/cron start
 
+    Now you can log into your system.
 
-12) Well done!
+
+13) Check for encoding issues
+    -------------------------
+
+    With OTRS 3.0, the default charset of OTRS was changed from "iso-8859-1" to "utf-8".
+
+    This will only affect you if you didn't specify a charset in Kernel/Config.pm (all
+    installations that were made with the web installer have a custom setting there) or
+    if you didn't change the default charset in the AdminSysConfig.
+
+    If you experience problems with the new charset, add this line to Kernel/Config.pm:
+
+    $Self->{'DefaultCharset'} = 'iso-8859-1';
+
+    In General, using "utf-8" is the recommended mode of running OTRS, and switching from
+    "iso-8859-1" should work well.
+
+
+14) Well done!
     ----------
-    Log in as 'root@localhost' and select Admin -> SysConfig to make
-    sure that OTRS updates the configuration files.
