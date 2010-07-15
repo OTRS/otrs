@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.57.2.1 2010-03-12 09:47:54 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.57.2.2 2010-07-15 06:57:47 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57.2.1 $) [1];
+$VERSION = qw($Revision: 1.57.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -524,9 +524,18 @@ sub _Edit {
         # build selections or input fields
         if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
             $Block = 'Option';
-            $Param{Option} = $Self->{LayoutObject}->BuildSelection(
-                Data =>
-                    $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] },
+
+            # get the data of the current selection
+            my $SelectionsData
+                = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
+
+            # make sure the encoding stamp is set
+            for my $Key ( keys %{$SelectionsData} ) {
+                $SelectionsData->{$Key} = $Self->{EncodeObject}->Encode( $SelectionsData->{$Key} );
+            }
+
+            $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data                => $SelectionsData,
                 Name                => $Entry->[0],
                 LanguageTranslation => 0,
                 SelectedID          => $Param{ $Entry->[0] },
