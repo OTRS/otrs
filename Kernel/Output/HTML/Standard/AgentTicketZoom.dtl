@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.112 2010-07-15 07:45:54 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.113 2010-07-15 08:56:11 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -386,70 +386,82 @@ $Data{"ArticleItems"}
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
-            </ul>
-            <div class="ClearLeft"></div>
-        </div>
-        <div class="Content">
-            <div class="ArticleMailHeader">
-                <fieldset class="TableLike FixedLabelSmall Tight">
+<!-- dtl:block:Move -->
+                <li>
+                    <form action="$Env{"CGIHandle"}" method="get">
+                        <input type="hidden" name="Action" value="AgentTicketMove"/>
+                        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        <label for="DestQueueID">$Text{"Change queue"}:</label>
+                        $Data{"MoveQueuesStrg"}
+                    </fieldset>
+                </form>
+            </li>
+<!-- dtl:block:Move -->
+        </ul>
+        <div class="ClearLeft"></div>
+    </div>
+    <div class="Content">
+        <div class="ArticleMailHeader">
+            <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:RowRecipient -->
-                    <label>$Text{"$Data{"Key"}"}:</label>
-                    <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
-                    <div class="Clear"></div>
+                <label>$Text{"$Data{"Key"}"}:</label>
+                <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
+                <div class="Clear"></div>
 <!-- dtl:block:RowRecipient -->
 <!-- dtl:block:RowData -->
-                    <label>$Text{"$Data{"Key"}"}:</label>
-                    <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
-                    <div class="Clear"></div>
+                <label>$Text{"$Data{"Key"}"}:</label>
+                <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
+                <div class="Clear"></div>
 <!-- dtl:block:RowData -->
-                    <label>$Text{"Created"}:</label>
-                    <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
-                    <div class="Clear"></div>
+                <label>$Text{"Created"}:</label>
+                <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
+                <div class="Clear"></div>
 
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
-                    <label>$QData{"Key"}:</label>
-                    <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
-                    <div class="Clear"></div>
+                <label>$QData{"Key"}:</label>
+                <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
+                <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
-                    <tr>
-                        <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                        <td class="contentvalue" > <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div></td>
-                    </tr>
+                <tr>
+                    <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                    <td class="contentvalue" > <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div></td>
+                </tr>
 <!-- dtl:block:ArticleOption -->
 
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
-                    <label>$Text{"Attachment"}:</label>
-                    <p class="Value">
+                <label>$Text{"Attachment"}:</label>
+                <p class="Value">
 <!-- dtl:block:ArticleAttachmentRow -->
-                        $QData{"Filename"}
+                    $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                        <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
+                    <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                        <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                        $QData{"Filesize"}
-                        <br/>
+                    $QData{"Filesize"}
+                    <br/>
 <!-- dtl:block:ArticleAttachmentRow -->
-                    </p>
-                    <div class="Clear"></div>
+                </p>
+                <div class="Clear"></div>
 <!-- dtl:block:ArticleAttachment -->
-                </fieldset>
-            </div>
-            <div class="ArticleMailContent">
+            </fieldset>
+        </div>
+        <div class="ArticleMailContent">
 <!-- dtl:block:BodyPlain -->
 $Data{"BodyNote"}
-                <div class="message">
+            <div class="message">
 $Data{"Body"}
-                </div>
+            </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
-                <div class="message">
+            <div class="message">
                             <script type="text/javascript">//<![CDATA[
                             <!--
                             function IframeAutoHeight( IframeID ) {
@@ -466,10 +478,10 @@ $Data{"Body"}
                             }
                             //-->
                             //]]></script>
-                    <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-                </div>
-<!-- dtl:block:BodyHTML -->
+                <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
             </div>
+<!-- dtl:block:BodyHTML -->
+        </div>
 # show compose links
 #<!-- dtl:block:AgentAnswerCompose -->
 #            <div style="margin: 20px 0;">
@@ -484,23 +496,8 @@ $Data{"Body"}
 #                </table>
 #            </div>
 #<!-- dtl:block:AgentAnswerCompose -->
-<!-- dtl:block:Move -->
-            <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="get">
-                    <input type="hidden" name="Action" value="AgentTicketMove"/>
-                    <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
-                    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                    <fieldset class="TableLike FixedLabelSmall Tight">
-                        <label for="DestQueueID">$Text{"Change queue"}: </label>
-                        $Data{"MoveQueuesStrg"}
-                        <button class="Principal" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
-                        <div class="Clear"></div>
-                    </fieldset>
-                </form>
-            </div>
-<!-- dtl:block:Move -->
-        </div>
     </div>
+</div>
 </div>
 <!-- dtl:block:ArticleItem -->
 
