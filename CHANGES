@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1252 2010-07-15 07:18:47 ep Exp $
+# $Id: CHANGES,v 1.1253 2010-07-15 17:49:53 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,7 @@
  - (2010/06/22) Updated CPAN module Net::POP3::SSLWrapper to version 0.04.
  - (2010/06/22) Updated CPAN module XML::Parser to version 0.712.
  - (2010/06/22) Updated CPAN module Text::CSV to version 1.18.
+ - (2010/06/18) Updated CPAN module JSON::PP to version 2.21
  - (2010/06/14) New DirectoryRead Function to read filenames with Unicode::Normalize
  - (2010/06/09) Fixed bug#5447 - Added SMTP TLS support, to send out emails via
     mail servers (MS Exchange!) that require this.
@@ -88,6 +89,8 @@
  - (2010/04/09) Added the feature to save searches in the Customer Frontend
  - (2010/04/08) Implemented fix for bug#2673 -  Ticket subject lines in customer
     frontend can be confusing.
+ - (2010/04/07) Fixed bug#5118 - Printing an article should indicate that
+    only 1 article is printed not the whole ticket.
  - (2010/04/06) made command line scripts consistent. They now all
      have the format 'otrs.DoThis.pl'. Also, SetPermissions.sh is removed
      because we already have otrs.SetPermissions.pl.
@@ -106,16 +109,8 @@
     otrs.setPassword.pl             ->  otrs.SetPassword.pl
     otrs.StatsExportToOPM.pl        ->  otrs.ExportStatsToOPM.pl
     opm.pl                          ->  otrs.PackageManager.pl
-
-2.5.0 beta1 (????/??/??)
- - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
- - (2010/06/18) Updated CPAN module JSON::PP to version 2.21
- - (2010/04/30) Make it possible to use a version argument with bin/opm.pl.
- - (2010/04/07) Fixed bug#5118 - Printing an article should indicate that
-    only 1 article is printed not the whole ticket.
  - (2010/03/24) Reworked Kernel::System::Encode API to have more intuitive
     wording (is still compat. to OTRS 1.x and 2.x).
-
     EncodeInternalUsed() -> CharsetInternal()
     Encode()             -> EncodeInput()
     Decode()             -> Convert2CharsetInternal()
