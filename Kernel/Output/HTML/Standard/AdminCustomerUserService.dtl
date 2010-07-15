@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.31 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.32 2010-07-15 08:43:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,19 +116,6 @@
 <!-- dtl:block:Result -->
 
 <!-- dtl:block:AllocateItem -->
-<script type="text/javascript">//<![CDATA[
-function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrix.elements[Type][0].checked ) {
-            document.matrix.elements[Type][i].checked = true;
-        }
-        else {
-            document.matrix.elements[Type][i].checked = false;
-        }
-    }
-}
-//]]></script>
-
             <div class="Header">
                 <h2>
                     $Text{"Allocate %s to", "$QData{"VisibleNeType"}"}
@@ -155,8 +142,20 @@ function select_items (Type) {
 <!-- dtl:block:AllocateItemCountLimit -->
                                 </th>
                                 <th>
-                                    <input type="checkbox" name="ItemsSelected" title="$Text{"Toggle active state for all"}" value="" onclick="select_items('ItemsSelected');" />
+                                    <input type="checkbox" id="ItemsSelected" name="ItemsSelected" title="$Text{"Toggle active state for all"}" value="" />
                                     $Text{"Active"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#ItemsSelected'), function (Event) {
+        if ($(this).attr('checked')) {
+            $('input[name=' + $(this).attr('name') + ']').attr('checked', 'checked');
+        }
+        else {
+            $('input[name=' + $(this).attr('name') + ']').removeAttr('checked');
+        }
+    })
+//]]></script>
+<!--dtl:js_on_document_complete-->
                                 </th>
                             </tr>
                         </thead>
