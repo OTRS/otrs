@@ -2,7 +2,7 @@
 # AgentTicketPriority.dtl - provides HTML form for priority mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.dtl,v 1.26.2.5 2010-07-15 05:53:00 mp Exp $
+# $Id: AgentTicketPriority.dtl,v 1.26.2.6 2010-07-15 21:43:12 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ function submit_compose() {
 
     if (document.getElementsByName('NewOwnerType').length) {
 
-        if (document.compose.OwnerMandatory.value == 'Yes') {
+        if (document.compose.OwnerMandatory.value == 1 ) {
             // new owner
             if (document.getElementsByName('NewOwnerType').item(0).checked &&
             document.compose.NewOwnerID.value == '') {

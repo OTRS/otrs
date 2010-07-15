@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.71.2.6 2010-07-15 05:50:44 mp Exp $
+# $Id: AgentTicketNote.pm,v 1.71.2.7 2010-07-15 21:42:39 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71.2.6 $) [1];
+$VERSION = qw($Revision: 1.71.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -919,7 +919,7 @@ sub _Mask {
 
         #check if owner must be set by agent
         if ( $Self->{Config}->{OwnerMandatory} ) {
-            $Param{OwnerMandatory} = 'Yes';
+            $Param{OwnerMandatory} = 1;
         }
 
         # get user of own groups

@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - provides HTML form for owner mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.dtl,v 1.26.2.5 2010-07-15 05:54:27 mp Exp $
+# $Id: AgentTicketOwner.dtl,v 1.26.2.6 2010-07-15 21:43:12 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@ function submit_compose() {
 <!-- dtl:block:TimeUnitsJs -->
 
     if (document.getElementsByName('NewOwnerType').length) {
-        if (document.compose.OwnerMandatory.value == 'Yes') {
+        if (document.compose.OwnerMandatory.value == 1 ) {
             // new owner
             if (document.getElementsByName('NewOwnerType').item(0).checked &&
             document.compose.NewOwnerID.value == '') {

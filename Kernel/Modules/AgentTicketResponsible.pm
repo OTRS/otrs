@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.58.2.8 2010-07-15 06:03:06 mp Exp $
+# $Id: AgentTicketResponsible.pm,v 1.58.2.9 2010-07-15 21:42:39 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.8 $) [1];
+$VERSION = qw($Revision: 1.58.2.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -919,7 +919,7 @@ sub _Mask {
 
         #check if owner must be set by agent
         if ( $Self->{Config}->{OwnerMandatory} ) {
-            $Param{OwnerMandatory} = 'Yes';
+            $Param{OwnerMandatory} = 1;
         }
 
         # get user of own groups

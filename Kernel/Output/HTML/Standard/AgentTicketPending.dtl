@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.dtl,v 1.32.2.5 2010-07-15 06:06:48 mp Exp $
+# $Id: AgentTicketPending.dtl,v 1.32.2.6 2010-07-15 21:43:12 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ function submit_compose() {
 
     if (document.getElementsByName('NewOwnerType').length) {
 
-        if (document.compose.OwnerMandatory.value == 'Yes') {
+        if (document.compose.OwnerMandatory.value == 1 ) {
             // new owner
             if (document.getElementsByName('NewOwnerType').item(0).checked &&
             document.compose.NewOwnerID.value == '') {
