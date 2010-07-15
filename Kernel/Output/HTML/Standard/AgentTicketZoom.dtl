@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.113 2010-07-15 08:56:11 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.114 2010-07-15 10:00:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,6 @@
 
 <!-- dtl:block:Header -->
 <div class="MainBox ARIARoleMain">
-    <ul class="Actions">
-<!-- dtl:block:TicketMenu -->
-        <li class="$QData{"Class"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-        </li>
-<!-- dtl:block:TicketMenu -->
-    </ul>
     <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
@@ -287,6 +280,14 @@ $Data{"ArticleItems"}
         </ul>
     </div>
     <div id="ArticleTableBody"  class="ActionRow">
+        <ul class="Actions">
+<!-- dtl:block:TicketMenu -->
+            <li class="$QData{"Class"}">
+                <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+            </li>
+<!-- dtl:block:TicketMenu -->
+        </ul>
+
         <div class="Scroller">
             <table id="FixedTable" class="TableSmall">
                 <thead>
