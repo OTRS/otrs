@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.278 2010-07-15 08:43:24 mn Exp $
+# $Id: Layout.pm,v 1.279 2010-07-15 09:48:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.278 $) [1];
+$VERSION = qw($Revision: 1.279 $) [1];
 
 =head1 NAME
 
@@ -1841,6 +1841,7 @@ build a html option element based on given data
     my $HTML = $LayoutObject->BuildSelection(
         Data       => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
         Name       => 'TheName',             # name of element
+        ID         => 'HTMLID',              # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
         Multiple   => 0,                     # (optional) default 0 (0|1)
         Size       => 1,                     # (optional) default 1 element size
         Class      => 'class',               # (optional) a css class
@@ -1929,11 +1930,11 @@ sub BuildSelection {
             );
             $Self->FatalError();
         }
+        my $Selector = $Param{ID} || $Param{Name};
         $Param{OnChange} = "Core.AJAX.FormUpdate($('#"
-            . $Param{Name} . "'), '" . $Param{Ajax}->{Subaction} . "',"
+            . $Selector . "'), '" . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
             . " ['"
-            . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
             . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
     }
 
@@ -1955,7 +1956,6 @@ sub BuildSelection {
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
     );
-    $String .= "<span id=\"AJAXImage$Param{Name}\"></span>\n";
     return $String;
 }
 
@@ -4693,6 +4693,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.278 $ $Date: 2010-07-15 08:43:24 $
+$Revision: 1.279 $ $Date: 2010-07-15 09:48:38 $
 
 =cut
