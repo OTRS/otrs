@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -463,6 +463,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .LightRow.Header {
+    padding-right: 5px;
     -webkit-border-top-left-radius: 2px;
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topleft: 2px;
@@ -470,6 +471,14 @@ ul.ContextFunctions li:last-child:hover > a {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     position: relative;
+    -moz-box-shadow: inset 0 -1px 0 #FFF;
+    -webkit-box-shadow: inset 0 -1px 0 #FFF;
+    box-shadow: inset 0 -1px 0 #FFF;
+}
+    
+.RTL .LightRow.Header {
+    padding-right: 0;
+    padding-left: 5px;
 }
 
 .Collapsed .LightRow.Header {
@@ -492,14 +501,16 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .LightRow h2 {
     margin: 0;
-    padding: 4px 0;
+    padding: 4px 0 5px;
     font-weight: normal;
     color: #171717;
-    border-bottom: 1px solid #F5F5F5;
 }
     
-.Collapsed .LightRow h2 {
-    border-bottom-color: #E6E6E6;
+.Collapsed .LightRow.Header {
+    -moz-box-shadow: 0 -1px 0 #DDD inset;
+    -webkit-box-shadow: 0 -1px 0 #DDD inset;
+    box-shadow: 0 -1px 0 #DDD inset;
+    border-bottom-color: #AAA;
 }
 
 .LightRow .WidgetAction.Toggle {
@@ -509,6 +520,19 @@ ul.ContextFunctions li:last-child:hover > a {
 .RTL .LightRow .WidgetAction.Toggle {
     margin-left: 6px;
     margin-right: 7px;
+}
+    
+.LightRow #AJAXImageDestQueueID {
+    display: none;
+}
+    
+.LightRow label {
+    display: inline-block;
+    text-indent: -9999px;
+}
+    
+.LightRow select {
+    margin-top: 1px;
 }
 
 /**
