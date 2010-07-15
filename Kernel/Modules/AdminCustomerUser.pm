@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.73 2010-07-01 10:06:19 mn Exp $
+# $Id: AdminCustomerUser.pm,v 1.74 2010-07-15 07:18:47 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
+    for (qw(ParamObject DBObject EncodeObject LayoutObject ConfigObject LogObject UserObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -578,9 +578,18 @@ sub _Edit {
         # build selections or input fields
         if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
             $Block = 'Option';
+
+            # get the data of the current selection
+            my $SelectionsData
+                = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
+
+            # make sure the encoding stamp is set
+            for my $Key ( keys %{$SelectionsData} ) {
+                $SelectionsData->{$Key} = $Self->{EncodeObject}->Encode( $SelectionsData->{$Key} );
+            }
+
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
-                Data =>
-                    $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] },
+                Data                => $SelectionsData,
                 Name                => $Entry->[0],
                 LanguageTranslation => 0,
                 SelectedID          => $Param{ $Entry->[0] },

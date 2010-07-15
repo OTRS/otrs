@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1251 2010-07-15 06:12:49 mp Exp $
+# $Id: CHANGES,v 1.1252 2010-07-15 07:18:47 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/15) Fixed bug#5556 - Broken unicode chars in CustomerUser selections.
  - (2010/07/14) Fixed bug#5132 - New owner validation always ask to set a owner.
  - (2010/07/14) Fixed bug#5343 - Widespread typo in Agent-/CustomerPreferences - replaced "Activ"
                 for "Active".
@@ -329,6 +330,7 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/07/15) Fixed bug#5556 - Broken unicode chars in CustomerUser selections.
  - (2010/07/14) Fixed bug#5132 - New owner validation always ask to set a owner.
  - (2010/07/13) Fixed bug#5210 - LinkQuote consumes all CPU memory when processing a
     large amount of data.
