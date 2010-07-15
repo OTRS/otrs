@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.10 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.11 2010-07-15 05:07:31 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -325,7 +325,7 @@ sub Run {
         }
 
         #check owner
-        if ( $Self->{Config}->{Owner} ) {
+        if ( $Self->{Config}->{Owner} && $Self->{Config}->{OwnerMandatory} ) {
             if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
                 $Error{'NewOwnerInvalid'} = 'ServerError';
             }
