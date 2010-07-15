@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.118 2010-07-15 14:21:19 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.119 2010-07-15 17:33:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                         <label>$Text{"First Response Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                            <span class="Notice">
+                            <div class="Notice">
 <!-- dtl:block:FirstResponseTimeFontStart -->
                                 <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
                                     $QData{"FirstResponseTimeHuman"}
@@ -77,7 +77,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
                                 </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                            </span>
+                            </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
@@ -86,7 +86,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                         <label>$Text{"Update Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:UpdateTimeFontStart -->
-                            <span class="Notice">
+                            <div class="Notice">
 <!-- dtl:block:UpdateTimeFontStart -->
                                 <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
                                     $QData{"UpdateTimeHuman"}
@@ -94,7 +94,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
                                 </div>
 <!-- dtl:block:UpdateTimeFontStop -->
-                            </span>
+                            </div>
 <!-- dtl:block:UpdateTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
@@ -103,7 +103,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                         <label>$Text{"Solution Time"}:</label>
                         <p class="Value">
 <!-- dtl:block:SolutionTimeFontStart -->
-                            <span class="Notice">
+                            <div class="Notice">
 <!-- dtl:block:SolutionTimeFontStart -->
                                 <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
                                     $QData{"SolutionTimeHuman"}
@@ -111,7 +111,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                     $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
                                 </div>
 <!-- dtl:block:SolutionTimeFontStop -->
-                            </span>
+                            </div>
 <!-- dtl:block:SolutionTimeFontStop -->
                         </p>
                         <div class="Clear"></div>
