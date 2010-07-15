@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -538,7 +538,7 @@ tbody tr:hover span.UnreadArticles {
 }
 
 /**
- * @subsection  Ticket text options iframes
+ * @subsection  Dialog popup width
  */
 iframe.TextOption {
     width: 500px;
@@ -551,6 +551,11 @@ iframe.TextOption.SpellCheck {
 
 iframe.TextOption.Customer {
     width: 800px;
+}
+
+#ArticleFilterDialogForm {
+    width: 450px;
+    height: 300px;
 }
 
 } /* end @media */

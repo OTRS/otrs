@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.4 2010-07-14 12:29:28 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.5 2010-07-15 12:39:00 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -172,7 +172,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @description The main dialog function used for all different types of dialogs.
      */
     function ShowDialog(Params) {
-        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight,
+        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup,
             DialogHTML = '<div class="Dialog"><div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></span></div><div class="Content"></div><div class="Footer"><span class="LeftCorner"></span><span></span></div></div>';
 
         // Close all opened dialogs
@@ -202,7 +202,11 @@ Core.UI.Dialog = (function (TargetNS) {
         if (Params.HTML) {
             // Get HTML with JS function innerhTML, because jQuery html() strips out the script blocks
             if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
-                Params.HTML = (Params.HTML)[0].innerHTML;
+                HTMLBackup = (Params.HTML)[0].innerHTML;
+                Core.Data.Set($('body'), 'DialogCopy', HTMLBackup);
+                Core.Data.Set($('body'), 'DialogCopySelector', Params.HTML.selector);
+                Params.HTML.empty();
+                Params.HTML = HTMLBackup;
             }
         }
 
@@ -448,6 +452,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
+        var BackupHTML, BackupHTMLSelector;
         $(Object).closest('.Dialog:visible').remove();
         $('#Overlay').remove();
         $('body').css({
@@ -456,6 +461,13 @@ Core.UI.Dialog = (function (TargetNS) {
         });
         $(document).unbind('keydown.Dialog').unbind('keypress.Dialog').unbind('click.Dialog');
         $(window).unbind('resize.Dialog');
+
+        // Revert orignal html
+        BackupHTMLSelector = Core.Data.Get($('body'), 'DialogCopySelector');
+        BackupHTML = Core.Data.Get($('body'), 'DialogCopy');
+        if (BackupHTML && BackupHTMLSelector) {
+            $(BackupHTMLSelector).append(BackupHTML);
+        }
     };
 
     /**

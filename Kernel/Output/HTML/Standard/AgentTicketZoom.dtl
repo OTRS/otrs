@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.115 2010-07-15 11:23:37 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.116 2010-07-15 12:39:00 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:ArticleFilterDialog -->
-#$Include{"AgentTicketZoomArticleFilterDialog"}
+$Include{"AgentTicketZoomArticleFilterDialog"}
 <!-- dtl:block:ArticleFilterDialog -->
 
 <!-- dtl:block:Header -->
@@ -21,9 +21,6 @@
         <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}">
             #$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
         </h1>
-        <div class="AdditionalInformation">
-            $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
-        </div>
     </div>
 
     <div class="LayoutFixedSidebar SidebarLast">
@@ -235,6 +232,22 @@
 <!-- dtl:block:LinkTableSimple -->
         </div>
         <div class="ContentColumn">
+            <div class="ControlRow">
+                <h2>$QData{"ArticleCount"} $Text{"Articles"}</h2>
+                <div class="AdditionalInformation">
+                    $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
+                </div>
+            </div>
+            <div class="ActionRow">
+                <ul class="Actions">
+<!-- dtl:block:TicketMenu -->
+                    <li class="$QData{"Class"}">
+                        <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+                    </li>
+<!-- dtl:block:TicketMenu -->
+                </ul>
+                <div class="Clear"></div>
+            </div>
 
             <div id="ArticleTree">
 $Data{"ArticleTree"}
@@ -278,16 +291,16 @@ $Data{"ArticleItems"}
             <li class="AllArticles Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
 <!-- dtl:block:Collapse -->
         </ul>
+<!-- dtl:block:ArticleFilterDialogLink -->
+        <span>$Text{"Article"} $Text{"Filter"}:
+            <a href="#" id="SetArticleFilter">$Text{"Set"}</a>
+<!-- dtl:block:ArticleFilterResetLink -->
+            <a href="#" id="ResetArticleFilter">$Text{"Reset"}</a>
+<!-- dtl:block:ArticleFilterResetLink -->
+        </span>
+<!-- dtl:block:ArticleFilterDialogLink -->
     </div>
-    <div id="ArticleTableBody"  class="ActionRow">
-        <ul class="Actions">
-<!-- dtl:block:TicketMenu -->
-            <li class="$QData{"Class"}">
-                <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-            </li>
-<!-- dtl:block:TicketMenu -->
-        </ul>
-
+    <div id="ArticleTableBody" class="ActionRow">
         <div class="Scroller">
             <table id="FixedTable" class="TableSmall">
                 <thead>
@@ -303,17 +316,6 @@ $Data{"ArticleItems"}
                     </tr>
                 </thead>
                 <tbody>
-#<!-- dtl:block:ArticleFilterDialogLink -->
-#                <tr>
-#                    <td class="$QData{"HighlightStyle"}">
-#                        $Text{"Article"} $Text{"Filter"}:
-#                        <a href="" id="SetArticleFilter" onclick="return false;">$Text{"Set"}</a>
-#<!-- dtl:block:ArticleFilterResetLink -->
-#                        <a href="" id="ResetArticleFilter" onclick="return false;">$Text{"Reset"}</a>
-#<!-- dtl:block:ArticleFilterResetLink -->
-#                    </td>
-#                </tr>
-#<!-- dtl:block:ArticleFilterDialogLink -->
 <!-- dtl:block:TreeItem -->
                     <tr class="$QData{"ClassRow"}" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
@@ -395,74 +397,73 @@ $Data{"ArticleItems"}
                         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                         <label for="DestQueueID">$Text{"Change queue"}:</label>
                         $Data{"MoveQueuesStrg"}
-                    </fieldset>
-                </form>
-            </li>
+                    </form>
+                </li>
 <!-- dtl:block:Move -->
-        </ul>
-        <div class="ClearLeft"></div>
-    </div>
-    <div class="Content">
-        <div class="ArticleMailHeader">
-            <fieldset class="TableLike FixedLabelSmall Tight">
+            </ul>
+            <div class="ClearLeft"></div>
+        </div>
+        <div class="Content">
+            <div class="ArticleMailHeader">
+                <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:RowRecipient -->
-                <label>$Text{"$Data{"Key"}"}:</label>
-                <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$RQData{"Value","200"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:RowRecipient -->
 <!-- dtl:block:RowData -->
-                <label>$Text{"$Data{"Key"}"}:</label>
-                <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:RowData -->
-                <label>$Text{"Created"}:</label>
-                <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
-                <div class="Clear"></div>
+                    <label>$Text{"Created"}:</label>
+                    <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
+                    <div class="Clear"></div>
 
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
-                <label>$QData{"Key"}:</label>
-                <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
-                <div class="Clear"></div>
+                    <label>$QData{"Key"}:</label>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Value","160"}</p>
+                    <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
-                <tr>
-                    <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                    <td class="contentvalue" > <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div></td>
-                </tr>
+                    <tr>
+                        <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                        <td class="contentvalue" > <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div></td>
+                    </tr>
 <!-- dtl:block:ArticleOption -->
 
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
-                <label>$Text{"Attachment"}:</label>
-                <p class="Value">
+                    <label>$Text{"Attachment"}:</label>
+                    <p class="Value">
 <!-- dtl:block:ArticleAttachmentRow -->
-                    $QData{"Filename"}
+                        $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                    <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
+                        <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+                        <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                    $QData{"Filesize"}
-                    <br/>
+                        $QData{"Filesize"}
+                        <br/>
 <!-- dtl:block:ArticleAttachmentRow -->
-                </p>
-                <div class="Clear"></div>
+                    </p>
+                    <div class="Clear"></div>
 <!-- dtl:block:ArticleAttachment -->
-            </fieldset>
-        </div>
-        <div class="ArticleMailContent">
+                </fieldset>
+            </div>
+            <div class="ArticleMailContent">
 <!-- dtl:block:BodyPlain -->
 $Data{"BodyNote"}
-            <div class="message">
+                <div class="message">
 $Data{"Body"}
-            </div>
+                </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
-            <div class="message">
+                <div class="message">
                             <script type="text/javascript">//<![CDATA[
                             <!--
                             function IframeAutoHeight( IframeID ) {
@@ -479,10 +480,10 @@ $Data{"Body"}
                             }
                             //-->
                             //]]></script>
-                <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
-            </div>
+                    <iframe width="100%" height="250" frameborder="0" style="width: 100%; margin: 0; border: 0px none;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                </div>
 <!-- dtl:block:BodyHTML -->
-        </div>
+            </div>
 # show compose links
 #<!-- dtl:block:AgentAnswerCompose -->
 #            <div style="margin: 20px 0;">
@@ -497,8 +498,8 @@ $Data{"Body"}
 #                </table>
 #            </div>
 #<!-- dtl:block:AgentAnswerCompose -->
+        </div>
     </div>
-</div>
 </div>
 <!-- dtl:block:ArticleItem -->
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.103 2010-07-15 11:23:10 fn Exp $
+# $Id: AgentTicketZoom.pm,v 1.104 2010-07-15 12:39:00 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -466,47 +466,6 @@ sub MaskAgentZoom {
         @ArticleBoxShown = reverse @ArticleBoxShown;
     }
 
-    # build thread string
-    $Self->{LayoutObject}->Block(
-        Name => 'Tree',
-        Data => {
-            Ticket          => \%Ticket,
-            ArticleID       => $ArticleID,
-            ArticleMaxLimit => $ArticleMaxLimit,
-            ArticleBox      => \@ArticleBox,
-        },
-    );
-
-    # run ticket menu modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
-        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') };
-        for my $Menu ( sort keys %Menus ) {
-
-            # load module
-            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
-
-            # run module
-            my $Item = $Object->Run(
-                %Param,
-                Ticket => \%Ticket,
-                ACL    => \%AclAction,
-                Config => $Menus{$Menu},
-            );
-            next if !$Item;
-            if ( $Menus{$Menu}->{Target} eq "PopUp" ) {
-                $Item->{Class} = "AsPopup";
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketMenu',
-                Data => $Item,
-            );
-        }
-    }
-
     # show article tree
     $Param{ArticleTree} = $Self->_ArticleTree(
         Ticket          => \%Ticket,
@@ -553,10 +512,44 @@ sub MaskAgentZoom {
             $Ticket{PendingUntil} .= "</font>";
         }
     }
+
+    # number of articles
+    $Param{ArticleCount} = $#ArticleBox;
+
     $Self->{LayoutObject}->Block(
         Name => 'Header',
         Data => { %Param, %Ticket, %AclAction },
     );
+
+    # run ticket menu modules
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
+        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') };
+        for my $Menu ( sort keys %Menus ) {
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+
+            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
+            # run module
+            my $Item = $Object->Run(
+                %Param,
+                Ticket => \%Ticket,
+                ACL    => \%AclAction,
+                Config => $Menus{$Menu},
+            );
+            next if !$Item;
+            if ( $Menus{$Menu}->{Target} eq "PopUp" ) {
+                $Item->{Class} = "AsPopup";
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketMenu',
+                Data => $Item,
+            );
+        }
+    }
 
     # get linked objects
     my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
@@ -840,6 +833,9 @@ sub MaskAgentZoom {
             Name        => 'ArticleSenderTypeFilter',
         );
 
+        # Ticket ID
+        $Param{TicketID} = $Self->{TicketID};
+
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFilterDialog',
             Data => {%Param},
@@ -885,6 +881,12 @@ sub _ArticleTree {
     my @ArticleBox      = @{ $Param{ArticleBox} };
     my $ArticleMaxLimit = $Param{ArticleMaxLimit};
     my $ArticleID       = $Param{ArticleID};
+
+    # build thread string
+    $Self->{LayoutObject}->Block(
+        Name => 'Tree',
+        Data => {%Param},
+    );
 
     # check if expand/collapse view is usable (only for less then 300 articles)
     if ( $#ArticleBox < $ArticleMaxLimit ) {

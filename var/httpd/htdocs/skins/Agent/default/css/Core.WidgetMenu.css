@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -72,7 +72,7 @@
     -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
 }
-    
+
 .RTL .ControlRow li:first-child {
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
@@ -97,7 +97,7 @@
     background: url(../img/controlrow_isolator.png) no-repeat center right;
     display: block;
 }
-    
+
 .RTL .ControlRow li > a {
     padding: 7px 11x 7px 12px;
     background-position: left center;
@@ -107,7 +107,7 @@
 .ControlRow li:last-child > a {
     background-position: 50px 50px; /* hide it, but dont set it to none */
 }
-    
+
 .ControlRow li.Last:hover > a,
 .ControlRow li:last-child:hover > a {
     background-position: right 0;
@@ -117,7 +117,7 @@
     background-position: right 0;
     color: #000;
 }
-    
+
 .RTL .ControlRow li:hover > a {
     background-position: left 0;
 }
@@ -199,12 +199,12 @@ ul.ContextFunctions li.ContextSettings a span {
 .RTL ul.ContextFunctions li.ContextSettings a span {
     background-image: url(../img/arrow_outlined_left.png);
 }
-    
+
 ul.ContextFunctions li.Last:hover > a,
 ul.ContextFunctions li:last-child:hover > a {
     background-position: 50px 50px;
 }
-    
+
 
 /**
  * @subsection  Control Row DataSet Navigation (Previous / Next)
@@ -287,6 +287,7 @@ ul.ContextFunctions li:last-child:hover > a {
     top: 0;
     font-size: 14px;
     line-height: 24px;
+    margin-right: 5px;
 }
 
 .RTL .AdditionalInformation {
@@ -334,7 +335,7 @@ ul.ContextFunctions li:last-child:hover > a {
     margin-left: 0px;
     padding-left: 0px;
 }
-    
+
 .RTL .Actions li:first-child {
     margin-right: 0px;
     padding-right: 0px;
@@ -358,7 +359,7 @@ ul.ContextFunctions li:last-child:hover > a {
     -webkit-border-radius: 2px;
     border-radius: 2px;
 }
-    
+
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
@@ -369,8 +370,8 @@ ul.ContextFunctions li:last-child:hover > a {
     -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
     box-shadow: 0 1px 0 rgba(0,0,0,0.46);
-}       
-        
+}
+
 .Actions li.NoHover:hover a {
     background: none;
 }
@@ -378,11 +379,11 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li input#SelectAllTickets {
     margin: 0 1px 0 3px;
 }
-    
+
 .RTL .Actions li input#SelectAllTickets {
     margin: 0 3px 0 1px;
 }
-    
+
 .Actions li input#SelectAllTickets + label {
     text-indent: -9999px;
     display: inline-block;
@@ -455,7 +456,7 @@ ul.ContextFunctions li:last-child:hover > a {
 /**
  * @subsection  LightRow
  */
- 
+
 .LightRow {
     background: #999 url("../img/gradient_light.png") repeat-x;
     border: 1px solid #C6C5C4;
@@ -475,7 +476,7 @@ ul.ContextFunctions li:last-child:hover > a {
     -webkit-box-shadow: inset 0 -1px 0 #FFF;
     box-shadow: inset 0 -1px 0 #FFF;
 }
-    
+
 .RTL .LightRow.Header {
     padding-right: 0;
     padding-left: 5px;
@@ -505,7 +506,7 @@ ul.ContextFunctions li:last-child:hover > a {
     font-weight: normal;
     color: #171717;
 }
-    
+
 .Collapsed .LightRow.Header {
     -moz-box-shadow: 0 -1px 0 #DDD inset;
     -webkit-box-shadow: 0 -1px 0 #DDD inset;
@@ -521,11 +522,11 @@ ul.ContextFunctions li:last-child:hover > a {
     margin-left: 6px;
     margin-right: 7px;
 }
-    
+
 .LightRow #AJAXImageDestQueueID {
     display: none;
 }
-    
+ 
 .LightRow select {
     margin-top: 1px;
 }
