@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.111 2010-07-14 21:10:39 cg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.112 2010-07-15 07:45:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,14 +28,6 @@
         <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title", "40"}">
             #$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
         </h1>
-#        <ul class="ContextFunctions">
-#           <li class="ContextHelp">
-#               <a href="" title="Context Help"><span>$Text{"Context Help"}</span></a>
-#           </li>
-#           <li class="ContextSettings">
-#               <a href="" title="Context Settings"><span>$Text{"Context Settings"}</span></a>
-#           </li>
-#        </ul>
         <div class="AdditionalInformation">
             $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
         </div>
@@ -322,7 +314,7 @@ $Data{"ArticleItems"}
 #                </tr>
 #<!-- dtl:block:ArticleFilterDialogLink -->
 <!-- dtl:block:TreeItem -->
-                    <tr class="$QData{"ClassRow"} EventUpdate" id="Row$LQData{"Count"}">
+                    <tr class="$QData{"ClassRow"}" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
 <!-- dtl:block:TreeItemNewArticle -->
                             <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
@@ -330,7 +322,7 @@ $Data{"ArticleItems"}
                         </td>
                         <td class="No">
                             $QData{"Count"}
-                            <input type="hidden" id="Link$LQData{"Count"}" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
+                            <input type="hidden" class="ArticleInfo" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
                         </td>
                         <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
                         <td class="Direction">dir</td>
@@ -367,10 +359,8 @@ $Data{"ArticleItems"}
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('.EventUpdate'), function (Event) {
-        var CurrentId = $(this).attr('id');
-        CurrentId = CurrentId.substr(3, CurrentId.length);
-        Core.AJAX.ContentUpdate($('#ArticleItems'), $( '#Link'+CurrentId ).val(), function () {
+    Core.UI.RegisterEvent('click', $('#FixedTable tr'), function (Event) {
+        Core.AJAX.ContentUpdate($('#ArticleItems'), $(this).find('input.ArticleInfo').val(), function () {
             Core.UI.RegisterEvent('click', $('#ArticleItems a.AsPopup'), function (Event) {
                 Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
                 return false;
