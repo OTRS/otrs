@@ -2,25 +2,25 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.81 2010-06-30 17:28:56 dz Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.82 2010-07-15 14:53:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div id="Body" class="TicketZoom">
+<div id="MainBox" class="TicketZoom">
 <!-- dtl:block:Back -->
     <div class="ActionRow">
         <ul class="Tabs">
             <li><a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">&larr; $Text{"Back"}</a></li>
-            <div class="Clear"></div>
         </ul>
+        <div class="Clear"></div>
     </div>
 <!-- dtl:block:Back -->
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
-                <div title="$Text{"$Data{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><div>$Text{"$Data{"StateTypeGeneric"}"}</div></div>
+                <span title="$Text{"$Data{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
                 $QData{"Title","40"}
             </h2>
             <span>$QData{"TicketNumber"}</span>
@@ -99,7 +99,7 @@
                             <div class="Attachments">
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>
 <!-- dtl:block:ArticleAttachmentRow -->
-                                <div class="DownloadAttachment" titel="$QData{"Filename"} - $QData{"Filesize"}">
+                                <div class="DownloadAttachment" title="$QData{"Filename"} - $QData{"Filesize"}">
                                     $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
                                     <a class="SmallButton" href="$Data{"Link"}" $Data{"Target"}>$Text{"Save"}</a>
@@ -138,7 +138,7 @@
 <!-- dtl:block:RichText-->
                     $Include{"RichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea titel="$Text{"Reply"}" id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <fieldset>
                         <div id="AttachmentHolder">
                             <label for="Attachment">$Text{"Attachment"}:</label>

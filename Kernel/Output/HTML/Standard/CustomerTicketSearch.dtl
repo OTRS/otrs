@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.26 2010-06-04 11:19:32 mn Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.27 2010-07-15 14:53:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:Search -->
-<div id="Body" class="Search">
+<div id="MainBox" class="Search">
     <div class="Content">
         <form action="$Env{"CGIHandle"}" method="get" name="compose">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
@@ -18,7 +18,7 @@
             <fieldset>
                 <h2>$Text{"Profile"}</h2>
                 <div>
-                    <label for="SearchTemplate">$Text{"Search-Template"}</label>
+                    <label for="Profile">$Text{"Search-Template"}</label>
                     $Data{"ProfilesStrg"}
                 </div>
             </fieldset>
@@ -63,7 +63,7 @@
                     <input title="$Text{"Subject"}" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" size="20" />
                 </div>
                 <div>
-                    <label for="MailBody">$Text{"Text"}</label>
+                    <label for="Body">$Text{"Text"}</label>
                     <input title="$Text{"Text"}" type="text" id="Body" name="Body" value="$QData{"Body"}" size="20" />
                 </div>
             </fieldset>

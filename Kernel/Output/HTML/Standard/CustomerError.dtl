@@ -1,36 +1,17 @@
 # --
 # CustomerError.dtl - provides HTML Error screen
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerError.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: CustomerError.dtl,v 1.10 2010-07-15 14:53:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<center>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      <p>
-        <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <table cellspacing="0" cellpadding="2" width="100%">
-        <tr>
-          <td class="menu" valign="top" width="100"><b>$Text{"Comment"}:</b></td>
-          <td class="menu" valign="top">$Data{"Comment"}</td>
-        </tr>
-        <tr>
-          <td class="mainbody" valign="top"><b>$Text{"Traceback"}:</b></td>
-          <td class="mainbody" valign="top">$Data{"BackendTraceback"}</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-</center>
+<div id="Body">
+$Text{"Error"}: $Data{"Message"}
+
+$Text{"Comment"}: $Data{"Comment"}
+$Text{"Traceback"}: $Data{"BackendTraceback"}
+</div>

@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.25 2010-07-15 13:15:44 mn Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.26 2010-07-15 14:53:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- start form -->
-<div id="Body" class="TicketView">
+<div id="MainBox" class="TicketView SearchResults $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"} Sortable">
     <div class="ActionRow">
         <ul class="Tabs">
             <li>
@@ -34,10 +34,10 @@
         <table class="Overview">
             <thead>
                 <tr>
-                    <th class="Status"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=State;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"State"}</a></th>
-                    <th class="Ticket"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Ticket;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Config{"Ticket::Hook"}</a></th>
+                    <th class="Status"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"State"}</a></th>
+                    <th class="Ticket"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Config{"Ticket::Hook"}</a></th>
                     <th class="Title"><a href="">$Text{"Subject"}</a></th>
-                    <th class="Age"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Age;Order=Up;Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"Age"}</a></th>
+                    <th class="Age"><a href="$Env{"Baselink"}Action=$Env{"Action"};SortBy=Age;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">$Text{"Age"}</a></th>
                 </tr>
             </thead>
             <tbody>

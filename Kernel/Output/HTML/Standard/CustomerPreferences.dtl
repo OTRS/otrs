@@ -2,7 +2,7 @@
 # CustomerPreferences.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.dtl,v 1.5 2010-05-18 06:34:18 fn Exp $
+# $Id: CustomerPreferences.dtl,v 1.6 2010-07-15 14:53:14 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:Body -->
-<div id="Body" class="Preferences">
+<div id="MainBox" class="Preferences">
     <div class="Content">
 <!-- dtl:block:Head -->
 #       <h1>$Text{"$Data{"Header"}"}</h1>
@@ -56,7 +56,7 @@
 <!-- dtl:block:Password -->
                     <div>
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}</label>
-                        <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value=""}" size="20" />
+                        <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value="" size="20" />
                         <div class="ClearLeft"></div>
                     </div>
 <!-- dtl:block:Password -->
