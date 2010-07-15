@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -95,7 +95,7 @@ label {
 
 /**
  * @note        Give the user a hint about linked label elements (they are clickable and
- *                  give focus to the linked element.
+ *              give focus to the linked element.
  */
 
 form label[for] {
@@ -111,20 +111,31 @@ input[type=password] {
 
 input[type=text],
 input[type=password],
-textarea {
-    border: 1px solid #888;
-    padding: 2px;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+textarea,
+select[multiple=multiple] {
+    border: 1px solid #C9C9C9;
+    border-top-color: #C0C0C0;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
+    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+    box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+}
+    
+input[type=text],
+input[type=password],
+textarea {
+    padding: 3px;
+    font-size: 12px;
+    color: #333;
 }
 
-input:focus {
-    box-shadow: 0 0 2px #AAA;
-    -webkit-box-shadow: 0 0 2px #AAA;
-    -moz-box-shadow: 0 0 2px #AAA;
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus {
+    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
+    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
+    box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
 }
 
 #RichText {
@@ -216,25 +227,12 @@ fieldset label {
     margin-left: 8px;
 }
 
-fieldset input[type=text],
-fieldset input[type=password] {
-    padding: 2px 4px;
-    border: 1px solid #CCC;
-    border-radius: 0;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
-}
-
 fieldset select {
     margin-top: 2px;
 }
 
 .TicketCompose fieldset #Subject {
     width: 350px;
-}
-
-fieldset input[type=text]:focused {
-    border-color: #AAA;
 }
 
 fieldset.Columns > div {
