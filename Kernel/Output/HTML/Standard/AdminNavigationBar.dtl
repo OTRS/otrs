@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.43 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminNavigationBar.dtl,v 1.44 2010-07-15 12:31:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:Agent -->
+<!-- dtl:block:AgentClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:AgentClear -->
+<!-- dtl:block:Agent -->
                     </ul>
 
                 </div>
@@ -44,8 +46,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:Customer -->
+<!-- dtl:block:CustomerClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:CustomerClear -->
+<!-- dtl:block:Customer -->
                     </ul>
 
                 </div>
@@ -64,8 +68,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:Email -->
+<!-- dtl:block:EmailClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:EmailClear -->
+<!-- dtl:block:Email -->
                     </ul>
 
                 </div>
@@ -87,8 +93,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:Queue -->
+<!-- dtl:block:QueueClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:QueueClear -->
+<!-- dtl:block:Queue -->
                     </ul>
 
                 </div>
@@ -107,8 +115,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:Ticket -->
+<!-- dtl:block:TicketClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:TicketClear -->
+<!-- dtl:block:Ticket -->
                     </ul>
 
                 </div>
@@ -126,8 +136,10 @@
                             <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
                             <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
                         </li>
-<!-- dtl:block:System -->
+<!-- dtl:block:SystemClear -->
                         <li class="Clear"></li>
+<!-- dtl:block:SystemClear -->
+<!-- dtl:block:System -->
                     </ul>
 
                 </div>
