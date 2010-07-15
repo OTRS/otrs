@@ -2,7 +2,7 @@
 # FileTemp.t - FileTemp tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileTemp.t,v 1.9 2010-06-22 22:00:52 dz Exp $
+# $Id: FileTemp.t,v 1.10 2010-07-15 07:54:04 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,9 @@ use warnings;
 use vars (qw($Self));
 use Kernel::System::FileTemp;
 
-$Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
+my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
 
-my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
+my ( $FH, $Filename ) = $FileTempObject->TempFile();
 
 $Self->True(
     $Filename,
@@ -28,11 +28,11 @@ $Self->True(
     'TempFile() -e',
 );
 
-# destroy object or delete the tempfiles
-$Self->{FileTempObject} = undef;
+# destruction of object should delete the tempfiles
+$FileTempObject = undef;
 
-$Self->True(
-    ( !-e $Filename ),
+$Self->False(
+    ( -e $Filename ),
     'TempFile() -e after destroy',
 );
 
