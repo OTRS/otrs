@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -114,10 +114,6 @@ ul.Tablelike li.Header + li {
     margin: 0;
 }
 
-.WidgetSimple.Loading > .Header h2 {
-    background: url("../img/loader.gif") no-repeat right center;
-}
-
 .WidgetSimple > .Content {
     padding: 8px 8px 13px;
     border: 1px solid #FFF;
@@ -136,6 +132,14 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple fieldset {
     margin-bottom: 15px;
+}
+    
+/**
+ * @subsection AJAX Loader
+ */
+ 
+.Loading > .Header h2 {
+    background: url("../img/loader.gif") no-repeat right center;
 }
 
 /**
