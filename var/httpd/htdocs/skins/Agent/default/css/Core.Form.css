@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -194,24 +194,26 @@ div.TooltipErrorMessage {
  * @subsection  TableLike
  * @description Provides a table-like, aligned label-value structure
  */
-fieldset.TableLike {
-}
 
 fieldset.TableLike > label {
     display: block;
     float: left;
-    line-height: 23px;
+    line-height: 1.3em;
     width: 30%;
     text-align: right;
     color: #929292;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 5px;
     text-shadow: 0 1px 0 #FAFAFA;
 }
 
 .RTL fieldset.TableLike > label {
     float: right;
     text-align: left;
+}
+
+form fieldset.TableLike > label {
+    line-height: 20px;
 }
 
 fieldset.TableLike > label > input,
