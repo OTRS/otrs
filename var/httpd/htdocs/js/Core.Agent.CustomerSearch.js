@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.2 2010-07-16 10:03:59 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CustomerInfo: '',
         CustomerEmail: '',
         CustomerKey: ''
-    }
+    };
 
     function GetCustomerInfo(CustomerUserID) {
         var Data = {
@@ -33,7 +33,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Subaction: 'CustomerInfo',
             CustomerUserID: CustomerUserID || 1
         };
-        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function(Response) {
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
             // set CustomerID
             $('#CustomerID').val(Response.CustomerID);
             $('#ShowCustomerID').html(Response.CustomerID);
@@ -53,7 +53,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
     function GetCustomerTickets(CustomerUserID, CustomerID) {
         // check if customer tickets should be shown
-        if (isNaN(parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets')))) {
+        if (isNaN(parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets'), 10))) {
             return;
         }
 
@@ -63,12 +63,34 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             CustomerUserID: CustomerUserID,
             CustomerID: CustomerID
         };
-        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function(Response) {
+
+        function ReplaceOverviewControlLinks() {
+
+            $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
+
+            $('#CustomerTickets').find('.OverviewZoom a').click(function () {
+                // Cut out BaseURL and query string from the URL
+                var Link = $(this).attr('href'),
+                    URLComponents;
+
+                URLComponents = Link.split('?', 2);
+
+                Core.AJAX.FunctionCall(URLComponents[0], URLComponents[1], function (Response) {
+                    // show customer tickets
+                    if ($('#CustomerTickets').length) {
+                        $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
+                        ReplaceOverviewControlLinks();
+                    }
+                });
+                return false;
+            });
+        }
+
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
             // show customer tickets
             if ($('#CustomerTickets').length) {
                 $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
-                // TODO: fix
-                //ReplaceOverviewControlLinks();
+                ReplaceOverviewControlLinks();
             }
         });
     }
@@ -80,7 +102,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function($Element, ActiveAutoComplete) {
+    TargetNS.Init = function ($Element, ActiveAutoComplete) {
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
             GetCustomerTickets($('#CustomerUserID').val(), $('#CustomerID').val());
@@ -108,15 +130,15 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $Element.autocomplete({
                 minLength: ActiveAutoComplete ? Core.Config.Get('Autocomplete.MinQueryLength') : 500,
                 delay: Core.Config.Get('Autocomplete.QueryDelay'),
-                source: function(Request, Response){
+                source: function (Request, Response) {
                     var URL = Core.Config.Get('Baselink'), Data = {
                         Action: 'AgentCustomerSearch',
                         Term: Request.term,
                         MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
                     };
-                    Core.AJAX.FunctionCall(URL, Data, function(Result){
+                    Core.AJAX.FunctionCall(URL, Data, function (Result) {
                         var Data = [];
-                        $.each(Result, function(){
+                        $.each(Result, function () {
                             Data.push({
                                 label: this.CustomerValue + " (" + this.CustomerKey + ")",
                                 value: this.CustomerValuePlain
@@ -125,7 +147,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                         Response(Data);
                     });
                 },
-                select: function(Event, UI){
+                select: function (Event, UI) {
                     var CustomerKey = UI.item.label.replace(/.*\((.*)\)$/, '$1');
                     BackupData.CustomerKey = CustomerKey;
                     BackupData.CustomerEmail = UI.item.value;
@@ -155,9 +177,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     return false;
                 }
             });
-            $Element.blur(function(){
+            $Element.blur(function () {
                 var FieldValue = $(this).val();
-                if (FieldValue != BackupData.CustomerEmail && FieldValue != BackupData.CustomerKey) {
+                if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {
                     $('#SelectedCustomerUser').val('');
                     $('#CustomerUserID').val('');
                     $('#CustomerID').val('');
@@ -177,7 +199,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 });
             }
         }
-    }
+    };
 
     return TargetNS;
 }(Core.Agent.CustomerSearch || {}));
