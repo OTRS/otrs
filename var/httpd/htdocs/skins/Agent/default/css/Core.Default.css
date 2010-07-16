@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.17 $
+ * @version     $Revision: 1.18 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -203,6 +203,7 @@ dd {
  *          while it is still recognized and read by screen readers.
  */
 .InvisibleText {
+    width: 0;
     display: inline-block;
     text-indent: -9999px;
 }
