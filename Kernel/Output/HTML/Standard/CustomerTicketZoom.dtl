@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.82 2010-07-15 14:53:14 fn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.83 2010-07-16 11:20:59 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,12 +100,11 @@
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>
 <!-- dtl:block:ArticleAttachmentRow -->
                                 <div class="DownloadAttachment" title="$QData{"Filename"} - $QData{"Filesize"}">
-                                    $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                    <a class="SmallButton" href="$Data{"Link"}" $Data{"Target"}>$Text{"Save"}</a>
+                                    <a href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$QData{"Filename"}</a>, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-#                                   <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+                                    $QData{"Filename"}, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                 </div>
 <!-- dtl:block:ArticleAttachmentRow -->
