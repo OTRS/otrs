@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1254 2010-07-15 22:48:42 en Exp $
+# $Id: CHANGES,v 1.1255 2010-07-16 12:47:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/16) Removed support for the deprecated DTL commands <dtl if>, <dtl set>
+    and <dtl system-call>. They were deprecated since OTRS 2.2.
  - (2010/07/15) Fixed bug#5416 - AgentTicketMove does not support Pending Date.
  - (2010/07/15) Fixed bug#5556 - Broken unicode chars in CustomerUser selections.
  - (2010/07/14) Fixed bug#5132 - New owner validation always ask to set a owner.
