@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.21 2010-07-16 13:45:36 mg Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.22 2010-07-16 15:43:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,14 @@
     <li class="$QData{"Customer::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Customer" class="$QData{"Customer::Selected"}">$Text{"Customers"} ($QData{"Customer"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    function(){
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}').live('click', '#Dashboard$QData{"Name"}Agent', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
+    $('#Dashboard$QData{"Name"}Agent').live('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Agent', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
     });
-    function(){
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}').live('click', '#Dashboard$QData{"Name"}Customer', '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
+    $('#Dashboard$QData{"Name"}Customer').live('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Customer', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
         });
         return false;
