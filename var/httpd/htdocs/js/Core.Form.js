@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Form.js,v 1.2 2010-07-16 07:49:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -49,15 +49,38 @@ Core.Form = (function (TargetNS) {
         if (!isJQueryObject($Form)) {
             $Form = $('body');
         }
-
+        
+        // save action data to the given element
         $Form
             .find("input:not([type='hidden']), textarea, select")
+            .bind('savereadonly', function () {
+                var readonlyValue = $(this).attr('readonly');
+                if (readonlyValue == true) {
+                    readonlyValue = 'readonly';
+                }
+                else {
+                    readonlyValue = '';
+                }
+                Core.Data.Set( $(this), 'OldReadonlyStatus', readonlyValue )                 
+            })
+            .trigger('savereadonly')
             .attr('readonly', 'readonly')
-            // trigger custom "readonly" event for Core.UI.IE7Fixes
             .trigger('readonly')
             .end()
             .find('button')
+            .bind('savedisabled', function () {
+                var disabledValue = $(this).attr('disabled');
+                if (disabledValue == true) {
+                    disabledValue = 'disabled';
+                }
+                else {
+                    disabledValue = '';
+                }
+                Core.Data.Set( $(this), 'OldDisabledStatus', disabledValue )                 
+            })
+            .trigger('savedisabled')
             .attr('disabled', 'disabled');
+            
     };
 
     /**
@@ -76,11 +99,20 @@ Core.Form = (function (TargetNS) {
         $Form
             .find("input:not([type=hidden]), textarea, select")
             .removeAttr('readonly')
-            // trigger custom "readonly" event for Core.UI.IE7Fixes
             .trigger('readonly')
+            .bind('retrievereadonly', function () {
+                var readonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus');
+                $(this).attr('readonly',readonlyValue);
+            })
+            .trigger('retrievereadonly')
             .end()
             .find('button')
-            .removeAttr('disabled');
+            .removeAttr('disabled')
+            .bind('retrievedisabled', function () {
+                var disabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
+                $(this).attr('disabled',disabledValue);
+            })
+            .trigger('retrievedisabled');
     };
 
     /**
