@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.20 2010-07-12 20:12:53 mp Exp $
+# $Id: AgentTicketHistory.dtl,v 1.21 2010-07-16 13:45:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@
         </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('a.LinkZoomView'), function () {
+    $('a.LinkZoomView').bind('click', function () {
         window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
         window.close();
     });

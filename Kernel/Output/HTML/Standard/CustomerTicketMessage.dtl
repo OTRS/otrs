@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.35 2010-07-15 14:53:14 fn Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.36 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                     $Data{"ToStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('change', $('#Dest'), function (Event) {
+    $('#Dest').bind('change', function (Event) {
         $(this).closest('form').submit();
     });
 //]]></script>

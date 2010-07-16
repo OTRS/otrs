@@ -2,7 +2,7 @@
 # Pagination.dtl - provides HTML for generic Pagination
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Pagination.dtl,v 1.4 2010-06-04 11:19:32 mn Exp $
+# $Id: Pagination.dtl,v 1.5 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@
 &nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="#">&gt;|</a>&nbsp;
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterLiveEvent('click', $('#$Data{"IDPrefix"}PageAllBack'), function(){
+    $('#$Data{"IDPrefix"}PageAllBack').live('click', function(){
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
-    Core.UI.RegisterLiveEvent('click', $('#$Data{"IDPrefix"}PageOneBack'), function(){
+    $('#$Data{"IDPrefix"}PageOneBack').live('click', function(){
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
@@ -39,7 +39,7 @@
 <a id="$Data{"IDPrefix"}Page$Data{"PageNumber"}" href="#"$Data{"SelectedPage"}>$Data{"PageNumber"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterLiveEvent('click', $('#$Data{"IDPrefix"}Page$Data{"PageNumber"}'), function(){
+    $('#$Data{"IDPrefix"}Page$Data{"PageNumber"}').live('click', function(){
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAll"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
@@ -57,13 +57,13 @@
 &nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="#">&lt;&lt;</a>&nbsp;
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterLiveEvent('click', $('#$Data{"IDPrefix"}PageAllForward'), function(){
+    $('#$Data{"IDPrefix"}PageAllForward').live('click', function(){
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });
         return false;
     });
-    Core.UI.RegisterLiveEvent('click', $('#$Data{"IDPrefix"}PageOneForward'), function(){
+    $('#$Data{"IDPrefix"}PageOneForward').live('click', function(){
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
         });

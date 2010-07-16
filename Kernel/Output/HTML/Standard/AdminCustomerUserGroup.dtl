@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.24 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.25 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,7 +199,7 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    Core.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
+    $('input:checkbox[name=$QData{"Type"}]').bind('click', function () {
         Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
 //]]></script>

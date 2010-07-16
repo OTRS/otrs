@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.55 2010-07-14 21:26:31 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.56 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
                         <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>$Text{"Queue is required"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('change', $('#DestQueueID'), function (Event) {
+    $('#DestQueueID').bind('change', function (Event) {
         $('#NoSubmit').val('1');
         Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NextStateID', 'NewPriorityID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
     })
@@ -69,7 +69,7 @@
                         <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#OwnerSelectionGetAll'), function (Event) {
+    $('#OwnerSelectionGetAll').bind('click', function (Event) {
         $('#OwnerAll').val('1');
         Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OwnerAll', ['NewUserID']);
         return false;
@@ -86,7 +86,7 @@
                         $Data{"OldUserStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#OldUserID'), function (Event) {
+    $('#OldUserID').bind('click', function (Event) {
         $('#UserSelection').attr('checked', 'checked');
     })
 //]]></script>
@@ -133,7 +133,7 @@ $Include{"RichTextEditor"}
                                 <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#AttachmentDelete$QData{"FileID"}'), function () {
+    $('#AttachmentDelete$QData{"FileID"}').bind('click', function () {
         Core.Form.Validate.DisableValidation($('#AttachmentDelete$QData{"FileID"}').closest('form'));
     });
 //]]></script>
@@ -147,7 +147,7 @@ $Include{"RichTextEditor"}
                         </ul>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('change', $('#FileUpload'), function () {
+    $('#FileUpload').bind('change', function () {
         var $Form = $('#FileUpload').closest('form');
         Core.Form.Validate.DisableValidation($Form);
         $Form.find('#AttachmentUpload').val('1').end().submit();

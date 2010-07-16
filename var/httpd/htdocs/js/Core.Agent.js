@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.2 2010-07-13 13:23:23 martin Exp $
+// $Id: Core.Agent.js,v 1.3 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -129,7 +129,7 @@ Core.Agent = (function (TargetNS) {
          * Register event for global search
          *
          */
-        Core.UI.RegisterEvent('click', $('#Search'), function (Event) {
+        $('#Search').bind('click', function (Event) {
             Core.Agent.Search.OpenSearchDialog();
             return false;
         });
@@ -154,10 +154,10 @@ Core.Agent = (function (TargetNS) {
         Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
 
         // do the popup stuff
-        Core.UI.RegisterEvent('beforeunload.Popup', $(window), function () {
+        $(window).bind('beforeunload.Popup', function () {
             return Core.UI.Popup.CheckPopupsOnUnload();
         });
-        Core.UI.RegisterEvent('unload.Popup', $(window), function () {
+        $(window).bind('unload.Popup', function () {
             Core.UI.Popup.ClosePopupsOnUnload();
         });
         Core.UI.Popup.RegisterPopupEvent();
@@ -165,10 +165,10 @@ Core.Agent = (function (TargetNS) {
         // if this window is a popup itself, register another function
         if (window.opener !== null) {
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
-            Core.UI.RegisterEvent('click', $('.CancelClosePopup'), function () {
+            $('.CancelClosePopup').bind('click', function () {
                 window.close();
             });
-            Core.UI.RegisterEvent('click', $('.UndoClosePopup'), function () {
+            $('.UndoClosePopup').bind('click', function () {
                 var RedirectURL = $(this).attr('href');
                 window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
                 window.close();

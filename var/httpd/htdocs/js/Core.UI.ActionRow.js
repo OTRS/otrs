@@ -2,7 +2,7 @@
 // Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.ActionRow.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.ActionRow.js,v 1.2 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -164,16 +164,16 @@ Core.UI.ActionRow = (function (TargetNS) {
             TicketView = 'Small';
         }
 
-        Core.UI.RegisterEvent('click', $('#SelectAllTickets'), function () {
+        $('#SelectAllTickets').bind('click', function () {
             var Status = $(this).attr('checked');
             $(TicketElementSelectors[TicketView]).attr('checked', Status).triggerHandler('click');
         });
 
-        Core.UI.RegisterEvent('click', $(TicketElementSelectors[TicketView]), function () {
+        $(TicketElementSelectors[TicketView]).bind('click', function () {
             Core.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
         });
 
-        Core.UI.RegisterEvent('click', $('#BulkAction a'), function () {
+        $('#BulkAction a').bind('click', function () {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",

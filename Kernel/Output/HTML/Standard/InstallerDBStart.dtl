@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.11 2010-07-07 10:07:13 mg Exp $
+# $Id: InstallerDBStart.dtl,v 1.12 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,7 +138,7 @@
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click',$('#ButtonCheckDB'),Core.Installer.CheckDBData);
+    $('#ButtonCheckDB').bind('click',Core.Installer.CheckDBData);
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:DatabaseStart -->

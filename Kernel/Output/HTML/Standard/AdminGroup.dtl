@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.21 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminGroup.dtl,v 1.22 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
     return TargetNS;
 }(Core.Agent.Admin.Group || {}));
 
-    Core.UI.RegisterEvent('click', $('#Submit'), Core.Agent.Admin.Group.AdminGroupCheck);
+    $('#Submit').bind('click', Core.Agent.Admin.Group.AdminGroupCheck);
 //]]></script>
 <!--dtl:js_on_document_complete-->
 

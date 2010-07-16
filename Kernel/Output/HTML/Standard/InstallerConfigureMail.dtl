@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.13 2010-07-07 10:07:13 mg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.14 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,12 +148,12 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#ButtonCheckMail'), Core.Installer.CheckMailConfig);
-    Core.UI.RegisterEvent('click', $('#ButtonSkipMail'), Core.Installer.SkipMailConfig);
-    Core.UI.RegisterEvent('change', $('#SMTPAuth'), function () {
+    $('#ButtonCheckMail').bind('click', Core.Installer.CheckMailConfig);
+    $('#ButtonSkipMail').bind('click', Core.Installer.SkipMailConfig);
+    $('#SMTPAuth').bind('change', function () {
         Core.Installer.CheckSMTPAuth($(this));
     });
-    Core.UI.RegisterEvent('change',$('#OutboundMailType'), function () {
+    $('#OutboundMailType').bind('change', function () {
         Core.Installer.SelectOutboundMailType($(this));
     });
 //]]></script>

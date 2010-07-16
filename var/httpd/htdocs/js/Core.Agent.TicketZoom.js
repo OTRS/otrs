@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.6 2010-07-16 07:35:42 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.7 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -73,14 +73,14 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // loading new articles
-        Core.UI.RegisterEvent('click', $('#FixedTable tr'), function (Event) {
+        $('#FixedTable tr').bind('click', function (Event) {
             // Mode: show one article - load new article vai ajax
             if ($('ul.ArticleView li.OneArticle').hasClass('Active')) {
                 // Add active state to new row
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
                 // Load content of new article
                 Core.AJAX.ContentUpdate($('#ArticleItems'), $(this).find('input.ArticleInfo').val(), function () {
-                    Core.UI.RegisterEvent('click', $('#ArticleItems a.AsPopup'), function (Event) {
+                    $('#ArticleItems a.AsPopup').bind('click', function (Event) {
                         Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
                         return false;
                     });

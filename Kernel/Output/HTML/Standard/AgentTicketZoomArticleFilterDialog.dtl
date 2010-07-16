@@ -2,7 +2,7 @@
 # AgentTicketZoomArticleFilterDialog.dtl - provides a dialog to filter articles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.11 2010-07-15 12:39:00 mn Exp $
+# $Id: AgentTicketZoomArticleFilterDialog.dtl,v 1.12 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#SetArticleFilter'), function (Event) {
+    $('#SetArticleFilter').bind('click', function (Event) {
         Core.UI.Dialog.ShowContentDialog($('#ArticleFilterDialog'), '$JSText{"Article filter"}', '20px', 'Center', true, [
             {
                 Label: "$JSText{"Save"}",
@@ -32,7 +32,7 @@
         ]);
         return false;
     });
-    Core.UI.RegisterEvent('click', $('#ResetArticleFilter'), function (Event) {
+    $('#ResetArticleFilter').bind('click', function (Event) {
         var Data = {
             Action:     'AgentTicketZoom',
             Subaction:  'ArticleFilterSet',

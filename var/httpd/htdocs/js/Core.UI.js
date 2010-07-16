@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.2 2010-07-15 08:53:50 mn Exp $
+// $Id: Core.UI.js,v 1.3 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -203,34 +203,6 @@ Core.UI = (function (TargetNS) {
             Core.Debug.Log('Auto-generated required ID ' + ID + ' for element', $Element);
         }
         return ID;
-    };
-
-    /**
-     * @function
-     * @description
-     *      This function is the wrapper for registering an event on an HTML element.
-     * @param {String} EventType The event type (click, change, ...)
-     * @param {jQueryObject} $Element the element(s) on which the event is triggered
-     * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
-     */
-    TargetNS.RegisterEvent = function (EventType, $Element, EventFunction) {
-        if (isJQueryObject($Element) && $Element.length && $.isFunction(EventFunction)) {
-            $Element.bind(EventType, EventFunction);
-        }
-    };
-
-    /**
-     * @function
-     * @description
-     *      This function is the wrapper for registering an live event on an HTML element.
-     * @param {String} EventType The event type (click, change, ...)
-     * @param {jQueryObject} $Element the element(s) on which the event is triggered
-     * @param {Function} EventFunction The function which should be executed on event (gets Parameter Event)
-     */
-    TargetNS.RegisterLiveEvent = function (EventType, $Element, EventFunction) {
-        if (isJQueryObject($Element) && $Element.length && $.isFunction(EventFunction)) {
-            $Element.live(EventType, EventFunction);
-        }
     };
 
     /**

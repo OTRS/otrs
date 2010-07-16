@@ -2,7 +2,7 @@
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.14 2010-07-15 08:43:24 mn Exp $
+# $Id: NoPermission.dtl,v 1.15 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
                     <a href="#" id="GoBack">$Text{"Back to the previous page"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#GoBack'), function (Event) {
+    $('#GoBack').bind('click', function (Event) {
         history.back();
         return false;
     });

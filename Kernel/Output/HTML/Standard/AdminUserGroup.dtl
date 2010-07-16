@@ -118,7 +118,7 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    Core.UI.RegisterEvent('click', $('input:checkbox[name=$QData{"Type"}]'), function () {
+    $('input:checkbox[name=$QData{"Type"}]').bind('click', function () {
         Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
 //]]></script>

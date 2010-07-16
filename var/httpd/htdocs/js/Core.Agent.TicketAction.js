@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.2 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,19 +68,19 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         // Register event for spell checker dialog
-        Core.UI.RegisterEvent('click', $('#OptionSpellCheck'), function (Event) {
+        $('#OptionSpellCheck').bind('click', function (Event) {
             OpenSpellChecker();
             return false;
         });
 
         // Register event for adressbook dialog
-        Core.UI.RegisterEvent('click', $('#OptionAdressBook'), function (Event) {
+        $('#OptionAdressBook').bind('click', function (Event) {
             OpenAdressBook();
             return false;
         });
 
         // Register event for customer dialog
-        Core.UI.RegisterEvent('click', $('#OptionCustomer'), function (Event) {
+        $('#OptionCustomer').bind('click', function (Event) {
             OpenCustomerDialog();
             return false;
         });
@@ -88,13 +88,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     TargetNS.InitAdressBook = function () {
         // Register event for copying mail adress to input field
-        Core.UI.RegisterEvent('click', $('#SearchResult a'), function (Event) {
+        $('#SearchResult a').bind('click', function (Event) {
             AddMailAdress($(this));
             return false;
         });
 
         // Register Apply button event
-        Core.UI.RegisterEvent('click', $('#Apply'), function (Event) {
+        $('#Apply').bind('click', function (Event) {
             // Update ticket action popup fields
             var $To = $('#CustomerAutoComplete', parent.document),
                 $Cc = $('#Cc', parent.document),
@@ -110,7 +110,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        Core.UI.RegisterEvent('click', $('#Cancel'), function (Event) {
+        $('#Cancel').bind('click', function (Event) {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
@@ -119,14 +119,14 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
-        Core.UI.RegisterEvent('change', $('#SpellCheck select, #SpellCheck input:text'), function (Event) {
+        $('#SpellCheck select.bind('change', #SpellCheck input:text'), function (Event) {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
             $Row.find('input:radio[id=ChangeWord' + RowCount + ']').attr('checked', 'checked');
         });
 
         // Register Apply button event
-        Core.UI.RegisterEvent('click', $('#Apply'), function (Event) {
+        $('#Apply').bind('click', function (Event) {
             // Update ticket action popup fields
             var FieldName = $('#Field').val(),
                 $Body = $('#' + FieldName, parent.document);
@@ -139,7 +139,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        Core.UI.RegisterEvent('click', $('#Cancel'), function (Event) {
+        $('#Cancel').bind('click', function (Event) {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
@@ -147,7 +147,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     TargetNS.InitCustomer = function () {
-        Core.UI.RegisterEvent('click', $('#CustomerTable a'), function (Event) {
+        $('#CustomerTable a').bind('click', function (Event) {
             var Customer = $(this).text();
             UpdateCustomer(Customer);
         });

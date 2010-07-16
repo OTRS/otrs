@@ -2,7 +2,7 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.14 2010-07-16 08:34:08 mg Exp $
+# $Id: Warning.dtl,v 1.15 2010-07-16 13:45:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
                     <a href="#" id="GoBack">$Text{"Go back to the previous page"}</a>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-Core.UI.RegisterEvent('click', $('#GoBack'), function (Event) {
+$('#GoBack').bind('click', function (Event) {
     // check if an older history entry is available
     if (history.length > 1) {
         history.back();

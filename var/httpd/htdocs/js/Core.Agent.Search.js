@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.7 2010-07-15 16:57:28 cg Exp $
+// $Id: Core.Agent.Search.js,v 1.8 2010-07-16 13:45:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@ Core.Agent.Search = (function (TargetNS) {
                 Core.UI.Dialog.ShowContentDialog(HTML, '', '10px', 'Center', true);
 
                 // register add of attribute
-                Core.UI.RegisterEvent('click', $('.Add'), function(){
+                $('.Add').bind('click', function(){
                     var Attribute = $(this).prev().prev().val();
                     var $Element1 = $('#Search' + Attribute ).prev().clone();
                     var $Element2 = $('#Search' + Attribute ).clone();
@@ -76,7 +76,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register remove of attribute
-                Core.UI.RegisterLiveEvent('click', $('.Remove'), function(){
+                $('.Remove').live('click', function(){
                     var $Element = $(this).parent();
                     $Element.prev().prev().remove();
                     $Element.prev().remove();
@@ -97,7 +97,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register submit
-                Core.UI.RegisterLiveEvent('click', $('#SearchFormSubmit'), function(){
+                $('#SearchFormSubmit').live('click', function(){
                     $('#SearchForm').submit();
                     return false;
                 });

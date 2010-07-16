@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.25 2010-07-14 14:23:42 mn Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.26 2010-07-16 13:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,7 +127,7 @@ Core.Agent.Stats.FormatGraphSizeRelation();
                             </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('change', $('#Format'), function (Event) {
+    $('#Format').bind('change', function (Event) {
         Core.Agent.Stats.FormatGraphSizeRelation();
     })
 //]]></script>
