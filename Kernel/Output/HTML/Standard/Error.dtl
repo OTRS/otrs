@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.26 2010-07-15 08:43:24 mn Exp $
+# $Id: Error.dtl,v 1.27 2010-07-16 08:34:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,10 +45,22 @@ $Data{"BackendTraceback"}"
                         <a href="#" id="GoBack">$Text{"go back to the previous page"}</a>.
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#GoBack'), function (Event) {
+Core.UI.RegisterEvent('click', $('#GoBack'), function (Event) {
+    // check if an older history entry is available
+    if (history.length > 1) {
         history.back();
         return false;
-    });
+    }
+
+    // if we're in a popup window, close it
+    if (window.opener !== null) {
+        window.close();
+        return false;
+    }
+
+    // normal window, no history: no action possible
+    return false;
+});
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </p>
