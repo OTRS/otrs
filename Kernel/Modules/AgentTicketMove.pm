@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.65 2010-07-15 22:47:58 en Exp $
+# $Id: AgentTicketMove.pm,v 1.66 2010-07-16 09:31:15 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -808,10 +808,27 @@ sub Run {
 
     # redirect to last overview if we do not have ro permissions anymore
     if ( !$AccessNew ) {
-        return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
+
+        # Module directly called
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'form' ) {
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+        }
+
+        # Module opened in popup
+        elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
+            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
+        }
     }
 
-    return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
+    # Module directly called
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'form' ) {
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+    }
+
+    # Module opened in popup
+    elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
+        return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
+    }
 }
 
 sub AgentMove {

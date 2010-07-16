@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.121 2010-07-16 07:35:42 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.122 2010-07-16 09:31:15 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -326,7 +326,7 @@ $Data{"ArticleItems"}
                         <td class="No">
                             $QData{"Count"}
                             <input type="hidden" class="ArticleInfo" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
-                            <input type="hidden" class="ArticleID" name="ArticleID" value="$QData{"ArticleID"}" />
+                            <input type="hidden" class="ArticleID" value="$QData{"ArticleID"}" />
                         </td>
                         <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
                         <td class="Direction">dir</td>
@@ -385,8 +385,20 @@ $Data{"ArticleItems"}
                         <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
                         $Data{"MoveQueuesStrg"}
                     </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('change', $('#DestQueueID'), function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
                 </li>
 <!-- dtl:block:Move -->
+<!-- dtl:block:MoveDialog-->
+                <li class="AsPopup">
+                    <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$QData{"TicketID"};" class="AsPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
+                </li>
+<!-- dtl:block:MoveDialog-->
             </ul>
             <div class="ClearLeft"></div>
         </div>

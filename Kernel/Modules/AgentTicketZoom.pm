@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.105 2010-07-15 13:35:32 fn Exp $
+# $Id: AgentTicketZoom.pm,v 1.106 2010-07-16 09:31:15 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1588,10 +1588,18 @@ sub _ArticleItem {
         );
         $Param{TicketID} = $Ticket{TicketID};
         if ($Access) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Move',
-                Data => { %Param, %AclAction },
-            );
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Move',
+                    Data => { %Param, %AclAction },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'MoveDialog',
+                    Data => { %Param, %AclAction },
+                );
+            }
         }
     }
 
