@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.2 2010-07-16 07:49:44 cg Exp $
+// $Id: Core.Form.js,v 1.3 2010-07-16 08:01:14 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,13 @@ var Core = Core || {};
  *      This namespace contains all form functions.
  */
 Core.Form = (function (TargetNS) {
+
+    /*
+     * check dependencies first
+     */
+    if (!Core.Debug.CheckDependency('Core.Form', 'Core.Data', 'Core.Data')) {
+        return;
+    }
     /**
      * @function
      * @description
