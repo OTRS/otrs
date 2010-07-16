@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.106 2010-07-16 09:31:15 mn Exp $
+# $Id: AgentTicketZoom.pm,v 1.107 2010-07-16 12:01:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,10 +137,19 @@ sub Run {
         );
         $Article{Atms} = \%AtmIndex;
 
+        # fetch all move queues
+        my %MoveQueues = $Self->{TicketObject}->MoveList(
+            TicketID => $Ticket{TicketID},
+            UserID   => $Self->{UserID},
+            Action   => $Self->{Action},
+            Type     => 'move_into',
+        );
+
         my $Content = $Self->_ArticleItem(
-            Ticket    => \%Ticket,
-            Article   => \%Article,
-            AclAction => \%AclAction,
+            Ticket     => \%Ticket,
+            Article    => \%Article,
+            AclAction  => \%AclAction,
+            MoveQueues => \%MoveQueues,
         );
         if ( !$Content ) {
             $Self->{LayoutObject}->FatalError(
