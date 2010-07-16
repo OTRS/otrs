@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.2 2010-07-16 13:45:36 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.3 2010-07-16 15:43:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
-        $('#SpellCheck select.bind('change', #SpellCheck input:text'), function (Event) {
+        $('#SpellCheck select, #SpellCheck input:text').bind('change', function (Event) {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
             $Row.find('input:radio[id=ChangeWord' + RowCount + ']').attr('checked', 'checked');
