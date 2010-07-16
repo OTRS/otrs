@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.120 2010-07-16 06:53:24 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.121 2010-07-16 07:35:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -326,6 +326,7 @@ $Data{"ArticleItems"}
                         <td class="No">
                             $QData{"Count"}
                             <input type="hidden" class="ArticleInfo" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
+                            <input type="hidden" class="ArticleID" name="ArticleID" value="$QData{"ArticleID"}" />
                         </td>
                         <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
                         <td class="Direction">dir</td>
