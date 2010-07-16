@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.25 2010-06-22 22:00:51 dz Exp $
+# $Id: Stats.t,v 1.26 2010-07-16 23:21:01 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -245,6 +245,10 @@ $ExportContent = $Self->{StatsObject}->Export( StatID => $StatID );
 # the following line are because of different spelling 'ISO-8859' or 'iso-8859'
 # but this is no solution for the problem if one string is iso and the other utf!
 $ImportContent =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
+
+# this line is for Windows check-out
+$ImportContent =~ s{\r\n}{\n}smxg;
+
 $ExportContent->{Content} =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
 $Self->Is(
     $ImportContent,
