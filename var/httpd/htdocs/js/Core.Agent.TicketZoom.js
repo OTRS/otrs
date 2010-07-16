@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.4 2010-07-15 14:21:19 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.5 2010-07-16 06:53:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,33 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         Core.UI.Dialog.RegisterAttachmentDialog($('.TableSmall tbody td a.Attachment'));
 
-        Core.UI.Table.Sort.Init($('#FixedTable'));
+        // Table sorting
+        Core.UI.Table.Sort.Init($('#FixedTable'), function () {
+            $(this).find('tr')
+                .removeClass('Even')
+                .filter(':even')
+                .addClass('Even')
+                .end()
+                .removeClass('Last')
+                .filter(':last')
+                .addClass('Last');
+        });
+
+        // loading new articles
+        Core.UI.RegisterEvent('click', $('#FixedTable tr'), function (Event) {
+            // Add active state to new row
+            $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
+            // Load content of new article
+            Core.AJAX.ContentUpdate($('#ArticleItems'), $(this).find('input.ArticleInfo').val(), function () {
+                Core.UI.RegisterEvent('click', $('#ArticleItems a.AsPopup'), function (Event) {
+                    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+                    return false;
+                });
+                // Add event bindings to new widget
+                Core.UI.InitWidgetActionToggle();
+            });
+            return false;
+        });
     };
 
     return TargetNS;

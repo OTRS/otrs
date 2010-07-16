@@ -2,7 +2,7 @@
 // Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.Sort.js,v 1.1 2010-07-14 10:09:47 mn Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.2 2010-07-16 06:53:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -27,9 +27,10 @@ Core.UI.Table.Sort = (function (TargetNS) {
      * @description
      *      This function initializes the table sorting.
      * @param {jQueryObject} $Table The table element which should be sorted
+     * @param {Function} Finished A optional function, called after the sorting
      * @return nothing
      */
-    TargetNS.Init = function ($Table) {
+    TargetNS.Init = function ($Table, Finished) {
         if (isJQueryObject($Table)) {
             var $SortableColumns = $Table.find('th.Sortable'),
                 $InitialSorting = $SortableColumns.filter('.InitialSorting'),
@@ -57,6 +58,10 @@ Core.UI.Table.Sort = (function (TargetNS) {
                     headers: Headers,
                     sortList: InitialSort
                 });
+
+                if ($.isFunction(Finished)) {
+                    $Table.bind('sortEnd', Finished);
+                }
             }
         }
     };
