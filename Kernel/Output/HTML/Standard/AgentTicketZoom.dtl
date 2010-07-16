@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.122 2010-07-16 09:31:15 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.123 2010-07-16 09:53:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -339,11 +339,10 @@ $Data{"ArticleItems"}
                             <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
 <!-- dtl:block:TreeItemAttachmentItem -->
                                 <div class="AttachmentElement">
-                                    <div class="AttachmentPreview" style="background-image: url(../skins/Agent/default/img/attachment_dummy1.jpg);"><a href=""></a></div>
                                     <h3>
                                         <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
                                     </h3>
-                                    <p>PDF, $QData{"Filesize"}</p>
+                                    <p>$QData{"Filesize"}</p>
                                 </div>
 <!-- dtl:block:TreeItemAttachmentItem -->
                             </div>
@@ -439,15 +438,13 @@ $Data{"ArticleItems"}
                     <label>$Text{"Attachment"}:</label>
                     <p class="Value">
 <!-- dtl:block:ArticleAttachmentRow -->
-                        $QData{"Filename"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                        <a href="$Data{"Link"}" $Data{"Target"}><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" /></a>
+                        <a href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$QData{"Filename"}</a>, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                        <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}" />
+                        $QData{"Filename"}, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                        $QData{"Filesize"}
-                        <br/>
+                        <br />
 <!-- dtl:block:ArticleAttachmentRow -->
                     </p>
                     <div class="Clear"></div>

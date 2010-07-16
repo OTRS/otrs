@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -156,7 +156,11 @@ div.Headline .Flag {
 }
 
 .AttachmentElement {
-    height: 82px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #E6E6E6;
+    padding-bottom: 2px;
 }
 
 .AttachmentPreview {

@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.5 2010-07-15 12:39:00 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.6 2010-07-16 09:53:26 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -521,9 +521,7 @@ Core.UI.Dialog = (function (TargetNS) {
             var Position, HTML, $HTMLObject;
             if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
                 Position = $(this).offset();
-                $HTMLObject = $('#UIElementPool .AttachmentDialog').clone().find('.AttachmentContent').unwrap();
-                $HTMLObject.append($('#' + $(this).attr('rel'))[0].innerHTML);
-                Core.UI.Dialog.ShowContentDialog($HTMLObject.html(), 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
+                Core.UI.Dialog.ShowContentDialog($('#' + $(this).attr('rel'))[0].innerHTML, 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
             }
             event.preventDefault();
             event.stopPropagation();
