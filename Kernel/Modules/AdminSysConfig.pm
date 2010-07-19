@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.105 2010-07-19 13:12:10 ub Exp $
+# $Id: AdminSysConfig.pm,v 1.106 2010-07-19 17:31:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -700,9 +700,6 @@ sub Run {
             SubGroup => $SubGroup
         );
 
-        # get the config level of the admin user
-        my $ConfigLevel = $Self->{ConfigObject}->Get('ConfigLevel') || 0;
-
         # Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
@@ -744,38 +741,6 @@ sub Run {
                     Required    => $Required,
                 },
             );
-
-            # the admin users config level is not sufficient to edit this config item
-            if ( $ItemHash{ConfigLevel} && $ItemHash{ConfigLevel} < $ConfigLevel ) {
-
-                # only show the name of the config item
-                $Self->{LayoutObject}->Block(
-                    Name => 'ConfigElementInsufficientConfigLevel',
-                    Data => {
-                        ItemKey     => $ItemHash{Name},
-                        ItemKeyID   => $ItemKeyID,
-                        Description => $Description,
-                        Valid       => $Valid,
-                        Validstyle  => $Validstyle,
-                        Required    => $Required,
-                    },
-                );
-            }
-            else {
-
-                # show the complete config item
-                $Self->{LayoutObject}->Block(
-                    Name => 'ConfigElementSufficientConfigLevel',
-                    Data => {
-                        ItemKey     => $ItemHash{Name},
-                        ItemKeyID   => $ItemKeyID,
-                        Description => $Description,
-                        Valid       => $Valid,
-                        Validstyle  => $Validstyle,
-                        Required    => $Required,
-                    },
-                );
-            }
 
             # show icon to reset the config item to default
             if ( $ItemHash{Diff} ) {
