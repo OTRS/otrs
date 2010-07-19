@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.44 2010-07-15 12:31:46 mg Exp $
+# $Id: AdminNavigationBar.dtl,v 1.45 2010-07-19 20:16:17 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,131 +21,132 @@
                     <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Agent -->
                         <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <h4><span>$Text{"$Data{"Name"}"}</span>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:AgentClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:AgentClear -->
 <!-- dtl:block:Agent -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Customer Management"}</h2>
-                </div>
-                <div class="Content">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Customer Management"}</h2>
+                    </div>
+                    <div class="Content">
 
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Customer -->
-                        <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <li class="Size1of2">
+                                <h4><span>$Text{"$Data{"Name"}"}</span> <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:CustomerClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:CustomerClear -->
 <!-- dtl:block:Customer -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Email Settings"}</h2>
-                </div>
-                <div class="Content">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Email Settings"}</h2>
+                    </div>
+                    <div class="Content">
 
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Email -->
-                        <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <li class="Size1of2">
+                                <h4><span>$Text{"$Data{"Name"}"}</span> <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:EmailClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:EmailClear -->
 <!-- dtl:block:Email -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
+            <div class="Clear"></div>
         </div>
-        <div class="Clear"></div>
-    </div>
-    <div id="Row2" class="LayoutGrid ColumnsWithSpacing">
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Queue Settings"}</h2>
-                </div>
-                <div class="Content">
+        <div id="Row2" class="LayoutGrid ColumnsWithSpacing">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Queue Settings"}</h2>
+                    </div>
+                    <div class="Content">
 
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Queue -->
-                        <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <li class="Size1of2">
+                                <h4><span>$Text{"$Data{"Name"}"}</span> <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:QueueClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:QueueClear -->
 <!-- dtl:block:Queue -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Ticket Settings"}</h2>
-                </div>
-                <div class="Content">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Ticket Settings"}</h2>
+                    </div>
+                    <div class="Content">
 
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:Ticket -->
-                        <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <li class="Size1of2">
+                                <h4><span>$Text{"$Data{"Name"}"}</span> <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:TicketClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:TicketClear -->
 <!-- dtl:block:Ticket -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"System Administration"}</h2>
-                </div>
-                <div class="Content">
-                    <ul class="LayoutGrid ColumnsWithSpacing">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"System Administration"}</h2>
+                    </div>
+                    <div class="Content">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
 <!-- dtl:block:System -->
-                        <li class="Size1of2">
-                            <h4>$Text{"$Data{"Name"}"} <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
-                            <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
-                        </li>
+                            <li class="Size1of2">
+                                <h4><span>$Text{"$Data{"Name"}"}</span> <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a></h4>
+                                <p class="FieldExplanation">$Text{"$Data{"Description"}"}</p>
+                            </li>
 <!-- dtl:block:SystemClear -->
-                        <li class="Clear"></li>
+                            <li class="Clear"></li>
 <!-- dtl:block:SystemClear -->
 <!-- dtl:block:System -->
-                    </ul>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
+            <div class="Clear"></div>
         </div>
-        <div class="Clear"></div>
     </div>
-</div>
 <!-- dtl:block:AdminNavBar -->
