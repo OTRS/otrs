@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.34 2010-07-19 15:19:52 dz Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.35 2010-07-19 15:48:09 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@
                         <li class="Header">$Text{"Services"}
                         </li>
 <!-- dtl:block:ResultServiceRow -->
-                        <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name","40"}</a></li>
+                        <li><a title="$QData{"Name"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name","40"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
                     </ul>
