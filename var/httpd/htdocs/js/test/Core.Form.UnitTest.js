@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.UnitTest.js,v 1.1 2010-07-13 09:46:45 mg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.2 2010-07-19 03:59:32 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Core.Form = (function (Namespace) {
         module('Core.Form');
         test('Core.Form.Init()', function(){
 
-            expect(2);
+            expect(24);
 
             /*
              * Create a div containter for the tests
@@ -42,6 +42,94 @@ Core.Form = (function (Namespace) {
              * Cleanup div container and contents
              */
             $('#OTRS_Form_UnitTest').remove();
+            
+            
+
+            /*
+             * Create a form containter for the tests
+             */
+            var $TestForm = $('<form id="TestForm"></form>');
+            $TestForm.append('<input type="text" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
+            $TestForm.append('<input type="password" value="ObjectTwo" id="ObjectTwo" name="ObjectTwo" />');
+            $TestForm.append('<input type="checkbox" value="ObjectThree" id="ObjectThree" name="ObjectThree" />');
+            $TestForm.append('<input type="radio" value="ObjectFour" id="ObjectFour" name="ObjectFour" />');
+            $TestForm.append('<input type="file" value="" id="ObjectFive" name="ObjectFive" />');
+            $TestForm.append('<input type="hidden" value="ObjectSix" id="ObjectSix" name="ObjectSix" />');
+            $TestForm.append('<textarea id="ObjectSeven" name="ObjectSeven">ObjectSeven</textarea>');
+            $TestForm.append('<select id="ObjectEight" name="ObjectEight"><option value="1">EightOne</option><option value="2">EightTwo</option></select>');
+            $TestForm.append('<button value="ObjectNine" type="submit" id="ObjectNine">ObjectNine</button>');
+            $TestForm.append('<button value="ObjectTen" type="button" id="ObjectTen">ObjectTen</button>');
+            $('body').append($TestForm);
+
+            /*
+             * Run the tests
+             */
+            
+            /*
+             * Disable a form containter
+             */
+            Core.Form.DisableForm($('#TestForm'));
+
+            equals($('#TestForm').hasClass("AlreadyDisabled"), true );
+
+            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) { 
+                var readonlyValue = $(this).attr('readonly');
+                var tagnameValue  = $(this).attr('tagName');
+                var typeValue     = $(this).attr('type');
+                var disabledValue = $(this).attr('disabled');
+ 
+                if (readonlyValue == 'readonly') {
+                    readonlyValue = true;
+                }
+
+                if (tagnameValue == "BUTTON") {
+                    equals(disabledValue, true );
+                }
+                else {
+                    if (typeValue == "hidden") {
+                        notEqual(readonlyValue, true );
+                    }
+                    else {
+                        equals(readonlyValue, true );
+                    }
+                }
+            });
+
+            
+            /*
+             * Enable a form containter
+             */
+            Core.Form.EnableForm($('#TestForm'));
+
+            notEqual($('#TestForm').hasClass("AlreadyDisabled"), true );
+
+            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) { 
+                var readonlyValue = $(this).attr('readonly');
+                var tagnameValue  = $(this).attr('tagName');
+                var typeValue     = $(this).attr('type');
+                var disabledValue = $(this).attr('disabled');
+ 
+                if (readonlyValue == undefined) {
+                    readonlyValue = false;
+                }
+                
+                if (tagnameValue == "BUTTON") {
+                    equals(disabledValue, false );
+                }
+                else {
+                    if (typeValue == "hidden") {
+                        equals(readonlyValue, false );
+                    }
+                    else {
+                        equals(readonlyValue, false );
+                    }
+                }
+            });
+
+            /*
+             * Cleanup div container and contents
+             */
+            $('#TestForm').remove();
         });
     };
 
