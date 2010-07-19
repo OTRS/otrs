@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.18 2010-04-12 21:38:26 martin Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.19 2010-07-19 13:08:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,7 @@ sub Run {
         return;
     }
 
-    # check if feature is aktive
+    # check if feature is active
     return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
 
     # check if frontend module registered, if not, do not show action

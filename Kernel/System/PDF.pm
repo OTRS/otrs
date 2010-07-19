@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.43 2010-06-17 21:39:40 cr Exp $
+# $Id: PDF.pm,v 1.44 2010-07-19 13:08:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -2133,7 +2133,7 @@ sub _TableBlockNextCalculate {
     my $ColumnStart = 'NULL';
     my $ColumnStop  = 0;
 
-    # calculate, what cells can output (what cells are aktive)
+    # calculate, what cells can output (what cells are active)
     my $RowCounter = 0;
     for my $Row ( @{ $Param{CellData} } ) {
 
@@ -2145,7 +2145,7 @@ sub _TableBlockNextCalculate {
             }
         }
 
-        # now calculate, what cells can output (what cells are aktive)
+        # now calculate, what cells can output (what cells are active)
         for ( my $ColumnCounter = 0; $ColumnCounter < scalar @$Row; $ColumnCounter++ ) {
 
             # calculate RowStart and ColumnStart
@@ -2432,7 +2432,7 @@ sub _TableCellOutput {
 
 =item _TableCellOnCount()
 
-count all aktive cells
+count all active cells
 
    Return
        $CellCount
@@ -3522,6 +3522,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.44 $ $Date: 2010-07-19 13:08:59 $
 
 =cut
