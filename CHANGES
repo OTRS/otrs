@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1255 2010-07-16 12:47:33 mg Exp $
+# $Id: CHANGES,v 1.1256 2010-07-19 12:52:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/19) Fixed bug#5563 - Static statistic file StateAction is overwritten
+    by an older version.
  - (2010/07/16) Removed support for the deprecated DTL commands <dtl if>, <dtl set>
     and <dtl system-call>. They were deprecated since OTRS 2.2.
  - (2010/07/15) Fixed bug#5416 - AgentTicketMove does not support Pending Date.
