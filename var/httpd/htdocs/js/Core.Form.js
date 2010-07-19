@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.4 2010-07-18 20:58:37 cg Exp $
+// $Id: Core.Form.js,v 1.5 2010-07-19 18:10:46 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,33 +60,33 @@ Core.Form = (function (TargetNS) {
         // save action data to the given element        
         if (!$Form.hasClass("AlreadyDisabled")) {
             $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) { 
-                var readonlyValue = $(this).attr('readonly');
-                var tagnameValue  = $(this).attr('tagName');
-                var disabledValue = $(this).attr('disabled');
+                var ReadonlyValue = $(this).attr('readonly'),
+                    TagnameValue  = $(this).attr('tagName'),
+                    DisabledValue = $(this).attr('disabled');
                 
-                if (tagnameValue == "BUTTON") {
-                    if (disabledValue == true) {
-                        Core.Data.Set( $(this), 'oldDisabledStatus', 'disabled' );
+                if (TagnameValue == "BUTTON") {
+                    if (DisabledValue == true) {
+                        Core.Data.Set( $(this), 'OldDisabledStatus', 'disabled' );
                     }
                 }
                 else {
-                    if (readonlyValue == true) {
-                        Core.Data.Set( $(this), 'oldReadonlyStatus', 'readonly' );
+                    if (ReadonlyValue == true) {
+                        Core.Data.Set( $(this), 'OldReadonlyStatus', 'readonly' );
                     }
                 }
             });
 
-        $Form
-            .find("input:not([type='hidden']), textarea, select")
-            .attr('readonly', 'readonly')
-            // trigger custom "readonly" event for Core.UI.IE7Fixes
-            .trigger('readonly')
-            .end()
-            .find('button')
-            .attr('disabled', 'disabled');
-                
-            // Add a speaking class to the form on DisableForm
-            $Form.addClass('AlreadyDisabled');
+            $Form
+                .find("input:not([type='hidden']), textarea, select")
+                .attr('readonly', 'readonly')
+                // trigger custom "readonly" event for Core.UI.IE7Fixes
+                .trigger('readonly')
+                .end()
+                .find('button')
+                .attr('disabled', 'disabled');
+                    
+                // Add a speaking class to the form on DisableForm
+                $Form.addClass('AlreadyDisabled');
         }
             
     };
@@ -114,17 +114,17 @@ Core.Form = (function (TargetNS) {
             .removeAttr('disabled');
             
         $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) {
-            var tagnameValue  = $(this).attr('tagName');
-            var readonlyValue = Core.Data.Get($(this), 'oldReadonlyStatus');
-            var disabledValue = Core.Data.Get($(this), 'oldDisabledStatus');
+            var TagnameValue  = $(this).attr('tagName'),
+                ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
+                DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
             
-            if (tagnameValue == "BUTTON") {
-                if (disabledValue == 'disabled') {
+            if (TagnameValue == "BUTTON") {
+                if (DisabledValue == 'disabled') {
                     $(this).attr('disabled', 'disabled');
                 }
             }
             else {
-                if (readonlyValue == 'readonly') {
+                if (ReadonlyValue == 'readonly') {
                     $(this).attr('readonly', 'readonly');
                 }
             }
