@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.40 2010-07-19 12:13:38 fn Exp $
+# $Id: CustomerLogin.dtl,v 1.41 2010-07-19 12:22:32 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,11 +28,11 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">$Text{"Username"}</label>
-                        <input title="Your User Name" type="text" name="User" id="User" maxlength="128" />
+                        <input title="$Text{"Your User Name"}" type="text" name="User" id="User" maxlength="128" />
                     </div>
                     <div>
                         <label for="Password">$Text{"Password"}</label>
-                        <input title="Password" type="password" name="Password" id="Password" maxlength="128" />
+                        <input title="$Text{"Your Password"}" type="password" name="Password" id="Password" maxlength="128" />
 <!-- dtl:block:LostPasswordLink -->
                         <div class="Option">
                             <a href="#Reset" id="ForgotPassword">$Text{"Forgot password?"}</a>
@@ -57,7 +57,7 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}" />
                     <div>
                         <label for="ResetUser">$Text{"Username"}</label>
-                        <input title="Your User Name" type="text" id="ResetUser" name="User" maxlength="128" />
+                        <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="128" />
                     </div>
                     <div>
                         <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
@@ -77,19 +77,19 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
                     <div>
                         <label for="Title">$Text{"Title{CustomerUser}"}</label>
-                        <input title="How we should adress you" type="text" name="Title"  id="Title" maxlength="128" />
+                        <input title="$Text{"How we should adress you"}" type="text" name="Title"  id="Title" maxlength="128" />
                     </div>
                     <div class="NewLine">
                         <label for="FirstName">$Text{"Firstname{CustomerUser}"}</label>
-                        <input title="Your first name" name="Firstname" type="text" id="FirstName" maxlength="128" />
+                        <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="128" />
                     </div>
                     <div>
                         <label for="LastName">$Text{"Lastname{CustomerUser}"}</label>
-                        <input title="Your last name" name="Lastname" type="text" id="LastName" maxlength="128" />
+                        <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="128" />
                     </div>
                     <div class="NewLine">
                         <label for="Email">$Text{"Email{CustomerUser}"}/$Text{"Login"}</label>
-                        <input title="Your email/login" name="Email" type="text" id="Email" maxlength="128" />
+                        <input title="$Text{"The User Name you wish to have"}" name="Email" type="text" id="Email" maxlength="128" />
                     </div>
                     <div class="NewLine">
                         <button type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
