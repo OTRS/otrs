@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.3 2010-07-16 13:45:36 mg Exp $
+// $Id: Core.Agent.js,v 1.4 2010-07-19 12:03:34 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -129,7 +129,7 @@ Core.Agent = (function (TargetNS) {
          * Register event for global search
          *
          */
-        $('#Search').bind('click', function (Event) {
+        $('#GlobalSearchNav').bind('click', function (Event) {
             Core.Agent.Search.OpenSearchDialog();
             return false;
         });
