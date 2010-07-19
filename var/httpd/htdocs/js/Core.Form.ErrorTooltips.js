@@ -2,7 +2,7 @@
 // Core.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.2 2010-07-19 22:52:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,14 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         $TooltipContent = $('<div class="Content" role="tooltip"></div>'),
         $Tooltip,
         Offset;
-
+        
+    /**
+     * @function
+     * @param {jQueryObject} $Element jquery object
+     * @param {String} TooltipContent The string content that will be show in tooltip 
+     * @return nothing
+     *      This function shows the tooltip for an element with a certain content
+     */
     function ShowTooltip($Element, TooltipContent) {
         var $TooltipContainer = $('#' + TooltipContainerID);
         if (!$TooltipContainer.length) {
@@ -61,7 +68,12 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
             .css('top', Offset.top + TooltipOffsetTop)
             .show();
     }
-
+    
+    /**
+     * @function
+     * @return nothing
+     *      This function hides the tooltip for an element
+     */
     function HideTooltip() {
         $('#' + TooltipContainerID).hide().empty();
     }
@@ -99,21 +111,50 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
     };
+        
+    /**
+     * @function
+     * @return nothing
+     *      This function shows the tooltip for a rich text editor
+     */
     
     function ShowRTETooltip(Event) {
         ShowTooltip($('#cke_contents_' + Event.listenerData.ElementID), Event.listenerData.Message);
     }
-
+        
+    /**
+     * @function
+     * @return nothing
+     *      This function remove the tooltip from a rich text editor
+     */
     function RemoveRTETooltip(Event) {
         HideTooltip($('#cke_contents_' + Event.listenerData));
     }
-    
+
+    /**
+     * @function
+     * @description
+     *      This function inicialized the necessary stuff for a tooltip in a rich text editor 
+     * @param {jQueryObject} $Element
+     *      The RTE element for whom the tooltips are inicialized.
+     * @param {String} Message
+     *      The string content that will be show in tooltip 
+     * @return nothing
+     */
     TargetNS.InitRTETooltip = function ($Element, Message) {
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
         CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);
     };
 
+    /**
+     * @function
+     * @description
+     *      This function inicialized the necessary stuff for a tooltip in a rich text editor 
+     * @param {jQueryObject} $Element
+     *      The RTE element for whom the tooltips are removed.
+     * @return nothing
+     */
     TargetNS.RemoveRTETooltip = function ($Element) {
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].removeListener('focus', ShowRTETooltip);

@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.4 2010-07-19 12:03:34 mn Exp $
+// $Id: Core.Agent.js,v 1.5 2010-07-19 22:52:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,10 +48,20 @@ Core.Agent = (function (TargetNS) {
         var NavigationTimer = {},
             NavigationDuration = 500;
 
+        /**
+         * @function
+         * @return nothing
+         *      This function set Timeout for closing nav
+         */
         function CreateSubnavCloseTimeout($Element, TimeoutFunction) {
             NavigationTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationDuration);
         }
 
+        /**
+         * @function
+         * @return nothing
+         *      This function clear Timeout for nav element
+         */
         function ClearSubnavCloseTimeout($Element) {
             if (typeof NavigationTimer[$Element.attr('id')] !== 'undefined') {
                 clearTimeout(NavigationTimer[$Element.attr('id')]);

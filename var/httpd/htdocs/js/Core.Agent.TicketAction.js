@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.3 2010-07-16 15:43:44 cg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.4 2010-07-19 22:52:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -86,6 +86,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
     };
 
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the necessary stuff for address book link in TicketAction screens
+     */
     TargetNS.InitAdressBook = function () {
         // Register event for copying mail adress to input field
         $('#SearchResult a').bind('click', function (Event) {
@@ -117,6 +122,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
     }
 
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the necessary stuff for spell check link  in TicketAction screens
+     */
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
         $('#SpellCheck select, #SpellCheck input:text').bind('change', function (Event) {
@@ -146,6 +156,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
     }
 
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the necessary stuff for Customer link in TicketAction screens
+     */
     TargetNS.InitCustomer = function () {
         $('#CustomerTable a').bind('click', function (Event) {
             var Customer = $(this).text();

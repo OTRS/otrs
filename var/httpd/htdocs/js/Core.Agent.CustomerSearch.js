@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.3 2010-07-19 10:51:53 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.4 2010-07-19 22:52:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -27,6 +27,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CustomerKey: ''
     };
 
+    /**
+     * @function
+     * @return nothing
+     *      This function get customer data for customer info table
+     */
     function GetCustomerInfo(CustomerUserID) {
         var Data = {
             Action: 'AgentCustomerSearch',
@@ -51,6 +56,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         });
     }
 
+    /**
+     * @function
+     * @return nothing
+     *      This function get customer tickets
+     */
     function GetCustomerTickets(CustomerUserID, CustomerID) {
         // check if customer tickets should be shown
         if (isNaN(parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets'), 10))) {
@@ -64,6 +74,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             CustomerID: CustomerID
         };
 
+        /**
+         * @function
+         * @return nothing
+         *      This function replace and show customer ticket links
+         */
         function ReplaceCustomerTicketLinks() {
             $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
 

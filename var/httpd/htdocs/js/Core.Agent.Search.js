@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.8 2010-07-16 13:45:36 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.9 2010-07-19 22:52:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,11 @@ Core.Agent = Core.Agent || {};
  */
 Core.Agent.Search = (function (TargetNS) {
 
-    // rebuild attribute selection, only show available attributes
+    /**
+     * @function
+     * @return a true value
+     *      This function rebuild attribute selection, only show available attributes
+     */
     function RebuildSelection () {
 
         // get original selection
@@ -45,6 +49,13 @@ Core.Agent.Search = (function (TargetNS) {
         return true;
     }
 
+    /**
+     * @function
+     * @param {Event} Action 
+     * @return nothing
+     *      This function open the search dialog
+     */
+    
     TargetNS.OpenSearchDialog = function (Action) {
         if ( !Action ) {
             Action = Core.Config.Get('Action');
