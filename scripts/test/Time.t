@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.22 2010-06-22 22:00:51 dz Exp $
+# $Id: Time.t,v 1.23 2010-07-19 19:26:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,14 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
+# set time zone to get correct references
+$ENV{TZ} = 'Europe/Berlin';
+
 use Kernel::System::Time;
 
-$Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-20T10:00:00Z',
 );
 $Self->Is(
@@ -26,7 +29,7 @@ $Self->Is(
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+$SystemTime = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-20T10:00:00+00:00',
 );
 $Self->Is(
@@ -35,7 +38,7 @@ $Self->Is(
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+$SystemTime = $TimeObject->TimeStamp2SystemTime(
     String => '20-10-2005 10:00:00',
 );
 $Self->Is(
@@ -44,7 +47,7 @@ $Self->Is(
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+$SystemTime = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-20 10:00:00',
 );
 $Self->Is(
@@ -53,7 +56,7 @@ $Self->Is(
     'TimeStamp2SystemTime()',
 );
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
     SystemTime => $SystemTime,
 );
 $Self->Is(
@@ -62,7 +65,7 @@ $Self->Is(
     'SystemTime2Date()',
 );
 
-my $SystemTimeUnix = $Self->{TimeObject}->Date2SystemTime(
+my $SystemTimeUnix = $TimeObject->Date2SystemTime(
     Year   => 2005,
     Month  => 10,
     Day    => 20,
@@ -76,123 +79,133 @@ $Self->Is(
     'Date2SystemTime()',
 );
 
-my $SystemTime2 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime2 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-21 10:00:00',
 );
-my $SystemTime3 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime3 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-24 10:00:00',
 );
-my $SystemTime4 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime4 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-27 10:00:00',
 );
-my $SystemTime5 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime5 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-11-03 10:00:00',
 );
-my $SystemTime6 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime6 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-12-21 10:00:00',
 );
-my $SystemTime7 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime7 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-12-31 10:00:00',
 );
-my $SystemTime8 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime8 = $TimeObject->TimeStamp2SystemTime(
     String => '2003-12-21 10:00:00',
 );
-my $SystemTime9 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime9 = $TimeObject->TimeStamp2SystemTime(
     String => '2003-12-31 10:00:00',
 );
-my $SystemTime10 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime10 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-23 10:00:00',
 );
-my $SystemTime11 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime11 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-24 10:00:00',
 );
-my $SystemTime12 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime12 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-23 10:00:00',
 );
-my $SystemTime13 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime13 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-25 13:00:00',
 );
-my $SystemTime14 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime14 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-23 10:00:00',
 );
-my $SystemTime15 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime15 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-30 13:00:00',
 );
-my $SystemTime16 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime16 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-24 11:44:12',
 );
-my $SystemTime17 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime17 = $TimeObject->TimeStamp2SystemTime(
     String => '2005-10-24 16:13:31',
 );
-my $SystemTime18 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime18 = $TimeObject->TimeStamp2SystemTime(
     String => '2006-12-05 22:57:34',
 );
-my $SystemTime19 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime19 = $TimeObject->TimeStamp2SystemTime(
     String => '2006-12-06 10:25:34',
 );
-my $SystemTime20 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime20 = $TimeObject->TimeStamp2SystemTime(
     String => '2006-12-06 07:50:00',
 );
-my $SystemTime21 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime21 = $TimeObject->TimeStamp2SystemTime(
     String => '2006-12-07 08:54:00',
 );
-my $SystemTime22 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime22 = $TimeObject->TimeStamp2SystemTime(
     String => '2007-03-12 11:56:01',
 );
-my $SystemTime23 = $Self->{TimeObject}->TimeStamp2SystemTime(
+my $SystemTime23 = $TimeObject->TimeStamp2SystemTime(
     String => '2007-03-12 13:56:01',
 );
-my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+my $SystemTime24 = $TimeObject->TimeStamp2SystemTime(
+    String => '2010-01-28 22:00:02',
+);
+my $SystemTime25 = $TimeObject->TimeStamp2SystemTime(
+    String => '2010-01-28 22:01:02',
+);
+my $WorkingTime = $TimeObject->WorkingTime(
     StartTime => $SystemTime,
     StopTime  => $SystemTime2,
 );
-my $WorkingTime2 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime2 = $TimeObject->WorkingTime(
     StartTime => $SystemTime,
     StopTime  => $SystemTime3,
 );
-my $WorkingTime3 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime3 = $TimeObject->WorkingTime(
     StartTime => $SystemTime,
     StopTime  => $SystemTime4,
 );
-my $WorkingTime4 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime4 = $TimeObject->WorkingTime(
     StartTime => $SystemTime,
     StopTime  => $SystemTime5,
 );
-my $WorkingTime5 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime5 = $TimeObject->WorkingTime(
     StartTime => $SystemTime6,
     StopTime  => $SystemTime7,
 );
-my $WorkingTime6 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime6 = $TimeObject->WorkingTime(
     StartTime => $SystemTime8,
     StopTime  => $SystemTime9,
 );
-my $WorkingTime7 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime7 = $TimeObject->WorkingTime(
     StartTime => $SystemTime10,
     StopTime  => $SystemTime11,
 );
-my $WorkingTime8 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime8 = $TimeObject->WorkingTime(
     StartTime => $SystemTime12,
     StopTime  => $SystemTime13,
 );
-my $WorkingTime9 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime9 = $TimeObject->WorkingTime(
     StartTime => $SystemTime14,
     StopTime  => $SystemTime15,
 );
-my $WorkingTime10 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime10 = $TimeObject->WorkingTime(
     StartTime => $SystemTime16,
     StopTime  => $SystemTime17,
 );
-my $WorkingTime11 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime11 = $TimeObject->WorkingTime(
     StartTime => $SystemTime18,
     StopTime  => $SystemTime19,
 );
-my $WorkingTime12 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime12 = $TimeObject->WorkingTime(
     StartTime => $SystemTime20,
     StopTime  => $SystemTime21,
 );
-my $WorkingTime13 = $Self->{TimeObject}->WorkingTime(
+my $WorkingTime13 = $TimeObject->WorkingTime(
     StartTime => $SystemTime22,
     StopTime  => $SystemTime23,
+);
+my $WorkingTime14 = $TimeObject->WorkingTime(
+    StartTime => $SystemTime24,
+    StopTime  => $SystemTime25,
 );
 
 $Self->Is(
@@ -267,6 +280,11 @@ $Self->Is(
 $Self->Is(
     $WorkingTime13 / 60 / 60,
     2,
+    'WorkingHours - Mon-Mon',
+);
+$Self->Is(
+    $WorkingTime14,
+    0,
     'WorkingHours - Mon-Mon',
 );
 
@@ -446,7 +464,7 @@ my @DestinationTime = (
 for my $Test (@DestinationTime) {
 
     # get system time
-    my $SystemTimeDestination = $Self->{TimeObject}->TimeStamp2SystemTime(
+    my $SystemTimeDestination = $TimeObject->TimeStamp2SystemTime(
         String => $Test->{StartTime},
     );
 
@@ -460,7 +478,7 @@ for my $Test (@DestinationTime) {
     }
 
     # get system destination time based on calendar settings
-    my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+    my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $SystemTimeDestination,
         Time      => $Test->{Diff},
     );
@@ -475,7 +493,7 @@ for my $Test (@DestinationTime) {
     }
 
     # check time stamp destination time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
         SystemTime => $DestinationTime,
     );
     $Self->Is(
@@ -489,7 +507,7 @@ for my $Test (@DestinationTime) {
 my $Vacation = '';
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year  => '2005',
     Month => '1',
     Day   => '1',
@@ -502,7 +520,7 @@ $Self->Is(
 );
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year  => '2005',
     Month => '01',
     Day   => '01',
@@ -515,7 +533,7 @@ $Self->Is(
 );
 
 # 2005-12-31
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year  => '2005',
     Month => '12',
     Day   => '31',
@@ -528,7 +546,7 @@ $Self->Is(
 );
 
 # 2005-02-14
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year  => 2005,
     Month => '02',
     Day   => '14',
@@ -545,7 +563,7 @@ my $TimeVacationDays1        = $Self->{ConfigObject}->Get('TimeVacationDays::Cal
 my $TimeVacationDaysOneTime1 = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime::Calendar1');
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2005,
     Month    => 1,
     Day      => 1,
@@ -559,7 +577,7 @@ $Self->Is(
 );
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2005,
     Month    => '01',
     Day      => '01',
@@ -577,7 +595,7 @@ $TimeVacationDays1->{1}->{1} = undef;
 $TimeVacationDaysOneTime1->{2004}->{1}->{1} = undef;
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2005,
     Month    => 1,
     Day      => 1,
@@ -591,7 +609,7 @@ $Self->Is(
 );
 
 # 2005-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2005,
     Month    => '01',
     Day      => '01',
@@ -605,7 +623,7 @@ $Self->Is(
 );
 
 # 2004-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2004,
     Month    => 1,
     Day      => 1,
@@ -619,7 +637,7 @@ $Self->Is(
 );
 
 # 2004-01-01
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2004,
     Month    => '01',
     Day      => '01',
@@ -633,7 +651,7 @@ $Self->Is(
 );
 
 # 2005-02-14
-$Vacation = $Self->{TimeObject}->VacationCheck(
+$Vacation = $TimeObject->VacationCheck(
     Year     => 2005,
     Month    => '02',
     Day      => '14',
