@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.2 2010-07-16 10:03:59 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.3 2010-07-19 10:51:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -64,11 +64,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             CustomerID: CustomerID
         };
 
-        function ReplaceOverviewControlLinks() {
-
+        function ReplaceCustomerTicketLinks() {
             $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
 
-            $('#CustomerTickets').find('.OverviewZoom a').click(function () {
+            // Replace overview mode links (S, M, L view), pagination links with AJAX
+            $('#CustomerTickets').find('.OverviewZoom a, .Pagination a').click(function () {
                 // Cut out BaseURL and query string from the URL
                 var Link = $(this).attr('href'),
                     URLComponents;
@@ -79,18 +79,21 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     // show customer tickets
                     if ($('#CustomerTickets').length) {
                         $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
-                        ReplaceOverviewControlLinks();
+                        ReplaceCustomerTicketLinks();
                     }
                 });
                 return false;
             });
+
+            // Init accordion of overview article preview
+            Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
         }
 
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
             // show customer tickets
             if ($('#CustomerTickets').length) {
                 $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
-                ReplaceOverviewControlLinks();
+                ReplaceCustomerTicketLinks();
             }
         });
     }
