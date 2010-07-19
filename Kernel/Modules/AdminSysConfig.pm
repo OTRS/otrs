@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.104 2010-07-13 12:47:06 ub Exp $
+# $Id: AdminSysConfig.pm,v 1.105 2010-07-19 13:12:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -139,17 +139,17 @@ sub Run {
                 next;
             }
 
-            # Get ElementAktiv (checkbox)
-            my $Aktiv = 0;
+            # Get ElementActive (checkbox)
+            my $Active = 0;
             if (
                 ( $ItemHash{Required} && $ItemHash{Required} == 1 )
                 || (
-                    $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' )
-                    && $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' ) == 1
+                    $Self->{ParamObject}->GetParam( Param => $_ . 'ItemActive' )
+                    && $Self->{ParamObject}->GetParam( Param => $_ . 'ItemActive' ) == 1
                 )
                 )
             {
-                $Aktiv = 1;
+                $Active = 1;
             }
 
             # ConfigElement String
@@ -162,10 +162,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => $Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -179,10 +179,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => $Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -194,10 +194,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => $Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -212,10 +212,10 @@ sub Run {
                     # SubHash
                     if ( $Values[$Index] eq '##SubHash##' ) {
                         my @SubHashKeys = $Self->{ParamObject}->GetArray(
-                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Key[]'
+                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Key[]',
                         );
                         my @SubHashValues = $Self->{ParamObject}->GetArray(
-                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Content[]'
+                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Content[]',
                         );
                         my %SubHash;
                         for my $Index2 ( 0 .. $#SubHashKeys ) {
@@ -238,7 +238,7 @@ sub Run {
 
                         # New SubHashElement
                         my $New = $Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
+                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement',
                         );
                         if ($New) {
                             $SubHash{''} = '';
@@ -250,12 +250,12 @@ sub Run {
                     # SubArray
                     elsif ( $Values[$Index] eq '##SubArray##' ) {
                         my @SubArray = $Self->{ParamObject}->GetArray(
-                            Param => $_ . '##SubArray##' . $Keys[$Index] . 'Content[]'
+                            Param => $_ . '##SubArray##' . $Keys[$Index] . 'Content[]',
                         );
 
                         # New SubArrayElement
                         my $New = $Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
+                            Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement',
                         );
                         if ($New) {
                             push @SubArray, '';
@@ -282,7 +282,7 @@ sub Run {
                     # Delete Hash Element?
                     elsif (
                         !$Self->{ParamObject}->GetParam(
-                            Param => $ItemHash{Name} . '#DeleteHashElement' . $DeleteNumber[$Index]
+                            Param => $ItemHash{Name} . '#DeleteHashElement' . $DeleteNumber[$Index],
                         )
                         )
                     {
@@ -306,10 +306,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \%Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -329,7 +329,7 @@ sub Run {
                 # Delete Array Element
                 for my $Index ( 0 .. $#Content ) {
                     my $Delete = $Self->{ParamObject}->GetParam(
-                        Param => $ItemHash{Name} . '#DeleteArrayElement' . ( $Index + 1 )
+                        Param => $ItemHash{Name} . '#DeleteArrayElement' . ( $Index + 1 ),
                     );
                     if ($Delete) {
                         splice( @Content, $Index, 1 );
@@ -341,10 +341,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \@Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -360,12 +360,12 @@ sub Run {
                 }
                 for my $Type (qw(Group GroupRo)) {
                     my @Group = $Self->{ParamObject}->GetArray(
-                        Param => $ElementKey . '#' . $Type . '[]'
+                        Param => $ElementKey . '#' . $Type . '[]',
                     );
 
                     # New Group(Ro)Element
                     my $New = $Self->{ParamObject}->GetParam(
-                        Param => $ItemHash{Name} . '#New' . $Type . 'Element'
+                        Param => $ItemHash{Name} . '#New' . $Type . 'Element',
                     );
                     if ($New) {
                         push @Group, '';
@@ -393,7 +393,7 @@ sub Run {
 
                 # Loader start
                 my @Loader = $Self->{ParamObject}->GetArray(
-                    Param => $ElementKey . '#Loader[]'
+                    Param => $ElementKey . '#Loader[]',
                 );
                 my @LoaderFileTypes = (
                     'CSS',
@@ -405,7 +405,7 @@ sub Run {
 
                 # New Loader Element
                 my $New = $Self->{ParamObject}->GetParam(
-                    Param => $ElementKey . '#NewLoaderElement'
+                    Param => $ElementKey . '#NewLoaderElement',
                 );
                 if ($New) {
                     push @Loader, '';
@@ -524,7 +524,7 @@ sub Run {
 
                 # NavBarModule
                 my $NavBarModule = $Self->{ParamObject}->GetArray(
-                    Param => $ElementKey . '#NavBarModule#Module[]'
+                    Param => $ElementKey . '#NavBarModule#Module[]',
                 );
                 if ($NavBarModule) {
 
@@ -532,7 +532,7 @@ sub Run {
                     my %NavBarModuleParams;
                     for (qw(Module Name Description Block Prio)) {
                         my @Param = $Self->{ParamObject}->GetArray(
-                            Param => $ElementKey . '#NavBarModule#' . $_ . '[]'
+                            Param => $ElementKey . '#NavBarModule#' . $_ . '[]',
                         );
                         $NavBarModuleParams{$_} = \@Param;
                     }
@@ -553,10 +553,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \%Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -601,10 +601,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \%Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -648,11 +648,11 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \%Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
 
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
 
@@ -671,10 +671,10 @@ sub Run {
                 my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
                     Key   => $_,
                     Value => \%Content,
-                    Valid => $Aktiv
+                    Valid => $Active,
                 );
                 if ( !$Update ) {
-                    $Self->{LayoutObject}->FatalError( Message => 'Can\'t write ConfigItem!' );
+                    $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
             }
         }
@@ -1581,7 +1581,7 @@ sub ListConfigItem {
             # Hours
             my @ArrayHours = ('') x 25;
 
-            # Aktiv Hours
+            # Active Hours
             if ( defined $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} ) {
                 for my $Index2 ( 1 .. $#{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour} } ) {
                     $ArrayHours[ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Hour}[$Index2]{Content} ]
@@ -1594,8 +1594,8 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name}
                             . $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name},
-                        Hour  => $Z,
-                        Aktiv => $ArrayHours[$Z],
+                        Hour   => $Z,
+                        Active => $ArrayHours[$Z],
                     },
                 );
             }
