@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.74 2010-07-14 12:53:09 fn Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.75 2010-07-19 13:12:56 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,7 @@
                     <a name="$QData{"ItemKeyID"}"></a>
                     <fieldset class="">
                         <h3>
-                            <label for="$QData{"ItemKeyID"}ItemAktiv">$QData{"ItemKey"}</label>
+                            <label for="$QData{"ItemKeyID"}ItemActive">$QData{"ItemKey"}</label>
                         </h3>
                         <div class="Setting">
                             <div class="String">
@@ -74,13 +74,13 @@
                     <a name="$QData{"ItemKeyID"}"></a>
                     <fieldset class="$QData{"Validstyle"}">
                         <h3>
-                            <input type="checkbox" value="1" id="$QData{"ItemKeyID"}ItemAktiv" name="$QData{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}/>
+                            <input type="checkbox" value="1" id="$QData{"ItemKeyID"}ItemActive" name="$QData{"ItemKey"}ItemActive" $Data{"Valid"} $Data{"Required"}/>
 <!-- dtl:block:ConfigElementBlockReset -->
                             <button class="Reset" type="submit" name="Reset$QData{"ItemKey"}" title="$Text{"Reset this setting"}" value="$Text{"Reset this setting"}">
                                 $Text{"Reset this setting"}
                             </button>
 <!-- dtl:block:ConfigElementBlockReset -->
-                            <label for="$QData{"ItemKeyID"}ItemAktiv">$QData{"ItemKey"}</label>
+                            <label for="$QData{"ItemKeyID"}ItemActive">$QData{"ItemKey"}</label>
                         </h3>
                         <div class="Setting">
 
@@ -403,7 +403,7 @@
                                 <div class="FloatBox">
                                     <label for="$QData{"ElementKey"}$QData{"Hour"}">$Data{"Hour"}</label>
                                     <br/>
-                                    <input type="checkbox" name="$QData{"ElementKey"}[]" id="$QData{"ElementKey"}$QData{"Hour"}" value="$QData{"Hour"}" $Data{"Aktiv"}/>
+                                    <input type="checkbox" name="$QData{"ElementKey"}[]" id="$QData{"ElementKey"}$QData{"Hour"}" value="$QData{"Hour"}" $Data{"Active"}/>
                                 </div>
 <!-- dtl:block:ConfigElementTimeWorkingHoursHours -->
                                 <div class="Clear"></div>
