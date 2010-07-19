@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -27,7 +27,9 @@
     overflow: hidden;
 }
 
-#SlideArea > div {
+#Login,
+#Reset,
+#Signup {
     width: 500px;
     height: 200px;
     padding-left: 142px;
@@ -58,13 +60,13 @@
     width: auto;
     padding-left: 2px;
     float: none;
-    color: #666;
+    color: #888;
     font-size: 12px;
     text-align: left;
 }
 
 .Login form label.Focused {
-    color: #AAA;
+    color: #CCC;
 }
 
 .Login input[type='text'],
@@ -91,13 +93,13 @@
  * @see         Login
  */
 
-.Floating > div {
+.Floating div {
     margin: 2px 5px 2px 0;
     position: relative;
     float: left;
 }
 
-.RTL .Floating > div {
+.RTL .Floating div {
     margin: 2px 0 2px 5px;
 }
 
@@ -133,8 +135,10 @@
 }
 
 .Option {
+    margin: 0;
     padding: 0 2px 3px;
     line-height: 21px;
+    float: none;
 }
 
 /**
