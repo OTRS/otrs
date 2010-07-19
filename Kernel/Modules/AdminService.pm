@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.30 2010-05-17 18:30:46 en Exp $
+# $Id: AdminService.pm,v 1.31 2010-07-19 15:18:27 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,7 @@ sub Run {
             Sort           => 'TreeView',
             DisabledBranch => $ServiceData{Name},
             Translation    => 0,
-            Max            => 200,
+            Max            => 50,
         );
 
         # get valid list
@@ -109,7 +109,10 @@ sub Run {
 
         # shows header
         if ( $ServiceData{ServiceID} ne 'NEW' ) {
-            $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+            $Self->{LayoutObject}->Block(
+                Name => 'HeaderEdit',
+                Data => {%ServiceData},
+            );
         }
         else {
             $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
