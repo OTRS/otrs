@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Customer.js,v 1.2 2010-07-19 12:42:54 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,10 +32,11 @@ Core.Customer = (function (TargetNS) {
      *      4. first input field gets focused
      */
     TargetNS.InitLogin = function() {
-        var $Inputs = $('input').not(':checkbox, :hidden, :radio'),
+        var $Inputs = $('input:not(:checked, :hidden, :radio)'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
-            $Label;
+            $Label,
+            $SliderNavigationLinks = $('#Slider a');
 
         $('#TimeOffset').val(Diff);
 
@@ -52,9 +53,53 @@ Core.Customer = (function (TargetNS) {
                 $Label = $(this).prev('label');
                 if (!$(this).val()) $Label.show();
                 $Label.removeClass('Focused');
-            })
-            .first().focus();
+            });
         CheckInputs($Inputs);
+        
+        // Fill the reset-password input field with the same value the user types in the login screen
+        // so that the user doesnt have to type in his user name again if he already did
+        $('#User').blur(function(){
+            var value = $(this).val();
+            if (value) {
+                $('#ResetUser').val(value).prev('label').hide();
+            }
+        });
+        
+        // detect the location ("SignUp", "Reset" or "Login"):
+        // first get the url
+        var LocationString = document.location.toString();
+        // default location is "Login"
+        var Location = '#Login';
+        // check if the url contains an anchor
+        if (LocationString.match('#')) {
+            // cut out the anchor
+            Location = '#' + LocationString.split('#')[1];
+        }
+        // get the input fields of the current location
+        var $LocationInputs = $(Location).find('input:not(:checked, :hidden, :radio)');
+        // focus the first one
+        $LocationInputs.first().focus();
+        // give the input fields of all other slides a negative 'tabindex' to prevent
+        // the user from accidentally jumping to a hidden input field via the tab key
+        $Inputs.not($LocationInputs).attr('tabindex', -1);
+        
+        
+        // Change the 'tabindex' according to the navigation of the user
+        $SliderNavigationLinks.click(function(){
+            // get the target id out of the href attribute of the anchor
+            var TargetID = $(this).attr('href');
+            var I = 0;
+            var $TargetInputs = $(TargetID+' input:not(:checked, :hidden, :radio)');
+            var InputsLength = $TargetInputs.length;
+            
+            // give the inputs on the slide the user just leaves all a 'tabindex' of '-1'
+            $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio)').attr('tabindex', -1);
+            
+            // give all inputs on the new shown slide an increasing 'tabindex'
+            for (I;I<InputsLength;I++) {
+                    $TargetInputs.eq(I).attr('tabindex', I+1);
+            }
+        });
     };
 
     /**
