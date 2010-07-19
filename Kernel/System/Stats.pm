@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.96 2010-07-09 16:52:36 ub Exp $
+# $Id: Stats.pm,v 1.97 2010-07-19 06:40:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 SYNOPSIS
 
@@ -255,7 +255,7 @@ sub StatsGet {
     }
 
     # get the configuration elements of the dynamic stats
-    # %Allowed is used to avoid douple selection in different forms
+    # %Allowed is used to avoid double selection in different forms
     my %Allowed;
     my %TimeAllowed;
     my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
@@ -3287,6 +3287,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2010-07-09 16:52:36 $
+$Revision: 1.97 $ $Date: 2010-07-19 06:40:21 $
 
 =cut
