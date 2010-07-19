@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.358 2010-07-14 22:18:26 dz Exp $
+# $Id: Defaults.pm,v 1.359 2010-07-19 22:23:33 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.358 $) [1];
+$VERSION = qw($Revision: 1.359 $) [1];
 
 use File::stat;
 use Digest::MD5;
@@ -1016,7 +1016,7 @@ sub LoadDefaults {
 
     # PreferencesView
     # (Order of shown items)
-    $Self->{PreferencesView} = [ 'Frontend', 'Mail Management', 'Other Options' ];
+    $Self->{PreferencesView} = [ 'User Profile', 'Email Settings', 'Other Settings' ];
 
     $Self->{PreferencesGroups}->{Password} = {
         Module          => 'Kernel::Output::HTML::PreferencesPassword',
@@ -2211,6 +2211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.358 $ $Date: 2010-07-14 22:18:26 $
+$Revision: 1.359 $ $Date: 2010-07-19 22:23:33 $
 
 =cut
