@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/StateAction.pm - stats module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StateAction.pm,v 1.2 2009-03-27 17:35:32 mh Exp $
+# $Id: StateAction.pm,v 1.3 2010-07-19 12:36:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,9 +80,9 @@ sub Run {
 
     my %States = $Self->_GetHistoryTypes();
     my @PossibleStates;
-    for ( sort { $States{$a} cmp $States{$b} } keys %States ) {
-        $States{$_} =~ s/^(.{18}).*$/$1\.\.\./;
-        push @PossibleStates, $States{$_};
+    for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
+        $States{$StateID} =~ s/^(.{18}).*$/$1\.\.\./;
+        push @PossibleStates, $States{$StateID};
     }
 
     # build x_lable
@@ -91,11 +91,11 @@ sub Run {
     my @Days      = ();
     my %StateDate = ();
     while ( $Day >= $DayCounter + 1 ) {
+
         $DayCounter++;
         my $Dow = Day_of_Week( $Year, $Month, $DayCounter );
         $Dow = Day_of_Week_Abbreviation($Dow);
-        my $Text = $DayCounter;
-        $Text = "$Dow $DayCounter";
+        my $Text = "$Dow $DayCounter";
         push @Days, $Text;
         my @Row = ();
         for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
@@ -107,7 +107,7 @@ sub Run {
             );
             push @Row, $Count;
 
-            $StateDate{$Text}->{$_} = ( $StateDate{$Text}->{$_} || 0 ) + $Count;
+            $StateDate{$Text}->{$StateID} = ( $StateDate{$Text}->{$StateID} || 0 ) + $Count;
         }
     }
     for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
@@ -153,4 +153,5 @@ sub _GetDBDataPerDay {
     }
     return $DayData;
 }
+
 1;

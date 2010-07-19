@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.97 2010-07-19 06:40:21 ub Exp $
+# $Id: Stats.pm,v 1.98 2010-07-19 12:36:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1604,6 +1604,8 @@ sub Import {
         );
         return;
     }
+
+    # static statistic
     if (
         $StatsXML->{StatType}->[1]->{Content}
         && $StatsXML->{StatType}->[1]->{Content} eq 'static'
@@ -1613,8 +1615,19 @@ sub Import {
         $FileLocation =~ s{::}{\/}gx;
         $FileLocation = $Self->{ConfigObject}->Get('Home') . '/' . $FileLocation . '.pm';
 
-        # write file
-        if ( open my $Filehandle, '>', $FileLocation ) {
+        # if no inline file is given in the stats definition
+        if ( !$StatsXML->{File}->[1]->{Content} ) {
+
+            # get the file name
+            $FileLocation =~ s{ \A .*? ( [^/]+ ) \. pm  \z }{$1}xms;
+
+            # set the file name
+            $StatsXML->{File}->[1]->{Content} = $FileLocation;
+        }
+
+        # write file if it is included in the stats definition
+        elsif ( open my $Filehandle, '>', $FileLocation ) {
+
             print STDERR "Notice: Install $FileLocation ($StatsXML->{File}[1]{Permission})!\n";
             if ( $StatsXML->{File}->[1]->{Encode} && $StatsXML->{File}->[1]->{Encode} eq 'Base64' )
             {
@@ -1634,7 +1647,7 @@ sub Import {
             if ( length( $StatsXML->{File}->[1]->{Permission} ) == 3 ) {
                 $StatsXML->{File}->[1]->{Permission} = "0$StatsXML->{File}->[1]->{Permission}";
             }
-            chmod( oct( $StatsXML->{File}[1]{Permission} ), $FileLocation );
+            chmod( oct( $StatsXML->{File}->[1]->{Permission} ), $FileLocation );
             $StatsXML->{File}->[1]->{Content} = $StatsXML->{File}->[1]->{File};
 
             delete $StatsXML->{File}->[1]->{File};
@@ -3287,6 +3300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2010-07-19 06:40:21 $
+$Revision: 1.98 $ $Date: 2010-07-19 12:36:37 $
 
 =cut
