@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.32 2010-07-13 13:22:58 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.33 2010-07-20 06:41:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,8 +15,21 @@
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Search"/>
         <h2 class="Center">$Text{"Search"}</h2>
-        <fieldset class="TableLike" id="SearchInsert">
+        <fieldset class="TableLike">
+            <div class="Clear"></div>
+            <label>$Text{"Search-Template"}</label>
+            <div class="Field">
+                $Data{"ProfilesStrg"}
+                <a id="SearchProfileNew">$Text{"Create New"}</a>
+                <a id="SearchProfileDelete">$Text{"Delete"}</a>
+                <div id="SearchProfileAddBlock">
+                    <input type="text" name="Name" id="SearchProfileAddName"/>
+                    <button type="submit" title="$Text{"Create Template"}" id="SearchProfileAddAction">$Text{"Create New Template"}</button>
+                    <input type="hidden" name="SaveProfile" value="1"/>
+                </div>
+            </div>
         </fieldset>
+        <fieldset class="TableLike" id="SearchInsert"></fieldset>
         <fieldset class="TableLike">
             <div class="Clear"></div>
             <label>$Text{"Add another attribute"}</label>
@@ -33,145 +46,150 @@
     </form>
 
 
-    <fieldset class="TableLike Hidden">
+    <fieldset class="TableLike Hidden" id="SerachAttributesHidden">
         <div class="Clear"></div>
-        <label for="Fulltext" id="SearchFulltext">$Text{"Fulltext"}</label>
+        <label for="Fulltext">$Text{"Fulltext"}</label>
         <div class="Field">
-            <input type="text" name="Fulltext" class="W75pc" />
+            <input type="text" name="Fulltext" value="$QData{"Fulltext"}" class="W50pc" />
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketNumber" id="SearchTicketNumber">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</label>
+        <label for="TicketNumber">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</label>
         <div class="Field">
-            <input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/>
+            <input type="text" name="TicketNumber" value="$QData{"TicketNumber"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Title" id="SearchTitle">$Text{"Title"}</label>
+        <label for="Title">$Text{"Title"}</label>
         <div class="Field">
-            <input type="text" name="Title" size="30" value="$QData{"Title"}"/>
+            <input type="text" name="Title" value="$QData{"Title"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerID" id="SearchCustomerID">$Text{"CustomerID"} $Text{"(e. g. 234321)"}</label>
+        <label for="CustomerID">$Text{"CustomerID"} $Text{"(e. g. 234321)"}</label>
         <div class="Field">
-            <input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/>
+            <input type="text" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerUserLogin" id="SearchCustomerUserLogin">$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</label>
+        <label for="CustomerUserLogin">$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</label>
         <div class="Field">
-            <input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}"/>
+            <input type="text" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TypeID" id="SearchType">$Text{"Type"}</label>
+        <label for="TypeIDs">$Text{"Type"}</label>
         <div class="Field">
             $Data{"TypesStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="From" id="SearchFrom">$Text{"From"}</label>
+        <label for="From">$Text{"From"}</label>
         <div class="Field">
-            <input type="text" name="From" size="30" value="$QData{"From"}"/>
+            <input type="text" name="From" value="$QData{"From"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="To" id="SearchTo">$Text{"To"}</label>
+        <label for="To">$Text{"To"}</label>
         <div class="Field">
-            <input type="text" name="To" size="30" value="$QData{"To"}"/>
+            <input type="text" name="To" value="$QData{"To"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Cc" id="SearchCc">$Text{"Cc"}</label>
+        <label for="Cc">$Text{"Cc"}</label>
         <div class="Field">
-            <input type="text" name="Cc" size="30" value="$QData{"Cc"}"/>
+            <input type="text" name="Cc" value="$QData{"Cc"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Subject" id="SearchSubject">$Text{"Subject"}</label>
+        <label for="Subject">$Text{"Subject"}</label>
         <div class="Field">
-            <input type="text" name="Subject" size="30" value="$QData{"Subject"}"/>
+            <input type="text" name="Subject" value="$QData{"Subject"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Body" id="SearchBody">$Text{"Text"}</label>
+        <label for="Body">$Text{"Text"}</label>
         <div class="Field">
-            <input type="text" name="Body" size="30" value="$QData{"Body"}"/>
+            <input type="text" name="Body" value="$QData{"Body"}" class="W50pc"/>
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext" id="Search">$Data{"TicketFreeKeyField"}</label>
+        <label for="TicketFreeKeyField">$Data{"TicketFreeKeyField"}</label>
         <div class="Field">
             $Data{"TicketFreeTextField"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext" id="Search">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
+        <label for="TicketFreeTimeKey">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
         <div class="Field">
             <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
             $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
         </div>
         <div class="Clear"></div>
-        <label for="ServiceID" id="Search">$Text{"Service"}</label>
+        <label for="ServiceIDs">$Text{"Service"}</label>
         <div class="Field">
             $Data{"ServicesStrg"}
         </div>
         <div class="Clear"></div>
-        <label for="SLAID" id="Search">$Text{"SLA"}</label>
+        <label for="SLAIDs">$Text{"SLA"}</label>
         <div class="Field">
             $Data{"SLAsStrg"}
         </div>
         <div class="Clear"></div>
-        <label for="PriorityID" id="Search">$Text{"Priority"}</label>
+        <label for="PriorityIDs">$Text{"Priority"}</label>
         <div class="Field">
             $Data{"PrioritiesStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="StateID" id="Search">$Text{"State"}</label>
+        <label for="StateIDs">$Text{"State"}</label>
         <div class="Field">
             $Data{"StatesStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="QueueID" id="Search">$Text{"Queue"}</label>
+        <label for="QueueIDs">$Text{"Queue"}</label>
         <div class="Field">
             $Data{"QueuesStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="UserID" id="Search">$Text{"Agent"}/$Text{"Owner"}</label>
+        <label for="OwnerIDs">$Text{"Agent"}/$Text{"Owner"}</label>
+        <div class="Field">
+            $Data{"UserStrg"}
+            <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+        </div>
+        <label for="ResponsibleIDs">$Text{"Agent"}/$Text{"Responsible"}</label>
         <div class="Field">
             $Data{"UserStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CreateQueueID" id="Search">$Text{"Created in Queue"}</label>
+        <label for="CreateQueueIDs">$Text{"Created in Queue"}</label>
         <div class="Field">
             $Data{"CreatedQueuesStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CreateUserID" id="Search">$Text{"Created by"} $Text{"Agent"}/$Text{"Owner"}</label>
+        <label for="CreateUserIDs">$Text{"Created by"} $Text{"Agent"}/$Text{"Owner"}</label>
         <div class="Field">
             $Data{"CreatedUserStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="LockID" id="Search">$Text{"Lock state"}</label>
+        <label for="LockIDs">$Text{"Lock state"}</label>
         <div class="Field">
             $Data{"LocksStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext" id="Search">$Text{"Watcher"}</label>
+        <label for="WatchUserIDs">$Text{"Watcher"}</label>
         <div class="Field">
             $Data{"SelectStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Article Create Times"}</label>
+        <label for="">$Text{"Article Create Times"}</label>
         <div class="Field">
             <input type="radio" name="ArticleTimeSearchType" value="" $Data{"ArticleTimeSearchType::None"}/>
             $Text{"No create time settings."}
@@ -184,14 +202,14 @@
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Create Times"}</label>
+        <label for="">$Text{"Create Times"}</label>
         <div class="Field">
             <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
             $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Create Times"}</label>
+        <label for="">$Text{"Create Times"}</label>
         <div class="Field">
             <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
             $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
@@ -199,27 +217,27 @@
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Change Times"}</label>
+        <label for="">$Text{"Change Times"}</label>
         <div class="Field">
             <input type="radio" name="ChangeTimeSearchType" value="TimePoint" $Data{"ChangeTimeSearchType::TimePoint"}/>
             $Text{"Ticket changed"} $Data{"TicketChangeTimePointStart"} $Data{"TicketChangeTimePoint"} $Data{"TicketChangeTimePointFormat"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Change Times"}</label>
+        <label for="">$Text{"Change Times"}</label>
         <div class="Field">
             <input type="radio" name="ChangeTimeSearchType" value="TimeSlot" $Data{"ChangeTimeSearchType::TimeSlot"}/>
             $Text{"Ticket changed between"} $Data{"TicketChangeTimeStart"} $Text{"and"} $Data{"TicketChangeTimeStop"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Close Times"}</label>
+        <label for="">$Text{"Close Times"}</label>
         <div class="Field">
             <input type="radio" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
             $Text{"Ticket closed"} $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
-        <label for="Fulltext">$Text{"Close Times"}</label>
+        <label for="">$Text{"Close Times"}</label>
         <div class="Field">
             <input type="radio" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
             $Text{"Ticket closed between"} $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}
@@ -227,8 +245,8 @@
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Archive Search"}</label>
-        <div class="SearchInArchive">
+        <label for="SearchInArchive">$Text{"Archive Search"}</label>
+        <div class="Field">
             $Text{"Archive search option"} $Data{"SearchInArchiveStrg"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
@@ -241,8 +259,26 @@
     <button id="SearchFormSubmit" class="Primary" value="Run Search">$Text{"Run Search"}</button>
 </div>
 
+<script type="text/javascript">//<![CDATA[
+#alert(1323);
+<!-- dtl:block:SearchAJAXShow -->
+#alert('$QData{"Attribute"}');
+    window.setTimeout("Core.Agent.Search.ItemAdd('$QData{"Attribute"}');", 500);
+    window.setTimeout("Core.Agent.Search.RebuildSelection();", 600);
+<!-- dtl:block:SearchAJAXShow -->
+//]]></script>
+
 <!-- dtl:block:SearchAJAX -->
 <!-- dtl:block:Search -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Search.OpenSearchDialog( '$Env{"Action"}' );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
+<!-- dtl:block:Search -->
+<!-- dtl:block:SearchOld -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
         <td class="mainhead">
@@ -409,6 +445,64 @@
 #            </td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
+<!-- dtl:block:TicketService -->
+                    <tr>
+                        <td width="50%" class="contenthead">$Text{"Service"}</td>
+                        <td width="50%" class="contenthead">$Text{"SLA"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"ServicesStrg"}</td>
+                        <td class="contentbody">$Data{"SLAsStrg"}</td>
+                    </tr>
+<!-- dtl:block:TicketService -->
+                    <tr>
+                        <td width="50%" class="contenthead">$Text{"Priority"}</td>
+                        <td width="50%" class="contenthead">$Text{"State"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"PrioritiesStrg"}</td>
+                        <td class="contentbody">$Data{"StatesStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contenthead">$Text{"Queue"}</td>
+                        <td class="contenthead">$Text{"Agent"}/$Text{"Owner"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"QueuesStrg"}</td>
+                        <td class="contentbody">$Data{"UserStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contenthead">$Text{"Created in Queue"}</td>
+                        <td class="contenthead">$Text{"Created by"} $Text{"Agent"}/$Text{"Owner"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"CreatedQueuesStrg"}</td>
+                        <td class="contentbody">$Data{"CreatedUserStrg"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contenthead">$Text{"Lock state"}</td>
+                    </tr>
+                    <tr>
+                        <td class="contentbody">$Data{"LocksStrg"}</td>
+                    </tr>
+<!-- dtl:block:TicketResponsibleWatcher -->
+                    <tr>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
+                        <td width="50%" class="contenthead">$Text{"$Data{"Headline"}"}</td>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOn -->
+<!-- dtl:block:TicketResponsibleWatcherHeaderOff -->
+                        <td width="50%" class="contenthead">&nbsp;</td>
+<!-- dtl:block:TicketResponsibleWatcherHeaderOff -->
+                    </tr>
+                    <tr>
+<!-- dtl:block:TicketResponsibleWatcherBodyOn -->
+                        <td class="contentbody">$Data{"SelectStrg"}</td>
+<!-- dtl:block:TicketResponsibleWatcherBodyOn -->
+<!-- dtl:block:TicketResponsibleWatcherBodyOff -->
+                        <td class="contentbody">&nbsp;</td>
+<!-- dtl:block:TicketResponsibleWatcherBodyOff -->
+                    </tr>
+<!-- dtl:block:TicketResponsibleWatcher -->
 <!-- dtl:block:ArticleCreateTime -->
                     <tr>
                         <td colspan="2" class="contenthead">$Text{"Article Create Times"}</td>
@@ -526,4 +620,4 @@
         </td>
     </tr>
 </table>
-<!-- dtl:block:Search -->
+<!-- dtl:block:SearchOld -->

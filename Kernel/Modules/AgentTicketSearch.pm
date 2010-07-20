@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.89 2010-07-13 13:22:58 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.90 2010-07-20 06:41:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -332,6 +332,7 @@ sub Run {
 
         # remember last search values
         if ( $Self->{SaveProfile} && $Self->{Profile} ) {
+            print STDERR "SLAVE: $Self->{SaveProfile} && $Self->{Profile}\n";
 
             # remove old profile stuff
             $Self->{SearchProfileObject}->SearchProfileDelete(
@@ -1103,7 +1104,33 @@ sub Run {
             return $Output;
         }
     }
+    elsif ( $Self->{Subaction} eq 'AJAXProfileDelete' ) {
+        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' );
+
+        # remove old profile stuff
+        $Self->{SearchProfileObject}->SearchProfileDelete(
+            Base      => 'TicketSearch',
+            Name      => $Profile,
+            UserLogin => $Self->{UserLogin},
+        );
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => 1,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
+    }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
+        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' );
+
+        my %GetParam = $Self->{SearchProfileObject}->SearchProfileGet(
+            Base      => 'TicketSearch',
+            Name      => $Profile,
+            UserLogin => $Self->{UserLogin},
+        );
 
         my @Attributes = (
             {
@@ -1243,14 +1270,21 @@ sub Run {
             Name       => 'OwnerIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{OwnerIDs},
+            SelectedID => $GetParam{OwnerIDs},
         );
         $Param{CreatedUserStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             Name       => 'CreatedUserIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{CreatedUserIDs},
+            SelectedID => $GetParam{CreatedUserIDs},
+        );
+        $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%ShownUsers,
+            Name       => 'ResponsibleIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $GetParam{ResponsibleIDs},
         );
         $Param{ResultFormStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1259,7 +1293,7 @@ sub Run {
                 CSV    => 'CSV',
             },
             Name => 'ResultForm',
-            SelectedID => $Param{ResultForm} || 'Normal',
+            SelectedID => $GetParam{ResultForm} || 'Normal',
         );
 
         if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
@@ -1271,21 +1305,24 @@ sub Run {
                     AllTickets         => 'Search in all tickets',
                 },
                 Name => 'SearchInArchive',
-                SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
+                SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',
             );
         }
 
-        $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                '', '-',
-                $Self->{SearchProfileObject}->SearchProfileList(
-                    Base      => 'TicketSearch',
-                    UserLogin => $Self->{UserLogin},
-                ),
-            },
-            Name       => 'Profile',
-            SelectedID => $Param{Profile},
+        my %Profiles = $Self->{SearchProfileObject}->SearchProfileList(
+            Base      => 'TicketSearch',
+            UserLogin => $Self->{UserLogin},
         );
+        delete $Profiles{''};
+        $Profiles{'last-search'} = '-';
+        $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => \%Profiles,
+            Name => 'Profile',
+
+            #            SelectedID => $Param{Profile},
+            SelectedID => $Profile,
+        );
+
         $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{StateObject}->StateList(
@@ -1296,7 +1333,7 @@ sub Run {
             Name       => 'StateIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{StateIDs},
+            SelectedID => $GetParam{StateIDs},
         );
         my %AllQueues = $Self->{QueueObject}->GetAllQueues(
             UserID => $Self->{UserID},
@@ -1307,7 +1344,7 @@ sub Run {
             Size           => 5,
             Multiple       => 1,
             Name           => 'QueueIDs',
-            SelectedID     => $Param{QueueIDs},
+            SelectedID     => $GetParam{QueueIDs},
             OnChangeSubmit => 0,
         );
         $Param{CreatedQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
@@ -1315,7 +1352,7 @@ sub Run {
             Size           => 5,
             Multiple       => 1,
             Name           => 'CreatedQueueIDs',
-            SelectedID     => $Param{CreatedQueueIDs},
+            SelectedID     => $GetParam{CreatedQueueIDs},
             OnChangeSubmit => 0,
         );
         $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -1328,7 +1365,7 @@ sub Run {
             Name       => 'PriorityIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{PriorityIDs},
+            SelectedID => $GetParam{PriorityIDs},
         );
         $Param{LocksStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1340,7 +1377,7 @@ sub Run {
             Name       => 'LockIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{LockIDs},
+            SelectedID => $GetParam{LockIDs},
         );
 
         $Param{ArticleCreateTimePoint} = $Self->{LayoutObject}->BuildSelection(
@@ -1406,7 +1443,7 @@ sub Run {
                 59 => '59',
             },
             Name       => 'ArticleCreateTimePoint',
-            SelectedID => $Param{ArticleCreateTimePoint},
+            SelectedID => $GetParam{ArticleCreateTimePoint},
         );
         $Param{ArticleCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1414,7 +1451,7 @@ sub Run {
                 'Before' => 'before',
             },
             Name => 'ArticleCreateTimePointStart',
-            SelectedID => $Param{ArticleCreateTimePointStart} || 'Last',
+            SelectedID => $GetParam{ArticleCreateTimePointStart} || 'Last',
         );
         $Param{ArticleCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1426,16 +1463,16 @@ sub Run {
                 year   => 'year(s)',
             },
             Name       => 'ArticleCreateTimePointFormat',
-            SelectedID => $Param{ArticleCreateTimePointFormat},
+            SelectedID => $GetParam{ArticleCreateTimePointFormat},
         );
         $Param{ArticleCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix   => 'ArticleCreateTimeStart',
             Format   => 'DateInputFormat',
             DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
         );
         $Param{ArticleCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix => 'ArticleCreateTimeStop',
             Format => 'DateInputFormat',
         );
@@ -1502,7 +1539,7 @@ sub Run {
                 59 => '59',
             },
             Name       => 'TicketCreateTimePoint',
-            SelectedID => $Param{TicketCreateTimePoint},
+            SelectedID => $GetParam{TicketCreateTimePoint},
         );
         $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1510,7 +1547,7 @@ sub Run {
                 'Before' => 'before',
             },
             Name => 'TicketCreateTimePointStart',
-            SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+            SelectedID => $GetParam{TicketCreateTimePointStart} || 'Last',
         );
         $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1522,29 +1559,29 @@ sub Run {
                 year   => 'year(s)',
             },
             Name       => 'TicketCreateTimePointFormat',
-            SelectedID => $Param{TicketCreateTimePointFormat},
+            SelectedID => $GetParam{TicketCreateTimePointFormat},
         );
         $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix   => 'TicketCreateTimeStart',
             Format   => 'DateInputFormat',
             DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
         );
         $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix => 'TicketCreateTimeStop',
             Format => 'DateInputFormat',
         );
 
         for ( 1 .. 6 ) {
             $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+                %GetParam,
                 Prefix   => 'TicketFreeTime' . $_ . 'Start',
                 Format   => 'DateInputFormat',
                 DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
             );
             $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+                %GetParam,
                 Prefix   => 'TicketFreeTime' . $_ . 'Stop',
                 Format   => 'DateInputFormat',
                 DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
@@ -1614,7 +1651,7 @@ sub Run {
                 59 => '59',
             },
             Name       => 'TicketChangeTimePoint',
-            SelectedID => $Param{TicketChangeTimePoint},
+            SelectedID => $GetParam{TicketChangeTimePoint},
         );
         $Param{TicketChangeTimePointStart} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1622,7 +1659,7 @@ sub Run {
                 'Before' => 'before',
             },
             Name => 'TicketChangeTimePointStart',
-            SelectedID => $Param{TicketChangeTimePointStart} || 'Last',
+            SelectedID => $GetParam{TicketChangeTimePointStart} || 'Last',
         );
         $Param{TicketChangeTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1634,16 +1671,16 @@ sub Run {
                 year   => 'year(s)',
             },
             Name       => 'TicketChangeTimePointFormat',
-            SelectedID => $Param{TicketChangeTimePointFormat},
+            SelectedID => $GetParam{TicketChangeTimePointFormat},
         );
         $Param{TicketChangeTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix   => 'TicketChangeTimeStart',
             Format   => 'DateInputFormat',
             DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
         );
         $Param{TicketChangeTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix => 'TicketChangeTimeStop',
             Format => 'DateInputFormat',
         );
@@ -1711,7 +1748,7 @@ sub Run {
                 59 => '59',
             },
             Name       => 'TicketCloseTimePoint',
-            SelectedID => $Param{TicketCloseTimePoint},
+            SelectedID => $GetParam{TicketCloseTimePoint},
         );
         $Param{TicketCloseTimePointStart} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1719,7 +1756,7 @@ sub Run {
                 'Before' => 'before',
             },
             Name => 'TicketCloseTimePointStart',
-            SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
+            SelectedID => $GetParam{TicketCloseTimePointStart} || 'Last',
         );
         $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1731,29 +1768,29 @@ sub Run {
                 year   => 'year(s)',
             },
             Name       => 'TicketCloseTimePointFormat',
-            SelectedID => $Param{TicketCloseTimePointFormat},
+            SelectedID => $GetParam{TicketCloseTimePointFormat},
         );
         $Param{TicketCloseTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix   => 'TicketCloseTimeStart',
             Format   => 'DateInputFormat',
             DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
         );
         $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
+            %GetParam,
             Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
 
         for ( 1 .. 6 ) {
             $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+                %GetParam,
                 Prefix   => 'TicketFreeTime' . $_ . 'Start',
                 Format   => 'DateInputFormat',
                 DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
             );
             $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+                %GetParam,
                 Prefix   => 'TicketFreeTime' . $_ . 'Stop',
                 Format   => 'DateInputFormat',
                 DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
@@ -1766,7 +1803,7 @@ sub Run {
             $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'TypeIDs',
-                SelectedID  => $Param{TypeIDs},
+                SelectedID  => $GetParam{TypeIDs},
                 Sort        => 'AlphanumericValue',
                 Size        => 3,
                 Multiple    => 1,
@@ -1777,8 +1814,21 @@ sub Run {
         # html search mask output
         $Self->{LayoutObject}->Block(
             Name => 'SearchAJAX',
-            Data => \%Param,
+            Data => { %Param, %GetParam },
         );
+
+        # show attributes
+        for my $Key ( sort keys %GetParam ) {
+            next if !$Key;
+            next if !defined $GetParam{$Key};
+            next if $GetParam{$Key} eq '';
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchAJAXShow',
+                Data => {
+                    Attribute => $Key,
+                },
+            );
+        }
 
         my $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketSearch',

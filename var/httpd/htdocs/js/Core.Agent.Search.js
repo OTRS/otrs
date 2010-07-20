@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.9 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Agent.Search.js,v 1.10 2010-07-20 06:41:13 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,9 @@ Core.Agent.Search = (function (TargetNS) {
      * @return a true value
      *      This function rebuild attribute selection, only show available attributes
      */
-    function RebuildSelection () {
+    // rebuild attribute selection, only show available attributes
+//    function RebuildSelection () {
+    TargetNS.RebuildSelection = function () {
 
         // get original selection
         var $AttributeClone = $('#AttributeOrig').clone();
@@ -49,20 +51,46 @@ Core.Agent.Search = (function (TargetNS) {
         return true;
     }
 
+    // add attributes
+    TargetNS.ItemAdd = function (Attribute) {
+        $('#SerachAttributesHidden').find('label').each( function () {
+            if ( $(this).attr( 'for' ) == Attribute ) {
+                var $Element1 = $(this).prev().clone();
+                var $Element2 = $(this).clone();
+                var $Element3 = $(this).next().clone();
+                $Element1.appendTo('#SearchInsert');
+                $Element2.appendTo('#SearchInsert');
+                $Element3.appendTo('#SearchInsert');
+            }
+        });
+    }
+
+    // remove attributes
+    TargetNS.ItemRemove = function ($Element) {
+        $Element.prev().prev().remove();
+        $Element.prev().remove();
+        $Element.remove();
+    }
+
     /**
      * @function
-     * @param {Event} Action 
+     * @param {Event} Action
      * @return nothing
      *      This function open the search dialog
      */
-    
-    TargetNS.OpenSearchDialog = function (Action) {
+    // open search dialog
+    TargetNS.OpenSearchDialog = function (Action, Profile) {
+
         if ( !Action ) {
             Action = Core.Config.Get('Action');
         }
+        if ( !Profile ) {
+            Profile = 'last-search';
+        }
         var Data = {
             Action: 'AgentSearch',
-            Referrer: Action
+            Referrer: Action,
+            Profile: Profile
         };
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
@@ -70,18 +98,16 @@ Core.Agent.Search = (function (TargetNS) {
             function (HTML) {
                 Core.UI.Dialog.ShowContentDialog(HTML, '', '10px', 'Center', true);
 
+                // hide add template block
+                $('#SearchProfileAddBlock').hide();
+
                 // register add of attribute
                 $('.Add').bind('click', function(){
-                    var Attribute = $(this).prev().prev().val();
-                    var $Element1 = $('#Search' + Attribute ).prev().clone();
-                    var $Element2 = $('#Search' + Attribute ).clone();
-                    var $Element3 = $('#Search' + Attribute ).next().clone();
-                    $Element1.appendTo('#SearchInsert');
-                    $Element2.appendTo('#SearchInsert');
-                    $Element3.appendTo('#SearchInsert');
+                    var Attribute = $('#Attribute').val();
+                    TargetNS.ItemAdd(Attribute);
 
                     // rebuild selection
-                    RebuildSelection();
+                    TargetNS.RebuildSelection();
 
                     return false;
                 });
@@ -89,12 +115,10 @@ Core.Agent.Search = (function (TargetNS) {
                 // register remove of attribute
                 $('.Remove').live('click', function(){
                     var $Element = $(this).parent();
-                    $Element.prev().prev().remove();
-                    $Element.prev().remove();
-                    $Element.remove();
+                    TargetNS.ItemRemove($Element);
 
                     // rebuild selection
-                    RebuildSelection();
+                    TargetNS.RebuildSelection();
 
                     return false;
                 });
@@ -112,7 +136,96 @@ Core.Agent.Search = (function (TargetNS) {
                     $('#SearchForm').submit();
                     return false;
                 });
+
+                // load profile
+                $('#Profile').bind('change', function(){
+                    var Profile = $('#Profile').val();
+                    TargetNS.OpenSearchDialog(Action, Profile);
+                    return false;
+                });
+
+                // show add profile block or not
+                $('#SearchProfileNew').bind('click', function(){
+                    if ( $('#SearchProfileAddBlock').css('display') == 'none') {
+                        $('#SearchProfileAddBlock').show();
+                    }
+                    else {
+                        $('#SearchProfileAddBlock').hide();
+                    }
+                });
+
+                // add new profile
+                $('#SearchProfileAddAction').bind('click', function(){
+
+                    // get name
+                    var Name = $('#SearchProfileAddName').val();
+                    if ( !Name ) {
+                        return false;
+                    }
+
+                    // add name to profile selection
+                    var $Element1 = $('#ProfileList').children().first().clone();
+                    $Element1.text(Name);
+                    $('#ProfileList').append($Element1);
+                    var $Element2 = $('#Profile').children().first().clone();
+                    $Element2.text(Name);
+                    $Element2.attr( 'value', Name );
+                    $Element2.attr( 'selected', 'selected' );
+                    $('#Profile').append($Element2);
+
+                    // set input box to empty
+                    $('#SearchProfileAddName').val('');
+
+                    // hide add template block
+                    $('#SearchProfileAddBlock').hide();
+
+                    return false;
+                });
+
+                // delete profile
+                $('#SearchProfileDelete').bind('click', function(){
+
+                    // strip all already used attributes
+                    $('#Profile').find('option').each( function () {
+                        if ( $(this).attr( 'value' ) != 'last-search' ) {
+                            if ( $(this).attr( 'selected' ) == true ) {
+
+                                // rebuild attributes
+                                $('#SearchInsert').text('');
+
+                                // remove remote
+                                DeleteRemote( $(this).val() );
+
+                                // remove local
+                                $(this).remove();
+
+                                // show fulltext
+                                TargetNS.ItemAdd('Fulltext');
+
+                                // rebuild selection
+                                TargetNS.RebuildSelection();
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
             }, 'html'
+        );
+    };
+
+    // delete profile
+    function DeleteRemote (Profile) {
+        var Data = {
+            Action: 'AgentTicketSearch',
+            Subaction: 'AJAXProfileDelete',
+            Profile: Profile
+        };
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('CGIHandle'),
+            Data,
+            function () {}
         );
     };
 
