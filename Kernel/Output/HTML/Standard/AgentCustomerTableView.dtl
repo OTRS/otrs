@@ -2,7 +2,7 @@
 # AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.19 2010-07-09 09:44:05 mg Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.20 2010-07-20 10:34:43 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,6 @@
     <p class="Value" title="$QData{"Value"}">
         $Data{"LinkStart"}$Data{"ValueShort"}$Data{"LinkStop"}
 <!-- dtl:block:CustomerRowItem -->
-#        $Data{"Item"}
         <a href="$Data{"URL"}" target="$QData{"Target"}">
             <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Alt"}"}" />
         </a>
