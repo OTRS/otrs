@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.38 2010-06-17 21:40:19 cr Exp $
+# $Id: SMIME.pm,v 1.39 2010-07-20 17:30:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -798,7 +798,7 @@ sub _Init {
     }
     else {
 
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        # make sure that we are getting POSIX (i.e. english) messages from openssl
         $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
     }
 
@@ -934,6 +934,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-06-17 21:40:19 $
+$Revision: 1.39 $ $Date: 2010-07-20 17:30:23 $
 
 =cut
