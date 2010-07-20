@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.26 2010-07-09 11:22:10 mg Exp $
+# $Id: TicketOverviewSmall.pm,v 1.27 2010-07-20 13:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,96 +92,7 @@ sub ActionRow {
 sub SortOrderBar {
     my ( $Self, %Param ) = @_;
 
-    # check if bulk feature is enabled
-    my $BulkFeature = 0;
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
-        my @Groups;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
-            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
-        }
-        if ( !@Groups ) {
-            $BulkFeature = 1;
-        }
-        else {
-            for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
-                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
-                    $BulkFeature = 1;
-                    last;
-                }
-            }
-        }
-    }
-
-    $Self->{LayoutObject}->Block(
-        Name => 'DocumentSortOrderBar',
-        Data => \%Param,
-    );
-
-    if ($BulkFeature) {
-        $Self->{LayoutObject}->Block(
-            Name => 'BulkNavBar',
-            Data => \%Param,
-        );
-    }
-
-    # meta items
-    my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
-    for my $Item (@TicketMetaItems) {
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewNavBarPageFlag',
-            Data => {
-                Name => $Item,
-            },
-        );
-    }
-
-    my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
-
-    # show escalation
-    if ( $Param{Escalation} ) {
-        push @Col, 'EscalationTime';
-    }
-
-    # check if last customer subject or ticket title should be shown
-    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-        push @Col, 'LastCustomerSubject';
-    }
-    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-        push @Col, 'Title';
-    }
-
-    for my $Key (@Col) {
-
-        my $CSS = '';
-        my $OrderBy;
-        if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
-            if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
-                $OrderBy = 'Down';
-                $CSS .= ' SortDescending';
-            }
-            else {
-                $OrderBy = 'Up';
-                $CSS .= ' SortAscending';
-            }
-        }
-
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewNavBarPage' . $Key,
-            Data => {
-                %Param,
-                OrderBy => $OrderBy,
-                CSS     => $CSS,
-            },
-        );
-    }
-
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketOverviewSmall',
-        Data         => \%Param,
-    );
-
-    return $Output;
+    return '';
 }
 
 sub Run {
@@ -315,25 +226,61 @@ sub Run {
         Data => \%Param,
     );
 
-    # show escalation
-    if ( $Param{Escalation} ) {
+    if ($BulkFeature) {
         $Self->{LayoutObject}->Block(
-            Name => 'RecordEscalationTimeHeader',
+            Name => 'BulkNavBar',
             Data => \%Param,
         );
     }
 
-    # check if last customer subject or ticket title should be shown
-    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+    # meta items
+    my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
+    for my $Item (@TicketMetaItems) {
         $Self->{LayoutObject}->Block(
-            Name => 'RecordLastCustomerSubjectHeader',
-            Data => \%Param,
+            Name => 'OverviewNavBarPageFlag',
+            Data => {
+                Name => $Item,
+            },
         );
     }
+
+    my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
+
+    # show escalation
+    if ( $Param{Escalation} ) {
+        push @Col, 'EscalationTime';
+    }
+
+    # check if last customer subject or ticket title should be shown
+    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+        push @Col, 'LastCustomerSubject';
+    }
     elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+        push @Col, 'Title';
+    }
+
+    for my $Key (@Col) {
+
+        my $CSS = '';
+        my $OrderBy;
+        if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
+            if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
+                $OrderBy = 'Down';
+                $CSS .= ' SortDescending';
+            }
+            else {
+                $OrderBy = 'Up';
+                $CSS .= ' SortAscending';
+            }
+        }
+
         $Self->{LayoutObject}->Block(
-            Name => 'RecordTicketTitleHeader',
-            Data => \%Param,
+            Name => 'OverviewNavBarPage' . $Key,
+            Data => {
+                %Param,
+                OrderBy => $OrderBy,
+                CSS     => $CSS,
+            },
         );
     }
 
