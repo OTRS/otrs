@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.97 2010-07-16 13:45:36 mg Exp $
+# $Id: Header.dtl,v 1.98 2010-07-20 11:57:55 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,9 +67,9 @@ $Include{"HTMLHead"}
 <!-- dtl:block:ToolBar -->
 
         <div id="UserInfo">
-<!-- Debug -->
+<!-- dtl:block:DebugRTLButton -->
             <button type="button" onclick="Core.Debug.SimulateRTLPage();">Simulate RTL</button>
-<!-- /Debug -->
+<!-- dtl:block:DebugRTLButton -->
 <!-- dtl:block:Login -->
             $Text{"You are logged in as"}
             <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
