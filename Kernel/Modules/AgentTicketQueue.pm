@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.71 2010-04-03 12:20:31 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.72 2010-07-20 14:11:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,6 +188,10 @@ sub Run {
         . ';';
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
+
+    $Output = $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketQueue', Data => \%NavBar );
+    $Self->{LayoutObject}->Print( Output => \$Output );
+    $Output = '';
 
     # show ticket's
     $Self->{LayoutObject}->Print(
@@ -471,8 +475,6 @@ sub _MaskQueueView {
         MainName      => 'Queues',
         SelectedQueue => $Param{SelectedQueue},
         MainContent   => $Param{QueueStrg},
-        PageNavBar    => $Param{PageNavBar},
-        Total         => $Param{TicketsShown},
     );
 }
 
