@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.72 2010-07-20 14:11:20 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.73 2010-07-20 14:20:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,9 +162,10 @@ sub Run {
 
         # search all tickets
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            StateIDs => \@ViewableStateIDs,
-            LockIDs  => \@ViewableLockIDs,
-            QueueIDs => \@ViewableQueueIDs,
+
+            #            StateIDs => \@ViewableStateIDs,
+            #            LockIDs  => \@ViewableLockIDs,
+            #            QueueIDs => \@ViewableQueueIDs,
             %Sort,
             Permission => $Permission,
             UserID     => $Self->{UserID},
@@ -475,6 +476,7 @@ sub _MaskQueueView {
         MainName      => 'Queues',
         SelectedQueue => $Param{SelectedQueue},
         MainContent   => $Param{QueueStrg},
+        Total         => $Param{TicketsShown},
     );
 }
 
