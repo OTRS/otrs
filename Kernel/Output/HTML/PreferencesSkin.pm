@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesSkin.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesSkin.pm,v 1.1 2010-07-20 18:53:31 dz Exp $
+# $Id: PreferencesSkin.pm,v 1.2 2010-07-20 21:53:54 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,22 +37,15 @@ sub new {
 
 sub Param {
     my ( $Self, %Param ) = @_;
-
-    my $PossibleSkinsRef = $Self->{ConfigObject}->Get('Frontend::Skins')
-        || {};
-    my %PossibleSkins = %{$PossibleSkinsRef};
-    my $Home          = $Self->{ConfigObject}->Get('Home');
-
+    my $PossibleSkins = $Self->{ConfigObject}->Get('Frontend::Agent::Skin') || {};
+    my $Home = $Self->{ConfigObject}->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins
-    for my $PossibleSkin ( keys %PossibleSkins ) {
-        if ( $PossibleSkins{$PossibleSkin} == 1 )
-        {    # only add a theme if it is set to 1 in sysconfig
-            my $SkinDir = $Home . "/var/httpd/htdocs/skins/Agent/" . $PossibleSkin;
-            if ( -d $SkinDir ) {    # .. and if the theme dir exists
-                $ActiveSkins{$PossibleSkin} = $PossibleSkin;
-            }
+    for my $PossibleSkin ( values %{$PossibleSkins} ) {
+        my $SkinDir = $Home . "/var/httpd/htdocs/skins/Agent/" . $PossibleSkin->{InternalName};
+        if ( -d $SkinDir ) {    # .. and if the skin dir exists
+            $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};
         }
     }
 

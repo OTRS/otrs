@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.24 2010-07-20 18:53:31 dz Exp $
+# $Id: LayoutLoader.pm,v 1.25 2010-07-20 21:53:54 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Kernel::System::Loader;
 
@@ -612,29 +612,18 @@ sub SkinValidate {
             return;
         }
     }
-    my $SkinType         = $Param{SkinType};
-    my $PossibleSkinsRef = $Self->{ConfigObject}->Get('Frontend::Skins')
-        || {};
-
-    my %PossibleSkins = %{$PossibleSkinsRef};
+    my $SkinType      = $Param{SkinType};
+    my $PossibleSkins = $Self->{ConfigObject}->Get('Frontend::Agent::Skin') || {};
     my $Home          = $Self->{ConfigObject}->Get('Home');
-
     my %ActiveSkins;
 
     # prepare the list of active skins
-    for my $PossibleSkin ( keys %PossibleSkins ) {
-        if ( $PossibleSkins{$PossibleSkin} == 1 )
-        {    # only add a theme if it is set to 1 in sysconfig
-            my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin;
-            if ( -d $SkinDir ) {    # .. and if the theme dir exists
-                $ActiveSkins{$PossibleSkin} = $PossibleSkin;
+    for my $PossibleSkin ( values %{$PossibleSkins} ) {
+        if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
+            my $SkinDir = $Home . "/var/httpd/htdocs/skins/Agent/" . $PossibleSkin->{InternalName};
+            if ( -d $SkinDir ) {
+                return 1;
             }
-        }
-    }
-
-    for my $ActiveSkin ( keys %ActiveSkins ) {
-        if ( $Param{Skin} eq $ActiveSkin ) {
-            return 1;
         }
     }
     return;
@@ -656,6 +645,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2010-07-20 18:53:31 $
+$Revision: 1.25 $ $Date: 2010-07-20 21:53:54 $
 
 =cut

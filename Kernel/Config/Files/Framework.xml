@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.341 2010-07-20 18:53:31 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.342 2010-07-20 21:53:53 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -148,14 +148,6 @@
                 <Item Key="zh_CN">Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)</Item>
                 <Item Key="zh_TW">Chinese (Tradi.) (&amp;#x6b63;&amp;#x9ad4;&amp;#x4e2d;&amp;#x6587;)</Item>
             </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="DefaultSkin" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default skin to be used by the agents and customers. If you like, you can add your own skins.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="">default</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
@@ -3048,7 +3040,7 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesSkin</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Skin</Item>
-                <Item Key="Key" Translatable="1">Wear this frontend Skin</Item>
+                <Item Key="Key" Translatable="1">Wear this frontend skin</Item>
                 <Item Key="PrefKey">UserSkin</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Active">1</Item>
@@ -3145,14 +3137,6 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <String Regex="">1</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="DefaultCustomerSkin" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default skin for customer interface, Before this check the available skins in Frontend::Skins.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">default</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerGroupSupport" Required="1" Valid="1">
@@ -4470,15 +4454,84 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Skins" Required="1" Valid="1">
-        <Description Translatable="1">Manage the available skins on the system. Value 1 means active, 0 means inactive.</Description>
+    <ConfigItem Name="DefaultSkin" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default skin to agent frontend. Please write the Skin InternalName. If you want, you can add your own skins.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <String Regex="">default</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Agent::Skin###000-default" Required="1" Valid="1">
+        <Description Translatable="1">Default skin for otrs 3.0 interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="default">1</Item>
-                <Item Key="ivory">1</Item>
-                <Item Key="moos">1</Item>
+                <Item Key="InternalName">default</Item>
+                <Item Key="VisibleName">Default</Item>
+                <Item Key="Description">This is the defaul orange - black skin for otrs 3.0 don't disable it.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Agent::Skin###001-ivory" Required="0" Valid="1">
+        <Description Translatable="1">Skin available to use in agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">ivory</Item>
+                <Item Key="VisibleName">Ivory</Item>
+                <Item Key="Description">Ivory skin example.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Agent::Skin###002-moos" Required="0" Valid="1">
+        <Description Translatable="1">Skin available to use in agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">moos</Item>
+                <Item Key="VisibleName">Moos</Item>
+                <Item Key="Description">Moos skin example.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DefaultCustomerSkin" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default skin for customer interface. Please write the Skin InternalName. Before this check the available skins in Frontend::Customer.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <String Regex="">default</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Customer::Skin###000-default" Required="1" Valid="1">
+        <Description Translatable="1">Default skin for otrs 3.0 interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">default</Item>
+                <Item Key="VisibleName">Default</Item>
+                <Item Key="Description">This is the defaul orange - black skin for otrs 3.0 don't disable it.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Cusomer::Skin###001-ivory" Required="0" Valid="1">
+        <Description Translatable="1">Skin available to use in customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">ivory</Item>
+                <Item Key="VisibleName">Ivory</Item>
+                <Item Key="Description">Ivory skin example.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
     </ConfigItem>
