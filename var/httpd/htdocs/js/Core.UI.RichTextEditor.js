@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.2 2010-07-15 08:53:50 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.3 2010-07-20 10:35:30 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             width: Core.Config.Get('RichText.Width') || 620,
             resize_minWidth: Core.Config.Get('RichText.Width') || 620,
             height: Core.Config.Get('RichText.Height') || 320,
+            removePlugins : 'elementspath',
             baseHref: Core.Config.Get('RichText.BasePath'),
             skin: 'default',
             forcePasteAsPlainText: false,
