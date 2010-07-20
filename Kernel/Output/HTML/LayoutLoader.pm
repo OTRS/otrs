@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.23 2010-07-13 09:47:15 mg Exp $
+# $Id: LayoutLoader.pm,v 1.24 2010-07-20 18:53:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Kernel::System::Loader;
 
@@ -38,7 +38,9 @@ All valid functions.
 Generate the minified CSS files and the tags referencing them,
 taking a list from the Loader::Agent::CommonCSS config item.
 
-    $LayoutObject->LoaderCreateAgentCSSCalls();
+    $LayoutObject->LoaderCreateAgentCSSCalls(
+        Skin => 'MySkin', # optional, if not provided skin is the configured by default
+    );
 
 =cut
 
@@ -49,6 +51,7 @@ sub LoaderCreateAgentCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
+    my $SkinSelected = $Param{'Skin'} || $Self->{ConfigObject}->Get('DefaultSkin');
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
@@ -77,6 +80,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'CommonCSS',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -102,6 +106,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'CommonCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -127,6 +132,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'CommonCSS_IE8',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -149,6 +155,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'ModuleCSS',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -163,6 +170,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'ModuleCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -177,6 +185,7 @@ sub LoaderCreateAgentCSSCalls {
             BlockName => 'ModuleCSS_IE8',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -271,6 +280,8 @@ sub LoaderCreateCustomerCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
+    my $SkinSelected = $Self->{ConfigObject}->Get('DefaultCustomerSkin') ||
+        $Self->{ConfigObject}->Get('DefaultSkin');
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
@@ -290,6 +301,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'CommonCSS',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -308,6 +320,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'CommonCSS_IE6',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -326,6 +339,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'CommonCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -344,6 +358,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'CommonCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -365,6 +380,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'ModuleCSS',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -379,6 +395,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'ModuleCSS_IE6',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -393,6 +410,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'ModuleCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -407,6 +425,7 @@ sub LoaderCreateCustomerCSSCalls {
             BlockName => 'ModuleCSS_IE8',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
+            Skin      => $SkinSelected,
         );
     }
 
@@ -479,13 +498,26 @@ sub _HandleCSSList {
     my ( $Self, %Param ) = @_;
 
     my @FileList;
+    my $ValidSkin = 0;
 
+    # validating  selected skin
+    if ( $Param{Skin} && $Param{Skin} ne 'default' && $Self->SkinValidate(%Param) ) {
+        $ValidSkin = 1;
+    }
+
+    #load default css files
     for my $CSSFile ( @{ $Param{List} } ) {
         if ( $Param{DoMinify} ) {
             push(
                 @FileList,
                 "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile"
             );
+            if ($ValidSkin) {
+                push(
+                    @FileList,
+                    "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile"
+                );
+            }
         }
         else {
             $Self->Block(
@@ -558,6 +590,56 @@ sub _HandleJSList {
     return 1;
 }
 
+=item SkinValidate()
+
+Returns 1 if skin is available for Agent or Customer frontends and 0 if not
+
+    $LayoutObject->SkinValidate( UserType => 'Agent' | 'Customer',
+                                 Skin => 'ExampleSkin', );
+
+=cut
+
+sub SkinValidate {
+    my ( $Self, %Param ) = @_;
+
+    # ask for needed data
+    for my $Parameter ( 'SkinType', 'Skin' ) {
+        if ( !$Param{$Parameter} ) {
+            $Self->{LogObject}->Log(
+                Message  => "Needed param: $Parameter!",
+                Priority => 'error',
+            );
+            return;
+        }
+    }
+    my $SkinType         = $Param{SkinType};
+    my $PossibleSkinsRef = $Self->{ConfigObject}->Get('Frontend::Skins')
+        || {};
+
+    my %PossibleSkins = %{$PossibleSkinsRef};
+    my $Home          = $Self->{ConfigObject}->Get('Home');
+
+    my %ActiveSkins;
+
+    # prepare the list of active skins
+    for my $PossibleSkin ( keys %PossibleSkins ) {
+        if ( $PossibleSkins{$PossibleSkin} == 1 )
+        {    # only add a theme if it is set to 1 in sysconfig
+            my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin;
+            if ( -d $SkinDir ) {    # .. and if the theme dir exists
+                $ActiveSkins{$PossibleSkin} = $PossibleSkin;
+            }
+        }
+    }
+
+    for my $ActiveSkin ( keys %ActiveSkins ) {
+        if ( $Param{Skin} eq $ActiveSkin ) {
+            return 1;
+        }
+    }
+    return;
+}
+
 1;
 
 =back
@@ -574,6 +656,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2010-07-13 09:47:15 $
+$Revision: 1.24 $ $Date: 2010-07-20 18:53:31 $
 
 =cut

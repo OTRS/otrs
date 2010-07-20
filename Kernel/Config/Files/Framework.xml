@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.340 2010-07-20 10:43:54 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.341 2010-07-20 18:53:31 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -148,6 +148,14 @@
                 <Item Key="zh_CN">Chinese (Sim.) (&amp;#x7b80;&amp;#x4f53;&amp;#x4e2d;&amp;#x6587;)</Item>
                 <Item Key="zh_TW">Chinese (Tradi.) (&amp;#x6b63;&amp;#x9ad4;&amp;#x4e2d;&amp;#x6587;)</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DefaultSkin" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default skin to be used by the agents and customers. If you like, you can add your own skins.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">default</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
@@ -3031,6 +3039,22 @@ Your OTRS Notification Master
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###Skin" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesSkin</Item>
+                <Item Key="Column">User Profile</Item>
+                <Item Key="Label" Translatable="1">Skin</Item>
+                <Item Key="Key" Translatable="1">Wear this frontend Skin</Item>
+                <Item Key="PrefKey">UserSkin</Item>
+                <Item Key="Prio">2000</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Theme" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
         <Group>Framework</Group>
@@ -3121,6 +3145,14 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <String Regex="">1</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DefaultCustomerSkin" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default skin for customer interface, Before this check the available skins in Frontend::Skins.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <String Regex="">default</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerGroupSupport" Required="1" Valid="1">
@@ -4436,6 +4468,18 @@ Your OTRS Notification Master
                 <Title>Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Skins" Required="1" Valid="1">
+        <Description Translatable="1">Manage the available skins on the system. Value 1 means active, 0 means inactive.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="default">1</Item>
+                <Item Key="ivory">1</Item>
+                <Item Key="moos">1</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Themes" Required="0" Valid="1">

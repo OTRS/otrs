@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.279 2010-07-15 09:48:38 mn Exp $
+# $Id: Layout.pm,v 1.280 2010-07-20 18:53:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.279 $) [1];
+$VERSION = qw($Revision: 1.280 $) [1];
 
 =head1 NAME
 
@@ -125,6 +125,11 @@ sub new {
     if ( !$Self->{UserTheme} ) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
+
+    if ( !$Self->{UserSkin} ) {
+        $Self->{UserSkin} = $Self->{ConfigObject}->Get('DefaultSkin');
+    }
+
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
         $Self->{UserTimeObject} = Kernel::System::Time->new(%Param);
     }
@@ -916,7 +921,7 @@ sub Login {
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls();
+    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin}, );
     $Self->LoaderCreateAgentJSCalls();
 
     # create & return output
@@ -1216,7 +1221,7 @@ sub Header {
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls();
+    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin}, );
 
     # add cookies if exists
     my $Output = '';
@@ -4693,6 +4698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.279 $ $Date: 2010-07-15 09:48:38 $
+$Revision: 1.280 $ $Date: 2010-07-20 18:53:31 $
 
 =cut
