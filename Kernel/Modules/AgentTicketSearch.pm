@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.91 2010-07-20 07:02:42 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.92 2010-07-20 12:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -257,46 +257,46 @@ sub Run {
 
     # get article create time option
     if ( !$GetParam{ArticleTimeSearchType} ) {
-        $GetParam{'ArticleTimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'ArticleTimeSearchType::None'} = 1;
     }
     elsif ( $GetParam{ArticleTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'ArticleTimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'ArticleTimeSearchType::TimePoint'} = 1;
     }
     elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'ArticleTimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'ArticleTimeSearchType::TimeSlot'} = 1;
     }
 
     # get create time option
     if ( !$GetParam{TimeSearchType} ) {
-        $GetParam{'TimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::None'} = 1;
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'TimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimePoint'} = 1;
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'TimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimeSlot'} = 1;
     }
 
     # get change time option
     if ( !$GetParam{ChangeTimeSearchType} ) {
-        $GetParam{'ChangeTimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'ChangeTimeSearchType::None'} = 1;
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'ChangeTimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'ChangeTimeSearchType::TimePoint'} = 1;
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'ChangeTimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'ChangeTimeSearchType::TimeSlot'} = 1;
     }
 
     # get close time option
     if ( !$GetParam{CloseTimeSearchType} ) {
-        $GetParam{'CloseTimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'CloseTimeSearchType::None'} = 1;
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'CloseTimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'CloseTimeSearchType::TimePoint'} = 1;
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'CloseTimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'CloseTimeSearchType::TimeSlot'} = 1;
     }
 
     # set result form env
@@ -1239,20 +1239,32 @@ sub Run {
                 Value => 'Lock',
             },
             {
-                Key   => 'TicketChangeTime',
-                Value => 'Ticket Change Time',
+                Key   => 'TicketCreateTimePoint',
+                Value => 'Ticket Create Time (from moment)',
             },
             {
-                Key   => 'TicketCreateTime',
-                Value => 'Ticket Create Time',
+                Key   => 'TicketCreateTimeSlot',
+                Value => 'Ticket Create Time (between)',
             },
             {
-                Key   => 'TicketCloseTime',
-                Value => 'Ticket Close Time',
+                Key   => 'TicketChangeTimePoint',
+                Value => 'Ticket Change Time (from moment)',
             },
             {
-                Key   => 'ArticleCreateTime',
-                Value => 'Article Create Time',
+                Key   => 'TicketChangeTimeSlot',
+                Value => 'Ticket Change Time (between)',
+            },
+            {
+                Key   => 'TicketCloseTimePoint',
+                Value => 'Ticket Close Time (from moment)',
+            },
+            {
+                Key   => 'TicketCloseTimeSlot',
+                Value => 'Ticket Close Time (between)',
+            },
+            {
+                Key   => 'ArticleCreateTimeSlot',
+                Value => 'Article Create Time (between)',
             },
         );
         if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
@@ -1386,10 +1398,8 @@ sub Run {
         delete $Profiles{''};
         $Profiles{'last-search'} = '-';
         $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => \%Profiles,
-            Name => 'Profile',
-
-            #            SelectedID => $Param{Profile},
+            Data       => \%Profiles,
+            Name       => 'Profile',
             SelectedID => $Profile,
         );
 
@@ -1851,6 +1861,11 @@ sub Run {
             Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
+        for my $Key (qw(TicketClose TicketChange TicketCreate)) {
+            for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
+                delete $GetParam{ $Key . $SubKey };
+            }
+        }
 
         for ( 1 .. 6 ) {
             $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
@@ -1892,6 +1907,16 @@ sub Run {
             next if !$Key;
             next if !defined $GetParam{$Key};
             next if $GetParam{$Key} eq '';
+
+            # show time attributes
+            for my $Item (qw(Change Create Close)) {
+                for my $ItemSubSub (qw(Point Slot)) {
+                    my $ItemSub = $Item . 'TimeSearchType::Time' . $ItemSubSub;
+                    if ( $Key eq $ItemSub && $GetParam{$ItemSub} && $GetParam{$ItemSub} eq 1 ) {
+                        $Key = 'Ticket' . $Item . 'Time' . $ItemSubSub;
+                    }
+                }
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
                 Data => {
