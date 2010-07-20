@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.106 2010-07-19 17:31:01 ub Exp $
+# $Id: AdminSysConfig.pm,v 1.107 2010-07-20 13:02:35 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,14 +123,21 @@ sub Run {
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
             Group    => $Group,
-            SubGroup => $SubGroup
+            SubGroup => $SubGroup,
         );
 
         # list all Items
+        ITEM:
         for (@List) {
 
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet( Name => $_ );
+
+            # check if config item needs no update because it is not editable
+            # because of an insufficent config level of the admin user
+            if ( $Self->{ParamObject}->GetParam( Param => $_ . '-InsufficientConfigLevel' ) ) {
+                next ITEM;
+            }
 
             # Reset Item
             if ( defined $Self->{ParamObject}->GetParam( Param => "Reset$_" ) ) {
@@ -700,6 +707,9 @@ sub Run {
             SubGroup => $SubGroup
         );
 
+        # get the config level of the admin user
+        my $ConfigLevel = $Self->{ConfigObject}->Get('ConfigLevel') || 0;
+
         # Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
@@ -742,16 +752,49 @@ sub Run {
                 },
             );
 
-            # show icon to reset the config item to default
-            if ( $ItemHash{Diff} ) {
+            # the admin users config level is not sufficient to edit this config item
+            if ( $ItemHash{ConfigLevel} && $ItemHash{ConfigLevel} < $ConfigLevel ) {
+
+                # only show the name of the config item
                 $Self->{LayoutObject}->Block(
-                    Name => 'ConfigElementBlockReset',
-                    Data => { ItemKey => $_, },
+                    Name => 'ConfigElementInsufficientConfigLevel',
+                    Data => {
+                        ItemKey     => $ItemHash{Name},
+                        ItemKeyID   => $ItemKeyID,
+                        Description => $Description,
+                        Valid       => $Valid,
+                        Validstyle  => $Validstyle,
+                        Required    => $Required,
+                        ConfigLevel => $ItemHash{ConfigLevel},
+                    },
                 );
             }
+            else {
 
-            # ListConfigItem
-            $Self->ListConfigItem( Hash => \%ItemHash );
+                # show the complete config item
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementSufficientConfigLevel',
+                    Data => {
+                        ItemKey     => $ItemHash{Name},
+                        ItemKeyID   => $ItemKeyID,
+                        Description => $Description,
+                        Valid       => $Valid,
+                        Validstyle  => $Validstyle,
+                        Required    => $Required,
+                    },
+                );
+
+                # show icon to reset the config item to default
+                if ( $ItemHash{Diff} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ConfigElementBlockReset',
+                        Data => { ItemKey => $_ },
+                    );
+                }
+
+                # ListConfigItem
+                $Self->ListConfigItem( Hash => \%ItemHash );
+            }
         }
 
         $Data{SubGroup} = $SubGroup;
@@ -760,7 +803,7 @@ sub Run {
         $Output    .= $Self->{LayoutObject}->NavigationBar();
         $Output    .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSysConfigEdit',
-            Data         => \%Data
+            Data         => \%Data,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -944,7 +987,10 @@ sub Run {
     $Output    .= $Self->{LayoutObject}->NavigationBar();
     $Output    .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSysConfig',
-        Data => { %Data, ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter}, }
+        Data         => {
+            %Data,
+            ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
+        },
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
@@ -1398,12 +1444,14 @@ sub ListConfigItem {
     if ( defined $Item->{TimeVacationDaysOneTime} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDaysOneTime',
-            Data => { ElementKey => $ItemHash{Name}, },
+            Data => {
+                ElementKey => $ItemHash{Name},
+            },
         );
 
         # New TimeVacationDaysOneTimeElement
         my $New = $Self->{ParamObject}->GetParam(
-            Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
+            Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement',
         );
         if ($New) {
             push( @{ $Item->{TimeVacationDaysOneTime}[1]{Item} }, { Key => '', Content => '' } );
@@ -1458,12 +1506,14 @@ sub ListConfigItem {
     if ( defined $Item->{TimeVacationDays} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDays',
-            Data => { ElementKey => $ItemHash{Name}, },
+            Data => {
+                ElementKey => $ItemHash{Name},
+            },
         );
 
         # New TimeVacationDaysElement
         my $New = $Self->{ParamObject}->GetParam(
-            Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
+            Param => $ItemHash{Name} . '#NewTimeVacationDaysElement',
         );
         if ($New) {
             push( @{ $Item->{TimeVacationDays}[1]{Item} }, { Key => '', Content => '' } );
@@ -1508,7 +1558,9 @@ sub ListConfigItem {
     if ( defined $Item->{TimeWorkingHours} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeWorkingHours',
-            Data => { ElementKey => $ItemHash{Name}, },
+            Data => {
+                ElementKey => $ItemHash{Name},
+            },
         );
 
         # TimeWorkingHoursElements

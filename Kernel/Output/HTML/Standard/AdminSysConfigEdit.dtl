@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.76 2010-07-19 17:31:21 ub Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.77 2010-07-20 13:02:52 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,6 +50,28 @@
                     <input type="image" src="$Config{"Frontend::ImagePath"}empty.png" alt=" "/>
 
 <!-- dtl:block:ConfigElementBlock -->
+
+<!-- dtl:block:ConfigElementInsufficientConfigLevel -->
+                    <a name="$QData{"ItemKeyID"}"></a>
+                    <input type="hidden" name="$QData{"ItemKeyID"}-InsufficientConfigLevel" value="1"/>
+                    <fieldset>
+                        <h3>
+                            <label for="$QData{"ItemKeyID"}ItemActive">$QData{"ItemKey"}</label>
+                        </h3>
+                        <div class="Setting">
+                            <div class="String">
+                                <p>
+                                    &nbsp;
+                                </p>
+                            </div>
+                        </div>
+                        <p class="Description">
+                            $Text{"This config item is only available in a higher config level!"}
+                        </p>
+                    </fieldset>
+<!-- dtl:block:ConfigElementInsufficientConfigLevel -->
+
+<!-- dtl:block:ConfigElementSufficientConfigLevel -->
                     <a name="$QData{"ItemKeyID"}"></a>
                     <fieldset class="$QData{"Validstyle"}">
                         <h3>
@@ -395,6 +417,7 @@
                             $Text{"$Data{"Description"}"}
                         </p>
                     </fieldset>
+<!-- dtl:block:ConfigElementSufficientConfigLevel -->
 <!-- dtl:block:ConfigElementBlock -->
                     <fieldset class="Last">
                         <button type="submit" value="$Text{"Update"}"><span>$Text{"Update"}</span></button>
