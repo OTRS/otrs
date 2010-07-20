@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.4 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.5 2010-07-20 21:56:25 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -167,6 +167,17 @@ Core.Agent.TicketAction = (function (TargetNS) {
             UpdateCustomer(Customer);
         });
     }
-
+    
+    /**
+     * @function
+     * @return nothing
+     *      Selects a radio button by name and value
+     * @param {Value} The value attribute of the radio button to be selected
+     * @param {Object} The name of the radio button to be selected
+     */
+    TargetNS.SelectRadioButton = function (Value, Name) {
+        $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', true);
+    };
+    
     return TargetNS;
 }(Core.Agent.TicketAction || {}));

@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.17 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.18 2010-07-20 21:56:05 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,6 +134,13 @@
                     <input type="radio" name="NewOwnerType" value="New" title ="Select new owner" $QData{"NewOwnerType::New"}/>
                     $Data{"OwnerStrg"}
                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#NewOwnerID'), function () {
+        Core.Agent.TicketAction.SelectRadioButton('New','NewOwnerType');
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 
@@ -142,6 +149,13 @@
                     <input type="radio" name="NewOwnerType" value="Old" title="Select old owner" $QData{"NewOwnerType::Old"}/>
                     $Data{"OldOwnerStrg"}
                     <div id="OldOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.RegisterEvent('click', $('#OldOwnerID'), function () {
+        Core.Agent.TicketAction.SelectRadioButton('Old','NewOwnerType');
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Owner -->
