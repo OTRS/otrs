@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.18 2010-07-20 21:56:05 mp Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.19 2010-07-20 23:00:58 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -136,7 +136,7 @@
                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#NewOwnerID'), function () {
+    $('#NewOwnerID').bind('click', function () {
         Core.Agent.TicketAction.SelectRadioButton('New','NewOwnerType');
     });
 //]]></script>
@@ -151,7 +151,7 @@
                     <div id="OldOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.RegisterEvent('click', $('#OldOwnerID'), function () {
+    $('#OldOwnerID').bind('click', function () {
         Core.Agent.TicketAction.SelectRadioButton('Old','NewOwnerType');
     });
 //]]></script>
