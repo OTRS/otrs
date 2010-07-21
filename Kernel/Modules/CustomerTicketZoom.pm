@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.68 2010-05-31 15:23:43 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.69 2010-07-21 17:12:51 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -704,7 +704,7 @@ sub _Mask {
                 $StateSelected{SelectedID} = $Param{StateID};
             }
             else {
-                $StateSelected{Selected} = $Self->{Config}->{StateDefault};
+                $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
             }
             $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%NextStates,
@@ -728,7 +728,7 @@ sub _Mask {
                 $PrioritySelected{SelectedID} = $Param{PriorityID};
             }
             else {
-                $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
+                $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault} || '3 normal';
             }
             $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%Priorities,
