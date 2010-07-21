@@ -2,7 +2,7 @@
 // Core.UI.Chart.js - provides the Chart functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Chart.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.Chart.js,v 1.2 2010-07-21 23:02:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,8 +36,12 @@ Core.UI.Chart = (function (TargetNS) {
         TooltipTimeout = 500,
         PreviousPoint = null;
 
+    /**
+     * @function
+     * @private
+     * @description Remove chart tooltip only when mouse is moved away
+     */
     function RemoveChartTooltip() {
-        // remove chart tooltip only when mouse is moved away
         if (
             PageCoordinates[0] > ChartCoordinates[0] - TooltipCoordinatesDelta &&
             PageCoordinates[0] < ChartCoordinates[0] + TooltipCoordinatesDelta &&
@@ -56,6 +60,14 @@ Core.UI.Chart = (function (TargetNS) {
         }
     }
 
+    /**
+     * @function
+     * @private
+     * @param {string} PosX The horizontal coordinate
+     * @param {string} PosY The vertical coordinate
+     * @param {string} Content The type of a window, e.g. 'Action'
+     * @description This function add a tooltip to the window and show it
+     */
     function ShowTooltip(PosX, PosY, Content) {
         var Top = PosY + 5,
             Left = PosX + 5,
@@ -77,16 +89,34 @@ Core.UI.Chart = (function (TargetNS) {
         }).appendTo("body").fadeIn(200);
     }
 
+    /**
+     * @function
+     * @description
+     *      This function starts the mouse tracking movement, in the page.
+     * @return nothing
+     */
     TargetNS.StartMouseTracking = function () {
         $(document).bind('mousemove.Chart', function (Event) {
             PageCoordinates = [ Event.pageX, Event.pageY ];
         });
     };
 
+    /**
+     * @function
+     * @description
+     *      This function terminates the mouse tracking movement, in the page.
+     * @return nothing
+     */
     TargetNS.StopMouseTracking = function () {
         $(document).unbind('mousemove.Chart');
     };
 
+    /**
+     * @function
+     * @description
+     *      This function draws a line chart.
+     * @return nothing
+     */
     TargetNS.DrawLineChart = function (ChartName, ChartData, TicksXAxis, TicksYAxis) {
         var Options = {
                 colors: ["#ffc515", "#1a89ba", "#2eb200", "#ff4f15"],

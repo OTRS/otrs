@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.2 2010-07-15 08:53:50 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.3 2010-07-21 23:02:04 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,11 @@ Core.UI.Popup = (function (TargetNS) {
         'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
     };
 
+    /**
+     * @function
+     * @private
+     * @description Check which popup window are still open
+     */
     function CheckOpenPopups() {
         $.each(OpenPopups, function (Key, Value) {
             if (Value.closed) {
@@ -38,10 +43,22 @@ Core.UI.Popup = (function (TargetNS) {
         });
     }
 
+    /**
+     * @function
+     * @private
+     * @param {string} Type The type of a window, e.g. 'Action'
+     * @description Get window object by popup type
+     */
     function GetPopupObjectByType(Type) {
         return OpenPopups[Type];
     }
 
+    /**
+     * @function
+     * @description
+     *      Register the pop-up event for a window.
+     * @return nothing
+     */
     TargetNS.RegisterPopupEvent = function () {
         $(window).bind('Popup', function (Event, Type, Param) {
             if (Type && typeof Type !== 'undefined') {
@@ -57,11 +74,25 @@ Core.UI.Popup = (function (TargetNS) {
         });
     };
 
+    /**
+     * @function
+     * @description
+     *      This function starts the pop-up event.
+     * @param {String} Type The event type that will be launched
+     * @param {Object} Param The element that contain information about the new screen address
+     * @return nothing
+     */
     TargetNS.FirePopupEvent = function (Type, Param) {
         $(window).unbind('beforeunload.Popup').unbind('unload.Popup');
         $(window).trigger('Popup', [Type, Param]);
     };
 
+    /**
+     * @function
+     * @description
+     *      This review if some popup windows are open, then try to send a warning.
+     * @return nothing or a string for a warning sign.
+     */
     TargetNS.CheckPopupsOnUnload = function () {
         var Size = 0;
         CheckOpenPopups();
@@ -73,6 +104,12 @@ Core.UI.Popup = (function (TargetNS) {
         }
     };
 
+    /**
+     * @function
+     * @description
+     *      This function close the active popup windows.
+     * @return nothing
+     */
     TargetNS.ClosePopupsOnUnload = function () {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
@@ -80,6 +117,13 @@ Core.UI.Popup = (function (TargetNS) {
         });
     };
 
+    /**
+     * @function
+     * @description
+     *      This function set the type for a popup window.
+     * @param {Object} WindowObject The element is a javascript window object
+     * @return nothing
+     */
     TargetNS.RegisterPopupAtParentWindow = function (WindowObject) {
         var Type = WindowObject.WindowType;
         if (typeof OpenPopups[Type] === 'undefined') {
@@ -92,6 +136,12 @@ Core.UI.Popup = (function (TargetNS) {
         }
     };
 
+    /**
+     * @function
+     * @description
+     *      This function set a timeout and after that try to register a popup at a parent window.
+     * @return nothing
+     */
     TargetNS.InitRegisterPopupAtParentWindow = function () {
         window.setTimeout(function () {
             if (window.opener &&
