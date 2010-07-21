@@ -2,7 +2,7 @@
 // Core.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Debug.js,v 1.2 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Debug.js,v 1.3 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -132,8 +132,9 @@ Core.Debug = (function (TargetNS) {
         
         /**
          * @function
+         * @private
          * @return nothing
-         *      This function replaced the value attribute with the equivalent length in replacement string.
+         * @description This function replaced the value attribute with the equivalent length in replacement string.
          */
         function ReplaceAllText(Node) {
             var ChildNodes = (Node || document.body).childNodes,

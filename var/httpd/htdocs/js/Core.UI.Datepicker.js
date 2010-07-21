@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.2 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,13 @@ Core.UI.Datepicker = (function (TargetNS) {
         LocalizationData,
         DatepickerCount = 0;
 
+    /**
+     * @function
+     * @private
+     * @param A boolean value
+     * @param {jQueryObject} Element that will be checked
+     * @description Review if a date object have correct values
+     */
     function CheckDate(DateObject) {
         var DayDescription = '',
             DayClass = '';

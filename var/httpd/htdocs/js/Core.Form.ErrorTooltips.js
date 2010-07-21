@@ -2,7 +2,7 @@
 // Core.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.2 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.3 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         
     /**
      * @function
+     * @private
      * @param {jQueryObject} $Element jquery object
      * @param {String} TooltipContent The string content that will be show in tooltip 
      * @return nothing
@@ -71,6 +72,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     
     /**
      * @function
+     * @private
      * @return nothing
      *      This function hides the tooltip for an element
      */
@@ -114,6 +116,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         
     /**
      * @function
+     * @private
      * @return nothing
      *      This function shows the tooltip for a rich text editor
      */
@@ -124,6 +127,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         
     /**
      * @function
+     * @private
      * @return nothing
      *      This function remove the tooltip from a rich text editor
      */

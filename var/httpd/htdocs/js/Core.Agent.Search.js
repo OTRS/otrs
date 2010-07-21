@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.10 2010-07-20 06:41:13 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.11 2010-07-21 06:04:33 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -24,11 +24,10 @@ Core.Agent.Search = (function (TargetNS) {
 
     /**
      * @function
-     * @return a true value
+     * @return nothing
      *      This function rebuild attribute selection, only show available attributes
      */
-    // rebuild attribute selection, only show available attributes
-//    function RebuildSelection () {
+
     TargetNS.RebuildSelection = function () {
 
         // get original selection
@@ -51,7 +50,12 @@ Core.Agent.Search = (function (TargetNS) {
         return true;
     }
 
-    // add attributes
+    /**
+     * @function
+     * @return nothing
+     *      This function add attributes for search
+     */
+
     TargetNS.ItemAdd = function (Attribute) {
         $('#SerachAttributesHidden').find('label').each( function () {
             if ( $(this).attr( 'for' ) == Attribute ) {
@@ -65,7 +69,13 @@ Core.Agent.Search = (function (TargetNS) {
         });
     }
 
-    // remove attributes
+    /**
+     * @function
+     * @param {jQueryObject} $Element The jQuery object of the form  or any element within this form
+     * @return nothing
+     *      This function remove attributes from an element
+     */
+
     TargetNS.ItemRemove = function ($Element) {
         $Element.prev().prev().remove();
         $Element.prev().remove();
@@ -78,7 +88,7 @@ Core.Agent.Search = (function (TargetNS) {
      * @return nothing
      *      This function open the search dialog
      */
-    // open search dialog
+     
     TargetNS.OpenSearchDialog = function (Action, Profile) {
 
         if ( !Action ) {
@@ -216,6 +226,14 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     // delete profile
+
+    /**
+     * @function
+     * @private
+     * @param {Profile} Profile The profile that will be delete
+     * @return nothing
+     * @description Delete a profile via an ajax requests
+     */
     function DeleteRemote (Profile) {
         var Data = {
             Action: 'AgentTicketSearch',

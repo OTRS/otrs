@@ -2,7 +2,7 @@
 // Core.UI.IE7Fixes.js - provides IE7 specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.IE7Fixes.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.IE7Fixes.js,v 1.2 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,12 +53,12 @@ Core.UI.IE7Fixes = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function implements readonly field styling for IE6.
+     *      This function implements readonly field styling for IE7.
      * @param {String} ReadonlyClass The name of the class which will be added for styling readonly input fields.
      * @return nothing
      */
     TargetNS.InitIE7InputReadonly = function (ReadonlyClass) {
-        // Exit function, if browser is not IE6
+        // Exit function, if browser is not IE7
         if (!($.browser.msie && $.browser.version === "7.0")) {
             return;
         }

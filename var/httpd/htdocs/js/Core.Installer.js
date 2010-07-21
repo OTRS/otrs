@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Installer.js,v 1.2 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,11 +56,13 @@ InstallerDBStart
         }
     };
 
-
-/*
-InstallerConfigureMail
-*/
-
+    /**
+     * @function
+     * @description
+     *      This function is used to enalbe or disable some mail configuration fields.
+     * @param {Object} obj The form object that has the value to decide if enable or disable fields
+     * @return nothing
+     */
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
         if (value == "smtp") {
@@ -111,6 +113,12 @@ InstallerConfigureMail
         $('input[name=Subaction]').val('Finish');
     };
 
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description This function shows the check the mail configuration result
+     */
     function CheckMailConfigCallback(json) {
         if (parseInt(json['Successful']) == 1) {
             alert(Core.Config.Get('Installer.CheckMailLabelOne'));

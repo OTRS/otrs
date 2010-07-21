@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.4 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.5 2010-07-21 06:04:33 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
     /**
      * @function
+     * @private
      * @return nothing
      *      This function get customer data for customer info table
      */
@@ -58,6 +59,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
     /**
      * @function
+     * @private
      * @return nothing
      *      This function get customer tickets
      */
@@ -76,6 +78,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         /**
          * @function
+         * @private
          * @return nothing
          *      This function replace and show customer ticket links
          */

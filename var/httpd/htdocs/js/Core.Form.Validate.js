@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.3 2010-07-15 08:53:50 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.4 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,14 @@ Core.Form.Validate = (function (TargetNS) {
         return;
     }
 
+    /**
+     * @function
+     * @private
+     * @param {jQueryObject} $Element The jQuery object of the form  or any element
+     * @param {String} ErrorType The error type (a class that identify the error type)
+     * @return nothing
+     * @description Show initialize the tooltips
+     */
     function HighlightError(Element, ErrorType) {
         var $Element = $(Element),
             InputErrorMessageHTML,
@@ -84,6 +92,13 @@ Core.Form.Validate = (function (TargetNS) {
         Core.UI.Accessibility.AudibleAlert(InputErrorMessageText);
     }
 
+    /**
+     * @function
+     * @private
+     * @param {Object} Element The object of the form  or any element within this form that should be serialized
+     * @return nothing
+     * @description Remove error classes from element and its label
+     */
     function UnHighlightError(Element) {
         var $Element = $(Element);
 
@@ -106,11 +121,23 @@ Core.Form.Validate = (function (TargetNS) {
         }
     }
 
-    // this function prevents the default placing of the error messages
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description This function prevents the default placing of the error messages
+     */
     function OnErrorElement(Error, Element) {
         return true;
     }
 
+    /**
+     * @function
+     * @private
+     * @param {Object} Form The form object that should be submit
+     * @return nothing
+     * @description This function performs the submit action for a form, allowing only be sent once a time.
+     */
     function OnSubmit(Form) {
         $(Form).removeClass('ClientError').removeClass('LabelError');
         if ($.isFunction(Options.SubmitFunction[Form.id])) {
@@ -422,6 +449,13 @@ Core.Form.Validate = (function (TargetNS) {
         }
     };
 
+    /**
+     * @function
+     * @description
+     *      This function is used to disable all the element from a Form object.
+     * @param {Object} Form The form object that should be submit
+     * @return nothing
+     */
     TargetNS.DisableValidation = function ($Form) {
         // If no form is given, disable validation in all form elements on the complete site
         if (!isJQueryObject($Form)) {
@@ -433,6 +467,13 @@ Core.Form.Validate = (function (TargetNS) {
             .addClass(Options.IgnoreClass);
     };
 
+    /**
+     * @function
+     * @description
+     *      This function is used to disable all the element from a Form object.
+     * @param {Object} Form The form object that should be submit
+     * @return nothing
+     */
     TargetNS.EnableValidation = function ($Form) {
         // If no form is given, disable validation in all form elements on the complete site
         if (!isJQueryObject($Form)) {

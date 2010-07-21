@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.5 2010-07-19 22:52:04 cg Exp $
+// $Id: Core.Agent.js,v 1.6 2010-07-21 06:04:33 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -38,6 +38,7 @@ Core.Agent = (function (TargetNS) {
 
     /**
      * @function
+     * @private
      * @return nothing
      *      This function initializes the main navigation
      */
@@ -50,6 +51,7 @@ Core.Agent = (function (TargetNS) {
 
         /**
          * @function
+         * @private
          * @return nothing
          *      This function set Timeout for closing nav
          */
@@ -59,6 +61,7 @@ Core.Agent = (function (TargetNS) {
 
         /**
          * @function
+         * @private
          * @return nothing
          *      This function clear Timeout for nav element
          */

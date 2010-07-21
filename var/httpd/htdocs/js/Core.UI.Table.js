@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.Table.js,v 1.2 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,15 @@ Core.UI.Table = (function (TargetNS) {
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
 
             window.setTimeout(function () {
+
+                /**
+                 * @function
+                 * @private
+                 * @param {jQueryObject} Element that will be checked
+                 * @param {String} FilterText The current filter text
+                 * @return A true value
+                 * @description Ckeck if a text exist inside an element
+                 */
                 function CheckText($Element, FilterText) {
                     var Result = ($Element.text().toLowerCase().indexOf(FilterText) > -1);
                     if (!Result) {

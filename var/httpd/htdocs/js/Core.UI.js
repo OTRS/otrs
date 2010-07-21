@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.3 2010-07-16 13:45:36 mg Exp $
+// $Id: Core.UI.js,v 1.4 2010-07-21 06:05:17 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,14 @@ Core.UI = (function (TargetNS) {
         TargetNS.AdjustTableHead($THead, $TBody);
     };
 
+    /**
+     * @function
+     * @description
+     *      This function is used to adjust the table head
+     * @param {jQueryObject} $THead the thead thats th's should be adjusted
+     * @param {jQueryObject} $TBody the tbody
+     * @return nothing
+     */
     TargetNS.AdjustTableHead = function ($THead, $TBody) {
         var $THeadElements = $THead.find('tr th'),
             THeadElementWidth,
@@ -53,6 +61,13 @@ Core.UI = (function (TargetNS) {
             Adjustments = [],
             I;
 
+        /**
+         * @function
+         * @private
+         * @param {jQueryObjects} $THead the thead thats th's should be adjusted
+         * @return {Array} Elements Elements that need to know their width
+         * @description Shows and hides an ajax loader for every element which is updates via ajax
+         */
         function GetWidths($Elements, Position) {
             var Storage = [],
                 Size = $Elements.length,
@@ -139,6 +154,13 @@ Core.UI = (function (TargetNS) {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     Animate = $WidgetElement.hasClass('Animate'),
                     $that = $(this);
+
+                /**
+                 * @function
+                 * @private
+                 * @return nothing
+                 * @description Interchange classes between Collapsed and Expanded
+                 */
 
                 function ToggleWidget() {
                     $WidgetElement
