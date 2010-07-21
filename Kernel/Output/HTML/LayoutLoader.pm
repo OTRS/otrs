@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.26 2010-07-21 15:40:24 dz Exp $
+# $Id: LayoutLoader.pm,v 1.27 2010-07-21 16:03:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 use Kernel::System::Loader;
 
@@ -64,13 +64,13 @@ sub LoaderCreateAgentCSSCalls {
         # get global css
         my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
         for my $Key ( sort keys %{$CommonCSSList} ) {
-            push( @FileList, @{ $CommonCSSList->{$Key} } );
+            push @FileList, @{ $CommonCSSList->{$Key} };
         }
 
         # get toolbar module css
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{CSS} ) {
-                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS} );
+                push @FileList, $ToolbarModuleSettings->{$Key}->{CSS};
             }
         }
 
@@ -90,13 +90,13 @@ sub LoaderCreateAgentCSSCalls {
         # get global css for ie7
         my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE7');
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
+            push @FileList, @{ $CommonCSSIE7List->{$Key} };
         }
 
         # get toolbar module css for ie7
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{CSS_IE7} ) {
-                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE7} );
+                push @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE7};
             }
         }
 
@@ -116,13 +116,13 @@ sub LoaderCreateAgentCSSCalls {
         # get global css for IE8
         my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE8');
         for my $Key ( sort keys %{$CommonCSSIE8List} ) {
-            push( @FileList, @{ $CommonCSSIE8List->{$Key} } );
+            push @FileList, @{ $CommonCSSIE8List->{$Key} };
         }
 
         # get toolbar module css for ie8
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{CSS_IE8} ) {
-                push( @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE8} );
+                push @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE8};
             }
         }
 
@@ -220,14 +220,14 @@ sub LoaderCreateAgentJSCalls {
         # get global js
         my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonJS');
         for my $Key ( sort keys %{$CommonJSList} ) {
-            push( @FileList, @{ $CommonJSList->{$Key} } );
+            push @FileList, @{ $CommonJSList->{$Key} };
         }
 
         # get toolbar module js
         my $ToolbarModuleSettings = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{JavaScript} ) {
-                push( @FileList, $ToolbarModuleSettings->{$Key}->{JavaScript} );
+                push @FileList, $ToolbarModuleSettings->{$Key}->{JavaScript};
             }
         }
 
@@ -245,8 +245,8 @@ sub LoaderCreateAgentJSCalls {
         my $LoaderAction = $Self->{Action} || 'Login';
         $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')
-            ->{$LoaderAction}->{Loader}->{JavaScript} || [];
+        my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')->{$LoaderAction}->{Loader}
+            ->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -292,7 +292,7 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSList} ) {
-            push( @FileList, @{ $CommonCSSList->{$Key} } );
+            push @FileList, @{ $CommonCSSList->{$Key} };
         }
 
         $Self->_HandleCSSList(
@@ -311,7 +311,7 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE6List} ) {
-            push( @FileList, @{ $CommonCSSIE6List->{$Key} } );
+            push @FileList, @{ $CommonCSSIE6List->{$Key} };
         }
 
         $Self->_HandleCSSList(
@@ -330,7 +330,7 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
+            push @FileList, @{ $CommonCSSIE7List->{$Key} };
         }
 
         $Self->_HandleCSSList(
@@ -349,7 +349,7 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push( @FileList, @{ $CommonCSSIE7List->{$Key} } );
+            push @FileList, @{ $CommonCSSIE7List->{$Key} };
         }
 
         $Self->_HandleCSSList(
@@ -460,7 +460,7 @@ sub LoaderCreateCustomerJSCalls {
         my @FileList;
 
         for my $Key ( sort keys %{$CommonJSList} ) {
-            push( @FileList, @{ $CommonJSList->{$Key} } );
+            push @FileList, @{ $CommonJSList->{$Key} };
         }
 
         $Self->_HandleJSList(
@@ -477,8 +477,9 @@ sub LoaderCreateCustomerJSCalls {
         my $LoaderAction = $Self->{Action} || 'Login';
         $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')
-            ->{$LoaderAction}->{Loader}->{JavaScript} || [];
+        my $AppJSList
+            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
+            ->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
 
@@ -507,14 +508,10 @@ sub _HandleCSSList {
 
     #load default css files
     for my $CSSFile ( @{ $Param{List} } ) {
-        my $SkinFile =
-            "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile";
+        my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile";
 
         if ( $Param{DoMinify} ) {
-            push(
-                @FileList,
-                "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile"
-            );
+            push @FileList, "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile";
 
             if ( $ValidSkin && -e $SkinFile ) {
                 push @FileList, $SkinFile;
@@ -541,7 +538,6 @@ sub _HandleCSSList {
                     },
                 );
             }
-
         }
     }
 
@@ -572,7 +568,7 @@ sub _HandleJSList {
 
     for my $JSFile ( @{ $Param{List} } ) {
         if ( $Param{DoMinify} ) {
-            push( @FileList, "$Param{JSHome}/$JSFile" );
+            push @FileList, "$Param{JSHome}/$JSFile";
         }
         else {
             $Self->Block(
@@ -659,6 +655,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2010-07-21 15:40:24 $
+$Revision: 1.27 $ $Date: 2010-07-21 16:03:36 $
 
 =cut
