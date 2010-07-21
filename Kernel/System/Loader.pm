@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.12 2010-07-20 21:53:54 dz Exp $
+# $Id: Loader.pm,v 1.13 2010-07-21 06:17:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -122,6 +122,16 @@ sub MinifyFiles {
     }
 
     my $TargetDirectory = $Param{TargetDirectory};
+    if ( !-e $TargetDirectory ) {
+        if ( !mkdir( $TargetDirectory, 0775 ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't create directory '$TargetDirectory': $!",
+            );
+            return;
+        }
+    }
+
     if ( !$TargetDirectory || !-d $TargetDirectory ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -417,6 +427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2010-07-20 21:53:54 $
+$Revision: 1.13 $ $Date: 2010-07-21 06:17:26 $
 
 =cut
