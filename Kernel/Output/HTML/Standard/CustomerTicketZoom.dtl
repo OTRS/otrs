@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.83 2010-07-16 11:20:59 mn Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.84 2010-07-21 21:45:07 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,48 +20,48 @@
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
-                <span title="$Text{"$Data{"StateTypeGeneric"}"}" class="Flag $Data{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
+                <span title="$Text{"$Data{"StateTypeGeneric"}"}" id="Flag" class="$Data{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
                 $QData{"Title","40"}
+                <span class="TicketHook">$QData{"TicketNumber"}</span>
             </h2>
-            <span>$QData{"TicketNumber"}</span>
-            <ul class="Metadata">
+            <ul id="Metadata">
 <!-- dtl:block:Type -->
-                <li><span>$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
+                <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
-                <li><span>$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</span></li>
+                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Quote{"$Text{"$Data{"Service"}"}","18"}</span></li>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                <li><span>$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</span></li>
+                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Quote{"$Text{"$Data{"SLA"}"}","18"}</span></li>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:State -->
-                <li><span>$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</span></li>
+                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</span></li>
 <!-- dtl:block:State -->
 <!-- dtl:block:Priority -->
-                <li><span>$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</span></li>
+                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
-                <li><span>$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
+                <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
 <!-- dtl:block:Queue -->
 # use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
 <!-- dtl:block:TicketFreeText -->
-                <li><span>$QData{"TicketFreeKey","20"}:</span> <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</span></li>
+                <li><span class="Key">$QData{"TicketFreeKey","20"}:</span> <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</span></li>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
-#                    <li><span>$QData{"TicketFreeKey1","20"}:</span> <span title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</span></li>
+#                    <li><span class="Key">$QData{"TicketFreeKey1","20"}:</span> <span title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</span></li>
 #<!-- dtl:block:TicketFreeText1 -->
 #<!-- dtl:block:TicketFreeText2 -->
-#                    <li><span>$QData{"TicketFreeKey2","20"}:</span> <span title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","20"}</span></li>
+#                    <li><span class="Key">$QData{"TicketFreeKey2","20"}:</span> <span title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","20"}</span></li>
 #<!-- dtl:block:TicketFreeText2 -->
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
-                <li><span>$Text{"$Data{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
+                <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
-#                    <li><span>$Text{"$Data{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
+#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime1 -->
 #<!-- dtl:block:TicketFreeTime2 -->
-#                    <li><span>$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
+#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$QData{"TicketID"}" class="Print" title="$Text{"Print"}">$Text{"Print"}</a></li>
@@ -77,10 +77,11 @@
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <ul id="Messages">
 <!-- dtl:block:Article -->
-                <li class="Message $QData{"SenderType"} $QData{"ArticleType"} $QData{"Class"}">
+                <li class="$QData{"SenderType"} $QData{"ArticleType"} $QData{"Class"}">
                     <div class="MessageHeader">
                         <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}">$RQData{"From","60"} &ndash; <span title="$Text{"Loading"}...">$QData{"Subject","120"}</span></a></h3>
                         <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
+                        <div class="Clear"></div>
                     </div>
                     <input type="hidden" name="ArticleState" value="untouched" />
                     <div class="MessageBody">
@@ -98,16 +99,18 @@
 <!-- dtl:block:ArticleAttachment -->
                             <div class="Attachments">
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>
+                                <div>
 <!-- dtl:block:ArticleAttachmentRow -->
-                                <div class="DownloadAttachment" title="$QData{"Filename"} - $QData{"Filesize"}">
+                                    <span class="DownloadAttachment" title="$QData{"Filename"} - $QData{"Filesize"}">
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                    <a href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$QData{"Filename"}</a>, $QData{"Filesize"}
+                                        <a href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$QData{"Filename"}</a>, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                    $QData{"Filename"}, $QData{"Filesize"}
+                                        $QData{"Filename"}, $QData{"Filesize"}
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
+                                    </span>
+<!-- dtl:block:ArticleAttachmentRow -->
                                 </div>
-<!-- dtl:block:ArticleAttachmentRow -->
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleAttachment -->
