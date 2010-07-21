@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.25 2010-07-20 21:53:54 dz Exp $
+# $Id: LayoutLoader.pm,v 1.26 2010-07-21 15:40:24 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Kernel::System::Loader;
 
@@ -507,17 +507,19 @@ sub _HandleCSSList {
 
     #load default css files
     for my $CSSFile ( @{ $Param{List} } ) {
+        my $SkinFile =
+            "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile";
+
         if ( $Param{DoMinify} ) {
             push(
                 @FileList,
                 "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile"
             );
-            if ($ValidSkin) {
-                push(
-                    @FileList,
-                    "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile"
-                );
+
+            if ( $ValidSkin && -e $SkinFile ) {
+                push @FileList, $SkinFile;
             }
+
         }
         else {
             $Self->Block(
@@ -528,6 +530,18 @@ sub _HandleCSSList {
                     Filename     => $CSSFile,
                 },
             );
+
+            if ( $ValidSkin && -e $SkinFile ) {
+                $Self->Block(
+                    Name => $Param{BlockName},
+                    Data => {
+                        Skin         => $Param{Skin},
+                        CSSDirectory => 'css',
+                        Filename     => $CSSFile,
+                    },
+                );
+            }
+
         }
     }
 
@@ -645,6 +659,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2010-07-20 21:53:54 $
+$Revision: 1.26 $ $Date: 2010-07-21 15:40:24 $
 
 =cut
