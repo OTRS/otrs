@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.60 2010-07-13 21:25:19 cg Exp $
+# $Id: AgentTicketBulk.pm,v 1.61 2010-07-21 13:21:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -516,7 +516,7 @@ sub _Mask {
         }
         if ( !$Param{StateID} ) {
             if ( $Self->{Config}->{StateDefault} ) {
-                $State{Selected} = $Self->{Config}->{StateDefault};
+                $State{SelectedValue} = $Self->{Config}->{StateDefault};
             }
         }
         else {
@@ -648,7 +648,7 @@ sub _Mask {
         }
         if ( !$Param{PriorityID} ) {
             if ( $Self->{Config}->{PriorityDefault} ) {
-                $Priority{Selected} = $Self->{Config}->{PriorityDefault};
+                $Priority{SelectedValue} = $Self->{Config}->{PriorityDefault};
             }
         }
         else {

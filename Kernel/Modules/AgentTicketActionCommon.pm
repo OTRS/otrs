@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.11 2010-07-15 05:07:31 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.12 2010-07-21 13:20:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1082,7 +1082,7 @@ sub _Mask {
         }
         if ( !$Param{NewStateID} ) {
             if ( $Self->{Config}->{StateDefault} ) {
-                $State{Selected} = $Self->{Config}->{StateDefault};
+                $State{SelectedValue} = $Self->{Config}->{StateDefault};
             }
         }
         else {
@@ -1133,7 +1133,7 @@ sub _Mask {
         }
         if ( !$Param{NewPriorityID} ) {
             if ( $Self->{Config}->{PriorityDefault} ) {
-                $Priority{Selected} = $Self->{Config}->{PriorityDefault};
+                $Priority{SelectedValue} = $Self->{Config}->{PriorityDefault};
             }
         }
         else {
@@ -1238,7 +1238,7 @@ sub _Mask {
         # build ArticleTypeID string
         my %ArticleType;
         if ( !$Param{ArticleTypeID} ) {
-            $ArticleType{Selected} = $Self->{Config}->{ArticleTypeDefault};
+            $ArticleType{SelectedValue} = $Self->{Config}->{ArticleTypeDefault};
         }
         else {
             $ArticleType{SelectedID} = $Param{ArticleTypeID};

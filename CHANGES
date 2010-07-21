@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1257 2010-07-21 05:57:40 mp Exp $
+# $Id: CHANGES,v 1.1258 2010-07-21 13:24:27 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/21) Fixed bug#5566 - StateDefault, PriorityDefault and ArticleTypeDefault
+    not working in AgentTicketNote and other frontend modules.
  - (2010/07/20) Fixed bug#4483 - AgentTicketActionCommon, set radio button when select
     old/ new owner are selected.
  - (2010/07/19) Fixed bug#5563 - Static statistic file StateAction is overwritten
