@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.5 2010-07-20 21:56:25 mp Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.6 2010-07-21 20:55:51 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,21 +21,47 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains functions for all ticket action popups.
  */
 Core.Agent.TicketAction = (function (TargetNS) {
+
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Open the spellchecker screen
+     */
     function OpenSpellChecker() {
         var SpellCheckIFrame = '<iframe class="TextOption SpellCheck" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Field=RichText;Body=' + $('#RichText').val() + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, '', '10px', 'Center', true);
     }
 
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Open the AdressBook screen
+     */
     function OpenAdressBook() {
         var AdressBookIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + $('#CustomerAutoComplete').val() + ';Cc=' + $('#Cc').val() + ';Bcc=' + $('#Bcc').val() + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, '', '10px', 'Center', true);
     }
 
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Open the CustomerDialog screen
+     */
     function OpenCustomerDialog() {
         var CustomerIFrame = '<iframe class="TextOption Customer" src="' + Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
         Core.UI.Dialog.ShowContentDialog(CustomerIFrame, '', '10px', 'Center', true);
     }
 
+    /**
+     * @function
+     * @private
+     * @param {Object} $Link Element link type that will receive the new email adrress in his value attribute
+     * @return nothing
+     * @description Open the spellchecker screen
+     */
     function AddMailAdress($Link) {
         var $Element = $('#' + $Link.attr('rel')),
             NewValue = $Element.val();
@@ -46,6 +72,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
         $Element.val(NewValue);
     }
 
+    /**
+     * @function
+     * @private
+     * @param {String} Customer The customer that select in the customer popup window
+     * @return nothing
+     * @description Update the preselected customer user in the parent document
+     */
     function UpdateCustomer(Customer) {
         var $UpdateForm = $('form[name=compose]', parent.document);
         $UpdateForm
