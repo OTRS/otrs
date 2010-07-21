@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.87 2010-07-21 13:33:50 mn Exp $
+# $Id: LayoutTicket.pm,v 1.88 2010-07-21 23:32:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -462,7 +462,7 @@ sub AgentFreeText {
             $DataParam
                 .= '<div id="TicketFreeText'
                 . $_
-                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -470,7 +470,7 @@ sub AgentFreeText {
             $DataParam
                 .= '<div id="TicketFreeText'
                 . $_
-                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required"}</p></div>';
+                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
         }
 
         # value
@@ -575,6 +575,7 @@ sub TicketArticleFreeText {
     my %SelectData;
     my %Article;
     my %Config;
+    my $Class = '';
     if ( $Param{NullOption} ) {
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
@@ -584,6 +585,9 @@ sub TicketArticleFreeText {
     }
     if ( $Param{Config} ) {
         %Config = %{ $Param{Config} };
+    }
+    if ( $Param{Class} ) {
+        $Class = $Param{Class};
     }
     my %Data;
     for ( 1 .. 3 ) {
@@ -646,6 +650,30 @@ sub TicketArticleFreeText {
             }
         }
 
+        # Add Validate and Error classes
+        my $ClassParam = "$Class ";
+        my $DataParam  = "";
+        if ( $Config{"Required"}->{$_} ) {
+            $ClassParam .= 'Validate_Required';
+            if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
+                $ClassParam .= 'Dropdown';
+            }
+            $ClassParam .= ' ';
+
+            $DataParam
+                .= '<div id="ArticleFreeText'
+                . $_
+                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+        }
+
+        if ( $Config{"Error"}->{$_} ) {
+            $ClassParam .= 'ServerError ';
+            $DataParam
+                .= '<div id="ArticleFreeText'
+                . $_
+                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+        }
+
         # value
         if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
             $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
@@ -654,8 +682,11 @@ sub TicketArticleFreeText {
                 SelectedID          => $Article{"ArticleFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
+                Class               => $ClassParam,
                 %SelectData,
             );
+
+            $Data{"ArticleFreeTextField$_"} .= $DataParam;
         }
         else {
             if ( defined $Article{"ArticleFreeText$_"} ) {
@@ -670,14 +701,25 @@ sub TicketArticleFreeText {
                 $Data{"ArticleFreeTextField$_"}
                     = '<input type="text" name="ArticleFreeText'
                     . $_
+                    . '" id="ArticleFreeText'
+                    . $_
+                    . '" class="W33pc ' . $ClassParam
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
-                    . '" class="W33pc" />';
+                    . '" />';
+
+                $Data{"ArticleFreeTextField$_"} .= $DataParam;
             }
             else {
                 $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" name="ArticleFreeText' . $_
-                    . '" value="" class="W33pc" />';
+                    = '<input type="text" class="W33pc ' . $ClassParam
+                    . '" name="ArticleFreeText'
+                    . $_
+                    . '" id="ArticleFreeText'
+                    . $_
+                    . '" value="" />';
+
+                $Data{"ArticleFreeTextField$_"} .= $DataParam;
             }
         }
     }
