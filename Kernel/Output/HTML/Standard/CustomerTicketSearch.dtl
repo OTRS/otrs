@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.27 2010-07-15 14:53:14 fn Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.28 2010-07-21 21:40:31 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,13 +79,13 @@
             </fieldset>
 <!-- dtl:block:FreeText -->
             <fieldset class="Columns">
-                <div>
+                <div class="Column">
                     <h2><label for="PriorityIDs">$Text{"Priority"}:</label></h2>
                     <div>
                         $Data{"PrioritiesStrg"}
                     </div>
                 </div>
-                <div>
+                <div class="Column">
                     <h2><label for="StateIDs">$Text{"State"}:</label></h2>
                     <div>
                         $Data{"StatesStrg"}
@@ -121,7 +121,7 @@
                     <input title="Pick a profil name" type="text" id="Profil" name="Profile" size="30" value="$QData{"Profile"}" />
                 </div>
             </fieldset>
-            <div class="ActionRow Bottom">
+            <div id="BottomActionRow" class="ActionRow">
                 <button id="Submit" type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                 <span>$Text{"Output to"}</span>
                 $Data{"ResultFormStrg"}
