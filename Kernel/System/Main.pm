@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.53 2010-07-13 08:54:25 mg Exp $
+# $Id: Main.pm,v 1.54 2010-07-21 11:38:28 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,12 +17,12 @@ use warnings;
 use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
-
-use Kernel::System::Encode;
 use Unicode::Normalize;
 
+use Kernel::System::Encode;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -30,7 +30,7 @@ Kernel::System::Main - main object
 
 =head1 SYNOPSIS
 
-All main functions to load modules or to die.
+All main functions to load modules, die, and handle files.
 
 =head1 PUBLIC INTERFACE
 
@@ -963,6 +963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2010-07-13 08:54:25 $
+$Revision: 1.54 $ $Date: 2010-07-21 11:38:28 $
 
 =cut
