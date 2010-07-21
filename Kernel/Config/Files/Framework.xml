@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.343 2010-07-20 22:42:53 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.344 2010-07-21 07:46:24 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -12,7 +12,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::DebugMode" Required="0" Valid="0" ConfigLevel="100">
+    <ConfigItem Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Enables or disable the debug mode over frontend interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
