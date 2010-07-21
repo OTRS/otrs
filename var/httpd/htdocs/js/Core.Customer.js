@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.2 2010-07-19 12:42:54 fn Exp $
+// $Id: Core.Customer.js,v 1.3 2010-07-21 21:47:35 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,7 @@ Core.Customer = (function (TargetNS) {
         $('#User').blur(function(){
             var value = $(this).val();
             if (value) {
+                // set the username-value and hide the field's label
                 $('#ResetUser').val(value).prev('label').hide();
             }
         });
@@ -76,12 +77,16 @@ Core.Customer = (function (TargetNS) {
             Location = '#' + LocationString.split('#')[1];
         }
         // get the input fields of the current location
-        var $LocationInputs = $(Location).find('input:not(:checked, :hidden, :radio)');
+        var $LocalInputs = $(Location).find('input:not(:checked, :hidden, :radio)');
         // focus the first one
-        $LocationInputs.first().focus();
+        $LocalInputs.first().focus();
+        // add all tab-able inputs
+        $LocalInputs.add($(Location+' a, button'));
+        // collect all global tab-able inputs
+        var $TabableInputs = $Inputs.add('a, button');
         // give the input fields of all other slides a negative 'tabindex' to prevent
         // the user from accidentally jumping to a hidden input field via the tab key
-        $Inputs.not($LocationInputs).attr('tabindex', -1);
+        $TabableInputs.not($LocalInputs).attr('tabindex', -1);
         
         
         // Change the 'tabindex' according to the navigation of the user
@@ -89,15 +94,15 @@ Core.Customer = (function (TargetNS) {
             // get the target id out of the href attribute of the anchor
             var TargetID = $(this).attr('href');
             var I = 0;
-            var $TargetInputs = $(TargetID+' input:not(:checked, :hidden, :radio)');
+            var $TargetInputs = $(TargetID+' input:not(:checked, :hidden, :radio), '+TargetID+' a, '+TargetID+' button');
             var InputsLength = $TargetInputs.length;
             
             // give the inputs on the slide the user just leaves all a 'tabindex' of '-1'
-            $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio)').attr('tabindex', -1);
+            var Elements = $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio), a, button').attr('tabindex', -1);
             
             // give all inputs on the new shown slide an increasing 'tabindex'
             for (I;I<InputsLength;I++) {
-                    $TargetInputs.eq(I).attr('tabindex', I+1);
+                $TargetInputs.eq(I).attr('tabindex', I+1);
             }
         });
     };
@@ -248,7 +253,7 @@ Core.Customer = (function (TargetNS) {
 
         /*  Change Subject to Loading */
         $SubjectHolder.text(LoadingString);
-
+        
         /*  Load iframe -> get title and put it in src */
         if(Source != 'about:blank') $Iframe.attr('src', Source);
 
@@ -263,7 +268,12 @@ Core.Customer = (function (TargetNS) {
             $SubjectHolder.text(Subject).attr('title', Subject);
         }
 
-        CheckIframe($Iframe, callback);
+        if ($Iframe.length != 0) {
+            CheckIframe($Iframe, callback);
+        }
+        else {
+            callback();
+        }
     }
 
     /**
