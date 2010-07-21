@@ -2,7 +2,7 @@
 # CustomerWarning.dtl - provides HTML warning screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerWarning.dtl,v 1.11 2010-07-15 14:52:53 fn Exp $
+# $Id: CustomerWarning.dtl,v 1.12 2010-07-21 21:35:34 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 <div id="MainBox">
-    $Text{"Warning"}: $Text{"$Data{"Message"}"}
-    $Text{"Comment"}: $Text{"$Data{"Comment"}"}
+    <div class="Content">
+        $Text{"Warning"}: $Text{"$Data{"Message"}"}
+        $Text{"Comment"}: $Text{"$Data{"Comment"}"}
+    </div>
 </div>
