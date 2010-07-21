@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.61 2010-07-14 14:23:42 mn Exp $
+# $Id: CustomerTicketMessage.pm,v 1.62 2010-07-21 17:00:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -524,7 +524,7 @@ sub _MaskNew {
             $PrioritySelected{SelectedID} = $Param{PriorityID};
         }
         else {
-            $PrioritySelected{Selected} = $Self->{Config}->{PriorityDefault} || '3 normal';
+            $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault} || '3 normal';
         }
         $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%Priorities,
