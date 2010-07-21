@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.116 2010-07-13 14:38:58 bes Exp $
+# $Id: Package.pm,v 1.117 2010-07-21 11:36:17 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,14 +13,16 @@ package Kernel::System::Package;
 
 use strict;
 use warnings;
+
 use MIME::Base64;
 use File::Copy;
+
 use Kernel::System::XML;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 =head1 NAME
 
@@ -93,6 +95,8 @@ sub new {
     for my $Object (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+
+    # create additional objects
     $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
 
     $Self->{PackageMap} = {
@@ -2434,6 +2438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.116 $ $Date: 2010-07-13 14:38:58 $
+$Revision: 1.117 $ $Date: 2010-07-21 11:36:17 $
 
 =cut
