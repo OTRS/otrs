@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.64.2.7 2010-07-15 21:42:39 mp Exp $
+# $Id: AgentTicketOwner.pm,v 1.64.2.8 2010-07-21 05:45:32 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64.2.7 $) [1];
+$VERSION = qw($Revision: 1.64.2.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -833,8 +833,10 @@ sub _Mask {
         $TreeView = 1;
     }
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my $FormElement = 4;
 
     if ( $Self->{Config}->{Title} ) {
+        $FormElement++;
         $Self->{LayoutObject}->Block(
             Name => 'Title',
             Data => \%Param,
@@ -858,6 +860,7 @@ sub _Mask {
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
+        $FormElement++;
         $Self->{LayoutObject}->Block(
             Name => 'Type',
             Data => {%Param},
@@ -887,6 +890,7 @@ sub _Mask {
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
+        $FormElement++;
         $Self->{LayoutObject}->Block(
             Name => 'Service',
             Data => {%Param},
@@ -910,6 +914,7 @@ sub _Mask {
             OnChange =>
                 "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
+        $FormElement++;
         $Self->{LayoutObject}->Block(
             Name => 'SLA',
             Data => {%Param},
@@ -921,6 +926,7 @@ sub _Mask {
         if ( $Self->{Config}->{OwnerMandatory} ) {
             $Param{OwnerMandatory} = 1;
         }
+        $FormElement++;
 
         # get user of own groups
         my %ShownUsers       = ();
@@ -946,12 +952,13 @@ sub _Mask {
 
         # get old owner
         my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
+        $FormElement = $FormElement + 2;
         $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%ShownUsers,
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
             Size       => 10,
-            OnClick    => "change_selected(0)",
+            OnClick    => "change_selected($FormElement)",
         );
         my %UserHash;
         if (@OldUserInfo) {
@@ -975,11 +982,12 @@ sub _Mask {
         }
 
         # build string
+        $FormElement = $FormElement + 2;
         $Param{OldOwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%UserHash,
             SelectedID => $OldOwnerSelectedID,
             Name       => 'OldOwnerID',
-            OnClick    => "change_selected(2)",
+            OnClick    => "change_selected($FormElement)",
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
             $Param{'NewOwnerType::Old'} = 'checked="checked"';

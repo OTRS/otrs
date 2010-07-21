@@ -2,7 +2,7 @@
 # AgentTicketResponsible.dtl - provides HTML form for responsible mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.21.2.6 2010-07-15 21:43:12 mp Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.21.2.7 2010-07-21 05:47:50 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,7 +110,6 @@ function SpellCheckSubmit() {
 <script language="JavaScript" type="text/javascript">
 <!--
 function change_selected(sel) {
-    start_elements = (sel + 4);
     if (document.compose.elements[0].name == "$Config{"SessionName"}") {
         start_elements = start_elements + 1;
     }
@@ -186,6 +185,7 @@ function change_selected(sel) {
                                 <tr>
                                     <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
                                     <td width="2%" class="contentvalue">
+                                        <input type="hidden" name="OwnerMandatory" value="$QData{"OwnerMandatory"}"/>
                                         <input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}/>
                                     </td>
                                     <td width="80%" class="contentvalue">$Data{"OwnerStrg"}</td>
