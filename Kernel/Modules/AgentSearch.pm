@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSearch.pm - provides global search
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSearch.pm,v 1.1 2010-07-15 14:38:18 martin Exp $
+# $Id: AgentSearch.pm,v 1.2 2010-07-21 12:53:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,8 +37,9 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get referrer
+    # get params
     my $Referrer = $Self->{ParamObject}->GetParam( Param => 'Referrer' );
+    my $Profile  = $Self->{ParamObject}->GetParam( Param => 'Profile' );
 
     # set default backend
     my $DefaultBackend = $Self->{ConfigObject}->Get('Frontend::SearchDefault');
@@ -57,6 +58,11 @@ sub Run {
                 }
             }
         }
+    }
+
+    # add profile
+    if ($Profile) {
+        $Redirect .= ';Profile=' . $Profile;
     }
 
     # redirect to new backend
