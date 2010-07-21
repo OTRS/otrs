@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.344 2010-07-21 07:46:24 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.345 2010-07-21 10:08:50 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -193,7 +193,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;images/Standard/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;skins/Agent/default/img/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CSSPath" Required="1" Valid="1">
