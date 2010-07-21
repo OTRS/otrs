@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -235,18 +235,18 @@ fieldset select {
     width: 350px;
 }
 
-fieldset.Columns > div {
+fieldset.Columns .Column {
     width: 50%;
     padding: 0;
     float: left;
     border: none;
 }
 
-.RTL fieldset.Columns > div {
+.RTL fieldset.Columns .Column {
     float: right;
 }
 
-fieldset.Columns div div {
+fieldset.Columns .Column div {
     padding: 13px 8px 3px;
 }
 

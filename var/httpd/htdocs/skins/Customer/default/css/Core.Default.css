@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -35,7 +35,7 @@ a:hover {
 
 p { 
     margin: 13px 0 5px;
-    padding: 2px;
+    color: #666;
 }
 
 h1 {
@@ -48,6 +48,10 @@ h2 {
     margin-bottom: 14px;
     font-size: 18px;
     font-weight: normal;
+}
+    
+h4 {
+    font-weight: bold;
 }
 
 strong {
@@ -116,21 +120,15 @@ form #cke_RichText span.cke_wrapper {
     width: 100%;
     margin-top: 3px;
     color: #CCC;
-    background: #FFF;
     overflow: hidden;
 }
 
-#Footer > * {
-    margin: 8px 8px 7px;
+#Footer ul {
     float: left;
 }
 
-.RTL #Footer > * {
+.RTL #Footer ul {
     float: right;
-}
-
-#Footer ul {
-    margin-left: 13px;
 }
 
 #Footer ul li {
@@ -144,12 +142,18 @@ form #cke_RichText span.cke_wrapper {
 }
 
 #Footer a {
+    margin: 8px 8px 7px;
     color: #CCC;
     font-weight: bold;
+    float: left;
 }
 
 #Footer a:hover {
     color: #F92;
+}
+
+.RTL #Footer a {
+    float: right;
 }
 
 /**
@@ -161,7 +165,9 @@ form #cke_RichText span.cke_wrapper {
 }
 
 div.Clear {
+    padding: 0;
     height: 0 !important;
+    line-height: 0;
 }
 
 /**
@@ -186,5 +192,35 @@ div.Clear {
     font-size: 13px;
     line-height: 18px;
 }
+    
+.Hidden {
+    display: none;
+}
+    
+.WidgetSimple {
+    padding: 34px 34px 21px;
+    width: 600px;
+}
+    
+.WidgetSimple .Error {
+    color: #FF505E;
+}
+    
+.WidgetSimple h2 {
+    margin-bottom: 5px;
+}
+    
+.WidgetSimple .Content {
+    padding: 13px 0;
+}
+    
+.WidgetSimple textarea {
+    width: 100%;
+    height: 180px;
+}
+    
+    
+    
+
 
 } /* end @media */

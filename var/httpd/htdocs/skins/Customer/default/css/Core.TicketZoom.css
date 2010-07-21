@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,32 +20,30 @@
     padding: 8px 10px 0;
 }
 
-.TicketHeader {
-    margin-bottom: 2px;
-    position: relative;
-}
-
-.TicketZoom h2 {
+.TicketHeader h2 {
+    margin: 3px 0 0;
     padding-left: 36px;
     font-size: 24px;
-    display: inline;
-    line-height: 29px;
+    line-height: 24px;
     position: relative;
+    float: left;
 }
-.RTL .TicketZoom h2 {
+.RTL .TicketHeader h2 {
     padding: 0 36px 0 0;
+    float: right;
 }
 
-.TicketZoom h2 + span {
+.TicketHeader .TicketHook {
     color: #666;
     font-size: 12px;
 }
 
-.Flag {
-    top: 4px;
+#Flag {
+    top: 2px;
     left: 6px;
     width: 21px;
     height: 16px;
+    line-height: 16px;
     text-indent: -9999px;
     position: absolute;
     -moz-box-shadow: 0 1px 0 #EEE;
@@ -54,23 +52,24 @@
     display: block;
 }
 
-.RTL .Flag {
+.RTL #Flag {
     left: auto;
-    right: 7px;
+    right: 6px;
 }
 
-.Flag > span {
+#Flag span {
     height: 15px;
+    line-height: 15px;
     border: 1px solid transparent;
     border-bottom: none;
     display: block;
 }
 
-.Flag.Open {
+#Flag.Open {
     border: 1px solid #28A530;
 }
 
-.Flag.Open > span {
+#Flag.Open span {
     background: #24ee31;
     border-color: #56f856;
     -moz-box-shadow: 0 -1px 0 #46c946;
@@ -78,49 +77,48 @@
     box-shadow: 0 -1px 0 #46c946;
 }
 
-.Flag.Closed {
+#Flag.Closed {
     border: 1px solid #7F0C0C;
 }
 
-.Flag.Closed > span {
+#Flag.Closed span {
     background: #BD1212;
 }
 
-.Metadata {
-    top: 0;
-    right: 0;
-    margin: 12px 8px 0;
-    position: absolute;
+#Metadata {
+    padding: 9px 8px 2px;
+    line-height: 20px;
+    float: right;
 }
 
-.RTL .Metadata {
-    right: auto;
-    left: 0;
+.RTL #Metadata {
+    float: left;
 }
 
-.Metadata li {
+#Metadata li {
     margin: 0 5px;
     float: left;
 }
 
-.RTL .Metadata li {
+.RTL #Metadata li {
     float: right;
 }
 
-.Metadata li span:first-child {
+#Metadata li .Key {
     color: #666;
 }
 
-.Metadata .Print {
+#Metadata .Print {
     width: 16px;
     height: 16px;
-    margin: -2px 0 0 4px;
+    margin: 0 0 0 2px;
+    line-height: 16px;
     background: url(../img/printer.png) no-repeat;
     text-indent: -9999px;
     display: block;
 }
 
-.RTL .Metadata .Print {
+.RTL #Metadata .Print {
     margin: -2px 4px 0 0;
 }
 
@@ -147,13 +145,13 @@
     z-index: 10;
 }
 
-.Message {
+#Messages li {
     border-top: 1px solid #FFF;
     position: relative;
 }
 
-.Message:first-child,
-.Message:first-child .MessageHeader {
+#Messages li:first-child,
+#Messages li:first-child .MessageHeader {
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
@@ -162,9 +160,9 @@
     border-top-right-radius: 5px;
 }
 
-.Message:last-child,
-.Message:last-child .MessageHeader,
-.Message:last-child .MessageContent {
+#Messages li:last-child,
+#Messages li:last-child .MessageHeader,
+#Messages li:last-child .MessageContent {
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
@@ -173,12 +171,12 @@
     border-bottom-left-radius: 5px;
 }
 
-.Message:last-child .MessageHeader,
-.Message.Visible:last-child .MessageContent {
+#Messages li:last-child .MessageHeader,
+#Messages li.Visible:last-child .MessageContent {
     border-width: 0;
 }
 
-.Message.Visible:last-child .MessageHeader {
+#Messages li.Visible:last-child .MessageHeader {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -186,11 +184,12 @@
 }
 
 .MessageHeader {
-    padding: 5px 13px 3px;
+    padding: 5px 8px 3px;
     color: #6A6A6A;
     background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 0;
     border-bottom: 1px solid #D6D6D6;
     text-shadow: 0 1px 0 #FFF;
+    position: relative;
 }
 
 .Visible .MessageHeader,
@@ -203,8 +202,12 @@
 }
 
 .MessageHeader h3 {
-    display: inline;
     font-weight: bold;
+    float: left;
+}
+    
+.RTL .MessageHeader h3 {
+    float: right;
 }
 
 .MessageHeader h3 span {
@@ -212,13 +215,11 @@
 }
 
 .MessageHeader .Age {
-    right: 13px;
-    position: absolute;
+    float: right;
 }
 
 .RTL .MessageHeader .Age {
-    right: auto;
-    left: 13px;
+    float: left;
 }
 
 .MessageBody {
@@ -226,7 +227,7 @@
     overflow: hidden;
 }
 
-.Message.Visible .MessageBody {
+#Messages li.Visible .MessageBody {
     height: auto;
 }
 
@@ -245,14 +246,13 @@
     line-height: 16px;
 }
 .Details .Label {
-    width: 60px;
-    margin: 0 8px;
+    width: 65px;
+    margin: 0 3px;
     color: #AAA;
-    float: left;
+    display: inline-block;
     text-align: right;
 }
 .RTL .Details .Label {
-    float: right;
     text-align: left;
 }
 
@@ -262,14 +262,27 @@
 
 .Details .Attachments .Label {
     background: url(../img/paper-clip.png) no-repeat right;
-    text-indent: 9999px;
+    text-indent: -9999px;
 }
 .RTL .Details .Attachments .Label {
     background-position: left;
 }
+    
+.Details .Attachments div {
+    display: inline-block;
+}
+    
+.Details .Attachments span {
+    margin-right: 12px;
+}
+    
+.RTL .Details .Attachments span {
+    margin-right: 0;
+    margin-left: 12px;
+}
 
-.DownloadAttachment + .DownloadAttachment {
-    margin-left: 76px;
+.DownloadAttachment a {
+    color: #000;
 }
 
 .MessageContent {

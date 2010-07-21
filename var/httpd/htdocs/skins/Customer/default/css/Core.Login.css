@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,6 +16,10 @@
     padding: 34px 0;
     background: url(../img/body_bg.png) repeat-x;
 }
+    
+.Login p {
+    padding: 0;
+}
 
 /**
  * @subsection  Slider
@@ -23,7 +27,7 @@
 #Slider {
     margin-bottom: 34px;
     width: 642px;
-    height: 200px;
+    height: 230px;
     overflow: hidden;
 }
 
@@ -31,12 +35,14 @@
 #Reset,
 #Signup {
     width: 500px;
-    height: 200px;
+    height: 230px;
     padding-left: 142px;
     position: relative;
 }
 
-.RTL #SlideArea > div {
+.RTL #Login,
+.RTL #Reset,
+.RTL #Signup {
     padding: 0 142px 0 0;
     float: right;
 }
@@ -60,13 +66,13 @@
     width: auto;
     padding-left: 2px;
     float: none;
-    color: #888;
+    color: #222;
     font-size: 12px;
     text-align: left;
 }
 
 .Login form label.Focused {
-    color: #CCC;
+    color: #BBB;
 }
 
 .Login input[type='text'],
@@ -120,7 +126,7 @@
 
 .Js .Login label {
     margin: 1px 5px;
-    color: #666;
+    color: #999;
     font-size: 14px;
     line-height: 14px;
     position: absolute;
@@ -184,6 +190,22 @@
     -moz-box-shadow: 1px 1px 0 #DDD;
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
+}
+    
+
+/**
+ * @subsection  Login Content
+ * @note        if you want to place some content into the login (for example CustomerAccept.dtl)
+ */
+ 
+.Login .Content {
+    margin-left: 142px;
+    border-top: none;
+}
+ 
+.RTL .Login .Content {
+    margin-right: 142px;
+    margin-left: 0;
 }
 
 } /* end @media */
