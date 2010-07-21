@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1256 2010-07-19 12:52:21 ub Exp $
+# $Id: CHANGES,v 1.1257 2010-07-21 05:57:40 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/20) Fixed bug#4483 - AgentTicketActionCommon, set radio button when select
+    old/ new owner are selected.
  - (2010/07/19) Fixed bug#5563 - Static statistic file StateAction is overwritten
     by an older version.
  - (2010/07/16) Removed support for the deprecated DTL commands <dtl if>, <dtl set>
@@ -330,6 +332,8 @@
  - (2009/09/15) Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - (2010/07/20) Fixed bug#4483 - AgentTicketActions, set radio button when select
+    old/ new owner are selected, fix wrong javascript behavior.
  - (2010/07/15) Fixed bug#5416 - AgentTicketMove does not support Pending Date.
  - (2010/07/15) Fixed bug#5556 - Broken unicode chars in CustomerUser selections.
  - (2010/07/14) Fixed bug#5132 - New owner validation always ask to set a owner.
