@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.54 2010-07-21 11:38:28 bes Exp $
+# $Id: Main.pm,v 1.55 2010-07-21 11:44:54 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -637,7 +637,10 @@ sub MD5sum {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Filename} && !$Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Filename or String!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or String!',
+        );
         return;
     }
 
@@ -658,7 +661,7 @@ sub MD5sum {
         if ( !open( $FH, '<', $Param{Filename} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't write '$Param{Filename}': $!",
+                Message  => "Can't read '$Param{Filename}': $!",
             );
             return;
         }
@@ -963,6 +966,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2010-07-21 11:38:28 $
+$Revision: 1.55 $ $Date: 2010-07-21 11:44:54 $
 
 =cut
