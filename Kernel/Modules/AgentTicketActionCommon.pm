@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.12 2010-07-21 13:20:36 ub Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.13 2010-07-22 22:58:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -187,6 +187,10 @@ sub Run {
             );
         }
 
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+            $GetParam{ $FreeTimePrefix . 'Required' } = 1;
+        }
+
         # set additional params
         $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
         $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
@@ -282,62 +286,8 @@ sub Run {
         # store action
         my %Error;
 
-        # check pending time
-        if ( $GetParam{NewStateID} ) {
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-                ID => $GetParam{NewStateID},
-            );
-
-            # check state type
-            if ( $StateData{TypeName} =~ /^pending/i ) {
-
-                # check needed stuff
-                for (qw(Year Month Day Hour Minute)) {
-                    if ( !defined $GetParam{$_} ) {
-                        $Error{'DateInvalid'} = 'ServerError';
-                    }
-                }
-
-                # check date
-                if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                    $Error{'DateInvalid'} = 'ServerError';
-                }
-                if (
-                    $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
-                    < $Self->{TimeObject}->SystemTime()
-                    )
-                {
-                    $Error{'DateInvalid'} = 'ServerError';
-                }
-            }
-        }
-        if ( $Self->{Config}->{Note} ) {
-
-            # check subject
-            if ( !$GetParam{Subject} ) {
-                $Error{'SubjectInvalid'} = 'ServerError';
-            }
-
-            # check body
-            if ( !$GetParam{Body} ) {
-                $Error{'BodyInvalid'} = 'ServerError';
-            }
-        }
-
-        #check owner
-        if ( $Self->{Config}->{Owner} && $Self->{Config}->{OwnerMandatory} ) {
-            if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
-                $Error{'NewOwnerInvalid'} = 'ServerError';
-            }
-            elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
-                $Error{'OldOwnerInvalid'} = 'ServerError';
-            }
-        }
-
-        #check if Title
-        if ( $Self->{Config}->{Title} && !$GetParam{Title} ) {
-            $Error{'TitleInvalid'} = 'ServerError';
-        }
+        # If is an action about attachments
+        my $IsUpload = 0;
 
         # attachment delete
         for my $Count ( 1 .. 32 ) {
@@ -349,11 +299,13 @@ sub Run {
                 FormID => $Self->{FormID},
                 FileID => $Count,
             );
+            $IsUpload = 1;
         }
 
         # attachment upload
         if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            %Error = ();
+            $IsUpload                = 1;
+            %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                 Param  => 'FileUpload',
@@ -369,6 +321,93 @@ sub Run {
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+
+        # check pending time
+        if ( $GetParam{NewStateID} ) {
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NewStateID},
+            );
+
+            if ( !$IsUpload ) {
+
+                # check state type
+                if ( $StateData{TypeName} =~ /^pending/i ) {
+
+                    # check needed stuff
+                    for (qw(Year Month Day Hour Minute)) {
+                        if ( !defined $GetParam{$_} ) {
+                            $Error{'DateInvalid'} = 'ServerError';
+                        }
+                    }
+
+                    # check date
+                    if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                        $Error{'DateInvalid'} = 'ServerError';
+                    }
+                    if (
+                        $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                        < $Self->{TimeObject}->SystemTime()
+                        )
+                    {
+                        $Error{'DateInvalid'} = 'ServerError';
+                    }
+                }
+            }
+        }
+
+        if ( !$IsUpload ) {
+            if ( $Self->{Config}->{Note} ) {
+
+                # check subject
+                if ( !$GetParam{Subject} ) {
+                    $Error{'SubjectInvalid'} = 'ServerError';
+                }
+
+                # check body
+                if ( !$GetParam{Body} ) {
+                    $Error{'BodyInvalid'} = 'ServerError';
+                }
+            }
+
+            # check owner
+            if ( $Self->{Config}->{Owner} && $Self->{Config}->{OwnerMandatory} ) {
+                if ( $GetParam{NewOwnerType} eq 'New' && !$GetParam{NewOwnerID} ) {
+                    $Error{'NewOwnerInvalid'} = 'ServerError';
+                }
+                elsif ( $GetParam{NewOwnerType} eq 'Old' && !$GetParam{OldOwnerID} ) {
+                    $Error{'OldOwnerInvalid'} = 'ServerError';
+                }
+            }
+
+            # check title
+            if ( $Self->{Config}->{Title} && !$GetParam{Title} ) {
+                $Error{'TitleInvalid'} = 'ServerError';
+            }
+
+            # check type
+            if ( ( !$GetParam{TypeID} ) && ( $Self->{ConfigObject}->Get('Ticket::Type') ) ) {
+                $Error{'TypeIDInvalid'} = ' ServerError';
+            }
+
+            # check service
+            if (
+                $Self->{ConfigObject}->Get('Ticket::Service')
+                && $GetParam{SLAID}
+                && !$GetParam{ServiceID}
+                )
+            {
+                $Error{'ServiceInvalid'} = ' ServerError';
+            }
+
+            # check time units
+            if (
+                ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+                && !$GetParam{TimeUnits}
+                )
+            {
+                $Error{'TimeUnitsInvalid'} = ' ServerError';
+            }
+        }
 
         # check expand
         if ( $GetParam{Expand} ) {
@@ -406,6 +445,7 @@ sub Run {
                 if (
                     $Self->{Config}->{TicketFreeText}->{$Count} == 2
                     && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
                     )
                 {
                     $TicketFreeText{Error}->{$Count} = 1;
@@ -437,6 +477,21 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the field is required
+                if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                    $ArticleFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required ArticleTextField (if configured)
+                if (
+                    $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
+                    )
+                {
+                    $ArticleFreeText{Error}->{$Count} = 1;
+                }
             }
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
                 Config  => \%ArticleFreeText,
@@ -842,6 +897,11 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the field is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
             Config  => \%ArticleFreeText,
@@ -897,9 +957,9 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%Type,
-            Name         => 'TypeID',
-            Class        => 'Validate_RequiredDropdown',
+            Class => 'Validate_RequiredDropdown' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Data  => \%Type,
+            Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1023,10 +1083,10 @@ sub _Mask {
 
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
-            $Param{'NewOwnerType::Old'} = 'checked="checked"';
+            $Param{'NewOwnerType::Old'} = 'checked';
         }
         else {
-            $Param{'NewOwnerType::New'} = 'checked="checked"';
+            $Param{'NewOwnerType::New'} = 'checked';
         }
 
         $Self->{LayoutObject}->Block(
