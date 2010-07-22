@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -302,7 +302,7 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Action Row
  */
 .ActionRow {
-    background: #8C8C8C url("../img/gradient_light.png") repeat-x;
+    background: #AAA url("../img/gradient_light.png") repeat-x;
     border-top: 1px solid #D6D6D6;
     border-bottom: 1px solid #666;
     position: relative;
