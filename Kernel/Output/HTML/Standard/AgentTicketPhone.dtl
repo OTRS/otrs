@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.100 2010-07-21 23:33:57 en Exp $
+# $Id: AgentTicketPhone.dtl,v 1.101 2010-07-22 19:00:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -311,7 +311,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:ArticleFreeText -->
                     <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
                     <div class="Field">
-                        $Data{"ArticleFreeKeyField"}
+                        $Data{"ArticleFreeTextField"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
@@ -327,7 +327,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:ArticleFreeText2 -->
 #                        <label>$Data{"ArticleFreeKeyField2"}:</label>
 #                        <div class="Field">
-#                            $Data{"ArticleFreeKeyField2"}
+#                            $Data{"ArticleFreeTextField2"}
 #                        </div>
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText2 -->
