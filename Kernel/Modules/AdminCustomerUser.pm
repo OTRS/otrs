@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.74 2010-07-15 07:18:47 ep Exp $
+# $Id: AdminCustomerUser.pm,v 1.75 2010-07-22 12:39:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,7 +314,8 @@ sub Run {
                 my $Output  = $NavBar . $Note;
                 my $OnClick = '';
                 if ( $Nav eq 'None' ) {
-                    $OnClick = " onclick=\"updateMessage('$User')\"";
+                    $OnClick
+                        = " onclick=\"parent.window.location.href = \$(this).attr('href'); return false;\"";
                 }
                 my $URL           = '';
                 my $UserHTMLQuote = $Self->{LayoutObject}->LinkEncode($User);
