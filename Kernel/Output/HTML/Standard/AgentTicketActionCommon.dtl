@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.19 2010-07-20 23:00:58 mp Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.20 2010-07-22 22:58:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,6 +88,8 @@
                 <label for="TypeID">$Text{"Type"}:</label>
                 <div class="Field">
                     $Data{"TypeStrg"}
+                    <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"A ticket should have a type!"}</p></div>
+                    <div id="TypeIDServerError" class="TooltipErrorMessage"><p>$Text{"Ticket type is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Type -->
@@ -96,6 +98,7 @@
                 <label for="ServiceID">$Text{"Service"}:</label>
                 <div class="Field">
                     $Data{"ServiceStrg"}
+                    <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid."}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
@@ -131,7 +134,7 @@
 <!-- dtl:block:Owner -->
                 <label for="NewOwnerID">$Text{"New Owner"}:</label>
                 <div class="Field">
-                    <input type="radio" name="NewOwnerType" value="New" title ="Select new owner" $QData{"NewOwnerType::New"}/>
+                    <input type="radio" name="NewOwnerType" value="New" title ="Select new owner" $QData{"NewOwnerType::New"} />
                     $Data{"OwnerStrg"}
                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
 <!--dtl:js_on_document_complete-->
@@ -146,7 +149,7 @@
 
                 <label for="OldOwnerID">$Text{"Previous Owner"}:</label>
                 <div class="Field">
-                    <input type="radio" name="NewOwnerType" value="Old" title="Select old owner" $QData{"NewOwnerType::Old"}/>
+                    <input type="radio" name="NewOwnerType" value="Old" title="Select old owner" $QData{"NewOwnerType::Old"} />
                     $Data{"OldOwnerStrg"}
                     <div id="OldOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
 <!--dtl:js_on_document_complete-->
@@ -189,7 +192,7 @@
                 <div class="Field">
                     <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $Data{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"The subject is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 
@@ -212,7 +215,7 @@ $Include{"RichTextEditor"}
 
                 <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required."}</p></div>
                 <div class="Clear"></div>
 
                 <label>$Text{"Attachment"}:</label>
@@ -292,6 +295,7 @@ $Include{"RichTextEditor"}
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
+
 # example of how to use fixed ticket freetext blocks for customizations
 #<!-- dtl:block:TicketFreeText1 -->
 #                        <label>$Data{"TicketFreeKeyField1"}:</label>
@@ -309,12 +313,14 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
-                <label for="TicketFreeTime$QData{"Count"}">$Data{"TicketFreeTimeKey"} :</label>
+                <label for="TicketFreeTime$QData{"Count"}Used">$Data{"TicketFreeTimeKey"} :</label>
                 <div class="Field">
                     $Data{"TicketFreeTime"}
+                    <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
+
 # example of how to use fixed ticket freetime blocks for customizations
 #<!-- dtl:block:TicketFreeTime1 -->
 #                        <label>$Data{"TicketFreeTimeKey1"}:</label>
@@ -334,22 +340,23 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:ArticleFreeText -->
                 <label for="ArticleFreeText$QData{"Count"}">$Data{"ArticleFreeKeyField"} :</label>
                 <div class="Field">
-                    $Data{"ArticleFreeKeyField"}
+                    $Data{"ArticleFreeTextField"}
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
+
 # example of how to use fixed article freetext blocks for customizations
 #<!-- dtl:block:ArticleFreeText1 -->
 #                        <label>$Data{"ArticleFreeKeyField1"}:</label>
 #                        <div class="Field">
-#                            $Data{"ArticleFreeKeyField1"}
+#                            $Data{"ArticleFreeTextField1"}
 #                        </div>
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText1 -->
 #<!-- dtl:block:ArticleFreeText2 -->
 #                        <label>$Data{"ArticleFreeKeyField2"}:</label>
 #                        <div class="Field">
-#                            $Data{"ArticleFreeKeyField2"}
+#                            $Data{"ArticleFreeTextField2"}
 #                        </div>
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText2 -->
@@ -357,8 +364,9 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                 <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                 <div class="Field">
-                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
+                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units is required field."}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
