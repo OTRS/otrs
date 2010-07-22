@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.32 2010-07-16 10:03:59 mg Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.33 2010-07-22 12:27:03 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:OverviewNavBar -->
-<div class="OverviewBox ARIARoleMain">
+<div class="OverviewBox ARIARoleMain $QData{"View"}">
     <h1>$Text{"$Data{"TitleName"}"}: $Text{"$Data{"TitleValue"}"}</h1>
 
     <div class="OverviewControl" id="OverviewControl">
