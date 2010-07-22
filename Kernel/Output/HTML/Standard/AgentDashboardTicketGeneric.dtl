@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.32 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.33 2010-07-22 10:33:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,8 +15,10 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Locked').live('click', function(){
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
         return false;
     });
@@ -28,8 +30,10 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Watcher').live('click', function(){
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
         return false;
     });
@@ -42,8 +46,10 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Responsible').live('click', function(){
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
         return false;
     });
@@ -56,14 +62,18 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}MyQueues').live('click', function(){
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
         return false;
     });
     $('#Dashboard$QData{"Name"}All').live('click', function(){
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
         return false;
     });
