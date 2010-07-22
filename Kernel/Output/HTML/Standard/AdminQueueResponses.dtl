@@ -156,8 +156,8 @@
             </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    $('table td input:checkbox[name=$QData{"Type"}]').bind('click', function () {
+    Core.Form.InitSelectAllCheckboxes($('#UserRoles input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
+    $('#UserRoles input:checkbox[name=$QData{"Type"}]').bind('click', function () {
         Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
     });
     Core.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
