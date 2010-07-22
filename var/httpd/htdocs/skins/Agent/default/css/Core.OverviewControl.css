@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,7 +19,7 @@
     position: absolute;
     width: 100%;
     background-color: #FFF;
-    z-index: 5;
+    z-index: 15;
 }
 
  /**
