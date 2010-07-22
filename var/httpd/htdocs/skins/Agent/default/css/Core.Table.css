@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -174,6 +174,7 @@ tbody tr.UnreadArticles td {
     border-right: 1px dotted #CCC;
 }
 
+.DataTable tbody td:last-child,
 .DataTable tbody td.Last {
     border-right: none;
 }
@@ -220,6 +221,10 @@ tbody tr.UnreadArticles td {
 .TableSmall thead {
     border-bottom: none;
 }
+    
+.TableSmall .Checkbox {
+    margin-left: 7px;
+}
 
 th.Checkbox,
 td.Checkbox {
@@ -251,7 +256,7 @@ td.Attachment {
 }
 
 .TableSmall thead th {
-    padding-top: 14px;
+    padding-top: 6px;
     background: url("../img/thead_isolator.png") no-repeat right bottom;
     vertical-align: bottom;
 }
@@ -260,7 +265,8 @@ td.Attachment {
     background-position: left bottom;
 }
 
-.TableSmall thead a {
+.TableSmall thead a,
+.TableSmall thead span {
     margin: 0 2px 1px 1px;
     padding: 0 10px;
     color: #4A4A4A;
@@ -271,8 +277,13 @@ td.Attachment {
     display: block;
 }
 
-.RTL .TableSmall thead a {
+.RTL .TableSmall thead a,
+.RTL .TableSmall thead span {
     margin: 0 1px 1px 2px;
+}
+    
+.TableSmall thead span {
+    color: #000;
 }
 
 .TableSmall thead .UnreadArticles a {
@@ -439,6 +450,12 @@ td.Attachment {
 /**
  * @subsection  Fixed Header
  */
+ 
+.Overview.FixedHeader {
+   padding-top: 25px;
+   background: #8C8C8C url("../img/gradient_light.png") repeat-x 0 -26px; 
+   position: relative;
+}
 
 .FixedHeader table {
     border-collapse: separate;
