@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -316,10 +316,6 @@
     line-height: 1.3;
     border: none;
 }
-    
-.OverviewLarge .Preview .Actions li {
-    padding: 2px 3px;
-}
 
 .OverviewLarge .Preview .ArticleCount5 li div.HiddenBlock div.Content {
     height: 124px;
@@ -342,23 +338,23 @@
 }
 
 .OverviewLarge .Preview .ArticleCount5 li div.HiddenBlock div.ActionRow + div.Content {
-    height: 103px;
+    height: 97px;
 }
 
 .OverviewLarge .Preview .ArticleCount4 li div.HiddenBlock div.ActionRow + div.Content {
-    height: 123px;
+    height: 117px;
 }
 
 .OverviewLarge .Preview .ArticleCount3 li div.HiddenBlock div.ActionRow + div.Content {
-    height: 143px;
+    height: 137px;
 }
 
 .OverviewLarge .Preview .ArticleCount2 li div.HiddenBlock div.ActionRow + div.Content {
-    height: 163px;
+    height: 157px;
 }
 
 .OverviewLarge .Preview .ArticleCount1 li div.HiddenBlock div.ActionRow + div.Content {
-    height: 183px;
+    height: 177px;
 }
 
 
