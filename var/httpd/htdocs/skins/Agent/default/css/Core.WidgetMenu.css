@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -261,12 +261,14 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Headline
  */
 .ControlRow h2 {
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 24px;
-    height: 24px;
     padding-top: 1px;
-    margin-left: 5px;
+    margin-left: 8px;
+    height: 24px;
+    font-size: 13px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #000;
+    text-shadow: 0 1px 0 #D4D4D4;
 }
 
 .ControlRow .DataSetNavigation + h2 {
@@ -282,12 +284,13 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Additional Information
  */
 .AdditionalInformation {
-    position: absolute;
     right: 0;
     top: 0;
-    font-size: 14px;
-    line-height: 24px;
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: 13px;
+    line-height: 25px;
+    text-shadow: 0 1px 0 #D4D4D4;
+    position: absolute;
 }
 
 .RTL .AdditionalInformation {
