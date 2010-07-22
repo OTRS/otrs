@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.49 2010-07-22 08:08:13 fn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.50 2010-07-22 12:23:28 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,11 +29,6 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.ActionRow.Init();
-
-    var $THead = $('#FixedTable thead'),
-        $TBody = $('#FixedTable tbody');
-
-    Core.UI.InitTableHead($THead, $TBody);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <div id="OverviewBody" class="Overview FixedHeader">
@@ -178,8 +173,11 @@
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
-    Core.UI.StaticTableControl($('#OverviewControl'));
+    var $THead = $('#FixedTable thead'),
+        $TBody = $('#FixedTable tbody');
+
+    Core.UI.InitTableHead($THead, $TBody);
+    Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
 
     $(window).resize(function() {
         Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
