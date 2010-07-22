@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.68 2010-07-22 13:33:26 mn Exp $
+# $Id: AdminPackageManager.dtl,v 1.69 2010-07-22 19:28:43 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -260,7 +260,7 @@
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                                 </td>
                                 <td>$QData{"Version"}</td>
-                                <td><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                                <td><a href="$Data{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
                                 <td title="$QData{"Description"}">$QData{"Description","55"}</td>
                                 <td>
 <!-- dtl:block:ShowRemotePackageInstall -->
