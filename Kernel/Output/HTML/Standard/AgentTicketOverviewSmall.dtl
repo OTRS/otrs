@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.48 2010-07-20 13:32:31 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.49 2010-07-22 08:08:13 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,19 +29,24 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.ActionRow.Init();
+
+    var $THead = $('#FixedTable thead'),
+        $TBody = $('#FixedTable tbody');
+
+    Core.UI.InitTableHead($THead, $TBody);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<div id="OverviewBody" class="Overview">
+<div id="OverviewBody" class="Overview FixedHeader">
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
 
-        <table class="TableSmall">
+        <table id="FixedTable" class="TableSmall">
             <thead>
                 <tr>
 <!-- dtl:block:BulkNavBar -->
                     <th class="Checkbox Fixed">
-                        <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" />
+                        <input type="checkbox" class="Checkbox AutocompleteOff" title="Select all" id="SelectAllTickets" />
                     </th>
 <!-- dtl:block:BulkNavBar -->
 <!-- dtl:block:OverviewNavBarPageFlag -->
@@ -64,7 +69,7 @@
                     </th>
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
-                    <th class="LastCustomerSubject">$Text{"From"}/$Text{"Subject"}</th>
+                    <th class="LastCustomerSubject"><span>$Text{"From"}/$Text{"Subject"}</span></th>
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
 <!-- dtl:block:OverviewNavBarPageTitle -->
                     <th class="Title">$Text{"From"}/$Text{"Title"}</th>
