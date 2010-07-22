@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -450,12 +450,6 @@ td.Attachment {
 /**
  * @subsection  Fixed Header
  */
- 
-.Overview.FixedHeader {
-   padding-top: 25px;
-   background: #8C8C8C url("../img/gradient_light.png") repeat-x 0 -26px; 
-   position: relative;
-}
 
 .FixedHeader table {
     border-collapse: separate;
