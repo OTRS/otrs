@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.154 2010-07-22 20:56:59 en Exp $
+# $Id: AgentTicketPhone.pm,v 1.155 2010-07-22 22:37:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.154 $) [1];
+$VERSION = qw($Revision: 1.155 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,9 +33,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -84,20 +87,20 @@ sub Run {
     }
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
+    for my $Count ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
-                Param => "TicketFreeTime" . $_ . $Type,
+            $GetParam{ "TicketFreeTime" . $Count . $Type } = $Self->{ParamObject}->GetParam(
+                Param => "TicketFreeTime" . $Count . $Type,
             );
         }
-        $GetParam{ 'TicketFreeTime' . $_ . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+        $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
+            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
         }
 
-        if ( $Self->{Config}->{TicketFreeTime}->{$_} == 2 ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Required' } = 1;
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
         }
     }
 
@@ -241,8 +244,8 @@ sub Run {
                 my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                     UserLogin => $Article{CustomerUserID},
                 );
-                for ( sort keys %CustomerUserList ) {
-                    $Article{From} = $CustomerUserList{$_};
+                for my $KeyCustomerUserList ( sort keys %CustomerUserList ) {
+                    $Article{From} = $CustomerUserList{$KeyCustomerUserList};
                 }
             }
         }
@@ -331,7 +334,7 @@ sub Run {
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
 
-            # If Key has value 2, this means that the freetextfield is required
+            # If Key has value 2, this means that the field is required
             if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
                 $ArticleFreeText{Required}->{$Count} = 1;
             }
@@ -458,12 +461,12 @@ sub Run {
             $GetParam{From} = '';
             $ExpandCustomerName = 3;
         }
-        for ( 1 .. 2 ) {
-            my $Item = $Self->{ParamObject}->GetParam( Param => "ExpandCustomerName$_" ) || 0;
-            if ( $_ == 1 && $Item ) {
+        for my $Count ( 1 .. 2 ) {
+            my $Item = $Self->{ParamObject}->GetParam( Param => "ExpandCustomerName$Count" ) || 0;
+            if ( $Count == 1 && $Item ) {
                 $ExpandCustomerName = 1;
             }
-            elsif ( $_ == 2 && $Item ) {
+            elsif ( $Count == 2 && $Item ) {
                 $ExpandCustomerName = 2;
             }
         }
@@ -593,9 +596,20 @@ sub Run {
                 CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
 
-            # If Key has value 2, this means that the freetextfield is required
+            # If Key has value 2, this means that the field is required
             if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
                 $ArticleFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required ArticleTextField (if configured)
+            if (
+                $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $ExpandCustomerName == 0
+                && $IsUpload == 0
+                )
+            {
+                $ArticleFreeText{Error}->{$Count} = 1;
             }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
@@ -616,10 +630,10 @@ sub Run {
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for ( keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$_};
-                $Param{CustomerUserListLastUser} = $_;
+                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
+                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $GetParam{From} = $Param{CustomerUserListLast};
@@ -660,8 +674,8 @@ sub Run {
             my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 UserLogin => $CustomerUser,
             );
-            for ( keys %CustomerUserList ) {
-                $GetParam{From} = $CustomerUserList{$_};
+            for my $KeyCustomerUser ( keys %CustomerUserList ) {
+                $GetParam{From} = $CustomerUserList{$KeyCustomerUser};
             }
             if ( $CustomerUserData{UserCustomerID} ) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
@@ -1262,15 +1276,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for ( keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $_ ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$_};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
@@ -1288,9 +1302,9 @@ sub _GetUsers {
             Type    => 'rw',
             Result  => 'HASH',
         );
-        for ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$_} ) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
+        for my $KeyMember ( keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
@@ -1468,8 +1482,8 @@ sub _MaskPhoneNew {
     # build so string
     my %NewTo;
     if ( $Param{To} ) {
-        for ( keys %{ $Param{To} } ) {
-            $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+        for my $KeyTo ( keys %{ $Param{To} } ) {
+            $NewTo{"$KeyTo||$Param{To}->{$KeyTo}"} = $Param{To}->{$KeyTo};
         }
     }
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
@@ -1507,22 +1521,22 @@ sub _MaskPhoneNew {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        for my $KeyError ( keys %{ $Param{Errors} } ) {
+            $Param{$KeyError}
+                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Class => $Param{Errors}->{TypeIDInvalid} || ' ',
+            Class => 'Validate_RequiredDropdown' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
             Data  => $Param{Types},
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
-            Class        => "Validate_RequiredDropdown",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
