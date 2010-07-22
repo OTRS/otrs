@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.67 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.68 2010-07-22 13:33:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -256,9 +256,7 @@
                                 </td>
                                 <td>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
-                                        <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
-                                    </a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewRemote;Source=$LQData{"Source"};File=$LQData{"File"};Name=$LQData{"Name"};Version=$LQData{"Version"};Location=$LQData{"Location"}" class="AsBlock IconPDF" title="$Text{"Module documentation"}"></a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                                 </td>
                                 <td>$QData{"Version"}</td>
@@ -314,9 +312,7 @@
                                 </td>
                                 <td>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" title="$Text{"Module documentation"}">
-                                        <img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png" />
-                                    </a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" class="AsBlock IconPDF" title="$Text{"Module documentation"}"></a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
                                 </td>
                                 <td>$QData{"Version"}</td>
@@ -468,18 +464,14 @@
                                 </td>
                                 <td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}">
-                                        <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" />
-                                    </a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ViewDiff;Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" title="$QData{"Message"}" class="AsBlock $QData{"Icon"}"></a>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
 <!-- dtl:block:PackageItemFilelistFileNote -->
-                                    <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}" />
+                                    <span title="$QData{"Message"}" class="AsBlock $QData{"Icon"}"></span>
 <!-- dtl:block:PackageItemFilelistFileNote -->
                                 </td>
                                 <td>
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" title="$Text{"Download file from package!"}">
-                                        <img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png" />
-                                    </a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" class="AsBlock IconSave" title="$Text{"Download file from package!"}"></a>
                                     $QData{"Size"}
                                 </td>
                             </tr>

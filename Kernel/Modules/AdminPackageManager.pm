@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.94 2010-06-02 20:23:42 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.95 2010-07-22 13:33:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -346,7 +346,7 @@ sub Run {
                                         Version => $Version,
                                         %{$Hash},
                                         Message => $DeployInfo{File}->{ $Hash->{Location} },
-                                        Image   => 'notready.png',
+                                        Icon    => 'IconNotReady',
                                     },
                                 );
                             }
@@ -358,7 +358,7 @@ sub Run {
                                         Version => $Version,
                                         %{$Hash},
                                         Message => $DeployInfo{File}->{ $Hash->{Location} },
-                                        Image   => 'notready-sw.png',
+                                        Icon    => 'IconNotReadyGrey',
                                     },
                                 );
                             }
@@ -371,7 +371,7 @@ sub Run {
                                     Version => $Version,
                                     %{$Hash},
                                     Message => 'ok',
-                                    Image   => 'ready.png',
+                                    Icon    => 'IconReady',
                                 },
                             );
                         }

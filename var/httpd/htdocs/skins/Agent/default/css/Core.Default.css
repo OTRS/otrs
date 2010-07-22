@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.19 $
+ * @version     $Revision: 1.20 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -536,6 +536,39 @@ tbody tr:hover span.UnreadArticles {
 
 .RTL .DatepickerIcon {
     margin: 0 4px 0 0;
+}
+
+/**
+ * @subsection  Icons
+ */
+.IconPDF {
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icons/document-pdf.png);
+}
+
+.IconSave {
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icons/disk.png);
+}
+
+.IconReady {
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icons/tick.png);
+}
+
+.IconNotReady {
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icons/cross.png);
+}
+
+.IconNotReadyGrey {
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icons/cross_sw.png);
 }
 
 /**
