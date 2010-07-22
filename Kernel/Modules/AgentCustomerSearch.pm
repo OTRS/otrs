@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.22 2010-06-09 10:58:39 mn Exp $
+# $Id: AgentCustomerSearch.pm,v 1.23 2010-07-22 13:56:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,18 +199,19 @@ sub Run {
                 . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
                 . '&';
 
-            $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
-                TicketIDs  => \@ViewableTickets,
-                Total      => scalar @ViewableTickets,
-                Env        => $Self,
-                View       => $View,
-                TitleName  => 'Customer history',
-                LinkPage   => $LinkPage,
-                LinkSort   => $LinkSort,
-                LinkFilter => $LinkFilter,
-                Output     => 'raw',
-            );
-
+            if ( scalar @ViewableTickets ) {
+                $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
+                    TicketIDs  => \@ViewableTickets,
+                    Total      => scalar @ViewableTickets,
+                    Env        => $Self,
+                    View       => $View,
+                    TitleName  => 'Customer history',
+                    LinkPage   => $LinkPage,
+                    LinkSort   => $LinkSort,
+                    LinkFilter => $LinkFilter,
+                    Output     => 'raw',
+                );
+            }
         }
 
         # build JSON output
