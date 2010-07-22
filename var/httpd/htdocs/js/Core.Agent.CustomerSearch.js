@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.5 2010-07-21 06:04:33 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.6 2010-07-22 13:02:03 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -105,6 +105,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
             // Init accordion of overview article preview
             Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
+
+            // Init table functions
+            Core.UI.InitTableHead($('#FixedTable thead'), $('#FixedTable tbody'));
+            Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
         }
 
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
