@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -135,7 +135,10 @@ tbody tr.UnreadArticles td {
     background: none;
     border-right: none;
 }
-
+.RTL .DataTable thead th.Last {
+    background: none;
+    border-right: 1px solid #CCC;
+}
 .DataTable thead th a {
     background-image: none;
     color: #444;
@@ -178,6 +181,12 @@ tbody tr.UnreadArticles td {
 .DataTable tbody td.Last {
     border-right: none;
 }
+
+.RTL .DataTable tbody td:last-child,
+.RTL .DataTable tbody td.Last {
+    border-right: 1px dotted #CCC;
+}
+
 
 .DataTable tr td {
     line-height: 18px;
