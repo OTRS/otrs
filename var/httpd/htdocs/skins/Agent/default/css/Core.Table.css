@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -256,7 +256,7 @@ td.Attachment {
 }
 
 .TableSmall thead th {
-    padding-top: 6px;
+    padding-top: 14px;
     background: url("../img/thead_isolator.png") no-repeat right bottom;
     vertical-align: bottom;
 }
