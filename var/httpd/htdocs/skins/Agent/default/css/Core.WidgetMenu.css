@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -306,6 +306,7 @@ ul.ContextFunctions li:last-child:hover > a {
     border-top: 1px solid #D6D6D6;
     border-bottom: 1px solid #666;
     position: relative;
+    overflow: hidden;
 }
 
 .Actions {
