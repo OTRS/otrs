@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig/StateValidate.pm - all StateValidate functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StateValidate.pm,v 1.1 2010-07-23 16:45:48 ub Exp $
+# $Id: StateValidate.pm,v 1.2 2010-07-23 16:48:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::Config;
 use Kernel::System::State;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -103,11 +103,9 @@ sub new {
 
 =item Validate()
 
-Validates the given data, depending on the type it will call the Validate() function,
-of the backend module for that type.
-Returns true on success, false otherwise.
+Validates the given data, checks if the given state exists and if it is valid.
 
-    my $Success = $WizardObject->Validate(
+    my $Success = $StateValidateObject->Validate(
         Data => 'open',
     );
 
@@ -169,6 +167,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-07-23 16:45:48 $
+$Revision: 1.2 $ $Date: 2010-07-23 16:48:15 $
 
 =cut
