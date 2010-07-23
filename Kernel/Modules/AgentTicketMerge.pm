@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.52 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketMerge.pm,v 1.53 2010-07-23 21:22:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,9 +31,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -139,9 +142,15 @@ sub Run {
     # merge action
     if ( $Self->{Subaction} eq 'Merge' ) {
 
-        # get all parameters and check for errors
-        for (qw( From To Subject Body InformSender MainTicketNumber )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        # get all parameters
+        for my $Parameter (qw( From To Subject Body InformSender MainTicketNumber )) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        }
+
+        # rewrap body if no rich text is used
+        if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
+            my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
+            $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
         }
 
         # removing blank spaces from the ticket number
@@ -156,23 +165,31 @@ sub Run {
             TicketNumber => $GetParam{'MainTicketNumber'},
         );
 
+        # check for errors
         if ( !$MainTicketID ) {
             $Error{'MainTicketNumberInvalid'} = 'ServerError';
         }
-        if ( !$GetParam{'To'} ) {
-            $Error{'ToInvalid'} = 'ServerError';
-        }
-        if ( !$GetParam{'Subject'} ) {
-            $Error{'SubjectInvalid'} = 'ServerError';
-        }
-        if ( !$GetParam{'Body'} ) {
-            $Error{'RichTextInvalid'} = 'ServerError';
+
+        for my $Parameter (qw( To Subject Body )) {
+            if ( !$Parameter ) {
+                $Error{ $Parameter . 'Invalid' } = 'ServerError';
+            }
         }
 
         if (%Error) {
             my $Output = $Self->{LayoutObject}->Header(
                 Type => 'Small',
             );
+
+            # add rich text editor
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RichText',
+                    Data => \%Param,
+                );
+
+            }
+
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data => { %Param, %GetParam, %Ticket, %Error },
@@ -211,6 +228,16 @@ sub Run {
             my $Output .= $Self->{LayoutObject}->Header(
                 Type => 'Small',
             );
+
+            # add rich text editor
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RichText',
+                    Data => \%Param,
+                );
+
+            }
+
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data => { %Param, %Ticket },
