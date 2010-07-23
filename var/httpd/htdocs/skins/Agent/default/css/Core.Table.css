@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.19 $
+ * @version     $Revision: 1.20 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -188,15 +188,22 @@ tbody tr.UnreadArticles td {
     border-right: none;
 }
 
-.DataTable tbody td:last-child,
 .DataTable tbody td.Last {
     border-right: none;
 }
 
-.RTL .DataTable tbody td:last-child,
+.DataTable tbody td:last-child {
+    border-right: none;
+}
+
 .RTL .DataTable tbody td.Last {
     border-left: none;
 }
+
+.RTL .DataTable tbody td:last-child {
+    border-left: none;
+}
+
 .DataTable tr td {
     line-height: 18px;
 }
@@ -209,8 +216,11 @@ tbody tr.UnreadArticles td {
     background-color: #EEE;
 }
 
-.DataTable tr:nth-child(even) td,
 .DataTable tr.Even td {
+    background-color: #F5F5F5;
+}
+
+.DataTable tr:nth-child(even) td {
     background-color: #F5F5F5;
 }
 
@@ -240,7 +250,7 @@ tbody tr.UnreadArticles td {
 .TableSmall thead {
     border-bottom: none;
 }
-    
+
 .TableSmall .Checkbox {
     margin-left: 7px;
 }
@@ -300,7 +310,7 @@ td.Attachment {
 .RTL .TableSmall thead span {
     margin: 0 1px 1px 2px;
 }
-    
+
 .TableSmall thead span {
     color: #000;
 }
@@ -384,14 +394,20 @@ td.Attachment {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
 }
-    
-.TableSmall tbody tr td.Last,
+
 .TableSmall tbody tr td:last-child {
     border-right: 1px solid transparent;
 }
 
-.TableSmall tbody tr.Active td.Last,
+.TableSmall tbody tr td.Last {
+    border-right: 1px solid transparent;
+}
+
 .TableSmall tbody tr.Active td:last-child {
+    border-right: 1px solid #000;
+}
+
+.TableSmall tbody tr.Active td.Last {
     border-right: 1px solid #000;
 }
 
@@ -412,8 +428,11 @@ td.Attachment {
     color: #000;
 }
 
-.TableSmall tr:nth-child(even),
 .TableSmall tr.Even td {
+    background-color: #F5F5F5;
+}
+
+.TableSmall tr:nth-child(even) {
     background-color: #F5F5F5;
 }
 
