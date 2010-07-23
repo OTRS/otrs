@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.20 2010-07-22 22:58:55 en Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.21 2010-07-23 21:30:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -272,9 +272,8 @@ $Include{"RichTextEditor"}
                 <label>$Text{"Pending date"}:</label>
                 <div class="Field">
                     $Data{"DateString"}
-                    <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                    <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                    <span class="Error Small">$Text{"$Data{"Date invalid"}"}</span>
+                    <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
+                    <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:StatePending -->
@@ -366,7 +365,7 @@ $Include{"RichTextEditor"}
                 <div class="Field">
                     <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units is required field."}</p></div>
+                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units is a required field."}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
