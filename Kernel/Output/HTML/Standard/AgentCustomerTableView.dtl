@@ -2,7 +2,7 @@
 # AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.20 2010-07-20 10:34:43 mn Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.21 2010-07-23 14:50:45 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,16 +34,15 @@
 <!-- dtl:block:CustomerRow -->
 
 <!-- dtl:block:CustomerItem-->
+    <ul class="ItemRow">
 <!-- dtl:block:CustomerItemRow-->
-    <label>
-        <a href="$Data{"URL"}" target="$QData{"Target"}" title="$Text{"$Data{"Text"}"}"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Text"}"}" title="$Text{"$Data{"Text"}"}" /></a>
-    </label>
-    <div class="Value">
-        <a class="NoWrap" href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$Data{"Text"}"}$QData{"Extention"}</a>
-    </div>
-    <div class="Clear"></div>
+        <li>
+            <a class="$Data{"Text"}" href="$Data{"URL"}" title="$Text{"$Data{"Text"}"}">
+                $Text{"$Data{"Text"}"}$QData{"Extention"}
+            </a>
+        </li>
 <!-- dtl:block:CustomerItemRow-->
+    </ul>
 <!-- dtl:block:CustomerItem-->
-
 </fieldset>
 <!-- dtl:block:Customer -->
