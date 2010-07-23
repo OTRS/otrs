@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.125 2010-07-22 09:08:59 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.126 2010-07-23 14:03:05 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -281,24 +281,27 @@ $Data{"ArticleItems"}
 <!-- dtl:block:Tree -->
 <div id="ArticleTable"  class="FixedHeader">
     <div class="ControlRow">
-        <ul class="ArticleView">
+<!-- dtl:block:ArticleFilterDialogLink -->
+        <div class="ArticleFilter Icons">
+            <span class="InvisibleText">$Text{"Article"} $Text{"Filter"}:</span>
+            <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><span>$Text{"Set"}</span></a>
+<!-- dtl:block:ArticleFilterResetLink -->
+            <a class="Active" href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><span>$Text{"Reset"}</span></a>
+<!-- dtl:block:ArticleFilterResetLink -->
+        </div>
+<!-- dtl:block:ArticleFilterDialogLink -->
+        <div class="ArticleView Icons">
+            <span class="InvisibleText">$Text{"Article"} $Text{"View"}:</span>
 <!-- dtl:block:Expand -->
-            <li class="OneArticle Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
-            <li class="AllArticles"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+            <a class="OneArticle Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
-            <li class="OneArticle"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a></li>
-            <li class="AllArticles Active"><a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a></li>
+            <a class="OneArticle" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Collapse -->
-        </ul>
-<!-- dtl:block:ArticleFilterDialogLink -->
-        <span>$Text{"Article"} $Text{"Filter"}:
-            <a href="#" id="SetArticleFilter">$Text{"Set"}</a>
-<!-- dtl:block:ArticleFilterResetLink -->
-            <a href="#" id="ResetArticleFilter">$Text{"Reset"}</a>
-<!-- dtl:block:ArticleFilterResetLink -->
-        </span>
-<!-- dtl:block:ArticleFilterDialogLink -->
+        </div>
+        <div class="Clear"></div>
     </div>
     <div id="ArticleTableBody" class="ActionRow">
         <div class="Scroller">
