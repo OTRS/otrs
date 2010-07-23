@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.8 2010-07-22 14:02:48 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.9 2010-07-23 11:07:17 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -137,10 +137,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // get customer tickets for AgentTicketPhone and AgentTicketEmail
-        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketPhone') {
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketPhone') && $('#SelectedCustomerUser').val() !== '') {
             GetCustomerTickets($('#SelectedCustomerUser').val());
         }
-
 
         if (typeof ActiveAutoComplete === 'undefined') {
             ActiveAutoComplete = true;
@@ -227,6 +226,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 });
             }
         }
+
+        // On unload remove old selected data. If the page is reloaded (with F5) this data stays in the field and invokes an ajax request otherwise
+        $(window).bind('unload', function () {
+           $('#SelectedCustomerUser').val('');
+        });
     };
 
     return TargetNS;
