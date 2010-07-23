@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.61 2010-07-21 13:21:02 ub Exp $
+# $Id: AgentTicketBulk.pm,v 1.62 2010-07-23 22:49:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,9 +29,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -67,7 +67,7 @@ sub Run {
     if ( !@TicketIDs ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No TicketID is given!',
-            Comment => 'You need min. one selected Ticket!',
+            Comment => 'You need minimum one selected ticket!',
         );
     }
     my $Output .= $Self->{LayoutObject}->Header(
@@ -109,6 +109,13 @@ sub Run {
         }
 
         # check some stuff
+        if (
+            ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+            && !$GetParam{TimeUnits}
+            )
+        {
+            $Error{'TimeUnitsInvalid'} = 'ServerError';
+        }
         if ( !$GetParam{'Subject'} ) {
             $Error{'SubjectInvalid'} = 'ServerError';
         }
@@ -466,8 +473,9 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        for my $KeyError ( keys %{ $Param{Errors} } ) {
+            $Param{$KeyError}
+                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -491,9 +499,9 @@ sub _Mask {
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
     my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-    for ( keys %NoteTypes ) {
-        if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
-            delete $NoteTypes{$_};
+    for my $KeyNoteType ( keys %NoteTypes ) {
+        if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
+            delete $NoteTypes{$KeyNoteType};
         }
     }
     $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -667,6 +675,11 @@ sub _Mask {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Param{TimeUnitsRequired} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_Required'
+            : ''
+        );
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
