@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.5 2010-07-19 18:10:46 cg Exp $
+// $Id: Core.Form.js,v 1.6 2010-07-23 11:55:28 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,11 +36,9 @@ Core.Form = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function () {
-        /* set wrap attribute to physical for browsers that need it */
-        $('.Wrap_physical')
-            .attr('wrap', 'physical');
-        /* set wrap attribute to hard for browsers that need it */
-        $('.Wrap_hard')
+        // set wrap attribute to hard for browsers that need it
+        // attribute physical can't be set in JS in IE, but IE also understands hard
+        $('.Wrap_hard, .Wrap_physical')
             .attr('wrap', 'hard');
     };
 
@@ -56,14 +54,14 @@ Core.Form = (function (TargetNS) {
         if (!isJQueryObject($Form)) {
             $Form = $('body');
         }
-            
-        // save action data to the given element        
+
+        // save action data to the given element
         if (!$Form.hasClass("AlreadyDisabled")) {
-            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) { 
+            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) {
                 var ReadonlyValue = $(this).attr('readonly'),
                     TagnameValue  = $(this).attr('tagName'),
                     DisabledValue = $(this).attr('disabled');
-                
+
                 if (TagnameValue == "BUTTON") {
                     if (DisabledValue == true) {
                         Core.Data.Set( $(this), 'OldDisabledStatus', 'disabled' );
@@ -84,11 +82,11 @@ Core.Form = (function (TargetNS) {
                 .end()
                 .find('button')
                 .attr('disabled', 'disabled');
-                    
+
                 // Add a speaking class to the form on DisableForm
                 $Form.addClass('AlreadyDisabled');
         }
-            
+
     };
 
     /**
@@ -112,12 +110,12 @@ Core.Form = (function (TargetNS) {
             .end()
             .find('button')
             .removeAttr('disabled');
-            
+
         $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) {
             var TagnameValue  = $(this).attr('tagName'),
                 ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
                 DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
-            
+
             if (TagnameValue == "BUTTON") {
                 if (DisabledValue == 'disabled') {
                     $(this).attr('disabled', 'disabled');
