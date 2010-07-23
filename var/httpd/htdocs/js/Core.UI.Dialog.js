@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.6 2010-07-16 09:53:26 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.7 2010-07-23 13:22:00 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -187,7 +187,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 'overflow': 'hidden',
                 'position': 'relative'
             });
-            $('#Overlay').height($(window).height()).css('top', $(window).scrollTop());
+            $('#Overlay').height($(document).height()).css('top', 0);
         }
 
         // Build Dialog HTML
