@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.19 2010-07-12 08:45:34 bes Exp $
+# $Id: SysConfig.pm,v 1.20 2010-07-23 16:42:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -86,7 +86,7 @@ create an object
         DBObject       => $DBObject,
         MainObject     => $MainObject,
         TimeObject     => $TimeObject,
-        LanguageObject => $LanugageObject
+        LanguageObject => $LanugageObject,
     );
 
 =cut
@@ -219,7 +219,7 @@ If you want to check if it exists (returns true or false),
 call it like this:
 
     my $ConfigurationExists = $SysConfigObject->Download(
-        Type => 'Check'
+        Type => 'Check',
     );
 
 =cut
@@ -400,7 +400,7 @@ sub CreateConfig {
     if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
+            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!",
         );
         return;
     }
@@ -453,7 +453,7 @@ sub ConfigItemUpdate {
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" && !$Self->CreateConfig() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't create empty $Home/Kernel/Config/Files/ZZZAuto.pm!"
+            Message  => "Can't create empty $Home/Kernel/Config/Files/ZZZAuto.pm!",
         );
         return;
     }
@@ -463,20 +463,42 @@ sub ConfigItemUpdate {
     if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
         );
         return;
     }
     close($Out);
 
-    # diff
-    my %ConfigDefault = $Self->ConfigItemGet(
-        Name    => $Param{Key},
-        Default => 1,
-    );
+    # get the current config item
     my %Config = $Self->ConfigItemGet(
-        Name => $Param{Key}
+        Name => $Param{Key},
     );
+
+    # check if a validate module is defined for this config option
+    if (
+        $Config{ValidateModule}
+        && ref $Config{ValidateModule} eq 'ARRAY'
+        && $Config{ValidateModule}->[1]->{Content}
+        )
+    {
+
+        # load the validate module
+        my $ValidateObject = $Self->_LoadBackend(
+            Module => $Config{ValidateModule}->[1]->{Content},
+        );
+
+        return if !$ValidateObject;
+
+        # validate the value
+        my $ValidateOk = $ValidateObject->Validate(
+            Data => $Param{Value},
+        );
+
+        # do not update if the validation failed, but return true,
+        # as if the field would have been updated!
+        return 1 if !$ValidateOk;
+    }
+
     $Param{Key} =~ s/\\/\\\\/g;
     $Param{Key} =~ s/'/\'/g;
     $Param{Key} =~ s/###/'}->{'/g;
@@ -501,7 +523,7 @@ sub ConfigItemUpdate {
     if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+            Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
         );
         return;
     }
@@ -523,7 +545,7 @@ sub ConfigItemUpdate {
     if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
         );
         return;
     }
@@ -733,7 +755,7 @@ sub ConfigItemGet {
                     for my $Content ( @{ $Hash{$Key} } ) {
                         push(
                             @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
-                            { Content => $Content, }
+                            { Content => $Content }
                         );
                     }
                 }
@@ -1028,7 +1050,7 @@ sub ConfigGroupList {
 get the list of all config sub groups of a given group.
 
     my %ConfigGroupList = $SysConfigObject->ConfigSubGroupList(
-        Name => 'Framework'
+        Name => 'Framework',
     );
 
 =cut
@@ -1141,7 +1163,7 @@ search for sub groups of config items. It will return all subgroups
 with settings which contain the search term.
 
     my @List = $SysConfigObject->ConfigItemSearch(
-        Search => 'some topic'
+        Search => 'some topic',
     );
 
 =cut
@@ -1860,6 +1882,68 @@ sub _XML2Perl {
     return $Data;
 }
 
+=item _LoadBackend()
+
+Returns a newly loaded backend object
+
+    my $BackendObject = $SysConfigObject->_LoadBackend(
+        Module => 'Kernel::System::SysConfig::StateValidate',
+    );
+
+=cut
+
+sub _LoadBackend {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Module} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Module!',
+        );
+        return;
+    }
+
+    # check if backend object is already cached
+    return $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} }
+        if $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} };
+
+    # load the backend module
+    if ( !$Self->{MainObject}->Require( $Param{Module} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't load sysconfig backend module $Param{Module}!",
+        );
+        return;
+    }
+
+    # IMPORTANT
+    # we need to create our own config object here,
+    # otherwise the <OTRS_CONFIG_> variables would not be replaced,
+    # e.g. as for <OTRS_CONFIG_TempDir>
+    my $ConfigObject = Kernel::Config->new( %{$Self} );
+
+    # create new instance
+    my $BackendObject = $Param{Module}->new(
+        %{$Self},
+        %Param,
+        ConfigObject => $ConfigObject,
+    );
+
+    # check for backend object
+    if ( !$BackendObject ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't create a new instance of sysconfig backend module $Param{Module}!",
+        );
+        return;
+    }
+
+    # cache the backend object
+    $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} } = $BackendObject;
+
+    return $BackendObject;
+}
+
 1;
 
 =end Internal:
@@ -1878,6 +1962,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2010-07-12 08:45:34 $
+$Revision: 1.20 $ $Date: 2010-07-23 16:42:38 $
 
 =cut
