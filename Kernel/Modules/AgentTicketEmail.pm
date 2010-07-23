@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.137 2010-07-06 18:51:28 cg Exp $
+# $Id: AgentTicketEmail.pm,v 1.138 2010-07-23 05:19:57 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -249,6 +249,11 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the ArticleFreeText is required
+                if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                    $ArticleFreeText{Required}->{$Count} = 1;
+                }
             }
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
                 Config => \%ArticleFreeText,
@@ -423,6 +428,9 @@ sub Run {
             }
         }
 
+        # If is an action about attachments
+        my $IsUpload = 0;
+
         # get free text config options
         my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
@@ -446,6 +454,17 @@ sub Run {
             # If Key has value 2, this means that the freetextfield is required
             if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
                 $TicketFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required FreeTextField (if configured)
+            if (
+                $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $ExpandCustomerName == 0
+                && $IsUpload == 0
+                )
+            {
+                $TicketFreeText{Error}->{$Count} = 1;
             }
 
         }
@@ -474,14 +493,27 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the field is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required ArticleTextField (if configured)
+            if (
+                $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $ExpandCustomerName == 0
+                && $IsUpload == 0
+                )
+            {
+                $ArticleFreeText{Error}->{$Count} = 1;
+            }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
             Config  => \%ArticleFreeText,
             Article => \%GetParam,
         );
-
-        # If is an action about attachments
-        my $IsUpload = 0;
 
         # attachment delete
         for my $Count ( 1 .. 32 ) {
@@ -622,7 +654,12 @@ sub Run {
                 }
             }
         }
-        if ( !$IsUpload && !$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 )
+        if (
+            !$IsUpload
+            && !$GetParam{To}
+            && $ExpandCustomerName != 1
+            && $ExpandCustomerName == 0
+            )
         {
             $Error{'ToInvalid'} = ' ServerError';
         }
@@ -631,6 +668,9 @@ sub Run {
         }
         if ( !$IsUpload && !$NewQueueID && $ExpandCustomerName == 0 ) {
             $Error{'DestinationInvalid'} = ' ServerError';
+        }
+        if ( !$IsUpload && !$GetParam{Body} && $ExpandCustomerName == 0 ) {
+            $Error{'BodyInvalid'} = ' ServerError';
         }
 
         # check if date is valid
@@ -658,6 +698,22 @@ sub Run {
         {
             if ( $IsUpload == 0 ) {
                 $Error{'ServiceInvalid'} = ' ServerError';
+            }
+        }
+
+        if ( $Self->{ConfigObject}->Get('Ticket::Type') && !$GetParam{TypeID} ) {
+            if ( $IsUpload == 0 ) {
+                $Error{'TypeInvalid'} = ' ServerError';
+            }
+        }
+
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            )
+        {
+            if ( $IsUpload == 0 ) {
+                $Error{'TimeUnitsInvalid'} = ' ServerError';
             }
         }
 
@@ -1533,7 +1589,7 @@ sub _MaskEmailNew {
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Types},
             Name         => 'TypeID',
-            Class        => 'Validate_RequiredDropdown',
+            Class        => 'Validate_RequiredDropdown' . ( $Param{Errors}->{TypeInvalid} || ' ' ),
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',

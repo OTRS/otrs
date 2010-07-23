@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.113 2010-07-16 13:45:36 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.114 2010-07-23 05:19:57 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,7 +52,8 @@ $Include{"AgentCustomerSearch"}
                     <label for="TypeID">$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"TypeStrg"}
-                        <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"Ticket Type is required!"}</p></div>
+                        <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"Ticket type is required!"}</p></div>
+                        <div id="TypeIDServerError" class="TooltipErrorMessage"><p>$Text{"Ticket type is required!"}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#TypeID').bind('change', function (Event) {
@@ -170,15 +171,6 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:ResponsibleSelection -->
 
-<!-- dtl:block:Option -->
-                    <label>$Text{"$Data{"Key"}"}:</label>
-                    <div class="Field">
-                        $Data{"Value"}
-                        <span class="Error Small">$QData{"Invalid"}</span>
-                    </div>
-                    <div class="Clear"></div>
-<!-- dtl:block:Option -->
-
                     <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" class="Validate_Required $Data{"SubjectInvalid"} W75pc " name="Subject" id="Subject" value="$QData{"Subject"}"/>
@@ -207,8 +199,9 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $QData{"BodyInvalid"}" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div class="Clear"></div>
 
                     <label for="Signature">$Text{"Signature"}:</label>
@@ -327,7 +320,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:ArticleFreeText -->
-                    <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
+                    <label>$Data{"ArticleFreeKeyField"}:</label>
                     <div class="Field">
                         $Data{"ArticleFreeTextField"}
                     </div>
@@ -353,8 +346,9 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
-                        <input type="text" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}"/>
+                        <input type="text" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units required!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
