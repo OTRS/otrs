@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.126 2010-07-23 14:03:05 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.127 2010-07-23 14:51:29 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -284,7 +284,10 @@ $Data{"ArticleItems"}
 <!-- dtl:block:ArticleFilterDialogLink -->
         <div class="ArticleFilter Icons">
             <span class="InvisibleText">$Text{"Article"} $Text{"Filter"}:</span>
+# Only show one: Set or Reset.
+#<!-- dtl:block:ArticleFilterSetLink -->
             <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><span>$Text{"Set"}</span></a>
+#<!-- dtl:block:ArticleFilterSetLink -->
 <!-- dtl:block:ArticleFilterResetLink -->
             <a class="Active" href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><span>$Text{"Reset"}</span></a>
 <!-- dtl:block:ArticleFilterResetLink -->
