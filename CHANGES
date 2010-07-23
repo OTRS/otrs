@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1258 2010-07-21 13:24:27 ub Exp $
+# $Id: CHANGES,v 1.1259 2010-07-23 07:19:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1156,6 +1156,10 @@
     availabe in online repository packages.
  - (2008/10/02) Added password reset option based on auth backend for multi
     auth support.
+
+2.3.6 (2010/??/??)
+ - (2010/07/23) Fixed bug# 3426 - Abort while processing mails with invalid
+    charset messes up POP3 mailbox handling.
 
 2.3.5 (2010/02/08)
  - (2010/02/04) Fixed SQL quoting issue (see also
