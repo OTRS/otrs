@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.20 $
+ * @version     $Revision: 1.21 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -560,7 +560,7 @@ td.Attachment {
 
 .Handle.ui-resizable-s {
     cursor:auto;
-    height:auto; !important;
+    height:auto !important;
     left:auto;
 }
 
