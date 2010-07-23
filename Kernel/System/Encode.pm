@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.41.2.2 2009-10-15 08:23:34 martin Exp $
+# $Id: Encode.pm,v 1.41.2.3 2010-07-23 07:18:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.41.2.2 $) [1];
+$VERSION = qw($Revision: 1.41.2.3 $) [1];
 
 =head1 NAME
 
@@ -194,6 +194,13 @@ sub Convert {
         Encode::_utf8_off( $Param{Text} );
     }
 
+    # check if encoding exists
+    if ( !Encode::resolve_alias( $Param{From} ) ) {
+        my $Fallback = 'iso-8859-1';
+        print STDERR "Not supported charset '$Param{From}', fallback to '$Fallback'!\n";
+        $Param{From} = $Fallback;
+    }
+
     # set check for "Handling Malformed Data", for more info see "perldoc Encode -> CHECK"
 
     # 1 = methods will die on error immediately with an error
@@ -355,16 +362,16 @@ sub EncodeOutput {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.41.2.2 $ $Date: 2009-10-15 08:23:34 $
+$Revision: 1.41.2.3 $ $Date: 2010-07-23 07:18:58 $
 
 =cut
