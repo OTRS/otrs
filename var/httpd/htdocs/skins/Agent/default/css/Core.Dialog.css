@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -35,90 +35,91 @@
     position: absolute;
     z-index: 99999;
     min-width: 150px;
+    -moz-box-shadow: 2px 2px 5px #000;
+    -webkit-box-shadow: 2px 2px 5px #000;
+    box-shadow: 2px 2px 5px #000;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
 }
 
 .Dialog > .Header {
     height: 25px;
     cursor: move;
-}
-
-.Dialog > .Header > span.LeftCorner {
-    display: block;
-    height: 25px;
-    width: 7px;
-    background: transparent url(../img/dialog_header.png) no-repeat top left;
-    float: left;
-}
-
-.Dialog > .Header > span.LeftCorner + span {
     display: block;
     position: relative;
     height: 25px;
-    margin-left: 7px;
-    background: transparent url(../img/dialog_header.png) no-repeat top right;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
+    border-bottom: 1px solid #CCC;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-.Dialog > .Header > span.LeftCorner + span a.Close{
+.Dialog > .Header .Close{
     display: block;
     position: absolute;
     height: 12px;
     width: 12px;
     background: transparent url(../img/dialog_close.png) no-repeat;
-    right: 16px;
-    top: 6px;
+    right: 8px;
+    top: 7px;
 }
 
-.Dialog > .Header > span.LeftCorner + span a.Close:hover{
+.Dialog > .Header .Close:hover{
     background-position: bottom;
 }
 
-.Dialog > .Header > span > h1 {
+.Dialog > .Header h1 {
+    padding: 5px 10px;
     font-weight: normal;
     font-size: 14px;
     padding-top: 5px;
 }
 
 .Dialog > .Content {
-    background: transparent url(../img/dialog_content.png) repeat-y right;
-    padding: 10px 13px 0px 0px;
-    min-height: 80px;
     overflow: hidden;
 }
 
 .Dialog > .Content > .InnerContent {
-    padding: 10px 10px 0px 10px;
+    padding: 10px;
+    background: #FFF;
     overflow-y: auto;
     max-height: 200px;
 }
 
 .Dialog > .Content > .ContentFooter {
-    background: #E6E6E6 url(../img/GradientSmall.png) repeat-x bottom;
+    padding: 6px 0 5px;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
     min-height: 20px;
     border-top: 1px solid #CCC;
-    padding-top: 6px;
-    margin-top: 10px;
-    width: 100%;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
-.Dialog > .Footer > span.LeftCorner {
-    display: block;
-    height: 18px;
-    width: 14px;
-    background: transparent url(../img/dialog_footer.png) no-repeat top left;
-    float: left;
-}
-
-.Dialog > .Footer > span.LeftCorner + span {
+.Dialog > .Footer {
+    padding: 6px 0 5px;
     display: block;
     position: relative;
-    height: 18px;
-    margin-left: 14px;
-    background: transparent url(../img/dialog_footer.png) no-repeat top right;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
+    border-top: 1px solid #CCC;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
-
-.Dialog > .Footer.ContentFooter > span.LeftCorner,
-.Dialog > .Footer.ContentFooter > span.LeftCorner + span {
-    background-image: url(../img/dialog_footer_em.png);
+    
+.Dialog > .Footer.ContentFooter {
+    display: none;
 }
 
 /**
