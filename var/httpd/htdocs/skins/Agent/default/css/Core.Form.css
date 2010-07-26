@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -29,7 +29,7 @@ select[multiple=multiple] {
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }
-    
+
 input[type=text],
 input[type=password],
 textarea {
@@ -106,7 +106,7 @@ a.Remove:focus {
 
 button.TrashCan,
 a.TrashCan {
-    background: url(../img/trash-can.png) no-repeat center;
+    background: url(../img/icons/trash-can.png) no-repeat center;
 }
 
 button.Reset,
@@ -114,7 +114,7 @@ a.Reset{
     height: 22px;
     width: 22px;
     padding: 3px;
-    background: transparent url(../img/undo.png) no-repeat center;
+    background: transparent url(../img/icons/undo.png) no-repeat center;
 }
 
 /**
@@ -137,7 +137,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     text-indent: -9999px;
-    background: url(../img/reload.png);
+    background: url(../img/icons/reload.png);
     display: inline-block;
 }
 

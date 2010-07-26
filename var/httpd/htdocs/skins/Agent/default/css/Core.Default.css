@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.20 $
+ * @version     $Revision: 1.21 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -529,7 +529,7 @@ tbody tr:hover span.UnreadArticles {
     margin: 0 0 0 4px;
     height: 16px;
     width: 16px;
-    background: transparent url(../img/calendar.png) no-repeat;
+    background: transparent url(../img/icons/calendar.png) no-repeat;
     display: inline-block;
     vertical-align: top;
 }

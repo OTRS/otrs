@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -133,11 +133,11 @@ ul.Tablelike li.Header + li {
 .WidgetSimple fieldset {
     margin-bottom: 15px;
 }
-    
+
 /**
  * @subsection AJAX Loader
  */
- 
+
 .Loading > .Header h2 {
     background: url("../img/loader.gif") no-repeat right center;
 }
@@ -383,15 +383,15 @@ ul.Tablelike li.Header + li {
 }
 
 .CallForAction.Plus span {
-    background: url("../img/plus-button.png") no-repeat scroll;
+    background: url("../img/icons/plus-button.png") no-repeat scroll;
 }
 
 .CallForAction.Download span {
-    background: url("../img/drive-download.png") no-repeat scroll;
+    background: url("../img/icons/drive-download.png") no-repeat scroll;
 }
 
 .CallForAction.Upload span {
-    background: url("../img/drive-upload.png") no-repeat scroll;
+    background: url("../img/icons/drive-upload.png") no-repeat scroll;
 }
 
 .CallForAction.Plus span,
