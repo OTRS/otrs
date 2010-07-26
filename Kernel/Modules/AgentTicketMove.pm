@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.66 2010-07-16 09:31:15 mn Exp $
+# $Id: AgentTicketMove.pm,v 1.67 2010-07-26 17:21:41 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,17 +91,18 @@ sub Run {
                 Message => "Sorry, you need to be the owner to do this action!",
                 Comment => 'Please change the owner first.',
             );
+
+            # show back link
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketBack',
+                Data => { %Param, TicketID => $Self->{TicketID} },
+            );
+
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
             );
             return $Output;
         }
-
-        # show back link
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketBack',
-            Data => { %Param, TicketID => $Self->{TicketID} },
-        );
     }
 
     # ticket attributes
@@ -158,6 +159,10 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
             $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
             $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
+        }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$FreeTimeNumber} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $FreeTimeNumber . 'Required' } = 1;
         }
 
         # check the timedata
@@ -384,11 +389,21 @@ sub Run {
         );
     }
 
+    # check for errors
     if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
         for my $Keys (qw( DestQueueID Subject Body )) {
             if ( $GetParam{$Keys} eq '' ) {
                 $Error{ $Keys . 'Invalid' } = 'ServerError';
             }
+        }
+
+        # check time units
+        if (
+            ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+            && !$GetParam{TimeUnits}
+            )
+        {
+            $Error{'TimeUnitsInvalid'} = ' ServerError';
         }
 
         # check pending time
@@ -936,7 +951,7 @@ sub AgentMove {
         Data => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
-        Class          => 'Validate_Required' . ' ' . $Param{Errors}->{DestQueueIDInvalid},
+        Class          => 'Validate_RequiredDropdown' . ' ' . $Param{DestQueueIDInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
         OnChangeSubmit => 0,
