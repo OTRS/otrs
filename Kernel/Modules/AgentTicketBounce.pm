@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.45 2010-07-15 06:52:18 mg Exp $
+# $Id: AgentTicketBounce.pm,v 1.46 2010-07-26 23:00:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,9 +31,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -51,10 +54,10 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID TicketID QueueID)) {
-        if ( !defined $Self->{$_} ) {
+    for my $Needed (qw(ArticleID TicketID QueueID)) {
+        if ( !defined $Self->{$Needed} ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "$_ is needed!",
+                Message => "$Needed is needed!",
                 Comment => 'Please contact your admin',
             );
         }
@@ -260,8 +263,8 @@ $Param{Signature}";
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
-        for (qw(From BounceTo To Subject Body InformSender BounceStateID)) {
-            $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        for my $Parameter (qw(From BounceTo To Subject Body InformSender BounceStateID)) {
+            $Param{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         my %Error;
