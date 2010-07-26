@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -166,6 +166,11 @@ div.Headline .Flag {
 /**
  * @subsection  Attachment Dialog Content
  */
+ 
+.Dialog > .Content > .Attachment.InnerContent {
+    padding: 0;
+}
+    
 .AttachmentContent {
     width: 300px;
     height: 500px;
@@ -174,9 +179,7 @@ div.Headline .Flag {
 }
 
 .AttachmentElement {
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 4px;
+    margin: 5px 9px;
     border-bottom: 1px solid #E6E6E6;
     padding-bottom: 2px;
 }
