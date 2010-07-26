@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.4 2010-07-21 23:02:04 cg Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.5 2010-07-26 13:32:47 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     /**
      * @function
      * @return nothing
-     *      This function initializes as a rich text editor every textarea element that containing the RichText class 
+     *      This function initializes as a rich text editor every textarea element that containing the RichText class
      */
     TargetNS.InitAll = function () {
         $('textarea.RichText').each(function () {
@@ -177,7 +177,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
-            if ($('cke_' + EditorID).length) {
+            if ($('#cke_' + EditorID).length) {
                 return true;
             }
         }
