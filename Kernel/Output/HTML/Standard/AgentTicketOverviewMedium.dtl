@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.33 2010-07-16 11:20:59 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.34 2010-07-26 06:28:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label>$Text{"From"}</label><div title="$QData{"From"}">$RQData{"From","80"}</div>
+                            <label>$Text{"From"}</label><div title="$QData{"From"}">$QData{"FromRealname","80"}</div>
                         </td>
                         <td>
                             <label>$Text{"Age"}</label>$QData{"Age"}
@@ -110,7 +110,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>$Text{"To"}</label><div title="$QData{"To"}">$RQData{"To","80"}</div>
+                            <label>$Text{"To"}</label><div title="$QData{"To"}">$QData{"ToRealname","80"}</div>
                         </td>
                         <td>
                             <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}

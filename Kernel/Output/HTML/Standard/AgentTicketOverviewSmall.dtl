@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.51 2010-07-22 13:40:34 fn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.52 2010-07-26 06:28:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -131,7 +131,7 @@
                     </td>
 <!-- dtl:block:RecordEscalationTime -->
                     <td>
-                        <div title="$QData{"From"}">$RQData{"From","30"}</div>
+                        <div title="$QData{"From"}">$QData{"FromRealname","30"}</div>
 <!-- dtl:block:RecordLastCustomerSubject -->
                         <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
 <!-- dtl:block:RecordLastCustomerSubject -->

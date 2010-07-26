@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.282 2010-07-21 17:27:10 ub Exp $
+# $Id: Layout.pm,v 1.283 2010-07-26 06:28:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.282 $) [1];
+$VERSION = qw($Revision: 1.283 $) [1];
 
 =head1 NAME
 
@@ -4002,64 +4002,6 @@ sub _Output {
                         }
                     }
                 }
-                elsif ($1 eq 'RQData') {
-                    my $Text = $2;
-
-                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-                        '';
-                    }
-                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-                        if ( defined $GlobalRef->{Data}->{$1} ) {
-
-                            my $Data = $GlobalRef->{Data}->{$1};
-
-                            # strip real names
-                            my $Realname = '';
-                            for my $EmailSplit ( Mail::Address->parse( $Data ) ) {
-                                my $Name = $EmailSplit->name();
-                                if ( !$Name ) {
-                                    $Name = $EmailSplit->address();
-                                }
-                                next if !$Name;
-                                if ($Realname) {
-                                    $Realname .= ', ';
-                                }
-                                $Realname .= $Name;
-                            }
-                            $Data = $Realname;
-                            $Self->Ascii2Html(Text => $Data, Max => $2);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                    else {
-                        if ( defined $GlobalRef->{Data}->{$Text} ) {
-                            my $Data = $GlobalRef->{Data}->{$Text};
-
-                            # strip real names
-                            my $Realname = '';
-                            for my $EmailSplit ( Mail::Address->parse( $Data ) ) {
-                                my $Name = $EmailSplit->name();
-                                if ( !$Name ) {
-                                    $Name = $EmailSplit->address();
-                                }
-                                next if !$Name;
-                                if ($Realname) {
-                                    $Realname .= ', ';
-                                }
-                                $Realname .= $Name;
-                            }
-                            $Data = $Realname;
-                            $Self->Ascii2Html(Text => $Data);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                }
                 # link encode
                 elsif ($1 eq 'LQData') {
                     if ( defined $GlobalRef->{Data}->{$2} ) {
@@ -4708,6 +4650,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.282 $ $Date: 2010-07-21 17:27:10 $
+$Revision: 1.283 $ $Date: 2010-07-26 06:28:24 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.253 2010-06-17 22:09:31 cr Exp $
+# $Id: Article.pm,v 1.254 2010-07-26 06:28:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.253 $) [1];
+$VERSION = qw($Revision: 1.254 $) [1];
 
 =head1 NAME
 
@@ -1752,6 +1753,26 @@ sub ArticleGet {
         }
         $Part->{StateType} = $StateData{TypeName};
         $Part->{State}     = $StateData{Name};
+
+        # add real name lines
+        for my $Key (qw( From To Cc)) {
+            next if !$Part->{$Key};
+
+            # strip out real names
+            my $Realname = '';
+            for my $EmailSplit ( Mail::Address->parse( $Part->{$Key} ) ) {
+                my $Name = $EmailSplit->name();
+                if ( !$Name ) {
+                    $Name = $EmailSplit->address();
+                }
+                next if !$Name;
+                if ($Realname) {
+                    $Realname .= ', ';
+                }
+                $Realname .= $Name;
+            }
+            $Part->{ $Key . 'Realname' } = $Realname;
+        }
     }
 
     if ( $Param{ArticleID} ) {
@@ -3224,6 +3245,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.253 $ $Date: 2010-06-17 22:09:31 $
+$Revision: 1.254 $ $Date: 2010-07-26 06:28:25 $
 
 =cut
