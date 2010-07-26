@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.73 2010-07-20 14:20:39 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.74 2010-07-26 13:58:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,9 +163,9 @@ sub Run {
         # search all tickets
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
 
-            #            StateIDs => \@ViewableStateIDs,
-            #            LockIDs  => \@ViewableLockIDs,
-            #            QueueIDs => \@ViewableQueueIDs,
+            StateIDs => \@ViewableStateIDs,
+            LockIDs  => \@ViewableLockIDs,
+            QueueIDs => \@ViewableQueueIDs,
             %Sort,
             Permission => $Permission,
             UserID     => $Self->{UserID},
@@ -190,13 +190,13 @@ sub Run {
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
 
-    $Output = $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketQueue', Data => \%NavBar );
-    $Self->{LayoutObject}->Print( Output => \$Output );
-    $Output = '';
-
     # show ticket's
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->TicketListShow(
+            DataInTheMiddle => $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketQueue',
+                Data         => \%NavBar,
+            ),
             TicketIDs  => \@ViewableTickets,
             Total      => $NavBar{Total},
             Env        => $Self,
@@ -245,11 +245,11 @@ sub _MaskQueueView {
     my @QueuesNew       = @{ $Param{Queues} };
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
     my %AllQueues       = %{ $Param{AllQueues} };
-    my %Counter         = ();
-    my %UsedQueue       = ();
-    my @ListedQueues    = ();
-    my $Level           = 0;
-    my $CustomQueue     = $Self->{LayoutObject}->{LanguageObject}->Get( $Self->{CustomQueue} );
+    my %Counter;
+    my %UsedQueue;
+    my @ListedQueues;
+    my $Level       = 0;
+    my $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get( $Self->{CustomQueue} );
     $Self->{HighlightAge1}   = $Self->{Config}->{HighlightAge1};
     $Self->{HighlightAge2}   = $Self->{Config}->{HighlightAge2};
     $Self->{HighlightColor1} = $Self->{Config}->{HighlightColor1};
@@ -257,15 +257,15 @@ sub _MaskQueueView {
     $Self->{Blink}           = $Self->{Config}->{Blink};
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
-    my @MetaQueue = split( /::/, $Param{SelectedQueue} );
+    my @MetaQueue = split /::/, $Param{SelectedQueue};
     $Level = $#MetaQueue + 2;
 
     # prepare shown queues (short names)
     # - get queue total count -
     for my $QueueRef (@QueuesNew) {
-        push( @ListedQueues, $QueueRef );
+        push @ListedQueues, $QueueRef;
         my %Queue = %$QueueRef;
-        my @Queue = split( /::/, $Queue{Queue} );
+        my @Queue = split /::/, $Queue{Queue};
 
         # remember counted/used queues
         $UsedQueue{ $Queue{Queue} } = 1;
@@ -309,15 +309,33 @@ sub _MaskQueueView {
             $Counter{$CustomQueue} = $Counter{ $Queue{Queue} };
             $Queue{Queue} = $CustomQueue;
         }
-        my @QueueName = split( /::/, $Queue{Queue} );
+        my @QueueName = split /::/, $Queue{Queue};
         my $ShortQueueName = $QueueName[-1];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
 
+        $QueueStrg
+            .= "<li><a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue;QueueID=$Queue{QueueID}";
+        $QueueStrg .= ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} ) . '"';
+
+        $QueueStrg .= ' class="';
+
+        # should i highlight this queue
+        # the oldest queue
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
+            $QueueStrg .= 'Oldest';
+        }
+        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge2} ) {
+            $QueueStrg .= 'OlderLevel2';
+        }
+        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge1} ) {
+            $QueueStrg .= 'OlderLevel1';
+        }
+
         # should i highlight this queue
         if ( $Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level - 1 >= $#QueueName ) {
             if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
-                $QueueStrg .= '<b>';
+                $QueueStrg .= ' Active';
             }
             if (
                 $#QueueName == 1
@@ -325,7 +343,7 @@ sub _MaskQueueView {
                 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/
                 )
             {
-                $QueueStrg .= '<b>';
+                $QueueStrg .= ' Active';
             }
             if (
                 $#QueueName == 2
@@ -333,7 +351,7 @@ sub _MaskQueueView {
                 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/
                 )
             {
-                $QueueStrg .= '<b>';
+                $QueueStrg .= ' Active';
             }
             if (
                 $#QueueName == 3
@@ -342,95 +360,29 @@ sub _MaskQueueView {
                 =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/
                 )
             {
-                $QueueStrg .= '<b>';
+                $QueueStrg .= ' Active';
             }
         }
+
+        $QueueStrg .= '">';
 
         # remember to selected queue info
         if ( $QueueID eq $Queue{QueueID} ) {
             $Param{SelectedQueue} = $Queue{Queue};
             $Param{AllSubTickets} = $Counter{ $Queue{Queue} };
         }
-        $QueueStrg
-            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue;QueueID=$Queue{QueueID}";
-        $QueueStrg .= ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} ) . '"';
-        $QueueStrg
-            .= ' onmouseover="window.status=\'$Text{"Queue"}: '
-            . $Queue{Queue}
-            . '\'; return true;" onmouseout="window.status=\'\';">';
-
-        # should i highlight this queue
-        if ( $Queue{MaxAge} >= $Self->{HighlightAge2} ) {
-            $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
-        }
-        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge1} ) {
-            $QueueStrg .= "<font color='$Self->{HighlightColor1}'>";
-        }
-
-        # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
-            $QueueStrg .= "<blink>";
-        }
 
         # QueueStrg
         $QueueStrg .= $Self->{LayoutObject}->Ascii2Html( Text => $ShortQueueName )
             . " ($Counter{$Queue{Queue}})";
 
-        # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
-            $QueueStrg .= "</blink>";
-        }
-
-        # should i highlight this queue
-        if ( $Queue{MaxAge} >= $Self->{HighlightAge1} || $Queue{MaxAge} >= $Self->{HighlightAge2} )
-        {
-            $QueueStrg .= "</font>";
-        }
-        $QueueStrg .= "</a>";
-
-        # should i highlight this queue
-        if ( $Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level >= $#QueueName ) {
-            if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
-                $QueueStrg .= '</b>';
-            }
-            if (
-                $#QueueName == 1
-                && $#MetaQueue >= 1
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/
-                )
-            {
-                $QueueStrg .= '</b>';
-            }
-            if (
-                $#QueueName == 2
-                && $#MetaQueue >= 2
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/
-                )
-            {
-                $QueueStrg .= '</b>';
-            }
-            if (
-                $#QueueName == 3
-                && $#MetaQueue >= 3
-                && $Queue{Queue}
-                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/
-                )
-            {
-                $QueueStrg .= '</b>';
-            }
-        }
+        $QueueStrg .= '</a></li>';
 
         if ( $#QueueName == 0 ) {
-            if ( $Param{QueueStrg} ) {
-                $QueueStrg = ' - ' . $QueueStrg;
-            }
-            $Param{QueueStrg} .= $QueueStrg;
+            $Param{QueueStrg1} .= $QueueStrg;
         }
         elsif ( $#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::\E/ ) {
-            if ( $Param{QueueStrg1} ) {
-                $QueueStrg = ' - ' . $QueueStrg;
-            }
-            $Param{QueueStrg1} .= $QueueStrg;
+            $Param{QueueStrg2} .= $QueueStrg;
         }
         elsif (
             $#QueueName == 2
@@ -438,10 +390,7 @@ sub _MaskQueueView {
             && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/
             )
         {
-            if ( $Param{QueueStrg2} ) {
-                $QueueStrg = ' - ' . $QueueStrg;
-            }
-            $Param{QueueStrg2} .= $QueueStrg;
+            $Param{QueueStrg3} .= $QueueStrg;
         }
         elsif (
             $#QueueName == 3
@@ -449,10 +398,7 @@ sub _MaskQueueView {
             && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/
             )
         {
-            if ( $Param{QueueStrg3} ) {
-                $QueueStrg = ' - ' . $QueueStrg;
-            }
-            $Param{QueueStrg3} .= $QueueStrg;
+            $Param{QueueStrg4} .= $QueueStrg;
         }
         elsif (
             $#QueueName == 4
@@ -461,16 +407,13 @@ sub _MaskQueueView {
             =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/
             )
         {
-            if ( $Param{QueueStrg4} ) {
-                $QueueStrg = ' - ' . $QueueStrg;
-            }
-            $Param{QueueStrg4} .= $QueueStrg;
+            $Param{QueueStrg5} .= $QueueStrg;
         }
     }
     for ( 1 .. 5 ) {
-        if ( $Param{ 'QueueStrg' . $_ } ) {
-            $Param{'QueueStrg'} .= '<br/>' . $Param{ 'QueueStrg' . $_ };
-        }
+        next if !$Param{ 'QueueStrg' . $_ };
+        $Param{QueueStrg}
+            .= '<ul class="QueueOverviewList">' . $Param{ 'QueueStrg' . $_ } . '</ul>';
     }
     return (
         MainName      => 'Queues',

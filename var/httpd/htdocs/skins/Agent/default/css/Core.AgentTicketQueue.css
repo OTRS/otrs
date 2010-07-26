@@ -1,0 +1,63 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AgentTicketQueue
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.QueueOverview {
+    font-size: 12px;
+    margin: 0px 16px 10px 8px;
+    padding: 0px 0px 4px 0px;
+    color: gray;
+}
+
+.RTL .QueueOverview {
+    margin: 0px 8px 10px 16px;
+}
+
+.QueueOverviewList {
+    clear: both;
+    float: none;
+}
+
+.QueueOverviewList li {
+    float: left;
+    list-style: none;
+    padding: 2px 5px;
+    height: 14px;
+}
+
+.RTL .QueueOverviewList li {
+    float: right;
+}
+
+.QueueOverview .OlderLevel1 {
+    color: orange;
+}
+
+.QueueOverview .OlderLevel2 {
+    color: #ff4766;
+}
+
+.QueueOverview .Oldest {
+    color: red;
+}
+
+.QueueOverview .Active {
+    font-weight: bold;
+}
+
+} /* end @media */
