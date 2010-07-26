@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.348 2010-07-26 08:28:10 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.349 2010-07-26 10:43:03 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3794,7 +3794,6 @@ Your OTRS Notification Master
                 <NavBar>
                     <Description Translatable="1">Dashboard</Description>
                     <Name Translatable="1">Dashboard</Name>
-                    <Image>dashboard.png</Image>
                     <Link>Action=AgentDashboard</Link>
                     <NavBar>Dashboard</NavBar>
                     <Type>Menu</Type>
@@ -3937,7 +3936,6 @@ Your OTRS Notification Master
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Admin</Name>
-                    <Image>admin.png</Image>
                     <Link>Action=Admin</Link>
                     <NavBar>Admin</NavBar>
                     <AccessKey>a</AccessKey>
@@ -4042,7 +4040,6 @@ Your OTRS Notification Master
                 <NavBar>
                     <Description Translatable="1">Edit Customers</Description>
                     <Name Translatable="1">Customers</Name>
-                    <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <NavBar>Customers</NavBar>
                     <Type>Menu</Type>
@@ -4078,7 +4075,6 @@ Your OTRS Notification Master
                 <NavBar>
                     <Description Translatable="1">Edit Customer Company</Description>
                     <Name Translatable="1">Company</Name>
-                    <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <NavBar>Ticket</NavBar>
                     <Type>Menu</Type>
@@ -4615,7 +4611,6 @@ Your OTRS Notification Master
                 <NavBar>
                     <Description Translatable="1">Stats</Description>
                     <Name Translatable="1">Statistics</Name>
-                    <Image>stats.png</Image>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>
                     <Type>Menu</Type>
@@ -4627,7 +4622,6 @@ Your OTRS Notification Master
                     <GroupRo>stats</GroupRo>
                     <Description Translatable="1">Overview</Description>
                     <Name Translatable="1">Overview</Name>
-                    <Image>overview.png</Image>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>
                     <Prio>100</Prio>
@@ -4639,7 +4633,6 @@ Your OTRS Notification Master
                     <Group>stats</Group>
                     <Description Translatable="1">New</Description>
                     <Name Translatable="1">New</Name>
-                    <Image>new.png</Image>
                     <Link>Action=AgentStats;Subaction=Add</Link>
                     <NavBar>Stats</NavBar>
                     <Prio>200</Prio>
@@ -4651,7 +4644,6 @@ Your OTRS Notification Master
                     <Group>stats</Group>
                     <Description Translatable="1">Import</Description>
                     <Name Translatable="1">Import</Name>
-                    <Image>import.png</Image>
                     <Link>Action=AgentStats;Subaction=Import</Link>
                     <NavBar>Stats</NavBar>
                     <Prio>300</Prio>

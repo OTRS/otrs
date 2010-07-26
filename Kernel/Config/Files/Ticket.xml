@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.356 2010-07-26 08:28:10 mn Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.357 2010-07-26 10:43:03 mn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1436,8 +1436,6 @@
                 <Item Key="Name">Small</Item>
                 <Item Key="NameShort">S</Item>
                 <Item Key="CustomerInfo">1</Item>
-                <Item Key="Image">overviewsmall.png</Item>
-                <Item Key="ImageSelected">overviewsmall-selected.png</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -1462,8 +1460,6 @@
                 <Item Key="Name">Medium</Item>
                 <Item Key="NameShort">M</Item>
                 <Item Key="CustomerInfo">0</Item>
-                <Item Key="Image">overviewmedium.png</Item>
-                <Item Key="ImageSelected">overviewmedium-selected.png</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -1481,8 +1477,6 @@
                 <Item Key="DefaultPreViewLines">18</Item>
                 <Item Key="DefaultViewNewLine">90</Item>
                 <Item Key="StripEmptyLines">0</Item>
-                <Item Key="Image">overviewpreview.png</Item>
-                <Item Key="ImageSelected">overviewpreview-selected.png</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7392,7 +7386,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets</Description>
                     <Name Translatable="1">Queue view</Name>
-                    <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
@@ -7405,7 +7398,6 @@ $QData{"Signature"}
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Tickets</Name>
-                    <Image>desktop.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
                     <AccessKey>t</AccessKey>
@@ -7426,7 +7418,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Create new phone ticket (inbound)</Description>
                     <Name Translatable="1">New phone ticket</Name>
-                    <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
@@ -7469,7 +7460,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Create new email ticket and send this out (outbound)</Description>
                     <Name Translatable="1">New email ticket</Name>
-                    <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
@@ -7497,7 +7487,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Search Ticket</Description>
                     <Name Translatable="1">Search</Name>
-                    <Image>search.png</Image>
                     <Link>Action=AgentTicketSearch</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
@@ -7580,7 +7569,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Status view</Name>
-                    <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
@@ -7603,7 +7591,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Overview Escalated Tickets</Description>
                     <Name Translatable="1">Escalation view</Name>
-                    <Image>overview.png</Image>
                     <Link>Action=AgentTicketEscalationView</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
@@ -8282,7 +8269,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">My Tickets</Description>
                     <Name Translatable="1">My Tickets</Name>
-                    <Image>ticket.png</Image>
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
@@ -8293,7 +8279,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Company Tickets</Description>
                     <Name Translatable="1">Company Tickets</Name>
-                    <Image>tickets.png</Image>
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
@@ -8316,7 +8301,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Create new Ticket</Description>
                     <Name Translatable="1">New Ticket</Name>
-                    <Image>new.png</Image>
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
@@ -8387,7 +8371,6 @@ $QData{"Signature"}
                 <NavBar>
                     <Description Translatable="1">Search</Description>
                     <Name Translatable="1">Search</Name>
-                    <Image>search.png</Image>
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
