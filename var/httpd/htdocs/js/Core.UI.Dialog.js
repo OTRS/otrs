@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.7 2010-07-23 13:22:00 cg Exp $
+// $Id: Core.UI.Dialog.js,v 1.8 2010-07-26 08:47:24 fn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -173,7 +173,7 @@ Core.UI.Dialog = (function (TargetNS) {
      */
     function ShowDialog(Params) {
         var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup,
-            DialogHTML = '<div class="Dialog"><div class="Header"><span class="LeftCorner"></span><span><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></span></div><div class="Content"></div><div class="Footer"><span class="LeftCorner"></span><span></span></div></div>';
+            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
@@ -184,7 +184,6 @@ Core.UI.Dialog = (function (TargetNS) {
         if (Params.Modal) {
             $('<div id="Overlay" tabindex="-1">').appendTo('body');
             $('body').css({
-                'overflow': 'hidden',
                 'position': 'relative'
             });
             $('#Overlay').height($(document).height()).css('top', 0);
@@ -266,7 +265,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // If Title is defined, add dialog title
         if (Params.Title) {
-            $Dialog.find('.Header span:not(.LeftCorner)').prepend('<h1>' + Params.Title + '</h1>');
+            $Dialog.find('.Header').append('<h1>' + Params.Title + '</h1>');
         }
 
         // Check if "ContentFooter" is used in Content and change Footer
@@ -379,13 +378,6 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Focus first focusable element
         FocusFirstElement();
-
-        // Set width of header and footer (esp. for IE7)
-        if ($.browser.msie && $.browser.version === "7.0") {
-            $Dialog.find('.Header > span.LeftCorner + span').width($Dialog.width() - 7);
-            $Dialog.find('.Footer > span.LeftCorner + span').width($Dialog.width() - 14);
-            $Dialog.find('.Content > .ContentFooter').width($Dialog.width() - 13);
-        }
     }
 
     /**
