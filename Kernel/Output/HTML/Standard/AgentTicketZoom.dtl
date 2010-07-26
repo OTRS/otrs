@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.128 2010-07-26 06:28:24 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.129 2010-07-26 08:46:01 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -343,14 +343,16 @@ $Data{"ArticleItems"}
 <!-- dtl:block:TreeItemAttachment -->
                             <a class="Attachment" title="Attachment" rel="TicketAttachment$QData{"Count"}"></a>
                             <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
+                                <div class="Attachment InnerContent">
 <!-- dtl:block:TreeItemAttachmentItem -->
-                                <div class="AttachmentElement">
-                                    <h3>
-                                        <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
-                                    </h3>
-                                    <p>$QData{"Filesize"}</p>
+                                    <div class="AttachmentElement">
+                                        <h3>
+                                            <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                        </h3>
+                                        <p>$QData{"Filesize"}</p>
+                                    </div>
+<!-- dtl:block:TreeItemAttachmentItem -->
                                 </div>
-<!-- dtl:block:TreeItemAttachmentItem -->
                             </div>
 <!-- dtl:block:TreeItemAttachment -->
                         </td>
