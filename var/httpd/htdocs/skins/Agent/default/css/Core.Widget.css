@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -412,6 +412,7 @@ ul.Tablelike li.Header + li {
 }
 
 .SearchBox input[type='text'] {
+    height: 15px;
     margin: 0;
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
