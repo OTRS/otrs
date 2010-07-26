@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.347 2010-07-21 21:36:39 fn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.348 2010-07-26 08:28:10 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3230,7 +3230,8 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
                     <Item Key="Required">UserStreet;UserCity;</Item>
                     <Item Key="Attributes">UserStreet;UserCity;UserCountry;</Item>
-                    <Item Key="Image">maps.png</Item>
+                    <Item Key="CSS">Core.Agent.CustomerUser.GoogleMaps.css</Item>
+                    <Item Key="CSSClass">GoogleMaps</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">Location</Item>
                     <Item Key="URL">http://maps.google.com/maps?z=7&amp;q=</Item>
@@ -3246,7 +3247,8 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
                     <Item Key="Required">UserFirstname;UserLastname;</Item>
                     <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="Image">maps.png</Item>
+                    <Item Key="CSS">Core.Agent.CustomerUser.Google.css</Item>
+                    <Item Key="CSSClass">Google</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">Google</Item>
                     <Item Key="URL">http://google.com/search?q=</Item>
@@ -3262,7 +3264,8 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
                     <Item Key="Required">UserFirstname;UserLastname;</Item>
                     <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="Image">in.png</Item>
+                    <Item Key="CSS">Core.Agent.CustomerUser.LinkedIn.css</Item>
+                    <Item Key="CSSClass">LinkedIn</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">LinkedIn</Item>
                     <Item Key="URL">http://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
@@ -3278,7 +3281,8 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
                     <Item Key="Required">UserFirstname;UserLastname;</Item>
                     <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="Image">xing.png</Item>
+                    <Item Key="CSS">Core.Agent.CustomerUser.Xing.css</Item>
+                    <Item Key="CSSClass">Xing</Item>
                     <Item Key="Target">_blank</Item>
                     <Item Key="Text">XING</Item>
                     <Item Key="URL">https://www.xing.com/app/search?op=search;keywords=</Item>

@@ -1,0 +1,20 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Customer User Xing Icon
+ */
+
+@media screen,projection,tv,handheld {
+
+.ItemRow .Xing {
+    padding-left: 22px;
+    background: url(../img/icons/xing.png) no-repeat center left;
+}
+
+} /* end @media */

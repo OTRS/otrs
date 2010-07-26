@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.27 2010-07-21 16:03:36 ub Exp $
+# $Id: LayoutLoader.pm,v 1.28 2010-07-26 08:28:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Kernel::System::Loader;
 
@@ -56,7 +56,8 @@ sub LoaderCreateAgentCSSCalls {
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
 
-    my $ToolbarModuleSettings = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+    my $ToolbarModuleSettings    = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+    my $CustomerUserItemSettings = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
 
     {
         my @FileList;
@@ -71,6 +72,13 @@ sub LoaderCreateAgentCSSCalls {
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{CSS} ) {
                 push @FileList, $ToolbarModuleSettings->{$Key}->{CSS};
+            }
+        }
+
+        # get customer user item css
+        for my $Key ( sort keys %{$CustomerUserItemSettings} ) {
+            if ( $CustomerUserItemSettings->{$Key}->{CSS} ) {
+                push @FileList, $CustomerUserItemSettings->{$Key}->{CSS};
             }
         }
 
@@ -100,6 +108,13 @@ sub LoaderCreateAgentCSSCalls {
             }
         }
 
+        # get customer user item css
+        for my $Key ( sort keys %{$CustomerUserItemSettings} ) {
+            if ( $CustomerUserItemSettings->{$Key}->{CSS_IE7} ) {
+                push @FileList, $CustomerUserItemSettings->{$Key}->{CSS_IE7};
+            }
+        }
+
         $Self->_HandleCSSList(
             List      => \@FileList,
             DoMinify  => $DoMinify,
@@ -123,6 +138,13 @@ sub LoaderCreateAgentCSSCalls {
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{CSS_IE8} ) {
                 push @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE8};
+            }
+        }
+
+        # get customer user item css
+        for my $Key ( sort keys %{$CustomerUserItemSettings} ) {
+            if ( $CustomerUserItemSettings->{$Key}->{CSS_IE8} ) {
+                push @FileList, $CustomerUserItemSettings->{$Key}->{CSS_IE8};
             }
         }
 
@@ -655,6 +677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2010-07-21 16:03:36 $
+$Revision: 1.28 $ $Date: 2010-07-26 08:28:10 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.14 2010-07-02 12:28:58 mg Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.15 2010-07-26 08:28:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,9 +145,9 @@ sub Run {
         UserID     => $Self->{UserID},
     );
 
-    my $Image = $Param{Config}->{ImageNoOpenTicket};
+    my $CSSClass = $Param{Config}->{CSSClassNoOpenTicket};
     if ($Count) {
-        $Image = $Param{Config}->{ImageOpenTicket};
+        $CSSClass = $Param{Config}->{CSSClassOpenTicket};
     }
 
     # generate block
@@ -155,7 +155,7 @@ sub Run {
         Name => 'CustomerItemRow',
         Data => {
             %{ $Param{Config} },
-            Image     => $Image,
+            CSSClass  => $CSSClass,
             Extention => " ($Count)",
             URL       => $URL,
         },
