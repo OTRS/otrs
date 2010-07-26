@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -213,40 +213,30 @@ div.Headline .Flag {
  */
 
 .ItemRow {
-    margin: 5px 0;
-    padding: 5px 8px;
-    border: 1px solid #C9C9C9;
-    border-top-color: #C0C0C0;
-    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
-    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
-    box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
-    overflow: hidden;
+    margin-left: 40%;
+}
+    
+.RTL .ItemRow {
+    margin-left: 0;
+    margin-right: 40%;
 }
 
 .ItemRow li {
-    float: left;
-    width: 80%;
-    padding-bottom: 4px;
-    display: block;
+    padding: 3px 0 5px 8px;
+}
+    
+.RTL .ItemRow li {
+    padding: 3px 8px 5px 0;
 }
 
 .ItemRow a {
-    margin-right: 3px;
-    padding-left: 5px;
-    height: 16px;
-    line-height: 16px;
-    color: #474747;
-    border-right: 1px solid #EEE;
-    display: block;
+    line-height: 14px;
+    color: #000;
+    text-decoration: underline;
 }
 
 .ItemRow a:hover {
-    color: #000;
-}
-
-.ItemRow li.Even a,
-.ItemRow li:nth-child(even) a {
-    border-right-color: transparent;
+    color: #666;
 }
 
 } /* end @media */
