@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.36 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketCustomer.pm,v 1.37 2010-07-27 18:22:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +27,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed Objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -118,10 +118,10 @@ sub Run {
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for ( keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$_};
-                $Param{CustomerUserListLastUser} = $_;
+                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
+                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $Param{CustomerUserID} = $Param{CustomerUserListLastUser};
@@ -149,8 +149,8 @@ sub Run {
                 = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUserOption, );
             my %CustomerUserList
                 = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUserOption, );
-            for ( keys %CustomerUserList ) {
-                $Param{CustomerUserID} = $_;
+            for my $KeyCustomerUser ( keys %CustomerUserList ) {
+                $Param{CustomerUserID} = $KeyCustomerUser;
             }
             if ( $CustomerUserData{UserCustomerID} ) {
                 $Param{CustomerID} = $CustomerUserData{UserCustomerID};
