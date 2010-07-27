@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.103 2010-07-13 21:17:45 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.104 2010-07-27 20:24:19 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,20 +175,20 @@ sub Run {
     }
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
+    for my $Count ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
-                Param => "TicketFreeTime" . $_ . $Type,
+            $GetParam{ "TicketFreeTime" . $Count . $Type } = $Self->{ParamObject}->GetParam(
+                Param => "TicketFreeTime" . $Count . $Type,
             );
         }
-        $GetParam{ 'TicketFreeTime' . $_ . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+        $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
+            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
         }
 
-        if ( $Self->{Config}->{TicketFreeTime}->{$_} == 2 ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Required' } = 1;
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
         }
     }
 
@@ -234,17 +234,6 @@ sub Run {
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID}, );
 
         my %Error;
-
-        # check required FreeTextField (if configured)
-        for ( 1 .. 16 ) {
-            if (
-                $Self->{Config}->{TicketFreeText}->{$_} == 2
-                && $GetParam{"TicketFreeText$_"} eq ''
-                )
-            {
-                $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
-            }
-        }
 
         # If is an action about attachments
         my $IsUpload = 0;
@@ -305,18 +294,31 @@ sub Run {
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                     if ( $IsUpload == 0 ) {
-                        $Error{ $Line . "Invalid" } = " ServerError";
+                        $Error{ $Line . 'Invalid' } = 'ServerError';
                     }
                 }
             }
         }
-        if ( $GetParam{From} ) {
-            for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
-                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    if ( $IsUpload == 0 ) {
-                        $Error{"FromInvalid"} .= $Self->{CheckItemObject}->CheckError();
-                    }
-                }
+
+        # check subject
+        if ( !$IsUpload && !$GetParam{Subject} ) {
+            $Error{'SubjectInvalid'} = ' ServerError';
+        }
+
+        # check body
+        if ( !$IsUpload && !$GetParam{Body} ) {
+            $Error{'BodyInvalid'} = ' ServerError';
+        }
+
+        # check time units
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            && !$GetParam{TimeUnits}
+            )
+        {
+            if ( $IsUpload == 0 ) {
+                $Error{'TimeUnitsInvalid'} = 'ServerError';
             }
         }
 
@@ -427,7 +429,23 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the field is required
+                if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                    $ArticleFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required ArticleTextField (if configured)
+                if (
+                    $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
+                    )
+                {
+                    $ArticleFreeText{Error}->{$Count} = 1;
+                }
             }
+
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
                 Config  => \%ArticleFreeText,
                 Article => \%GetParam,
@@ -1005,28 +1023,33 @@ $QData{"Signature"}
 
         # free time
         my %TicketFreeTime;
-        for ( 1 .. 6 ) {
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
-                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' }
-                = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
+        for my $Count ( 1 .. 6 ) {
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
+                = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
-            if ( $Ticket{ 'TicketFreeTime' . $_ } ) {
+            if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
                 (
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Secunde' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Minute' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Hour' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Day' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Month' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Year' }
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
                     )
                     = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Ticket{ 'TicketFreeTime' . $_ },
+                        String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
                     );
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
             }
+
+            if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+            }
+
         }
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%TicketFreeTime,
@@ -1060,6 +1083,11 @@ $QData{"Signature"}
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the ArticleFreeText is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
             Config => \%ArticleFreeText,
@@ -1122,10 +1150,24 @@ sub _Mask {
         %State,
     );
 
+    # build customer search autocomplete field
+    my $AutoCompleteConfig
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    $Self->{LayoutObject}->Block(
+        Name => 'CustomerSearchAutoComplete',
+        Data => {
+            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
+            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
+            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 0.1,
+            typeAhead           => $AutoCompleteConfig->{TypeAhead} || 'false',
+            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+        },
+    );
+
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 
