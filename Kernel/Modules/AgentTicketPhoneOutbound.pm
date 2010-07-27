@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.55 2010-07-21 17:00:09 ub Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.56 2010-07-27 17:19:56 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,27 +266,30 @@ sub Run {
 
         # free time
         my %TicketFreeTime;
-        for ( 1 .. 6 ) {
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
-                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' }
-                = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
+        for my $Count ( 1 .. 6 ) {
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
+                = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
-            if ( $Ticket{ 'TicketFreeTime' . $_ } ) {
+            if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
                 (
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Secunde' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Minute' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Hour' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Day' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Month' },
-                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Year' }
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
                     )
                     = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Ticket{ 'TicketFreeTime' . $_ },
+                        String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
                     );
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+            }
+            if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+                $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
             }
         }
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime );
@@ -319,6 +322,12 @@ sub Run {
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the field is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
+
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
             Config => \%ArticleFreeText,
@@ -368,18 +377,6 @@ sub Run {
         if ( $Self->{LayoutObject}->{BrowserRichText} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
-        }
-
-        # check required FreeTextField (if configured)
-        for my $Count ( 1 .. 16 ) {
-            if (
-                $Self->{Config}{'TicketFreeText'}->{$Count} == 2
-                && $GetParam{"TicketFreeText$Count"} eq ''
-                && !$Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' )
-                )
-            {
-                $Error{"TicketFreeTextField$Count invalid"} = 'invalid';
-            }
         }
 
         # If is an action about attachments
@@ -509,6 +506,22 @@ sub Run {
                     Action   => $Self->{Action},
                     UserID   => $Self->{UserID},
                 );
+
+                # If Key has value 2, this means that the field is required
+                if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                    $ArticleFreeText{Required}->{$Count} = 1;
+                }
+
+                # check required ArticleTextField (if configured)
+                if (
+                    $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                    && $GetParam{$Text} eq ''
+                    && $IsUpload == 0
+                    )
+                {
+                    $ArticleFreeText{Error}->{$Count} = 1;
+                }
+
             }
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
                 Config  => \%ArticleFreeText,
