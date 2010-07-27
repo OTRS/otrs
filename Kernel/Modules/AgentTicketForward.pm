@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.79 2010-07-27 04:41:27 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.80 2010-07-27 16:04:57 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -882,6 +882,20 @@ sub _Mask {
             Selected => $Self->{Config}->{ArticleTypeDefault},
         );
     }
+
+    # build customer search autocomplete field
+    my $AutoCompleteConfig
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    $Self->{LayoutObject}->Block(
+        Name => 'CustomerSearchAutoComplete',
+        Data => {
+            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
+            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
+            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 0.1,
+            typeAhead           => $AutoCompleteConfig->{TypeAhead} || 'false',
+            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
+        },
+    );
 
     # prepare errors!
     if ( $Param{Errors} ) {

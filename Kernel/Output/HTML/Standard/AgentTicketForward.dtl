@@ -2,13 +2,14 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.60 2010-07-27 04:39:48 mp Exp $
+# $Id: AgentTicketForward.dtl,v 1.61 2010-07-27 16:07:06 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+$Include{"AgentCustomerSearch"}
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="Compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="SendEmail"/>
@@ -50,11 +51,11 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="To">$Text{"To"}:</label>
+                <label for="CustomerAutoComplete">$Text{"To"}:</label>
                 <div class="Field">
-                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
-                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"You need a to: recipient!."}</p></div>
-                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local address!"}</p></div>
+                    <input type="text" name="To" id="CustomerAutoComplete" value="$QData{"To"}" class="W50pc AutocompleteOff Validate_Required $QData{"ToInvalid"}"/>
+                    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"You need a to: recipient!."}</p></div>
+                    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local address!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 
