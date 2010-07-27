@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.72 2010-05-13 16:33:25 cg Exp $
+# $Id: auto_build.sh,v 1.73 2010-07-27 07:21:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.72 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.73 $>"
 echo "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -164,6 +164,10 @@ rm -rf var/httpd/htdocs/yui
 rm -rf var/httpd/htdocs/js/fckeditor*
 rm -rf Kernel/System/Ticket/Compress
 rm -rf Kernel/System/Ticket/Crypt
+# remove not used skins
+rm -rf var/httpd/htdocs/skins/Agent/ivory/
+rm -rf var/httpd/htdocs/skins/Agent/moos/
+rm -rf var/httpd/htdocs/skins/Customer/ivory/
 
 # remove xml config files till it's working
 #find Kernel/Config/Files/ -name '*.xml' | xargs rm
