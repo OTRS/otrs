@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.61 2010-07-27 16:07:06 mp Exp $
+# $Id: AgentTicketForward.dtl,v 1.62 2010-07-27 16:37:09 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,7 +77,7 @@ $Include{"AgentCustomerSearch"}
                 <div class="Field">
                     <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"The subject is required!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 
@@ -108,7 +108,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
                 <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required!"}</p></div>
                 <div class="Clear"></div>
 
                 <label>$Text{"Attachment"}:</label>
@@ -189,9 +189,10 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
-                <label>$Data{"TicketFreeTimeKey"}:</label>
+                <label for="TicketFreeTime$QData{"Count"}Used">$Data{"TicketFreeTimeKey"}:</label>
                 <div class="Field">
                     $Data{"TicketFreeTime"}
+                    <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"Required!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
