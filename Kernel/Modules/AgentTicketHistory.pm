@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.18 2010-07-09 20:23:52 en Exp $
+# $Id: AgentTicketHistory.pm,v 1.19 2010-07-27 18:10:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,9 +25,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject TicketObject LayoutObject LogObject UserObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(DBObject TicketObject LayoutObject LogObject UserObject ConfigObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     return $Self;
@@ -86,11 +86,11 @@ sub Run {
             $Data{Name} =~ s/^%%//g;
             my @Values = split( /%%/, $Data{Name} );
             $Data{Name} = '';
-            for (@Values) {
+            for my $Value (@Values) {
                 if ( $Data{Name} ) {
                     $Data{Name} .= "\", ";
                 }
-                $Data{Name} .= "\"$_";
+                $Data{Name} .= "\"$Value";
             }
             if ( !$Data{Name} ) {
                 $Data{Name} = '" ';

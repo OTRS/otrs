@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.14 2010-07-27 16:06:54 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.15 2010-07-27 18:14:47 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,9 +25,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{StateObject}       = Kernel::System::State->new(%Param);
@@ -334,8 +337,8 @@ sub Run {
                 if ( $StateData{TypeName} =~ /^pending/i ) {
 
                     # check needed stuff
-                    for (qw(Year Month Day Hour Minute)) {
-                        if ( !defined $GetParam{$_} ) {
+                    for my $Needed (qw(Year Month Day Hour Minute)) {
+                        if ( !defined $GetParam{$Needed} ) {
                             $Error{'DateInvalid'} = 'ServerError';
                         }
                     }
@@ -1314,9 +1317,9 @@ sub _Mask {
         # get possible notes
         my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
         my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-        for ( keys %NoteTypes ) {
-            if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
-                delete $NoteTypes{$_};
+        for my $KeyNoteType ( keys %NoteTypes ) {
+            if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
+                delete $NoteTypes{$KeyNoteType};
             }
         }
         $Param{ArticleTypeStrg} = $Self->{LayoutObject}->BuildSelection(

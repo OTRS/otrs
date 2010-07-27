@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.73 2010-07-02 12:09:33 mg Exp $
+# $Id: AgentTicketPrint.pm,v 1.74 2010-07-27 18:11:28 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,12 +29,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
+    for my $Needed (
         qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject MainObject)
         )
     {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -379,9 +379,9 @@ sub _PDFOutputTicketInfos {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData UserData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData UserData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -574,9 +574,9 @@ sub _PDFOutputLinkedObjects {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData LinkData LinkTypeList)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData LinkData LinkTypeList)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -673,9 +673,9 @@ sub _PDFOutputTicketFreeText {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -687,11 +687,11 @@ sub _PDFOutputTicketFreeText {
     my $Row = 0;
 
     # generate table
-    for ( 1 .. 16 ) {
-        if ( $Ticket{"TicketFreeText$_"} ne "" ) {
-            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$_"} . ':';
+    for my $Count ( 1 .. 16 ) {
+        if ( $Ticket{"TicketFreeText$Count"} ne "" ) {
+            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$Count"} . ':';
             $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$_"};
+            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$Count"};
 
             $Row++;
             $Output = 1;
@@ -759,9 +759,9 @@ sub _PDFOutputTicketFreeTime {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -773,10 +773,11 @@ sub _PDFOutputTicketFreeTime {
     my $Row = 0;
 
     # generate table
-    for ( 1 .. 6 ) {
-        if ( $Ticket{"TicketFreeTime$_"} ) {
-            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $_ ) || '';
-            my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
+    for my $Count ( 1 .. 6 ) {
+        if ( $Ticket{"TicketFreeTime$Count"} ) {
+            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+                || '';
+            my $TicketFreeTime = $Ticket{"TicketFreeTime$Count"};
 
             $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
             $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
@@ -851,9 +852,9 @@ sub _PDFOutputCustomerInfos {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData CustomerData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData CustomerData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -943,9 +944,9 @@ sub _PDFOutputArticles {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData ArticleData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData ArticleData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1015,12 +1016,12 @@ sub _PDFOutputArticles {
             Y    => 2,
         );
 
-        for ( 'From', 'To', 'Cc', 'Accounted time', 'Subject', ) {
-            if ( $Article{$_} ) {
+        for my $Parameter ( 'From', 'To', 'Cc', 'Accounted time', 'Subject', ) {
+            if ( $Article{$Parameter} ) {
                 $TableParam1{CellData}[$Row][0]{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get($_) . ':';
+                    = $Self->{LayoutObject}->{LanguageObject}->Get($Parameter) . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{$_};
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{$Parameter};
                 $Row++;
             }
         }
@@ -1035,12 +1036,12 @@ sub _PDFOutputArticles {
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
         $TableParam1{CellData}[$Row][1]{Content} .= ' ' . $Article{SenderType};
         $Row++;
-        for ( 1 .. 3 ) {
+        for my $Count ( 1 .. 3 ) {
 
-            if ( $Article{"ArticleFreeText$_"} ) {
-                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$_"} . ':';
+            if ( $Article{"ArticleFreeText$Count"} ) {
+                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$Count"} . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$_"};
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$Count"};
                 $Row++;
             }
         }
@@ -1284,13 +1285,13 @@ sub _HTMLMask {
         );
 
         # do some strips && quoting
-        for (qw(From To Cc Subject)) {
-            if ( $Article{$_} ) {
+        for my $Parameter (qw(From To Cc Subject)) {
+            if ( $Article{$Parameter} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
                     Data => {
-                        Key   => $_,
-                        Value => $Article{$_},
+                        Key   => $Parameter,
+                        Value => $Article{$Parameter},
                     },
                 );
             }
@@ -1311,13 +1312,13 @@ sub _HTMLMask {
         }
 
         # show article free text
-        for ( 1 .. 3 ) {
-            if ( $Article{"ArticleFreeText$_"} ) {
+        for my $Count ( 1 .. 3 ) {
+            if ( $Article{"ArticleFreeText$Count"} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleFreeText',
                     Data => {
-                        Key   => $Article{"ArticleFreeKey$_"},
-                        Value => $Article{"ArticleFreeText$_"},
+                        Key   => $Article{"ArticleFreeKey$Count"},
+                        Value => $Article{"ArticleFreeText$Count"},
                     },
                 );
             }
