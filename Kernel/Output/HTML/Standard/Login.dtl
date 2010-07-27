@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.55 2010-07-14 13:35:48 fn Exp $
+# $Id: Login.dtl,v 1.56 2010-07-27 14:35:09 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,8 +49,8 @@ $Include{"Copyright"}
         <div id="Logo"></div>
     </div>
 
-    <div class="MainBox ARIARoleMain">
-        <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
+    <div class="MainBox ARIARoleMain SpacingTopLarge">
+        <div class="W33pc SpacingBottomLarge CenterBox">
             <noscript>
             <div class="WidgetSimple">
                 <div class="Header">
@@ -111,7 +111,7 @@ $Include{"Copyright"}
 #                                <div class="Clear"></div>
                                 -->
 
-                                <div class="Field SpacingTop">
+                                <div class="Field SpacingTopSmall">
                                     <button type="submit" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
                                 </div>
                                 <div class="Clear"></div>
