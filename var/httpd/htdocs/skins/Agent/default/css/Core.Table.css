@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -384,6 +384,11 @@ td.Attachment {
     border-right: 1px dotted #CCC;
 }
 
+.RTL .TableSmall td {
+    border-right:none;
+    border-left: 1px dotted #CCC;
+}
+
 .TableSmall td.NonTextContent {
     padding-left: 0px;
     padding-right: 0px;
@@ -403,6 +408,10 @@ td.Attachment {
     border-right: 1px solid transparent;
 }
 
+.RTL .TableSmall tbody tr td.Last {
+    border-left: none;
+}
+
 .TableSmall tbody tr.Active td:last-child {
     border-right: 1px solid #000;
 }
@@ -413,6 +422,11 @@ td.Attachment {
 
 .TableSmall tbody tr td:first-child {
     border-left: 1px solid transparent;
+}
+
+.RTL .TableSmall tbody tr td:first-child {
+    border-left: 1px dotted #CCC;
+    border-right:1px solid transparent;
 }
 
 .TableSmall tbody tr.Active td:first-child {
