@@ -2,14 +2,13 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.42 2010-07-27 17:19:12 mp Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.43 2010-07-27 17:42:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action"    value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="Store"/>
@@ -19,15 +18,17 @@
 
         <div class="Header">
             <h1>$Text{"Phone call"}: $QData{"TicketNumber"}</h1>
+
 <!-- dtl:block:TicketBack -->
             <p>
                 <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
             </p>
 <!-- dtl:block:TicketBack -->
+
         </div>
 
-
         <div class="LayoutFixedSidebar SidebarLast">
+
 <!-- dtl:block:CustomerTable -->
             <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
                 <div class="Header">
@@ -45,29 +46,33 @@
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"The subject is required!"}</p></div>
+                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"The subject is required."}</p></div>
                     </div>
                     <div class="Clear"></div>
 
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
+
 <!-- dtl:block:SpellCheck -->
                         <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
+
                     </div>
                     <div class="Clear"></div>
 
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
+
                     <textarea id="RichText" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $QData{"BodyInvalid"}">$Data{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"Text is required!"}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required."}</p></div>
                     <div class="Clear"></div>
 
                     <label>$Text{"Attachment"}:</label>
                     <div class="Field">
                         <ul>
+
 <!-- dtl:block:Attachment -->
                             <li>
                                 $QData{"Filename"} ($QData{"Filesize"})
@@ -81,6 +86,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
                             </li>
 <!-- dtl:block:Attachment -->
+
                             <li>
                                 <input id="FileUpload" name="FileUpload" type="file" size="40" />
                                 <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
@@ -107,8 +113,8 @@ $Include{"RichTextEditor"}
                     <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                     <div class="Field">
                         $Data{"PendingDateString"}
-                        <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
-                        <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date Invalid!"}</p></div>
+                        <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
+                        <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
                     </div>
                     <div class="Clear"></div>
 
@@ -118,6 +124,7 @@ $Include{"RichTextEditor"}
                         $Data{"TicketFreeTextField"}
                     </div>
 <!-- dtl:block:TicketFreeText -->
+
 #<!-- dtl:block:TicketFreeText1 -->
 #            <tr>
 #              <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
@@ -130,6 +137,7 @@ $Include{"RichTextEditor"}
 #              <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
 #            </tr>
 #<!-- dtl:block:TicketFreeText2 -->
+
 <!-- dtl:block:TicketFreeTime -->
                     <label for="TicketFreeTime$Data{"Count"}">$Data{"TicketFreeTimeKey"}:</label>
                     <div class="Field">
@@ -138,6 +146,7 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeTime -->
+
 #<!-- dtl:block:TicketFreeTime1 -->
 #            <tr>
 #              <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
@@ -150,6 +159,7 @@ $Include{"RichTextEditor"}
 #              <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
 #            </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
+
 <!-- dtl:block:ArticleFreeText -->
                     <label for="ArticleFreeText$Data{"Count"}">$Data{"ArticleFreeKeyField"}:</label>
                     <div class="Field">
@@ -157,6 +167,7 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
+
 #<!-- dtl:block:ArticleFreeText1 -->
 #                <tr>
 #                  <td class="contentkey">$Data{"ArticleFreeKeyField1"}:</td>
@@ -169,15 +180,17 @@ $Include{"RichTextEditor"}
 #                  <td class="contentvalue">$Data{"ArticleFreeTextField2"}</td>
 #                </tr>
 #<!-- dtl:block:ArticleFreeText2 -->
+
 <!-- dtl:block:TimeUnits -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                     <div class="Field">
                         <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units is a required field."}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
+
                 </fieldset>
             </div>
         </div>
@@ -193,4 +206,3 @@ $Include{"RichTextEditor"}
     Core.Agent.TicketAction.Init();
 //]]></script>
 <!--dtl:js_on_document_complete-->
-<!-- end form -->
