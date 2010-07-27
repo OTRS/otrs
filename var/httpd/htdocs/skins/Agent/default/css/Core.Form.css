@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -323,9 +323,8 @@ fieldset.TableLike.FixedLabelSmall > label {
 
 fieldset.TableLike.FixedLabelSmall > .Field,
 fieldset.TableLike.FixedLabelSmall > .Value {
-    width: 140px;
     margin-left: 100px;
-    margin-right: 0;
+    margin-right: 8px;
     word-wrap: break-word;
 }
 
