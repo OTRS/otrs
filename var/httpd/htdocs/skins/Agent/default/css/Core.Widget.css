@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -384,11 +384,6 @@ ul.Tablelike li.Header + li {
 
 .CallForAction.Plus span {
     background: url("../img/icons/plus-button.png") no-repeat scroll;
-}
-
-.RTL .CallForAction.Plus span{
-    padding-left:7px;
-    padding-right:23px;
 }
 
 .CallForAction.Download span {
