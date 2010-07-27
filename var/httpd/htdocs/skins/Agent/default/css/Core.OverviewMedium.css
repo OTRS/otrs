@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -23,7 +23,7 @@
     margin: 8px 16px 8px 8px;
 }
 
-.RTL .OverviewLarge {
+.RTL .OverviewMedium {
     margin-right: 8px;
     margin-left: 16px;
 }
@@ -132,6 +132,10 @@
     padding: 0 0 0 10px;
 }
 
+.RTL .OverviewMedium table.Infos tr.Last td {
+    padding: 0 10px 0 0;
+}
+
 .OverviewMedium table.Infos td {
     width: 16.67%;
     padding: 0 10px 5px 10px;
@@ -140,13 +144,26 @@
     line-height: 16px;
 }
 
+.OverviewMedium table.Infos td {
+    border-left: none;
+    border-right: 1px dotted #CCC;
+}
+
 .OverviewMedium table.Infos td:first-child {
     padding: 0 0 5px 0;
     border-left: none;
 }
 
+.RTL .OverviewMedium table.Infos td:first-child {
+    padding: 0 10px 5px 10px;
+}
+
 .OverviewMedium table.Infos tr.Last td:first-child {
     padding: 0;
+}
+
+.RTL .OverviewMedium table.Infos tr.Last td:first-child {
+    padding: 0 10px 5px 10px;
 }
 
 .OverviewMedium li:hover table.Infos td label {
