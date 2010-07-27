@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.78 2010-07-21 13:21:31 ub Exp $
+# $Id: AgentTicketForward.pm,v 1.79 2010-07-27 04:41:27 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -318,23 +318,23 @@ sub Form {
 
     # get free text config options
     my %TicketFreeText;
-    for ( 1 .. 16 ) {
-        $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+    for my $Count ( 1 .. 16 ) {
+        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeKey$_",
+            Type     => "TicketFreeKey$Count",
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
-        $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeText$_",
+            Type     => "TicketFreeText$Count",
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
 
         # If Key has value 2, this means that the freetextfield is required
-        if ( $Self->{Config}->{TicketFreeText}->{$_} == 2 ) {
-            $TicketFreeText{Required}->{$_} = 1;
+        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+            $TicketFreeText{Required}->{$Count} = 1;
         }
     }
     my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -343,35 +343,39 @@ sub Form {
     );
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+    for my $Count ( 1 .. 6 ) {
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
         }
     }
 
     # free time
     my %TicketFreeTime;
-    for ( 1 .. 6 ) {
-        $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-        $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' }
-            = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
+    for my $Count ( 1 .. 6 ) {
+        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
+            = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
-        if ( $Ticket{ 'TicketFreeTime' . $_ } ) {
+        if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
             (
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Secunde' },
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Minute' },
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Hour' },
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Day' },
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Month' },
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Year' }
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
                 )
                 = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $Ticket{ 'TicketFreeTime' . $_ },
+                    String => $Ticket{ 'TicketFreeTime' . $Count },
                 ),
                 );
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+        }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
         }
     }
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
@@ -424,16 +428,37 @@ sub SendEmail {
         if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
             $Error{'DateInvalid'} = 'ServerError';
         }
+        if (
+            $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+            < $Self->{TimeObject}->SystemTime()
+            )
+        {
+            $Error{'DateInvalid'} = 'ServerError';
+        }
     }
 
-    # check subject
-    if ( !$GetParam{Subject} ) {
+    # check To
+    if ( !$GetParam{To} ) {
+        $Error{'ToInvalid'} = 'ServerError';
+    }
+
+    # check body
+    if ( !$GetParam{Body} ) {
         $Error{'BodyInvalid'} = 'ServerError';
     }
 
     # check subject
     if ( !$GetParam{Subject} ) {
         $Error{'SubjectInvalid'} = 'ServerError';
+    }
+
+    if (
+        $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+        && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+        && !$GetParam{TimeUnits}
+        )
+    {
+        $Error{'TimeUnitsInvalid'} = 'ServerError';
     }
 
     # prepare subject
@@ -446,29 +471,34 @@ sub SendEmail {
 
     # prepare free text
     my %TicketFree;
-    for ( 1 .. 16 ) {
-        $TicketFree{"TicketFreeKey$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $TicketFree{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+    for my $Count ( 1 .. 16 ) {
+        $TicketFree{"TicketFreeKey$Count"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
+        $TicketFree{"TicketFreeText$Count"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
     }
 
     # get free text config options
     my %TicketFreeText;
-    for ( 1 .. 16 ) {
+    for my $Count ( 1 .. 16 ) {
 
-        $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeKey$_",
+            Type     => "TicketFreeKey$Count",
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
-        $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeText$_",
+            Type     => "TicketFreeText$Count",
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
+
+        # If Key has value 2, this means that the freetextfield is required
+        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+            $TicketFreeText{Required}->{$Count} = 1;
+        }
 
     }
     my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -477,16 +507,21 @@ sub SendEmail {
     );
 
     # get ticket free time params
-    for ( 1 .. 6 ) {
+    for my $Count ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ 'TicketFreeTime' . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $_ . $Type );
+            $GetParam{ 'TicketFreeTime' . $Count . $Type }
+                = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $Count . $Type );
         }
-        $GetParam{ 'TicketFreeTime' . $_ . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-            $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+        $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
+            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
         }
+
+        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+        }
+
     }
 
     # transform pending time, time stamp based on user time zone
@@ -862,6 +897,7 @@ sub _Mask {
         YearPeriodFuture => 5,
         Format           => 'DateInputFormatLong',
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class            => $Param{Errors}->{DateInvalid} || ' ',
     );
 
     # ticket free text

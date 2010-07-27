@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.59 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentTicketForward.dtl,v 1.60 2010-07-27 04:39:48 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
 
     <div class="WidgetPopup ARIARoleMain">
         <div class="Header">
-            <h1>$Text{"Foward Ticket: $QData{"TicketNumber"}"}</h1>
+            <h1>$Text{"Foward ticket: $QData{"TicketNumber"}"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -53,8 +53,8 @@
                 <label for="To">$Text{"To"}:</label>
                 <div class="Field">
                     <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
-                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"You need a To: recipient!."}</p></div>
-                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"You need a To: recipient!"}</p></div>
+                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"You need a to: recipient!."}</p></div>
+                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local address!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 
@@ -84,6 +84,7 @@
                 <label>$Text{"$Data{"Key"}"}:</label>
                 <div class="Field">
                     $Data{"Value"}
+                    <p class="Error">$QData{"Invalid"}</p>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Option -->
@@ -213,8 +214,9 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:TimeUnits -->
                 <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                 <div class="Field">
-                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc Validate_TimeUnits $QData{"TimeUnitsRequired"}"/>
+                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"Time units is a required field!"}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
