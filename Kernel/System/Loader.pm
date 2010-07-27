@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.13 2010-07-21 06:17:26 cg Exp $
+# $Id: Loader.pm,v 1.14 2010-07-27 05:12:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -411,6 +411,76 @@ sub MinifyJavaScript {
     return JavaScript::Minifier::minify( input => $Param{Code} );
 }
 
+=item DeleteLoaderCache()
+
+Delete all the loader cache files.
+
+=cut
+
+sub DeleteLoaderCache {
+    my ( $Self, %Param ) = @_;
+    my $Output           = '';
+    my $Home             = $Self->{ConfigObject}->Get('Home');
+    my @CacheFoldersList = ("$Home/var/httpd/htdocs/js/js-cache");
+    my %MainFolders      = (
+        'dir1', "$Home/var/httpd/htdocs/skins/Agent",
+        'dir2', "$Home/var/httpd/htdocs/skins/Customer",
+    );
+
+    # Looking for all folder in MainFolders that may contain
+    # a cache folder (js-cache or css-cache)
+    for my $Folder ( sort keys %MainFolders ) {
+        my @List = $Self->{MainObject}->DirectoryRead(
+            Directory => $MainFolders{$Folder},
+            Filter    => '*',
+        );
+
+        for my $Folder (@List) {
+            my @CacheFolder = $Self->{MainObject}->DirectoryRead(
+                Directory => $Folder,
+                Filter    => '*-cache*',
+            );
+            for my $Key (@CacheFolder) {
+
+                # Push cache folder
+                next if !-d $Key;
+                push @CacheFoldersList, $Key;
+            }
+        }
+    }
+
+    my @FileTypes = ( "*.js", "*.css" );
+    my $Counter;
+    my $TotalCounter = 0;
+    for my $FolderToDelete (@CacheFoldersList) {
+        if ( -d $FolderToDelete ) {
+            my @FilesList = $Self->{MainObject}->DirectoryRead(
+                Directory => $FolderToDelete,
+                Filter    => \@FileTypes,
+            );
+            $Counter = 0;
+            for my $File (@FilesList) {
+                if ( !$Self->{MainObject}->FileDelete( Location => $File ) ) {
+                    $Output .= "Can't remove: $File \n";
+                }
+                else {
+                    $Counter++;
+                    $TotalCounter++;
+                }
+            }
+            if ( $Counter > 0 ) {
+                $Output .= "$Counter files deleted from: $FolderToDelete. \n";
+            }
+        }
+
+    }
+
+    if ( !$TotalCounter > 0 ) {
+        $Output .= "None file deleted.\n";
+    }
+    return $Output;
+}
+
 1;
 
 =back
@@ -427,6 +497,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2010-07-21 06:17:26 $
+$Revision: 1.14 $ $Date: 2010-07-27 05:12:30 $
 
 =cut
