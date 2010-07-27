@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.13 2010-07-22 22:58:16 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.14 2010-07-27 16:06:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -385,13 +385,20 @@ sub Run {
             }
 
             # check type
-            if ( ( !$GetParam{TypeID} ) && ( $Self->{ConfigObject}->Get('Ticket::Type') ) ) {
+            if (
+                ( $Self->{ConfigObject}->Get('Ticket::Type') )
+                &&
+                ( $Self->{Config}->{TicketType} ) &&
+                ( !$GetParam{TypeID} )
+                )
+            {
                 $Error{'TypeIDInvalid'} = ' ServerError';
             }
 
             # check service
             if (
                 $Self->{ConfigObject}->Get('Ticket::Service')
+                && $Self->{Config}->{Service}
                 && $GetParam{SLAID}
                 && !$GetParam{ServiceID}
                 )
