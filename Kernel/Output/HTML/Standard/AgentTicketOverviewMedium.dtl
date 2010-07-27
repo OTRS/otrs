@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.35 2010-07-27 00:32:07 dz Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.36 2010-07-27 11:38:57 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <li class="Bulk">
         <span>
             <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" />
-            <label for="SelectAllTickets">$Text{"Select all"}</label>
+            <label class="InvisibleText" for="SelectAllTickets">$Text{"Select all"}</label>
         </span>
     </li>
     <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
