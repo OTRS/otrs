@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.56 2010-07-27 17:19:56 mp Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.57 2010-07-27 17:39:47 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,9 +32,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -667,13 +670,13 @@ sub Run {
             $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
 
             # set ticket free text
-            for ( 1 .. 16 ) {
-                if ( defined $GetParam{"TicketFreeKey$_"} ) {
+            for my $Count ( 1 .. 16 ) {
+                if ( defined $GetParam{"TicketFreeKey$Count"} ) {
                     $Self->{TicketObject}->TicketFreeTextSet(
                         TicketID => $Self->{TicketID},
-                        Key      => $GetParam{"TicketFreeKey$_"},
-                        Value    => $GetParam{"TicketFreeText$_"},
-                        Counter  => $_,
+                        Key      => $GetParam{"TicketFreeKey$Count"},
+                        Value    => $GetParam{"TicketFreeText$Count"},
+                        Counter  => $Count,
                         UserID   => $Self->{UserID},
                     );
                 }
@@ -793,15 +796,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for ( keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $_ ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$_};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
@@ -819,8 +822,8 @@ sub _GetUsers {
             Type    => 'rw',
             Result  => 'HASH',
         );
-        for ( keys %MemberList ) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+        for my $KeyMember ( keys %MemberList ) {
+            $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
         }
     }
     return \%ShownUsers;
@@ -861,15 +864,15 @@ sub _GetTos {
             Type   => 'create',
             Result => 'HASH',
         );
-        for ( keys %Tos ) {
-            if ( $UserGroups{ $Self->{QueueObject}->GetQueueGroupID( QueueID => $_ ) } ) {
-                $NewTos{$_} = $Tos{$_};
+        for my $KeyTo ( keys %Tos ) {
+            if ( $UserGroups{ $Self->{QueueObject}->GetQueueGroupID( QueueID => $KeyTo ) } ) {
+                $NewTos{$KeyTo} = $Tos{$KeyTo};
             }
         }
 
         # build selection string
-        for ( keys %NewTos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $_ );
+        for my $KeyNewTo ( keys %NewTos ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $KeyNewTo );
             my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
             $Srting =~ s/<Queue>/$QueueData{Name}/g;
@@ -877,11 +880,11 @@ sub _GetTos {
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
             {
                 my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$_} );
+                    = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$KeyNewTo} );
                 $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
             }
-            $NewTos{$_} = $Srting;
+            $NewTos{$KeyNewTo} = $Srting;
         }
     }
 
@@ -936,14 +939,15 @@ sub _MaskPhone {
     );
 
     # do html quoting
-    for (qw(From To Cc)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{$_} ) || '';
+    for my $Parameter (qw(From To Cc)) {
+        $Param{$Parameter} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{$Parameter} ) || '';
     }
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        for my $KeyError ( keys %{ $Param{Errors} } ) {
+            $Param{$KeyError}
+                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
