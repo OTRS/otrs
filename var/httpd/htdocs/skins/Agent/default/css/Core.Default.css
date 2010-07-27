@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -206,6 +206,7 @@ dd {
     width: 0;
     display: inline-block;
     text-indent: -9999px;
+    white-space: nowrap;
 }
 
 /**
