@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.41 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.42 2010-07-27 17:19:12 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,11 +45,9 @@
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
-                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"The subject is required!"}</p></div>
                     </div>
                     <div class="Clear"></div>
-
-
 
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
@@ -64,7 +62,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
                     <textarea id="RichText" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $QData{"BodyInvalid"}">$Data{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"Text is required!"}</p></div>
                     <div class="Clear"></div>
 
                     <label>$Text{"Attachment"}:</label>
