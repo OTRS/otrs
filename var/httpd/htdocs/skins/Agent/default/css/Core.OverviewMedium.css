@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -37,7 +37,7 @@
 }
 
 .OverviewMedium li div.Content {
-    padding-top: 8px;
+    padding-top: 12px;
     padding-bottom: 0px;
 }
 
@@ -64,7 +64,7 @@
 
 .OverviewMedium input.Checkbox {
     position: absolute;
-    top: 7px;
+    top: 9px;
     left: 5px;
 }
 
