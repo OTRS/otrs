@@ -3,7 +3,7 @@
 # bin/otrs.Loader.pl - the global test handle
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Loader.pl,v 1.1 2010-07-26 23:00:13 cg Exp $
+# $Id: otrs.Loader.pl,v 1.2 2010-07-27 05:09:20 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::System::Loader;
@@ -71,7 +71,8 @@ if (
     ( lc( $Opts{o} ) eq 'del' || lc( $Opts{o} ) eq 'delete' )
     )
 {
-    $CommonObject{LoaderObject}->DeleteLoaderCache();
+    my $Result = $CommonObject{LoaderObject}->DeleteLoaderCache();
+    print $Result;
     exit 1;
 }
 else {
