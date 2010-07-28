@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.42 2010-06-17 21:39:40 cr Exp $
+# $Id: State.pm,v 1.43 2010-07-28 08:31:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -91,6 +92,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{SysConfigObject}     = Kernel::System::SysConfig->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'State',
@@ -280,6 +282,9 @@ sub StateUpdate {
     # delete cache
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $Param{ID} );
+
+    # check all sysconfig options and correct them automatically if neccessary
+    $Self->{SysConfigObject}->ConfigItemCheckAll();
 
     return 1;
 }
@@ -651,6 +656,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.43 $ $Date: 2010-07-28 08:31:13 $
 
 =cut
