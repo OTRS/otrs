@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -78,6 +78,15 @@ td{
 /**
  * @subsection  Generic elements
  */
+#Navigation{
+    display:none;
+}
+
+a {
+    color:#000000;
+    text-decoration:none;
+}
+
 .DontPrint {
     display: none;
 }
@@ -122,10 +131,6 @@ td.Last{
     border-right: 1px dotted #CCCCCC;
 }
 
-div.UnreadArticles{
-    color:#ff9922;
-}
-
 ..Tab.Actions li a{
     padding: 13px 8px 5px 8px;
 }
@@ -144,7 +149,7 @@ div.UnreadArticles{
 }
 
 /*
-    Overview Small
+    Ticket Overview Small
 */
 
 .QueueOverview {
@@ -152,6 +157,10 @@ div.UnreadArticles{
     font-size:12px;
     margin:0 16px 10px 8px;
     padding:0 0 4px;
+}
+
+.QueueOverviewList a {
+    color:#000000;
 }
 
 .Overview.FixedHeader thead tr th {
@@ -180,23 +189,159 @@ div.UnreadArticles{
     text-transform:uppercase;
 }
 
-.OverviewLarge .Preview li div.HiddenBlock {
-    -moz-border-radius-bottomleft:3px;
-    -moz-border-radius-bottomright:3px;
-    border-left:1px solid #E8E8E8;
-    border-right:1px solid #E8E8E8;
-    display:none;
-    padding-bottom:0;
-    padding-top:0;
+/*
+    Ticket Overview Medium
+*/
+
+.OverviewMedium h2 a {
+    color:#000000;
+    display:block;
 }
+
+.OverviewMedium .Flag {
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    color:#FF9922;
+}
+
+.OverviewMedium li div.Content {
+    padding:10px;
+    margin-top:15px;
+    border:1px solid #C9C9C9;
+}
+
+.OverviewMedium table.Infos td label {
+    color:#CCCCCC;
+    margin: 8px 0 4px 0;
+    display:block;
+    font-weight:bold;
+    margin-bottom:2px;
+}
+
+.OverviewMedium table.Infos td div {
+    marigin-left:15px;
+}
+
+.OverviewMedium .UnreadArticles span{
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    border-top:none;
+    color:#FF9922;
+}
+/*
+    Ticket Overview Large
+*/
+
+.OverviewLarge .Flag {
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    color:#FF9922;
+}
+
+.OverviewLarge > li > .Content {
+    margin-bottom:15px;
+    padding:12px;
+    border:1px solid #000000;
+}
+
+.OverviewLarge .Infos {
+    margin-bottom:10px;
+}
+
+.OverviewLarge .Infos table {
+    border-bottom:1px dotted #C9C9C9;
+    border-top:1px dotted #C9C9C9;
+}
+
+.OverviewLarge .Infos table td label {
+    color:#CCCCCC;
+    margin: 8px 0 2px 0;
+    display:block;
+    font-weight:bold;
+}
+
+.OverviewLarge .Preview {
+    margin-top:10px;
+}
+
+.OverviewLarge .Preview ul li {
+    margin-top : 10px;
+}
+
+.OverviewLarge .Preview h3 a {
+    display:block;
+    height:17px;
+    margin-top:15px;
+}
+
+.OverviewLarge .Preview li div.HiddenBlock div.Content {
+    border:medium none;
+    padding:5px;
+    display:block;
+}
+
+.OverviewLarge .Preview .ArticleCount2 li div.HiddenBlock div.Content {
+    height:auto;
+    padding: 10px;
+    border:1px dotted #C9C9C9;
+}
+
+.OverviewLarge .Preview li div.HiddenBlock div.Content {
+    border:medium none;
+    padding:5px;
+}
+
+.OverviewLarge .UnreadArticles span{
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    border-top:none;
+    color:#FF9922;
+}
+
+/*
+    Ticket Zoom
+*/
+
+div.Headline .Flag{
+    border:1px solid #CCCCCC;
+    width: 150px;
+    color:#FF9922;
+    font-weight: bold;
+    font-size:16px;
+}
+
+.WidgetSimple > .Header h2 {
+    margin: 0 0 5px 0;
+    padding:0 0 5px 0;
+    border-bottom: 1px dotted #CCCCCC;
+}
+
+div.Headline h1 {
+    font-size:20px;
+    margin: 10px 0 10px 0;
+    padding:0;
+}
+
+#DestQueueID{
+    display:none;
+}
+
 /**
  * @subsection  SidebarColumn
  */
 .SidebarColumn .WidgetSimple {
     width: 300px;
     float: left;
-    padding: 5px;
-    border: 1px solid #000;
+    padding: 10px;
+    border: 1px solid #CCC;
     margin-right: 10px;
     margin-bottom: 10px;
 }
@@ -210,31 +355,69 @@ div.UnreadArticles{
 
 .WidgetBox {
     margin-top: 20px;
-    padding: 5px;
-    border: 1px solid #000;
+    padding: 10px;
+    border: 1px solid #CCC;
+}
+
+.WidgetBox .InvisibleText{
+    display:none;
+}
+
+.WidgetBox .Actions{
+    display:none;
 }
 
 .WidgetBox .ArticleMailHeader {
-    margin-bottom: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.WidgetBox > .Header h2 {
+    padding:0;
+    margin:0 0 15px 0;
+}
+
+.ArticleMailContent body{
 }
 
 /**
  * @subsection  Tablelike elements
  */
+.WidgetSimple fieldset {
+    margin-bottom:15px;
+}
+
 fieldset.TableLike > label {
     display: block;
     float: left;
-    line-height: 1.3em;
     text-align: left;
     padding-top: 4px;
+    font-weight: bold;
 }
+
+fieldset.TableLike.FixedLabelSmall > label {
+    width:100px;
+    display:block;
+}
+
 
 fieldset.TableLike > .Value {
     margin-left:130px;
     margin-right:0;
-    line-height: 1.3em;
     padding-top: 4px;
 }
 
+.ItemRow{
+    margin-top:10px;
+    border-top: 1px dotted #CCC;
+    display:block;
+    padding-top: 10px;
+}
+
+.ItemRow li{
+    display:block;
+    padding-top: 4px;
+    font-weight:bold;
+}
 
 } /* end @media */
