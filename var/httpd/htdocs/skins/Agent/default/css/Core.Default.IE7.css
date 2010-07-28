@@ -1,0 +1,21 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ * @css-for     IE7
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Default
+ */
+
+@media screen,projection,tv,handheld {
+
+.W100pc {
+    width: 98%;
+}
+
+} /* end @media */
+
