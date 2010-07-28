@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -47,7 +47,7 @@ fieldset.TableLike > label {
 }
     
 fieldset.TableLike > .Field > input {
-    width: 100%;
+    width: 98%;
 }
 
 /**
