@@ -2,16 +2,16 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.15 2010-07-16 13:45:36 mg Exp $
+# $Id: Warning.dtl,v 1.16 2010-07-28 18:07:36 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain SpacingTopLarge">
 
-    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+    <div class="W33pc CenterBox SpacingBottomLarge">
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Warning"}</h2>
