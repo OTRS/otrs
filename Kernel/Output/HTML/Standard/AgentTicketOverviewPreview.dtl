@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.40 2010-07-27 11:55:19 fn Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.41 2010-07-28 09:05:50 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -164,7 +164,14 @@
 <!-- dtl:block:ArticlePreview -->
                     <li class="$QData{"Class"}">
                         <h3>
-                            <a href="#" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">$QData{"FromRealname","50"} &ndash; <span class="Subject">$QData{"Subject","70"}</span><span class="DateTime">$TimeShort{"$QData{"Created"}"}</span></a>
+                            <a href="#" title="$QData{"From"} &ndash; $QData{"Subject"} &ndash; $TimeShort{"$QData{"Created"}"}">
+                                <span class="Headline">
+                                    $QData{"FromRealname","50"} &ndash;
+                                    <span class="Subject">$QData{"Subject","70"}</span>
+                                </span>
+                                <span class="DateTime">$TimeShort{"$QData{"Created"}"}</span>
+                                <span class="Clear"></span>
+                            </a>
                         </h3>
                         <div class="HiddenBlock">
 <!-- dtl:block:ArticlePreviewActionRow -->
