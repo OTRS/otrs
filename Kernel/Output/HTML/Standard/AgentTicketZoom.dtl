@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.129 2010-07-26 08:46:01 fn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.130 2010-07-28 07:37:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -378,13 +378,32 @@ $Data{"ArticleItems"}
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
+<!-- dtl:block:ReplySender -->
+                <li class="$QData{"Class"}">
+                    <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
+                        <input type="hidden" name="Action" value="$QData{"Action"}"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>
+                        <input type="hidden" name="ReplyAll" value="$QData{"ReplyAll"}"/>
+                        <label for="ResponseID" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                        $Data{"StandardResponsesStrg"}
+                    </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                </li>
+<!-- dtl:block:ReplySender -->
 <!-- dtl:block:ArticleMenu-->
                 <li class="$QData{"Class"}">
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
-<!-- dtl:block:Move -->
-                <li>
+<!-- dtl:block:MoveLink -->
+                <li class="$QData{"Class"}">
                     <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
                         <input type="hidden" name="Action" value="AgentTicketMove"/>
                         <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
@@ -400,12 +419,12 @@ $Data{"ArticleItems"}
 //]]></script>
 <!-- dtl:js_on_document_complete -->
                 </li>
-<!-- dtl:block:Move -->
-<!-- dtl:block:MoveDialog-->
+<!-- dtl:block:MoveLink -->
+<!-- dtl:block:MoveForm -->
                 <li class="AsPopup">
                     <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$QData{"TicketID"};" class="AsPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
                 </li>
-<!-- dtl:block:MoveDialog-->
+<!-- dtl:block:MoveForm -->
             </ul>
             <div class="ClearLeft"></div>
         </div>
@@ -472,20 +491,6 @@ $Data{"Body"}
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>
-# show compose links
-#<!-- dtl:block:AgentAnswerCompose -->
-#            <div style="margin: 20px 0;">
-#                <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-#                <br/>
-#                <table border="0">
-#                    <tr>
-#                        <td>
-#                            $Data{"StandardResponsesStrg"}
-#                        </td>
-#                    </tr>
-#                </table>
-#            </div>
-#<!-- dtl:block:AgentAnswerCompose -->
         </div>
     </div>
 </div>

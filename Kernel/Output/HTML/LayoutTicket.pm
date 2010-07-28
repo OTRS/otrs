@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.90 2010-07-26 22:53:12 dz Exp $
+# $Id: LayoutTicket.pm,v 1.91 2010-07-28 07:37:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -27,47 +27,12 @@ sub TicketStandardResponseString {
         }
     }
 
-    # get StandardResponsesStrg
-    if (
-        $Self->{ConfigObject}->Get('Ticket::Frontend::StandardResponsesMode')
-        && $Self->{ConfigObject}->Get('Ticket::Frontend::StandardResponsesMode') eq 'Form'
-        )
-    {
+    # build html string
+    $Param{StandardResponsesStrg} = $Self->BuildSelection(
+        Name => 'ResponseID',
+        Data => $Param{StandardResponsesRef},
+    );
 
-        # build html string
-        $Param{StandardResponsesStrg}
-            .= '<form action="'
-            . $Self->{CGIHandle}
-            . '" method="post">'
-            . '<input type="hidden" name="Action" value="AgentTicketCompose" />'
-            . '<input type="hidden" name="ArticleID" value="'
-            . $Param{ArticleID} . '" />'
-            . '<input type="hidden" name="TicketID" value="'
-            . $Param{TicketID} . '" />'
-            . $Self->BuildSelection(
-            Name => 'ResponseID',
-            Data => $Param{StandardResponsesRef},
-            ) . '<input class="button" type="submit" value="$Text{"Compose"}" /></form>';
-    }
-    else {
-        my %StandardResponses = %{ $Param{StandardResponsesRef} };
-        $Param{StandardResponsesStrg} .= "\n<ul>";
-        for ( sort { $StandardResponses{$a} cmp $StandardResponses{$b} } keys %StandardResponses ) {
-
-            # build html string
-            $Param{StandardResponsesStrg}
-                .= "\n<li><a href=\"$Self->{Baselink}"
-                . "Action=AgentTicketCompose;"
-                . "ResponseID=$_;TicketID=$Param{TicketID};ArticleID=$Param{ArticleID}\" "
-                . 'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '
-                . 'onmouseout="window.status=\'\';">'
-                .
-
-                # html quote
-                $Self->Ascii2Html( Text => $StandardResponses{$_} ) . "</a></li>";
-        }
-        $Param{StandardResponsesStrg} .= "\n</ul>";
-    }
     return $Param{StandardResponsesStrg};
 }
 

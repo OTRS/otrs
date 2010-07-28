@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.108 2010-07-26 06:28:23 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.109 2010-07-28 07:37:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,11 +145,16 @@ sub Run {
             Type     => 'move_into',
         );
 
+        # fetch all std. responses
+        my %StandardResponses
+            = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
+
         my $Content = $Self->_ArticleItem(
-            Ticket     => \%Ticket,
-            Article    => \%Article,
-            AclAction  => \%AclAction,
-            MoveQueues => \%MoveQueues,
+            Ticket            => \%Ticket,
+            Article           => \%Article,
+            AclAction         => \%AclAction,
+            MoveQueues        => \%MoveQueues,
+            StandardResponses => \%StandardResponses,
         );
         if ( !$Content ) {
             $Self->{LayoutObject}->FatalError(
@@ -329,8 +334,9 @@ sub MaskAgentZoom {
         Type     => 'move_into',
     );
 
-# fetch all std. responses
-#    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
+    # fetch all std. responses
+    my %StandardResponses
+        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
 
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket);
 
@@ -500,10 +506,11 @@ sub MaskAgentZoom {
         }
 
         $Param{ArticleItems} .= $Self->_ArticleItem(
-            Ticket     => \%Ticket,
-            Article    => \%Article,
-            AclAction  => \%AclAction,
-            MoveQueues => \%MoveQueues,
+            Ticket            => \%Ticket,
+            Article           => \%Article,
+            AclAction         => \%AclAction,
+            MoveQueues        => \%MoveQueues,
+            StandardResponses => \%StandardResponses,
         );
     }
 
@@ -1159,24 +1166,44 @@ sub _ArticleItem {
                 }
             }
             if ($Access) {
+
+                # get StandardResponsesStrg
+                $Param{StandardResponses}->{0}
+                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                my $StandardResponsesStrg = $Self->{LayoutObject}->TicketStandardResponseString(
+                    StandardResponsesRef => $Param{StandardResponses},
+                    TicketID             => $Ticket{TicketID},
+                    ArticleID            => $Article{ArticleID},
+                );
+
                 $Self->{LayoutObject}->Block(
-                    Name => 'ArticleMenu',
+                    Name => 'ReplySender',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name  => 'Reply',
-                        Class => 'AsPopup',
-                        Link =>
-                            'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                        StandardResponsesStrg => $StandardResponsesStrg,
+                        Name                  => 'Reply',
+                        Class                 => 'AsPopup',
+                        Action                => 'AgentTicketCompose',
+                        FormID                => 'Reply',
                     },
                 );
+                $Param{StandardResponses}->{0}
+                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                $StandardResponsesStrg = $Self->{LayoutObject}->TicketStandardResponseString(
+                    StandardResponsesRef => $Param{StandardResponses},
+                    TicketID             => $Ticket{TicketID},
+                    ArticleID            => $Article{ArticleID},
+                );
                 $Self->{LayoutObject}->Block(
-                    Name => 'ArticleMenu',
+                    Name => 'ReplySender',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name  => 'Reply All',
-                        Class => 'AsPopup',
-                        Link =>
-                            'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};RepplyAll=1'
+                        StandardResponsesStrg => $StandardResponsesStrg,
+                        Name                  => 'Reply All',
+                        Class                 => 'AsPopup',
+                        Action                => 'AgentTicketCompose',
+                        FormID                => 'ReplyAll',
+                        RepplyAll             => 1,
                     },
                 );
             }
@@ -1530,13 +1557,6 @@ sub _ArticleItem {
         }
     }
 
-    # get StandardResponsesStrg
-    #    $Param{StandardResponsesStrg} = $Self->{LayoutObject}->TicketStandardResponseString(
-    #            StandardResponsesRef => $Param{StandardResponses},
-    #            TicketID        => $Ticket{TicketID},
-    #            ArticleID       => $Article{ArticleID},
-    #    );
-
     # show body as html or plain text
     my $ViewMode = 'BodyHTML';
 
@@ -1579,7 +1599,7 @@ sub _ArticleItem {
     # get MoveQueuesStrg
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
         $Param{MoveQueues}->{0}
-            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Change Queue') . ' -';
+            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => $Param{MoveQueues},
@@ -1600,13 +1620,13 @@ sub _ArticleItem {
         if ($Access) {
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'Move',
+                    Name => 'MoveLink',
                     Data => { %Param, %AclAction },
                 );
             }
             else {
                 $Self->{LayoutObject}->Block(
-                    Name => 'MoveDialog',
+                    Name => 'MoveForm',
                     Data => { %Param, %AclAction },
                 );
             }
