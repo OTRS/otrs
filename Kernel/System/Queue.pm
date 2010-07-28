@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.117 2010-06-17 21:39:40 cr Exp $
+# $Id: Queue.pm,v 1.118 2010-07-28 08:46:19 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
+use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 =head1 NAME
 
@@ -92,8 +93,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
-
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{SysConfigObject}     = Kernel::System::SysConfig->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
@@ -1014,6 +1015,10 @@ sub QueueUpdate {
             }
         }
     }
+
+    # check all sysconfig options and correct them automatically if neccessary
+    $Self->{SysConfigObject}->ConfigItemCheckAll();
+
     return 1;
 }
 
@@ -1128,6 +1133,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.117 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.118 $ $Date: 2010-07-28 08:46:19 $
 
 =cut

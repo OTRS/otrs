@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1259 2010-07-23 07:19:49 martin Exp $
+# $Id: CHANGES,v 1.1260 2010-07-28 08:51:58 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/??/??)
+ - (2010/07/28) Added new sysconfig validation module layer to verify and auto-correct
+    some sysconfig settings.
  - (2010/07/21) Fixed bug#5566 - StateDefault, PriorityDefault and ArticleTypeDefault
     not working in AgentTicketNote and other frontend modules.
  - (2010/07/20) Fixed bug#4483 - AgentTicketActionCommon, set radio button when select

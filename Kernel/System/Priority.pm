@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.27 2010-06-17 21:39:40 cr Exp $
+# $Id: Priority.pm,v 1.28 2010-07-28 08:43:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -86,6 +87,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{SysConfigObject}     = Kernel::System::SysConfig->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Priority',
@@ -254,6 +256,9 @@ sub PriorityUpdate {
     $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::Name::' . $Param{Name} );
     $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::ID::' . $Param{PriorityID} );
 
+    # check all sysconfig options and correct them automatically if neccessary
+    $Self->{SysConfigObject}->ConfigItemCheckAll();
+
     return 1;
 }
 
@@ -346,6 +351,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.28 $ $Date: 2010-07-28 08:43:02 $
 
 =cut
