@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.363 2010-07-28 07:37:44 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.364 2010-07-28 08:12:44 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1827,7 +1827,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###QueueSort" Required="0" Valid="0">
         <Description Translatable="1">Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.</Description>
         <Group>Ticket</Group>
@@ -2695,6 +2694,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -2833,6 +2833,7 @@
         <Description Translatable="1">Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
@@ -3445,6 +3446,7 @@
         <Description Translatable="1">Defines the default ticket priority in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -3720,6 +3722,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket note screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -3994,6 +3997,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -4267,6 +4271,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -4541,6 +4546,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -4815,6 +4821,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket responsible screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -4979,6 +4986,7 @@
         <Description Translatable="1">Defines the default ticket priority in the ticket bulk screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -5532,6 +5540,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <Hash>
                 <Item Key="pending auto close+">closed successful</Item>
@@ -6772,6 +6781,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the default priority of new customer tickets in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -6791,6 +6801,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the default queue for new customer tickets in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
             <String Regex="">Postmaster</String>
         </Setting>
@@ -6994,6 +7005,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -8509,6 +8521,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the postmaster default queue.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
             <String Regex="">Raw</String>
         </Setting>
@@ -8525,6 +8538,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the default state of new tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">new</String>
         </Setting>
@@ -8533,6 +8547,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the state of a ticket if it gets a follow-up.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">open</String>
         </Setting>
@@ -8541,6 +8556,7 @@ $QData{"Signature"}
         <Description Translatable="1">Defines the state of a ticket if it gets a follow-up and the ticket was already closed.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">open</String>
         </Setting>
