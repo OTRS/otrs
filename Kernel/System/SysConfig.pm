@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.20 2010-07-23 16:42:38 ub Exp $
+# $Id: SysConfig.pm,v 1.21 2010-07-28 08:22:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -426,9 +426,10 @@ sub CreateConfig {
 submit config settings and save it.
 
     $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'WebUploadCacheModule',
-        Value => 'Kernel::System::Web::UploadCache::DB',
+        Valid        => 1,
+        Key          => 'WebUploadCacheModule',
+        Value        => 'Kernel::System::Web::UploadCache::DB',
+        NoValidation => 1,    # (optional) no validation or auto-correction will be done, to prevent loops.
     );
 
 =cut
@@ -469,34 +470,29 @@ sub ConfigItemUpdate {
     }
     close($Out);
 
-    # get the current config item
-    my %Config = $Self->ConfigItemGet(
-        Name => $Param{Key},
-    );
+    # only validate and auto correct if param NoValidation is undefined or false
+    if ( !$Param{NoValidation} ) {
 
-    # check if a validate module is defined for this config option
-    if (
-        $Config{ValidateModule}
-        && ref $Config{ValidateModule} eq 'ARRAY'
-        && $Config{ValidateModule}->[1]->{Content}
-        )
-    {
-
-        # load the validate module
-        my $ValidateObject = $Self->_LoadBackend(
-            Module => $Config{ValidateModule}->[1]->{Content},
+        # validate the value, and auto-correct it if neccessary
+        my $ValidateOk = $Self->ConfigItemValidate(
+            Key   => $Param{Key},
+            Value => $Param{Value},
         );
 
-        return if !$ValidateObject;
+        # auto correct the value if the validation failed
+        if ( !$ValidateOk ) {
 
-        # validate the value
-        my $ValidateOk = $ValidateObject->Validate(
-            Data => $Param{Value},
-        );
+            my $Result = $Self->ConfigItemValidate(
+                Key         => $Param{Key},
+                Value       => $Param{Value},
+                Valid       => $Param{Valid},
+                AutoCorrect => 1,
+            );
 
-        # do not update if the validation failed, but return true,
-        # as if the field would have been updated!
-        return 1 if !$ValidateOk;
+            # no need to go further as the update of the config item
+            # is done from within ConfigItemValidate() during auto-correction
+            return 1;
+        }
     }
 
     $Param{Key} =~ s/\\/\\\\/g;
@@ -1338,6 +1334,198 @@ sub ConfigItemTranslatableStrings {
     return @Strings;
 }
 
+=item ConfigItemValidate()
+
+Validates if the given value for this config item is correct.
+If no value is given, the current value of the config item will be validated.
+Returns true if it is valid, false otherwise.
+
+    my $Result = $SysConfigObject->ConfigItemValidate(
+        Key         => 'Ticket::Frontend::AgentTicketOwner###PriorityDefault',
+        Value       => '3 normal',  # (optional)
+        Valid       => 1,           # (optional) only used if AutoCorrect is set
+        AutoCorrect => 1,           # (optional) auto-correct the config item
+    );
+
+=cut
+
+sub ConfigItemValidate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Key} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Key!",
+        );
+        return;
+    }
+
+    # get the current config item
+    my %ConfigItem = $Self->ConfigItemGet(
+        Name => $Param{Key},
+    );
+
+    # check if a validate module is defined for this config option
+    return 1 if !$ConfigItem{ValidateModule};
+    return 1 if ref $ConfigItem{ValidateModule} ne 'ARRAY';
+    return 1 if !$ConfigItem{ValidateModule}->[1]->{Content};
+
+    # load the validate module
+    my $ValidateObject = $Self->_LoadBackend(
+        Module => $ConfigItem{ValidateModule}->[1]->{Content},
+    );
+
+    # module could not be loaded
+    return if !$ValidateObject;
+
+    # take the given value
+    my $Value = $Param{Value};
+
+    # if no value is given, take the already stored value
+    if ( !defined $Param{Value} ) {
+
+        # string
+        if ( $ConfigItem{Setting}->[1]->{String}->[1]->{Content} ) {
+            $Value = $ConfigItem{Setting}->[1]->{String}->[1]->{Content};
+        }
+
+        # textarea
+        elsif ( $ConfigItem{Setting}->[1]->{TextArea}->[1]->{Content} ) {
+            $Value = $ConfigItem{Setting}->[1]->{TextArea}->[1]->{Content};
+        }
+
+        # option
+        # (more complex, so give the complete data structure)
+        elsif ( $ConfigItem{Setting}->[1]->{Option}->[1] ) {
+            $Value = $ConfigItem{Setting}->[1]->{Option}->[1];
+        }
+
+        # hash
+        elsif ( $ConfigItem{Setting}->[1]->{Hash}->[1]->{Item} ) {
+            $Value = $ConfigItem{Setting}->[1]->{Hash}->[1]->{Item};
+        }
+
+        # array
+        elsif ( $ConfigItem{Setting}->[1]->{Array}->[1]->{Item} ) {
+            $Value = $ConfigItem{Setting}->[1]->{Array}->[1]->{Item};
+        }
+
+        # FrontendModuleReg
+        # (more complex, so give the complete data structure)
+        elsif ( $ConfigItem{Setting}->[1]->{FrontendModuleReg}->[1] ) {
+            $Value = $ConfigItem{Setting}->[1]->{FrontendModuleReg}->[1];
+        }
+
+        # TimeWorkingHours
+        elsif ( $ConfigItem{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} ) {
+            $Value = $ConfigItem{Setting}->[1]->{TimeWorkingHours}->[1]->{Day};
+        }
+
+        # TimeVacationDays
+        elsif ( $ConfigItem{Setting}->[1]->{TimeVacationDays}->[1]->{Item} ) {
+            $Value = $ConfigItem{Setting}->[1]->{TimeVacationDays}->[1]->{Item};
+        }
+
+        # TimeVacationDaysOneTime
+        elsif ( $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} ) {
+            $Value = $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item};
+        }
+
+        # unknown config item can not be validated, so return true
+        else {
+            return 1;
+        }
+    }
+
+    # if auto-correction is requested
+    if ( $Param{AutoCorrect} ) {
+
+        # get the auto-correct value
+        $Value = $ValidateObject->GetAutoCorrectValue(
+            Data => $Value,
+        );
+
+        # if the valid param is given, use it, otherwise take valid setting from config item
+        my $Valid = defined $Param{Valid} ? $Param{Valid} : $ConfigItem{Valid};
+
+        # update the config item with the new value
+        my $UpdateSuccess = $Self->ConfigItemUpdate(
+            Valid        => $Valid,
+            Key          => $Param{Key},
+            Value        => $Value,
+            NoValidation => 1,
+        );
+
+        # return the update result
+        return $UpdateSuccess;
+    }
+
+    # only validation is needed
+    else {
+
+        # validate the value
+        my $ValidateOk = $ValidateObject->Validate(
+            Data => $Value,
+        );
+
+        # return the validation result
+        return $ValidateOk;
+    }
+}
+
+=item ConfigItemCheckAll()
+
+Validates all config items which have a validation module.
+Automatically corrects wrong values.
+
+    my $Result = $SysConfigObject->ConfigItemCheckAll();
+
+=cut
+
+sub ConfigItemCheckAll {
+    my ( $Self, %Param ) = @_;
+
+    # get all config groups
+    my %Groups = $Self->ConfigGroupList();
+
+    for my $Group ( sort keys(%Groups) ) {
+
+        # get all subgroups for this group
+        my %SubGroups = $Self->ConfigSubGroupList( Name => $Group );
+
+        for my $SubGroup ( sort keys %SubGroups ) {
+
+            # get all items for this subgroup
+            my @Items = $Self->ConfigSubGroupConfigItemList(
+                Group    => $Group,
+                SubGroup => $SubGroup,
+            );
+
+            # check each item
+            ITEM:
+            for my $Item (@Items) {
+
+                # validate the value of this item
+                my $ValidateOk = $Self->ConfigItemValidate(
+                    Key => $Item,
+                );
+
+                # validation is ok
+                next ITEM if $ValidateOk;
+
+                # validation is not ok, auto-correct the value
+                my $AutoCorrectOk = $Self->ConfigItemValidate(
+                    Key         => $Item,
+                    AutoCorrect => 1,
+                );
+            }
+        }
+    }
+
+    return 1;
+}
+
 =begin Internal:
 
 =cut
@@ -1962,6 +2150,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2010-07-23 16:42:38 $
+$Revision: 1.21 $ $Date: 2010-07-28 08:22:44 $
 
 =cut
