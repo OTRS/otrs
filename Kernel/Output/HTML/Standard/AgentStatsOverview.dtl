@@ -2,7 +2,7 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.16 2010-06-29 19:31:51 dz Exp $
+# $Id: AgentStatsOverview.dtl,v 1.17 2010-07-28 18:08:27 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 
     <h1>$Text{"Overview"}: $Text{"Stats"}</h1>
 
-    <table class="DataTable">
+    <table class="Sortable DataTable">
         <thead>
             <tr>
                 <th class="$QData{"CSSSortID"}">
@@ -32,7 +32,9 @@
                         $Text{"Object"}
                     </a>
                 </th>
-                <th>$Text{"Description"}</th>
+                <th>
+                    <span>$Text{"Description"}</span>
+                </th>
             </tr>
         </thead>
         <tbody>
