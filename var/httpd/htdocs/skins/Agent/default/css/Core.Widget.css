@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -38,8 +38,11 @@ ul.Tablelike li {
     border-radius: 3px;
 }
 
-ul.Tablelike li:nth-child(even),
 ul.Tablelike li.Even {
+    background-color: #F5F5F5;
+}
+
+ul.Tablelike li:nth-child(even) {
     background-color: #F5F5F5;
 }
 
@@ -62,14 +65,6 @@ ul.Tablelike li.Header {;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
-}
-
-ul.Tablelike li.Header:hover {
-    background-image: none;
-}
-
-ul.Tablelike li.Header:hover a {
-    color: #4B4B4B;
 }
 
 ul.Tablelike li.Header + li {
