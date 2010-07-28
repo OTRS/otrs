@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.351 2010-07-27 11:22:27 ub Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.352 2010-07-28 16:31:48 ub Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -43,7 +43,7 @@
             <String Regex="">OTRS</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SystemID" Required="1" Valid="1">
+    <ConfigItem Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -51,7 +51,7 @@
             <String Regex="^\d+$">10</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="FQDN" Required="1" Valid="1">
+    <ConfigItem Name="FQDN" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -59,7 +59,7 @@
             <String Regex="">yourhost.example.com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="HttpType" Required="1" Valid="1">
+    <ConfigItem Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -70,7 +70,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="ScriptAlias" Required="1" Valid="1">
+    <ConfigItem Name="ScriptAlias" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -94,7 +94,7 @@
             <String Regex="">Example Company</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
+    <ConfigItem Name="DefaultCharset" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign e-mails, or text, otherwise this could lead to problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -161,7 +161,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
+    <ConfigItem Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -169,7 +169,7 @@
             <String Regex="">Standard</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
+    <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -180,7 +180,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::WebPath" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::WebPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL base path of icons, CSS and Java Script.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -188,7 +188,7 @@
             <String Regex="">/otrs-web/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ImagePath" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::ImagePath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL image path of icons for navigation.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -196,7 +196,7 @@
             <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;skins/Agent/default/img/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::CSSPath" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::CSSPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL CSS path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -204,7 +204,7 @@
             <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;css/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::JavaScriptPath" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::JavaScriptPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL java script path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -212,7 +212,7 @@
             <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::RichText" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -223,7 +223,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::RichTextPath" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::RichTextPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -468,7 +468,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule" Required="1" Valid="1">
+    <ConfigItem Name="SendmailModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -476,7 +476,7 @@
             <Option Location="Kernel/System/Email/*.pm" SelectedID="Kernel::System::Email::Sendmail"></Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1">
+    <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -484,7 +484,7 @@
             <String Regex="">/usr/sbin/sendmail -i -f</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
+    <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the mailhost that sends out the mails must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -492,7 +492,7 @@
             <String Regex="">mail.example.com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
+    <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -500,7 +500,7 @@
             <String Regex="^[0-9]{1,6}$">25</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0">
+    <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -508,7 +508,7 @@
             <String Regex="">MailserverLogin</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0">
+    <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -516,7 +516,7 @@
             <String Regex="">MailserverPassword</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailBcc" Required="0" Valid="1">
+    <ConfigItem Name="SendmailBcc" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -524,7 +524,7 @@
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0">
+    <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -532,7 +532,7 @@
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0">
+    <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -540,7 +540,7 @@
             <String Regex="">base64</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LoginURL" Required="0" Valid="0">
+    <ConfigItem Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the login link refers to.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -548,7 +548,7 @@
             <String Regex="">http://host.example.com/login.html</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LogoutURL" Required="0" Valid="0">
+    <ConfigItem Name="LogoutURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the logout link refers to.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -2328,7 +2328,7 @@
             </TimeWorkingHours>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
+    <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the maximal size (in bytes) for file uploads via the browser.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -2336,7 +2336,7 @@
             <String Regex="^[0-9]{1,11}$">16777216</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
+    <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -2449,7 +2449,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SpellCheckerBin" Required="1" Valid="1">
+    <ConfigItem Name="SpellCheckerBin" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Installs ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
@@ -2480,7 +2480,7 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebUserAgent::Timeout" Required="1" Valid="1">
+    <ConfigItem Name="WebUserAgent::Timeout" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the timeout (in seconds) for http/ftp downloads.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::WebUserAgent</SubGroup>
@@ -2488,7 +2488,7 @@
             <String Regex="">15</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebUserAgent::Proxy" Required="0" Valid="0">
+    <ConfigItem Name="WebUserAgent::Proxy" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the connections for http/ftp, via a proxy.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::WebUserAgent</SubGroup>
@@ -2496,7 +2496,7 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Package::FileUpload" Required="1" Valid="1">
+    <ConfigItem Name="Package::FileUpload" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables file upload in the package manager frontend.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -2507,7 +2507,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Package::RepositoryRoot" Required="0" Valid="1">
+    <ConfigItem Name="Package::RepositoryRoot" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the location to get online repository list for additional packages. The first available result will be used.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -2518,7 +2518,7 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
+    <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -2544,7 +2544,7 @@
             <String Regex="">15</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Package::Proxy" Required="0" Valid="0">
+    <ConfigItem Name="Package::Proxy" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -2552,7 +2552,7 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SOAP::User" Required="0" Valid="0">
+    <ConfigItem Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SOAP</SubGroup>
@@ -2560,7 +2560,7 @@
             <String Regex="">some_user</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SOAP::Password" Required="0" Valid="0">
+    <ConfigItem Name="SOAP::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SOAP</SubGroup>
@@ -2854,7 +2854,7 @@ Your OTRS Notification Master
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PerformanceLog" Required="0" Valid="1">
+    <ConfigItem Name="PerformanceLog" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
@@ -2865,7 +2865,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PerformanceLog::File" Required="1" Valid="1">
+    <ConfigItem Name="PerformanceLog::File" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the path of the file for the performance log.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
@@ -2873,7 +2873,7 @@ Your OTRS Notification Master
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/Performance.log</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PerformanceLog::FileMax" Required="1" Valid="1">
+    <ConfigItem Name="PerformanceLog::FileMax" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the maximum size (in MB) of the log file.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
@@ -3414,7 +3414,7 @@ Your OTRS Notification Master
             </TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1">
+    <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the module to authenticate customers.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3422,7 +3422,7 @@ Your OTRS Notification Master
             <Option Location="Kernel/System/CustomerAuth/*.pm" SelectedID="Kernel::System::CustomerAuth::DB"></Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::CryptType" Required="1" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::DB::CryptType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the crypt type of passwords must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3434,7 +3434,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3442,7 +3442,7 @@ Your OTRS Notification Master
             <String Regex="">customer_user</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::CustomerKey" Required="1" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::DB::CustomerKey" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3450,7 +3450,7 @@ Your OTRS Notification Master
             <String Regex="">login</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::CustomerPassword" Required="1" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::DB::CustomerPassword" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3458,7 +3458,7 @@ Your OTRS Notification Master
             <String Regex="">pw</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3466,7 +3466,7 @@ Your OTRS Notification Master
             <String Regex="">DBI:mysql:database=customerdb;host=customerdbhost</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::User" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::DB::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3474,7 +3474,7 @@ Your OTRS Notification Master
             <String Regex="">some_user</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::Password" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::DB::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3482,7 +3482,7 @@ Your OTRS Notification Master
             <String Regex="">some_password</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::DB::Type" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::DB::Type" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3490,7 +3490,7 @@ Your OTRS Notification Master
             <String Regex="">mysql</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::Replace" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::Replace" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3498,7 +3498,7 @@ Your OTRS Notification Master
             <String Regex="">example_domain\\</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3506,7 +3506,7 @@ Your OTRS Notification Master
             <String Regex="">^(.+?)@.+?$</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3514,7 +3514,7 @@ Your OTRS Notification Master
             <String Regex="">ldap.example.com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::BaseDN" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::BaseDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3522,7 +3522,7 @@ Your OTRS Notification Master
             <String Regex="">dc=example,dc=com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the user identifier must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3530,7 +3530,7 @@ Your OTRS Notification Master
             <String Regex="">uid</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3538,7 +3538,7 @@ Your OTRS Notification Master
             <String Regex="">cn=otrsallow,ou=posixGroups,dc=example,dc=com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::AccessAttr" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::AccessAttr" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3546,7 +3546,7 @@ Your OTRS Notification Master
             <String Regex="">memberUid</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3557,7 +3557,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3565,7 +3565,7 @@ Your OTRS Notification Master
             <String Regex="">cn=binduser,ou=users,dc=example,dc=com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3573,7 +3573,7 @@ Your OTRS Notification Master
             <String Regex="">some_password</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::AlwaysFilter" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::AlwaysFilter" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3581,7 +3581,7 @@ Your OTRS Notification Master
             <String Regex="">(!objectclass=computer)</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3589,7 +3589,7 @@ Your OTRS Notification Master
             <String Regex="">@domain.com</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::Params" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::LDAP::Params" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3602,7 +3602,7 @@ Your OTRS Notification Master
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3613,7 +3613,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the radius host must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3621,7 +3621,7 @@ Your OTRS Notification Master
             <String Regex="">radiushost</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::Radius::Password" Required="0" Valid="0">
+    <ConfigItem Name="Customer::AuthModule::Radius::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3629,7 +3629,7 @@ Your OTRS Notification Master
             <String Regex="">radiussecret</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -3640,7 +3640,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferences" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferences" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the parameters for the customer preferences table.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
@@ -5039,7 +5039,7 @@ Your OTRS Notification Master
             <String Regex="^[0-9]{1,5}$">1000</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0">
+    <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
@@ -5047,7 +5047,7 @@ Your OTRS Notification Master
             <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0">
+    <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
@@ -5055,7 +5055,7 @@ Your OTRS Notification Master
             <String Regex="">some_user</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0">
+    <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>

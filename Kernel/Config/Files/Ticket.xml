@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.364 2010-07-28 08:12:44 ub Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.365 2010-07-28 16:31:48 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1268,7 +1268,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1277,7 +1277,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="ArticleDir" Required="1" Valid="1">
+    <ConfigItem Name="ArticleDir" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1394,7 +1394,7 @@
             <String Regex="">Kernel::System::Ticket::Custom</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::SearchIndexModule" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::SearchIndexModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
@@ -1403,7 +1403,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
@@ -8438,7 +8438,7 @@ $QData{"Signature"}
             <String Regex="^[0-9]{1,3}$">20</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LoopProtectionModule" Required="1" Valid="1">
+    <ConfigItem Name="LoopProtectionModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Default loop protection module.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -8446,7 +8446,7 @@ $QData{"Signature"}
             <Option Location="Kernel/System/PostMaster/LoopProtection/*.pm" SelectedID="Kernel::System::PostMaster::LoopProtection::DB"></Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LoopProtectionLog" Required="1" Valid="1">
+    <ConfigItem Name="LoopProtectionLog" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
