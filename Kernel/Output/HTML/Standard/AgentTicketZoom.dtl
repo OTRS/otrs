@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.130 2010-07-28 07:37:44 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.131 2010-07-28 07:48:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -378,7 +378,7 @@ $Data{"ArticleItems"}
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
-<!-- dtl:block:ReplySender -->
+<!-- dtl:block:ArticleReply -->
                 <li class="$QData{"Class"}">
                     <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
                         <input type="hidden" name="Action" value="$QData{"Action"}"/>
@@ -396,7 +396,7 @@ $Data{"ArticleItems"}
 //]]></script>
 <!-- dtl:js_on_document_complete -->
                 </li>
-<!-- dtl:block:ReplySender -->
+<!-- dtl:block:ArticleReply -->
 <!-- dtl:block:ArticleMenu-->
                 <li class="$QData{"Class"}">
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
