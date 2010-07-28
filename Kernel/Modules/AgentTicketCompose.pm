@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.104 2010-07-27 20:24:19 mp Exp $
+# $Id: AgentTicketCompose.pm,v 1.105 2010-07-28 07:24:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,8 +111,8 @@ sub Run {
                     Type  => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Ticket locked!",
-                    Comment => "Please unlock the ticket first.",
+                    Message => 'Ticket locked!',
+                    Comment => 'Please unlock the ticket first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -131,7 +131,7 @@ sub Run {
                     Type  => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the owner to do this action!",
+                    Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
@@ -159,7 +159,7 @@ sub Run {
     for (
         qw(
         From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
-        ArticleID TimeUnits Year Month Day Hour Minute FormID
+        ArticleID TimeUnits Year Month Day Hour Minute FormID ReplyAll
         )
         )
     {
@@ -177,8 +177,8 @@ sub Run {
     # get ticket free time params
     for my $Count ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $Count . $Type } = $Self->{ParamObject}->GetParam(
-                Param => "TicketFreeTime" . $Count . $Type,
+            $GetParam{ 'TicketFreeTime' . $Count . $Type } = $Self->{ParamObject}->GetParam(
+                Param => 'TicketFreeTime' . $Count . $Type,
             );
         }
         $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
@@ -273,8 +273,8 @@ sub Run {
         # check pending date
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = 'ServerError';
+                if ( !$IsUpload ) {
+                    $Error{DateInvalid} = 'ServerError';
                 }
             }
             if (
@@ -282,8 +282,8 @@ sub Run {
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = 'ServerError';
+                if ( !$IsUpload ) {
+                    $Error{DateInvalid} = 'ServerError';
                 }
             }
         }
@@ -302,12 +302,12 @@ sub Run {
 
         # check subject
         if ( !$IsUpload && !$GetParam{Subject} ) {
-            $Error{'SubjectInvalid'} = ' ServerError';
+            $Error{SubjectInvalid} = ' ServerError';
         }
 
         # check body
         if ( !$IsUpload && !$GetParam{Body} ) {
-            $Error{'BodyInvalid'} = ' ServerError';
+            $Error{BodyInvalid} = ' ServerError';
         }
 
         # check time units
@@ -317,8 +317,8 @@ sub Run {
             && !$GetParam{TimeUnits}
             )
         {
-            if ( $IsUpload == 0 ) {
-                $Error{'TimeUnitsInvalid'} = 'ServerError';
+            if ( !$IsUpload ) {
+                $Error{TimeUnitsInvalid} = 'ServerError';
             }
         }
 
@@ -604,7 +604,7 @@ sub Run {
             # set free time
             $Self->{TicketObject}->TicketFreeTimeSet(
                 %GetParam,
-                Prefix   => "TicketFreeTime",
+                Prefix   => 'TicketFreeTime',
                 TicketID => $Self->{TicketID},
                 Counter  => $Count,
                 UserID   => $Self->{UserID},
