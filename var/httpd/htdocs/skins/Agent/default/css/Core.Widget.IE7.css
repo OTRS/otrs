@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -39,13 +39,28 @@
 .ActionList button {
     margin-top: 1px;
 }
+    
+ul.Tablelike {
+    zoom: 1;
+}
+    
+ul.Tablelike li {
+    margin-bottom: -3px;
+}
+    
+ul.Tablelike li.Header {
+    margin-bottom: 0;
+}
 
 button.CallForAction {
-    display: block;
-    zoom: 1;
+    display: inline;
+    position: relative;
 }
 
 button.CallForAction span {
+    padding: 3px 0 1px;
+    margin: 0;
+    border: 0;
     height: auto;
 }
 
