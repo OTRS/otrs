@@ -2,7 +2,7 @@
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-10.0.spec,v 1.11 2010-04-05 10:32:13 mb Exp $
+# $Id: suse-otrs-10.0.spec,v 1.12 2010-07-28 15:25:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
 rm -f $RPM_BUILD_ROOT/sbin/otrs
 ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
 
-install -m 644 scripts/apache2-httpd-new.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
 
 # set permission
 export OTRSUSER=otrs
