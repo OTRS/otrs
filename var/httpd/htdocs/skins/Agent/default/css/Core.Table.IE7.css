@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -20,6 +20,11 @@
 .FixedHeader table,
 .DataTable {
     border-collapse: collapse;
+}
+    
+.DataTable thead th,
+.DataTable thead th.Last {
+    background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
 }
 
 } /* end @media */
