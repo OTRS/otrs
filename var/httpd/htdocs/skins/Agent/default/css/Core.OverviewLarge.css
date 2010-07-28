@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -30,7 +30,6 @@
 }
 
 .OverviewLarge > li {
-    position: relative;
     border-left: 1px solid #C5C5C5;
     border-right: 1px solid #C5C5C5;
     border-bottom: 1px solid #C5C5C5;
@@ -40,8 +39,9 @@
     border-bottom: none;
 }
 
-.OverviewLarge > li > .Content {
+.OverviewLarge .Content {
     padding-top: 12px;
+    position: relative;
 }
 
 .OverviewLarge > li:hover > .Content {
@@ -62,7 +62,8 @@
     color: #751;
 }
 
-.OverviewLarge > li.Last {
+.OverviewLarge > li.Last,
+.OverviewLarge > li:last-child {
     border-bottom: 1px solid #BBB;
 }
 
@@ -287,9 +288,21 @@
 .OverviewLarge .Preview h3 .Subject {
     color: #0F0F0F;
 }
+    
+.OverviewLarge .Preview h3 .Headline {
+    float: left;
+}
+    
+.RTL .OverviewLarge .Preview h3 .Headline {
+    float: right;
+}
 
 .OverviewLarge .Preview h3 span.DateTime {
     float: right;
+}
+
+.RTL .OverviewLarge .Preview h3 span.DateTime {
+    float: left;
 }
 
 .OverviewLarge .Preview li div.HiddenBlock {
