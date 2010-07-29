@@ -2,7 +2,7 @@
 // Core.Agent.Dashboard.js - provides the special module functions for the dashboard
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Dashboard.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Agent.Dashboard.js,v 1.2 2010-07-29 23:49:24 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,26 +28,52 @@ Core.Agent.Dashboard = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         Core.UI.DnD.Sortable(
-            $(".SidebarColumn"),
+            $('.SidebarColumn'),
             {
                 Handle: '.Header h2',
                 Items: '.CanDrag',
                 Placeholder: 'DropPlaceholder',
                 Tolerance: 'pointer',
                 Distance: 15,
-                Opacity: 0.6
+                Opacity: 0.6,
+                Update: function(event, ui) {
+                    var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;'
+                    $('.CanDrag').each(
+                        function(i) {
+                            url = url + ';Backend=' + $(this).attr('id');
+                        }
+                    );
+                    Core.AJAX.FunctionCall(
+                        Core.Config.Get('CGIHandle'),
+                        url,
+                        function () {}
+                    );
+                }
             }
         );
 
         Core.UI.DnD.Sortable(
-            $(".ContentColumn"),
+            $('.ContentColumn'),
             {
                 Handle: '.Header h2',
                 Items: '.CanDrag',
                 Placeholder: 'DropPlaceholder',
                 Tolerance: 'pointer',
                 Distance: 15,
-                Opacity: 0.6
+                Opacity: 0.6,
+                Update: function(event, ui) {
+                    var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;'
+                    $('.CanDrag').each(
+                        function(i) {
+                            url = url + ';Backend=' + $(this).attr('id');
+                        }
+                    );
+                    Core.AJAX.FunctionCall(
+                        Core.Config.Get('CGIHandle'),
+                        url,
+                        function () {}
+                    );
+                }
             }
         );
     };

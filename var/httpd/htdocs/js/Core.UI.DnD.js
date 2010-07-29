@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.DnD.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.DnD.js,v 1.2 2010-07-29 23:49:24 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,8 @@ Core.UI.DnD = (function (TargetNS) {
             forcePlaceholderSize: true,
             distance: Options.Distance,
             opacity: Options.Opacity,
-            tolerance: Options.Tolerance
+            tolerance: Options.Tolerance,
+            update: Options.Update
         });
     };
 
