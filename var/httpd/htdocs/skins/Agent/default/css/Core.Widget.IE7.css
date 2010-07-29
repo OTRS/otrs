@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -19,6 +19,7 @@
 
 .WidgetSimple {
     zoom: 1;
+    position: relative;
 }
 
 .WidgetBox .Content {
@@ -28,6 +29,10 @@
 .WidgetPopup > .Header,
 .WidgetPopup > .Footer {
     zoom: 1;
+}
+    
+.WidgetSimple > .Header h2 {
+    width: 100%;
 }
     
 .WidgetAction {
