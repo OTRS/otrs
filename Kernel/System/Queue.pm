@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.120 2010-07-29 09:58:48 ub Exp $
+# $Id: Queue.pm,v 1.121 2010-07-29 11:59:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,11 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
+use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 =head1 NAME
 
@@ -90,7 +91,7 @@ sub new {
     $Self->{QueueID} = $Param{QueueID} || '';
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
@@ -1015,8 +1016,14 @@ sub QueueUpdate {
         }
     }
 
+    # create a time object locally, needed for the local SysConfigObject
+    my $TimeObject = Kernel::System::Time->new( %{$Self} );
+
     # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        %{$Self},
+        TimeObject => $TimeObject,
+    );
 
     # check all sysconfig options and correct them automatically if neccessary
     $SysConfigObject->ConfigItemCheckAll();
@@ -1135,6 +1142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2010-07-29 09:58:48 $
+$Revision: 1.121 $ $Date: 2010-07-29 11:59:41 $
 
 =cut

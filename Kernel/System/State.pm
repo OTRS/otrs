@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.45 2010-07-29 09:58:48 ub Exp $
+# $Id: State.pm,v 1.46 2010-07-29 11:59:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,12 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::Time;
 use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -88,7 +89,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
@@ -282,8 +283,14 @@ sub StateUpdate {
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $Param{ID} );
 
+    # create a time object locally, needed for the local SysConfigObject
+    my $TimeObject = Kernel::System::Time->new( %{$Self} );
+
     # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        %{$Self},
+        TimeObject => $TimeObject,
+    );
 
     # check all sysconfig options and correct them automatically if neccessary
     $SysConfigObject->ConfigItemCheckAll();
@@ -658,6 +665,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2010-07-29 09:58:48 $
+$Revision: 1.46 $ $Date: 2010-07-29 11:59:41 $
 
 =cut
