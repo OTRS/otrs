@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.63 2010-07-14 10:47:35 mn Exp $
+# $Id: Footer.dtl,v 1.64 2010-07-29 15:07:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,10 +11,6 @@
 
 <div id="Footer" class="ARIARoleContentinfo">
     <a href="http://otrs.org/">$Text{"Powered by"} $Config{"Product"} $Config{"Version"}</a>
-    <ul>
-        <li><a href="">$Text{"About OTRS"}</a></li>
-        <li><a href="">$Text{"Help"}</a></li>
-    </ul>
     <div class="TopOfPage"><a href="#Top">$Text{"Top of page"}</a></div>
 </div>
 
