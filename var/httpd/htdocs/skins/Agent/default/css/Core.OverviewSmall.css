@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -62,7 +62,9 @@
     padding-top: 0;
 }
 
-.Overview.FixedHeader thead tr th:last-child,
+.Overview.FixedHeader thead tr th:last-child {
+    background-position: center bottom;
+}
 .Overview.FixedHeader thead tr th.Last {
     background-position: center bottom;
 }

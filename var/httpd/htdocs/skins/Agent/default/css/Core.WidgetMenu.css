@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -103,12 +103,18 @@
     background-position: left center;
 }
 
-.ControlRow li.Last > a,
+.ControlRow li.Last > a {
+    background-position: 50px 50px; /* hide it, but dont set it to none */
+}
+
 .ControlRow li:last-child > a {
     background-position: 50px 50px; /* hide it, but dont set it to none */
 }
 
-.ControlRow li.Last:hover > a,
+.ControlRow li.Last:hover > a {
+    background-position: right 0;
+}
+
 .ControlRow li:last-child:hover > a {
     background-position: right 0;
 }
@@ -200,7 +206,10 @@ ul.ContextFunctions li.ContextSettings a span {
     background-image: url(../img/arrow_outlined_left.png);
 }
 
-ul.ContextFunctions li.Last:hover > a,
+ul.ContextFunctions li.Last:hover > a {
+    background-position: 50px 50px;
+}
+
 ul.ContextFunctions li:last-child:hover > a {
     background-position: 50px 50px;
 }
@@ -346,7 +355,9 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
 }
 
-.Actions li:last-child,
+.Actions li:last-child {
+    background: none;
+}
 .Actions li.Last {
     background: none;
 }
@@ -442,7 +453,10 @@ ul.ContextFunctions li:last-child:hover > a {
     box-shadow: 0 0 0;
 }
 
-.Tab.Actions li.Last,
+.Tab.Actions li.Last {
+    background: none;
+}
+
 .Tab.Actions li:last-child {
     background: none;
 }
