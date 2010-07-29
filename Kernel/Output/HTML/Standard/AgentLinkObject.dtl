@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.39 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.40 2010-07-29 09:13:16 fn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                            <button class="Primary" type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
+                            <button type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
                         </div>
                     </fieldset>
                 </div>
@@ -74,7 +74,7 @@
                         </div>
 <!-- dtl:block:LinkSearchRow -->
                         <div class="Field">
-                            <button class="Primary" type="submit" name="SubmitSearch" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <button type="submit" name="SubmitSearch" value="$Text{"Search"}">$Text{"Search"}</button>
                         </div>
                     </fieldset>
                 </div>
@@ -134,7 +134,7 @@
 <!-- dtl:block:DeleteTableComplex -->
 
                     <div class="SpacingTop">
-                        <button class="Primary" type="submit" name="SubmitDelete" value="$Text{"Delete links"}">$Text{"Delete links"}</button>
+                        <button type="submit" name="SubmitDelete" value="$Text{"Delete links"}">$Text{"Delete links"}</button>
                     </div>
 
                 </form>
