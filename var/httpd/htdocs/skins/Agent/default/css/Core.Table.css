@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -68,8 +68,8 @@
     box-shadow: 0 0 0;
 }
 
-.DataTable tbody tr:active td,
-.TableSmall tbody tr:active td {
+.DataTable tbody tr:active td.Clickable,
+.TableSmall tbody tr:active td.Clickable {
     background: url(../img/table_small_hover_bg.png) repeat-x center;
     background: -moz-linear-gradient(center top, #FFE4B5, #FAA91C 20%, #EB8C0B 95%, #E37B09);
     background: -webkit-gradient(linear, left top, left bottom, from(#FFE4B5), to(#E37B09), color-stop(20%, #FBB93D), color-stop(51%, #F6AB2D), color-stop(51%, #F49F13), color-stop(95%, #EB8C0B));
