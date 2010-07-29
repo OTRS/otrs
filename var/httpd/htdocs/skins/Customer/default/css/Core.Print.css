@@ -1,11 +1,17 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
 
 @media print {
+/**
+ * @subsection  Fonts
+ */
+body {
+    font:12px/14px Arial,sans-serif;
+}
 
 /**
  * @package     OTRS Framework - Skin "Default"
@@ -21,6 +27,7 @@
 .ActionRow,
 .Flag,
 .Print,
+.DontPrint,
 #Footer {
     display: none !important;
 }
@@ -42,6 +49,7 @@
 
 .MessageHeader h3 {
     font-weight: 18px !important;
+    
 }
 
 /**
@@ -55,6 +63,14 @@
  /**
  * @subsection Misc
  */
+
+ol, ul {
+    list-style: none outside none;
+}
+
+#Navigation{
+    display:none;
+}
 
 #Messages {
     margin-top: -40px;
@@ -87,4 +103,127 @@ iframe {
     width: 100%;
 }
 
+/*
+    Customer Ticket Overview
+*/
+
+#Filter a {
+    display:block;
+    padding:5px 9px;
+    color:#FFF;
+}
+.MessageBox, .ActionRow {
+    margin:0;
+    border-bottom:1px solid #B8BBBB;
+    border-top:1px solid #F0F2F2;
+    font-size:11px;
+    overflow:hidden;
+}
+
+.Overview table thead{
+    display:block;
+    width:100%;
+}
+
+.Overview thead th{
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-transform:uppercase;
+    padding:5px;
+}
+
+.Overview a{
+    text-decoration:none;
+    font-size:12px;
+    font-style:normal;
+    color:#000;
+}
+
+.Overview tbody tr td{
+    border-left:1px dotted #CCC;
+    border-bottom:1px dotted #CCC;
+    padding:5px 5px 5px 10px;
+    text-decoration:none;
+    font-size:12px;
+    font-style:normal;
+    color:#452A03;
+}
+
+.Overview tbody tr td a{
+    text-decoration:none;
+    font-size:12px;
+    color:#452A03;
+}
+
+/*
+    Ticket Zoom
+*/
+.TicketHeader{
+    margin: 10px 0 10px 0;
+}
+
+#Flag{
+    height:15px;
+    width:150px;
+    margin:10px 0 15px 0;
+    padding:10px;
+    display:block;
+    font-size:15px;
+    color:#CCCCCC;
+    border:1px dashed #CCCCCC;
+}
+
+.TicketHeader h2{
+    margin: 10px 0 10px 0;
+    padding:0;
+}
+
+.TicketHeader ul{
+    border-top:1px dotted #CCC;
+    border-bottom:1px dotted #CCC;
+    margin: 10px 0 20px 0;
+    padding:10px 0 10px 0;
+    display:inline-block;
+}
+
+.TicketHeader ul li {
+    margin: 5px 0 5px 0;
+}
+
+#Metadata li .Key {
+    color:#666666;
+    font-weight:bold;
+}
+
+.MessageHeader{
+    margin: 20px 0 10px 0;
+    padding:10px;
+    display:block;
+}
+
+.MessageHeader h3 a{
+    margin: 20px 0 10px 0;
+    font-size:16px;
+    text-decoration:none;
+    padding:10px 0 10px 0;
+    display:inline-block;
+}
+
+.MessageHeader .Age{
+    margin: 0 0 0 10px;
+}
+
+.Details div{
+    margin-bottom:10px;
+}
+
+.MessageBody .Label{
+    font-weight:bold;
+}
+
+.MessageContent{
+    margin-top: 10px;
+    padding:10px;
+    border:1px solid #CCC;
+}
 } /* end @media */
