@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -17,7 +17,8 @@
  * @bugfix      HasLayout rendering bug
  */
 
-.WidgetSimple {
+.WidgetSimple,
+.WidgetSimple .Content > div {
     zoom: 1;
     position: relative;
 }
@@ -33,6 +34,10 @@
     
 .WidgetSimple > .Header h2 {
     width: 100%;
+}
+    
+.WidgetSimple > .Header .WidgetAction + h2 {
+    width: auto;
 }
     
 .WidgetAction {
