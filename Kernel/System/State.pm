@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.43 2010-07-28 08:31:13 ub Exp $
+# $Id: State.pm,v 1.44 2010-07-29 09:45:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -88,11 +88,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-    $Self->{SysConfigObject}     = Kernel::System::SysConfig->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'State',
@@ -282,6 +281,9 @@ sub StateUpdate {
     # delete cache
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
     $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $Param{ID} );
+
+    # create a sysconfig object locally for performance reasons
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
 
     # check all sysconfig options and correct them automatically if neccessary
     $Self->{SysConfigObject}->ConfigItemCheckAll();
@@ -656,6 +658,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-07-28 08:31:13 $
+$Revision: 1.44 $ $Date: 2010-07-29 09:45:59 $
 
 =cut

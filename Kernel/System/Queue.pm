@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.118 2010-07-28 08:46:19 ub Exp $
+# $Id: Queue.pm,v 1.119 2010-07-29 09:45:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 =head1 NAME
 
@@ -90,11 +90,10 @@ sub new {
     $Self->{QueueID} = $Param{QueueID} || '';
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-    $Self->{SysConfigObject}     = Kernel::System::SysConfig->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
@@ -1016,6 +1015,9 @@ sub QueueUpdate {
         }
     }
 
+    # create a sysconfig object locally for performance reasons
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
+
     # check all sysconfig options and correct them automatically if neccessary
     $Self->{SysConfigObject}->ConfigItemCheckAll();
 
@@ -1133,6 +1135,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2010-07-28 08:46:19 $
+$Revision: 1.119 $ $Date: 2010-07-29 09:45:59 $
 
 =cut
