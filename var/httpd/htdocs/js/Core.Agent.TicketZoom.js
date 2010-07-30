@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.11 2010-07-30 09:11:17 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.12 2010-07-30 09:24:31 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      This function loads the given article via ajax
      */
     function LoadArticle(ArticleURL, ArticleID) {
+
         // Clear timeout for URL hash check, because hash is now changed manually
         window.clearTimeout(TargetNS.CheckURLHashTimeout);
 
@@ -61,13 +62,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
                 return false;
             });
+
             // Add event bindings to new widget
             Core.UI.InitWidgetActionToggle();
+
             // Add hash to the URL to provide direct URLs and history back/forward functionality
             location.hash = '#' + ArticleID;
             TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
+
             //Remove Loading class
             $('#ArticleItems .WidgetBox').removeClass('Loading');
+
             // Initiate URL hash chack again
             TargetNS.CheckURLHashTimeout = window.setTimeout(function () {
                 TargetNS.CheckURLHash();
@@ -81,18 +86,23 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      This function checks if teh url hash has changed and initiates an article load
      */
     TargetNS.CheckURLHash = function () {
+
         // if not defined yet
         if (typeof TargetNS.ActiveURLHash === 'undefined') {
             TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
         }
+
         // if defined and saved value is different to latest value (= user has used history back or forward)
         else if (TargetNS.ActiveURLHash !== location.hash.replace(/#/, '')) {
             TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
+
             // if article ID is found in article list (= article id is valid)
             $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
             if ($ArticleElement.length) {
+
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
+
                 // Load content of new article
                 LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), TargetNS.ActiveURLHash);
             }
@@ -150,6 +160,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
+
                 // Load content of new article
                 LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), URLHash);
             }
@@ -168,6 +179,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
                 // Add active state to new row
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
+
+                // Mark old row as readed
+                $(this).closest('table').find('tr').removeClass('UnreadArticles');
 
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());
