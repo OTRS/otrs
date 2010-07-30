@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.91 2010-07-28 07:37:44 martin Exp $
+# $Id: LayoutTicket.pm,v 1.92 2010-07-30 00:40:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub TicketStandardResponseString {
     my ( $Self, %Param ) = @_;
@@ -325,7 +325,6 @@ sub AgentQueueListOption {
         }
     }
     $Param{MoveQueuesStrg} .= "</select>\n";
-    $Param{MoveQueuesStrg} .= "<span id=\"AJAXImage$Param{Name}\"></span>\n";
 
     return $Param{MoveQueuesStrg};
 }
