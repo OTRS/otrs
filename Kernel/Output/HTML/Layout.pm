@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.283 2010-07-26 06:28:24 martin Exp $
+# $Id: Layout.pm,v 1.284 2010-07-30 09:48:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.283 $) [1];
+$VERSION = qw($Revision: 1.284 $) [1];
 
 =head1 NAME
 
@@ -2324,7 +2324,7 @@ sub PageNavBar {
                         PageNumber   => $PageNumber,
                         IDPrefix     => $IDPrefix,
                         SelectedPage => $SelectedPage
-                        }
+                    },
                 );
             }
             else {
@@ -2335,7 +2335,7 @@ sub PageNavBar {
                         PageNumber   => $PageNumber,
                         IDPrefix     => $IDPrefix,
                         SelectedPage => $SelectedPage
-                        }
+                    },
                 );
             }
         }
@@ -2356,7 +2356,7 @@ sub PageNavBar {
                         BaselinkAllNext => $BaselinkAllNext,
                         AjaxReplace     => $Param{AJAXReplace},
                         IDPrefix        => $IDPrefix,
-                        }
+                    },
                 );
             }
             else {
@@ -2366,7 +2366,7 @@ sub PageNavBar {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
                         IDPrefix        => $IDPrefix,
-                        }
+                    },
                 );
             }
 
@@ -2376,9 +2376,9 @@ sub PageNavBar {
         # over window "<<" and "|<"
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
             my $StartWindow     = $WindowStart - $WindowSize - 1;
-            my $BaselinkAllBack = $Baselink . "StartHit=1;StartWindow=1";
+            my $BaselinkAllBack = $Baselink . 'StartHit=1;StartWindow=1';
             my $BaselinkAllNext
-                = $Baselink . "StartHit=" . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+                = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
@@ -2388,7 +2388,7 @@ sub PageNavBar {
                         BaselinkAllNext => $BaselinkAllNext,
                         AjaxReplace     => $Param{AJAXReplace},
                         IDPrefix        => $IDPrefix,
-                        }
+                    },
                 );
             }
             else {
@@ -2398,7 +2398,7 @@ sub PageNavBar {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
                         IDPrefix        => $IDPrefix,
-                        }
+                    },
                 );
             }
 
@@ -4650,6 +4650,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.283 $ $Date: 2010-07-26 06:28:24 $
+$Revision: 1.284 $ $Date: 2010-07-30 09:48:31 $
 
 =cut
