@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.229 2010-07-30 12:41:10 martin Exp $
+# $Id: de.pm,v 1.230 2010-07-30 13:13:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.229 $) [1];
+$VERSION = qw($Revision: 1.230 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1106,7 +1106,7 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Role-Agent Relations' => '',
         'Filter for Agents' => '',
-        'Agents' => '',
+        'Agents' => 'Agenten',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA Verwaltung',
@@ -1738,7 +1738,7 @@ sub Data {
         'Error Details' => '',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => 'Anfang der Seite',
 
         # Template: FooterJS
         'One or more errors occured!' => '',
@@ -1750,7 +1750,7 @@ sub Data {
         # Template: HTMLHead
 
         # Template: Header
-        'You are logged in as' => '',
+        'You are logged in as' => 'Angemeldet als',
 
         # Template: HeaderSmall
 
