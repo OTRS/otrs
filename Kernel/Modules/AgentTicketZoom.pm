@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.110 2010-07-28 07:48:50 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.111 2010-07-30 09:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,24 +137,17 @@ sub Run {
         );
         $Article{Atms} = \%AtmIndex;
 
-        # fetch all move queues
-        my %MoveQueues = $Self->{TicketObject}->MoveList(
-            TicketID => $Ticket{TicketID},
-            UserID   => $Self->{UserID},
-            Action   => $Self->{Action},
-            Type     => 'move_into',
-        );
-
         # fetch all std. responses
-        my %StandardResponses
-            = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
+        my %StandardResponses = $Self->{QueueObject}->GetStandardResponses(
+            QueueID => $Ticket{QueueID},
+        );
 
         my $Content = $Self->_ArticleItem(
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
-            MoveQueues        => \%MoveQueues,
             StandardResponses => \%StandardResponses,
+            Type              => 'OnLoad',
         );
         if ( !$Content ) {
             $Self->{LayoutObject}->FatalError(
@@ -198,12 +191,12 @@ sub Run {
         if ($SaveDefaults) {
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
-                Key    => "ArticleFilterDefault",
+                Key    => 'ArticleFilterDefault',
                 Value  => $SessionString,
             );
             $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
-                Key       => "ArticleFilterDefault",
+                Key       => 'ArticleFilterDefault',
                 Value     => $SessionString,
             );
         }
@@ -509,8 +502,8 @@ sub MaskAgentZoom {
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
-            MoveQueues        => \%MoveQueues,
             StandardResponses => \%StandardResponses,
+            Type              => 'Static',
         );
     }
 
@@ -530,7 +523,7 @@ sub MaskAgentZoom {
     }
 
     # number of articles
-    $Param{ArticleCount} = $#ArticleBox;
+    $Param{ArticleCount} = scalar @ArticleBox;
 
     $Self->{LayoutObject}->Block(
         Name => 'Header',
@@ -557,13 +550,50 @@ sub MaskAgentZoom {
                 Config => $Menus{$Menu},
             );
             next if !$Item;
-            if ( $Menus{$Menu}->{Target} eq "PopUp" ) {
-                $Item->{Class} = "AsPopup";
+            if ( $Menus{$Menu}->{Target} eq 'PopUp' ) {
+                $Item->{Class} = 'AsPopup';
             }
             $Self->{LayoutObject}->Block(
                 Name => 'TicketMenu',
                 Data => $Item,
             );
+        }
+    }
+
+    # get MoveQueuesStrg
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+        $MoveQueues{0}
+            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
+        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => \%MoveQueues,
+        );
+    }
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
+        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
+        )
+    {
+        my $Access = $Self->{TicketObject}->TicketPermission(
+            Type     => 'move',
+            TicketID => $Ticket{TicketID},
+            UserID   => $Self->{UserID},
+            LogNo    => 1,
+        );
+        $Param{TicketID} = $Ticket{TicketID};
+        if ($Access) {
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'MoveLink',
+                    Data => { %Param, %AclAction },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'MoveForm',
+                    Data => { %Param, %AclAction },
+                );
+            }
         }
     }
 
@@ -1187,6 +1217,14 @@ sub _ArticleItem {
                         FormID                => 'Reply',
                     },
                 );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReply' . $Param{Type},
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        FormID => 'Reply',
+                    },
+                );
+
                 $Param{StandardResponses}->{0}
                     = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
                 $StandardResponsesStrg = $Self->{LayoutObject}->TicketStandardResponseString(
@@ -1203,7 +1241,14 @@ sub _ArticleItem {
                         Class                 => 'AsPopup',
                         Action                => 'AgentTicketCompose',
                         FormID                => 'ReplyAll',
-                        RepplyAll             => 1,
+                        ReplyAll              => 1,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReply' . $Param{Type},
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        FormID => 'ReplyAll',
                     },
                 );
             }
@@ -1540,11 +1585,11 @@ sub _ArticleItem {
             # run module
             my @Data = $Object->Check( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
             for my $DataRef (@Data) {
-                if ( $DataRef->{Successful} eq "0" ) {
-                    $DataRef->{Result} = "Error";
+                if ( !$DataRef->{Successful} ) {
+                    $DataRef->{Result} = 'Error';
                 }
                 else {
-                    $DataRef->{Result} = "Success";
+                    $DataRef->{Result} = 'Success';
                 }
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleOption',
@@ -1594,43 +1639,6 @@ sub _ArticleItem {
     # restore plain body for further processing by ArticleViewModules
     if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
         $Article{Body} = $Article{BodyPlain};
-    }
-
-    # get MoveQueuesStrg
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $Param{MoveQueues}->{0}
-            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Name => 'DestQueueID',
-            Data => $Param{MoveQueues},
-        );
-    }
-    if (
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
-        )
-    {
-        my $Access = $Self->{TicketObject}->TicketPermission(
-            Type     => 'move',
-            TicketID => $Ticket{TicketID},
-            UserID   => $Self->{UserID},
-            LogNo    => 1,
-        );
-        $Param{TicketID} = $Ticket{TicketID};
-        if ($Access) {
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'MoveLink',
-                    Data => { %Param, %AclAction },
-                );
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'MoveForm',
-                    Data => { %Param, %AclAction },
-                );
-            }
-        }
     }
 
     # return output

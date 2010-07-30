@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.131 2010-07-28 07:48:50 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.132 2010-07-30 09:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,7 +233,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
         </div>
         <div class="ContentColumn">
             <div class="ControlRow">
-                <h2>$QData{"ArticleCount"} $Text{"Articles"}</h2>
+                <h2>$QData{"ArticleCount"} $Text{"Article(s)"}</h2>
                 <div class="AdditionalInformation">
                     $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
                 </div>
@@ -245,6 +245,29 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                         <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:TicketMenu -->
+<!-- dtl:block:MoveLink -->
+                    <li class="$QData{"Class"}">
+                        <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
+                            <input type="hidden" name="Action" value="AgentTicketMove"/>
+                            <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+                            <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                            <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
+                            $Data{"MoveQueuesStrg"}
+                        </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#DestQueueID').bind('change', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                    </li>
+<!-- dtl:block:MoveLink -->
+<!-- dtl:block:MoveForm -->
+                    <li class="AsPopup">
+                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$QData{"TicketID"};" class="AsPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
+                    </li>
+<!-- dtl:block:MoveForm -->
                 </ul>
                 <div class="Clear"></div>
             </div>
@@ -378,6 +401,11 @@ $Data{"ArticleItems"}
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
+<!-- dtl:block:ArticleMenu-->
+                <li class="$QData{"Class"}">
+                    <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+                </li>
+<!-- dtl:block:ArticleMenu-->
 <!-- dtl:block:ArticleReply -->
                 <li class="$QData{"Class"}">
                     <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
@@ -388,43 +416,26 @@ $Data{"ArticleItems"}
                         <label for="ResponseID" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
                         $Data{"StandardResponsesStrg"}
                     </form>
+<!-- dtl:block:ArticleReplyOnLoad -->
+<script type="text/javascript">//<![CDATA[
+    $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
+        var url = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(url, 'Action');
+    });
+//]]></script>
+<!-- dtl:block:ArticleReplyOnLoad -->
+<!-- dtl:block:ArticleReplyStatic -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
-        $(this).closest('form').submit();
+        var url = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(url, 'Action');
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ArticleReplyStatic -->
                 </li>
 <!-- dtl:block:ArticleReply -->
-<!-- dtl:block:ArticleMenu-->
-                <li class="$QData{"Class"}">
-                    <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-                </li>
-<!-- dtl:block:ArticleMenu-->
-<!-- dtl:block:MoveLink -->
-                <li class="$QData{"Class"}">
-                    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
-                        <input type="hidden" name="Action" value="AgentTicketMove"/>
-                        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
-                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                        <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
-                        $Data{"MoveQueuesStrg"}
-                    </form>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#DestQueueID').bind('change', function (Event) {
-        $(this).closest('form').submit();
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-                </li>
-<!-- dtl:block:MoveLink -->
-<!-- dtl:block:MoveForm -->
-                <li class="AsPopup">
-                    <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$QData{"TicketID"};" class="AsPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
-                </li>
-<!-- dtl:block:MoveForm -->
             </ul>
             <div class="ClearLeft"></div>
         </div>
