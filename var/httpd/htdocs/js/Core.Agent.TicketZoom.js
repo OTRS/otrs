@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.10 2010-07-28 07:42:25 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.11 2010-07-30 09:11:17 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -143,14 +143,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         // load another article, if in "show one article" mode and article id is provided by location hash
         if (!ZoomExpand) {
             URLHash = location.hash.replace(/#/, '');
+
             // if article ID is found in article list (= article id is valid)
             $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + URLHash + ']');
             if ($ArticleElement.length) {
+
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
                 // Load content of new article
                 LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), URLHash);
             }
+
             // if URL hash is empty, set it initially to the active article for working browser history
             else if (URLHash === '') {
                 location.hash = '#' + $('#FixedTable tr.Active input.ArticleID').val();
@@ -159,13 +162,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // loading new articles
         $('#FixedTable tr').bind('click', function (Event) {
+
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
+
                 // Add active state to new row
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
+
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());
             }
+
             // Mode: show all articles - jump to the selected article
             else {
                 location.href = '#Article' + $(this).find('input.ArticleID').val();
