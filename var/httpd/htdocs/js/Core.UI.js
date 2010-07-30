@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.5 2010-07-30 00:07:01 martin Exp $
+// $Id: Core.UI.js,v 1.6 2010-07-30 07:26:03 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -245,7 +245,7 @@ Core.UI = (function (TargetNS) {
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
-                if ( $Element1.css('display') == 'block' ) {
+                if ( $Element1.is(':visible') ) {
                     TargetNS.ToggleTwoContainer($Element1, $Element2);
                 }
                 else {
