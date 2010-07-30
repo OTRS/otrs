@@ -2,7 +2,7 @@
 # Pagination.dtl - provides HTML for generic Pagination
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Pagination.dtl,v 1.6 2010-07-30 07:21:43 mn Exp $
+# $Id: Pagination.dtl,v 1.7 2010-07-30 07:31:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,18 +18,20 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"IDPrefix"}PageAllBack').live('click', function(){
-        $('#$Data{"IDPrefix"}-box').addClass('Loading');
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
-            $('#$Data{"IDPrefix"}-box').removeClass('Loading');
+            $Container.removeClass('Loading');
         });
         return false;
     });
     $('#$Data{"IDPrefix"}PageOneBack').live('click', function(){
-        $('#$Data{"IDPrefix"}-box').addClass('Loading');
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
-            $('#$Data{"IDPrefix"}-box').removeClass('Loading');
+            $Container.removeClass('Loading');
         });
         return false;
     });
@@ -44,10 +46,11 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"IDPrefix"}Page$Data{"PageNumber"}').live('click', function(){
-        $('#$Data{"IDPrefix"}-box').addClass('Loading');
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAll"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
-            $('#$Data{"IDPrefix"}-box').removeClass('Loading');
+            $Container.removeClass('Loading');
         });
         return false;
     });
@@ -64,18 +67,20 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"IDPrefix"}PageAllForward').live('click', function(){
-        $('#$Data{"IDPrefix"}-box').addClass('Loading');
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
-            $('#$Data{"IDPrefix"}-box').removeClass('Loading');
+            $Container.removeClass('Loading');
         });
         return false;
     });
     $('#$Data{"IDPrefix"}PageOneForward').live('click', function(){
-        $('#$Data{"IDPrefix"}-box').addClass('Loading');
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#$Data{"AjaxReplace"}'));
-            $('#$Data{"IDPrefix"}-box').removeClass('Loading');
+            $Container.removeClass('Loading');
         });
         return false;
     });
