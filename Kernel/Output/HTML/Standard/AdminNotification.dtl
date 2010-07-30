@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.19 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminNotification.dtl,v 1.20 2010-07-30 12:35:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,7 +97,7 @@ $Include{"RichTextEditor"}
                     </thead>
                     <tbody>
                         <tr class="FilterMessage Hidden">
-                            <td colspan="2">$Text{"No matches found"}.</td>
+                            <td colspan="2">$Text{"No matches found."}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
