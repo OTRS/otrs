@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1261 2010-07-30 15:30:42 martin Exp $
+# $Id: CHANGES,v 1.1262 2010-08-01 04:48:20 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta1 (2010/08/02)
+ - (2010/07/30) Fixed bug#5361 - Wrong link detection, because regexp looking for url
+   like "www.exam.com" and needed "xwww.exam.com", added unit test.
  - (2010/07/28) Added new sysconfig validation module layer to verify and auto-correct
     some sysconfig settings.
  - (2010/07/21) Fixed bug#5566 - StateDefault, PriorityDefault and ArticleTypeDefault

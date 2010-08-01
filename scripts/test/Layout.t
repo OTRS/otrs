@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.41 2010-07-14 11:28:05 ub Exp $
+# $Id: Layout.t,v 1.42 2010-08-01 04:48:20 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -295,7 +295,7 @@ ak@example.com<br/>
 &lt;<a href="http://bugs.example.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450">http://bugs.example.org/show_bug.cgi?id=2450</a>&gt;asdf<br/>
 &lt;<a href="http://bugs.example.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/s()how_bug.cgi?id=2450">http://bugs.example.org/s()how_bug.cgi?id=2450</a>&gt; as<br/>
 <br/>
-w<a href="http://www.example.net" target="_blank" title="http://www.example.net">http://www.example.net</a><br/>
+<a href="http://wwww.example.net" target="_blank" title="http://wwww.example.net">http://wwww.example.net</a><br/>
 <br/>
 <a href="ftp://ftp.example.org" target="_blank" title="ftp://ftp.example.org">ftp://ftp.example.org</a><br/>
 <br/>
