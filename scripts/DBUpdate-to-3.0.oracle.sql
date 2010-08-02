@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2010-07-13 15:26:44
+--  driver: oracle, generated: 2010-07-30 17:15:14
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -116,12 +116,14 @@ ALTER TABLE customer_user MODIFY customer_id VARCHAR2 (150) DEFAULT NULL;
 ALTER TABLE customer_user MODIFY zip VARCHAR2 (200) DEFAULT NULL;
 ALTER TABLE customer_user MODIFY city VARCHAR2 (200) DEFAULT NULL;
 ALTER TABLE customer_user MODIFY country VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE customer_user MODIFY pw VARCHAR2 (64) DEFAULT NULL;
 -- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
 ALTER TABLE users RENAME COLUMN salutation TO title;
 ALTER TABLE users MODIFY title VARCHAR2 (50) DEFAULT NULL;
 ALTER TABLE users MODIFY login VARCHAR2 (200) DEFAULT NULL;
+ALTER TABLE users MODIFY pw VARCHAR2 (64) DEFAULT NULL;
 ALTER TABLE valid MODIFY name VARCHAR2 (200) DEFAULT NULL;
 ALTER TABLE ticket_priority MODIFY name VARCHAR2 (200) DEFAULT NULL;
 ALTER TABLE ticket_type MODIFY name VARCHAR2 (200) DEFAULT NULL;

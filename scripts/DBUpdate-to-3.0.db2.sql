@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-07-13 15:26:44
+--  driver: db2, generated: 2010-07-30 17:15:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -217,6 +217,14 @@ ALTER TABLE customer_user ALTER COLUMN country DROP DEFAULT;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE customer_user');
 
+ALTER TABLE customer_user ALTER COLUMN pw SET DEFAULT '';
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE customer_user');
+
+ALTER TABLE customer_user ALTER COLUMN pw DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE customer_user');
+
 SET INTEGRITY FOR users OFF;
 
 -- ----------------------------------------------------------
@@ -257,6 +265,14 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE users');
 UPDATE users SET login = '' WHERE login IS NULL;
 
 ALTER TABLE users ALTER COLUMN login SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE users');
+
+ALTER TABLE users ALTER COLUMN pw SET DEFAULT '';
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE users');
+
+ALTER TABLE users ALTER COLUMN pw DROP DEFAULT;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE users');
 
@@ -678,4 +694,3 @@ ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);
-

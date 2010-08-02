@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-07-13 15:26:44
+#  driver: mysql, generated: 2010-07-30 17:15:14
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -113,6 +113,11 @@ ALTER TABLE customer_user ALTER city DROP DEFAULT;
 ALTER TABLE customer_user CHANGE country country VARCHAR (200) NULL;
 ALTER TABLE customer_user ALTER country DROP DEFAULT;
 # ----------------------------------------------------------
+#  alter table customer_user
+# ----------------------------------------------------------
+ALTER TABLE customer_user CHANGE pw pw VARCHAR (64) NULL;
+ALTER TABLE customer_user ALTER pw DROP DEFAULT;
+# ----------------------------------------------------------
 #  alter table users
 # ----------------------------------------------------------
 ALTER TABLE users CHANGE salutation title VARCHAR (50) NULL;
@@ -124,6 +129,11 @@ ALTER TABLE users CHANGE login login VARCHAR (200) NULL;
 ALTER TABLE users ALTER login DROP DEFAULT;
 UPDATE users SET login = '' WHERE login IS NULL;
 ALTER TABLE users CHANGE login login VARCHAR (200) NOT NULL;
+# ----------------------------------------------------------
+#  alter table users
+# ----------------------------------------------------------
+ALTER TABLE users CHANGE pw pw VARCHAR (64) NULL;
+ALTER TABLE users ALTER pw DROP DEFAULT;
 # ----------------------------------------------------------
 #  alter table valid
 # ----------------------------------------------------------

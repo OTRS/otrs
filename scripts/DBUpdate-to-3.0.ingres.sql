@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2010-07-13 15:26:44
+--  driver: ingres, generated: 2010-07-30 17:15:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -35,9 +35,9 @@ ALTER TABLE article_flag DROP COLUMN article_flag RESTRICT;\g
 --  alter table article_flag
 -- ----------------------------------------------------------
 ALTER TABLE article_flag ADD COLUMN article_value VARCHAR(50);\g
-CREATE SEQUENCE virtual_fs_158;\g
+CREATE SEQUENCE virtual_fs_983;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_158.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_983.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE virtual_fs_preferences (
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
 CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);\g
-CREATE SEQUENCE virtual_fs_db_254;\g
+CREATE SEQUENCE virtual_fs_db_300;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_254.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_300.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL
@@ -95,6 +95,10 @@ ALTER TABLE customer_user ALTER COLUMN city VARCHAR(200);\g
 -- ----------------------------------------------------------
 ALTER TABLE customer_user ALTER COLUMN country VARCHAR(200);\g
 -- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ALTER COLUMN pw VARCHAR(64);\g
+-- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
 ALTER TABLE users ADD COLUMN title VARCHAR(50);\g
@@ -107,6 +111,10 @@ ALTER TABLE users DROP COLUMN salutation RESTRICT;\g
 --  alter table users
 -- ----------------------------------------------------------
 ALTER TABLE users ALTER COLUMN login VARCHAR(200);\g
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE users ALTER COLUMN pw VARCHAR(64);\g
 -- ----------------------------------------------------------
 --  alter table valid
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2010-07-13 15:26:44
+--  driver: mssql, generated: 2010-07-30 17:15:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -113,6 +113,9 @@ GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_customer_user_country' )
 ALTER TABLE customer_user DROP CONSTRAINT DF_customer_user_country;
 GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_customer_user_pw' )
+ALTER TABLE customer_user DROP CONSTRAINT DF_customer_user_pw;
+GO
 EXECUTE sp_rename N'users.salutation', N'title', 'COLUMN';
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_users_title' )
@@ -124,6 +127,9 @@ GO
 UPDATE users SET login = '' WHERE login IS NULL;
 GO
 ALTER TABLE users ALTER COLUMN login VARCHAR (200) NOT NULL;
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_users_pw' )
+ALTER TABLE users DROP CONSTRAINT DF_users_pw;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_valid_name' )
 ALTER TABLE valid DROP CONSTRAINT DF_valid_name;

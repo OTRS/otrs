@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2010-07-13 15:26:44
+--  driver: postgresql, generated: 2010-07-30 17:15:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -122,6 +122,11 @@ ALTER TABLE customer_user ALTER city DROP DEFAULT;
 ALTER TABLE customer_user ALTER country TYPE VARCHAR (200);
 ALTER TABLE customer_user ALTER country DROP DEFAULT;
 -- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ALTER pw TYPE VARCHAR (64);
+ALTER TABLE customer_user ALTER pw DROP DEFAULT;
+-- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
 ALTER TABLE users RENAME salutation TO title;
@@ -137,6 +142,11 @@ ALTER TABLE users ALTER login TYPE VARCHAR (200);
 ALTER TABLE users ALTER login DROP DEFAULT;
 UPDATE users SET login = '' WHERE login IS NULL;
 ALTER TABLE users ALTER login SET NOT NULL;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE users ALTER pw TYPE VARCHAR (64);
+ALTER TABLE users ALTER pw DROP DEFAULT;
 -- ----------------------------------------------------------
 --  alter table valid
 -- ----------------------------------------------------------
