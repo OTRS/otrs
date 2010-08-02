@@ -114,11 +114,13 @@
         <ColumnChange NameOld="zip" NameNew="zip" Required="false" Size="200" Type="VARCHAR"/>
         <ColumnChange NameOld="city" NameNew="city" Required="false" Size="200" Type="VARCHAR"/>
         <ColumnChange NameOld="country" NameNew="country" Required="false" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="pw" NameNew="pw" Required="false" Size="64" Type="VARCHAR"/>
     </TableAlter>
 
     <TableAlter Name="users">
         <ColumnChange NameOld="salutation" NameNew="title" Required="false" Size="50" Type="VARCHAR"/>
         <ColumnChange NameOld="login" NameNew="login" Required="true" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="pw" NameNew="pw" Required="false" Size="64" Type="VARCHAR"/>
     </TableAlter>
 
     <TableAlter Name="valid">
