@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.284 2010-07-30 09:48:31 martin Exp $
+# $Id: Layout.pm,v 1.285 2010-08-02 12:04:12 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.284 $) [1];
+$VERSION = qw($Revision: 1.285 $) [1];
 
 =head1 NAME
 
@@ -1205,7 +1205,10 @@ sub Notify {
 generates the HTML for the page begin in the Agent interface.
 
     my $Output = $LayoutObject->Header(
-        Type => 'Small',                # optional, '' (Default, full header) or 'Small' (blank header)
+        Type              => 'Small',                # (optional) '' (Default, full header) or 'Small' (blank header)
+        ShowToolbarItems  => 0,                      # (optional) default 1 (0|1)
+        ShowPrefLink      => 0,                      # (optional) default 1 (0|1)
+        ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
     );
 
 =cut
@@ -1214,6 +1217,17 @@ sub Header {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
+
+    # check params
+    if ( !defined $Param{ShowToolbarItems} ) {
+        $Param{ShowToolbarItems} = 1;
+    }
+    if ( !defined $Param{ShowPrefLink} ) {
+        $Param{ShowPrefLink} = 1;
+    }
+    if ( !defined $Param{ShowLogoutButton} ) {
+        $Param{ShowLogoutButton} = 1;
+    }
 
     # set rtl if needed
     if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
@@ -1280,7 +1294,7 @@ sub Header {
 
     # run tool bar item modules
     my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
-    if ( $Self->{UserID} && ref $ToolBarModule eq 'HASH' ) {
+    if ( $Param{ShowToolbarItems} && $Self->{UserID} && ref $ToolBarModule eq 'HASH' ) {
         my %Modules;
         my %Jobs = %{$ToolBarModule};
         for my $Job ( sort keys %Jobs ) {
@@ -1317,14 +1331,27 @@ sub Header {
 
     # show logged in notice
     if ( $Self->{UserID} ) {
-        $Self->Block(
-            Name => 'Login',
-            Data => \%Param,
-        );
+        if ( $Param{ShowPrefLink} ) {
+            $Self->Block(
+                Name => 'Login',
+                Data => \%Param,
+            );
+        }
+        else {
+            $Self->Block(
+                Name => 'LoginWithoutLink',
+                Data => \%Param,
+            );
+        }
     }
 
     # show logout button (if registered)
-    if ( $Self->{UserID} && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout} ) {
+    if (
+        $Param{ShowLogoutButton}
+        && $Self->{UserID}
+        && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout}
+        )
+    {
         $Self->Block(
             Name => 'Logout',
             Data => \%Param,
@@ -4650,6 +4677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.284 $ $Date: 2010-07-30 09:48:31 $
+$Revision: 1.285 $ $Date: 2010-08-02 12:04:12 $
 
 =cut
