@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.15 2010-06-22 22:00:51 dz Exp $
+# $Id: CustomerUser.t,v 1.16 2010-08-02 16:58:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -346,7 +346,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # check password support
-    for my $Config qw( md5 crypt plain) {
+    for my $Config qw( md5 crypt plain sha1 sha2 ) {
         $Self->{ConfigObject}->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
