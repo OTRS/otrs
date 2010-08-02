@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.31 2010-05-20 12:14:39 mb Exp $
+# $Id: DB.pm,v 1.32 2010-08-02 16:53:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,21 +128,47 @@ sub Auth {
     my $CryptedPw = '';
     my $Salt      = $GetPw;
 
-    # md5 pw
     if ( $Self->{CryptType} eq 'plain' ) {
         $CryptedPw = $Pw;
     }
+
+    # md5 or sha pw
     elsif ( $GetPw !~ /^.{13}$/ ) {
 
-        # strip salt
-        $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
+        # md5 pw
+        if ( $GetPw =~ m{\A \$.+? \$.+? \$.* \z}xms ) {
 
-        # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-        $Self->{EncodeObject}->EncodeOutput( \$Salt );
+            # strip Salt
+            $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
 
-        $CryptedPw = unix_md5_crypt( $Pw, $Salt );
-        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
+            # encode output, needed by unix_md5_crypt() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+            $Self->{EncodeObject}->EncodeOutput( \$Salt );
+
+            $CryptedPw = unix_md5_crypt( $Pw, $Salt );
+            $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
+        }
+
+        # sha2 pw
+        elsif ( $GetPw =~ m{\A .{64} \z}xms ) {
+
+            # encode output, needed by sha256_hex() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+            $CryptedPw = sha256_hex($Pw);
+            $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
+        }
+
+        # sha1 pw
+        else {
+
+            # encode output, needed by sha1_hex() only non utf8 signs
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+            $CryptedPw = sha1_hex($Pw);
+            $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
+
+        }
     }
 
     # crypt pw

@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.104 2010-06-17 21:39:40 cr Exp $
+# $Id: User.pm,v 1.105 2010-08-02 16:53:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,14 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -641,13 +642,33 @@ sub SetPassword {
     }
 
     # crypt with md5
-    else {
+    elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
         $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+    }
+
+    # crypt with sha1
+    elsif ( $CryptType eq 'sha1' ) {
+
+        # encode output, needed by sha1_hex() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+        $CryptedPw = sha1_hex($Pw);
+    }
+
+    # crypt with sha2
+    # if $CryptType is set to anything else icluding sha2
+    else {
+
+        # encode output, needed by sha256_hex() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+        $CryptedPw = sha256_hex($Pw);
+
     }
 
     # md5 sum of pw, needed for password history
@@ -1067,6 +1088,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.105 $ $Date: 2010-08-02 16:53:02 $
 
 =cut

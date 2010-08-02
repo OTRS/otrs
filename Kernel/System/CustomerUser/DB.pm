@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.82 2010-04-14 19:42:03 martin Exp $
+# $Id: DB.pm,v 1.83 2010-08-02 16:53:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,14 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -801,7 +802,7 @@ sub SetPassword {
     }
 
     # crypt with md5 crypt
-    else {
+    elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
@@ -809,6 +810,26 @@ sub SetPassword {
 
         $CryptedPw = unix_md5_crypt( $Pw, $Login );
         $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
+    }
+
+    # crypt with sha1
+    elsif ( $CryptType eq 'sha1' ) {
+
+        # encode output, needed by sha1_hex() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+        $CryptedPw = sha1_hex($Pw);
+    }
+
+    # crypt with sha2
+    # if CrypType is set to anything else, including sha2
+    else {
+
+        # encode output, needed by sha256_hex() only non utf8 signs
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+
+        $CryptedPw = sha256_hex($Pw);
+
     }
 
     # update db
