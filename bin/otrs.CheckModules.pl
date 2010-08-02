@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.9 2010-07-14 10:16:41 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.10 2010-08-02 17:09:33 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -62,6 +62,12 @@ my @NeededModules = (
     {
         Module   => 'Digest::MD5',
         Required => 1,
+    },
+    {
+        Module   => 'Digest::SHA::PurePerl',
+        Version  => '5.48',
+        Required => 1,
+        Comment  => 'Required to authenticate users and customers using SHA-1 or SHA-2 methods',
     },
     {
         Module   => 'Encode::HanExtra',
