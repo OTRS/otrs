@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.26 $
+ * @version     $Revision: 1.27 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -343,6 +343,10 @@ dd {
 
 .W50px {
     width: 50px;
+}
+
+.W950px {
+    width: 950px;
 }
 
 /**
