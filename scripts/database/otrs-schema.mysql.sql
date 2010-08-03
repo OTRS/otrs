@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-02-23 14:03:48
+#  driver: mysql, generated: 2010-08-03 10:09:04
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -20,7 +20,7 @@ CREATE TABLE valid (
 CREATE TABLE users (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (200) NOT NULL,
-    pw VARCHAR (50) NOT NULL,
+    pw VARCHAR (64) NOT NULL,
     title VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
@@ -872,7 +872,7 @@ CREATE TABLE customer_user (
     login VARCHAR (200) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (150) NOT NULL,
-    pw VARCHAR (50) NULL,
+    pw VARCHAR (64) NULL,
     title VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,

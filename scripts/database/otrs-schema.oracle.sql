@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2010-02-23 14:03:48
+--  driver: oracle, generated: 2010-08-03 10:09:04
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -37,7 +37,7 @@ CREATE INDEX FK_valid_create_by ON valid (create_by);
 CREATE TABLE users (
     id NUMBER (12, 0) NOT NULL,
     login VARCHAR2 (200) NOT NULL,
-    pw VARCHAR2 (50) NOT NULL,
+    pw VARCHAR2 (64) NOT NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
     last_name VARCHAR2 (100) NOT NULL,
@@ -1423,7 +1423,7 @@ CREATE TABLE customer_user (
     login VARCHAR2 (200) NOT NULL,
     email VARCHAR2 (150) NOT NULL,
     customer_id VARCHAR2 (150) NOT NULL,
-    pw VARCHAR2 (50) NULL,
+    pw VARCHAR2 (64) NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
     last_name VARCHAR2 (100) NOT NULL,
