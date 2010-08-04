@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.285 2010-08-02 12:04:12 mn Exp $
+# $Id: Layout.pm,v 1.286 2010-08-04 12:25:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.285 $) [1];
+$VERSION = qw($Revision: 1.286 $) [1];
 
 =head1 NAME
 
@@ -921,7 +921,7 @@ sub Login {
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin}, );
+    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin} );
     $Self->LoaderCreateAgentJSCalls();
 
     # create & return output
@@ -1240,7 +1240,7 @@ sub Header {
     }
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin}, );
+    $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin} );
 
     # add cookies if exists
     my $Output = '';
@@ -1478,7 +1478,7 @@ sub PrintHeader {
 sub PrintFooter {
     my ( $Self, %Param ) = @_;
 
-    $Param{Host} = $Self->Ascii2Html( Text => $ENV{SERVER_NAME} . $ENV{REQUEST_URI}, );
+    $Param{Host} = $Self->Ascii2Html( Text => $ENV{SERVER_NAME} . $ENV{REQUEST_URI} );
     $Param{Host} =~ s/&amp;/&/ig;
 
     # create & return output
@@ -2655,7 +2655,7 @@ sub TransfromDateSelection {
             $Param{ $Prefix . 'Day' },
             $Param{ $Prefix . 'Month' },
             $Param{ $Prefix . 'Year' }
-        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
+        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
     }
 
     # reset prefix
@@ -2708,7 +2708,7 @@ sub BuildDateSelection {
             $Param{ $Prefix . 'Day' },
             $Param{ $Prefix . 'Month' },
             $Param{ $Prefix . 'Year' }
-        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
+        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
     }
 
     # year
@@ -3491,7 +3491,7 @@ sub RichTextDocumentComplete {
     }
 
     # filter links in response
-    $Param{String} = $Self->HTMLLinkQuote( String => $Param{String}, );
+    $Param{String} = $Self->HTMLLinkQuote( String => $Param{String} );
 
     return $Param{String};
 }
@@ -4677,6 +4677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.285 $ $Date: 2010-08-02 12:04:12 $
+$Revision: 1.286 $ $Date: 2010-08-04 12:25:21 $
 
 =cut
