@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.12 2010-07-30 09:24:31 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.13 2010-08-05 14:35:21 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -181,7 +181,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
 
                 // Mark old row as readed
-                $(this).closest('table').find('tr').removeClass('UnreadArticles');
+                $(this).closest('table').find('tr.UnreadArticles').removeClass('UnreadArticles');
+                $(this).closest('table').find('tr').find('span.UnreadArticles').remove();
 
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());
