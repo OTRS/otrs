@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1266 2010-08-05 14:35:21 martin Exp $
+# $Id: CHANGES,v 1.1267 2010-08-05 15:15:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/05) Fixed bug#5670 - In Agent Interface, e. g. note action, you can
+    select a file, which get's uploaded automatically. This is not working in
+    customer panel.
  - (2010/08/05) Fixed bug#5625 - Article Zoom Screen -> New Message Indicator
     get's not removed after clicking on an article item.
  - (2010/08/05) Fixed bug#5671 - In Customer Panel, there are not used links in

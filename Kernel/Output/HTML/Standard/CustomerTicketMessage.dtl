@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.37 2010-07-21 21:38:00 fn Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.38 2010-08-05 15:15:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,16 @@ $Include{"RichTextEditor"}
                 <div>
                     <label for="Attachment">$Text{"Attachment"}</label>
                     <input name="file_upload" id="Attachment" title="Attachment" type="file" size="40" />
-                    <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
+                    <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#Attachment').bind('change', function (Event) {
+        var $Form = $('#Attachment').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:Attachment -->
                     <div class="Attachment">
                         $QData{"Filename"} <span>$QData{"Filesize"}</span>

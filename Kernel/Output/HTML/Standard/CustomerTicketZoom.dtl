@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.86 2010-07-29 18:00:40 dz Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.87 2010-08-05 15:15:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -145,7 +145,17 @@
                         <div id="AttachmentHolder">
                             <label for="Attachment">$Text{"Attachment"}:</label>
                             <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
-                            <button type="submit" name="AttachmentUpload" value="$Text{"Attach"}">$Text{"Attach"}</button>
+                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#Attachment').bind('change', function (Event) {
+        var $Form = $('#Attachment').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
 <!-- dtl:block:FollowUpAttachment -->
                             <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
                                 $QData{"Filename"}
