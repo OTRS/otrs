@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.92 2010-07-20 12:47:10 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.93 2010-08-05 14:14:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1936,6 +1936,20 @@ sub Run {
             Type        => 'inline'
         );
     }
+
+    # show default search screen
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Self->{LayoutObject}->Block(
+        Name => 'Search',
+        Data => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketSearch',
+        Data         => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 1;

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1263 2010-08-02 16:59:17 cr Exp $
+# $Id: CHANGES,v 1.1264 2010-08-05 14:14:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,11 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
- - (2010/08/02) Fixed bug#2774 add sha1 and sha2 for additional auth method. now otrs is able to
-   crypt passwords using sha-1 and sha-256 for users and customer using DB backend
+ - (2010/08/05) Fixed bug#5635 - It's not possible to open Ticket Search feature
+    in own browser tab.
+ - (2010/08/02) Fixed bug#2774 - Added sha1 and sha2 for additional auth method.
+    Now otrs is able to crypt passwords using sha-1 and sha-256 for users and
+    customer using DB backend.
 
 3.0.0 beta1 (2010/08/02)
  - (2010/07/30) Fixed bug#5361 - Wrong link detection, because regexp looking for url
