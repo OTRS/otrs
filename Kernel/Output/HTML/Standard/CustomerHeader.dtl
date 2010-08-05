@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.44 2010-07-20 22:42:53 dz Exp $
+# $Id: CustomerHeader.dtl,v 1.45 2010-08-05 14:23:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ $Include{"Copyright"}
 <body class="$QData{"BodyClass"}">
 <!-- start CI layout -->
     <div id="Header">
-        <h1 class="CompanyName"><a href="">Company Personal Support</a></h1>
+        <h1 class="CompanyName"><a href="#">Company Support</a></h1>
 <!-- dtl:block:DebugRTLButton -->
         <button onclick="Core.Debug.SimulateRTLPage();" type="button">Simulate RTL</button>
 <!-- dtl:block:DebugRTLButton -->
