@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.21 2010-07-23 21:30:56 en Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.22 2010-08-05 17:49:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@
                 $Text{"Change Responsible of Ticket"}
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 
-                : $Data{"TicketNumber"}
+                : $Data{"TicketNumber"} - $QData{"Title"}
             </h1>
 
 <!-- dtl:block:TicketBack -->
