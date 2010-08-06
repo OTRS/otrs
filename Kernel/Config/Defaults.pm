@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.360 2010-08-02 16:44:35 cr Exp $
+# $Id: Defaults.pm,v 1.361 2010-08-06 16:16:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,15 @@ package Kernel::Config::Defaults;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.360 $) [1];
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.361 $) [1];
+
+# use ../ as lib location
+use File::Basename;
+use FindBin qw($Bin);
+use lib dirname($Bin);
+use lib dirname($Bin) . '/Kernel/cpan-lib';
+use lib dirname($Bin) . '/Custom';
 
 use File::stat;
 use Digest::MD5;
@@ -2211,6 +2218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.360 $ $Date: 2010-08-02 16:44:35 $
+$Revision: 1.361 $ $Date: 2010-08-06 16:16:15 $
 
 =cut
