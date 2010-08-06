@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.js - accessibility functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Accessibility.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.UI.Accessibility.js,v 1.2 2010-08-06 07:32:09 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ Core.UI.Accessibility = (function (TargetNS) {
             .attr('role', 'main');
         $('.ARIAHasPopup')
             .attr('aria-haspopup', 'true');
-        $('.OTRS_Validate_Required, .OTRS_Validate_DependingRequired')
+        $('.Validate_Required, .Validate_RequiredDropdown, .Validate_RequiredRichtext, .Validate_DependingRequiredAND, .Validate_DependingRequiredOR')
             .attr('aria-required', 'true');
     };
 
@@ -59,7 +59,7 @@ Core.UI.Accessibility = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.AudibleAlert = function (Text) {
-        var AlertMessageID = 'OTRS_Accessibility_AlertMessage';
+        var AlertMessageID = 'Accessibility_AlertMessage';
 
         // remove possibly pre-existing alert message
         $('#' + AlertMessageID).remove();
