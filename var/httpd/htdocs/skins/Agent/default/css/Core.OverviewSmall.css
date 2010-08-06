@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -15,31 +15,31 @@
 /**
  * @subsection  Overview Holder
  */
- 
+
 #OverviewBody {
     margin: 0 16px 8px 8px;
     border-left: 1px solid #DDD;
     border-right: 1px solid #DDD;
 }
-    
+
 .RTL #OverviewBody {
     margin-right: 8px;
     margin-left: 16px;
 }
-    
+
 .Small .ActionRow {
     border-bottom: none;
 }
- 
+
 .Overview.FixedHeader {
    padding-top: 72px;
    position: relative;
 }
-    
+
 .Overview.FixedHeader table {
     border: none;
 }
-    
+
 .Overview.FixedHeader thead tr {
     width: auto;
     left: 0;
@@ -47,12 +47,12 @@
     background: #AAA url("../img/gradient_light.png") repeat-x 0 -25px;
     z-index: 15;
 }
-    
+
 .Overview.FixedHeader.Fixed thead tr {
     margin: 0 16px 0 9px;
     position: fixed;
 }
-    
+
 .RTL .Overview.FixedHeader.Fixed thead tr {
     margin: 0 9px 0 16px;
 }
