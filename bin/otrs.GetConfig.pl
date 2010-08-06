@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GetConfig.pl - get OTRS config vars
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GetConfig.pl,v 1.1 2010-04-05 10:12:20 mb Exp $
+# $Id: otrs.GetConfig.pl,v 1.2 2010-08-06 17:44:32 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,14 +28,14 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
+use Kernel::System::Main;
 
 # common objects
 my %CommonObject = ();
@@ -45,6 +45,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'otrs.GetConfig',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 
 # print wanted var
 my $Key = shift || '';
