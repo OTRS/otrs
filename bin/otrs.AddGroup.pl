@@ -3,7 +3,7 @@
 # bin/otrs.AddGroup.pl - add new system groups
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddGroup.pl,v 1.3 2010-08-06 17:33:02 martin Exp $
+# $Id: otrs.AddGroup.pl,v 1.4 2010-08-06 17:48:09 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -27,7 +27,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -56,8 +55,8 @@ my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddGroup.pl'
-        % CommonObject,
+    LogPrefix => 'OTRS-otrs.AddGroup.pl',
+    %CommonObject,
 );
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
