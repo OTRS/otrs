@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.132 2010-07-30 09:05:05 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.133 2010-08-06 15:32:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,65 @@
 # --
 
 <!-- dtl:block:ArticleFilterDialog -->
-$Include{"AgentTicketZoomArticleFilterDialog"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SetArticleFilter').bind('click', function (Event) {
+        Core.UI.Dialog.ShowContentDialog($('#ArticleFilterDialog'), '$JSText{"Article filter"}', '20px', 'Center', true, [
+            {
+                Label: "$JSText{"Save"}",
+                Function: function () {
+                    var Data = Core.AJAX.SerializeForm($('#ArticleFilterDialogForm'));
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
+                        location.reload();
+                    }, 'text');
+                }
+            },
+            {
+                Label: "$JSText{"Reset"}",
+                Function: function () {
+                    $('#ArticleTypeFilter').val('');
+                    $('#ArticleSenderTypeFilter').val('');
+                }
+            },
+        ]);
+        return false;
+    });
+    $('#ResetArticleFilter').bind('click', function (Event) {
+        var Data = {
+            Action:       'AgentTicketZoom',
+            Subaction:    'ArticleFilterSet',
+            TicketID:     '$QData{"TicketID"}',
+            SaveDefaults: 1
+        };
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
+            location.reload();
+        });
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<div id="ArticleFilterDialog" class="Hidden">
+    <form action="$Env{"CGIHandle"}" method="post" id="ArticleFilterDialogForm" name="ArticleFilterDialogForm">
+        <input type="hidden" value="AgentTicketZoom" name="Action"/>
+        <input type="hidden" value="ArticleFilterSet" name="Subaction"/>
+        <input type="hidden" value="$QData{"TicketID"}" name="TicketID"/>
+        <fieldset class="TableLike">
+            <label for="ArticleTypeFilter">$Text{"Article"} $Text{"Type"}:</label>
+            <div class="Field">
+                $Data{"ArticleTypeFilterString"}
+            </div>
+            <div class="Clear"></div>
+            <label for="ArticleSenderTypeFilter">$Text{"Article"} $Text{"Sender"} $Text{"Type"}:</label>
+            <div class="Field">
+                $Data{"ArticleSenderTypeFilterString"}
+            </div>
+            <div class="Clear"></div>
+            <label for="SaveDefaults">$Text{"Save filter settings as default"}:</label>
+            <div class="Field">
+                <input type="checkbox" id="SaveDefaults" name="SaveDefaults" value="1" />
+            </div>
+        </fieldset>
+    </form>
+</div>
 <!-- dtl:block:ArticleFilterDialog -->
 
 <!-- dtl:block:Header -->
