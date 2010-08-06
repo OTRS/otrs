@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.52 2010-07-26 06:28:24 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.53 2010-08-06 15:05:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,10 +64,10 @@
                     </th>
 <!-- dtl:block:OverviewNavBarPageEscalationTime -->
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
-                    <th class="LastCustomerSubject"><span>$Text{"From"}/$Text{"Subject"}</span></th>
+                    <th class="LastCustomerSubject"><span>$Text{"From"} / $Text{"Subject"}</span></th>
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
 <!-- dtl:block:OverviewNavBarPageTitle -->
-                    <th class="Title">$Text{"From"}/$Text{"Title"}</th>
+                    <th class="Title">$Text{"From"} / $Text{"Title"}</th>
 <!-- dtl:block:OverviewNavBarPageTitle -->
 <!-- dtl:block:OverviewNavBarPageState -->
                     <th class="State $QData{"CSS"}">

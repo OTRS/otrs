@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1270 2010-08-06 14:53:51 martin Exp $
+# $Id: CHANGES,v 1.1271 2010-08-06 15:06:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/06) Fixed bug#5659 In Global Ticket Overview, Small View, "FROM/SUBJECT" is
+    problematically to read. now it reads "FROM / SUBJECT".
  - (2010/08/06) Fixed bug#5628 - In new Ticket Search, the attribute
     TicketCreateTime, Wording is wrong + Checkbox is not longer needed.
  - (2010/08/06) Fixed bug#5645 - Changing the ticket search options does not

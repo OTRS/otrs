@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.69 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.70 2010-08-06 15:05:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -704,7 +704,7 @@
                             <tr>
                                 <th>$Config{"Ticket::Hook"}</th>
                                 <th>$Text{"Age"}</th>
-                                <th>$Text{"From"}/$Text{"Subject"}</th>
+                                <th>$Text{"From"} / $Text{"Subject"}</th>
                                 <th>$Text{"State"}</th>
                                 <th>$Text{"Queue"}</th>
                                 <th>$Text{"Owner"}</th>
