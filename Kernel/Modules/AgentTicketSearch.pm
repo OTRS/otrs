@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.94 2010-08-05 22:27:51 dz Exp $
+# $Id: AgentTicketSearch.pm,v 1.95 2010-08-06 13:02:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1145,6 +1145,10 @@ sub Run {
                 Value => 'Title',
             },
             {
+                Key   => '',
+                Value => '-',
+            },
+            {
                 Key   => 'From',
                 Value => 'From',
             },
@@ -1163,6 +1167,10 @@ sub Run {
             {
                 Key   => 'Body',
                 Value => 'Body',
+            },
+            {
+                Key   => '',
+                Value => '-',
             },
             {
                 Key   => 'CustomerID',
@@ -1903,6 +1911,7 @@ sub Run {
         );
 
         # show attributes
+        my $AttributeIsUsed = 0;
         for my $Key ( sort keys %GetParam ) {
             next if !$Key;
             next if !defined $GetParam{$Key};
@@ -1917,10 +1926,21 @@ sub Run {
                     }
                 }
             }
+            $AttributeIsUsed = 1;
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
                 Data => {
                     Attribute => $Key,
+                },
+            );
+        }
+
+        # if no attribute is shown, show fulltext search
+        if ( !$AttributeIsUsed ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchAJAXShow',
+                Data => {
+                    Attribute => 'Fulltext',
                 },
             );
         }

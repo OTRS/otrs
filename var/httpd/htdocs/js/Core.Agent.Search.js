@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.11 2010-07-21 06:04:33 cg Exp $
+// $Id: Core.Agent.Search.js,v 1.12 2010-08-06 13:02:42 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,8 +65,10 @@ Core.Agent.Search = (function (TargetNS) {
                 $Element1.appendTo('#SearchInsert');
                 $Element2.appendTo('#SearchInsert');
                 $Element3.appendTo('#SearchInsert');
+                return true;
             }
         });
+        return false;
     }
 
     /**
@@ -88,7 +90,7 @@ Core.Agent.Search = (function (TargetNS) {
      * @return nothing
      *      This function open the search dialog
      */
-     
+
     TargetNS.OpenSearchDialog = function (Action, Profile) {
 
         if ( !Action ) {
@@ -114,10 +116,11 @@ Core.Agent.Search = (function (TargetNS) {
                 // register add of attribute
                 $('.Add').bind('click', function(){
                     var Attribute = $('#Attribute').val();
-                    TargetNS.ItemAdd(Attribute);
+                    if ( TargetNS.ItemAdd(Attribute) ) {
 
-                    // rebuild selection
-                    TargetNS.RebuildSelection();
+                        // rebuild selection
+                        TargetNS.RebuildSelection();
+                    }
 
                     return false;
                 });

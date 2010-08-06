@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1268 2010-08-06 12:43:47 martin Exp $
+# $Id: CHANGES,v 1.1269 2010-08-06 13:02:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/06) Fixed bug#5627 - "Fulltext" attribute in new ticket search
+    feature is missing on initial use.
  - (2010/08/06) Fixed bug#5663 - In Global Ticket Overview, in M+L Mode, orange
     hyper links are not shown on hover a record.
  - (2010/08/05) Fixed bug#5670 - In Agent Interface, e. g. note action, you can
