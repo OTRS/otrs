@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.46 2010-06-17 22:14:28 cr Exp $
+# $Id: InterfaceCustomer.pm,v 1.47 2010-08-06 11:37:34 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -117,15 +117,15 @@ sub Run {
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # definde frame work params
-    my $FramworkPrams = {
+    my $FrameworkParams = {
         Lang         => '',
         Action       => '',
         Subaction    => '',
         RequestedURL => $QueryString,
     };
-    for my $Key ( keys %{$FramworkPrams} ) {
+    for my $Key ( keys %{$FrameworkParams} ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key )
-            || $FramworkPrams->{$Key};
+            || $FrameworkParams->{$Key};
     }
 
     # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
@@ -1013,6 +1013,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2010-06-17 22:14:28 $
+$Revision: 1.47 $ $Date: 2010-08-06 11:37:34 $
 
 =cut
