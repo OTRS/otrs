@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.35 2010-07-14 10:47:34 mn Exp $
+# $Id: AgentTicketBounce.dtl,v 1.36 2010-08-06 22:10:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
     <div class="WidgetPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Bounce Ticket: $QData{"TicketNumber"}"}</h1>
+            <h1>$Text{"Bounce Ticket: $QData{"TicketNumber"}"} - $QData{"Title","60"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>

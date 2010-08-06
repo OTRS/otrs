@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.19 2010-07-27 18:10:43 en Exp $
+# $Id: AgentTicketHistory.pm,v 1.20 2010-08-06 22:14:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,8 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
+
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     my @Lines = $Self->{TicketObject}->HistoryGet(
         TicketID => $Self->{TicketID},
@@ -132,6 +134,7 @@ sub Run {
         Data         => {
             TicketNumber => $Tn,
             TicketID     => $Self->{TicketID},
+            Title        => %Ticket->{Title},
         },
     );
     $Output .= $Self->{LayoutObject}->Footer(

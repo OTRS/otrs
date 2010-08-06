@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.40 2010-07-29 09:13:16 fn Exp $
+# $Id: AgentLinkObject.dtl,v 1.41 2010-08-06 22:10:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
 
     <div class="Header">
         <h1>
-            $Text{"Link Object: %s", "$Data{"SourceObjectNormal"}"}
+            $Text{"Link Object: %s", "$Data{"SourceObjectNormal"}"} - $QData{"Title","60"}
         </h1>
         <p>
             <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
