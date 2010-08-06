@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -35,11 +35,11 @@
     position: fixed;
     top: 0px;
 }
-    
+
 .OverviewControl > div {
     padding: 0 16px 0 8px;
 }
-    
+
 .RTL .OverviewControl > div {
     padding: 0 8px 0 16px;
 }
@@ -63,24 +63,24 @@
 .RTL .OverviewZoom li {
     float: right;
 }
-    
+
 .OverviewZoom li:first-child {
     padding-left: 5px;
 }
-    
+
 .RTL .OverviewZoom li:first-child {
     padding-left: 0;
     padding-right: 5px;
 }
-    
+
 .OverviewZoom li.Last {
     padding-right: 5px;
 }
-    
+
 .OverviewZoom li:last-child {
     padding-right: 5px;
 }
-    
+
 .RTL .OverviewZoom li.Last {
     padding-right: 0;
     padding-left: 5px;
@@ -118,11 +118,11 @@
 .OverviewZoom .Medium span {
     background-position: -18px 0;
 }
-    
+
 .OverviewZoom .Active .Medium span {
     background-position: -18px -36px;
 }
-    
+
 .OverviewZoom .Preview span {
     background-position: -36px 0;
 }
