@@ -3,7 +3,7 @@
 # bin/otrs.AddGroup.pl - add new system groups
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddGroup.pl,v 1.2 2010-07-12 05:17:31 mp Exp $
+# $Id: otrs.AddGroup.pl,v 1.3 2010-08-06 17:33:02 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,8 +36,6 @@ use Kernel::System::DB;
 use Kernel::System::Group;
 use Kernel::System::Main;
 
-my %Param;
-my %CommonObject;
 my %opts;
 
 use Getopt::Std;
@@ -54,6 +52,7 @@ if ( !$opts{n} ) {
 }
 
 # create common objects
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -65,6 +64,7 @@ $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # user id of the person adding the record
+my %Param;
 $Param{UserID} = '1';
 
 # Validrecord
