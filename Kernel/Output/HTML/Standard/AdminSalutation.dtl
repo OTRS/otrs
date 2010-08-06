@@ -2,7 +2,7 @@
 # AdminSalutation.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.dtl,v 1.18 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminSalutation.dtl,v 1.19 2010-08-06 16:07:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a class="CallForAction Plus" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add">
-                            <span>$Text{"Add a new salutation"}</span>
+                            <span>$Text{"Add salutation"}</span>
                         </a>
                     </li>
 <!-- dtl:block:ActionAdd -->
