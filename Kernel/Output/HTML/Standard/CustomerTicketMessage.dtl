@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.38 2010-08-05 15:15:10 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.39 2010-08-06 22:01:08 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,7 +109,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:FreeText -->
 <!-- dtl:block:FreeTime -->
                 <div>
-                    <label for="$Data{"TicketFreeTime"}">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
+                    <label for="$QData{"TicketFreeTimeKey"}">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
                     $Data{"TicketFreeTime"}
                     <div class="Clear"></div>
                 </div>
