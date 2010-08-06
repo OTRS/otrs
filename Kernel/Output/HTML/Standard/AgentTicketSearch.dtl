@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.35 2010-07-20 12:47:36 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.36 2010-08-06 14:53:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,7 +122,7 @@
         <div class="Clear"></div>
         <label for="TicketFreeTimeKey">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
         <div class="Field">
-            <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
+            <input type="hidden" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
             $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
         </div>
         <div class="Clear"></div>
@@ -189,35 +189,40 @@
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="ArticleCreateTime">$Text{"Article Create Times"}</label>
+        <label for="ArticleCreateTimePoint">$Text{"Article Create Times (before/after)"}</label>
         <div class="Field">
-            <input type="radio" name="ArticleTimeSearchType" value="" $Data{"ArticleTimeSearchType::None"}/>
-            $Text{"No create time settings."}
-            <input type="radio" name="ArticleTimeSearchType" value="TimePoint" $Data{"ArticleTimeSearchType::TimePoint"}/>
-            $Text{"Article created"} $Data{"ArticleCreateTimePointStart"} $Data{"ArticleCreateTimePoint"} $Data{"ArticleCreateTimePointFormat"}
-            <input type="radio" name="ArticleTimeSearchType" value="TimeSlot" $Data{"ArticleTimeSearchType::TimeSlot"}/>
-            $Text{"Article created between"} $Data{"ArticleCreateTimeStart"} $Text{"and"} $Data{"ArticleCreateTimeStop"}
+            <input type="hidden" name="ArticleTimeSearchType" value="TimePoint" $Data{"ArticleTimeSearchType::TimePoint"}/>
+            $Data{"ArticleCreateTimePointStart"} $Data{"ArticleCreateTimePoint"} $Data{"ArticleCreateTimePointFormat"}
 
 
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketCreateTimePoint">$Text{"Ticket Create Times (from moment)"}</label>
+        <label for="ArticleCreateTimeSlot">$Text{"Article Create Times (between)"}</label>
         <div class="Field">
-            <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
+            <input type="hidden" name="ArticleTimeSearchType" value="TimeSlot" $Data{"ArticleTimeSearchType::TimeSlot"}/>
+            $Data{"ArticleCreateTimeStart"} $Text{"and"} $Data{"ArticleCreateTimeStop"}
+
+
+            <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+        </div>
+        <div class="Clear"></div>
+        <label for="TicketCreateTimePoint">$Text{"Ticket Create Times (before/after)"}</label>
+        <div class="Field">
+            <input type="hidden" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
             $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
         <label for="TicketCreateTimeSlot">$Text{"Ticket Create Times (between)"}</label>
         <div class="Field">
-            <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
-            $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
+            <input type="hidden" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
+            $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
 
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketChangeTimePoint">$Text{"Ticket Change Times (from moment)"}</label>
+        <label for="TicketChangeTimePoint">$Text{"Ticket Change Times (before/after)"}</label>
         <div class="Field">
             <input type="hidden" name="ChangeTimeSearchType" value="TimePoint" $Data{"ChangeTimeSearchType::TimePoint"}/>
             $Data{"TicketChangeTimePointStart"} $Data{"TicketChangeTimePoint"} $Data{"TicketChangeTimePointFormat"}
@@ -231,16 +236,16 @@
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketCloseTimePoint">$Text{"Ticket Close Times (from moment)"}</label>
+        <label for="TicketCloseTimePoint">$Text{"Ticket Close Times (before/after)"}</label>
         <div class="Field">
-            <input type="radio" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
-            $Text{"Ticket closed"} $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}
+            <input type="hidden" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
+            $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <label for="TicketCloseTimeSlot">$Text{"Ticket Close Times (between)"}</label>
         <div class="Field">
-            <input type="radio" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
-            $Text{"Ticket closed between"} $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}
+            <input type="hidden" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
+            $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}
 
             <button type="submit" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.96 2010-08-06 13:53:50 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.97 2010-08-06 14:53:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,7 +108,7 @@ sub Run {
         );
         return $Self->{LayoutObject}->Attachment(
             Filename    => 'OpenSearchDescriptionTicketNumber.xml',
-            ContentType => "text/xml",
+            ContentType => 'text/xml',
             Content     => $Output,
             Type        => 'inline',
         );
@@ -120,7 +120,7 @@ sub Run {
         );
         return $Self->{LayoutObject}->Attachment(
             Filename    => 'OpenSearchDescriptionFulltext.xml',
-            ContentType => "text/xml",
+            ContentType => 'text/xml',
             Content     => $Output,
             Type        => 'inline',
         );
@@ -1249,7 +1249,7 @@ sub Run {
             },
             {
                 Key   => 'TicketCreateTimePoint',
-                Value => 'Ticket Create Time (from moment)',
+                Value => 'Ticket Create Time (before/after)',
             },
             {
                 Key   => 'TicketCreateTimeSlot',
@@ -1257,7 +1257,7 @@ sub Run {
             },
             {
                 Key   => 'TicketChangeTimePoint',
-                Value => 'Ticket Change Time (from moment)',
+                Value => 'Ticket Change Time (before/after)',
             },
             {
                 Key   => 'TicketChangeTimeSlot',
@@ -1265,7 +1265,7 @@ sub Run {
             },
             {
                 Key   => 'TicketCloseTimePoint',
-                Value => 'Ticket Close Time (from moment)',
+                Value => 'Ticket Close Time (before/after)',
             },
             {
                 Key   => 'TicketCloseTimeSlot',
@@ -1273,7 +1273,7 @@ sub Run {
             },
             {
                 Key   => 'ArticleCreateTimePoint',
-                Value => 'Article Create Time (from moment)',
+                Value => 'Article Create Time (before/after)',
             },
             {
                 Key   => 'ArticleCreateTimeSlot',
@@ -1874,7 +1874,7 @@ sub Run {
             Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
-        for my $Key (qw(TicketClose TicketChange TicketCreate)) {
+        for my $Key (qw(TicketClose TicketChange TicketCreate ArticleCreate)) {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
             }
@@ -1923,14 +1923,31 @@ sub Run {
             next if $GetParam{$Key} eq '';
 
             # show time attributes
-            for my $Item (qw(Change Create Close)) {
-                for my $ItemSubSub (qw(Point Slot)) {
-                    my $ItemSub = $Item . 'TimeSearchType::Time' . $ItemSubSub;
-                    if ( $Key eq $ItemSub && $GetParam{$ItemSub} && $GetParam{$ItemSub} eq 1 ) {
-                        $Key = 'Ticket' . $Item . 'Time' . $ItemSubSub;
+            for my $Type (qw(Ticket Article)) {
+                for my $Item (qw(Change Create Close)) {
+                    next if $Type eq 'Article' && $Item =~ /^(Change|Close)$/;
+                    for my $ItemSubSub (qw(Point Slot)) {
+
+                        # compat.
+                        my $ItemSub;
+                        if ( $Item eq 'Create' && $Type eq 'Ticket' ) {
+                            $ItemSub = 'TimeSearchType::Time' . $ItemSubSub;
+                        }
+                        else {
+                            if ( $Type eq 'Ticket' ) {
+                                $ItemSub = $Item . 'TimeSearchType::Time' . $ItemSubSub;
+                            }
+                            else {
+                                $ItemSub = $Type . 'TimeSearchType::Time' . $ItemSubSub;
+                            }
+                        }
+                        if ( $Key eq $ItemSub && $GetParam{$ItemSub} && $GetParam{$ItemSub} eq 1 ) {
+                            $Key = $Type . $Item . 'Time' . $ItemSubSub;
+                        }
                     }
                 }
             }
+
             $AttributeIsUsed = 1;
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
