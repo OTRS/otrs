@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.3 2010-07-21 21:47:35 fn Exp $
+// $Id: Core.Customer.js,v 1.4 2010-08-08 22:03:52 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ Core.Customer = (function (TargetNS) {
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
      *      4. first input field gets focused
      */
-    TargetNS.InitLogin = function() {
+    TargetNS.InitLogin = function( LoginFailed ) {
         var $Inputs = $('input:not(:checked, :hidden, :radio)'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
@@ -55,7 +55,7 @@ Core.Customer = (function (TargetNS) {
                 $Label.removeClass('Focused');
             });
         CheckInputs($Inputs);
-        
+
         // Fill the reset-password input field with the same value the user types in the login screen
         // so that the user doesnt have to type in his user name again if he already did
         $('#User').blur(function(){
@@ -65,46 +65,60 @@ Core.Customer = (function (TargetNS) {
                 $('#ResetUser').val(value).prev('label').hide();
             }
         });
-        
+
         // detect the location ("SignUp", "Reset" or "Login"):
         // first get the url
         var LocationString = document.location.toString();
+
         // default location is "Login"
         var Location = '#Login';
+
         // check if the url contains an anchor
         if (LocationString.match('#')) {
+
             // cut out the anchor
             Location = '#' + LocationString.split('#')[1];
         }
+
         // get the input fields of the current location
         var $LocalInputs = $(Location).find('input:not(:checked, :hidden, :radio)');
+
         // focus the first one
         $LocalInputs.first().focus();
+
         // add all tab-able inputs
         $LocalInputs.add($(Location+' a, button'));
+
         // collect all global tab-able inputs
         var $TabableInputs = $Inputs.add('a, button');
+
         // give the input fields of all other slides a negative 'tabindex' to prevent
         // the user from accidentally jumping to a hidden input field via the tab key
         $TabableInputs.not($LocalInputs).attr('tabindex', -1);
-        
-        
+
+
         // Change the 'tabindex' according to the navigation of the user
         $SliderNavigationLinks.click(function(){
+
             // get the target id out of the href attribute of the anchor
             var TargetID = $(this).attr('href');
             var I = 0;
             var $TargetInputs = $(TargetID+' input:not(:checked, :hidden, :radio), '+TargetID+' a, '+TargetID+' button');
             var InputsLength = $TargetInputs.length;
-            
+
             // give the inputs on the slide the user just leaves all a 'tabindex' of '-1'
             var Elements = $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio), a, button').attr('tabindex', -1);
-            
+
             // give all inputs on the new shown slide an increasing 'tabindex'
             for (I;I<InputsLength;I++) {
                 $TargetInputs.eq(I).attr('tabindex', I+1);
             }
         });
+
+        // shake login box on autentification failed
+        if (LoginFailed) {
+            Core.UI.Shake( $('#Login') );
+        }
     };
 
     /**
@@ -253,7 +267,7 @@ Core.Customer = (function (TargetNS) {
 
         /*  Change Subject to Loading */
         $SubjectHolder.text(LoadingString);
-        
+
         /*  Load iframe -> get title and put it in src */
         if(Source != 'about:blank') $Iframe.attr('src', Source);
 

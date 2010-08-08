@@ -2,7 +2,7 @@
 // Core.Agent.Login.js - provides the special module functions for the login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Login.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Agent.Login.js,v 1.2 2010-08-08 22:03:52 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ Core.Agent.Login = (function (TargetNS) {
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function () {
+    TargetNS.Init = function ( LoginFailed ) {
         // Browser is too old
         if (!Core.Debug.BrowserCheck()) {
             $('#LoginBox').hide();
@@ -53,6 +53,11 @@ Core.Agent.Login = (function (TargetNS) {
 
         // save TimeOffset data for OTRS
         $('#TimeOffset').val((new Date()).getTimezoneOffset());
+
+        // shake login box on autentification failed
+        if (LoginFailed) {
+            Core.UI.Shake( $('#LoginBox') );
+        }
     };
 
     return TargetNS;

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.56 2010-07-27 14:35:09 fn Exp $
+# $Id: Login.dtl,v 1.57 2010-08-08 22:03:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,31 +76,34 @@ $Include{"Copyright"}
                     </div>
                 </div>
 
-                <div class="WidgetSimple" id="LoginBox">
-                    <div class="Header">
-                        <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
-                    </div>
-                    <div class="Content">
-                        <p class="Error Center Spacing">
-                            $Text{"$Data{"Message"}"}
-                        </p>
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
-                            <input type="hidden" name="Action" value="Login" />
-                            <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
-                            <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
-                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
-                            <fieldset class="TableLike">
-                                <label for="User">$Text{"Username"}:</label>
-                                <div class="Field">
-                                    <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc" readonly="readonly"/>
-                                </div>
-                                <div class="Clear"></div>
+                <div id="LoginBox">
+                    <p class="Error Center Spacing">
+                        $Text{"$Data{"Message"}"}
+                    </p>
+                    <div class="WidgetSimple">
+                        <div class="Header">
+                            <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
+                        </div>
+                        <div class="Content">
+                            <p class="Error Center Spacing"></p>
 
-                                <label for="Password">$Text{"Password"}:</label>
-                                <div class="Field">
-                                    <input type="password" id="Password" name="Password" class="W50pc" readonly="readonly"/>
-                                </div>
-                                <div class="Clear"></div>
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login" id="123">
+                                <input type="hidden" name="Action" value="Login" />
+                                <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
+                                <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+                                <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                                <fieldset class="TableLike">
+                                    <label for="User">$Text{"Username"}:</label>
+                                    <div class="Field">
+                                        <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc" readonly="readonly"/>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="Password">$Text{"Password"}:</label>
+                                    <div class="Field">
+                                        <input type="password" id="Password" name="Password" class="W50pc" readonly="readonly"/>
+                                    </div>
+                                    <div class="Clear"></div>
 
 <!--
 # TODO: Implement
@@ -109,50 +112,53 @@ $Include{"Copyright"}
 #                                    <label for="Remember">Remember my login on this computer</label>
 #                                </div>
 #                                <div class="Clear"></div>
-                                -->
+                                    -->
 
-                                <div class="Field SpacingTopSmall">
-                                    <button type="submit" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
-                        </form>
-<!-- dtl:block:LostPasswordLink -->
-                        <p class="Center SpacingTop">
-                            <a href="#" id="LostPassword">$Text{"Have you lost your password?"}</a>
-                        </p>
-<!-- dtl:block:LostPasswordLink -->
+                                    <div class="Field SpacingTopSmall">
+                                        <button type="submit" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
+<!-- dtl:block:LostPasswordLink -->
+                    <p class="Center SpacingTop">
+                        <a href="#" id="LostPassword">$Text{"Lost your password?"}</a>
+                    </p>
                 </div>
+<!-- dtl:block:LostPasswordLink -->
 
 <!-- dtl:block:LostPassword -->
-                <div class="WidgetSimple Hidden" id="PasswordBox">
-                    <div class="Header">
-                        <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
-                    </div>
-                    <div class="Content">
-                        <h3 class="Center Spacing">$Text{"Request New Password"}</h3>
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="Action" value="LostPassword"/>
-                            <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+                <div id="PasswordBox" class="Hidden">
+                    <div class="WidgetSimple">
+                        <div class="Header">
+                            <h2 class="Center Spacing">$Text{"Request New Password"}</h2>
+                        </div>
+                        <div class="Content">
+                            <p class="Error Center Spacing"></p>
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" name="Action" value="LostPassword"/>
+                                <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
 
-                            <fieldset class="TableLike">
-                                <label for="PasswordUser">$Text{"Username"}:</label>
-                                <div class="Field">
-                                    <input type="text" id="PasswordUser" name="User" value="" class="W50pc" readonly="readonly"/>
-                                </div>
-                                <div class="Clear"></div>
+                                <fieldset class="TableLike">
+                                    <label for="PasswordUser">$Text{"Username"}:</label>
+                                    <div class="Field">
+                                        <input type="text" id="PasswordUser" name="User" value="" class="W50pc" readonly="readonly"/>
+                                    </div>
+                                    <div class="Clear"></div>
 
-                                <div class="Field SpacingTop">
-                                    <button type="submit" value="$Text{"Submit"}" disabled="disabled">$Text{"Submit"}</button>
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
-                        </form>
-                        <p class="Center SpacingTop">
-                            <a href="" id="BackToLogin">$Text{"Back to login"}</a>
-                        </p>
+                                    <div class="Field SpacingTop">
+                                        <button type="submit" value="$Text{"Submit"}" disabled="disabled">$Text{"Submit"}</button>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
+                    <p class="Center SpacingTop">
+                        <a href="" id="BackToLogin">&larr; $Text{"Back to login"}</a>
+                    </p>
                 </div>
 <!-- dtl:block:LostPassword -->
 
@@ -165,7 +171,7 @@ $Data{"Motd"}
         </div>
 <!-- dtl:js_on_document_complete -->
     <script type="text/javascript">//<![CDATA[
-        Core.Agent.Login.Init();
+        Core.Agent.Login.Init( $Data{"LoginFailed"} );
     //]]></script>
 <!-- dtl:js_on_document_complete -->
 
