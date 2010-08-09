@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS.pm - all virtual fs functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.pm,v 1.6 2010-06-17 21:39:40 cr Exp $
+# $Id: VirtualFS.pm,v 1.7 2010-08-09 06:49:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -108,7 +108,7 @@ read a file from virtual file system
 
 returns
 
-    my %File (
+    my %File = (
         Content  => $ContentSCALAR,
 
         # preferences data
@@ -448,20 +448,20 @@ sub Find {
 
     # check preferences search
     if ( $Param{Preferences} ) {
-        File:
+        FILE:
         for my $File ( keys %Result ) {
             for my $Key ( sort keys %{ $Param{Preferences} } ) {
                 my $DB    = $Result{$File}->{$Key};
                 my $Given = $Param{Preferences}->{$Key};
-                next File if defined $DB  && !defined $Given;
-                next File if !defined $DB && defined $Given;
+                next FILE if defined $DB  && !defined $Given;
+                next FILE if !defined $DB && defined $Given;
                 if ( $Given =~ /\*/ ) {
                     $Given =~ s/\*/.\*/g;
                     $Given =~ s/\//\\\//g;
-                    next File if $DB !~ /$Given/;
+                    next FILE if $DB !~ /$Given/;
                 }
                 else {
-                    next File if $DB ne $Given;
+                    next FILE if $DB ne $Given;
                 }
             }
             push @List, $File;
@@ -520,6 +520,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.7 $ $Date: 2010-08-09 06:49:50 $
 
 =cut
