@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.51 2010-08-06 11:37:33 ub Exp $
+# $Id: InterfaceAgent.pm,v 1.52 2010-08-09 12:20:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -222,7 +222,8 @@ sub Run {
                         What => 'Message',
                         )
                         || 'Login failed! Your username or password was entered incorrectly.',
-                    User => $User,
+                    LoginFailed => 1,
+                    User        => $User,
                     %Param,
                 ),
             );
@@ -904,6 +905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2010-08-06 11:37:33 $
+$Revision: 1.52 $ $Date: 2010-08-09 12:20:56 $
 
 =cut
