@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.5 2010-06-17 21:39:40 cr Exp $
+# $Id: EventHandler.pm,v 1.6 2010-08-09 07:58:55 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -82,6 +82,68 @@ Example XML config:
 
 =cut
 
+=item EventHandlerInit()
+
+use vars qw(@ISA);
+use Kernel::System::EventHandler;
+push @ISA, 'Kernel::System::EventHandler';
+
+    $Self->EventHandlerInit(
+
+        # name of configured event modules
+        Config     => 'ITSM::EventModule',
+
+        # current object, $Self, used in events as "ExampleObject"
+        BaseObject => 'ExampleObject',
+
+        # served default objects in any event backend
+        Objects    => {
+            UserObject => $UserObject,
+            XYZ        => $XYZ,
+        },
+    );
+
+e. g.
+
+    $Self->EventHandlerInit(
+        Config     => 'ITSM::EventModule',
+        BaseObject => 'ChangeObject',
+        Objects    => {},
+    );
+
+Example XML config:
+
+    <ConfigItem Name="ITSM::EventModule###01-HistoryAdd" Required="0" Valid="1">
+        <Description Lang="en">ITSM event module updates the history for Change and WorkOrder objects..</Description>
+        <Description Lang="de">ITSM Event Modul aktualisiert die History von Change und WorkOrder Objekten.</Description>
+        <Group>ITSM Change Management</Group>
+        <SubGroup>Core::ITSMEvent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::ITSMChange::Event::HistoryAdd</Item>
+                <Item Key="Event">(ChangeUpdate|WorkOrderUpdate|ChangeAdd|WorkOrderAdd)</Item>
+                <Item Key="SomeOption">Some Option accessable via $Param{Config}->{SomeOption} in Run() of event module.</Item>
+                <Item Key="Transaction">(0|1)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ITSM::EventModule###02-HistoryAdd" Required="0" Valid="1">
+        <Description Lang="en">ITSM event module updates the ConfigItem History.</Description>
+        <Description Lang="de">ITSM Event Modul aktualisiert ConfigItem History.</Description>
+        <Group>ITSM Configuration Management</Group>
+        <SubGroup>Core::ITSMEvent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::ITSMConfigurationManagement::Event::HistoryAdd</Item>
+                <Item Key="Event">(ConfigItemUpdate|ConfigItemAdd)</Item>
+                <Item Key="SomeOption">Some Option accessable via $Param{Config}->{SomeOption} in Run() of event module.</Item>
+                <Item Key="Transaction">(0|1)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+=cut
+
 sub EventHandlerInit {
     my ( $Self, %Param ) = @_;
 
@@ -98,6 +160,20 @@ call event handler, returns true if it's executed successfully
         Event => 'TicketStateUpdate',
         Data  => {
             TicketID => 123,
+        },
+        UserID => 123,
+    );
+
+=cut
+
+=item EventHandler()
+
+call event handler, returns true if it's executed successfully
+
+    $EventHandler->EventHandler(
+        Event => 'ChangeUpdate',
+        Data  => {
+            ChangeID => 123,
         },
         UserID => 123,
     );
@@ -232,6 +308,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.6 $ $Date: 2010-08-09 07:58:55 $
 
 =cut
