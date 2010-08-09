@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.37 2010-07-27 18:22:21 en Exp $
+# $Id: AgentTicketCustomer.pm,v 1.38 2010-08-09 17:40:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,6 +106,13 @@ sub Run {
             || '';
         $Param{CustomerUserID} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
         $Param{CustomerID}     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
+        $Param{SelectedCustomerUser}
+            = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+
+        # use customer login instead of email address if applicable
+        if ( $Param{SelectedCustomerUser} ne q{} ) {
+            $Param{CustomerUserID} = $Param{SelectedCustomerUser};
+        }
 
         # Expand Customer Name
         if ($ExpandCustomerName1) {
@@ -246,6 +253,12 @@ sub Form {
             Data => \%CustomerUserData,
             Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
         );
+
+        # show customer field as "FirstName Lastname" <MailAddress>
+        if (%CustomerUserData) {
+            $TicketData{CustomerUserID} = "\"$CustomerUserData{UserFirstname} " .
+                "$CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
+        }
         $Self->{LayoutObject}->Block(
             Name => 'Customer',
             Data => { %TicketData, %Param, },
