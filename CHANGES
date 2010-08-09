@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.156 2010-07-23 07:18:58 martin Exp $
+# $Id: CHANGES,v 1.993.2.157 2010-08-09 15:41:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.8 (2010/??/??)
+ - (2010/08/09) Fixed bug#5698 - Ticket Assignment includes '(' character.
  - (2010/07/20) Fixed bug#4483 - AgentTicketActions, set radio button when select
     old/ new owner are selected, fix wrong javascript behavior.
  - (2010/07/15) Fixed bug#5416 - AgentTicketMove does not support Pending Date.

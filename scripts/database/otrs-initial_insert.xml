@@ -1454,7 +1454,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket responsible assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
 
-a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
+a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
 
 Comment:
 
@@ -1680,7 +1680,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
+der Besitz des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
 
 Kommentar:
 
@@ -1702,7 +1702,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket Verantwortung uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_RESPONSIBLE_UserFirstname&gt; &lt;OTRS_RESPONSIBLE_UserLastname&gt;,
 
-die Verantwortung des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
+die Verantwortung des Tickets [&lt;OTRS_TICKET_TicketNumber&gt;] wurde an Sie von "&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" uebertragen.
 
 Kommentar:
 
