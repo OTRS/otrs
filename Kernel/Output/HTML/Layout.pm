@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.286 2010-08-04 12:25:21 ub Exp $
+# $Id: Layout.pm,v 1.287 2010-08-10 10:03:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.286 $) [1];
+$VERSION = qw($Revision: 1.287 $) [1];
 
 =head1 NAME
 
@@ -224,7 +224,7 @@ sub new {
             $Self->{Browser}     = 'MSIE';
             $Self->{BrowserWrap} = 'physical';
 
-            # For IE 5.5, we break the header in a special way that makes
+            # For IE 5.5 - 8.0, we break the header in a special way that makes
             # things work. I don't really want to know.
             if ( $1 =~ /(\d)\.(\d)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
@@ -4677,6 +4677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.286 $ $Date: 2010-08-04 12:25:21 $
+$Revision: 1.287 $ $Date: 2010-08-10 10:03:22 $
 
 =cut
