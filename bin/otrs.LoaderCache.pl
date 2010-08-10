@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.Loader.pl - the global test handle
+# bin/otrs.LoaderCache.pl - the global test handle
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Loader.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.LoaderCache.pl,v 1.1 2010-08-10 08:40:34 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 use Getopt::Std;
 use Kernel::System::Loader;
@@ -39,14 +39,22 @@ use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 
+sub PrintHelp {
+    print <<"EOF";
+otrs.LoaderCache.pl <Revision $VERSION> - Commandline interface to the
+     cache of the CSS/JavaScript loading mechanism of OTRS
+
+Usage: otrs.LoaderCache.pl -o delete
+
+Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+EOF
+}
+
 # get options
 my %Opts = ();
 getopt( 'ho', \%Opts );
 if ( $Opts{h} ) {
-    print "Loader.pl <Revision $VERSION> - OTRS test handle\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: Loader.pl [-o delete|buil]\n";
+    PrintHelp();
     exit 1;
 }
 
@@ -64,18 +72,21 @@ $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 # create needed objects
 $CommonObject{LoaderObject} = Kernel::System::Loader->new(%CommonObject);
 
-if (
-    $Opts{o}
-    &&
-    ( lc( $Opts{o} ) eq 'del' || lc( $Opts{o} ) eq 'delete' )
-    )
-{
-    my $Result = $CommonObject{LoaderObject}->DeleteLoaderCache();
-    print $Result;
+if ( $Opts{o} && lc( $Opts{o} ) eq 'delete' ) {
+    print "Deleting all Loader cache files...\n";
+    my @DeletedFiles = $CommonObject{LoaderObject}->CacheDelete();
+    if (@DeletedFiles) {
+        print "The following files were deleted:\n\t";
+        print join "\n\t", @DeletedFiles;
+        print "\n";
+    }
+    else {
+        print "No file was deleted.\n";
+    }
     exit 1;
 }
 else {
-    print "Invalid option.\n"
+    PrintHelp();
 }
 
 exit(0);
