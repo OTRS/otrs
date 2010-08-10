@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.133 2010-08-06 15:32:50 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.134 2010-08-10 14:45:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -428,7 +428,7 @@ $Data{"ArticleItems"}
 <!-- dtl:block:TreeItemAttachmentItem -->
                                     <div class="AttachmentElement">
                                         <h3>
-                                            <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                            <a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
                                         </h3>
                                         <p>$QData{"Filesize"}</p>
                                     </div>

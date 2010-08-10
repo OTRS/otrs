@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1280 2010-08-10 12:26:55 martin Exp $
+# $Id: CHANGES,v 1.1281 2010-08-10 14:45:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/10) Fixed bug#5579 - Spaces in filenames are converted to + characters
+    when downloading in IE.
  - (2010/08/10) Fixed bug#5701 - Tarball includes empty directories.
  - (2010/08/10) Fixed bug#5255 - Accessibility: "ALL" link when selecting an owner
  - (2010/08/10) Fixed bug#5694 - Images in web based installer are not displayed
