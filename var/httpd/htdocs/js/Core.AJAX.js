@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.2 2010-07-14 11:00:15 mn Exp $
+// $Id: Core.AJAX.js,v 1.3 2010-08-10 11:50:39 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -166,9 +166,10 @@ Core.AJAX = (function (TargetNS) {
      * @param {String} Subaction The subaction parameter for the perl module
      * @param {String} ChangedElement The name of the element which was changed by the user
      * @param {Object} FieldsToUpdate The names of the fields that should be updated with the server answer
+     * @param {Function} [SuccessCallback] Callback function to be executed on AJAX success (optional).
      * @return nothing
      */
-    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate) {
+    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate, SuccessCallback) {
         var URL = Core.Config.Get('Baselink'),
             Data = GetAdditionalDefaultData(),
             QueryString;
@@ -191,6 +192,9 @@ Core.AJAX = (function (TargetNS) {
                 }
                 else {
                     UpdateFormElements(Response, FieldsToUpdate);
+                    if (typeof SuccessCallback === 'function') {
+                        SuccessCallback();
+                    }
                 }
             },
             complete: function () {

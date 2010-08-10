@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.104 2010-07-26 17:42:10 en Exp $
+# $Id: AgentTicketPhone.dtl,v 1.105 2010-08-10 11:50:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,7 +133,9 @@ $Include{"AgentCustomerSearch"}
 <script type="text/javascript">//<![CDATA[
     $('#OwnerSelectionGetAll').bind('click', function (Event) {
         $('#OwnerAll').val('1'); // Needed? Why?
-        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID']);
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
+            $('#NewUserID').focus();
+        });
         return false;
     })
 //]]></script>
@@ -151,7 +153,9 @@ $Include{"AgentCustomerSearch"}
 <script type="text/javascript">//<![CDATA[
     $('#ResponsibleSelectionGetAll').bind('click', function (Event) {
         $('#ResponsibleAll').val('1'); // Needed? Why?
-        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID']);
+        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID'], function() {
+            $('#NewResponsibleID').focus();
+        });
         return false;
     })
 //]]></script>

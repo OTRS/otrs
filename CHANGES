@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1278 2010-08-10 10:32:00 mb Exp $
+# $Id: CHANGES,v 1.1279 2010-08-10 11:50:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,9 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/10) Fixed bug#5255 - Accessibility: "ALL" link when selecting an owner
  - (2010/08/10) Fixed bug#5694 - Images in web based installer are not displayed
-    when performing installation from source.
- - (2010/08/09) Fixed bug#5661 - In Global Ticket Overview, with IE7 and L-Mode, Hover of first
+    when performing installation from source. - (2010/08/09) Fixed bug#5661 - In Global Ticket Overview, with IE7 and L-Mode, Hover of first
     Ticket overlaps Action Row Area.
  - (2010/08/09) Fixed bug#5633 - Customer user information is not shown in
     ticket zoom if it was set by AgentTicketCustomer.
