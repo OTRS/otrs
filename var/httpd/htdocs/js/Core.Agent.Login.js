@@ -2,7 +2,7 @@
 // Core.Agent.Login.js - provides the special module functions for the login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Login.js,v 1.2 2010-08-08 22:03:52 martin Exp $
+// $Id: Core.Agent.Login.js,v 1.3 2010-08-11 09:54:17 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ Core.Agent.Login = (function (TargetNS) {
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function ( LoginFailed ) {
+    TargetNS.Init = function (LoginFailed) {
         // Browser is too old
         if (!Core.Debug.BrowserCheck()) {
             $('#LoginBox').hide();
@@ -56,7 +56,7 @@ Core.Agent.Login = (function (TargetNS) {
 
         // shake login box on autentification failed
         if (LoginFailed) {
-            Core.UI.Shake( $('#LoginBox') );
+            Core.UI.Shake($('#LoginBox'));
         }
     };
 

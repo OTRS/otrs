@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.4 2010-08-08 22:03:52 martin Exp $
+// $Id: Core.Customer.js,v 1.5 2010-08-11 09:54:17 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ Core.Customer = (function (TargetNS) {
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
      *      4. first input field gets focused
      */
-    TargetNS.InitLogin = function( LoginFailed ) {
+    TargetNS.InitLogin = function(LoginFailed) {
         var $Inputs = $('input:not(:checked, :hidden, :radio)'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
@@ -117,7 +117,7 @@ Core.Customer = (function (TargetNS) {
 
         // shake login box on autentification failed
         if (LoginFailed) {
-            Core.UI.Shake( $('#Login') );
+            Core.UI.Shake($('#Login'));
         }
     };
 
