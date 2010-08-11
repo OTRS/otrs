@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.15 2010-08-06 07:24:07 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.16 2010-08-11 11:47:23 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -97,7 +97,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
 
             // if article ID is found in article list (= article id is valid)
-            $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
+            var $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
             if ($ArticleElement.length) {
 
                 // Add active state to new row
@@ -112,7 +112,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         TargetNS.CheckURLHashTimeout = window.setTimeout(function () {
             TargetNS.CheckURLHash();
         }, 500);
-    }
+    };
 
     /**
      * @function
@@ -197,7 +197,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // init control function to check the location hash, if the user used the history back or forward buttons
         if (!ZoomExpand) {
-            TargetNS.CheckURLHashTimeout = window.setTimeout(function(){
+            TargetNS.CheckURLHashTimeout = window.setTimeout(function () {
                 TargetNS.CheckURLHash();
             }, 500);
         }
