@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.47 2010-07-14 22:18:25 dz Exp $
+# $Id: AgentPreferences.pm,v 1.48 2010-08-11 15:23:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,17 +41,50 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
+    # update preferences via AJAX
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'UpdateAJAX' ) {
+        my $Key   = $Self->{ParamObject}->GetParam( Param => 'Key' );
+        my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' );
+
+        # update preferences
+        my $Success = $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Key,
+            Value  => $Value,
+        );
+
+        # update session
+        if ($Success) {
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => $Key,
+                Value     => $Value,
+            );
+        }
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => $Success,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # update preferences
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'Update' ) {
+    elsif ( $Self->{Subaction} eq 'Update' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check group param
-        my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
+        my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' );
         if ( !$Group ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Param Group is required!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'Param Group is required!' );
         }
 
         # check preferences setting
@@ -73,7 +106,7 @@ sub Run {
             Debug      => $Self->{Debug},
         );
         my @Params = $Object->Param( UserData => \%UserData );
-        my %GetParam = ();
+        my %GetParam;
         for my $ParamItem (@Params) {
             my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
             $GetParam{ $ParamItem->{Name} } = \@Array;
@@ -105,33 +138,31 @@ sub Run {
     # ------------------------------------------------------------ #
     # show preferences
     # ------------------------------------------------------------ #
-    else {
 
-        # get header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+    # get header
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        # get param
-        my $Message  = $Self->{ParamObject}->GetParam( Param => 'Message' )  || '';
-        my $Priority = $Self->{ParamObject}->GetParam( Param => 'Priority' ) || '';
+    # get param
+    my $Message  = $Self->{ParamObject}->GetParam( Param => 'Message' )  || '';
+    my $Priority = $Self->{ParamObject}->GetParam( Param => 'Priority' ) || '';
 
-        # add notification
-        if ( $Message && $Priority eq 'Error' ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => $Priority,
-                Info     => $Message,
-            );
-        }
-        elsif ($Message) {
-            $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
-        }
-
-        # get user data
-        my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-        $Output .= $Self->AgentPreferencesForm( UserData => \%UserData );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+    # add notification
+    if ( $Message && $Priority eq 'Error' ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => $Priority,
+            Info     => $Message,
+        );
     }
+    elsif ($Message) {
+        $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+    }
+
+    # get user data
+    my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+    $Output .= $Self->AgentPreferencesForm( UserData => \%UserData );
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 sub AgentPreferencesForm {

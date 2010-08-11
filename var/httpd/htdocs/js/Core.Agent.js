@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.7 2010-08-11 10:56:30 mg Exp $
+// $Id: Core.Agent.js,v 1.8 2010-08-11 15:23:23 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,9 @@ Core.Agent = (function (TargetNS) {
         return;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.AJAX')) {
         return;
     }
 
@@ -186,6 +189,26 @@ Core.Agent = (function (TargetNS) {
                 window.close();
             });
         }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function set and session and preferences setting at runtime
+     * @param {jQueryObject} Key the name of the setting
+     * @param {jQueryObject} Value the value of the setting
+     * @return nothing
+     */
+    TargetNS.PreferencesUpdate = function (Key, Value) {
+        var URL = Core.Config.Get('Baselink'),
+            Data = {
+                Action: 'AgentPreferences',
+                Subaction: 'UpdateAJAX',
+                Key: Key,
+                Value: Value
+            };
+        Core.AJAX.FunctionCall(URL, Data);
+        return true;
     };
 
     return TargetNS;

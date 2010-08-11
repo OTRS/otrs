@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.16 2010-08-11 11:47:23 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.17 2010-08-11 15:23:23 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -119,14 +119,21 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function () {
+    TargetNS.Init = function (ArticleTableHeight) {
         var $THead = $('#FixedTable thead'),
             $TBody = $('#FixedTable tbody'),
             ZoomExpand = !$('div.ArticleView a.OneArticle').hasClass('Active'),
             URLHash,
             $ArticleElement;
 
-        Core.UI.Resizable.Init($("#ArticleTableBody"));
+        Core.UI.Resizable.Init($('#ArticleTableBody'), ArticleTableHeight, function (event, ui, Height, Width) {
+
+            // remember new hight for next reload
+            window.clearTimeout(TargetNS.ResizeTimeOutScraller);
+            TargetNS.ResizeTimeOutScraller = window.setTimeout(function () {
+                Core.Agent.PreferencesUpdate('UserTicketZoomArticleTableHeight', Height);
+            }, 1000);
+        });
         Core.UI.InitTableHead($THead, $TBody);
 
         $(window).resize(function () {
