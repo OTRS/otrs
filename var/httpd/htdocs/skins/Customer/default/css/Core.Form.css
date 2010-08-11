@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -121,7 +121,7 @@ select[multiple=multiple] {
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }
-    
+
 input[type=text],
 input[type=password],
 textarea {
@@ -304,4 +304,12 @@ fieldset .RichTextHolder label {
 
 .RTL .Box button {
     margin: 4px 131px 0 0;
+}
+
+/**
+ * @subsection  Textarea
+ * @note        Fixed font needed in textareas because otherwise the line wrapping is incorrect.
+ */
+textarea {
+    font-family: monospace,fixed;
 }
