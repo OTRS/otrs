@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.8 2010-07-26 08:47:24 fn Exp $
+// $Id: Core.UI.Dialog.js,v 1.9 2010-08-11 08:25:51 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,40 +36,14 @@ Core.UI.Dialog = (function (TargetNS) {
     /**
      * @function
      * @private
-     * @return $FocusableElements
-     * @description Gets all focusbale element within the dialog.
-     *              The close link in the header should be the last element.
-     */
-    function GetFocusableElements() {
-        var $FocusableElements;
-        $FocusableElements = $('div.Dialog:visible .Content').find('a:visible, input:visible, textarea:visible, select:visible, button:visible');
-        $FocusableElements.push($('div.Dialog:visible .Header a.Close:visible')[0]);
-        return $FocusableElements;
-    }
-
-    /**
-     * @function
-     * @private
-     * @param Position number Represents the position of the element to be focused, starting by 0.
-     * @return nothing
-     * @description Focuses the specified element within the dialog.
-     *              Needs the Object "Core.UI.Dialog.$FocusableElements" to be initialized and filled (with function GetFocusableElements()).
-     */
-    function FocusElement(Position) {
-        if (typeof TargetNS.$FocusableElements !== 'undefined' && TargetNS.$FocusableElements.length > Position) {
-            $(TargetNS.$FocusableElements[Position]).focus();
-            TargetNS.FocusedElement = Position;
-        }
-    }
-
-    /**
-     * @function
-     * @private
      * @return nothing
      * @description Focuses the first element within the dialog.
      */
     function FocusFirstElement() {
-        FocusElement(0);
+        $('div.Dialog:visible .Content')
+            .find('a:visible, input:visible, textarea:visible, select:visible, button:visible')
+            .filter(':first')
+            .focus(1);
     }
 
     /**
@@ -81,59 +55,46 @@ Core.UI.Dialog = (function (TargetNS) {
      *              Must be unbinded when closing the dialog.
      */
     function InitKeyEvent(CloseOnEscape) {
+        var $Dialog = $('div.Dialog:visible');
         /*
          * Opera can't prevent the default action of special keys on keydown. That's why we need a special keypress event here,
          * to prevent the default action for the special keys.
          * See http://www.quirksmode.org/dom/events/keys.html for details
          */
-        $(document).unbind('keypress.Dialog').bind('keypress.Dialog', function (event) {
-            if ($.browser.opera && (event.keyCode === 9 || (event.keyCode === 27 && CloseOnEscape))) {
-                event.preventDefault();
-                event.stopPropagation();
+        $(document).unbind('keypress.Dialog').bind('keypress.Dialog', function (Event) {
+            if ($.browser.opera && (Event.keyCode === 9 || (Event.keyCode === 27 && CloseOnEscape))) {
+                Event.preventDefault();
+                Event.stopPropagation();
                 return false;
             }
-        }).unbind('keydown.Dialog').bind('keydown.Dialog', function (event) {
-            // Shift + Tab pressed
-            if (event.keyCode === 9 && event.shiftKey) {
-                if ($(event.target).closest('div.Dialog').length === 0) {
-                    FocusFirstElement();
-                }
-                else {
-                    // Jump to the previous focusable element in the dialog
-                    if (TargetNS.FocusedElement === 0) {
-                        FocusElement(TargetNS.$FocusableElements.length - 1);
-                    }
-                    else {
-                        FocusElement(TargetNS.FocusedElement - 1);
-                    }
-                }
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
+        }).unbind('keydown.Dialog').bind('keydown.Dialog', function (Event) {
+            var $Tabbables, $First, $Last;
+
             // Tab pressed
-            else if (event.keyCode === 9) {
-                if ($(event.target).closest('div.Dialog').length === 0) {
-                    FocusFirstElement();
+            if (Event.keyCode === 9) {
+                // :tabbable probably comes from jquery UI
+                $Tabbables = $('a:visible, input:visible, textarea:visible, select:visible, button:visible', $Dialog);
+                $First = $Tabbables.filter(':first');
+                $Last  = $Tabbables.filter(':last');
+
+                if (Event.target === $Last[0] && !Event.shiftKey) {
+                    $First.focus(1);
+                    Event.preventDefault();
+                    Event.stopPropagation();
+                    return false;
                 }
-                else {
-                    // Jump to next focusable element in the dialog
-                    if (TargetNS.FocusedElement === (TargetNS.$FocusableElements.length - 1)) {
-                        FocusFirstElement();
-                    }
-                    else {
-                        FocusElement(TargetNS.FocusedElement + 1);
-                    }
+                else if (Event.target === $First[0] && Event.shiftKey) {
+                    $Last.focus(1);
+                    Event.preventDefault();
+                    Event.stopPropagation();
+                    return false;
                 }
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
             }
             // Escape pressed and CloseOnEscape is true
-            else if (event.keyCode === 27 && CloseOnEscape) {
-                TargetNS.CloseDialog($('div.Dialog:visible'));
-                event.preventDefault();
-                event.stopPropagation();
+            else if (Event.keyCode === 27 && CloseOnEscape) {
+                TargetNS.CloseDialog($Dialog);
+                Event.preventDefault();
+                Event.stopPropagation();
                 return false;
             }
         });
@@ -373,24 +334,11 @@ Core.UI.Dialog = (function (TargetNS) {
         });
 
         // Init KeyEvent-Logger
-        TargetNS.$FocusableElements = GetFocusableElements();
         InitKeyEvent(Params.CloseOnEscape);
 
         // Focus first focusable element
         FocusFirstElement();
     }
-
-    /**
-     * @field
-     * @description This variable contains al focusable elements of the open dialog.
-     */
-    TargetNS.$FocusableElements = [];
-
-    /**
-     * @field
-     * @description The latest focused element of the open dialog.
-     */
-    TargetNS.FocusedElement = 0;
 
     /**
      * @function
