@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.24 2010-08-10 19:19:10 cg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.25 2010-08-11 10:56:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,7 +211,7 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                <textarea id="RichText" class="RichText Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required."}</p></div>
                 <div class="Clear"></div>

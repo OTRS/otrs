@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentSpelling.dtl,v 1.33 2010-07-01 14:08:53 mn Exp $
+# $Id: AgentSpelling.dtl,v 1.34 2010-08-11 10:56:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@
                 <button type="submit" value="$Text{"Apply these changes"}">$Text{"Apply these changes"}</button>
             </fieldset>
             <fieldset class="SpacingTop">
-                <textarea id="Body" name="Body" rows="22" cols="78" class="Wrap_$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                <textarea id="Body" name="Body" rows="22" cols="78">$QData{"Body"}</textarea>
             </fieldset>
             <fieldset class="SpacingTop">
                 <button type="button" id="Apply" value="$Text{"Done"}">$Text{"Done"}</button>

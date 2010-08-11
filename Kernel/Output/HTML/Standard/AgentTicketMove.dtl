@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.59 2010-08-10 19:21:30 cg Exp $
+# $Id: AgentTicketMove.dtl,v 1.60 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                    <textarea id="Body" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="Body" class="RichText Validate_RequiredRichtext $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="BodyError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div id="BodyServerError" class="TooltipErrorMessage"><p>$Text{"The text is required."}</p></div>
                     <div class="Clear"></div>

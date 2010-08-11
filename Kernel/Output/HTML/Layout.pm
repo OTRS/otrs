@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.287 2010-08-10 10:03:22 mg Exp $
+# $Id: Layout.pm,v 1.288 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.287 $) [1];
+$VERSION = qw($Revision: 1.288 $) [1];
 
 =head1 NAME
 
@@ -203,8 +203,7 @@ sub new {
     $Self->{FilterText} = $Self->{ConfigObject}->Get('Frontend::Output::FilterText');
 
     # check browser (defaut is IE because I don't have IE)
-    $Self->{BrowserWrap} = 'physical';
-    $Self->{Browser}     = 'Unknown';
+    $Self->{Browser} = 'Unknown';
 
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
@@ -221,8 +220,7 @@ sub new {
             || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
-            $Self->{Browser}     = 'MSIE';
-            $Self->{BrowserWrap} = 'physical';
+            $Self->{Browser} = 'MSIE';
 
             # For IE 5.5 - 8.0, we break the header in a special way that makes
             # things work. I don't really want to know.
@@ -244,8 +242,7 @@ sub new {
 
         # safari
         elsif ( $HttpUserAgent =~ /safari/ ) {
-            $Self->{Browser}     = 'Safari';
-            $Self->{BrowserWrap} = 'hard';
+            $Self->{Browser} = 'Safari';
 
             # on iphone disable rich text editor
             if ( $HttpUserAgent =~ /iphone\sos/ ) {
@@ -259,15 +256,13 @@ sub new {
 
             # chrome
             elsif ( $HttpUserAgent =~ /chrome/ ) {
-                $Self->{Browser}     = 'Chrome';
-                $Self->{BrowserWrap} = 'soft';
+                $Self->{Browser} = 'Chrome';
             }
         }
 
         # konqueror
         elsif ( $HttpUserAgent =~ /konqueror/ ) {
-            $Self->{Browser}     = 'Konqueror';
-            $Self->{BrowserWrap} = 'hard';
+            $Self->{Browser} = 'Konqueror';
 
             # on konquerer disable rich text editor
             $Self->{BrowserRichText} = 0;
@@ -275,20 +270,17 @@ sub new {
 
         # mozilla
         elsif ( $HttpUserAgent =~ /^mozilla/ ) {
-            $Self->{Browser}     = 'Mozilla';
-            $Self->{BrowserWrap} = 'hard';
+            $Self->{Browser} = 'Mozilla';
         }
 
         # opera
         elsif ( $HttpUserAgent =~ /^opera.*/ ) {
-            $Self->{Browser}     = 'Opera';
-            $Self->{BrowserWrap} = 'hard';
+            $Self->{Browser} = 'Opera';
         }
 
         # netscape
         elsif ( $HttpUserAgent =~ /netscape/ ) {
-            $Self->{Browser}     = 'Netscape';
-            $Self->{BrowserWrap} = 'hard';
+            $Self->{Browser} = 'Netscape';
         }
 
         # w3m
@@ -4677,6 +4669,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.287 $ $Date: 2010-08-10 10:03:22 $
+$Revision: 1.288 $ $Date: 2010-08-11 10:56:29 $
 
 =cut

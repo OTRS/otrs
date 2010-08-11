@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.36 2010-08-06 22:10:44 cg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.37 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,7 +94,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                <textarea id="RichText" class="RichText Wrap_$Env{"BrowserWrap"} Validate_Required $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$Data{"InformationFormat"}</textarea>
+                <textarea id="RichText" class="RichText Validate_Required $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$Data{"InformationFormat"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div class="Clear"></div>

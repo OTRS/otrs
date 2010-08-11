@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.UnitTest.js,v 1.2 2010-07-19 03:59:32 cg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.3 2010-08-11 10:56:30 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,34 +16,9 @@ var OTRS = OTRS || {};
 Core.Form = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         module('Core.Form');
-        test('Core.Form.Init()', function(){
+        test('Core.Form.DisableForm() and Core.Form.EnableForm()', function(){
 
-            expect(24);
-
-            /*
-             * Create a div containter for the tests
-             */
-            var $TestDiv = $('<div id="OTRS_Form_UnitTest"></div>');
-            $TestDiv.append('<textarea class="Wrap_physical"></textarea>');
-            $TestDiv.append('<textarea class="Wrap_hard"></textarea>');
-            $('body').append($TestDiv);
-
-            /*
-             * Run the tests
-             */
-            Core.Form.Init();
-
-            equals($('.Wrap_physical')
-                .attr('wrap'), 'physical', 'wrap="physical"');
-            equals($('.Wrap_hard')
-                .attr('wrap'), 'hard', 'wrap="hard"');
-
-            /*
-             * Cleanup div container and contents
-             */
-            $('#OTRS_Form_UnitTest').remove();
-            
-            
+            expect(22);
 
             /*
              * Create a form containter for the tests
@@ -64,7 +39,7 @@ Core.Form = (function (Namespace) {
             /*
              * Run the tests
              */
-            
+
             /*
              * Disable a form containter
              */
@@ -72,12 +47,12 @@ Core.Form = (function (Namespace) {
 
             equals($('#TestForm').hasClass("AlreadyDisabled"), true );
 
-            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) { 
+            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
                 var readonlyValue = $(this).attr('readonly');
                 var tagnameValue  = $(this).attr('tagName');
                 var typeValue     = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
- 
+
                 if (readonlyValue == 'readonly') {
                     readonlyValue = true;
                 }
@@ -95,7 +70,7 @@ Core.Form = (function (Namespace) {
                 }
             });
 
-            
+
             /*
              * Enable a form containter
              */
@@ -103,16 +78,16 @@ Core.Form = (function (Namespace) {
 
             notEqual($('#TestForm').hasClass("AlreadyDisabled"), true );
 
-            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) { 
+            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
                 var readonlyValue = $(this).attr('readonly');
                 var tagnameValue  = $(this).attr('tagName');
                 var typeValue     = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
- 
+
                 if (readonlyValue == undefined) {
                     readonlyValue = false;
                 }
-                
+
                 if (tagnameValue == "BUTTON") {
                     equals(disabledValue, false );
                 }

@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.23 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.24 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -278,7 +278,7 @@
                             $Text{"Text"}:
                         </label>
                         <div class="Field">
-                            <textarea rows="12" cols="75" name="Body" id="Body" class="Wrap_$Env{"BrowserWrap"} Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
+                            <textarea rows="12" cols="75" name="Body" id="Body" class="Validate_Required $Data{"BodyServerError"}">$QData{"Body"}</textarea>
                             <div id="BodyError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>

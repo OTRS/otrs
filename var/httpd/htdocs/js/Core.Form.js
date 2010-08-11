@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.7 2010-08-11 09:26:53 martin Exp $
+// $Id: Core.Form.js,v 1.8 2010-08-11 10:56:30 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -27,20 +27,6 @@ Core.Form = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Form', 'Core.Data', 'Core.Data')) {
         return;
     }
-    /**
-     * @function
-     * @description
-     *      This function initializes the wrap attribute
-     *      for use with textarea elements. It is not inside the HTML because
-     *      these attributes are not part of the XHTML standard.
-     * @return nothing
-     */
-    TargetNS.Init = function () {
-        // set wrap attribute to hard for browsers that need it
-        // attribute physical can't be set in JS in IE, but IE also understands hard
-        $('.Wrap_hard, .Wrap_physical')
-            .attr('wrap', 'hard');
-    };
 
     /**
      * @function

@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.64 2010-08-06 22:10:44 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.65 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichtext $QData{"BodyInvalid"}">$Data{"ResponseFormat"}</textarea>
+                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Validate_RequiredRichtext $QData{"BodyInvalid"}">$Data{"ResponseFormat"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"Text is required!"}</p></div>
                     <div class="Clear"></div>

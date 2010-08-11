@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.53 2010-08-06 15:05:16 cr Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.54 2010-08-11 10:56:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@
                     </th>
 <!-- dtl:block:BulkNavBar -->
 <!-- dtl:block:OverviewNavBarPageFlag -->
-                    <th class="Fixed"><span class=""></span></th>
+                    <th class="Fixed"><span></span></th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
 #                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href="#"><span class="UnreadArticles"></span></a></th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->

@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.63 2010-08-06 22:10:44 cg Exp $
+# $Id: AgentTicketForward.dtl,v 1.64 2010-08-11 10:56:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Wrap_$Env{"BrowserWrap"} Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
+                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
                 <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required!"}</p></div>
                 <div class="Clear"></div>
