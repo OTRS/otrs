@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.7 2010-08-08 22:03:52 martin Exp $
+// $Id: Core.UI.js,v 1.8 2010-08-11 09:36:08 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -245,7 +245,7 @@ Core.UI = (function (TargetNS) {
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
-                if ( $Element1.is(':visible') ) {
+                if ($Element1.is(':visible')) {
                     TargetNS.ToggleTwoContainer($Element1, $Element2);
                 }
                 else {
@@ -263,25 +263,27 @@ Core.UI = (function (TargetNS) {
     };
 
     // this part stolen from wordpress 3, many thanks guys
-    TargetNS.Shake = function ($id) {
-        var Position = new Array( 15 , 30 , 15 , 0, -15 , -30 , -15,0 );
-        Position = Position.concat( Position.concat(Position) );
-        $id.css( 'position', 'relative' );
-        ShakeMe( $id, Position, 20 );
-    }
-    function ShakeMe ($id , Position, PostionEnd ) {
+    function ShakeMe($id, Position, PostionEnd) {
         var PositionStart = Position.shift();
-        $id.css( 'left', PositionStart + 'px' )
-        if ( Position.length > 0 ) {
-            setTimeout( function(){ ShakeMe( $id, Position, PostionEnd ); } , PostionEnd );
+        $id.css('left', PositionStart + 'px');
+        if (Position.length > 0) {
+            setTimeout(function () {
+                ShakeMe($id, Position, PostionEnd);
+            }, PostionEnd);
         }
-        else{
+        else {
             try {
-                $id.css( 'position', 'static' );
+                $id.css('position', 'static');
             }
-            catch(e) {}
+            catch (e) {}
         }
     }
+    TargetNS.Shake = function ($id) {
+        var Position = [15, 30, 15, 0, -15, -30, -15, 0];
+        Position = Position.concat(Position.concat(Position));
+        $id.css('position', 'relative');
+        ShakeMe($id, Position, 20);
+    };
 
     return TargetNS;
 }(Core.UI || {}));
