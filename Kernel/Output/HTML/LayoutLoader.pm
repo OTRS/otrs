@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.28 2010-07-26 08:28:10 mn Exp $
+# $Id: LayoutLoader.pm,v 1.29 2010-08-11 13:46:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Kernel::System::Loader;
 
@@ -520,66 +520,57 @@ sub LoaderCreateCustomerJSCalls {
 sub _HandleCSSList {
     my ( $Self, %Param ) = @_;
 
-    my @FileList;
-    my $ValidSkin = 0;
+    my @Skins = ('default');
 
-    # validating  selected skin
+    # validating selected custom skin, if any
     if ( $Param{Skin} && $Param{Skin} ne 'default' && $Self->SkinValidate(%Param) ) {
-        $ValidSkin = 1;
+        push @Skins, $Param{Skin};
     }
 
     #load default css files
-    for my $CSSFile ( @{ $Param{List} } ) {
-        my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Param{Skin}/css/$CSSFile";
+    for my $Skin (@Skins) {
+        my @FileList;
 
-        if ( $Param{DoMinify} ) {
-            push @FileList, "$Param{SkinHome}/$Param{SkinType}/default/css/$CSSFile";
+        CSSFILE:
+        for my $CSSFile ( @{ $Param{List} } ) {
+            my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
 
-            if ( $ValidSkin && -e $SkinFile ) {
+            next CSSFILE if ( !-e $SkinFile );
+
+            if ( $Param{DoMinify} ) {
                 push @FileList, $SkinFile;
             }
-
-        }
-        else {
-            $Self->Block(
-                Name => $Param{BlockName},
-                Data => {
-                    Skin         => 'default',
-                    CSSDirectory => 'css',
-                    Filename     => $CSSFile,
-                },
-            );
-
-            if ( $ValidSkin && -e $SkinFile ) {
+            else {
                 $Self->Block(
                     Name => $Param{BlockName},
                     Data => {
-                        Skin         => $Param{Skin},
+                        Skin         => $Skin,
                         CSSDirectory => 'css',
                         Filename     => $CSSFile,
                     },
                 );
             }
         }
+
+        if ( $Param{DoMinify} && @FileList ) {
+            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+                List                 => \@FileList,
+                Type                 => 'CSS',
+                TargetDirectory      => "$Param{SkinHome}/$Param{SkinType}/$Skin/css-cache/",
+                TargetFilenamePrefix => $Param{BlockName},
+            );
+
+            $Self->Block(
+                Name => $Param{BlockName},
+                Data => {
+                    Skin         => $Skin,
+                    CSSDirectory => 'css-cache',
+                    Filename     => $MinifiedFile,
+                },
+            );
+        }
     }
 
-    if ( $Param{DoMinify} && @FileList ) {
-        my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
-            List                 => \@FileList,
-            Type                 => 'CSS',
-            TargetDirectory      => "$Param{SkinHome}/$Param{SkinType}/default/css-cache/",
-            TargetFilenamePrefix => $Param{BlockName},
-        );
-
-        $Self->Block(
-            Name => $Param{BlockName},
-            Data => {
-                Skin         => 'default',
-                CSSDirectory => 'css-cache',
-                Filename     => $MinifiedFile,
-            },
-        );
-    }
     return 1;
 }
 
@@ -624,10 +615,12 @@ sub _HandleJSList {
 
 =item SkinValidate()
 
-Returns 1 if skin is available for Agent or Customer frontends and 0 if not
+Returns 1 if skin is available for Agent or Customer frontends and 0 if not.
 
-    $LayoutObject->SkinValidate( UserType => 'Agent' | 'Customer',
-                                 Skin => 'ExampleSkin', );
+    my $SkinIsValid = $LayoutObject->SkinValidate(
+        UserType => 'Agent'     #  Agent or Customer,
+        Skin => 'ExampleSkin',
+    );
 
 =cut
 
@@ -677,6 +670,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2010-07-26 08:28:10 $
+$Revision: 1.29 $ $Date: 2010-08-11 13:46:35 $
 
 =cut
