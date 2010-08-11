@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.12 2010-08-06 13:02:42 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.13 2010-08-11 09:25:17 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,23 +32,23 @@ Core.Agent.Search = (function (TargetNS) {
 
         // get original selection
         var $AttributeClone = $('#AttributeOrig').clone();
-        $AttributeClone.attr( 'id', 'Attribute');
+        $AttributeClone.attr('id', 'Attribute');
 
         // strip all already used attributes
-        $AttributeClone.find('option').each( function () {
+        $AttributeClone.find('option').each(function () {
             var $Attribute = $(this);
-            $('#SearchInsert label').each( function () {
-                if ( $(this).attr('for') == $Attribute.attr('value') ) {
+            $('#SearchInsert label').each(function () {
+                if ($(this).attr('for') === $Attribute.attr('value')) {
                     $Attribute.remove();
                 }
             });
         });
 
         // replace selection with original selection
-        $('#Attribute').replaceWith( $AttributeClone );
+        $('#Attribute').replaceWith($AttributeClone);
 
         return true;
-    }
+    };
 
     /**
      * @function
@@ -57,8 +57,8 @@ Core.Agent.Search = (function (TargetNS) {
      */
 
     TargetNS.ItemAdd = function (Attribute) {
-        $('#SerachAttributesHidden').find('label').each( function () {
-            if ( $(this).attr( 'for' ) == Attribute ) {
+        $('#SerachAttributesHidden').find('label').each(function () {
+            if ($(this).attr('for') === Attribute) {
                 var $Element1 = $(this).prev().clone();
                 var $Element2 = $(this).clone();
                 var $Element3 = $(this).next().clone();
@@ -69,7 +69,7 @@ Core.Agent.Search = (function (TargetNS) {
             }
         });
         return false;
-    }
+    };
 
     /**
      * @function
@@ -82,7 +82,7 @@ Core.Agent.Search = (function (TargetNS) {
         $Element.prev().prev().remove();
         $Element.prev().remove();
         $Element.remove();
-    }
+    };
 
     /**
      * @function
@@ -93,10 +93,10 @@ Core.Agent.Search = (function (TargetNS) {
 
     TargetNS.OpenSearchDialog = function (Action, Profile) {
 
-        if ( !Action ) {
+        if (!Action) {
             Action = Core.Config.Get('Action');
         }
-        if ( !Profile ) {
+        if (!Profile) {
             Profile = 'last-search';
         }
         var Data = {
@@ -114,9 +114,9 @@ Core.Agent.Search = (function (TargetNS) {
                 $('#SearchProfileAddBlock').hide();
 
                 // register add of attribute
-                $('.Add').bind('click', function(){
+                $('.Add').bind('click', function () {
                     var Attribute = $('#Attribute').val();
-                    if ( TargetNS.ItemAdd(Attribute) ) {
+                    if (TargetNS.ItemAdd(Attribute)) {
 
                         // rebuild selection
                         TargetNS.RebuildSelection();
@@ -126,7 +126,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register remove of attribute
-                $('.Remove').live('click', function(){
+                $('.Remove').live('click', function () {
                     var $Element = $(this).parent();
                     TargetNS.ItemRemove($Element);
 
@@ -145,21 +145,21 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register submit
-                $('#SearchFormSubmit').live('click', function(){
+                $('#SearchFormSubmit').live('click', function () {
                     $('#SearchForm').submit();
                     return false;
                 });
 
                 // load profile
-                $('#Profile').bind('change', function(){
+                $('#Profile').bind('change', function () {
                     var Profile = $('#Profile').val();
                     TargetNS.OpenSearchDialog(Action, Profile);
                     return false;
                 });
 
                 // show add profile block or not
-                $('#SearchProfileNew').bind('click', function(){
-                    if ( $('#SearchProfileAddBlock').css('display') == 'none') {
+                $('#SearchProfileNew').bind('click', function () {
+                    if ($('#SearchProfileAddBlock').css('display') === 'none') {
                         $('#SearchProfileAddBlock').show();
                     }
                     else {
@@ -168,11 +168,11 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // add new profile
-                $('#SearchProfileAddAction').bind('click', function(){
+                $('#SearchProfileAddAction').bind('click', function () {
 
                     // get name
                     var Name = $('#SearchProfileAddName').val();
-                    if ( !Name ) {
+                    if (!Name) {
                         return false;
                     }
 
@@ -182,8 +182,8 @@ Core.Agent.Search = (function (TargetNS) {
                     $('#ProfileList').append($Element1);
                     var $Element2 = $('#Profile').children().first().clone();
                     $Element2.text(Name);
-                    $Element2.attr( 'value', Name );
-                    $Element2.attr( 'selected', 'selected' );
+                    $Element2.attr('value', Name);
+                    $Element2.attr('selected', 'selected');
                     $('#Profile').append($Element2);
 
                     // set input box to empty
@@ -196,18 +196,18 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // delete profile
-                $('#SearchProfileDelete').bind('click', function(){
+                $('#SearchProfileDelete').bind('click', function () {
 
                     // strip all already used attributes
-                    $('#Profile').find('option').each( function () {
-                        if ( $(this).attr( 'value' ) != 'last-search' ) {
-                            if ( $(this).attr( 'selected' ) == true ) {
+                    $('#Profile').find('option').each(function () {
+                        if ($(this).attr('value') !== 'last-search') {
+                            if ($(this).attr('selected') === true) {
 
                                 // rebuild attributes
                                 $('#SearchInsert').text('');
 
                                 // remove remote
-                                DeleteRemote( $(this).val() );
+                                DeleteRemote($(this).val());
 
                                 // remove local
                                 $(this).remove();
@@ -237,7 +237,7 @@ Core.Agent.Search = (function (TargetNS) {
      * @return nothing
      * @description Delete a profile via an ajax requests
      */
-    function DeleteRemote (Profile) {
+    function DeleteRemote(Profile) {
         var Data = {
             Action: 'AgentTicketSearch',
             Subaction: 'AJAXProfileDelete',
@@ -248,7 +248,7 @@ Core.Agent.Search = (function (TargetNS) {
             Data,
             function () {}
         );
-    };
+    }
 
     return TargetNS;
 }(Core.Agent.Search || {}));

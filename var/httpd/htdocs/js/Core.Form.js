@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.6 2010-07-23 11:55:28 mn Exp $
+// $Id: Core.Form.js,v 1.7 2010-08-11 09:26:53 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,20 +56,20 @@ Core.Form = (function (TargetNS) {
         }
 
         // save action data to the given element
-        if (!$Form.hasClass("AlreadyDisabled")) {
-            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) {
+        if (!$Form.hasClass('AlreadyDisabled')) {
+            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
                 var ReadonlyValue = $(this).attr('readonly'),
                     TagnameValue  = $(this).attr('tagName'),
                     DisabledValue = $(this).attr('disabled');
 
-                if (TagnameValue == "BUTTON") {
-                    if (DisabledValue == true) {
-                        Core.Data.Set( $(this), 'OldDisabledStatus', 'disabled' );
+                if (TagnameValue === 'BUTTON') {
+                    if (DisabledValue === true) {
+                        Core.Data.Set($(this), 'OldDisabledStatus', 'disabled');
                     }
                 }
                 else {
-                    if (ReadonlyValue == true) {
-                        Core.Data.Set( $(this), 'OldReadonlyStatus', 'readonly' );
+                    if (ReadonlyValue === true) {
+                        Core.Data.Set($(this), 'OldReadonlyStatus', 'readonly');
                     }
                 }
             });
@@ -111,18 +111,18 @@ Core.Form = (function (TargetNS) {
             .find('button')
             .removeAttr('disabled');
 
-        $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function(key, value) {
+        $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
             var TagnameValue  = $(this).attr('tagName'),
                 ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
                 DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
 
-            if (TagnameValue == "BUTTON") {
-                if (DisabledValue == 'disabled') {
+            if (TagnameValue === 'BUTTON') {
+                if (DisabledValue === 'disabled') {
                     $(this).attr('disabled', 'disabled');
                 }
             }
             else {
-                if (ReadonlyValue == 'readonly') {
+                if (ReadonlyValue === 'readonly') {
                     $(this).attr('readonly', 'readonly');
                 }
             }
