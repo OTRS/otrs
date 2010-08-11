@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Accessibility.UnitTest.js,v 1.1 2010-07-13 09:46:45 mg Exp $
+// $Id: Core.UI.Accessibility.UnitTest.js,v 1.2 2010-08-11 12:09:36 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,8 +32,8 @@ Core.UI.Accessibility = (function (Namespace) {
             $TestDiv.append('<div class="ARIARoleMain"></div>');
             $TestDiv.append('<div class="ARIARoleContentinfo"></div>');
             $TestDiv.append('<div class="ARIAHasPopup"></div>');
-            $TestDiv.append('<input type="text" class="OTRS_Validate_Required" />');
-            $TestDiv.append('<input type="text" class="OTRS_Validate_DependingRequired" />');
+            $TestDiv.append('<input type="text" class="Validate_Required" />');
+            $TestDiv.append('<input type="text" class="Validate_DependingRequiredAND" />');
             $('body').append($TestDiv);
 
             /*
@@ -53,9 +53,9 @@ Core.UI.Accessibility = (function (Namespace) {
                 .attr('role'), 'contentinfo', 'Role contentinfo');
             equals($('.ARIAHasPopup')
                 .attr('aria-haspopup'), 'true', 'HasPopup attribute');
-            equals($('.OTRS_Validate_Required')
+            equals($('.Validate_Required')
                 .attr('aria-required'), 'true', 'ARIA required attribute');
-            equals($('.OTRS_Validate_DependingRequired')
+            equals($('.Validate_DependingRequiredAND')
                 .attr('aria-required'), 'true', 'ARIA required attribute');
 
 
