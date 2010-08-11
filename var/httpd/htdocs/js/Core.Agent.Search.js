@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.13 2010-08-11 09:25:17 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.14 2010-08-11 10:23:14 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,10 +58,11 @@ Core.Agent.Search = (function (TargetNS) {
 
     TargetNS.ItemAdd = function (Attribute) {
         $('#SerachAttributesHidden').find('label').each(function () {
+            var $Element1, $Element2, $Element3;
             if ($(this).attr('for') === Attribute) {
-                var $Element1 = $(this).prev().clone();
-                var $Element2 = $(this).clone();
-                var $Element3 = $(this).next().clone();
+                $Element1 = $(this).prev().clone();
+                $Element2 = $(this).clone();
+                $Element3 = $(this).next().clone();
                 $Element1.appendTo('#SearchInsert');
                 $Element2.appendTo('#SearchInsert');
                 $Element3.appendTo('#SearchInsert');
@@ -83,6 +84,28 @@ Core.Agent.Search = (function (TargetNS) {
         $Element.prev().remove();
         $Element.remove();
     };
+
+    // delete profile
+
+    /**
+     * @function
+     * @private
+     * @param {Profile} Profile The profile that will be delete
+     * @return nothing
+     * @description Delete a profile via an ajax requests
+     */
+    function DeleteRemote(Profile) {
+        var Data = {
+            Action: 'AgentTicketSearch',
+            Subaction: 'AJAXProfileDelete',
+            Profile: Profile
+        };
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('CGIHandle'),
+            Data,
+            function () {}
+        );
+    }
 
     /**
      * @function
@@ -169,18 +192,19 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // add new profile
                 $('#SearchProfileAddAction').bind('click', function () {
+                    var Name, $Element1, $Element2;
 
                     // get name
-                    var Name = $('#SearchProfileAddName').val();
+                    Name = $('#SearchProfileAddName').val();
                     if (!Name) {
                         return false;
                     }
 
                     // add name to profile selection
-                    var $Element1 = $('#ProfileList').children().first().clone();
+                    $Element1 = $('#ProfileList').children().first().clone();
                     $Element1.text(Name);
                     $('#ProfileList').append($Element1);
-                    var $Element2 = $('#Profile').children().first().clone();
+                    $Element2 = $('#Profile').children().first().clone();
                     $Element2.text(Name);
                     $Element2.attr('value', Name);
                     $Element2.attr('selected', 'selected');
@@ -227,28 +251,6 @@ Core.Agent.Search = (function (TargetNS) {
             }, 'html'
         );
     };
-
-    // delete profile
-
-    /**
-     * @function
-     * @private
-     * @param {Profile} Profile The profile that will be delete
-     * @return nothing
-     * @description Delete a profile via an ajax requests
-     */
-    function DeleteRemote(Profile) {
-        var Data = {
-            Action: 'AgentTicketSearch',
-            Subaction: 'AJAXProfileDelete',
-            Profile: Profile
-        };
-        Core.AJAX.FunctionCall(
-            Core.Config.Get('CGIHandle'),
-            Data,
-            function () {}
-        );
-    }
 
     return TargetNS;
 }(Core.Agent.Search || {}));
