@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.48 2010-08-12 08:58:12 mg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.49 2010-08-12 11:09:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                        <textarea id="RichText" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" class="RichText Validate_RequiredRichtext $QData{"BodyInvalid"}">$Data{"Body"}</textarea>
+                        <textarea id="RichText" name="Body" title="Message body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}">$Data{"Body"}</textarea>
                         <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
                         <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required."}</p></div>
                     </div>

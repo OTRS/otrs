@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.5 2010-08-05 15:19:08 martin Exp $
+// $Id: Core.Form.Validate.js,v 1.6 2010-08-12 11:09:57 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -161,7 +161,7 @@ Core.Form.Validate = (function (TargetNS) {
         return ($(Element).find('option:selected').text() !== '-');
     }, "");
 
-    $.validator.addMethod("Validate_RequiredRichtext", function (Value, Element) {
+    $.validator.addMethod("Validate_RequiredRichText", function (Value, Element) {
         if (Core.UI.RichTextEditor.IsEnabled($(Element))) {
             Core.UI.RichTextEditor.UpdateLinkedField($(Element));
         }
@@ -234,8 +234,8 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_RequiredDropdown: true
     });
 
-    $.validator.addClassRules("Validate_RequiredRichtext", {
-        Validate_RequiredRichtext: true
+    $.validator.addClassRules("Validate_RequiredRichText", {
+        Validate_RequiredRichText: true
     });
 
     $.validator.addClassRules("Validate_DateYear", {

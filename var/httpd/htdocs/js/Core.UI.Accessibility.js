@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.js - accessibility functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Accessibility.js,v 1.2 2010-08-06 07:32:09 mn Exp $
+// $Id: Core.UI.Accessibility.js,v 1.3 2010-08-12 11:09:57 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ Core.UI.Accessibility = (function (TargetNS) {
             .attr('role', 'main');
         $('.ARIAHasPopup')
             .attr('aria-haspopup', 'true');
-        $('.Validate_Required, .Validate_RequiredDropdown, .Validate_RequiredRichtext, .Validate_DependingRequiredAND, .Validate_DependingRequiredOR')
+        $('.Validate_Required, .Validate_RequiredDropdown, .Validate_RequiredRichText, .Validate_DependingRequiredAND, .Validate_DependingRequiredOR')
             .attr('aria-required', 'true');
     };
 
