@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.137 2010-08-11 15:23:23 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.138 2010-08-12 08:10:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,53 +125,53 @@
                     <fieldset class="TableLike FixedLabelSmall Tight">
 <!-- dtl:block:FirstResponseTime -->
                         <label>$Text{"First Response Time"}:</label>
-                        <p class="Value">
+                        <div class="Value">
 <!-- dtl:block:FirstResponseTimeFontStart -->
                             <div class="Notice">
 <!-- dtl:block:FirstResponseTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
+                                <p title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
                                     $QData{"FirstResponseTimeHuman"}
                                     <br/>
                                     $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
-                                </div>
+                                </p>
 <!-- dtl:block:FirstResponseTimeFontStop -->
                             </div>
 <!-- dtl:block:FirstResponseTimeFontStop -->
-                        </p>
+                        </div>
                         <div class="Clear"></div>
 <!-- dtl:block:FirstResponseTime -->
 <!-- dtl:block:UpdateTime -->
                         <label>$Text{"Update Time"}:</label>
-                        <p class="Value">
+                        <div class="Value">
 <!-- dtl:block:UpdateTimeFontStart -->
                             <div class="Notice">
 <!-- dtl:block:UpdateTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
+                                <p title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
                                     $QData{"UpdateTimeHuman"}
                                     <br/>
                                     $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
-                                </div>
+                                </p>
 <!-- dtl:block:UpdateTimeFontStop -->
                             </div>
 <!-- dtl:block:UpdateTimeFontStop -->
-                        </p>
+                        </div>
                         <div class="Clear"></div>
 <!-- dtl:block:UpdateTime -->
 <!-- dtl:block:SolutionTime -->
                         <label>$Text{"Solution Time"}:</label>
-                        <p class="Value">
+                        <div class="Value">
 <!-- dtl:block:SolutionTimeFontStart -->
                             <div class="Notice">
 <!-- dtl:block:SolutionTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
+                                <p title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
                                     $QData{"SolutionTimeHuman"}
                                     <br/>
                                     $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
-                                </div>
+                                </p>
 <!-- dtl:block:SolutionTimeFontStop -->
                             </div>
 <!-- dtl:block:SolutionTimeFontStop -->
-                        </p>
+                        </div>
                         <div class="Clear"></div>
 <!-- dtl:block:SolutionTime -->
                     </fieldset>
@@ -466,6 +466,7 @@ $Data{"ArticleItems"}
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
+
 <!-- dtl:block:ArticleReply -->
                 <li class="$QData{"Class"}">
                     <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
@@ -496,6 +497,7 @@ $Data{"ArticleItems"}
 <!-- dtl:block:ArticleReplyStatic -->
                 </li>
 <!-- dtl:block:ArticleReply -->
+
             </ul>
             <div class="ClearLeft"></div>
         </div>
