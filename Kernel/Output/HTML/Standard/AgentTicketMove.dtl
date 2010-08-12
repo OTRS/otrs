@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.60 2010-08-11 10:56:29 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.61 2010-08-12 08:26:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -184,7 +184,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Priority -->
 
 <!-- dtl:block:TicketFreeText -->
-                    <label for="TicketFreeText$Data{"Count"}">$Data{"TicketFreeKeyField"}:</label>
+                    <label>$Data{"TicketFreeKeyField"}:</label>
                     <div class="Field">
                         $Data{"TicketFreeTextField"}
                     </div>
