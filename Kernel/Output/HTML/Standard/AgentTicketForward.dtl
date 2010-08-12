@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.64 2010-08-11 10:56:30 mg Exp $
+# $Id: AgentTicketForward.dtl,v 1.65 2010-08-12 08:58:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,13 +102,14 @@ $Include{"AgentCustomerSearch"}
                 <div class="Clear"></div>
 
                 <label for="RichText">$Text{"Text"}:</label>
-                <div class="Clear"></div>
+                <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
-                <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required!"}</p></div>
+                    <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}">$QData{"Body"}</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"The text is required!"}</p></div>
+                </div>
                 <div class="Clear"></div>
 
                 <label>$Text{"Attachment"}:</label>

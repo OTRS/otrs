@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -259,7 +259,7 @@ fieldset.TableLike select {
 }
 
 /**
- * note     Also make labels grey which occur inside of a field,
+ * @note     Also make labels grey which occur inside of a field,
  *          for example for complex input elements.
  */
 fieldset.TableLike > .Field label {
@@ -271,16 +271,21 @@ fieldset.TableLike > .Field > input {
     max-width: 100%;
 }
 
+/**
+ * @note    The RichText field needs to float, otherwise it breaks
+ *          in small screens.
+ */
 fieldset.TableLike > .RichTextField {
     padding-bottom: 10px;
-    clear: both;
-    margin-left: 10%;
-    margin-right: 0;
+    padding-left: 10px;
+    padding-right: 0;
+    float: left;
 }
 
 .RTL fieldset.TableLike > .RichTextField {
-    margin-left: 0;
-    margin-right: 10%;
+    padding-left: 0;
+    padding-right: 10px;
+    float: right;
 }
 
 fieldset.TableLike > .Value {
