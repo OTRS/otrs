@@ -2,7 +2,7 @@
 // Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.Sort.js,v 1.2 2010-07-16 06:53:24 mn Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.3 2010-08-12 09:26:44 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,8 @@ Core.UI.Table.Sort = (function (TargetNS) {
 
                 $Table.tablesorter({
                     headers: Headers,
-                    sortList: InitialSort
+                    sortList: InitialSort,
+                    textExtraction: 'complex'
                 });
 
                 if ($.isFunction(Finished)) {
