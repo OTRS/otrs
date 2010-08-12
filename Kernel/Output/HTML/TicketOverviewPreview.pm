@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.31 2010-07-26 06:42:39 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.32 2010-08-12 08:12:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -240,10 +240,10 @@ sub _Show {
     # fetch all std. responses ...
     my %StandardResponses
         = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
-    $Param{StandardResponsesStrg} = $Self->{LayoutObject}->TicketStandardResponseString(
-        StandardResponsesRef => \%StandardResponses,
-        TicketID             => $Article{TicketID},
-        ArticleID            => $Article{ArticleID},
+
+    $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Name => 'ResponseID',
+        Data => \%StandardResponses,
     );
 
     # customer info

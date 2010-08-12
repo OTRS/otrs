@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.92 2010-07-30 00:40:26 martin Exp $
+# $Id: LayoutTicket.pm,v 1.93 2010-08-12 08:12:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,26 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
-
-sub TicketStandardResponseString {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(StandardResponsesRef TicketID ArticleID)) {
-        if ( !$Param{$_} ) {
-            return "Need $_ in TicketStandardResponseString()";
-        }
-    }
-
-    # build html string
-    $Param{StandardResponsesStrg} = $Self->BuildSelection(
-        Name => 'ResponseID',
-        Data => $Param{StandardResponsesRef},
-    );
-
-    return $Param{StandardResponsesStrg};
-}
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
