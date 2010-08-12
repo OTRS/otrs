@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1283 2010-08-11 17:38:57 en Exp $
+# $Id: CHANGES,v 1.1284 2010-08-12 03:28:31 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/11) Fixed bug#5669 - The customer panel login shows head line
+    "Request new password" on FF 3.5. when only must be shown on click "Forgot
+    Password?"
  - (2010/08/11) Fixed bug#5689 - The response's body is incomplete.
  - (2010/08/11) Fixed bug#5650 - Height of the article list is not retained.
  - (2010/08/11) Fixed bug#5684 - Drag&Drop in agent dashboard is not working
