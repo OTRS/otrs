@@ -2,7 +2,7 @@
 // Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.Sort.js,v 1.3 2010-08-12 09:26:44 mg Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.4 2010-08-12 09:54:58 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,10 +22,34 @@ Core.UI.Table = Core.UI.Table || {};
  *      This namespace contains all functions for client side table sorting
  */
 Core.UI.Table.Sort = (function (TargetNS) {
+
+
+    /**
+     * @function
+     * @description
+     *      Custom text extractor. It will look if an hidden field with the class
+     *      'SortData' is in the table cell and use its contents, if available.
+     *      If not, it will call jQuery's text() method to get the text contents.
+     * @param {jQueryObject or DOM object} $Node Current node of which the text should be extracted
+     * @return {String} Extracted text.
+     */
+    function CustomTextExtractor ($Node) {
+        $Node = $($Node);
+        var $SortData = $Node.find('.SortData');
+        if ($SortData.length) {
+            return $SortData.val();
+        }
+        return $Node.text();
+    }
+
     /**
      * @function
      * @description
      *      This function initializes the table sorting.
+     *      If you have cells with special content like dates, you can
+     *      put a hidden field with the class 'SortData' in them which contains
+     *      a sortable text representation like an ISO date. This will then be
+     *      used for the sorting.
      * @param {jQueryObject} $Table The table element which should be sorted
      * @param {Function} Finished A optional function, called after the sorting
      * @return nothing
@@ -57,7 +81,7 @@ Core.UI.Table.Sort = (function (TargetNS) {
                 $Table.tablesorter({
                     headers: Headers,
                     sortList: InitialSort,
-                    textExtraction: 'complex'
+                    textExtraction: CustomTextExtractor
                 });
 
                 if ($.isFunction(Finished)) {

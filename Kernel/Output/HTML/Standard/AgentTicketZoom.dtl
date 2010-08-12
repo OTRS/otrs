@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.138 2010-08-12 08:10:54 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.139 2010-08-12 09:54:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -419,7 +419,12 @@ $Data{"ArticleItems"}
                         <td class="Direction">dir</td>
                         <td class="From"><div title="$QData{"From"}"><a href="#">$QData{"FromRealname","34"}</a></div></td>
                         <td class="Subject"><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
-                        <td class="Created"><a href="#">$TimeShort{"$QData{"Created"}"}</a></td>
+                        <td class="Created">
+                            <a href="#">$TimeShort{"$QData{"Created"}"}</a>
+# Include custom sorting information: date in ISO format.
+# Other date formats cannot be sorted reliably.
+                            <input type="hidden" class="SortData" value="$QData{"Created"}" />
+                        </td>
                         <td class="Attachments Attachment Fixed NonTextContent">
 <!-- dtl:block:TreeItemAttachment -->
                             <a class="Attachment" title="Attachment" rel="TicketAttachment$QData{"Count"}"></a>
