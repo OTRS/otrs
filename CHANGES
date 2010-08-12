@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1288 2010-08-12 09:54:58 mg Exp $
+# $Id: CHANGES,v 1.1289 2010-08-12 10:03:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/12) Fixed bug 5654: Missing shortcut icon (product.ico).
  - (2010/08/12) Fixed bug 5643: Articles are sorted alphabetically in TicketZoom.
  - (2010/08/12) Fixed bug 5613: WYSIWYG Editor not in center position.
  - (2010/08/12) Fixed bug 5612: Change free text fields not working correct in Firefox.
