@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.5 2010-08-11 09:54:17 martin Exp $
+// $Id: Core.Customer.js,v 1.6 2010-08-12 03:22:07 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -31,37 +31,47 @@ Core.Customer = (function (TargetNS) {
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
      *      4. first input field gets focused
      */
-    TargetNS.InitLogin = function(LoginFailed) {
+    TargetNS.InitLogin = function (LoginFailed) {
         var $Inputs = $('input:not(:checked, :hidden, :radio)'),
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
             $Label,
             $SliderNavigationLinks = $('#Slider a');
 
+        
         $('#TimeOffset').val(Diff);
 
         $Inputs
-            .focus(function(){
+            .focus(function () {
                 $Label = $(this).prev('label');
                 $(this).prev('label').addClass('Focused');
                 if ($(this).val()) $Label.hide();
             })
-            .bind('keyup change', function(){
+            .bind('keyup change', function () {
                 ToggleLabel(this);
             })
-            .blur(function(){
+            .blur(function () {
                 $Label = $(this).prev('label');
-                if (!$(this).val()) $Label.show();
+                if (!$(this).val())  $Label.show();
                 $Label.removeClass('Focused');
             });
-        CheckInputs($Inputs);
-
-        // Fill the reset-password input field with the same value the user types in the login screen
-        // so that the user doesnt have to type in his user name again if he already did
-        $('#User').blur(function(){
+         
+         $('#User').blur(function () {
             var value = $(this).val();
             if (value) {
                 // set the username-value and hide the field's label
+                $('#ResetUser').val('').prev('label').hide();
+            }
+         });
+                        
+          CheckInputs($Inputs);
+
+        // Fill the reset-password input field with the same value the user types in the login screen
+        // so that the user doesnt have to type in his user name again if he already did
+        $('#User').blur(function () {
+            var value = $(this).val();
+            if (value) {
+                // clear the username-value and hide the field's label
                 $('#ResetUser').val(value).prev('label').hide();
             }
         });
@@ -87,7 +97,7 @@ Core.Customer = (function (TargetNS) {
         $LocalInputs.first().focus();
 
         // add all tab-able inputs
-        $LocalInputs.add($(Location+' a, button'));
+        $LocalInputs.add($(Location + ' a, button'));
 
         // collect all global tab-able inputs
         var $TabableInputs = $Inputs.add('a, button');
@@ -98,20 +108,20 @@ Core.Customer = (function (TargetNS) {
 
 
         // Change the 'tabindex' according to the navigation of the user
-        $SliderNavigationLinks.click(function(){
+        $SliderNavigationLinks.click(function () {
 
             // get the target id out of the href attribute of the anchor
             var TargetID = $(this).attr('href');
             var I = 0;
-            var $TargetInputs = $(TargetID+' input:not(:checked, :hidden, :radio), '+TargetID+' a, '+TargetID+' button');
+            var $TargetInputs = $(TargetID + ' input:not(:checked, :hidden, :radio), ' + TargetID +' a, ' + TargetID+ ' button');
             var InputsLength = $TargetInputs.length;
 
             // give the inputs on the slide the user just leaves all a 'tabindex' of '-1'
             var Elements = $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio), a, button').attr('tabindex', -1);
 
             // give all inputs on the new shown slide an increasing 'tabindex'
-            for (I;I<InputsLength;I++) {
-                $TargetInputs.eq(I).attr('tabindex', I+1);
+            for (I; I< InputsLength;I++) {
+                $TargetInputs.eq(I).attr('tabindex', I + 1);
             }
         });
 
@@ -149,15 +159,23 @@ Core.Customer = (function (TargetNS) {
      *      and focuses on the first next 'non-filled-out' input field.
      */
     function CheckInputs($Inputs){
-        var LastFilledElement = 0;
+        var LastFilledElement;
+        var NavigationFocus = { 
+            'User'     : 'Password', 
+            'Password' : 'LoginSubmit',
+            'ResetUser': 'ResetSubmit', 
+        }; 
+
         $.each($Inputs, function(Index, Input) {
             if($(Input).val()){
                 ToggleLabel(Input);
-                LastFilledElement = Index;
+                LastFilledElement = this.id;
             }
         });
-        if (LastFilledElement != 0) {
-            $Inputs[LastFilledElement + 1].focus();
+        
+        if ($.inArray(LastFilledElement,NavigationFocus,true)) {
+            $('#'+NavigationFocus[LastFilledElement]).focus();
+           // $Inputs[LastFilledElement].focus();
         }
     }
 
