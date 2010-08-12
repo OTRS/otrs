@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.155 2010-07-22 22:37:50 en Exp $
+# $Id: AgentTicketPhone.pm,v 1.156 2010-08-12 03:34:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.155 $) [1];
+$VERSION = qw($Revision: 1.156 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1479,7 +1479,7 @@ sub _MaskPhoneNew {
         SelectedValue => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
 
-    # build so string
+    # build to string
     my %NewTo;
     if ( $Param{To} ) {
         for my $KeyTo ( keys %{ $Param{To} } ) {
