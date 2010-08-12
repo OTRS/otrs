@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.58 2010-08-11 09:52:17 martin Exp $
+# $Id: Login.dtl,v 1.59 2010-08-12 07:36:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@ $Include{"Copyright"}
                         <div class="Content">
                             <p class="Error Center Spacing"></p>
 
-                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login" id="123">
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
                                 <input type="hidden" name="Action" value="Login" />
                                 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
                                 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
