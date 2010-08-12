@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1284 2010-08-12 03:28:31 mp Exp $
+# $Id: CHANGES,v 1.1285 2010-08-12 03:46:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/11) Fixed bug#5652 - Can't chose Service and SLA when creating new
+     tickets.
  - (2010/08/11) Fixed bug#5669 - The customer panel login shows head line
     "Request new password" on FF 3.5. when only must be shown on click "Forgot
     Password?"

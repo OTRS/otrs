@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.120 2010-08-11 10:56:29 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.121 2010-08-12 03:46:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,7 +111,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -126,7 +126,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16', 'To', 'Cc', 'Bcc']);
     })
 //]]></script>
 <!--dtl:js_on_document_complete-->
