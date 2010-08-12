@@ -2,7 +2,7 @@
 // Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.Sort.js,v 1.4 2010-08-12 09:54:58 mg Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.5 2010-08-12 13:46:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ Core.UI.Table.Sort = (function (TargetNS) {
      * @param {jQueryObject or DOM object} $Node Current node of which the text should be extracted
      * @return {String} Extracted text.
      */
-    function CustomTextExtractor ($Node) {
+    function CustomTextExtractor($Node) {
         $Node = $($Node);
         var $SortData = $Node.find('.SortData');
         if ($SortData.length) {

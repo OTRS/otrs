@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.js,v 1.8 2010-08-11 10:56:30 mg Exp $
+// $Id: Core.Form.js,v 1.9 2010-08-12 13:46:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -69,8 +69,8 @@ Core.Form = (function (TargetNS) {
                 .find('button')
                 .attr('disabled', 'disabled');
 
-                // Add a speaking class to the form on DisableForm
-                $Form.addClass('AlreadyDisabled');
+            // Add a speaking class to the form on DisableForm
+            $Form.addClass('AlreadyDisabled');
         }
 
     };
