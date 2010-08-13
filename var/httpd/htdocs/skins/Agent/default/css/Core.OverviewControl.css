@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -103,31 +103,42 @@
     display: block;
 }
 
-.OverviewZoom a span {
+.OverviewZoom .ImageMode span.NameLong{
+    display:none;
+}
+
+.OverviewZoom a .ImageMode {
     width: 18px;
     height: 18px;
     background: url(../img/zoom_sprite.png) no-repeat 0 0;
-    text-indent: -9999px;
     display: block;
 }
 
-.OverviewZoom .Active .Small span {
+.OverviewZoom span.Name{
+    display:none;
+}
+
+.OverviewZoom .NameShort {
+    display:none;
+}
+
+.OverviewZoom .Active .Small .ImageMode {
     background-position: 0 -36px;
 }
 
-.OverviewZoom .Medium span {
+.OverviewZoom .Medium .ImageMode {
     background-position: -18px 0;
 }
 
-.OverviewZoom .Active .Medium span {
+.OverviewZoom .Active .Medium .ImageMode {
     background-position: -18px -36px;
 }
 
-.OverviewZoom .Preview span {
+.OverviewZoom .Preview .ImageMode {
     background-position: -36px 0;
 }
 
-.OverviewZoom .Active .Preview span {
+.OverviewZoom .Active .Preview .ImageMode {
     background-position: -36px -36px;
 }
 

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE6
@@ -36,5 +36,40 @@
     width: 95%;
 }
 
+.OverviewZoom .ImageMode span.NameShort {
+    display:block;
+    padding:4px 0;
+    color:black;
+    font-weight:bold;
+    font-size:12px;
+    text-shadow: 0 1px 0 #000;
+    text-indent:0;
+    text-align:center;
+    cursor:hand;
+}
+
+.OverviewZoom .Active .ImageMode span.NameShort {
+    display:none;
+}
+
+.OverviewZoom a .ImageMode{
+    background:none;
+}
+
+.OverviewZoom .Active .ImageMode {
+    background: url(../img/zoom_sprite.png) no-repeat 0 0;
+}
+
+.OverviewZoom .Active .Small .ImageMode {
+    background-position: 0 -36px;
+}
+
+.OverviewZoom .Active .Medium .ImageMode {
+    background-position: -18px -36px;
+}
+
+.OverviewZoom .Active .Preview .ImageMode {
+    background-position: -36px -36px;
+}
 
 } /* end @media */

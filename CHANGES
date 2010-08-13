@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1290 2010-08-12 11:09:57 mg Exp $
+# $Id: CHANGES,v 1.1291 2010-08-13 15:50:19 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 (2010/??/??)
+ - (2010/08/13) Fixed bug 5660: In Global Ticket Overview, with IE7: S/M/L, character
+    is not clickable, only hover area is clickable, fixed changing images for S/M/L letters.
  - (2010/08/12) Fixed bug 5648: Submitting a note does not work as expected in all scenarios.
  - (2010/08/12) Fixed bug 5654: Missing shortcut icon (product.ico).
  - (2010/08/12) Fixed bug 5643: Articles are sorted alphabetically in TicketZoom.
@@ -403,7 +405,7 @@
  - (2010/07/13) Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - (2010/07/07) Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - (2010/07/01) Fixed bug#5512 - Bulk Action No Access is displayed incorrectly.
- - (2010/06/25) Updated Danish translation, thanks to Jesper Rønnov,
+ - (2010/06/25) Updated Danish translation, thanks to Jesper Rï¿½nnov,
     Faaborg-Midtfyn Kommune!
  - (2010/06/24) Fixed bug#5445 - Reflected XSS vulnerability.
  - (2010/06/16) Fixed bug#5488 - AutoPriorityIncrease runs into failures.
