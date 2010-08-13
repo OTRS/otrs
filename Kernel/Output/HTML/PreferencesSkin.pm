@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesSkin.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesSkin.pm,v 1.2 2010-07-20 21:53:54 dz Exp $
+# $Id: PreferencesSkin.pm,v 1.3 2010-08-13 14:09:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,14 +37,17 @@ sub new {
 
 sub Param {
     my ( $Self, %Param ) = @_;
-    my $PossibleSkins = $Self->{ConfigObject}->Get('Frontend::Agent::Skin') || {};
+    my $PossibleSkins = $Self->{ConfigObject}->Get('Loader::Agent::Skin') || {};
     my $Home = $Self->{ConfigObject}->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
-        my $SkinDir = $Home . "/var/httpd/htdocs/skins/Agent/" . $PossibleSkin->{InternalName};
-        if ( -d $SkinDir ) {    # .. and if the skin dir exists
+        if (
+            $Self->{LayoutObject}
+            ->SkinValidate( Skin => $PossibleSkin->{InternalName}, SkinType => 'Agent' )
+            )
+        {
             $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.29 2010-08-11 13:46:35 mg Exp $
+# $Id: LayoutLoader.pm,v 1.30 2010-08-13 14:09:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Kernel::System::Loader;
 
@@ -51,7 +51,9 @@ sub LoaderCreateAgentCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Param{'Skin'} || $Self->{ConfigObject}->Get('DefaultSkin');
+    my $SkinSelected = $Param{'Skin'}
+        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+        || 'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
@@ -302,8 +304,8 @@ sub LoaderCreateCustomerCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Self->{ConfigObject}->Get('DefaultCustomerSkin') ||
-        $Self->{ConfigObject}->Get('DefaultSkin');
+    my $SkinSelected = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin') ||
+        'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
@@ -627,30 +629,38 @@ Returns 1 if skin is available for Agent or Customer frontends and 0 if not.
 sub SkinValidate {
     my ( $Self, %Param ) = @_;
 
-    # ask for needed data
-    for my $Parameter ( 'SkinType', 'Skin' ) {
-        if ( !$Param{$Parameter} ) {
+    for my $Needed ( 'SkinType', 'Skin' ) {
+        if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log(
-                Message  => "Needed param: $Parameter!",
+                Message  => "Needed param: $Needed!",
                 Priority => 'error',
             );
             return;
         }
     }
+
+    if ( exists $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } ) {
+        return $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} };
+    }
+
     my $SkinType      = $Param{SkinType};
-    my $PossibleSkins = $Self->{ConfigObject}->Get('Frontend::Agent::Skin') || {};
+    my $PossibleSkins = $Self->{ConfigObject}->Get("Loader::${SkinType}::Skin") || {};
     my $Home          = $Self->{ConfigObject}->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
-            my $SkinDir = $Home . "/var/httpd/htdocs/skins/Agent/" . $PossibleSkin->{InternalName};
+            my $SkinDir
+                = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
             if ( -d $SkinDir ) {
+                $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = 1;
                 return 1;
             }
         }
     }
+
+    $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = undef;
     return;
 }
 
@@ -670,6 +680,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2010-08-11 13:46:35 $
+$Revision: 1.30 $ $Date: 2010-08-13 14:09:22 $
 
 =cut
