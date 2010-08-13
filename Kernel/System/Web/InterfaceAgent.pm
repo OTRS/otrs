@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.52 2010-08-09 12:20:56 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.53 2010-08-13 18:00:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -115,7 +115,7 @@ sub Run {
     my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
-    # definde frame work params
+    # define framework params
     my $FrameworkParams = {
         Lang         => '',
         Action       => '',
@@ -127,7 +127,7 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
-    # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
+    # check if the brwoser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
@@ -197,10 +197,10 @@ sub Run {
         # create AuthObject
         my $AuthObject = Kernel::System::Auth->new( %{$Self} );
 
-        # check submited data
+        # check submitted data
         my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
 
-        # login is valid
+        # login is invalid
         if ( !$User ) {
 
             # redirect to alternate login
@@ -905,6 +905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2010-08-09 12:20:56 $
+$Revision: 1.53 $ $Date: 2010-08-13 18:00:31 $
 
 =cut
