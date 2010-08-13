@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.7 2010-08-12 13:46:20 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.8 2010-08-13 00:04:10 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -219,6 +219,32 @@ Core.Form.Validate = (function (TargetNS) {
         return (Value === "" || /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/.test(Value));
     }, "");
 
+    /*
+     * Adds a generic method to compare if the given fields are equal
+     */
+    $.validator.addMethod("Validate_Equal", function (Value, Element) {
+        var Classes = $(Element).attr('class'),
+            EqualElements = [],
+            ApplyRule = 0,
+            EqualClassPrefix = 'Validate_Equal_',
+            RegExEqual;
+        RegExEqual = new RegExp(EqualClassPrefix);
+        $.each(Classes.split(' '), function (Index, Value) {
+            if (RegExEqual.test(Value)) {
+                EqualElements.push(Value.replace(EqualClassPrefix, ''));
+            }
+        });
+        if (EqualElements.length) {
+            for (I = 0; I < EqualElements.length; I++) {
+                if ($('#' + EqualElements[I].trim()).val() === Value) {
+                    ApplyRule++;
+                    break;
+                }
+            }
+            return ApplyRule;
+        }
+    });
+
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
     });
@@ -261,6 +287,10 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_TimeUnits", {
         Validate_TimeUnits: true
+    });
+
+    $.validator.addClassRules("Validate_Equal", {
+        Validate_Equal: true
     });
 
     /*
