@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.32 2010-05-17 18:37:25 en Exp $
+# $Id: AdminSLA.pm,v 1.33 2010-08-16 21:30:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,183 +44,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my %Error = ();
+
     # ------------------------------------------------------------ #
     # sla edit
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'SLAEdit' ) {
 
-        # get params
-        my %SLAData;
-        $SLAData{SLAID} = $Self->{ParamObject}->GetParam( Param => 'SLAID' );
-
-        if ( $SLAData{SLAID} ) {
-
-            # get sla data
-            %SLAData = $Self->{SLAObject}->SLAGet(
-                SLAID  => $SLAData{SLAID},
-                UserID => $Self->{UserID},
-            );
-        }
-        else {
-            $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
-        }
-
-        # get service list
-        my %ServiceList = $Self->{ServiceObject}->ServiceList(
-            Valid  => 0,
-            UserID => $Self->{UserID},
-        );
-
-        # generate ServiceOptionStrg
-        my $TreeView = 0;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
-        $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data        => \%ServiceList,
-            Name        => 'ServiceIDs',
-            SelectedID  => $SLAData{ServiceIDs} || [],
-            Multiple    => 1,
-            Size        => 5,
-            TreeView    => $TreeView,
-            Sort        => 'TreeView',
-            Translation => 0,
-            Max         => 200,
-        );
-
-        # generate CalendarOptionStrg
-        my %CalendarList;
-        for ( '', 1 .. 50 ) {
-            if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$_") ) {
-                $CalendarList{$_} = "Calendar $_ - "
-                    . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $_ . "Name" );
-            }
-        }
-        $SLAData{CalendarOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%CalendarList,
-            Name         => 'Calendar',
-            SelectedID   => $SLAData{Calendar},
-            PossibleNone => 1,
-        );
-        my %NotifyLevelList = (
-            10 => '10%',
-            20 => '20%',
-            30 => '30%',
-            40 => '40%',
-            50 => '50%',
-            60 => '60%',
-            70 => '70%',
-            80 => '80%',
-            90 => '90%',
-        );
-        $SLAData{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%NotifyLevelList,
-            Name         => 'FirstResponseNotify',
-            SelectedID   => $SLAData{FirstResponseNotify},
-            PossibleNone => 1,
-        );
-        $SLAData{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%NotifyLevelList,
-            Name         => 'UpdateNotify',
-            SelectedID   => $SLAData{UpdateNotify},
-            PossibleNone => 1,
-        );
-        $SLAData{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%NotifyLevelList,
-            Name         => 'SolutionNotify',
-            SelectedID   => $SLAData{SolutionNotify},
-            PossibleNone => 1,
-        );
-
-        # get valid list
-        my %ValidList        = $Self->{ValidObject}->ValidList();
-        my %ValidListReverse = reverse %ValidList;
-
-        $SLAData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ValidList,
-            Name       => 'ValidID',
-            SelectedID => $SLAData{ValidID} || $ValidListReverse{valid},
-        );
-
-        # output sla edit
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
-        );
-
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-
-        $Self->{LayoutObject}->Block(
-            Name => 'SLAEdit',
-            Data => {
-                %Param,
-                %SLAData,
-            },
-        );
-
-        # shows header
-        if ( $SLAData{SLAID} ) {
-            $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
-        }
-        else {
-            $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
-        }
-
-        # show each preferences setting
-        my %Preferences = ();
-        if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
-            %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
-        }
-        for my $Item ( sort keys %Preferences ) {
-            my $Module = $Preferences{$Item}->{Module}
-                || 'Kernel::Output::HTML::SLAPreferencesGeneric';
-
-            # load module
-            if ( !$Self->{MainObject}->Require($Module) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-            my $Object = $Module->new(
-                %{$Self},
-                ConfigItem => $Preferences{$Item},
-                Debug      => $Self->{Debug},
-            );
-            my @Params = $Object->Param( SLAData => \%SLAData );
-            if (@Params) {
-                for my $ParamItem (@Params) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'SLAItem',
-                        Data => { %Param, },
-                    );
-                    if (
-                        ref( $ParamItem->{Data} ) eq 'HASH'
-                        || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
-                        )
-                    {
-                        $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
-                            %{ $Preferences{$Item} },
-                            %{$ParamItem},
-                        );
-                    }
-                    $Self->{LayoutObject}->Block(
-                        Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
-                        Data => {
-                            %{ $Preferences{$Item} },
-                            %{$ParamItem},
-                        },
-                    );
-                }
-            }
-        }
-
-        # output overview
+        # header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSLA',
-            Data         => \%Param,
+
+        # html output
+        $Output .= $Self->_MaskNew(
+            %Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
 
@@ -242,6 +79,31 @@ sub Run {
             )
         {
             $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+        }
+
+        # check needed stuff
+        %Error = ();
+        if ( !$GetParam{Name} ) {
+            $Error{'NameInvalid'} = 'ServerError';
+        }
+
+        # if there were any errors, it shows a server error
+        if (%Error) {
+
+            # header
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+
+            # html output
+            $Output .= $Self->_MaskNew(
+                %Param,
+                %GetParam,
+                %Error,
+            );
+
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+
         }
 
         # get service ids
@@ -431,6 +293,180 @@ sub Run {
 
         return $Output;
     }
+}
+
+sub _MaskNew {
+
+    my ( $Self, %Param ) = @_;
+
+    # get params
+    my %SLAData;
+    $SLAData{SLAID} = $Self->{ParamObject}->GetParam( Param => 'SLAID' ) || '';
+
+    if ( $SLAData{SLAID} ) {
+
+        # get sla data
+        %SLAData = $Self->{SLAObject}->SLAGet(
+            SLAID  => $SLAData{SLAID},
+            UserID => $Self->{UserID},
+        );
+    }
+    else {
+        $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
+    }
+
+    # get service list
+    my %ServiceList = $Self->{ServiceObject}->ServiceList(
+        Valid  => 0,
+        UserID => $Self->{UserID},
+    );
+
+    # generate ServiceOptionStrg
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+    $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data        => \%ServiceList,
+        Name        => 'ServiceIDs',
+        SelectedID  => $SLAData{ServiceIDs} || [],
+        Multiple    => 1,
+        Size        => 5,
+        TreeView    => $TreeView,
+        Sort        => 'TreeView',
+        Translation => 0,
+        Max         => 200,
+    );
+
+    # generate CalendarOptionStrg
+    my %CalendarList;
+    for my $CalendarNumber ( '', 1 .. 50 ) {
+        if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$CalendarNumber") ) {
+            $CalendarList{$CalendarNumber} = "Calendar $CalendarNumber - "
+                . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $CalendarNumber . "Name" );
+        }
+    }
+    $SLAData{CalendarOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%CalendarList,
+        Name         => 'Calendar',
+        SelectedID   => $Param{Calendar} || $SLAData{Calendar},
+        PossibleNone => 1,
+    );
+    my %NotifyLevelList = (
+        10 => '10%',
+        20 => '20%',
+        30 => '30%',
+        40 => '40%',
+        50 => '50%',
+        60 => '60%',
+        70 => '70%',
+        80 => '80%',
+        90 => '90%',
+    );
+    $SLAData{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'FirstResponseNotify',
+        SelectedID   => $Param{FirstResponseNotify} || $SLAData{FirstResponseNotify},
+        PossibleNone => 1,
+    );
+    $SLAData{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'UpdateNotify',
+        SelectedID   => $Param{UpdateNotify} || $SLAData{UpdateNotify},
+        PossibleNone => 1,
+    );
+    $SLAData{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%NotifyLevelList,
+        Name         => 'SolutionNotify',
+        SelectedID   => $Param{SolutionNotify} || $SLAData{SolutionNotify},
+        PossibleNone => 1,
+    );
+
+    # get valid list
+    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
+    $SLAData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data       => \%ValidList,
+        Name       => 'ValidID',
+        SelectedID => $Param{ValidID} || $SLAData{ValidID} || $ValidListReverse{valid},
+    );
+
+    # output sla edit
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => {
+            %Param
+        },
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'SLAEdit',
+        Data => {
+            %Param,
+            %SLAData,
+        },
+    );
+
+    # shows header
+    if ( $SLAData{SLAID} ) {
+        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+
+    # show each preferences setting
+    my %Preferences = ();
+    if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
+        %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
+    }
+    for my $Item ( sort keys %Preferences ) {
+        my $Module = $Preferences{$Item}->{Module}
+            || 'Kernel::Output::HTML::SLAPreferencesGeneric';
+
+        # load module
+        if ( !$Self->{MainObject}->Require($Module) ) {
+            return $Self->{LayoutObject}->FatalError();
+        }
+        my $Object = $Module->new(
+            %{$Self},
+            ConfigItem => $Preferences{$Item},
+            Debug      => $Self->{Debug},
+        );
+        my @Params = $Object->Param( SLAData => \%SLAData );
+        if (@Params) {
+            for my $ParamItem (@Params) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SLAItem',
+                    Data => { %Param, },
+                );
+                if (
+                    ref( $ParamItem->{Data} ) eq 'HASH'
+                    || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
+                    )
+                {
+                    $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
+                        %{ $Preferences{$Item} },
+                        %{$ParamItem},
+                    );
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
+                    Data => {
+                        %{ $Preferences{$Item} },
+                        %{$ParamItem},
+                    },
+                );
+            }
+        }
+    }
+
+    # get output back
+    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminSLA', Data => \%Param );
 }
 
 1;
