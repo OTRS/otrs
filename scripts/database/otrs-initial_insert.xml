@@ -310,7 +310,7 @@
 Thank you for your request.
 
 </Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
         <Data Key="comments" Type="Quote">Standard Salutation.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -332,7 +332,7 @@ Your Ticket-Team
  5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA
  Email: hot@example.com - Web: http://www.example.com/
 --</Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
         <Data Key="comments" Type="Quote">Standard Signature.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -458,7 +458,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">empty answer</Data>
         <Data Key="text" Type="Quote"></Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -469,7 +469,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">test answer</Data>
         <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -581,7 +581,7 @@ Have fun with OTRS! :-)
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -604,7 +604,7 @@ Please create a new ticket.
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">Your email has been rejected! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -630,7 +630,7 @@ Have fun with OTRS!
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -658,7 +658,7 @@ Have fun with OTRS!
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">New ticket has been created! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -1347,7 +1347,7 @@ Communication with success!
 <!-- notifications agent - en -->
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1371,7 +1371,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1395,7 +1395,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1419,7 +1419,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1441,7 +1441,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
@@ -1463,7 +1463,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1484,7 +1484,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::Move</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Moved ticket in &lt;OTRS_CUSTOMER_QUEUE&gt; queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1506,7 +1506,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1533,7 +1533,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1563,7 +1563,7 @@ Your OTRS Notification Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation Warning! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
@@ -1595,7 +1595,7 @@ Your OTRS Notification Master</Data>
 <!-- notifications agent - de -->
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Neues Ticket! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1619,7 +1619,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1643,7 +1643,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1667,7 +1667,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1689,7 +1689,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Verantwortung uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_RESPONSIBLE_UserFirstname&gt; &lt;OTRS_RESPONSIBLE_UserLastname&gt;,
@@ -1711,7 +1711,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1732,7 +1732,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::Move</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1754,7 +1754,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1781,7 +1781,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
@@ -1811,7 +1811,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
-        <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
         <Data Key="notification_language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
