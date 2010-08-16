@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.33 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminSLA.dtl,v 1.34 2010-08-16 21:30:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,7 +97,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="get">
+                <form action="$Env{"CGIHandle"}" method="get" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="SLASave"/>
                     <input type="hidden" name="SLAID" value="$QData{"SLAID"}"/>
@@ -105,7 +105,9 @@
 
                         <label for="Name">$Text{"SLA"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage"><p>$Text{"A SLA should have a name!"}</p></div>
+                            <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"The SLA name is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -123,7 +125,8 @@
 
                         <label for="FirstResponseTime">$Text{"Escalation - first response time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W50px" maxlength="10"/>
+                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="$QData{"FirstResponseTime"}" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="FirstResponseTimeError" class="TooltipErrorMessage"><p>$Text{"Please write only numbers!"}</p></div>
                             (<label for="FirstResponseNotify">$Text{"Notify by"}</label> $Data{"FirstResponseNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
@@ -133,7 +136,8 @@
 
                         <label for="UpdateTime">$Text{"Escalation - update time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="UpdateTime" id="UpdateTime" value="$QData{"UpdateTime"}" class="W50px" maxlength="10"/>
+                            <input type="text" name="UpdateTime" id="UpdateTime" value="$QData{"UpdateTime"}" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="UpdateTimeError" class="TooltipErrorMessage"><p>$Text{"Please write only numbers!"}</p></div>
                             (<label for="UpdateNotify">$Text{"Notify by"}</label> $Data{"UpdateNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
@@ -143,7 +147,8 @@
 
                         <label for="SolutionTime">$Text{"Escalation - solution time"} ($Text{"minutes"}):</label>
                         <div class="Field">
-                            <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W50px" maxlength="10"/>
+                            <input type="text" name="SolutionTime" id="SolutionTime" value="$QData{"SolutionTime"}" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="SolutionTimeError" class="TooltipErrorMessage"><p>$Text{"Please write only numbers!"}</p></div>
                             (<label for="SolutionNotify">$Text{"Notify by"}</label> $Data{"SolutionNotifyOptionStrg"})
                             <p class="FieldExplanation">
                                 $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."}
