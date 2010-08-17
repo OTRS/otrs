@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.6 2010-07-21 20:55:51 cg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.7 2010-08-17 10:23:21 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,9 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @description Open the spellchecker screen
      */
     function OpenSpellChecker() {
-        var SpellCheckIFrame = '<iframe class="TextOption SpellCheck" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Field=RichText;Body=' + $('#RichText').val() + '"></iframe>';
+        var SpellCheckIFrame, SpellCheckIFrameURL;
+        SpellCheckIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Field=RichText;Body=' + encodeURIComponent($('#RichText').val());
+        SpellCheckIFrame = '<iframe class="TextOption SpellCheck" src="' + SpellCheckIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, '', '10px', 'Center', true);
     }
 
@@ -40,7 +42,9 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @description Open the AdressBook screen
      */
     function OpenAdressBook() {
-        var AdressBookIFrame = '<iframe class="TextOption" src="' + Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + $('#CustomerAutoComplete').val() + ';Cc=' + $('#Cc').val() + ';Bcc=' + $('#Bcc').val() + '"></iframe>';
+        var AdressBookIFrameURL, AdressBookIFrame;
+        AdressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + encodeURIComponent($('#CustomerAutoComplete').val()) + ';Cc=' + encodeURIComponent($('#Cc').val()) + ';Bcc=' + encodeURIComponent($('#Bcc').val());
+        AdressBookIFrame = '<iframe class="TextOption" src="' + AdressBookIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, '', '10px', 'Center', true);
     }
 
@@ -153,7 +157,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
         });
-    }
+    };
 
     /**
      * @function
@@ -187,7 +191,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
         });
-    }
+    };
 
     /**
      * @function
@@ -199,8 +203,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
             var Customer = $(this).text();
             UpdateCustomer(Customer);
         });
-    }
-    
+    };
+
     /**
      * @function
      * @return nothing
@@ -211,6 +215,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
     TargetNS.SelectRadioButton = function (Value, Name) {
         $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', true);
     };
-    
+
     return TargetNS;
 }(Core.Agent.TicketAction || {}));
