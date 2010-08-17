@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.289 2010-08-13 17:59:36 ub Exp $
+# $Id: Layout.pm,v 1.290 2010-08-17 12:22:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.289 $) [1];
+$VERSION = qw($Revision: 1.290 $) [1];
 
 =head1 NAME
 
@@ -4625,6 +4625,16 @@ sub _RemoveScriptTags {
 
     if ( $Code =~ m/<script/ ) {
 
+        # cut out dtl block comments of already replaced dtl blocks
+        $Code =~ s{
+            ^
+            <!--
+            \/?
+            \w+
+            -->
+            \r?\n
+        }{}smxg;
+
         # cut out opening script tags
         $Code =~ s{
             <script[^>]+>
@@ -4640,15 +4650,6 @@ sub _RemoveScriptTags {
             </script>
         }{}smxg;
 
-        # cut out dtl block comments
-        $Code =~ s{
-            ^
-            <!--
-            \/?
-            \w+
-            -->
-            \r?\n
-        }{}smxg;
     }
     return $Code;
 }
@@ -4669,6 +4670,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.289 $ $Date: 2010-08-13 17:59:36 $
+$Revision: 1.290 $ $Date: 2010-08-17 12:22:09 $
 
 =cut

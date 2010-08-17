@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.42 2010-08-01 04:48:20 dz Exp $
+# $Id: Layout.t,v 1.43 2010-08-17 12:22:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -931,6 +931,22 @@ EOF
 
 EOF
         Name => '_RemoveScriptTags - complete content test with block comments',
+    },
+    {
+        Input => <<'EOF',
+<script type="text/javascript">  //<![CDATA[
+<!--DocumentReadyActionRowAdd-->
+   alert();
+<!--/DocumentReadyActionRowAdd-->
+//]]></script>
+EOF
+        Result => <<"EOF",
+
+   alert();
+
+EOF
+        Name =>
+            '_RemoveScriptTags - complete content test with block comments inside the script tags',
     },
 );
 
