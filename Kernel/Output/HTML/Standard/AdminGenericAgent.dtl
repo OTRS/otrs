@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.71 2010-08-11 10:56:29 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.72 2010-08-17 08:12:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,8 +147,11 @@
                     </div>
                 </div>
 
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
                     <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
                         <h2>$Text{"Ticket Filter"}</h2>
                     </div>
                     <div class="Content">
@@ -433,8 +436,11 @@
                     </div>
                 </div>
 <!-- new options -->
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
                     <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
                         <h2>$Text{"Ticket Action"}</h2>
                     </div>
                     <div class="Content">
@@ -510,7 +516,7 @@
                             <label>$Text{"New TicketFreeFields"}</label>
                             <div class="Clear"></div>
 <!-- dtl:block:NewTicketFreeFieldElement -->
-                            <label for="$Data{"ValueID"}">$Data{"NewTicketFreeKey"}</label>
+                            <label>$Data{"NewTicketFreeKey"}</label>
                             <div class="Field">
                                 $Data{"NewTicketFreeText"}
                             </div>
@@ -520,8 +526,11 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
                     <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
                         <h2>$Text{"Ticket add note"}</h2>
                     </div>
                     <div class="Content">
@@ -559,8 +568,11 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
                     <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
                         <h2>$Text{"Ticket Comands"}</h2>
                     </div>
                     <div class="Content">
@@ -592,8 +604,11 @@
                     </div>
                 </div>
 
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
                     <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
                         <h2>$Text{"Execute Custom Module"}</h2>
                     </div>
                     <div class="Content">
@@ -651,7 +666,16 @@
                                 <input type="text" name="NewParamValue6" id="NewParamValue6" value="$QData{"NewParamValue6"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+                </div>
 
+                <div class="WidgetSimple SpacingTop MinMeight">
+                    <div class="Header">
+                        <h2>$Text{"Save Changes"}</h2>
+                    </div>
+                    <div class="Content">
+                        <fieldset class="TableLike">
                             <div class="Field SpacingTop">
                                 <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                                 $Text{"or"}
