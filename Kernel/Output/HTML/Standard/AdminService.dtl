@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.32 2010-07-19 15:48:09 dz Exp $
+# $Id: AdminService.dtl,v 1.33 2010-08-17 15:00:09 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="get">
+                <form action="$Env{"CGIHandle"}" method="get" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="ServiceSave"/>
                     <input type="hidden" name="ServiceID" value="$QData{"ServiceID"}"/>
@@ -97,7 +97,9 @@
 
                         <label for="Name">$Text{"Service"}: </label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"NameShort"}" class="W50pc" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"NameShort"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage" ><p>$Text{"Name is required."}</p></div>
+                            <div id="NameServerError" class="TooltipErrorMessage" ><p>$Text{"Name is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
