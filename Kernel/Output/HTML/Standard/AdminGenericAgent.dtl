@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.72 2010-08-17 08:12:02 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.73 2010-08-17 08:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
     <h1>$Text{"Generic Agent"}</h1>
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
-        <div class="WidgetSimple MinMeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
@@ -38,7 +38,7 @@
     <div class="ContentColumn">
 
 <!-- dtl:block:Overview -->
-        <div class="WidgetSimple MinMeight">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -91,7 +91,7 @@
 
 <!-- dtl:block:Edit -->
         <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
-            <div class="WidgetSimple MinMeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Job Settings"}</h2>
                 </div>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
+                <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
@@ -436,7 +436,7 @@
                     </div>
                 </div>
 <!-- new options -->
-                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
+                <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
@@ -526,7 +526,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
+                <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
@@ -568,7 +568,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
+                <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
@@ -604,7 +604,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetSimple SpacingTop MinMeight Collapsed">
+                <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
@@ -670,7 +670,7 @@
                     </div>
                 </div>
 
-                <div class="WidgetSimple SpacingTop MinMeight">
+                <div class="WidgetSimple SpacingTop">
                     <div class="Header">
                         <h2>$Text{"Save Changes"}</h2>
                     </div>
@@ -689,7 +689,7 @@
 <!-- dtl:block:Edit -->
 
 <!-- dtl:block:Result -->
-            <div class="WidgetSimple MinMeight">
+            <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Results"}</h2>
                 </div>
@@ -718,7 +718,7 @@
                 </div>
             </div>
 <!-- dtl:block:ResultBlock -->
-            <div class="WidgetSimple SpacingTop MinMeight">
+            <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>$Text{"Affected Tickets"}</h2>
                 </div>
