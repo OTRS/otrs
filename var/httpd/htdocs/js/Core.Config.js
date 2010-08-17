@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Config.js,v 1.2 2010-08-17 12:13:56 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@ Core.Config = (function (TargetNS) {
      * @function
      *      Gets a single option value
      * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
-     * @return {Object} The value of the option. Can be every kind of javascript variable type.
+     * @return {Object} The value of the option. Can be every kind of javascript variable type. Returns undefined if setting could not be found.
      */
     TargetNS.Get = function (Key) {
         var Keys = Key.split('.'),
@@ -70,6 +70,9 @@ Core.Config = (function (TargetNS) {
 
         for (KeyToken in Keys) {
             if (Keys.hasOwnProperty(KeyToken)) {
+                if (typeof ConfigLevel !== 'object') {
+                    return undefined;
+                }
                 if (Keys.length === Count + 1) {
                     return ConfigLevel[ConfigPrefix + Keys[KeyToken]];
                 }
