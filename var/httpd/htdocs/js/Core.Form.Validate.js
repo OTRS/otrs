@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.9 2010-08-16 21:13:40 en Exp $
+// $Id: Core.Form.Validate.js,v 1.10 2010-08-17 12:16:17 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -227,7 +227,8 @@ Core.Form.Validate = (function (TargetNS) {
             EqualElements = [],
             ApplyRule = 0,
             EqualClassPrefix = 'Validate_Equal_',
-            RegExEqual;
+            RegExEqual,
+            I;
         RegExEqual = new RegExp(EqualClassPrefix);
         $.each(Classes.split(' '), function (Index, Value) {
             if (RegExEqual.test(Value)) {
