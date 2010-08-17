@@ -75,26 +75,8 @@ $Param{UserLogin}      = $ARGV[0];
 $Param{UserPassword}   = $opts{p};
 $Param{UserEmail}      = $opts{e};
 
-=item CustomerUserAdd()
-
-to add new customer users
-
-    my $UserLogin = $CustomerUserObject->CustomerUserAdd(
-        Source         => 'CustomerUser', # CustomerUser source config
-        UserFirstname  => 'Huber',
-        UserLastname   => 'Manfred',
-        UserCustomerID => 'A124',
-        UserLogin      => 'mhuber',
-        UserPassword   => 'some-pass', # not required
-        UserEmail      => 'email@example.com',
-        ValidID        => 1,
-        UserID         => 123,
-    );
-
-=cut
-
 if ( $Param{UID} = $CommonObject{UserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
-    print "User added. user  id is $Param{UID}\n";
+    print "Customer user added. Username is $Param{UID}\n";
 }
 
 exit(0);
