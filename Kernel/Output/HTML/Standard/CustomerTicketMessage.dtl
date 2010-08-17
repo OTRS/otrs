@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.40 2010-08-17 08:44:04 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.41 2010-08-17 09:07:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
         <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
             <input type="hidden" name="Action" value="$Env{"Action"}" />
             <input type="hidden" name="Subaction" value="StoreNew" />
-            <input type="hidden" name="Expand" value="" />
+            <input type="hidden" name="Expand" id="Expand" value="" />
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <fieldset>
 <!-- dtl:block:TicketType -->
@@ -33,6 +33,8 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#Dest').bind('change', function (Event) {
+        // make sure the ticket is not yet created on queue change
+        $('input#Expand').val(3); // not sure about the meaning of "3"
         $(this).closest('form').submit();
     });
 //]]></script>
