@@ -2,7 +2,7 @@
 # scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.3 2010-06-22 22:00:52 dz Exp $
+# $Id: JSON.t,v 1.4 2010-08-17 21:56:29 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,8 +59,10 @@ my @Tests = (
 
 for my $Test (@Tests) {
     my $JSON = $Self->{JSONObject}->Encode(
-        Data => $Test->{Input},
+        Data     => $Test->{Input},
+        SortKeys => 1,
     );
+
     $Self->Is(
         $JSON,
         $Test->{Result},
