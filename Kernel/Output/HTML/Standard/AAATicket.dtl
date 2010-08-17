@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.50 2010-05-04 00:43:01 martin Exp $
+# $Id: AAATicket.dtl,v 1.51 2010-08-17 08:00:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,8 +116,8 @@ $Text{"New Article"}
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
 
-$Text{"Remove from list of subscribed tickets"}
-$Text{"Add to list of subscribed tickets"}
+$Text{"Remove from list of watched tickets"}
+$Text{"Add to list of watched tickets"}
 
 $Text{"Email-Ticket"}
 $Text{"Create new Email Ticket"}
@@ -136,8 +136,8 @@ $Text{"Locked Tickets"}
 $Text{"My Locked Tickets"}
 $Text{"Watched Tickets"}
 $Text{"Watched"}
-$Text{"Subscribe"}
-$Text{"Unsubscribe"}
+$Text{"Watch"}
+$Text{"Unwatch"}
 $Text{"New message"}
 $Text{"Lock it to work on it!"}
 $Text{"Unlock to give it back to the queue!"}

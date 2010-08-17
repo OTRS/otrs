@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1293 2010-08-17 07:47:49 mg Exp $
+# $Id: CHANGES,v 1.1294 2010-08-17 08:00:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta2 2010-??-??
+ - 2010-08-17 Fixed bug 5370: the word "subscribe" ought to be changed to "watch".
  - 2010-08-17 Fixed bug 5742: Outgoing email link detection does not work properly.
  - 2010-08-13 Fixed bug 5660: In Global Ticket Overview, with IE7: S/M/L, character
     is not clickable, only hover area is clickable, fixed changing images for S/M/L letters.
