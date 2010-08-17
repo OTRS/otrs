@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.10 2010-06-22 22:00:51 dz Exp $
+# $Id: SMIME.t,v 1.11 2010-08-17 22:46:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,6 +165,13 @@ for my $Count ( 1 .. 2 ) {
     $Self->True(
         $Message || '',
         "#$Count CertificateAdd()",
+    );
+
+    # test if read cert from file is the same as in unittest file
+    $Self->Is(
+        ${$CertString},
+        $Check{"cert-$Count"},
+        "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
     );
 
     @Certs = $Self->{CryptObject}->CertificateSearch(
