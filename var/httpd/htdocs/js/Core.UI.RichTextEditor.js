@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.5 2010-07-26 13:32:47 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.6 2010-08-17 08:44:04 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -80,16 +80,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir') ? Core.Config.Get('RichText.TextDir') : 'ltr',
             disableNativeSpellChecker: false,
-            toolbar_Full: [
-                ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
-                '/',
-                ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
-            ],
-            toolbar_Simple: [
-                ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
-                '/',
-                ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
-            ],
+            toolbar_Full: Core.Config.Get('RichText.ToolbarFull'),
+            toolbar_Simple: Core.Config.Get('RichText.ToolbarSimple'),
             toolbar: ToolbarSet,
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''

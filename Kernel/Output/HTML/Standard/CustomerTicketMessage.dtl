@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.39 2010-08-06 22:01:08 dz Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.40 2010-08-17 08:44:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,9 +66,9 @@
                 <div class="RichTextHolder">
                     <label for="RichText">$Text{"Text"}</label>
 <!-- dtl:block:RichText -->
-$Include{"RichTextEditor"}
+$Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText RichText_NoSource" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
 <!--$Text{"$Data{"Body invalid"}"}-->
                     <div class="Clear"></div>
                 </div>

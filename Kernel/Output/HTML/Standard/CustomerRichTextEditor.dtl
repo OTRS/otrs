@@ -1,8 +1,8 @@
 # --
-# RichTextEditor.dtl - provides Rich Text Editor
+# CustomerRichTextEditor.dtl - provides Rich Text Editor for the customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.37 2010-08-17 08:44:04 mg Exp $
+# $Id: CustomerRichTextEditor.dtl,v 1.1 2010-08-17 08:44:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,12 +21,12 @@
     Core.Config.Set('RichText.ToolbarFull', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
-        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-',]
     ]);
     Core.Config.Set('RichText.ToolbarSimple', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
-        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-',]
     ]);
 
     Core.UI.RichTextEditor.InitAll();
