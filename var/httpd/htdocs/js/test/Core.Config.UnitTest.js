@@ -2,7 +2,7 @@
 // Core.Config.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.UnitTest.js,v 1.1 2010-07-13 09:46:45 mg Exp $
+// $Id: Core.Config.UnitTest.js,v 1.2 2010-08-17 12:14:12 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Core.Config = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         module('Core.Config');
         test('Core.Config.Get()', function(){
-            expect(3);
+            expect(4);
 
             var ConfigTest = 'Test value';
             Core.Config.Set('Test', ConfigTest);
@@ -29,6 +29,8 @@ Core.Config = (function (Namespace) {
 
             Core.Config.Set('RichText.Test2', ConfigTest);
             same(Core.Config.Get('RichText.Test2'), ConfigTest);
+
+            same(Core.Config.Get('non.existing.dummy.ns'), undefined);
         });
 
         test('Core.Config.AddConfig()', function(){
