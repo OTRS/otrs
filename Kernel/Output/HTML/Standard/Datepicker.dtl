@@ -2,7 +2,7 @@
 # Datepicker.dtl - provides the data needed for the JS datepicker
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Datepicker.dtl,v 1.4 2010-07-01 08:19:23 mg Exp $
+# $Id: Datepicker.dtl,v 1.5 2010-08-17 12:33:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,19 +10,24 @@
 # --
 
 <!-- dtl:block:DatepickerData -->
-Core.Config.Set('Datepicker.VacationDays', $Data{"VacationDays"});
-Core.Config.Set('Datepicker.ErrorMessage', '$JSText{"Invalid date!"}');
-Core.Config.Set('Datepicker.Localization', {
-PrevText: '$JSText{"Previous"}',
-NextText: '$JSText{"Next"}',
-MonthNames: ['$JSText{"January"}', '$JSText{"February"}', '$JSText{"March"}', '$JSText{"April"}', '$JSText{"May_long"}', '$JSText{"June"}', '$JSText{"July"}', '$JSText{"August"}', '$JSText{"September"}', '$JSText{"October"}', '$JSText{"November"}', '$JSText{"December"}'],
-MonthNamesShort: ['$JSText{"Jan"}', '$JSText{"Feb"}', '$JSText{"Mar"}', '$JSText{"Apr"}', '$JSText{"May"}', '$JSText{"Jun"}', '$JSText{"Jul"}', '$JSText{"Aug"}', '$JSText{"Sep"}', '$JSText{"Oct"}', '$JSText{"Nov"}', '$JSText{"Dec"}'],
-DayNames: ['$JSText{"Sunday"}', '$JSText{"Monday"}', '$JSText{"Tuesday"}', '$JSText{"Wednesday"}', '$JSText{"Thursday"}', '$JSText{"Friday"}', '$JSText{"Saturday"}'],
-DayNamesShort: ['$JSText{"Sun"}', '$JSText{"Mon"}', '$JSText{"Tue"}', '$JSText{"Wed"}', '$JSText{"Thu"}', '$JSText{"Fri"}', '$JSText{"Sat"}'],
-DayNamesMin: ['$JSText{"Su"}', '$JSText{"Mo"}', '$JSText{"Tu"}', '$JSText{"We"}', '$JSText{"Th"}', '$JSText{"Fr"}', '$JSText{"Sa"}'],
-IsRTL: $Data{"IsRTLLanguage"},
-FirstDay: 0,
-ShowMonthAfterYear: 0,
-IconText: '$JSText{"Open date selection"}'
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+    Core.Config.Set('Datepicker.VacationDays', $Data{"VacationDays"});
+    Core.Config.Set('Datepicker.ErrorMessage', '$JSText{"Invalid date!"}');
+    Core.Config.Set('Datepicker.Localization', {
+    PrevText: '$JSText{"Previous"}',
+    NextText: '$JSText{"Next"}',
+    MonthNames: ['$JSText{"January"}', '$JSText{"February"}', '$JSText{"March"}', '$JSText{"April"}', '$JSText{"May_long"}', '$JSText{"June"}', '$JSText{"July"}', '$JSText{"August"}', '$JSText{"September"}', '$JSText{"October"}', '$JSText{"November"}', '$JSText{"December"}'],
+    MonthNamesShort: ['$JSText{"Jan"}', '$JSText{"Feb"}', '$JSText{"Mar"}', '$JSText{"Apr"}', '$JSText{"May"}', '$JSText{"Jun"}', '$JSText{"Jul"}', '$JSText{"Aug"}', '$JSText{"Sep"}', '$JSText{"Oct"}', '$JSText{"Nov"}', '$JSText{"Dec"}'],
+    DayNames: ['$JSText{"Sunday"}', '$JSText{"Monday"}', '$JSText{"Tuesday"}', '$JSText{"Wednesday"}', '$JSText{"Thursday"}', '$JSText{"Friday"}', '$JSText{"Saturday"}'],
+    DayNamesShort: ['$JSText{"Sun"}', '$JSText{"Mon"}', '$JSText{"Tue"}', '$JSText{"Wed"}', '$JSText{"Thu"}', '$JSText{"Fri"}', '$JSText{"Sat"}'],
+    DayNamesMin: ['$JSText{"Su"}', '$JSText{"Mo"}', '$JSText{"Tu"}', '$JSText{"We"}', '$JSText{"Th"}', '$JSText{"Fr"}', '$JSText{"Sa"}'],
+    IsRTL: $Data{"IsRTLLanguage"},
+    FirstDay: 0,
+    ShowMonthAfterYear: 0,
+    IconText: '$JSText{"Open date selection"}'
+    });
 });
+//]]></script>
 <!-- dtl:block:DatepickerData -->
