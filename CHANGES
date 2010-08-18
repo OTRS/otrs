@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1300 2010-08-18 13:10:36 mh Exp $
+# $Id: CHANGES,v 1.1301 2010-08-18 13:36:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1915,7 +1915,7 @@
     rejects mail to MobileMe (me.com) accounts.
  - 2008-07-08 Fixed bug# 3062 - Not possible to search for Customer Company
  - 2008-06-25 Increaded max size of reformated text (reformating new lines)
-    from 20,000 to 60,000 signs (this size is just a safty performance
+    from 20,000 to 60,000 signs (this size is just a safety performance
     setting in Kernel::Output::HTML::Layout::Ascii2Html()).
  - 2008-06-20 Fixed bug# 3000 - Configured sender address for auto response
     get's ignored.

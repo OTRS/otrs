@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.31 2010-05-19 07:01:10 mb Exp $
+# $Id: AgentTicketAttachment.pm,v 1.32 2010-08-18 13:36:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -160,7 +160,7 @@ sub Run {
         # set filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
-        # safty check only on customer article
+        # safety check only on customer article
         if ( !$Self->{LoadInlineContent} && $Article{SenderType} ne 'customer' ) {
             $Self->{LoadInlineContent} = 1;
         }

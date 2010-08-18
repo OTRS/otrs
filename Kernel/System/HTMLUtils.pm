@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.21 2010-08-17 07:47:49 mg Exp $
+# $Id: HTMLUtils.pm,v 1.22 2010-08-18 13:36:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -864,12 +864,12 @@ sub LinkQuote {
     return $String;
 }
 
-=item Safty()
+=item Safety()
 
 To remove/strip active html tags/addons (javascript, applets, embeds and objects)
 from html strings.
 
-    my %Safe = $HTMLUtilsObject->Safty(
+    my %Safe = $HTMLUtilsObject->Safety(
         String       => $HTMLString,
         NoApplet     => 1,
         NoObject     => 1,
@@ -881,7 +881,7 @@ from html strings.
 
 also string ref is possible
 
-    my %Safe = $HTMLUtilsObject->Safty(
+    my %Safe = $HTMLUtilsObject->Safety(
         String       => \$HTMLStringRef,
         NoApplet     => 1,
         NoObject     => 1,
@@ -900,7 +900,7 @@ returns
 
 =cut
 
-sub Safty {
+sub Safety {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -920,7 +920,7 @@ sub Safty {
         $String       = \$StringScalar;
     }
 
-    my %Safty;
+    my %Safety;
 
     # remove script tags
     if ( $Param{NoJavaScript} ) {
@@ -928,7 +928,7 @@ sub Safty {
             <scrip.+?>(.+?)</script>
         }
         {
-            $Safty{Replaced} = 1;
+            $Safety{Replaced} = 1;
             if ($Param{Debug}) {
                 " # removed script tags # ";
             }
@@ -944,7 +944,7 @@ sub Safty {
             <apple.+?>(.+?)</applet>
         }
         {
-            $Safty{Replaced} = 1;
+            $Safety{Replaced} = 1;
             if ($Param{Debug}) {
                 " # removed applet tags # ";
             }
@@ -960,7 +960,7 @@ sub Safty {
             <objec.+?>(.+?)</object>
         }
         {
-            $Safty{Replaced} = 1;
+            $Safety{Replaced} = 1;
             if ($Param{Debug}) {
                 " # removed object tags # ";
             }
@@ -976,7 +976,7 @@ sub Safty {
             <style.+?javascript(.+?|)>(.*)</style>
         }
         {
-            $Safty{Replaced} = 1;
+            $Safety{Replaced} = 1;
             if ($Param{Debug}) {
                 " # removed javascript style tag # ";
             }
@@ -998,7 +998,7 @@ sub Safty {
                 \s(on.{4,10}=(".+?"|'.+?'|.+?))
             }
             {
-                $Safty{Replaced} = 1;
+                $Safety{Replaced} = 1;
                 if ($Param{Debug}) {
                     " # removed java script on action ($1) # ";
                 }
@@ -1012,7 +1012,7 @@ sub Safty {
                 (&\{.+?\})
             }
             {
-                $Safty{Replaced} = 1;
+                $Safety{Replaced} = 1;
                 if ($Param{Debug}) {
                     " # removed java script entities tag ($1) # ";
                 }
@@ -1026,7 +1026,7 @@ sub Safty {
                 (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
             }
             {
-                $Safty{Replaced} = 1;
+                $Safety{Replaced} = 1;
                 if ($Param{Debug}) {
                     " # removed java script # ";
                 }
@@ -1040,7 +1040,7 @@ sub Safty {
                 (<link.+?javascript(.+?|)>)
             }
             {
-                $Safty{Replaced} = 1;
+                $Safety{Replaced} = 1;
                 " # removed javascript link tag # ";
             }segxim;
         }
@@ -1051,7 +1051,7 @@ sub Safty {
                 (<embed\s(.+?)>)
             }
             {
-                $Safty{Replaced} = 1;
+                $Safety{Replaced} = 1;
                 if ($Param{Debug}) {
                     " # removed embed tag ($1) # ";
                 }
@@ -1069,7 +1069,7 @@ sub Safty {
             {
                 my $URL = $3;
                 if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
-                    $Safty{Replaced} = 1;
+                    $Safety{Replaced} = 1;
                     if ($Param{Debug}) {
                         " # blocked '$URL' # ";
                     }
@@ -1089,12 +1089,12 @@ sub Safty {
 
     # check ref && return result like called
     if ($StringScalar) {
-        $Safty{String} = ${$String};
+        $Safety{String} = ${$String};
     }
     else {
-        $Safty{String} = $String;
+        $Safety{String} = $String;
     }
-    return %Safty;
+    return %Safety;
 }
 
 1;
@@ -1111,6 +1111,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2010-08-17 07:47:49 $
+$Revision: 1.22 $ $Date: 2010-08-18 13:36:15 $
 
 =cut

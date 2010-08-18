@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.292 2010-08-18 09:38:55 mg Exp $
+# $Id: Layout.pm,v 1.293 2010-08-18 13:36:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.292 $) [1];
+$VERSION = qw($Revision: 1.293 $) [1];
 
 =head1 NAME
 
@@ -3560,17 +3560,17 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =end Internal:
 
-=item RichTextDocumentSaftyCheck()
+=item RichTextDocumentSafetyCheck()
 
-check if content is safty
+check if content is safety
 
-    $HTMLBody = $LayoutObject->RichTextDocumentSaftyCheck(
+    $HTMLBody = $LayoutObject->RichTextDocumentSafetyCheck(
         String => $HTMLBody,
     );
 
 =cut
 
-sub RichTextDocumentSaftyCheck {
+sub RichTextDocumentSafetyCheck {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -3581,8 +3581,8 @@ sub RichTextDocumentSaftyCheck {
         }
     }
 
-    # safty check
-    my %Safty = $Self->{HTMLUtilsObject}->Safty(
+    # safety check
+    my %Safety = $Self->{HTMLUtilsObject}->Safety(
         String       => \$Param{String},
         NoApplet     => 1,
         NoObject     => 1,
@@ -3593,8 +3593,8 @@ sub RichTextDocumentSaftyCheck {
         Debug        => $Self->{Debug},
     );
 
-    # return if no safty change has been done
-    return $Param{String} if !$Safty{Replaced};
+    # return if no safety change has been done
+    return $Param{String} if !$Safety{Replaced};
 
     # generate blocker message
     my $Message = $Self->Output(
@@ -3602,16 +3602,16 @@ sub RichTextDocumentSaftyCheck {
     );
 
     # add it on top of page
-    if ( ${ $Safty{String} } =~ /<body.*?/si ) {
-        ${ $Safty{String} } =~ s/(<body.*?>)/$1\n$Message/si;
+    if ( ${ $Safety{String} } =~ /<body.*?/si ) {
+        ${ $Safety{String} } =~ s/(<body.*?>)/$1\n$Message/si;
     }
 
     # add it to end of page
     else {
-        ${ $Safty{String} } = $Message . ${ $Safty{String} };
+        ${ $Safety{String} } = $Message . ${ $Safety{String} };
     }
 
-    return ${ $Safty{String} };
+    return ${ $Safety{String} };
 }
 
 =item RichTextDocumentServe()
@@ -3673,9 +3673,9 @@ sub RichTextDocumentServe {
         String => $Param{Data}->{Content},
     );
 
-    # safty check
+    # safety check
     if ( !$Param{LoadInlineContent} ) {
-        $Param{Data}->{Content} = $Self->RichTextDocumentSaftyCheck(
+        $Param{Data}->{Content} = $Self->RichTextDocumentSafetyCheck(
             String => $Param{Data}->{Content},
         );
     }
@@ -4704,6 +4704,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.292 $ $Date: 2010-08-18 09:38:55 $
+$Revision: 1.293 $ $Date: 2010-08-18 13:36:15 $
 
 =cut
