@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.46 2010-08-12 10:05:30 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.47 2010-08-18 09:38:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,6 +73,8 @@ $Include{"Copyright"}
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE8 -->
+
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
 
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>

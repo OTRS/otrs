@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.291 2010-08-18 08:35:20 mg Exp $
+# $Id: Layout.pm,v 1.292 2010-08-18 09:38:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.291 $) [1];
+$VERSION = qw($Revision: 1.292 $) [1];
 
 =head1 NAME
 
@@ -3118,10 +3118,29 @@ sub CustomerHeader {
 sub CustomerFooter {
     my ( $Self, %Param ) = @_;
 
-    my $Type = $Param{Type} || '';
+    my $Type          = $Param{Type}           || '';
+    my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerJSCalls();
+
+    # get datepicker data, if needed in module
+    if ($HasDatepicker) {
+        my $VacationDays     = $Self->DatepickerGetVacationDays();
+        my $VacationDaysJSON = $Self->JSONEncode(
+            Data => $VacationDays
+        );
+
+        my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
+
+        $Self->Block(
+            Name => 'DatepickerData',
+            Data => {
+                VacationDays => $VacationDaysJSON,
+                IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
+            },
+        );
+    }
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
@@ -4685,6 +4704,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.291 $ $Date: 2010-08-18 08:35:20 $
+$Revision: 1.292 $ $Date: 2010-08-18 09:38:55 $
 
 =cut
