@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.43 2010-08-18 15:42:01 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.44 2010-08-18 15:48:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 <!-- dtl:block:DocumentActionRowBulk -->
     <li class="Bulk">
         <span>
-            <input type="checkbox" class="AutocompleteOff" title="Select all" id="SelectAllTickets" />
+            <input type="checkbox" class="AutocompleteOff" title="$Text{"Select all"}" id="SelectAllTickets" />
             <label class="InvisibleText" for="SelectAllTickets">$Text{"Select all"}</label>
         </span>
     </li>
