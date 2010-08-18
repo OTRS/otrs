@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -160,8 +160,6 @@ ul.Tablelike li.Header + li {
     padding-right: 30px;
 }
 
-
-
 .WidgetBox > .Header h2 + h3 {
     background-color: #EEE;
     border-top: 1px solid #FFF;
@@ -191,6 +189,9 @@ ul.Tablelike li.Header + li {
     padding: 15px;
 }
 
+.WidgetBox > .Content.AutoHeight {
+    min-height: auto;
+}
 
 /**
  * @subaction   ActionMenu
