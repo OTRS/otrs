@@ -1,12 +1,12 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
 
 @media screen,projection,tv,handheld {
-    
+
 /**
  * @package     OTRS Framework
  * @section     Default
@@ -22,7 +22,7 @@ body {
 }
 
 input {
-   font-family: Arial, sans-serif; 
+   font-family: Arial, sans-serif;
 }
 
 a {
@@ -33,7 +33,7 @@ a:hover {
     color: #F72;
 }
 
-p { 
+p {
     margin: 13px 0 5px;
     color: #666;
 }
@@ -43,13 +43,13 @@ h1 {
     font-weight: bold;
 }
 
-h2 { 
+h2 {
     padding-left: 2px;
     margin-bottom: 14px;
     font-size: 18px;
     font-weight: normal;
 }
-    
+
 h4 {
     font-weight: bold;
 }
@@ -192,35 +192,60 @@ div.Clear {
     font-size: 13px;
     line-height: 18px;
 }
-    
+
 .Hidden {
     display: none;
 }
-    
+
 .WidgetSimple {
     padding: 34px 34px 21px;
     width: 600px;
 }
-    
+
 .WidgetSimple .Error {
     color: #FF505E;
 }
-    
+
 .WidgetSimple h2 {
     margin-bottom: 5px;
 }
-    
+
 .WidgetSimple .Content {
     padding: 13px 0;
 }
-    
+
 .WidgetSimple textarea {
     width: 100%;
     height: 180px;
 }
-    
-    
-    
+
+/**
+ * @subsection  Datepicker
+ */
+.DatepickerIcon {
+    margin: 0 0 0 4px;
+    height: 16px;
+    width: 16px;
+    background: transparent url(../img/icons/calendar.png) no-repeat;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.RTL .DatepickerIcon {
+    margin: 0 4px 0 0;
+}
+
+/* Vacation Days */
+.Highlight .ui-state-default {
+}
+
+/* Today */
+.ui-datepicker-current-day {
+}
+
+/*Weekend*/
+.ui-datepicker-week-end {
+}
 
 
 } /* end @media */
