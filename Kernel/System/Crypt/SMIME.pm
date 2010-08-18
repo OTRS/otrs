@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.39 2010-07-20 17:30:23 ub Exp $
+# $Id: SMIME.pm,v 1.40 2010-08-18 07:33:30 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -462,7 +462,9 @@ sub CertificateGet {
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
+
     return if !$CertificateRef;
+
     return $$CertificateRef;
 }
 
@@ -809,6 +811,14 @@ sub _Init {
     $Self->{Cmd}
         = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
+    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+    $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
+
+    # get the openssl major version, e.g. 1 for version 1.0.0
+    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+        $Self->{OpenSSLMajorVersion} = $1;
+    }
+
     return $Self;
 }
 
@@ -816,7 +826,7 @@ sub _FetchAttributesFromCert {
     my ( $Self, $Filename, $AttributesRef ) = @_;
 
     my %Option = (
-        Hash        => '-hash',
+        Hash        => '-subject_hash',
         Issuer      => '-issuer',
         Fingerprint => '-fingerprint -sha1',
         Serial      => '-serial',
@@ -826,6 +836,17 @@ sub _FetchAttributesFromCert {
         Email       => '-email',
         Modulus     => '-modulus',
     );
+
+    # The hash algorithm used in the -subject_hash and -issuer_hash options before OpenSSL 1.0.0
+    # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
+    # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
+    #
+    # output the hash of the certificate subject name using the older algorithm as
+    # used by OpenSSL versions before 1.0.0.
+    if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
+        $Option{Hash} = '-subject_hash_old';
+    }
+
     for my $Key ( keys %Option ) {
         my $Options = "x509 -in $Filename -noout $Option{$Key}";
         my $Output  = qx{$Self->{Cmd} $Options 2>&1};
@@ -934,6 +955,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-07-20 17:30:23 $
+$Revision: 1.40 $ $Date: 2010-08-18 07:33:30 $
 
 =cut
