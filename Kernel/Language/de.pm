@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner@opc.de>
+# Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.232 2010-08-18 13:04:57 mg Exp $
+# $Id: de.pm,v 1.233 2010-08-18 13:07:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.232 $) [1];
+$VERSION = qw($Revision: 1.233 $) [1];
 
 sub Data {
     my $Self = shift;
