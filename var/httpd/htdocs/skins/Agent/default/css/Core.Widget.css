@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -545,21 +545,6 @@ ul.Tablelike li.Header + li {
     background: #EEE url(../img/dnd_placeholder_bg.png);
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-/**
- * @subsection      Datepicker widget
- */
-/* Vacation Days */
-.Highlight .ui-state-default {
-}
-
-/* Today */
-.ui-datepicker-current-day {
-}
-
-/*Weekend*/
-.ui-datepicker-week-end {
 }
 
 } /* end @media */

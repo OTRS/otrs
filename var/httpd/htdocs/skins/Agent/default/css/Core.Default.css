@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.27 $
+ * @version     $Revision: 1.28 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -544,6 +544,18 @@ tbody tr:hover span.UnreadArticles {
 
 .RTL .DatepickerIcon {
     margin: 0 4px 0 0;
+}
+
+/* Vacation Days */
+.Highlight .ui-state-default {
+}
+
+/* Today */
+.ui-datepicker-current-day {
+}
+
+/*Weekend*/
+.ui-datepicker-week-end {
 }
 
 /**
