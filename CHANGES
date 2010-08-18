@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1298 2010-08-17 10:23:21 mg Exp $
+# $Id: CHANGES,v 1.1299 2010-08-18 09:48:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta2 2010-??-??
+ - 2010-08-18 Fixed bug 5725: Missing lables for search-terms in customer interface.
  - 2010-08-17 Fixed bug 5598: Address Book To: field does is not populated.
  - 2010-08-17 Fixed bug 5679: In "New Ticket" in customer interface,
     selecting the queue automatically submits the ticket.

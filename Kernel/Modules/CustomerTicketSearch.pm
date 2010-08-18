@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.54 2010-07-15 14:52:26 fn Exp $
+# $Id: CustomerTicketSearch.pm,v 1.55 2010-08-18 09:48:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -667,8 +667,8 @@ sub Run {
             next if !$GetParam{$Key};
             my $Attribute = $IDMap{$Key}->{Name}   || $Key;
             my $Object    = $IDMap{$Key}->{Object} || '';
-            my $Methode   = $IDMap{$Key}->{Methode};
-            my $MethodeKey  = $IDMap{$Key}->{Key};
+            my $Method    = $IDMap{$Key}->{Methode};
+            my $MethodKey = $IDMap{$Key}->{Key};
             my $Translation = $IDMap{$Key}->{Translation};
             my $Value;
 
@@ -679,7 +679,7 @@ sub Run {
                         $Value .= '+';
                     }
                     if ( $Self->{$Object} ) {
-                        $Item = $Self->{$Object}->$Methode( $MethodeKey => $Item );
+                        $Item = $Self->{$Object}->$Method( $MethodKey => $Item );
                         if ($Translation) {
                             $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
                         }
@@ -690,22 +690,25 @@ sub Run {
             else {
                 my $Item = $GetParam{$Key};
                 if ( $Self->{$Object} ) {
-                    $Item = $Self->{$Object}->$Methode( $MethodeKey => $Item );
+                    $Item = $Self->{$Object}->$Method( $MethodKey => $Item );
                     if ($Translation) {
                         $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
                     }
                 }
                 $Value = $Item;
             }
-            $Self->{LayoutObject}->Block(
-                Name => 'SearchTerms',
-                Data => {
-                    %Param,
-                    Attribute => $Attribute,
-                    Key       => $Key,
-                    Value     => $Value,
-                },
-            );
+
+            if ( $Key ne 'TimeSearchType' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SearchTerms',
+                    Data => {
+                        %Param,
+                        Attribute => $Attribute,
+                        Key       => $Key,
+                        Value     => $Value,
+                    },
+                );
+            }
         }
 
         # build search navigation bar

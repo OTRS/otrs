@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.27 2010-07-21 21:40:49 fn Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.28 2010-08-18 09:48:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,11 @@
         <div class="SearchTerms">
             <h2>$Text{"Search Results for"}:</h2>
 <!-- dtl:block:SearchTerms -->
-            <span>$Data{"SearchTerm"}: $Data{"SearchValue"} <a title="$Text{"Remove this Search Term."}" href="$Data{"SearchValue"}">&times;</a></span>
+            <span>
+                $Data{"Attribute"}: $Data{"Value"}
+# hide remove link, functionality is not yet implemented
+#                <a title="$Text{"Remove this Search Term."}" href="$Data{"SearchValue"}">&times;</a>
+            </span>
 <!-- dtl:block:SearchTerms -->
         </div>
     </div>
