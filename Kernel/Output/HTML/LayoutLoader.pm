@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.30 2010-08-13 14:09:22 mg Exp $
+# $Id: LayoutLoader.pm,v 1.31 2010-08-18 08:01:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 use Kernel::System::Loader;
 
@@ -56,7 +56,7 @@ sub LoaderCreateAgentCSSCalls {
         || 'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
+    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
 
     my $ToolbarModuleSettings    = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
     my $CustomerUserItemSettings = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
@@ -236,7 +236,7 @@ sub LoaderCreateAgentJSCalls {
     #my $t0 = Time::HiRes::gettimeofday();
 
     my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
+    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::JS');
 
     {
         my @FileList;
@@ -308,7 +308,7 @@ sub LoaderCreateCustomerCSSCalls {
         'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
+    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
 
     {
         my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS');
@@ -476,7 +476,7 @@ sub LoaderCreateCustomerJSCalls {
     #my $t0 = Time::HiRes::gettimeofday();
 
     my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled');
+    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::JS');
 
     {
         my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Customer::CommonJS');
@@ -680,6 +680,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2010-08-13 14:09:22 $
+$Revision: 1.31 $ $Date: 2010-08-18 08:01:35 $
 
 =cut
