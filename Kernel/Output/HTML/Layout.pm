@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.290 2010-08-17 12:22:09 mg Exp $
+# $Id: Layout.pm,v 1.291 2010-08-18 08:35:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.290 $) [1];
+$VERSION = qw($Revision: 1.291 $) [1];
 
 =head1 NAME
 
@@ -236,6 +236,21 @@ sub new {
                     )
                 {
                     $Self->{BrowserBreakDispositionHeader} = 1;
+                }
+
+#
+# In IE up to version 8, there is a technical limitation for < 32
+#   CSS file links. Subsequent links will be ignored. Therefore
+#   the loader must be activated for delivering CSS to this browser.
+#   The loader will concatenate and minify the files, resulting in
+#   very few CSS file links.
+#   See also http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/ad1b6e88-bbfa-4cc4-9e95-3889b82a7c1d.
+#
+                if ( $1 <= 8 ) {
+                    $Self->{ConfigObject}->Set(
+                        Key   => 'Loader::Enabled::CSS',
+                        Value => 1,
+                    );
                 }
             }
         }
@@ -4670,6 +4685,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.290 $ $Date: 2010-08-17 12:22:09 $
+$Revision: 1.291 $ $Date: 2010-08-18 08:35:20 $
 
 =cut
