@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.33 2010-08-18 15:42:01 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.34 2010-08-18 16:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -713,22 +713,54 @@ sub _Show {
                             %{$ArticleItem}, %AclAction,
                         },
                     );
+
+                    # fetch all std. responses
+                    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses(
+                        QueueID => $Article{QueueID},
+                    );
+
+                    # get StandardResponsesStrg
+                    $StandardResponses{0}
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+
+                    # build html string
+                    my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                        Name => 'ResponseID',
+                        ID   => 'ResponseID',
+                        Data => \%StandardResponses,
+                    );
+
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticlePreviewActionRowItem',
                         Data => {
-                            %{$ArticleItem}, %AclAction,
-                            Name => 'Reply',
-                            Link =>
-                                'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                            %Article,
+                            StandardResponsesStrg => $StandardResponsesStrg,
+                            Name                  => 'Reply',
+                            Class                 => 'AsPopup',
+                            Action                => 'AgentTicketCompose',
+                            FormID                => 'Reply',
                         },
                     );
+
+                    # get StandardResponsesStrg
+                    $StandardResponses{0}
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                    $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                        Name => 'ResponseID',
+                        ID   => 'ResponseIDAll',
+                        Data => \%StandardResponses,
+                    );
+
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticlePreviewActionRowItem',
                         Data => {
-                            %{$ArticleItem}, %AclAction,
-                            Name => 'Reply All',
-                            Link =>
-                                'Action=AgentTicketCompose;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};RepplyAll=1'
+                            %Article,
+                            StandardResponsesStrg => $StandardResponsesStrg,
+                            Name                  => 'Reply All',
+                            Class                 => 'AsPopup',
+                            Action                => 'AgentTicketCompose',
+                            FormID                => 'ReplyAll',
+                            ReplyAll              => 1,
                         },
                     );
                 }
