@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.22.2.3 2010-02-10 11:47:39 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.22.2.4 2010-08-18 13:06:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22.2.3 $) [1];
+$VERSION = qw($Revision: 1.22.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,6 +175,18 @@ sub Run {
             }
         }
 
+        # safety check
+        $Self->_Safety(
+            String       => \$Data{Content},
+            NoApplet     => 1,
+            NoObject     => 0,
+            NoEmbed      => 1,
+            NoIntSrcLoad => 0,
+            NoExtSrcLoad => 0,
+            NoJavaScript => 1,
+            Debug        => $Self->{Debug},
+        );
+
         # add html links
         $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
             String => $Data{Content},
@@ -236,6 +248,203 @@ sub Run {
 
     # download it AttachmentDownloadType is configured
     return $Self->{LayoutObject}->Attachment(%Data);
+}
+
+sub _Safety {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my $String = $Param{String} || '';
+
+    # check ref
+    my $StringScalar;
+    if ( !ref $String ) {
+        $StringScalar = $String;
+        $String       = \$StringScalar;
+    }
+
+    my %Safety;
+
+    # remove script tags
+    if ( $Param{NoJavaScript} ) {
+        ${$String} =~ s{
+            <scrip.+?>(.+?)</script>
+        }
+        {
+            $Safety{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed script tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove <applet> tags
+    if ( $Param{NoApplet} ) {
+        ${$String} =~ s{
+            <apple.+?>(.+?)</applet>
+        }
+        {
+            $Safety{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed applet tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove <Object> tags
+    if ( $Param{NoObject} ) {
+        ${$String} =~ s{
+            <objec.+?>(.+?)</object>
+        }
+        {
+            $Safety{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed object tags # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # remove style/javascript parts
+    if ( $Param{NoJavaScript} ) {
+        ${$String} =~ s{
+            <style.+?javascript(.+?|)>(.*)</style>
+        }
+        {
+            $Safety{Replaced} = 1;
+            if ($Param{Debug}) {
+                " # removed javascript style tag # ";
+            }
+            else {
+                '';
+            }
+        }segxim;
+    }
+
+    # check each html tag
+    ${$String} =~ s{
+        (<.+?>)
+    }
+    {
+        my $Tag = $1;
+        if ($Param{NoJavaScript}) {
+            # remove on action sub tags
+            $Tag =~ s{
+                \s(on.{4,10}=(".+?"|'.+?'|.+?))
+            }
+            {
+                $Safety{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script on action ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+
+            # remove entities sub tags
+            $Tag =~ s{
+                (&\{.+?\})
+            }
+            {
+                $Safety{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script entities tag ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+
+            # remove javascript in a href links or src links
+            $Tag =~ s{
+                (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
+            }
+            {
+                $Safety{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script # ";
+                }
+                else {
+                    "$1$4";
+                }
+            }segxim;
+
+            # remove link javascript tags
+            $Tag =~ s{
+                (<link.+?javascript(.+?|)>)
+            }
+            {
+                $Safety{Replaced} = 1;
+                " # removed javascript link tag # ";
+            }segxim;
+        }
+
+        # remove <embed> tags
+        if ($Param{NoEmbed}) {
+            $Tag =~ s{
+                (<embed\s(.+?)>)
+            }
+            {
+                $Safety{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed embed tag ($1) # ";
+                }
+                else {
+                    '';
+                }
+            }segxim;
+        }
+
+        # remove load tags
+        if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
+            $Tag =~ s{
+                (<(.+?)\ssrc=(.+?)(\s.+?|)>)
+            }
+            {
+                my $URL = $3;
+                if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
+                    $Safety{Replaced} = 1;
+                    if ($Param{Debug}) {
+                        " # blocked '$URL' # ";
+                    }
+                    else {
+                       '';
+                    }
+                }
+                else {
+                    $1;
+                }
+            }segxim;
+        }
+
+        # replace original tag with clean tag
+        $Tag;
+    }segxim;
+
+    # check ref && return result like called
+    if ($StringScalar) {
+        $Safety{String} = ${$String};
+    }
+    else {
+        $Safety{String} = $String;
+    }
+    return %Safety;
 }
 
 1;
