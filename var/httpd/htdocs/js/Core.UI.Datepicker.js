@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.2 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.3 2010-08-18 09:36:42 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,10 @@ Core.UI.Datepicker = (function (TargetNS) {
         VacationDaysOneTime,
         LocalizationData,
         DatepickerCount = 0;
+
+    if (!Core.Debug.CheckDependency('Core.UI.Datepicker', '$([]).datepicker', 'jQuery UI datepicker')) {
+        return;
+    }
 
     /**
      * @function
@@ -94,6 +98,9 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         if (typeof LocalizationData === 'undefined') {
             LocalizationData = Core.Config.Get('Datepicker.Localization');
+            if (typeof LocalizationData === 'undefined') {
+                throw new Core.Exception.ApplicationError('Datepicker localization data could not be found!', 'InternalError');
+            }
         }
 
         // Increment number of initialized datepickers on this site
