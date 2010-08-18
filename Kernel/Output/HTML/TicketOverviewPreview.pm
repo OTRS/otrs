@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.32 2010-08-12 08:12:05 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.33 2010-08-18 15:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -210,14 +210,6 @@ sub _Show {
         );
     }
 
-    # get move queues
-    my %MoveQueues = $Self->{TicketObject}->MoveList(
-        TicketID => $Param{TicketID},
-        UserID   => $Self->{UserID},
-        Action   => $Self->{LayoutObject}->{Action},
-        Type     => 'move_into',
-    );
-
     # get last 5 article
     my @ArticleBody = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
@@ -300,7 +292,7 @@ sub _Show {
             $Item->{ID} =~ s/(\s|&|;)//ig;
 
             $Self->{LayoutObject}->Block(
-                Name => 'DocumentMenuItem',
+                Name => $Item->{Block} || 'DocumentMenuItem',
                 Data => $Item,
             );
             my $Output = $Self->{LayoutObject}->Output(
@@ -314,6 +306,7 @@ sub _Show {
             push @ActionItems, {
                 HTML        => $Output,
                 ID          => $Item->{ID},
+                Target      => $Item->{Target},
                 Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Description => $Item->{Description},
             };
@@ -617,33 +610,6 @@ sub _Show {
             $Self->{LayoutObject}->Block(
                 Name => 'SolutionTimeFontStop',
                 Data => { %Param, %Article },
-            );
-        }
-    }
-
-    # get MoveQueuesStrg
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Name       => 'DestQueueID',
-            Data       => \%MoveQueues,
-            SelectedID => $Article{QueueID},
-        );
-    }
-    if (
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
-        )
-    {
-        my $Access = $Self->{TicketObject}->Permission(
-            Type     => 'move',
-            TicketID => $Param{TicketID},
-            UserID   => $Self->{UserID},
-            LogNo    => 1,
-        );
-        if ($Access) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Move',
-                Data => { %Param, %AclAction },
             );
         }
     }

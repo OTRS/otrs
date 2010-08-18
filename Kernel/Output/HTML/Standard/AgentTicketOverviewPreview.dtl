@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.42 2010-08-05 22:57:42 dz Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.43 2010-08-18 15:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -196,176 +196,48 @@ $Data{"Body"}
             <div class="Shadow"></div>
         </div>
     </li>
-
-<!-- dtl:block:DISABLE -->
-# --
-# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
-# --
-#   <tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>
-#   <tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>
-#   <tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>
-# show article options like signed, crypted, ...
-<!-- dtl:block:ArticleOption-->
-    <tr>
-        <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-        <td width="85%"> <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","80"}</div></div></td>
-    </tr>
-<!-- dtl:block:ArticleOption -->
-$Data{"BodyNote"}
-    <div class="message">
-$Data{"Body"}
-    </div>
-    <table border="0" cellspacing="0" cellpadding="1">
-# show TicketFreeKey1-2 and TicketFreeText1-2
-<!-- dtl:block:TicketFreeText -->
-        <tr valign="top">
-            <td><b>$QData{"TicketFreeKey","25"}:</b></td>
-            <td>
-<!-- dtl:block:TicketFreeTextPlain -->
-                <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</div>
-<!-- dtl:block:TicketFreeTextPlain -->
-<!-- dtl:block:TicketFreeTextLink -->
-                <div title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></div>
-<!-- dtl:block:TicketFreeTextLink -->
-            </td>
-        </tr>
-<!-- dtl:block:TicketFreeText -->
-#<!-- dtl:block:TicketFreeText1 -->
-#          <tr valign="top">
-#            <td><b>$QData{"TicketFreeKey1","25"}:</b></td>
-#            <td>
-#<!-- dtl:block:TicketFreeTextPlain1 -->
-#              <div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div>
-#<!-- dtl:block:TicketFreeTextPlain1 -->
-#<!-- dtl:block:TicketFreeTextLink1 -->
-#              <div title="$QData{"TicketFreeText1"}"><a href="$Config{"TicketFreeTextLink1"}" target="_blank">$QData{"TicketFreeText1","25"}</a></div>
-#<!-- dtl:block:TicketFreeTextLink1 -->
-#            </td>
-#          </tr>
-#<!-- dtl:block:TicketFreeText1 -->
-#<!-- dtl:block:TicketFreeText2 -->
-#          <tr valign="top">
-#            <td><b>$QData{"TicketFreeKey2","25"}:</b></td>
-#            <td>
-#<!-- dtl:block:TicketFreeTextPlain2 -->
-#              <div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div>
-#<!-- dtl:block:TicketFreeTextPlain2 -->
-#<!-- dtl:block:TicketFreeTextLink2 -->
-#              <div title="$QData{"TicketFreeText2"}"><a href="$Config{"TicketFreeTextLink2"}" target="_blank">$QData{"TicketFreeText2","25"}</a></div>
-#<!-- dtl:block:TicketFreeTextLink2 -->
-#            </td>
-#          </tr>
-#<!-- dtl:block:TicketFreeText2 -->
-
-# use this if you want to show TicketFreeTime1-6
-<!-- dtl:block:TicketFreeTime -->
-        <tr valign="top">
-            <td><b>$Text{"$Data{"TicketFreeTimeKey"}"}:</b></td>
-            <td><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
-        </tr>
-<!-- dtl:block:TicketFreeTime -->
-#<!-- dtl:block:TicketFreeTime1 -->
-#          <tr valign="top">
-#            <td><b>$Text{"$Config{"TicketFreeTimeKey1"}"}:</b></td>
-#            <td><div title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</div></td>
-#          </tr>
-#<!-- dtl:block:TicketFreeTime1 -->
-#<!-- dtl:block:TicketFreeTime2 -->
-#          <tr valign="top">
-#            <td><b>$Text{"$Config{"TicketFreeTimeKey2"}"}:</b></td>
-#            <td><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
-#          </tr>
-#<!-- dtl:block:TicketFreeTime2 -->
-
-    </table>
-# show customer info table
-<!-- dtl:block:CustomerTable -->
-    <div style="margin: 20px 0;"><hr/><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr/></div>
-<!-- dtl:block:CustomerTable -->
-    <br/>
-    <table border="0" cellspacing="0" cellpadding="1" width="95%">
-        <tr>
-            <td>
-# show compose links
-<!-- dtl:block:AgentAnswer -->
-<!-- dtl:block:AgentAnswerCompose -->
-                <div style="margin: 20px 0;">
-                    <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-                    <br/>
-                    <table border="0">
-                        <tr align="left">
-                            <td>
-                                $Data{"StandardResponsesStrg"}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-<!-- dtl:block:AgentAnswerCompose -->
-<!-- dtl:block:AgentAnswerPhoneOutbound -->
-                <div style="margin: 20px 0;">
-                    <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-                    <br/>
-                    <table border="0">
-                        <tr align="left">
-                            <td>
-                                <ul>
-                                    <li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound;TicketID=$LQData{"TicketID"};QueueID=$LQData{"QueueID"}">$Text{"Phone call"}</a></li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-<!-- dtl:block:AgentAnswerPhoneOutbound -->
-<!-- dtl:block:AgentAnswer -->
-            </td>
-        </tr>
-    </table>
-</div>
-<div style="margin: 20px 0;">
-    <table border="0" cellspacing="0" cellpadding="1" width="95%">
-        <tr>
-            <td>
-<!-- dtl:block:Move -->
-                <b>$Text{"Change queue"}:</b>
-                <br/>
-                <form action="$Env{"CGIHandle"}" method="get">
-                    <input type="hidden" name="Action" value="AgentTicketMove"/>
-                    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                    $Data{"MoveQueuesStrg"}
-                    <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
-                </form>
-<!-- dtl:block:Move -->
-            </td>
-        </tr>
-    </table>
-</div>
-<!-- dtl:block:DISABLE -->
-
 <!-- dtl:block:DocumentContent -->
-
 
 <!-- dtl:block:DocumentFooter -->
 </ul>
 
 
 <form name="bulk" action="">
-<input type="hidden" name="TicketID" value=""/>
+    <input type="hidden" name="TicketID" value=""/>
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
-<input type="hidden" name="Action" value="AgentTicketBulk"/>
+    <input type="hidden" name="Action" value="AgentTicketBulk"/>
 <!-- dtl:block:DocumentFooterBulkItem -->
-<input type="hidden" name="TicketID" value=""/>
+    <input type="hidden" name="TicketID" value=""/>
 <!-- dtl:block:DocumentFooterBulkItem -->
-<input type="hidden" name="TicketID" value=""/>
+    <input type="hidden" name="TicketID" value=""/>
 </form>
 <!-- dtl:block:DocumentFooter -->
 
 <!-- dtl:block:DocumentMenuItem -->
 <li id="$QData{"ID"}">
-<a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+    <a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 </li>
 <!-- dtl:block:DocumentMenuItem -->
+<!-- dtl:block:DocumentMenuItemMoveForm -->
+<li class="$QData{"Class"}">
+    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="AgentTicketMove"/>
+        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
+        $Data{"MoveQueuesStrg"}
+    </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('select[name=DestQueueID]').live('change', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+</li>
+<!-- dtl:block:DocumentMenuItemMoveForm -->
 
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->

@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.54 2010-08-11 10:56:29 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.55 2010-08-18 15:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,7 +114,7 @@
                     </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
                     <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$LQData{"Title"}">$Data{"TicketNumber"}</a>
+                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                     </td>
                     <td>
                         $QData{"Age"}$Data{"StopFont"}
@@ -189,3 +189,21 @@
     <a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 </li>
 <!-- dtl:block:DocumentMenuItem -->
+<!-- dtl:block:DocumentMenuItemMoveForm -->
+<li class="$QData{"Class"}">
+    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="AgentTicketMove"/>
+        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
+        $Data{"MoveQueuesStrg"}
+    </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('select[name=DestQueueID]').live('change', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+</li>
+<!-- dtl:block:DocumentMenuItemMoveForm -->

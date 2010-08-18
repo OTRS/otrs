@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.27 2010-07-20 13:32:31 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.28 2010-08-18 15:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -197,7 +197,7 @@ sub Run {
                     $Item->{ID} =~ s/(\s|&|;)//ig;
 
                     $Self->{LayoutObject}->Block(
-                        Name => 'DocumentMenuItem',
+                        Name => $Item->{Block} || 'DocumentMenuItem',
                         Data => $Item,
                     );
                     my $Output = $Self->{LayoutObject}->Output(
@@ -209,10 +209,11 @@ sub Run {
                     $Output =~ s/<\!--.+?-->//g;
 
                     push @ActionItems, {
-                        HTML   => $Output,
-                        ID     => $Item->{ID},
-                        Link   => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
-                        Target => $Item->{Target},
+                        HTML        => $Output,
+                        ID          => $Item->{ID},
+                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        Target      => $Item->{Target},
+                        Description => $Item->{Description},
                     };
                     $Article{ActionItems} = \@ActionItems;
                 }

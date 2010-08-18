@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1301 2010-08-18 13:36:15 mh Exp $
+# $Id: CHANGES,v 1.1302 2010-08-18 15:42:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,21 +10,22 @@
 # --
 
 3.0.0 beta2 2010-??-??
- - 2010-08-18 Fixed bug 5725: Missing lables for search-terms in customer interface.
- - 2010-08-17 Fixed bug 5598: Address Book To: field does is not populated.
- - 2010-08-17 Fixed bug 5679: In "New Ticket" in customer interface,
+ - 2010-08-18 Fixed bug#5764 - No move option in S/M/L mode available.
+ - 2010-08-18 Fixed bug#5725 - Missing lables for search-terms in customer interface.
+ - 2010-08-17 Fixed bug#5598 - Address Book To: field does is not populated.
+ - 2010-08-17 Fixed bug#5679 - In "New Ticket" in customer interface,
     selecting the queue automatically submits the ticket.
- - 2010-08-17 Fixed bug 5724: Security leak: Edit HTML source code as customer.
- - 2010-08-17 Fixed bug 5682: Collapse / expand for GenericAgent.
- - 2010-08-17 Fixed bug 5370: the word "subscribe" ought to be changed to "watch".
- - 2010-08-17 Fixed bug 5742: Outgoing email link detection does not work properly.
- - 2010-08-13 Fixed bug 5660: In Global Ticket Overview, with IE7: S/M/L, character
+ - 2010-08-17 Fixed bug#5724 - Security leak: Edit HTML source code as customer.
+ - 2010-08-17 Fixed bug#5682 - Collapse / expand for GenericAgent.
+ - 2010-08-17 Fixed bug#5370 - the word "subscribe" ought to be changed to "watch".
+ - 2010-08-17 Fixed bug#5742 - Outgoing email link detection does not work properly.
+ - 2010-08-13 Fixed bug#5660 - In Global Ticket Overview, with IE7: S/M/L, character
     is not clickable, only hover area is clickable, fixed changing images for S/M/L letters.
- - 2010-08-12 Fixed bug 5648: Submitting a note does not work as expected in all scenarios.
- - 2010-08-12 Fixed bug 5654: Missing shortcut icon (product.ico).
- - 2010-08-12 Fixed bug 5643: Articles are sorted alphabetically in TicketZoom.
- - 2010-08-12 Fixed bug 5613: WYSIWYG Editor not in center position.
- - 2010-08-12 Fixed bug 5612: Change free text fields not working correct in Firefox.
+ - 2010-08-12 Fixed bug#5648 - Submitting a note does not work as expected in all scenarios.
+ - 2010-08-12 Fixed bug#5654 - Missing shortcut icon (product.ico).
+ - 2010-08-12 Fixed bug#5643 - Articles are sorted alphabetically in TicketZoom.
+ - 2010-08-12 Fixed bug#5613 - WYSIWYG Editor not in center position.
+ - 2010-08-12 Fixed bug#5612 - Change free text fields not working correct in Firefox.
  - 2010-08-11 Fixed bug#5652 - Can't chose Service and SLA when creating new
      tickets.
  - 2010-08-11 Fixed bug#5669 - The customer panel login shows head line

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.28 2010-08-12 08:12:05 mg Exp $
+# $Id: TicketOverviewMedium.pm,v 1.29 2010-08-18 15:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -292,7 +292,7 @@ sub _Show {
             $Item->{ID} =~ s/(\s|&|;)//ig;
 
             $Self->{LayoutObject}->Block(
-                Name => 'DocumentMenuItem',
+                Name => $Item->{Block} || 'DocumentMenuItem',
                 Data => $Item,
             );
             my $Output = $Self->{LayoutObject}->Output(
@@ -304,10 +304,11 @@ sub _Show {
             $Output =~ s/<\!--.+?-->//g;
 
             push @ActionItems, {
-                HTML   => $Output,
-                ID     => $Item->{ID},
-                Link   => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
-                Target => $Item->{Target},
+                HTML        => $Output,
+                ID          => $Item->{ID},
+                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                Target      => $Item->{Target},
+                Description => $Item->{Description},
             };
         }
     }
