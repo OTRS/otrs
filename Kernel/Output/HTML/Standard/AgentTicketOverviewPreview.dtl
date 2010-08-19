@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.45 2010-08-18 16:05:24 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.46 2010-08-19 13:36:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@
 
 
 <!-- dtl:block:DocumentContent -->
-    <li id="TicketID_$QData{"TicketID"}">
+    <li id="TicketID_$QData{"TicketID"}" class="MasterAction">
         <div class="Content">
 <!-- dtl:block:Bulk -->
             <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
@@ -58,7 +58,7 @@
 <!-- dtl:block:Meta -->
             <div class="Infos">
                 <h2>
-                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title","60"}">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title","60"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
                 </h2>
 #               <div>
 <!-- dtl:block:MenuItem -->
@@ -265,6 +265,9 @@ $Data{"Body"}
 <!-- dtl:block:DocumentReadyStart -->
     <script type="text/javascript">//<![CDATA[
         Core.UI.StaticTableControl($('#OverviewControl'));
+        $('.MasterAction').bind('click', function (Event) {
+            window.location = $(this).find('.MasterActionLink').attr('href');
+        });
         Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
     //]]></script>
 <!-- dtl:block:DocumentReadyStart -->

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -42,6 +42,7 @@
 .OverviewLarge .Content {
     padding-top: 12px;
     position: relative;
+    cursor: pointer;
 }
 
 .OverviewLarge > li:hover > .Content {
@@ -115,12 +116,12 @@
 .OverviewLarge li:hover span.UnreadArticles {
     background-position: 0 -40px;
 }
-    
+
 .OverviewLarge .Infos {
     width: 40%;
     float: left;
 }
-    
+
 .RTL .OverviewLarge .Infos {
     float: right;
 }

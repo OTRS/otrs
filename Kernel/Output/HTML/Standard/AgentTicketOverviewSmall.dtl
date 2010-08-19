@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.56 2010-08-18 15:48:27 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.57 2010-08-19 13:36:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,10 +98,10 @@
             </thead>
             <tbody>
 <!-- dtl:block:Record -->
-                <tr id="TicketID_$QData{"TicketID"}">
+                <tr id="TicketID_$QData{"TicketID"}" class="MasterAction">
 <!-- dtl:block:Bulk -->
                     <td class="Checkbox Fixed NonTextContent">
-                        <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$LQData{"TicketID"}" />
+                        <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
                     </td>
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
@@ -114,17 +114,17 @@
                     </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
                     <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+                        <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}" class="MasterActionLink">$Data{"TicketNumber"}</a>
                     </td>
                     <td>
-                        $QData{"Age"}$Data{"StopFont"}
+                        $QData{"Age"}
                     </td>
 <!-- dtl:block:RecordEscalationTime -->
                     <td>
 <!-- dtl:block:RecordEscalationTimeFontStart -->
                         <font color="red">
 <!-- dtl:block:RecordEscalationTimeFontStart -->
-                        $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>$Data{"StopFont"}
+                        <div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
 <!-- dtl:block:RecordEscalationTimeFontStop -->
                         </font>
 <!-- dtl:block:RecordEscalationTimeFontStop -->
@@ -175,7 +175,9 @@
 <script type="text/javascript">//<![CDATA[
     Core.UI.InitTableHead($('#FixedTable thead'), $('#FixedTable tbody'));
     Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
-
+    $('.MasterAction').bind('click', function (Event) {
+        window.location = $(this).find('.MasterActionLink').attr('href');
+    });
     $(window).resize(function() {
         Core.UI.AdjustTableHead($('#OverviewHeader thead'), $('#OverviewBody tbody'));
     });
