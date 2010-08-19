@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.16 2010-08-19 16:12:23 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.17 2010-08-19 16:47:22 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -946,6 +946,10 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     if ( $Self->{Config}->{Title} ) {
@@ -994,6 +998,8 @@ sub _Mask {
             SelectedID   => $Param{ServiceID},
             Class        => $Param{ServiceInvalid} || ' ',
             PossibleNone => 1,
+            TreeView     => $TreeView,
+            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
         );

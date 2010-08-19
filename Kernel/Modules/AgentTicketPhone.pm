@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.157 2010-08-19 16:12:23 en Exp $
+# $Id: AgentTicketPhone.pm,v 1.158 2010-08-19 16:47:22 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1098,6 +1098,12 @@ sub Run {
             $QueueID = $1;
         }
 
+        # get list type
+        my $TreeView = 0;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+            $TreeView = 1;
+        }
+
         my $Users = $Self->_GetUsers(
             QueueID  => $QueueID,
             AllUsers => $GetParam{OwnerAll},
@@ -1214,6 +1220,7 @@ sub Run {
                     SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
                     Translation  => 0,
+                    TreeView     => $TreeView,
                     Max          => 100,
                 },
                 {
@@ -1435,6 +1442,12 @@ sub _MaskPhoneNew {
 
     $Param{FormID} = $Self->{FormID};
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     # build customer search autocomplete field
     my $AutoCompleteConfig
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
@@ -1539,6 +1552,8 @@ sub _MaskPhoneNew {
             Class        => $Param{Errors}->{ServiceInvalid} || ' ',
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
+            TreeView     => $TreeView,
+            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
         );

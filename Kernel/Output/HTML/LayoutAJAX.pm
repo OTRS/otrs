@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.26 2010-08-19 16:18:03 en Exp $
+# $Id: LayoutAJAX.pm,v 1.27 2010-08-19 16:47:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =item BuildSelectionJSON()
 
@@ -27,7 +27,7 @@ build a JSON output js witch can be used for e. g. data for pull downs
             Name          => 'TheName',      # name of element
             SelectedID    => [1, 5, 3],      # (optional) use integer or arrayref (unable to use with ArrayHashRef)
             SelectedValue => 'test',         # (optional) use string or arrayref (unable to use with ArrayHashRef)
-            Sort          => 'NumericValue', # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey) unable to use with ArrayHashRef
+            Sort          => 'NumericValue', # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
             SortReverse   => 0,              # (optional) reverse the list
             Translation   => 1,              # (optional) default 1 (0|1) translate value
             PossibleNone  => 0,              # (optional) default 0 (0|1) add a leading empty selection
