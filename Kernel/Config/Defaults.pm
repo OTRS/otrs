@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.362 2010-08-10 10:30:22 mb Exp $
+# $Id: Defaults.pm,v 1.363 2010-08-19 18:45:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.362 $) [1];
+$VERSION = qw($Revision: 1.363 $) [1];
 
 # use ../ as lib location
 use File::Basename;
@@ -943,8 +943,8 @@ sub LoadDefaults {
       'Core.UI.RichTextEditor.js',
       'Core.Form.js',
       'Core.Form.ErrorTooltips.js',
-      'Core.Form.Validate.js',
       'Core.UI.Dialog.js',
+      'Core.Form.Validate.js',
       'Core.UI.ActionRow.js',
       'Core.UI.Popup.js',
       'Core.App.js',
@@ -2218,6 +2218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.362 $ $Date: 2010-08-10 10:30:22 $
+$Revision: 1.363 $ $Date: 2010-08-19 18:45:24 $
 
 =cut
