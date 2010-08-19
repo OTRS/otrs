@@ -1,4 +1,5 @@
 .project
+.externalToolBuilders
 .gnupg
 .settings
 .includepath
