@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -245,6 +245,26 @@ div.Clear {
 
 /*Weekend*/
 .ui-datepicker-week-end {
+}
+
+ /**
+ * @subsection      ARIA (Accessibility)
+ * @subsubsection   AlertMessage
+ * @note            This definition allows to create text on the page
+ *                  which is not seen, but will be read by the screen reader.
+ *                  display: none; cannot be used in this case.
+ */
+
+.ARIAAlertMessage {
+    position: absolute;
+    left: -10000px;
+    right: auto;
+    top: -10000px;
+}
+
+.RTL .ARIAAlertMessage {
+    left: auto;
+    right: -10000px;
 }
 
 
