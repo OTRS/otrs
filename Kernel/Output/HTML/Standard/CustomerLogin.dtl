@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.43 2010-08-11 09:52:18 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.44 2010-08-19 09:35:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 $Include{"CustomerHeader"}
 
 <!-- start login -->
-<div id="MainBox" class="Login">
+<div id="MainBox" class="Login ARIARoleMain">
 <!-- dtl:block:Message -->
     <div class="ErrorBox"><span>$Text{"$Data{"Message"}"}</span></div>
 <!-- dtl:block:Message -->

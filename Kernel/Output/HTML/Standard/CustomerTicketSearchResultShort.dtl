@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.28 2010-08-18 09:48:01 mg Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.29 2010-08-19 09:35:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- start form -->
-<div id="MainBox" class="TicketView SearchResults $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"} Sortable">
+<div id="MainBox" class="TicketView ARIARoleMain SearchResults $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"} Sortable">
     <div class="ActionRow">
         <ul class="Tabs">
             <li>

@@ -2,13 +2,13 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.42 2010-08-17 09:08:38 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.43 2010-08-19 09:35:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div id="MainBox" class="TicketCompose">
+<div id="MainBox" class="TicketCompose ARIARoleMain">
     <div class="Content">
         <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
             <input type="hidden" name="Action" value="$Env{"Action"}" />

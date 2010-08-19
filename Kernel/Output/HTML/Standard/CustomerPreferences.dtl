@@ -2,7 +2,7 @@
 # CustomerPreferences.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.dtl,v 1.6 2010-07-15 14:53:14 fn Exp $
+# $Id: CustomerPreferences.dtl,v 1.7 2010-08-19 09:35:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:Body -->
-<div id="MainBox" class="Preferences">
+<div id="MainBox" class="Preferences ARIARoleMain">
     <div class="Content">
 <!-- dtl:block:Head -->
 #       <h1>$Text{"$Data{"Header"}"}</h1>

@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.28 2010-07-21 21:40:31 fn Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.29 2010-08-19 09:35:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:Search -->
-<div id="MainBox" class="Search">
+<div id="MainBox" class="Search ARIARoleMain">
     <div class="Content">
         <form action="$Env{"CGIHandle"}" method="get" name="compose">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
