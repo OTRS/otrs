@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.6 2010-08-12 03:22:07 mp Exp $
+// $Id: Core.Customer.js,v 1.7 2010-08-19 09:48:47 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,22 @@ var Core = Core || {};
  *      This namespace contains all form functions.
  */
 Core.Customer = (function (TargetNS) {
+    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI', 'Core.UI')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.IE7Fixes', 'Core.UI.IE7Fixes')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.Form', 'Core.Form')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.Form.Validate', 'Core.Form.Validate')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
+        return;
+    }
+
     /**
      * @function
      * @description
@@ -38,7 +54,7 @@ Core.Customer = (function (TargetNS) {
             $Label,
             $SliderNavigationLinks = $('#Slider a');
 
-        
+
         $('#TimeOffset').val(Diff);
 
         $Inputs
@@ -55,7 +71,7 @@ Core.Customer = (function (TargetNS) {
                 if (!$(this).val())  $Label.show();
                 $Label.removeClass('Focused');
             });
-         
+
          $('#User').blur(function () {
             var value = $(this).val();
             if (value) {
@@ -63,7 +79,7 @@ Core.Customer = (function (TargetNS) {
                 $('#ResetUser').val('').prev('label').hide();
             }
          });
-                        
+
           CheckInputs($Inputs);
 
         // Fill the reset-password input field with the same value the user types in the login screen
@@ -133,6 +149,20 @@ Core.Customer = (function (TargetNS) {
 
     /**
      * @function
+     * @return nothing
+     *      This function initializes the application and executes the needed functions
+     */
+    TargetNS.Init = function () {
+        Core.Form.Validate.Init();
+        // late execution of accessibility code
+        Core.UI.Accessibility.Init();
+        // init IE7 compat code (will only run on IE7)
+        Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
+        Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
+    };
+
+    /**
+     * @function
      * @param {DOMObject} $PopulatedInput is a filled out input filled
      * @description
      *      This function hides the label of the given field if there is value in the field.
@@ -160,11 +190,11 @@ Core.Customer = (function (TargetNS) {
      */
     function CheckInputs($Inputs){
         var LastFilledElement;
-        var NavigationFocus = { 
-            'User'     : 'Password', 
+        var NavigationFocus = {
+            'User'     : 'Password',
             'Password' : 'LoginSubmit',
-            'ResetUser': 'ResetSubmit', 
-        }; 
+            'ResetUser': 'ResetSubmit',
+        };
 
         $.each($Inputs, function(Index, Input) {
             if($(Input).val()){
@@ -172,7 +202,7 @@ Core.Customer = (function (TargetNS) {
                 LastFilledElement = this.id;
             }
         });
-        
+
         if ($.inArray(LastFilledElement,NavigationFocus,true)) {
             $('#'+NavigationFocus[LastFilledElement]).focus();
            // $Inputs[LastFilledElement].focus();
