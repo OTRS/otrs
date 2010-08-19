@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1305 2010-08-19 12:14:44 mg Exp $
+# $Id: CHANGES,v 1.1306 2010-08-19 12:30:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta2 2010-??-??
+ - 2010-08-19 Fixed bug#5611 - Company-Button has the same function als Ticket-Button.
  - 2010-08-19 Fixed bug#5760 - Adding a new ticket in the customer interface results in 2 tickets.
  - 2010-08-19 Fixed bug#5722 - Customer interface does not display error messages
     when creating a ticket.
