@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1310 2010-08-19 15:34:09 martin Exp $
+# $Id: CHANGES,v 1.1311 2010-08-19 16:07:11 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 2010-??-??
+ - 2010-08-19 Deleted unneeded config item Ticket::Frontend::ListType, due to
+    TreeView is not used anymore.
  - 2010-08-19 Fixed bug#5768 - No tickets shown at CI if no any opened tickets
     exist.
  - 2010-08-19 Fixed bug#5639 - Global Overview: No action on clicking a row in
