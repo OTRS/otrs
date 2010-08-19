@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.62 2010-07-21 17:00:43 ub Exp $
+# $Id: CustomerTicketMessage.pm,v 1.63 2010-08-19 11:46:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -265,17 +265,17 @@ sub Run {
 
         # check queue
         if ( !$NewQueueID ) {
-            $Error{'Queue invalid'} = '* invalid';
+            $Error{'QueueInvalid'} = 'ServerError';
         }
 
         # check subject
         if ( !$GetParam{Subject} ) {
-            $Error{'Subject invalid'} = '* invalid';
+            $Error{'SubjectInvalid'} = 'ServerError';
         }
 
         # check body
         if ( !$GetParam{Body} ) {
-            $Error{'Body invalid'} = '* invalid';
+            $Error{'BodyInvalid'} = 'ServerError';
         }
         if ( $GetParam{Expand} ) {
             %Error = ();
@@ -502,6 +502,7 @@ sub _MaskNew {
             Multiple   => 0,
             Size       => 0,
             Name       => 'Dest',
+            Class      => "Validate_Required $Param{Errors}->{QueueInvalid}",
             SelectedID => $Param{ToSelected},
         );
         $Self->{LayoutObject}->Block(
@@ -611,10 +612,10 @@ sub _MaskNew {
         );
     }
 
-    # prepare errors!
+    # prepare errors
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+            $Param{$_} = $Param{Errors}->{$_};
         }
     }
 

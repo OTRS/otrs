@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -264,10 +264,6 @@ fieldset .RichTextHolder {
     padding: 0;
 }
 
-fieldset .RichTextHolder label {
-    display: none;
-}
-
 .Preferences .Content {
     padding: 5px 13px;
 }
@@ -312,6 +308,25 @@ fieldset .RichTextHolder label {
  */
 textarea {
     font-family: monospace,fixed;
+}
+
+/**
+* @note         Validation
+*/
+form label.Mandatory {
+    color: black !important;
+}
+
+form label.Mandatory span.Marker {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: 0.35em;
+    line-height: 1px;
+}
+
+form label.LabelError {
+    color: #ff505e !important;
 }
 
 /*

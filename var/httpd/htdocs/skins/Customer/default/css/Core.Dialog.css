@@ -1,0 +1,158 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Dialogs
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Overlay
+ */
+#Overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    filter: alpha(opacity = 50);
+    z-index: 200;
+}
+
+/**
+ * @subsection  Dialog
+ */
+.Dialog {
+    position: absolute;
+    z-index: 99999;
+    min-width: 150px;
+    background: #FFF;
+    -moz-box-shadow: 2px 2px 5px #000;
+    -webkit-box-shadow: 2px 2px 5px #000;
+    box-shadow: 2px 2px 5px #000;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.Dialog > .Header {
+    height: 25px;
+    cursor: move;
+    display: block;
+    position: relative;
+    height: 25px;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
+    border-bottom: 1px solid #CCC;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.Dialog > .Header .Close{
+    display: block;
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    background: url(../img/dialog_close.png) no-repeat;
+    right: 8px;
+    top: 7px;
+}
+
+.Dialog > .Header .Close:hover{
+    background-position: bottom;
+}
+
+.Dialog > .Header h1 {
+    padding: 5px 10px;
+    font-weight: normal;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.Dialog > .Content {
+    overflow: hidden;
+}
+
+.Dialog > .Content > .InnerContent {
+    padding: 10px;
+    background: #FFF;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.Dialog > .Content > .ContentFooter {
+    padding: 6px 0 5px;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
+    min-height: 20px;
+    border-top: 1px solid #CCC;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.Dialog > .Footer {
+    padding: 6px 0 5px;
+    display: block;
+    position: relative;
+    background: #888 url(../img/GradientSmall.png) repeat-x;
+    border-top: 1px solid #CCC;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+    
+.Dialog > .Footer.ContentFooter {
+    display: none;
+}
+
+/**
+ * subsection       Alert
+ */
+
+.Dialog.Alert span.Icon {
+    display: block;
+    width: 22px;
+    height: 35px;
+    float: left;
+    background: url(../img/dialog_alert.png) no-repeat;
+}
+
+.Dialog.Alert h2,
+.Dialog.Alert p {
+    margin-left: 35px;
+}
+
+.Dialog.Alert {
+    width: 450px;
+    top: 100px;
+    left: 300px;
+}
+
+/**
+ * subsection       Search
+ */
+
+.Dialog.Search {
+    width: 550px;
+}
+
+
+} /* end @media */

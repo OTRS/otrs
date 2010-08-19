@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.43 2010-08-19 09:35:21 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.44 2010-08-19 11:46:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <div id="MainBox" class="TicketCompose ARIARoleMain">
     <div class="Content">
-        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data" class="Validate">
             <input type="hidden" name="Action" value="$Env{"Action"}" />
             <input type="hidden" name="Subaction" value="StoreNew" />
             <input type="hidden" name="Expand" id="Expand" value="" />
@@ -27,9 +27,14 @@
 <!-- dtl:block:TicketType -->
 <!-- dtl:block:Queue -->
                 <div>
-                    <label for="Dest">$Text{"To"}</label>
+                    <label for="Dest" class="Mandatory">
+                        <span class="Marker">*</span>
+                        $Text{"To"}
+                    </label>
 <!--<input title="Recipient" type="text" id="To" name="To" value="$QData{"To"}" size="20" />-->
                     $Data{"ToStrg"}
+                    <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"To is required."}</p></div>
+                    <div id="DestServerError" class="TooltipErrorMessage" ><p>$Text{"To is required."}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#Dest').bind('change', function (Event) {
@@ -60,18 +65,27 @@
                 </div>
 <!-- dtl:block:TicketSLA -->
                 <div>
-                    <label for="Subject">$Text{"Subject"}</label>
-                    <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" size="200" />
-<!--$Text{"$Data{"Subject invalid"}"}-->
+                    <label for="Subject" class="Mandatory">
+                        <span class="Marker">*</span>
+                        $Text{"Subject"}
+                    </label>
+                    <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"}" />
+                    <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"Subject is required."}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage" ><p>$Text{"Subject is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
                 <div class="RichTextHolder">
-                    <label for="RichText">$Text{"Text"}</label>
+                    <label for="RichText" class="Mandatory">
+                        <span class="Marker">*</span>
+                        $Text{"Text"}
+                    </label>
+                    <div class="Clear"></div>
 <!-- dtl:block:RichText -->
 $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-<!--$Text{"$Data{"Body invalid"}"}-->
+                    <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage" ><p>$Text{"Body is required."}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage" ><p>$Text{"Body is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
                 <div>
