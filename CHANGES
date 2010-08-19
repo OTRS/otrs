@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1303 2010-08-18 16:07:48 martin Exp $
+# $Id: CHANGES,v 1.1304 2010-08-19 11:50:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta2 2010-??-??
+ - 2010-08-19 Fixed bug#5722 - Customer interface does not display error messages
+    when creating a ticket.
  - 2010-08-18 Fixed bug#5662 - In Global Ticket Overview, in L-Mode, template
     support is missing in "Relpy" feature.
  - 2010-08-18 Fixed bug#5764 - No move option in S/M/L mode available.
