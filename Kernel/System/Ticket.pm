@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.467 2010-06-17 16:02:36 mae Exp $
+# $Id: Ticket.pm,v 1.468 2010-08-19 13:22:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.467 $) [1];
+$VERSION = qw($Revision: 1.468 $) [1];
 
 =head1 NAME
 
@@ -6866,7 +6866,9 @@ sub HistoryGet {
         my %UserInfo = $Self->{UserObject}->GetUserData(
             UserID => $Data->{CreateBy},
         );
-        %{$Data} = ( %{$Data}, %UserInfo );
+
+        # merge result, put %Data last so that it "wins"
+        %{$Data} = ( %UserInfo, %{$Data} );
     }
     return @Lines;
 }
@@ -8103,6 +8105,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.467 $ $Date: 2010-06-17 16:02:36 $
+$Revision: 1.468 $ $Date: 2010-08-19 13:22:58 $
 
 =cut
