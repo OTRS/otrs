@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.76 2010-08-10 12:26:54 martin Exp $
+# $Id: auto_build.sh,v 1.77 2010-08-19 08:39:36 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.76 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.77 $>"
 echo "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -133,47 +133,22 @@ echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE
 # cleanup
 # --
 cd $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
+
 # remove CVS dirs
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name CVS | xargs rm -rf || exit 1;
-# remove old sessions, articles and spool
+# remove .cvs ignore files
+find -name ".cvsignore" | xargs rm -rf
+
+#
+# remove old sessions, articles and spool and other stuff
+# (remainders of a running system, should not really happen)
+#
 rm -f var/sessions/*
 rm -rf var/article/*
 rm -rf var/spool/*
-# remove old docu stuff
-for i in aux log out tex; do
-  rm -rf doc/manual/manual.$i;
-  rm -rf doc/manual/README.$i;
-done;
-rm -rf doc/screenshots
-rm -rf doc/manual/screenshots
-# remove doc stuff
-rm -rf doc/manual
-# remove yui
-rm -rf var/httpd/htdocs/yui/
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
-# remove .cvs ignore files
-find -name ".cvsignore" | xargs rm -rf
-# remove Kernel/Config.pm if exists
 rm -rf Kernel/Config.pm
-# remove not used dirs
-rm -rf install
-rm -rf Kernel/Display
-rm -rf var/sesstions
-rm -rf var/httpd/htdocs/images
-rm -rf var/httpd/htdocs/js_new
-rm -rf var/httpd/htdocs/yui
-rm -rf var/httpd/htdocs/js/fckeditor*
-rm -rf var/httpd/htdocs/css
-rm -rf Kernel/System/Ticket/Compress
-rm -rf Kernel/System/Ticket/Crypt
-# remove not used skins
-rm -rf var/httpd/htdocs/skins/Agent/ivory/
-rm -rf var/httpd/htdocs/skins/Agent/moos/
-rm -rf var/httpd/htdocs/skins/Customer/ivory/
-
-# remove xml config files till it's working
-#find Kernel/Config/Files/ -name '*.xml' | xargs rm
 
 # build html docu
 #$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC/../doc/ > /dev/null
