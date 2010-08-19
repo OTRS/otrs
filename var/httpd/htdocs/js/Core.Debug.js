@@ -2,7 +2,7 @@
 // Core.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Debug.js,v 1.3 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.Debug.js,v 1.4 2010-08-19 09:47:16 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,12 +58,12 @@ Core.Debug = (function (TargetNS) {
      * @param {Boolean} Silent
      *      Do not issue an alert
      *
-     * @return true if the required item was found, false otherwise (an an alert will be issued in that case)
+     * @return true if the required item was found, false otherwise (an an alert and an exception will be issued in that case)
      */
     /*jslint evil: true */
     TargetNS.CheckDependency = function (TargetNamespace, Required, RequiredLabel, Silent) {
+        var RequiredEval, ErrorMessage;
 
-        var RequiredEval;
         try {
             RequiredEval = eval('try{ typeof ' + Required + '} catch (E) {}');
         }
@@ -74,8 +74,10 @@ Core.Debug = (function (TargetNS) {
             return true;
         }
         if (!Silent) {
-            alert('Namespace ' + TargetNamespace + ' could not be initialized, because ' +
-                RequiredLabel + ' could not be found.');
+            ErrorMessage = 'Namespace ' + TargetNamespace + ' could not be initialized, because ' +
+                RequiredLabel + ' could not be found.';
+            alert(ErrorMessage);
+            throw ErrorMessage;
         }
         return false;
     };
@@ -129,7 +131,7 @@ Core.Debug = (function (TargetNS) {
             'iframe': 1
         },
         Replacement = 'رسال الإجابة (البريد الإلكتروني';
-        
+
         /**
          * @function
          * @private
