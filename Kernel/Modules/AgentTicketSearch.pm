@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.97 2010-08-06 14:53:51 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.98 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1351,18 +1351,11 @@ sub Run {
         # build service string
         if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
-            # get list type
-            my $TreeView = 0;
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-                $TreeView = 1;
-            }
             my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
             $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'ServiceIDs',
                 SelectedID  => $GetParam{ServiceIDs},
-                TreeView    => $TreeView,
-                Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,

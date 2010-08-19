@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.85 2010-05-11 20:58:29 cr Exp $
+# $Id: AdminGenericAgent.pm,v 1.86 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -752,17 +752,11 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
             # get list type
-            my $TreeView = 0;
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-                $TreeView = 1;
-            }
             my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
             $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'ServiceIDs',
                 SelectedID  => $Param{ServiceIDs},
-                TreeView    => $TreeView,
-                Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
@@ -772,8 +766,6 @@ sub Run {
                 Data        => \%Service,
                 Name        => 'NewServiceID',
                 SelectedID  => $Param{NewServiceID},
-                TreeView    => $TreeView,
-                Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,

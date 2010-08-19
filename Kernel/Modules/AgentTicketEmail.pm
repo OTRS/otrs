@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.139 2010-07-27 20:19:14 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.140 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1084,11 +1084,6 @@ sub Run {
         }
 
         # get list type
-        my $TreeView = 0;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
-
         my $Signature = '';
         if ($QueueID) {
             $Signature = $Self->_GetSignature( QueueID => $QueueID );
@@ -1253,7 +1248,6 @@ sub Run {
                     SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
                     Translation  => 0,
-                    TreeView     => $TreeView,
                     Max          => 100,
                 },
                 {
@@ -1488,12 +1482,6 @@ sub _MaskEmailNew {
 
     $Param{FormID} = $Self->{FormID};
 
-    # get list type
-    my $TreeView = 0;
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-        $TreeView = 1;
-    }
-
     # build customer search autocomplete field
     my $AutoCompleteConfig
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
@@ -1610,8 +1598,6 @@ sub _MaskEmailNew {
             Class        => $Param{Errors}->{ServiceInvalid} || ' ',
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
         );

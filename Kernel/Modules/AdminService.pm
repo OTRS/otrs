@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.32 2010-08-17 14:58:34 mp Exp $
+# $Id: AdminService.pm,v 1.33 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -216,29 +216,13 @@ sub Run {
                 );
 
                 # output row
-                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-
-                    # output row
-                    $Self->{LayoutObject}->Block(
-                        Name => 'OverviewListRow',
-                        Data => {
-                            %ServiceData,
-                            Name  => $ServiceData{Name},
-                            Valid => $ValidList{ $ServiceData{ValidID} },
-                        },
-                    );
-                }
-                else {
-
-                    # output row
-                    $Self->{LayoutObject}->Block(
-                        Name => 'OverviewListRow',
-                        Data => {
-                            %ServiceData,
-                            Valid => $ValidList{ $ServiceData{ValidID} },
-                        },
-                    );
-                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewListRow',
+                    Data => {
+                        %ServiceData,
+                        Valid => $ValidList{ $ServiceData{ValidID} },
+                    },
+                );
             }
 
         }
@@ -286,10 +270,6 @@ sub _MaskNew {
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
     # generate ParentOptionStrg
-    my $TreeView = 0;
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-        $TreeView = 1;
-    }
     my %ServiceList = $Self->{ServiceObject}->ServiceList(
         Valid  => 0,
         UserID => $Self->{UserID},
@@ -299,8 +279,6 @@ sub _MaskNew {
         Name           => 'ParentID',
         SelectedID     => $Param{ParentID} || $ServiceData{ParentID},
         PossibleNone   => 1,
-        TreeView       => $TreeView,
-        Sort           => 'TreeView',
         DisabledBranch => $ServiceData{Name},
         Translation    => 0,
         Max            => 50,

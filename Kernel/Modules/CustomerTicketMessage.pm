@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.63 2010-08-19 11:46:00 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.64 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -462,12 +462,6 @@ sub _MaskNew {
 
     $Param{FormID} = $Self->{FormID};
 
-    # get list type
-    my $TreeView = 0;
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-        $TreeView = 1;
-    }
-
     if ( $Self->{Config}->{Queue} ) {
 
         # check own selection
@@ -576,8 +570,6 @@ sub _MaskNew {
             Name         => 'ServiceID',
             SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
             OnChange =>

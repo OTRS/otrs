@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.25 2010-05-19 20:39:12 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.26 2010-08-19 16:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -475,17 +475,11 @@ sub _Edit {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
         # get list type
-        my $TreeView = 0;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
         my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
         $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceID',
             SelectedID  => $Param{Data}->{ServiceID},
-            TreeView    => $TreeView,
-            Sort        => 'TreeView',
             Size        => 5,
             Multiple    => 1,
             Translation => 0,
