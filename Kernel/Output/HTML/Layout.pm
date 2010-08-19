@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.294 2010-08-19 12:34:00 mg Exp $
+# $Id: Layout.pm,v 1.295 2010-08-19 16:18:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.294 $) [1];
+$VERSION = qw($Revision: 1.295 $) [1];
 
 =head1 NAME
 
@@ -1898,13 +1898,12 @@ build a html option element based on given data
         SelectedValue  => 'test',            # (optional) use string or arrayref (unable to use with ArrayHashRef)
         SelectedValue  => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
 
-        Sort           => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView|IndividualKey|IndividualValue) unable to use with ArrayHashRef
+        Sort           => 'NumericValue',    # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|IndividualKey|IndividualValue) unable to use with ArrayHashRef
         SortIndividual => ['sec', 'min']     # (optional) only sort is set to IndividualKey or IndividualValue
         SortReverse    => 0,                 # (optional) reverse the list
 
         Translation    => 1,                 # (optional) default 1 (0|1) translate value
         PossibleNone   => 0,                 # (optional) default 0 (0|1) add a leading empty selection
-        TreeView       => 0,                 # (optional) default 0 (0|1)
         DisabledBranch => 'Branch',          # (optional) disable all elements of this branch (use string or arrayref)
         Max            => 100,               # (optional) default 100 max size of the shown value
         HTMLQuote      => 0,                 # (optional) default 1 (0|1) disable html quote
@@ -4186,13 +4185,6 @@ sub _BuildSelectionOptionRefCreate {
         $OptionRef->{PossibleNone} = 1;
     }
 
-    # set TreeView option
-    $OptionRef->{TreeView} = 0;
-    if ( $Param{TreeView} ) {
-        $OptionRef->{TreeView} = 1;
-        $OptionRef->{Sort}     = 'TreeView';
-    }
-
     # set DisabledBranch option
     if ( $Param{DisabledBranch} ) {
         if ( ref $Param{DisabledBranch} eq 'ARRAY' ) {
@@ -4334,15 +4326,6 @@ sub _BuildSelectionDataRefCreate {
         elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
             @SortKeys = sort( keys %{ $Param{Data} } );
         }
-        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
-
-            # add suffix for correct sorting
-            my %SortHash;
-            for ( keys %{ $Param{Data} } ) {
-                $SortHash{$_} = $Param{Data}->{$_} . '::';
-            }
-            @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
-        }
         elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
             my %List = %{ $Param{Data} };
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
@@ -4445,26 +4428,6 @@ sub _BuildSelectionDataRefCreate {
             my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
             $Param{Data} = \@SortArray;
         }
-        elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
-
-            # add suffix for correct sorting
-            my @SortArray;
-            for my $Row ( @{ $Param{Data} } ) {
-                push @SortArray, ( $Row . '::' );
-            }
-
-            # sort array
-            @SortArray = sort(@SortArray);
-
-            # remove suffix
-            my @SortArray2;
-            for my $Row (@SortArray) {
-                $/ = '::';
-                chomp($Row);
-                push @SortArray2, $Row;
-            }
-            $Param{Data} = \@SortArray;
-        }
 
         # create DataRef
         for my $Row ( @{ $Param{Data} } ) {
@@ -4532,24 +4495,6 @@ sub _BuildSelectionDataRefCreate {
         $None{Value} = '-';
 
         unshift( @{$DataRef}, \%None );
-    }
-
-    # TreeView option
-    if ( $OptionRef->{TreeView} ) {
-
-        ROW:
-        for my $Row ( @{$DataRef} ) {
-
-            next ROW if !$Row->{Value};
-
-            my @Fragment = split '::', $Row->{Value};
-            $Row->{Value} = pop @Fragment;
-
-            my $Space = '&nbsp;&nbsp;' x scalar @Fragment;
-            $Space ||= '';
-
-            $Row->{Value} = $Space . $Row->{Value};
-        }
     }
 
     return $DataRef;
@@ -4704,6 +4649,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.294 $ $Date: 2010-08-19 12:34:00 $
+$Revision: 1.295 $ $Date: 2010-08-19 16:18:03 $
 
 =cut
