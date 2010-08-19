@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.62 2010-07-05 13:46:56 mg Exp $
+# $Id: CustomerTicketOverView.pm,v 1.63 2010-08-19 15:34:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -174,8 +174,9 @@ sub Run {
     }
 
     my %NavBarFilter;
-    my $Counter    = 0;
-    my $AllTickets = 0;
+    my $Counter         = 0;
+    my $AllTickets      = 0;
+    my $AllTicketsTotal = 0;
     for my $Filter ( keys %{ $Filters{ $Self->{Subaction} } } ) {
         $Counter++;
         my $Count = $Self->{TicketObject}->TicketSearch(
@@ -193,6 +194,9 @@ sub Run {
         if ( $CounterTotal eq $Counter ) {
             $ClassLI = 'Last';
         }
+        if ( $Filter eq 'All' ) {
+            $AllTicketsTotal = $Count;
+        }
         $NavBarFilter{ $Filters{ $Self->{Subaction} }->{$Filter}->{Prio} } = {
             %{ $Filters{ $Self->{Subaction} }->{$Filter} },
             Count   => $Count,
@@ -202,7 +206,7 @@ sub Run {
         };
     }
 
-    if ( !$AllTickets ) {
+    if ( !$AllTicketsTotal ) {
         $Self->{LayoutObject}->Block(
             Name => 'Empty',
             Data => \%Param,
