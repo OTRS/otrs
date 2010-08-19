@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.55 2010-08-18 09:48:01 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.56 2010-08-19 12:55:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,6 +68,7 @@ sub Run {
     $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
         || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::Order::Default')
         || 'Down';
+
     $Self->{Profile}        = $Self->{ParamObject}->GetParam( Param => 'Profile' )        || '';
     $Self->{SaveProfile}    = $Self->{ParamObject}->GetParam( Param => 'SaveProfile' )    || '';
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam( Param => 'TakeLastSearch' ) || '';
@@ -738,9 +739,19 @@ sub Run {
         my $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
+        my %NewOrder = (
+            Down => 'Up',
+            Up   => 'Down',
+        );
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'CustomerTicketSearchResultShort',
-            Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
+            Data         => {
+                %Param,
+                %PageNav,
+                Order   => $NewOrder{ $Self->{Order} },
+                Profile => $Self->{Profile},
+            },
         );
 
         # build footer
