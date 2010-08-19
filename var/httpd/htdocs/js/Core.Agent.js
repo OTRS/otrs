@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.8 2010-08-11 15:23:23 martin Exp $
+// $Id: Core.Agent.js,v 1.9 2010-08-19 09:48:09 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ Core.Agent = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
         return;
     }
-    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.AJAX')) {
+    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.AJAX', 'Core.AJAX')) {
         return;
     }
 
