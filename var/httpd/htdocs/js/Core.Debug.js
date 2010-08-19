@@ -2,7 +2,7 @@
 // Core.Debug.js - provides debugging functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Debug.js,v 1.4 2010-08-19 09:47:16 mg Exp $
+// $Id: Core.Debug.js,v 1.5 2010-08-19 09:47:56 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -77,6 +77,7 @@ Core.Debug = (function (TargetNS) {
             ErrorMessage = 'Namespace ' + TargetNamespace + ' could not be initialized, because ' +
                 RequiredLabel + ' could not be found.';
             alert(ErrorMessage);
+            // don't use Core.Exception here, it may not be available
             throw ErrorMessage;
         }
         return false;
