@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.44 2010-08-19 11:46:00 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.45 2010-08-19 12:14:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <div id="MainBox" class="TicketCompose ARIARoleMain">
     <div class="Content">
-        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data" class="Validate">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="$Env{"Action"}" />
             <input type="hidden" name="Subaction" value="StoreNew" />
             <input type="hidden" name="Expand" id="Expand" value="" />

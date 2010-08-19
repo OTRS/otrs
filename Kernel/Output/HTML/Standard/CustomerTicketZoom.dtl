@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.89 2010-08-19 09:35:21 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.90 2010-08-19 12:14:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@
             </ul>
             <div class="Clear"></div>
         </div>
-        <form action="$Env{"CGIHandle"}#FollowUp" method="post" enctype="multipart/form-data" name="compose">
+        <form action="$Env{"CGIHandle"}#FollowUp" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="CustomerTicketZoom" />
             <input type="hidden" name="Subaction" value="Store" />
             <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
