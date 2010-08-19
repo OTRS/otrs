@@ -2,7 +2,7 @@
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.pm,v 1.5 2010-08-17 21:58:33 ub Exp $
+# $Id: JSON.pm,v 1.6 2010-08-19 00:04:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -112,16 +112,15 @@ sub Encode {
     return $JSONEncoded;
 }
 
-# function is not used yet
-#=item Decode()
-#
-#Decode a JSON string to a perl data structure.
-#
-#    my $PerlStructurScalar = $JSONObject->Decode(
-#        Data => $JSONString,
-#    );
-#
-#=cut
+=item Decode()
+
+Decode a JSON string to a perl data structure.
+
+    my $PerlStructurScalar = $JSONObject->Decode(
+        Data => $JSONString,
+    );
+
+=cut
 
 sub Decode {
     my ( $Self, %Param ) = @_;
@@ -149,6 +148,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2010-08-17 21:58:33 $
+$Revision: 1.6 $ $Date: 2010-08-19 00:04:41 $
 
 =cut
