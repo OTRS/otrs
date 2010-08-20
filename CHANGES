@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1312 2010-08-19 16:47:22 en Exp $
+# $Id: CHANGES,v 1.1313 2010-08-20 11:32:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,28 +10,28 @@
 # --
 
 3.0.0 beta2 2010-??-??
- - 2010-08-19 Fixed bug#5768 - No tickets shown at CI if no any opened tickets
-    exist.
- - 2010-08-19 Fixed bug#5639 - Global Overview: No action on clicking a row in
+ - 2010-08-19 Fixed bug#5768 - No tickets shown at customer interface if no open
+    tickets exist.
+ - 2010-08-19 Fixed bug#5639 - Global Overview: No action when clicking a row in
     S/M/L view mode.
  - 2010-08-19 Fixed bug#5728 - Ticket history shows wrong date and time for agent
     actions "createtime" (actually shows user creation date).
- - 2010-08-19 Fixed bug#5727 - Ticket-Search-Results are not sortable.
- - 2010-08-19 Fixed bug#5611 - Company-Button has the same function als Ticket-Button.
+ - 2010-08-19 Fixed bug#5727 - Ticket search results are not sortable.
+ - 2010-08-19 Fixed bug#5611 - Company Button has the same function as Tickets Button.
  - 2010-08-19 Fixed bug#5760 - Adding a new ticket in the customer interface
-    results in 2 tickets.
+    can result in 2 tickets.
  - 2010-08-19 Fixed bug#5722 - Customer interface does not display error messages
     when creating a ticket.
  - 2010-08-18 Fixed bug#5662 - In Global Ticket Overview, in L-Mode, template
-    support is missing in "Relpy" feature.
+    support is missing in "Reply" feature.
  - 2010-08-18 Fixed bug#5764 - No move option in S/M/L mode available.
- - 2010-08-18 Fixed bug#5725 - Missing lables for search-terms in customer interface.
+ - 2010-08-18 Fixed bug#5725 - Missing labels for search-terms in customer interface.
  - 2010-08-17 Fixed bug#5598 - Address Book To: field does is not populated.
  - 2010-08-17 Fixed bug#5679 - In "New Ticket" in customer interface,
     selecting the queue automatically submits the ticket.
  - 2010-08-17 Fixed bug#5724 - Security leak: Edit HTML source code as customer.
  - 2010-08-17 Fixed bug#5682 - Collapse / expand for GenericAgent.
- - 2010-08-17 Fixed bug#5370 - the word "subscribe" ought to be changed to "watch".
+ - 2010-08-17 Fixed bug#5370 - The word "subscribe" should be changed to "watch".
  - 2010-08-17 Fixed bug#5742 - Outgoing email link detection does not work properly.
  - 2010-08-13 Fixed bug#5660 - In Global Ticket Overview, with IE7: S/M/L, character
     is not clickable, only hover area is clickable, fixed changing images for S/M/L letters.
@@ -40,12 +40,11 @@
  - 2010-08-12 Fixed bug#5643 - Articles are sorted alphabetically in TicketZoom.
  - 2010-08-12 Fixed bug#5613 - WYSIWYG Editor not in center position.
  - 2010-08-12 Fixed bug#5612 - Change free text fields not working correct in Firefox.
- - 2010-08-11 Fixed bug#5652 - Can't chose Service and SLA when creating new
+ - 2010-08-11 Fixed bug#5652 - Can't select Service and SLA when creating new
      tickets.
- - 2010-08-11 Fixed bug#5669 - The customer panel login shows head line
-    "Request new password" on FF 3.5. when only must be shown on click "Forgot
-    Password?"
- - 2010-08-11 Fixed bug#5689 - The response's body is incomplete.
+ - 2010-08-11 Fixed bug#5669 - The customer panel login shows "Request new password"
+     on FF 3.5.
+ - 2010-08-11 Fixed bug#5689 - The body of the response message is incomplete.
  - 2010-08-11 Fixed bug#5650 - Height of the article list is not retained.
  - 2010-08-11 Fixed bug#5684 - Drag&Drop in agent dashboard is not working
     with IE7.
@@ -63,23 +62,23 @@
     broken, because wrong "for" statement inside Label.
  - 2010-08-06 Fixed bug#5691 - Not possbible for a package to modify a file
     that belongs to another package.
- - 2010-08-06 Fixed bug#5690 - In AgentTicketZoom, "reset filter" get's not
-    taken over for next relogin.
+ - 2010-08-06 Fixed bug#5690 - In AgentTicketZoom, "reset filter" is not
+    taken over for next login.
  - 2010-08-06 Fixed bug#5659 - In Global Ticket Overview, Small View,
     "FROM/SUBJECT" is problematically to read. now it reads "FROM / SUBJECT".
  - 2010-08-06 Fixed bug#5628 - In new Ticket Search, the attribute
-    TicketCreateTime, Wording is wrong + Checkbox is not longer needed.
+    TicketCreateTime, wording is wrong + Checkbox is not longer needed.
  - 2010-08-06 Fixed bug#5645 - Changing the ticket search options does not
     work.
  - 2010-08-06 Fixed bug#5627 - "Fulltext" attribute in new ticket search
-    feature is missing on initial use.
+    feature is missing for initial use.
  - 2010-08-06 Fixed bug#5663 - In Global Ticket Overview, in M+L Mode, orange
     hyper links are not shown on hover a record.
  - 2010-08-05 Fixed bug#5670 - In Agent Interface, e. g. note action, you can
-    select a file, which get's uploaded automatically. This is not working in
+    select a file, which is uploaded automatically. This is not working in
     customer panel.
  - 2010-08-05 Fixed bug#5625 - Article Zoom Screen -> New Message Indicator
-    get's not removed after clicking on an article item.
+    is not removed after clicking on an article item.
  - 2010-08-05 Fixed bug#5671 - In Customer Panel, there are not used links in
     footer (FAQ, Help, ...).
  - 2010-08-05 Fixed bug#5635 - It's not possible to open Ticket Search feature
