@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.4 2010-08-11 08:47:39 mg Exp $
+// $Id: Core.AJAX.js,v 1.5 2010-08-20 17:38:39 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -324,7 +324,7 @@ Core.AJAX = (function (TargetNS) {
                     Callback(Response);
                 }
                 else {
-                    Core.Exception.Throw("Invalid callback method: " + Callback.toString(), 'CommunicationError');
+                    Core.Exception.Throw("Invalid callback method: " + ((typeof Callback === 'undefined') ? 'undefined' : Callback.toString()), 'CommunicationError');
                 }
             },
             error: function () {
