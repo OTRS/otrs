@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.12.2.4 2010-07-14 14:57:16 en Exp $
+# $Id: HTMLUtils.pm,v 1.12.2.5 2010-08-20 07:28:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.4 $) [1];
+$VERSION = qw($Revision: 1.12.2.5 $) [1];
 
 =head1 NAME
 
@@ -791,7 +791,14 @@ sub LinkQuote {
         (                                          # $3
             (?: [a-z0-9]+ \. )*                    # get subdomains
             [a-z0-9]+ \. [a-z0-9]+                 # get at least second and top leveldomain
-            .*?                                    # this part should be better defined!
+            (?:                                    # file path element
+                [\/\.]
+                | [a-zA-Z0-9]
+            )*
+            (?:                                    # param string
+                [\?]                               # if param string is there, "?" must be present
+                [a-zA-Z0-9&;=%]*                   # param string content, this will also catch entities like &amp;
+            )?
         )
         (                                          # $4
             ?=(?:
@@ -869,6 +876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12.2.4 $ $Date: 2010-07-14 14:57:16 $
+$Revision: 1.12.2.5 $ $Date: 2010-08-20 07:28:04 $
 
 =cut
