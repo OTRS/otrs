@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.22 2010-08-06 22:10:44 cg Exp $
+# $Id: AgentTicketHistory.dtl,v 1.23 2010-08-20 12:45:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@
 <!-- dtl:block:Row -->
                         <tr>
                             <td>
-                                $Quote{"$Data{"HistoryType"}"}
+                                $QData{"HistoryType"}
                             </td>
                             <td>
                                 $QData{"Name","100"}

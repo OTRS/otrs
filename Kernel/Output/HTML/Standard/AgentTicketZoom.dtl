@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.139 2010-08-12 09:54:58 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.140 2010-08-20 12:45:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -178,7 +178,7 @@
 
                     <fieldset class="TableLike FixedLabelSmall Tight">
                         <label>$Text{"CustomerID"}:</label>
-                        <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></p>
+                        <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a></p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Accounted time"}:</label>
