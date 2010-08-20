@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.47 2010-08-18 09:38:57 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.48 2010-08-20 16:54:26 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,50 +31,50 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE6 -->
 <!--[if IE 6]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE6 -->
 
 <!-- dtl:block:CommonCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE7 -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
 <!-- dtl:block:ModuleCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
 
 <!-- dtl:block:ModuleCSS_IE6 -->
 <!--[if IE 6]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE6 -->
 
 <!-- dtl:block:ModuleCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE7 -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE8 -->
 
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
 
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
