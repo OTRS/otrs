@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1313 2010-08-20 11:32:44 mb Exp $
+# $Id: CHANGES,v 1.1314 2010-08-20 11:43:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.0 beta2 2010-??-??
+3.0.0 beta2 2010-08-23
  - 2010-08-19 Fixed bug#5768 - No tickets shown at customer interface if no open
     tickets exist.
  - 2010-08-19 Fixed bug#5639 - Global Overview: No action when clicking a row in
