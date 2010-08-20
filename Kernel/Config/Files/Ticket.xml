@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.371 2010-08-19 16:47:22 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.372 2010-08-20 23:42:07 en Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -128,7 +128,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 1 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 1 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -138,7 +138,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 1 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -159,7 +159,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 1 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 1 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -167,7 +167,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 1 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 1 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -175,7 +175,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 2 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 2 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -185,7 +185,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 2 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 2 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -206,7 +206,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 2 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 2 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -214,7 +214,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 2 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 2 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -222,7 +222,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 3 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 3 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -232,7 +232,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 3 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 3 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -253,7 +253,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 3 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 3 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -261,7 +261,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 3 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 3 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -269,7 +269,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 4 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 4 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -279,7 +279,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 4 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 4 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -300,7 +300,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 4 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 4 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -308,7 +308,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 4 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 4 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -316,7 +316,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 5 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 5 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -326,7 +326,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 5 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 5 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -347,7 +347,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 5 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 5 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -355,7 +355,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 5 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 5 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -363,7 +363,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 6 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 6 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -373,7 +373,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 6 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 6 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -394,7 +394,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 6 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 6 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -402,7 +402,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 6 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 6 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -410,7 +410,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 7 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 7 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -420,7 +420,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 7 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 7 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -441,7 +441,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 7 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 7 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -449,7 +449,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 7 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 7 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -457,7 +457,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 8 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 8 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -467,7 +467,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 8 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 8 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -488,7 +488,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 8 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 8 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -496,7 +496,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 8 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 8 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -504,7 +504,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 9 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 9 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -514,7 +514,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 9 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 9 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -535,7 +535,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 9 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -543,7 +543,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 9 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 9 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -551,7 +551,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 10 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 10 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -561,7 +561,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 10 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 10 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -582,7 +582,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 10 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 10 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -590,7 +590,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 10 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 10 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -598,7 +598,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 11 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 11 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -608,7 +608,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 11 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 11 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -629,7 +629,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 11 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 11 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -637,7 +637,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 11 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 11 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -645,7 +645,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 12 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 12 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -655,7 +655,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 12 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 12 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -676,7 +676,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 12 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 12 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -684,7 +684,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 12 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 12 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -692,7 +692,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 13 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 13 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -702,7 +702,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 13 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 13 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -723,7 +723,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 13 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 13 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -731,7 +731,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 13 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 13 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -739,7 +739,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 14 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 14 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -749,7 +749,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 14 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 14 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -770,7 +770,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 14 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 14 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -778,7 +778,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 14 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 14 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -786,7 +786,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 15 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 15 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -796,7 +796,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 15 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 15 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -817,7 +817,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 15 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 15 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -825,7 +825,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 15 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 15 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -833,7 +833,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 16 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 16 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -843,7 +843,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 16 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 16 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -864,7 +864,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 16 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 16 for tickets (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -872,7 +872,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16::Link" Required="0" Valid="0">
-        <Description Translatable="1">Defines the http link for the free text field number 16 (it will be used in every ticket view).</Description>
+        <Description Translatable="1">Defines the http link for the free text field number 16 for tickets (it will be used in every ticket view).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -1108,7 +1108,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 1 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 1 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1118,7 +1118,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 1 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 1 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1139,7 +1139,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText1::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 1 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 1 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1147,7 +1147,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 2 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 2 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1157,7 +1157,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 2 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 2 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1178,7 +1178,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 2 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 2 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1186,7 +1186,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the key of the free field number 3 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the the free key field number 3 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1196,7 +1196,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free field number 3 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free key field number 3 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1217,7 +1217,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default selection of the free text field number 3 (if more than one option is provided).</Description>
+        <Description Translatable="1">Defines the default selection of the free text field number 3 for articles (if more than one option is provided).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
