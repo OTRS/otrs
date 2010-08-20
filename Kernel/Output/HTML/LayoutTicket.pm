@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.95 2010-08-19 16:47:22 en Exp $
+# $Id: LayoutTicket.pm,v 1.96 2010-08-20 07:10:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -355,6 +355,7 @@ sub AgentFreeText {
                     Name => "TicketFreeKey$_",
                     SelectedID          => $Ticket{"TicketFreeKey$_"},
                     LanguageTranslation => 0,
+                    Class               => 'TicketFreeKey',
                     HTMLQuote           => 1,
                     %SelectData,
                 );
@@ -381,15 +382,16 @@ sub AgentFreeText {
                     }
                 }
                 $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" name="TicketFreeKey'
+                    = '<input type="text" class="TicketFreeKey" name="TicketFreeKey'
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
-                    . '" class="W25pc" />';
+                    . '" />';
             }
             else {
                 $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" name="TicketFreeKey' . $_ . '" value="" class="W25pc" />';
+                    = '<input type="text" class="TicketFreeKey" name="TicketFreeKey' . $_
+                    . '" value="" />';
             }
         }
 
@@ -425,7 +427,7 @@ sub AgentFreeText {
                 SelectedID          => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
-                Class               => $ClassParam,
+                Class               => "TicketFreeText $ClassParam",
                 %SelectData,
             );
 
@@ -443,11 +445,10 @@ sub AgentFreeText {
                     }
                 }
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" name="TicketFreeText'
+                    = '<input type="text" class="TicketFreeText $ClassParam" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
                     . $_
-                    . '" class="W33pc ' . $ClassParam
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
                     . '" />';
@@ -457,7 +458,7 @@ sub AgentFreeText {
             }
             else {
                 $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="W33pc ' . $ClassParam
+                    = '<input type="text" class="TicketFreeText ' . $ClassParam
                     . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
@@ -465,7 +466,6 @@ sub AgentFreeText {
                     . '" value="" />';
 
                 $Data{"TicketFreeTextField$_"} .= $DataParam;
-
             }
         }
     }
@@ -555,6 +555,7 @@ sub TicketArticleFreeText {
                     Name => "ArticleFreeKey$_",
                     SelectedID          => $Article{"ArticleFreeKey$_"},
                     LanguageTranslation => 0,
+                    Class               => 'ArticleFreeKey',
                     HTMLQuote           => 1,
                     %SelectData,
                 );
@@ -581,16 +582,16 @@ sub TicketArticleFreeText {
                     }
                 }
                 $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" name="ArticleFreeKey'
+                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey'
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
-                    . '" class="W25pc" />';
+                    . '" />';
             }
             else {
                 $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" name="ArticleFreeKey' . $_
-                    . '" value="" class="W25pc" />';
+                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey' . $_
+                    . '" value="" />';
             }
         }
 
@@ -626,7 +627,7 @@ sub TicketArticleFreeText {
                 SelectedID          => $Article{"ArticleFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
-                Class               => $ClassParam,
+                Class               => "ArticleFreeText $ClassParam",
                 %SelectData,
             );
 
@@ -643,11 +644,10 @@ sub TicketArticleFreeText {
                     }
                 }
                 $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" name="ArticleFreeText'
+                    = '<input type="text" class="ArticleFreeText $ClassParam" name="ArticleFreeText'
                     . $_
                     . '" id="ArticleFreeText'
                     . $_
-                    . '" class="W33pc ' . $ClassParam
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
                     . '" />';
@@ -656,7 +656,7 @@ sub TicketArticleFreeText {
             }
             else {
                 $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" class="W33pc ' . $ClassParam
+                    = '<input type="text" class="ArticleFreeText ' . $ClassParam
                     . '" name="ArticleFreeText'
                     . $_
                     . '" id="ArticleFreeText'

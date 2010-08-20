@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.65 2010-08-19 16:47:22 en Exp $
+# $Id: CustomerTicketMessage.pm,v 1.66 2010-08-20 07:10:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,6 +92,12 @@ sub Run {
                 Type           => $Text,
                 CustomerUserID => $Self->{UserID},
             );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
@@ -193,13 +199,13 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
 
-            # check required FreeTextField (if configured)
-            if (
-                $Self->{Config}{TicketFreeText}->{$Count} == 2
-                && $TicketFree{"TicketFreeText$Count"} eq ''
-                )
-            {
-                $Error{"TicketFreeTextField$Count invalid"} = '* invalid';
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+
+                if ( $TicketFree{"TicketFreeText$Count"} eq '' ) {
+                    $TicketFreeText{Error}->{$Count} = 1;
+                }
             }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
