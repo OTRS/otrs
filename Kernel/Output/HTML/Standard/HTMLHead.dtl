@@ -2,7 +2,7 @@
 # HTMLHead.dtl - provides global HTML head snippet
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHead.dtl,v 1.5 2010-08-20 16:54:26 mn Exp $
+# $Id: HTMLHead.dtl,v 1.6 2010-08-20 17:04:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" type="text/css" $Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE7 -->
