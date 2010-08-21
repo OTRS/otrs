@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -190,7 +190,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetBox > .Content.AutoHeight {
-    min-height: auto;
+    min-height: 0px;
 }
 
 /**

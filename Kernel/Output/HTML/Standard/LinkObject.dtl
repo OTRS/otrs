@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.21 2010-07-06 11:59:03 mg Exp $
+# $Id: LinkObject.dtl,v 1.22 2010-08-21 18:24:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,8 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TimeLong -->
 
 <!-- dtl:block:Checkbox -->
-<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}" />
+<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"/>
+&nbsp;<br/>
 <!-- dtl:block:Checkbox -->
 
 <!-- dtl:block:InputText -->
@@ -46,7 +47,7 @@ $Text{"none"}
     <thead>
         <tr>
             <th>$Text{"LinkType"}</th>
-            <th>$Text{"Ticket#"}</th>
+            <th>$Text{"Object#"}</th>
         </tr>
     </thead>
 
@@ -64,42 +65,87 @@ $Text{"none"}
         </tr>
 <!-- dtl:block:TableSimpleType -->
     </tbody>
-
 </table>
 <!-- dtl:block:TableSimple -->
 
 <!-- dtl:block:TableComplex -->
-<table class="DataTable">
-
-    <thead>
-        <tr>
+<!-- dtl:block:TableComplexBlock -->
+<div class="WidgetBox SpacingTop">
+    <div class="LightRow Header">
+        <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content."}"><span></span></a></div>
+        <h2>$Text{"$Data{"BlockDescription"}"}: $Data{"Blockname"}</h2>
+    </div>
+<!-- dtl:block:TableComplexBlockActionRow -->
+    <div class="LightRow Bottom">
+        <ul class="Actions">
+<!-- dtl:block:TableComplexBlockActionRowBulk -->
+            <li class="Bulk">
+                <span>
+                    <input type="checkbox" class="AutocompleteOff SelectAll" title="$Text{"Select all"}" id="SelectAllLinks$Text{"$Data{"TableNumber"}"}" />
+                    <label class="InvisibleText" for="SelectAllLinks$Text{"$Data{"TableNumber"}"}">$Text{"Select all"}</label>
+                </span>
+            </li>
+<!-- dtl:block:TableComplexBlockActionRowBulk -->
+<!-- dtl:block:TableComplexBlockActionRowMenu -->
+            <li>
+                <a href="#" class="MenuAction" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+            </li>
+<!-- dtl:block:TableComplexBlockActionRowMenu -->
+        </ul>
+        <div class="ClearLeft"></div>
+    </div>
+<!-- dtl:block:TableComplexBlockActionRow -->
+    <div class="LightRow Content AutoHeight WithPadding">
+        <table class="DataTable">
+            <thead>
+                <tr>
 <!-- dtl:block:TableComplexBlockColumn -->
-            <th> $Text{"$Data{"Content"}"} </th>
+                    <th> $Text{"$Data{"Content"}"} </th>
 <!-- dtl:block:TableComplexBlockColumn -->
-        </tr>
-    </thead>
-
-    <tbody>
+                </tr>
+            </thead>
+            <tbody>
 <!-- dtl:block:TableComplexBlockRow -->
-        <tr>
+                <tr>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-            <td>$Data{"Content"}</td>
+                    <td>
+                        $Data{"Content"}
+                    </td>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-        </tr>
+                </tr>
 <!-- dtl:block:TableComplexBlockRow -->
-    </tbody>
-
-</table>
-
-
+            </tbody>
+        </table>
+<!-- dtl:block:TableComplexBlockFooterNormal -->
+    </div>
+<!-- dtl:block:TableComplexBlockFooterNormal -->
+<!-- dtl:block:TableComplexBlockFooterAdd -->
+    $Data{"LinkTypeStrg"}
+    <input type="hidden" name="SubmitLink" value="$Text{"Link"}" />
+</div>
+</div>
+<!-- dtl:block:TableComplexBlockFooterAdd -->
 <!-- dtl:block:TableComplexBlockFooterDelete -->
-<button class="Primary" type="submit" name="SubmitDelete" value="$Text{"Delete"}">$Text{"Delete"}</button>
+<input type="hidden" name="SubmitDelete" value="$Text{"Delete"}" />
+</div>
+</div>
 <!-- dtl:block:TableComplexBlockFooterDelete -->
 
-<!-- dtl:block:TableComplexTypeSubmit -->
-<br />
-$Data{"LinkTypeStrg"}
-<button class="Primary" type="submit" name="SubmitLink" value="$Text{"Link"}">$Text{"Link"}</button>
-<!-- dtl:block:TableComplexTypeSubmit -->
+<!-- dtl:block:TableComplexBlock -->
 
 <!-- dtl:block:TableComplex -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('.MenuAction').bind('click', function (Event) {
+        $(this).closest('form').submit();
+        return false;
+    });
+
+    $('.SelectAll').bind('click', function () {
+        var Status = $(this).attr('checked');
+        $(this).closest('.WidgetBox').find('table input[type=checkbox]').attr('checked', Status);
+    });
+
+//]]></script>
+<!--dtl:js_on_document_complete-->

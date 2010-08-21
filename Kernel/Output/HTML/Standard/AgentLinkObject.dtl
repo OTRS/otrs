@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.42 2010-08-14 00:54:46 ub Exp $
+# $Id: AgentLinkObject.dtl,v 1.43 2010-08-21 18:23:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,21 +80,12 @@
             </div>
 
 <!-- dtl:block:LinkTableComplex -->
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Link Table"}</h2>
-                </div>
-                <div class="Content">
-                    $Data{"LinkTableStrg"}
-                </div>
-            </div>
+            <h2 class="SpacingTop">$Text{"Link Table"}</h2>
+            $Data{"LinkTableStrg"}
 <!-- dtl:block:LinkTableComplex -->
-
         </form>
     </div>
-
 </div>
-
 <!-- dtl:block:Link -->
 
 <!-- dtl:block:Delete -->
@@ -110,35 +101,19 @@
             <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"go back"}</a>
         </p>
     </div>
-
     <div class="Content">
-        <div class="WidgetSimple">
-
-            <div class="Header">
-                <h2>$Text{"Select Target Object"}</h2>
-            </div>
-
-            <div class="Content">
-
-                <form action="$Env{"CGIHandle"}" method="get">
-                    <input type="hidden" name="Action" value="$Env{"Action"}" />
-                    <input type="hidden" name="Subaction" value="LinkDelete" />
-                    <input type="hidden" name="Mode" value="$QData{"Mode"}" />
-                    <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}" />
-                    <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}" />
-                    <input type="hidden" name="TargetIdentifier" value="$QData{"TargetIdentifier"}" />
-
+        <h2>$Text{"Select Target Object"}</h2>
+        <form action="$Env{"CGIHandle"}" method="get">
+            <input type="hidden" name="Action" value="$Env{"Action"}" />
+            <input type="hidden" name="Subaction" value="LinkDelete" />
+            <input type="hidden" name="Mode" value="$QData{"Mode"}" />
+            <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}" />
+            <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}" />
+            <input type="hidden" name="TargetIdentifier" value="$QData{"TargetIdentifier"}" />
 <!-- dtl:block:DeleteTableComplex -->
-                    $Data{"LinkTableStrg"}
+            $Data{"LinkTableStrg"}
 <!-- dtl:block:DeleteTableComplex -->
-
-                    <div class="SpacingTop">
-                        <button type="submit" name="SubmitDelete" value="$Text{"Delete links"}">$Text{"Delete links"}</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 <!-- dtl:block:Delete -->

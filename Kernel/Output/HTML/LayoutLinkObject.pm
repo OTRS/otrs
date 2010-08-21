@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.23 2010-08-19 16:47:22 en Exp $
+# $Id: LayoutLinkObject.pm,v 1.24 2010-08-21 18:22:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -260,12 +260,23 @@ sub LinkObjectTableCreateComplex {
     # set block description
     my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? 'Search Result' : 'Linked';
 
+    my $BlockCounter = 0;
+
     BLOCK:
     for my $Block (@OutputData) {
 
         next BLOCK if !$Block->{ItemList};
         next BLOCK if ref $Block->{ItemList} ne 'ARRAY';
         next BLOCK if !@{ $Block->{ItemList} };
+
+        # output the block
+        $LayoutObject->Block(
+            Name => 'TableComplexBlock',
+            Data => {
+                BlockDescription => $BlockDescription,
+                Blockname => $Block->{Blockname} || '',
+            },
+        );
 
         # output table headline
         for my $HeadlineColumn ( @{ $Block->{Headline} } ) {
@@ -307,15 +318,81 @@ sub LinkObjectTableCreateComplex {
 
         if ( $Param{ViewMode} eq 'ComplexAdd' ) {
 
+            # output the action row block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRow',
+            );
+
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRowBulk',
+                Data => {
+                    Name => 'Bulk'
+                },
+            );
+
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRowMenu',
+                Data => {
+                    Name        => 'Link',
+                    Description => 'Add Links'
+                    }
+            );
+
             # output the footer block
             $LayoutObject->Block(
-                Name => 'TableComplexTypeSubmit',
+                Name => 'TableComplexBlockFooterAdd',
                 Data => {
                     Colspan => scalar @{ $Block->{Headline} },
                     LinkTypeStrg => $Param{LinkTypeStrg} || '',
                 },
             );
         }
+
+        elsif ( $Param{ViewMode} eq 'ComplexDelete' ) {
+
+            # output the action row block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRow',
+            );
+
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRowBulk',
+                Data => {
+                    Name        => 'Bulk',
+                    TableNumber => $BlockCounter,
+                },
+            );
+
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockActionRowMenu',
+                Data => {
+                    Name        => 'Delete',
+                    Description => 'Delete Links'
+                    }
+            );
+
+            # output the footer block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockFooterDelete',
+                Data => {
+                    Colspan => scalar @{ $Block->{Headline} },
+                },
+            );
+        }
+        else {
+
+            # output the footer block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockFooterNormal',
+                Data => {
+                    Colspan => scalar @{ $Block->{Headline} },
+                },
+            );
+        }
+
+        # inc $BlockCounter to set correct IDs for Select All Checkboxes
+        $BlockCounter++;
+
     }
 
     return $LayoutObject->Output(

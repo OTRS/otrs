@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -542,6 +542,10 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .LightRow select {
     margin-top: 1px;
+}
+
+.LightRow.Bottom .Actions li span input[type="checkbox"] {
+    margin-top: 0px;
 }
 
 /**
