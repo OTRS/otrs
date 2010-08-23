@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.372 2010-08-20 23:42:07 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.373 2010-08-23 15:41:26 en Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -880,7 +880,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">
-        <Description Translatable="1">Defines the key of the free time field number 1 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 1 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -918,7 +918,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey2" Required="1" Valid="1">
-        <Description Translatable="1">Defines the key of the free time field number 2 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 2 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -956,7 +956,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey3" Required="1" Valid="1">
-        <Description Translatable="1">Defines the key of the free time field number 3 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 3 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -994,7 +994,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey4" Required="1" Valid="1">
-        <Description Translatable="1">Defines the key of the free time field number 4 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 4 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1032,7 +1032,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey5" Required="1" Valid="1">
-        <Description Translatable="1">Defines the key of the free time field number 5 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 5 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
@@ -1070,7 +1070,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey6" Required="1" Valid="1">
-        <Description Translatable="1">Defines key of the free time field number 6 for tickets.</Description>
+        <Description Translatable="1">Defines the free time key field number 6 for tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
