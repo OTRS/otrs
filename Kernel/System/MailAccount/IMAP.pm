@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAP.pm,v 1.9 2010-01-13 17:02:10 martin Exp $
+# $Id: IMAP.pm,v 1.10 2010-08-23 04:40:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,8 +184,13 @@ sub _Fetch {
                 }
 
                 # get message (header and body)
-                my $Lines = $IMAPObject->get($Messageno);
-                if ( !$Lines ) {
+                my @Lines = $IMAPObject->get($Messageno);
+
+                # compat. to Net::IMAP::Simple v1.17 get() was returning an array ref at this time
+                if ( $Lines[0] && !$Lines[1] && ref $Lines[0] eq 'ARRAY' ) {
+                    @Lines = @{ $Lines[0] };
+                }
+                if ( !@Lines ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message  => "$AuthType: Can't process mail, email no $Messageno is empty!",
@@ -194,7 +199,7 @@ sub _Fetch {
                 else {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
                         %{$Self},
-                        Email   => $Lines,
+                        Email   => \@Lines,
                         Trusted => $Param{Trusted} || 0,
                         Debug   => $Debug,
                     );
