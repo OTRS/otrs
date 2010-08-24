@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.6 2010-08-17 08:44:04 mg Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.7 2010-08-24 09:27:47 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -194,8 +194,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
-        CKEDITOR.instances[EditorID].focus();
-
+        if (typeof CKEDITOR === 'object') {
+            CKEDITOR.instances[EditorID].focus();
+        }
+        else {
+            $EditorArea.focus();
+        }
     };
 
     return TargetNS;
