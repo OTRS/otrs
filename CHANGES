@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1321 2010-08-24 16:45:36 en Exp $
+# $Id: CHANGES,v 1.1322 2010-08-24 17:45:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-24 Applied change suggested in bug#5733. $Text should be dereferenced while counting its length.
  - 2010-08-24 Fixed bug#5806 - Default services aren't checked in AdminCustomerUserService.
  - 2010-08-24 Fixed bug#5803 - TimeInputFormat "Input" generates CSS errors.
 
@@ -428,6 +429,7 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.8 (2010/??/??)
+ - 2010-08-24 Applied change suggested in bug#5733. $Text should be dereferenced while counting its length.
  - 2010-08-18 Fixed bug#5444 - TicketZoom mask vulnerable to XSS.
  - 2010-08-09 Fixed bug#5698 - Ticket Assignment includes '(' character.
  - 2010-07-20 Fixed bug#4483 - AgentTicketActions, set radio button when select
