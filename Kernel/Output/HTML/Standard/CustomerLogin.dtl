@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.44 2010-08-19 09:35:21 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.45 2010-08-24 09:29:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@ $Include{"CustomerHeader"}
 <!-- stop login -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    Core.Customer.InitLogin($Data{"LoginFailed"});
+    Core.Customer.Login.Init({LastLoginFailed: '$Data{"LoginFailed"}'});
 </script>
 <!-- dtl:js_on_document_complete -->
 $Include{"CustomerFooter"}

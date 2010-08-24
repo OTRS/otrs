@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.363 2010-08-19 18:45:24 en Exp $
+# $Id: Defaults.pm,v 1.364 2010-08-24 09:29:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.363 $) [1];
+$VERSION = qw($Revision: 1.364 $) [1];
 
 # use ../ as lib location
 use File::Basename;
@@ -1898,6 +1898,13 @@ Your OTRS Notification Master
             ],
         },
     };
+    $Self->{'CustomerFrontend::Module'}->{CustomerLogin} = {
+        Loader       => {
+            JavaScript => [
+                'Core.Customer.Login.js',
+            ],
+        },
+    };
 
     # specify Loader settings for the installer
     $Self->{'Frontend::Module'}->{Installer} = {
@@ -2218,6 +2225,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.363 $ $Date: 2010-08-19 18:45:24 $
+$Revision: 1.364 $ $Date: 2010-08-24 09:29:57 $
 
 =cut
