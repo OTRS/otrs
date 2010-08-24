@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.74 2010-08-20 12:45:54 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.75 2010-08-24 16:42:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -531,11 +531,11 @@
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
                         </div>
-                        <h2>$Text{"Ticket add note"}</h2>
+                        <h2>$Text{"Add Note"}</h2>
                     </div>
                     <div class="Content">
                         <fieldset class="TableLike">
-                            <label for="NewNoteFrom">$Text{"Form"}:</label>
+                            <label for="NewNoteFrom">$Text{"From"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewNoteFrom" id="NewNoteFrom" value="$QData{"NewNoteFrom"}" class="W50pc"/>
                             </div>
@@ -573,7 +573,7 @@
                         <div class="WidgetAction Toggle">
                             <a href="#" title="$Text{"Toggle this widget"}"></a>
                         </div>
-                        <h2>$Text{"Ticket Comands"}</h2>
+                        <h2>$Text{"Ticket Commands"}</h2>
                     </div>
                     <div class="Content">
                         <fieldset class="TableLike">
