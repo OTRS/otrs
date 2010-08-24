@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1320 2010-08-24 15:41:40 mg Exp $
+# $Id: CHANGES,v 1.1321 2010-08-24 16:45:36 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-24 Fixed bug#5806 - Default services aren't checked in AdminCustomerUserService.
  - 2010-08-24 Fixed bug#5803 - TimeInputFormat "Input" generates CSS errors.
 
 3.0.0 beta2 2010-08-23

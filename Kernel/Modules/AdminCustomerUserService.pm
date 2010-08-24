@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.21 2010-05-14 16:46:03 cr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.22 2010-08-24 16:43:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,9 +29,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -64,9 +64,14 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
+        my $CustomerUserName
+            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
+        my $CustomerUserLogin
+            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? 'DEFAULT' : $Param{CustomerUserLogin};
+
         # get service member
         my %ServiceMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            CustomerUserLogin => $Param{CustomerUserLogin},
+            CustomerUserLogin => $CustomerUserLogin,
             Result            => 'HASH',
             DefaultServices   => 0,
         );
@@ -75,11 +80,6 @@ sub Run {
         my %ServiceData = $Self->{ServiceObject}->ServiceList(
             UserID => $Self->{UserID},
         );
-
-        my $CustomerUserName
-            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
-        my $CustomerUserLogin
-            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? 'DEFAULT' : $Param{CustomerUserLogin};
 
         $Output .= $Self->_Change(
             ID                 => $CustomerUserLogin,
@@ -418,8 +418,8 @@ sub _Change {
         %ServiceData = %Data;
 
         # add suffix for correct sorting
-        for ( keys %Data ) {
-            $Data{$_} .= '::';
+        for my $DataKey ( keys %Data ) {
+            $Data{$DataKey} .= '::';
         }
 
     }
@@ -535,8 +535,8 @@ sub _Overview {
     my %ServiceDataSort = %ServiceData;
 
     # add suffix for correct sorting
-    for ( keys %ServiceDataSort ) {
-        $ServiceDataSort{$_} .= '::';
+    for my $ServiceDataKey ( keys %ServiceDataSort ) {
+        $ServiceDataSort{$ServiceDataKey} .= '::';
     }
 
     for my $ID (
