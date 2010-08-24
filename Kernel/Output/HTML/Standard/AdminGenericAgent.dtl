@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.75 2010-08-24 16:42:35 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.76 2010-08-24 17:07:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@
                         <label for="ProfileEdit" class="Mandatory">
                             <span class="Marker">*</span> $Text{"Job name"}:</label>
                             <div class="Field">
-                                <input type="text" name="Profile" id="ProfileEdit" class="Validate_Required W20pc" value="$QData{"Profile"}" />
+                                <input type="text" name="Profile" id="ProfileEdit" class="Validate_Required W50pc" value="$QData{"Profile"}" />
                                 <div class="TooltipErrorMessage" id="ProfileEditError">
                                     <p>$Text{"Please provide a name."}</p>
                                 </div>
