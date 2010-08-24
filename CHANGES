@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1319 2010-08-23 04:40:46 martin Exp $
+# $Id: CHANGES,v 1.1320 2010-08-24 15:41:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.0 beta3 ????-??-??
+ - 2010-08-24 Fixed bug#5803 - TimeInputFormat "Input" generates CSS errors.
 
 3.0.0 beta2 2010-08-23
  - 2010-08-21 Fixed bug#5697 - IMAP Connector Failing in IMAP mode, IMAPS is working.
