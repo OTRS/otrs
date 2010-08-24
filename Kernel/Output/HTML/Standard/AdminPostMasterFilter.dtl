@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.47 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.48 2010-08-24 17:05:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,13 +43,13 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
+                    $Text{"To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible."}
                 </p>
                 <p class="FieldExplanation">
                     $Text{"If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
+                    $Text{"If you use Regular Expressions, you also can use the matched value in () as [***] in the 'Set' action."}
                 </p>
             </div>
         </div>
@@ -105,9 +105,9 @@
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="OldName" value="$QData{"Name"}"/>
                     <fieldset class="TableLike">
-                        <label for="EditName">$Text{"Filtername"}:</label>
+                        <label for="EditName">$Text{"Filter name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="EditName" value="$QData{"Name"}"/>
+                            <input type="text" class="W50pc" name="Name" id="EditName" value="$QData{"Name"}"/>
                         </div>
                         <div class="Clear"></div>
 
