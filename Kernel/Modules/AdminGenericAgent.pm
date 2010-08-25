@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.86 2010-08-19 16:12:23 en Exp $
+# $Id: AdminGenericAgent.pm,v 1.87 2010-08-25 09:53:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -447,43 +447,45 @@ sub Run {
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'Update' ) {
 
+        my %JobData;
+
         if ( $Self->{Profile} ) {
 
             # get db job data
-            my %Param = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+            %JobData = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
         }
-        $Param{Profile} = $Self->{Profile};
+        $JobData{Profile} = $Self->{Profile};
 
         my %ShownUsers = $Self->{UserObject}->UserList(
             Type  => 'Long',
             Valid => 1,
         );
-        $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             Name       => 'OwnerIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{OwnerIDs},
+            SelectedID => $JobData{OwnerIDs},
         );
-        $Param{NewOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{NewOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%ShownUsers,
             Name       => 'NewOwnerID',
             Size       => 5,
             Multiple   => 1,
-            SelectedID => $Param{NewOwnerID},
+            SelectedID => $JobData{NewOwnerID},
         );
         my %Hours;
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
-        $Param{ScheduleHoursList} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{ScheduleHoursList} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%Hours,
             Name       => 'ScheduleHours',
             Size       => 6,
             Multiple   => 1,
-            SelectedID => $Param{ScheduleHours},
+            SelectedID => $JobData{ScheduleHours},
         );
-        $Param{ScheduleMinutesList} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{ScheduleMinutesList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 '00' => '00',
                 10   => '10',
@@ -495,9 +497,9 @@ sub Run {
             Name       => 'ScheduleMinutes',
             Size       => 6,
             Multiple   => 1,
-            SelectedID => $Param{ScheduleMinutes},
+            SelectedID => $JobData{ScheduleMinutes},
         );
-        $Param{ScheduleDaysList} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{ScheduleDaysList} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 1 => 'Mon',
                 2 => 'Tue',
@@ -511,10 +513,10 @@ sub Run {
             Name       => 'ScheduleDays',
             Size       => 7,
             Multiple   => 1,
-            SelectedID => $Param{ScheduleDays},
+            SelectedID => $JobData{ScheduleDays},
         );
 
-        $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -524,9 +526,9 @@ sub Run {
             Name       => 'StateIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{StateIDs},
+            SelectedID => $JobData{StateIDs},
         );
-        $Param{NewStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{NewStatesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{StateObject}->StateList(
                     UserID => 1,
@@ -536,25 +538,25 @@ sub Run {
             Name       => 'NewStateID',
             Size       => 5,
             Multiple   => 1,
-            SelectedID => $Param{NewStateID},
+            SelectedID => $JobData{NewStateID},
         );
-        $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        $JobData{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data               => { $Self->{QueueObject}->GetAllQueues(), },
             Size               => 5,
             Multiple           => 1,
             Name               => 'QueueIDs',
-            SelectedIDRefArray => $Param{QueueIDs},
+            SelectedIDRefArray => $JobData{QueueIDs},
             OnChangeSubmit     => 0,
         );
-        $Param{NewQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        $JobData{NewQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data           => { $Self->{QueueObject}->GetAllQueues(), },
             Size           => 5,
             Multiple       => 1,
             Name           => 'NewQueueID',
-            SelectedID     => $Param{NewQueueID},
+            SelectedID     => $JobData{NewQueueID},
             OnChangeSubmit => 0,
         );
-        $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -564,9 +566,9 @@ sub Run {
             Name       => 'PriorityIDs',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{PriorityIDs},
+            SelectedID => $JobData{PriorityIDs},
         );
-        $Param{NewPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{NewPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{PriorityObject}->PriorityList(
                     UserID => 1,
@@ -576,7 +578,7 @@ sub Run {
             Name       => 'NewPriorityID',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Param{NewPriorityID},
+            SelectedID => $JobData{NewPriorityID},
         );
 
         # get time option
@@ -597,14 +599,14 @@ sub Run {
             )
         {
             my $SearchType = $Map{$Type} . 'SearchType';
-            if ( !$Param{$SearchType} ) {
-                $Param{ $SearchType . '::None' } = 'checked="checked"';
+            if ( !$JobData{$SearchType} ) {
+                $JobData{ $SearchType . '::None' } = 'checked="checked"';
             }
-            elsif ( $Param{$SearchType} eq 'TimePoint' ) {
-                $Param{ $SearchType . '::TimePoint' } = 'checked="checked"';
+            elsif ( $JobData{$SearchType} eq 'TimePoint' ) {
+                $JobData{ $SearchType . '::TimePoint' } = 'checked="checked"';
             }
-            elsif ( $Param{$SearchType} eq 'TimeSlot' ) {
-                $Param{ $SearchType . '::TimeSlot' } = 'checked="checked"';
+            elsif ( $JobData{$SearchType} eq 'TimeSlot' ) {
+                $JobData{ $SearchType . '::TimeSlot' } = 'checked="checked"';
             }
 
             my %Counter;
@@ -613,20 +615,20 @@ sub Run {
             }
 
             # time
-            $Param{ $Type . 'TimePoint' } = $Self->{LayoutObject}->BuildSelection(
+            $JobData{ $Type . 'TimePoint' } = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%Counter,
                 Name       => $Type . 'TimePoint',
-                SelectedID => $Param{ $Type . 'TimePoint' },
+                SelectedID => $JobData{ $Type . 'TimePoint' },
             );
-            $Param{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->BuildSelection(
+            $JobData{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     Last   => 'last',
                     Before => 'before',
                 },
                 Name => $Type . 'TimePointStart',
-                SelectedID => $Param{ $Type . 'TimePointStart' } || 'Last',
+                SelectedID => $JobData{ $Type . 'TimePointStart' } || 'Last',
             );
-            $Param{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
+            $JobData{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     minute => 'minute(s)',
                     hour   => 'hour(s)',
@@ -636,32 +638,32 @@ sub Run {
                     year   => 'year(s)',
                 },
                 Name       => $Type . 'TimePointFormat',
-                SelectedID => $Param{ $Type . 'TimePointFormat' },
+                SelectedID => $JobData{ $Type . 'TimePointFormat' },
             );
-            $Param{ $Type . 'TimeStart' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+            $JobData{ $Type . 'TimeStart' } = $Self->{LayoutObject}->BuildDateSelection(
+                %JobData,
                 Prefix   => $Type . 'TimeStart',
                 Format   => 'DateInputFormat',
                 DiffTime => -( 60 * 60 * 24 ) * 30,
             );
-            $Param{ $Type . 'TimeStop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %Param,
+            $JobData{ $Type . 'TimeStop' } = $Self->{LayoutObject}->BuildDateSelection(
+                %JobData,
                 Prefix => $Type . 'TimeStop',
                 Format => 'DateInputFormat',
             );
         }
 
-        $Param{DeleteOption} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{DeleteOption} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'NewDelete',
-            SelectedID => $Param{NewDelete},
+            SelectedID => $JobData{NewDelete},
         );
-        $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{ValidOption} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'Valid',
-            SelectedID => defined( $Param{Valid} ) ? $Param{Valid} : 1,
+            SelectedID => defined( $JobData{Valid} ) ? $JobData{Valid} : 1,
         );
-        $Param{LockOption} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{LockOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -671,9 +673,9 @@ sub Run {
             Name       => 'LockIDs',
             Multiple   => 1,
             Size       => 3,
-            SelectedID => $Param{LockIDs},
+            SelectedID => $JobData{LockIDs},
         );
-        $Param{NewLockOption} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{NewLockOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 $Self->{LockObject}->LockList(
                     UserID => 1,
@@ -683,33 +685,33 @@ sub Run {
             Name       => 'NewLockID',
             Size       => 3,
             Multiple   => 1,
-            SelectedID => $Param{NewLockID},
+            SelectedID => $JobData{NewLockID},
         );
 
         # REMARK: we changed the wording "Send no notifications" to
         # "Send agent/customer notifications on changes" in frontend.
         # But the backend code is still the same (compatiblity).
         # Because of this case we changed 1=>'Yes' to 1=>'No'
-        $Param{SendNoNotificationOption} = $Self->{LayoutObject}->BuildSelection(
+        $JobData{SendNoNotificationOption} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 '1' => 'No',
                 '0' => 'Yes'
             },
             Name => 'NewSendNoNotification',
-            SelectedID => $Param{NewSendNoNotification} || 0,
+            SelectedID => $JobData{NewSendNoNotification} || 0,
         );
         $Self->{LayoutObject}->Block( Name => 'ActionList', );
         $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
         $Self->{LayoutObject}->Block(
             Name => 'Edit',
-            Data => \%Param,
+            Data => \%JobData,
         );
 
         # check if the schedule options are selected
         if (
-            !defined $Param{ScheduleDays}->[0]
-            || !defined $Param{ScheduleHours}->[0]
-            || !defined $Param{ScheduleMinutes}->[0]
+            !defined $JobData{ScheduleDays}->[0]
+            || !defined $JobData{ScheduleHours}->[0]
+            || !defined $JobData{ScheduleMinutes}->[0]
             )
         {
             $Self->{LayoutObject}->Block(
@@ -720,10 +722,10 @@ sub Run {
         # build type string
         if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
             my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
-            $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'TypeIDs',
-                SelectedID  => $Param{TypeIDs},
+                SelectedID  => $JobData{TypeIDs},
                 Sort        => 'AlphanumericValue',
                 Size        => 3,
                 Multiple    => 1,
@@ -731,12 +733,12 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketType',
-                Data => \%Param,
+                Data => \%JobData,
             );
-            $Param{NewTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{NewTypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'NewTypeID',
-                SelectedID  => $Param{NewTypeID},
+                SelectedID  => $JobData{NewTypeID},
                 Sort        => 'AlphanumericValue',
                 Size        => 3,
                 Multiple    => 1,
@@ -744,7 +746,7 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'NewTicketType',
-                Data => \%Param,
+                Data => \%JobData,
             );
         }
 
@@ -753,39 +755,39 @@ sub Run {
 
             # get list type
             my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
-            $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'ServiceIDs',
-                SelectedID  => $Param{ServiceIDs},
+                SelectedID  => $JobData{ServiceIDs},
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
                 Max         => 200,
             );
-            $Param{NewServicesStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{NewServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'NewServiceID',
-                SelectedID  => $Param{NewServiceID},
+                SelectedID  => $JobData{NewServiceID},
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
                 Max         => 200,
             );
             my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
-            $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%SLA,
                 Name        => 'SLAIDs',
-                SelectedID  => $Param{SLAIDs},
+                SelectedID  => $JobData{SLAIDs},
                 Sort        => 'AlphanumericValue',
                 Size        => 5,
                 Multiple    => 1,
                 Translation => 0,
                 Max         => 200,
             );
-            $Param{NewSLAsStrg} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{NewSLAsStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%SLA,
                 Name        => 'NewSLAID',
-                SelectedID  => $Param{NewSLAID},
+                SelectedID  => $JobData{NewSLAID},
                 Sort        => 'AlphanumericValue',
                 Size        => 5,
                 Multiple    => 1,
@@ -794,45 +796,45 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketService',
-                Data => {%Param},
+                Data => {%JobData},
             );
             $Self->{LayoutObject}->Block(
                 Name => 'NewTicketService',
-                Data => {%Param},
+                Data => {%JobData},
             );
         }
 
         # prepare archive
         if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
-            $Param{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     ArchivedTickets    => 'Search in archived tickets only',
                     NotArchivedTickets => 'Search in not archived tickets only',
                     AllTickets         => 'Search in all tickets',
                 },
                 Name => 'SearchInArchive',
-                SelectedID => $Param{SearchInArchive} || 'AllTickets',
+                SelectedID => $JobData{SearchInArchive} || 'AllTickets',
             );
 
             $Self->{LayoutObject}->Block(
                 Name => 'SearchInArchive',
-                Data => {%Param},
+                Data => {%JobData},
             );
 
-            $Param{'NewArchiveFlagStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $JobData{'NewArchiveFlagStrg'} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     y => 'archive tickets',
                     n => 'restore tickets from archive',
                 },
                 Name         => 'NewArchiveFlag',
                 PossibleNone => 1,
-                SelectedID   => $Param{NewArchiveFlag} || '',
+                SelectedID   => $JobData{NewArchiveFlag} || '',
             );
 
             $Self->{LayoutObject}->Block(
                 Name => 'NewArchiveFlag',
-                Data => {%Param},
+                Data => {%JobData},
             );
         }
 
@@ -853,8 +855,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            $TicketFreeTextData{ 'TicketFreeKey' . $Count }  = $Param{ 'TicketFreeKey' . $Count };
-            $TicketFreeTextData{ 'TicketFreeText' . $Count } = $Param{ 'TicketFreeText' . $Count };
+            $TicketFreeTextData{ 'TicketFreeKey' . $Count } = $JobData{ 'TicketFreeKey' . $Count };
+            $TicketFreeTextData{ 'TicketFreeText' . $Count }
+                = $JobData{ 'TicketFreeText' . $Count };
         }
 
         # generate the free text fields
@@ -914,14 +917,14 @@ sub Run {
                         Size                => 4,
                         Multiple            => 1,
                         LanguageTranslation => 0,
-                        SelectedID          => $Param{ 'NewTicketFreeKey' . $ID },
+                        SelectedID          => $JobData{ 'NewTicketFreeKey' . $ID },
                     );
                 }
 
                 # generate free text
                 my $NewTicketFreeText = '';
                 if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) ) {
-                    my $Value = $Param{ 'NewTicketFreeText' . $ID } || '';
+                    my $Value = $JobData{ 'NewTicketFreeText' . $ID } || '';
                     $NewTicketFreeText
                         = '<input type="text" name="NewTicketFreeText'
                         . $ID
@@ -936,7 +939,7 @@ sub Run {
                         Size                => 4,
                         Multiple            => 1,
                         LanguageTranslation => 0,
-                        SelectedID          => $Param{ 'NewTicketFreeText' . $ID },
+                        SelectedID          => $JobData{ 'NewTicketFreeText' . $ID },
                     );
                 }
 
@@ -956,7 +959,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
-            Data         => \%Param,
+            Data         => \%JobData,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
