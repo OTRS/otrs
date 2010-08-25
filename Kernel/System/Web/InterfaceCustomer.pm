@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.49 2010-08-25 08:10:39 mb Exp $
+# $Id: InterfaceCustomer.pm,v 1.50 2010-08-25 08:22:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -683,7 +683,7 @@ sub Run {
             Output => \$LayoutObject->CustomerLogin(
                 Title => 'Login',
                 Message =>
-                    "New account created. Sent login information to \%s. Please check your mail.\", \"$GetParams{UserEmail}",
+                    "New account created. Sent login information to \%s. Please check your e-mail.\", \"$GetParams{UserEmail}",
                 User => $GetParams{UserLogin},
             ),
         );
@@ -1016,6 +1016,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2010-08-25 08:10:39 $
+$Revision: 1.50 $ $Date: 2010-08-25 08:22:46 $
 
 =cut
