@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -142,6 +142,10 @@ input[type=text].TicketFreeKey,
 input[type=text].ArticleFreeKey {
     margin: -5px 5px 0 5px;
     width: 90%;
+}
+
+input.DateSelection {
+    width: auto;
 }
 
 select.TicketFreeKey,
