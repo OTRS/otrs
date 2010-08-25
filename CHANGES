@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1325 2010-08-25 11:59:14 martin Exp $
+# $Id: CHANGES,v 1.1326 2010-08-25 12:29:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-25 Fixed bug#5805 - Customer interface: creation of a new ticket
+    requires two clicks on the submit button.
  - 2010-08-25 Fixed bug#5820 - Ticket owner get no email reminder reached
     notification if ticket is unlocked and owner is not subscribed to queue.
  - 2010-08-25 Fixed bug#5815 - Customer interface field validation takes place before submitting.
