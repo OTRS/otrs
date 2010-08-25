@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1323 2010-08-25 09:53:55 mg Exp $
+# $Id: CHANGES,v 1.1324 2010-08-25 11:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-25 Fixed bug#5815: Customer interface field validation takes place before submitting.
  - 2010-08-25 Fixed bug#5808: Generic Agent does not display job info.
  - 2010-08-24 Applied change suggested in bug#5733. $Text should be dereferenced while counting its length.
  - 2010-08-24 Fixed bug#5806 - Default services aren't checked in AdminCustomerUserService.

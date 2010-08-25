@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.66 2010-08-20 07:10:33 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.67 2010-08-25 11:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -203,7 +203,11 @@ sub Run {
             if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
                 $TicketFreeText{Required}->{$Count} = 1;
 
-                if ( $TicketFree{"TicketFreeText$Count"} eq '' ) {
+                if (
+                    $TicketFree{"TicketFreeText$Count"} eq ''
+                    && !$GetParam{Expand}
+                    )
+                {
                     $TicketFreeText{Error}->{$Count} = 1;
                 }
             }
@@ -558,8 +562,6 @@ sub _MaskNew {
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
@@ -586,8 +588,6 @@ sub _MaskNew {
             Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -609,8 +609,6 @@ sub _MaskNew {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.Expand.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',

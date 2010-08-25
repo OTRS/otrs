@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.46 2010-08-19 13:38:25 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.47 2010-08-25 11:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,58 +16,90 @@
             <input type="hidden" name="Expand" id="Expand" value="" />
             <input type="hidden" name="FormID" value="$QData{"FormID"}" />
             <fieldset>
+
 <!-- dtl:block:TicketType -->
                 <div>
 <!--<label for="TicketNumber">$Config{"Ticket::Hook"}</label>
                     <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />-->
-                    <label for="Type">$Text{"Type"}</label>
+                    <label for="Type">$Text{"Type"}:</label>
                     $Data{"TypeStrg"}
                     <div class="Clear"></div>
                 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#TypeID').bind('change', function (Event) {
+        // make sure the ticket is not yet created on queue change
+        $('input#Expand').val(3); // not sure about the meaning of "3"
+        Core.Form.Validate.DisableValidation($(this).closest('form'));
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:TicketType -->
+
 <!-- dtl:block:Queue -->
                 <div>
                     <label for="Dest" class="Mandatory">
                         <span class="Marker">*</span>
-                        $Text{"To"}
+                        $Text{"To"}:
                     </label>
-<!--<input title="Recipient" type="text" id="To" name="To" value="$QData{"To"}" size="20" />-->
                     $Data{"ToStrg"}
                     <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"To is required."}</p></div>
                     <div id="DestServerError" class="TooltipErrorMessage" ><p>$Text{"To is required."}</p></div>
+                    <div class="Clear"></div>
+                </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#Dest').bind('change', function (Event) {
         // make sure the ticket is not yet created on queue change
         $('input#Expand').val(3); // not sure about the meaning of "3"
+        Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-<!--$Text{"$Data{"Queue invalid"}"}-->
-                    <div class="Clear"></div>
-                </div>
 <!-- dtl:block:Queue -->
+
 <!-- dtl:block:TicketService -->
                 <div>
-                    <label for="Service">$Text{"Service"}</label>
-<!--<input title="Ticket service" type="text" id="Service" name="Service" value="$QData{"Service"}" size="20" />-->
+                    <label for="Service">$Text{"Service"}:</label>
                     $Data{"ServiceStrg"}
                     <div class="Clear"></div>
                 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ServiceID').bind('change', function (Event) {
+        // make sure the ticket is not yet created on queue change
+        $('input#Expand').val(3); // not sure about the meaning of "3"
+        Core.Form.Validate.DisableValidation($(this).closest('form'));
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:TicketService -->
+
 <!-- dtl:block:TicketSLA -->
                 <div>
-                    <label for="SLA">$Text{"SLA"}</label>
-<!--<input title="Service level agreement" type="text" id="SLA" name="SLA" value="$QData{"SLA"}" size="20" />-->
+                    <label for="SLA" title="$Text{"Service level agreement"}">$Text{"SLA"}:</label>
                     $Data{"SLAStrg"}
                     <div class="Clear"></div>
                 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SLAID').bind('change', function (Event) {
+        // make sure the ticket is not yet created on queue change
+        $('input#Expand').val(3); // not sure about the meaning of "3"
+        Core.Form.Validate.DisableValidation($(this).closest('form'));
+        $(this).closest('form').submit();
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:TicketSLA -->
+
                 <div>
                     <label for="Subject" class="Mandatory">
                         <span class="Marker">*</span>
-                        $Text{"Subject"}
+                        $Text{"Subject"}:
                     </label>
                     <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"}" />
                     <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"Subject is required."}</p></div>
@@ -77,7 +109,7 @@
                 <div class="RichTextHolder">
                     <label for="RichText" class="Mandatory">
                         <span class="Marker">*</span>
-                        $Text{"Text"}
+                        $Text{"Text"}:
                     </label>
                     <div class="Clear"></div>
 <!-- dtl:block:RichText -->
@@ -89,7 +121,7 @@ $Include{"CustomerRichTextEditor"}
                     <div class="Clear"></div>
                 </div>
                 <div>
-                    <label for="Attachment">$Text{"Attachment"}</label>
+                    <label for="Attachment">$Text{"Attachment"}:</label>
                     <input name="file_upload" id="Attachment" title="Attachment" type="file" size="40" />
                     <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 <!--dtl:js_on_document_complete-->
@@ -111,7 +143,7 @@ $Include{"CustomerRichTextEditor"}
                 </div>
 <!-- dtl:block:Priority -->
                 <div>
-                    <label for="PriorityID">$Text{"Priority"}</label>
+                    <label for="PriorityID">$Text{"Priority"}:</label>
                     $Data{"PriorityStrg"}
                     <div class="Clear"></div>
                 </div>
@@ -125,7 +157,7 @@ $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:FreeText -->
 <!-- dtl:block:FreeTime -->
                 <div>
-                    <label for="$QData{"TicketFreeTimeKey"}">$Text{"$Data{"TicketFreeTimeKey"}"}</label>
+                    <label for="$QData{"TicketFreeTimeKey"}">$Text{"$Data{"TicketFreeTimeKey"}"}:</label>
                     $Data{"TicketFreeTime"}
                     <div class="Clear"></div>
                 </div>
