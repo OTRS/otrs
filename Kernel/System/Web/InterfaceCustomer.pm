@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.48 2010-08-09 12:20:56 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.49 2010-08-25 08:10:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -116,7 +116,7 @@ sub Run {
     my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
-    # definde frame work params
+    # define framework params
     my $FrameworkParams = {
         Lang         => '',
         Action       => '',
@@ -128,7 +128,7 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
-    # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
+    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
@@ -183,7 +183,7 @@ sub Run {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
-    # security check Action Param (replace non word chars)
+    # security check Action Param (replace non-word chars)
     $Param{Action} =~ s/\W//g;
 
     # check request type
@@ -199,7 +199,7 @@ sub Run {
         # create AuthObject
         my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
 
-        # check submited data
+        # check submitted data
         my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
 
         # login is vailid
@@ -495,8 +495,9 @@ sub Run {
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Login',
-                    Message => "Sent password token to: \%s\", \"$UserData{UserEmail}",
+                    Title => 'Login',
+                    Message =>
+                        "Sent password reset instructions to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
                     %Param,
                 ),
             );
@@ -550,9 +551,10 @@ sub Run {
         }
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
-                Title   => 'Login',
-                Message => "Sent new password to: \%s\", \"$UserData{UserEmail}",
-                User    => $User,
+                Title => 'Login',
+                Message =>
+                    "Sent new password to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                User => $User,
             ),
         );
         return 1;
@@ -681,7 +683,7 @@ sub Run {
             Output => \$LayoutObject->CustomerLogin(
                 Title => 'Login',
                 Message =>
-                    "New account created. Sent Login-Account to \%s.\", \"$GetParams{UserEmail}",
+                    "New account created. Sent login information to \%s. Please check your mail.\", \"$GetParams{UserEmail}",
                 User => $GetParams{UserLogin},
             ),
         );
@@ -726,7 +728,7 @@ sub Run {
         return 1;
     }
 
-    # run modules if exists a version value
+    # run modules if a version value exists
     elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
 
         # check session id
@@ -924,7 +926,7 @@ sub Run {
             );
         }
 
-        # prove of concept! - create $GenericObject
+        # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %{$Self},
             %Param,
@@ -1014,6 +1016,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2010-08-09 12:20:56 $
+$Revision: 1.49 $ $Date: 2010-08-25 08:10:39 $
 
 =cut
