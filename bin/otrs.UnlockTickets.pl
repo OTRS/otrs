@@ -3,7 +3,7 @@
 # bin/otrs.UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.UnlockTickets.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.UnlockTickets.pl,v 1.5 2010-08-25 16:24:07 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,9 +30,8 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
-use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -43,6 +42,8 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::State;
 use Kernel::System::Lock;
+
+use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 
 my $Debug = 0;
 
