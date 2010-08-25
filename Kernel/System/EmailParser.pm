@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.88 2009-08-19 11:48:55 martin Exp $
+# $Id: EmailParser.pm,v 1.88.2.1 2010-08-25 15:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.88.2.1 $) [1];
 
 =head1 NAME
 
@@ -713,6 +713,14 @@ sub PartsAttachments {
                 Check => 1,
             );
         }
+
+        # check if reserved filenames file-1 or file-2 is already used
+        for my $Count ( 1 .. 2 ) {
+            if ( $PartData{Filename} eq "file-$Count" ) {
+                $PartData{Filename} = "File-$Count";
+                last;
+            }
+        }
     }
 
     # parse/get Content-Id for html email attachments
@@ -880,14 +888,14 @@ sub CheckMessageBody {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2009-08-19 11:48:55 $
+$Revision: 1.88.2.1 $ $Date: 2010-08-25 15:54:40 $
 
 =cut
