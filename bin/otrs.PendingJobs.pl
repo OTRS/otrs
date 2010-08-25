@@ -3,7 +3,7 @@
 # bin/otrs.PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PendingJobs.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.PendingJobs.pl,v 1.5 2010-08-25 11:59:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,9 +30,8 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
-use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -42,6 +41,8 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::State;
+
+use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 
 # common objects
 my %CommonObject;
@@ -197,11 +198,12 @@ if (@PendingReminderStateIDs) {
             @UserID = ( $Ticket{OwnerID} );
         }
 
-        # send the reminder to all queue subscribers, if ticket is unlocked
+        # send the reminder to all queue subscribers and owner, if ticket is unlocked
         else {
             @UserID = $CommonObject{TicketObject}->GetSubscribedUserIDsByQueueID(
                 QueueID => $Ticket{QueueID},
             );
+            push @UserID, $Ticket{OwnerID};
         }
 
         # add the responsible agent to the notification list
@@ -216,8 +218,13 @@ if (@PendingReminderStateIDs) {
         # send the reminder notification
         print STDOUT " Send reminder notification (TicketID=$TicketID)\n";
 
+        my %AlreadySent;
         USERID:
         for my $UserID (@UserID) {
+
+            # remember if reminder got already sent
+            next if $AlreadySent{$UserID};
+            $AlreadySent{$UserID} = 1;
 
             # get user data
             my %Preferences = $CommonObject{UserObject}->GetUserData(
