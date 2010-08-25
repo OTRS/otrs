@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.53 2010-08-13 18:00:31 ub Exp $
+# $Id: InterfaceAgent.pm,v 1.54 2010-08-25 08:18:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -127,7 +127,7 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
-    # check if the brwoser sends the SessionID cookie and set the SessionID-cookie
+    # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
@@ -160,7 +160,7 @@ sub Run {
     $Self->{GroupObject}   = Kernel::System::Group->new( %{$Self} );
     $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
 
-    # application and add on application common objects
+    # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('Frontend::CommonObject') };
     for my $Key ( keys %CommonObject ) {
         if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
@@ -175,7 +175,7 @@ sub Run {
         }
     }
 
-    # get common application and add on application params
+    # get common application and add-on application params
     my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('Frontend::CommonParam') };
     for my $Key ( keys %CommonObjectParam ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
@@ -504,8 +504,9 @@ sub Run {
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title   => 'Login',
-                    Message => "Sent password token to: \%s\", \"$UserData{UserEmail}",
+                    Title => 'Login',
+                    Message =>
+                        "Sent password reset instructions to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
                     %Param,
                 ),
             );
@@ -559,9 +560,10 @@ sub Run {
         }
         $LayoutObject->Print(
             Output => \$LayoutObject->Login(
-                Title   => 'Login',
-                Message => "Sent new password to: \%s\", \"$UserData{UserEmail}",
-                User    => $User,
+                Title => 'Login',
+                Message =>
+                    "Sent new password to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                User => $User,
                 %Param,
             ),
         );
@@ -606,7 +608,7 @@ sub Run {
         return;
     }
 
-    # run modules if exists a version value
+    # run modules if a version value exists
     elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
 
         # check session id
@@ -814,7 +816,7 @@ sub Run {
             );
         }
 
-        # prove of concept! - create $GenericObject
+        # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %{$Self},
             %Param,
@@ -905,6 +907,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2010-08-13 18:00:31 $
+$Revision: 1.54 $ $Date: 2010-08-25 08:18:00 $
 
 =cut
