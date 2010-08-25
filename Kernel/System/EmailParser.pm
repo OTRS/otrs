@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.97 2010-06-17 21:39:40 cr Exp $
+# $Id: EmailParser.pm,v 1.98 2010-08-25 16:07:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -732,6 +732,14 @@ sub PartsAttachments {
                 Check => 1,
             );
         }
+
+        # check if reserved filenames file-1 or file-2 is already used
+        for my $Count ( 1 .. 2 ) {
+            if ( $PartData{Filename} eq "file-$Count" ) {
+                $PartData{Filename} = "File-$Count";
+                last;
+            }
+        }
     }
 
     # parse/get Content-Id for html email attachments
@@ -740,13 +748,14 @@ sub PartsAttachments {
         chomp $PartData{ContentID};
     }
 
-    # debug
-    if ( $Self->{Debug} > 0 ) {
-        print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}'\n";
-    }
-
     # get attachment size
     $PartData{Filesize} = bytes::length( $PartData{Content} );
+
+    # debug
+    if ( $Self->{Debug} > 0 ) {
+        print STDERR
+            "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}' ($PartData{Filesize})\n";
+    }
 
     # store data
     push @{ $Self->{Attachments} }, \%PartData;
@@ -903,6 +912,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.98 $ $Date: 2010-08-25 16:07:12 $
 
 =cut
