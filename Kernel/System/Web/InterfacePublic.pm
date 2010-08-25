@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.29 2010-08-06 11:37:34 ub Exp $
+# $Id: InterfacePublic.pm,v 1.30 2010-08-25 08:25:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -113,7 +113,7 @@ sub Run {
     my $QueryString = $ENV{QUERY_STRING} || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
-    # definde frame work params
+    # define framework params
     my $FrameworkParams = {
         Lang         => '',
         Action       => '',
@@ -125,7 +125,7 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
-    # Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
+    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
@@ -157,7 +157,7 @@ sub Run {
     # create common framework objects 3/3
     $Self->{UserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
-    # application and add on application common objects
+    # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };
     for my $Key ( keys %CommonObject ) {
         if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
@@ -170,16 +170,16 @@ sub Run {
         }
     }
 
-    # get common application and add on application params
+    # get common application and add-on application params
     my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonParam') };
     for my $Key ( keys %CommonObjectParam ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
-    # security check Action Param (replace non word chars)
+    # security check Action Param (replace non-word chars)
     $Param{Action} =~ s/\W//g;
 
-    # run modules if exists a version value
+    # run modules if a version value exists
     if ( !$Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
         $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
         return 1;
@@ -205,7 +205,7 @@ sub Run {
         );
     }
 
-    # prove of concept! - create $GenericObject
+    # proof of concept! - create $GenericObject
     my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
         UserID => 1,
         %{$Self},
@@ -283,6 +283,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2010-08-06 11:37:34 $
+$Revision: 1.30 $ $Date: 2010-08-25 08:25:54 $
 
 =cut

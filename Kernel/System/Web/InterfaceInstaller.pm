@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceInstaller.pm - the installer interface file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceInstaller.pm,v 1.5 2010-08-11 18:47:44 mb Exp $
+# $Id: InterfaceInstaller.pm,v 1.6 2010-08-25 08:25:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -129,11 +129,11 @@ sub Run {
         print $Self->{LayoutObject}->Footer();
     }
 
-    # run modules if exists a version value
+    # run modules if a version value exists
     elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
         $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, %Param, );
 
-        # prove of concept! - create $GenericObject
+        # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %{$Self},
             %Param,
@@ -186,6 +186,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2010-08-11 18:47:44 $
+$Revision: 1.6 $ $Date: 2010-08-25 08:25:54 $
 
 =cut
