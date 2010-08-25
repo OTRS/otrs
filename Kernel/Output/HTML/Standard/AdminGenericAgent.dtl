@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.76 2010-08-24 17:07:26 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.77 2010-08-25 10:36:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -502,7 +502,7 @@
 
                             <label for="NewTitle">$Text{"New title"}:</label>
                             <div class="Field">
-                                <input type="text" name="NewTitle" id="NewTitle" class="W33pc" value="$QData{"New Title"}"/>
+                                <input type="text" name="NewTitle" id="NewTitle" class="W33pc" value="$QData{"NewTitle"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:NewTicketType -->
