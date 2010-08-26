@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1329 2010-08-25 16:24:07 cr Exp $
+# $Id: CHANGES,v 1.1330 2010-08-26 07:14:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-26 Fixed bug#5821 - SysConfig CSSLoader description is displayed incorrectly.
  - 2010-08-25 Fixed bug#5795 - Some .pl files in bin directory fails to load
     modules from  Kernel/cpan-lib.
  - 2010-08-25 Fixed bug#5817 Button to adjust the article-list-size contains a link on IE 8.0.
