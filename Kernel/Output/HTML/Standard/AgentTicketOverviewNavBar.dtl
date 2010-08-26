@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.37 2010-08-13 15:50:18 dz Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.38 2010-08-26 08:56:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,20 +83,20 @@
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
                         <li class="Active">
                             <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">
-                                <div class="ImageMode">
+                                <span class="ImageMode">
                                     <span class="NameShort">$Text{"$Data{"NameShort"}"}</span>
                                     <span class="NameLong">$Text{"$Data{"Name"}"}</span>
-                                </div>
+                                </span>
                             </a>
                         </li>
 <!-- dtl:block:OverviewNavBarViewModeSelected -->
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
                         <li>
                             <a class="$QData{"Name"}" name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Filter=$LQData{"Filter"};View=$LQData{"View"};$Data{"LinkFilter"}" title="$Text{"$Data{"Name"}"}">
-                                <div class="ImageMode">
+                                <span class="ImageMode">
                                     <span class="NameShort">$Text{"$Data{"NameShort"}"}</span>
                                     <span class="NameLong">$Text{"$Data{"Name"}"}</span>
-                                </div>
+                                </span>
                             </a>
                         </li>
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
