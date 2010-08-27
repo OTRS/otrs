@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.366 2010-08-26 07:14:45 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.367 2010-08-27 16:23:27 en Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3773,7 +3773,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3785,7 +3785,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentDashboard" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3814,7 +3814,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3826,7 +3826,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###PictureUpload" Required="1" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3838,7 +3838,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3853,7 +3853,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3865,7 +3865,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentBook" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3880,7 +3880,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3892,7 +3892,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentInfo" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3904,7 +3904,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSearch" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3924,7 +3924,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3955,7 +3955,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminInit" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3968,7 +3968,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -3988,7 +3988,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4008,7 +4008,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4028,7 +4028,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4063,7 +4063,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4105,7 +4105,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4125,7 +4125,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserService" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4145,7 +4145,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4165,7 +4165,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4185,7 +4185,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4205,7 +4205,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4225,7 +4225,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4245,7 +4245,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminMailAccount" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4265,7 +4265,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4285,7 +4285,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4305,7 +4305,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4325,7 +4325,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4348,7 +4348,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4368,7 +4368,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4388,7 +4388,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4408,7 +4408,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4420,7 +4420,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4432,7 +4432,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4444,7 +4444,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###PictureUpload" Required="1" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4456,7 +4456,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4495,7 +4495,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4507,7 +4507,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicRepository" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
         <Setting>
@@ -4519,7 +4519,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentStats" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration.</Description>
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
