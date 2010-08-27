@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.374 2010-08-24 09:29:57 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.375 2010-08-27 16:18:51 en Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -8272,7 +8272,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8304,7 +8304,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8326,7 +8326,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8341,7 +8341,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketPrint" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8353,7 +8353,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8365,7 +8365,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -8377,7 +8377,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
