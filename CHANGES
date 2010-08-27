@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1333 2010-08-27 19:10:46 mb Exp $
+# $Id: CHANGES,v 1.1334 2010-08-27 20:43:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-27 Fixed bug#5833 - The text "Attachment" is above the paper-clip icon in the CustomerTicketZoom.
  - 2010-08-27 Fixed bug#5831 - English language typo: "doesn't exists" should
     be "doesn't exist".
  - 2010-08-27 Updated Polish translation file, thanks to Janek Rumianek!
