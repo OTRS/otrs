@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.21 2010-08-24 17:33:25 en Exp $
+# $Id: Layout.pm,v 1.176.2.22 2010-08-27 06:32:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.21 $) [1];
+$VERSION = qw($Revision: 1.176.2.22 $) [1];
 
 =head1 NAME
 
@@ -240,6 +240,11 @@ sub new {
 
             # on iphone disable rich text editor
             if ( $HttpUserAgent =~ /iphone\sos/ ) {
+                $Self->{BrowserRichText} = 0;
+            }
+
+            # on ipad disable rich text editor
+            elsif ( $HttpUserAgent =~ /ipad;\s/ ) {
                 $Self->{BrowserRichText} = 0;
             }
 
@@ -4427,6 +4432,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.176.2.21 $ $Date: 2010-08-24 17:33:25 $
+$Revision: 1.176.2.22 $ $Date: 2010-08-27 06:32:53 $
 
 =cut
