@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1332 2010-08-27 06:34:01 martin Exp $
+# $Id: CHANGES,v 1.1333 2010-08-27 19:10:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,11 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-27 Fixed bug#5831 - English language typo: "doesn't exists" should
+    be "doesn't exist".
+ - 2010-08-27 Updated Polish translation file, thanks to Janek Rumianek!
+ - 2010-08-25 Fixed bug#5805 - Customer interface: creation of a new ticket
+    requires two clicks on the submit button.
  - 2010-08-26 Fixed bug#5819 - Queue-View on size "S" is missing  the link to size "L".
  - 2010-08-26 Fixed bug#5821 - SysConfig CSSLoader description is displayed incorrectly.
  - 2010-08-25 Fixed bug#5795 - Some .pl files in bin directory fails to load
@@ -17,6 +22,7 @@
  - 2010-08-25 Fixed bug#5817 Button to adjust the article-list-size contains a link on IE 8.0.
  - 2010-08-25 Fixed bug#5805 - Customer interface: creation of a new ticket
     requires two clicks on the submit button.
+>>>>>>> 1.1332
  - 2010-08-25 Fixed bug#5820 - Ticket owner get no email reminder reached
     notification if ticket is unlocked and owner is not subscribed to queue.
  - 2010-08-25 Fixed bug#5815 - Customer interface field validation takes place before submitting.
