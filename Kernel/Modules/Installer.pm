@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.77 2010-07-02 11:59:21 mn Exp $
+# $Id: Installer.pm,v 1.78 2010-08-27 19:07:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -218,7 +218,7 @@ sub Run {
             %Result = (
                 Successful => 0,
                 Message    => 'Unknown Check!',
-                Comment    => "The called check '$CheckMode' doesn't exists!"
+                Comment    => "The check '$CheckMode' doesn't exist!"
             );
         }
 

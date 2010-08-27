@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.57 2010-06-17 21:39:40 cr Exp $
+# $Id: LinkObject.pm,v 1.58 2010-08-27 19:07:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -170,7 +170,7 @@ sub PossibleTypesList {
 
         next POSSIBLELINK if $TypeList{$Type};
 
-        # remove entry from list if type doesn't exists
+        # remove entry from list if type doesn't exist
         delete $PossibleLinkList{$PossibleLink};
     }
 
@@ -325,7 +325,7 @@ sub PossibleLinkList {
     POSSIBLELINK:
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
-        # check if object backends exists
+        # check if object backends exist
         ARGUMENT:
         for my $Argument (qw(Object1 Object2)) {
 
@@ -361,7 +361,7 @@ sub PossibleLinkList {
             Message  => "The LinkType '$Type' is invalid in SysConfig (LinkObject::PossibleLink)!",
         );
 
-        # remove entry from list if type doesn't exists
+        # remove entry from list if type doesn't exist
         delete $PossibleLinkList{$PossibleLink};
     }
 
@@ -1997,7 +1997,7 @@ sub TypeGroupList {
                     "The LinkType '$Type' is invalid in SysConfig (LinkObject::TypeGroup)!",
             );
 
-            # remove entry from list if type doesn't exists
+            # remove entry from list if type doesn't exist
             delete $TypeGroupList{$TypeGroup};
 
             next TYPEGROUP;
@@ -2405,6 +2405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.58 $ $Date: 2010-08-27 19:07:11 $
 
 =cut

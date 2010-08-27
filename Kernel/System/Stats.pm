@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.98 2010-07-19 12:36:37 ub Exp $
+# $Id: Stats.pm,v 1.99 2010-08-27 19:07:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1600,7 +1600,7 @@ sub Import {
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Object $StatsXML->{Object}->[1]->{Content} doesn't exists!"
+            Message  => "Object $StatsXML->{Object}->[1]->{Content} doesn't exist!"
         );
         return;
     }
@@ -3300,6 +3300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2010-07-19 12:36:37 $
+$Revision: 1.99 $ $Date: 2010-08-27 19:07:11 $
 
 =cut

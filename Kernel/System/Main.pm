@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.55 2010-07-21 11:44:54 bes Exp $
+# $Id: Main.pm,v 1.56 2010-08-27 19:07:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -883,7 +883,7 @@ sub DirectoryRead {
     # if directory doesn't exists stop
     if ( !-d $Param{Directory} && !$Param{Silent} ) {
         $Self->{LogObject}->Log(
-            Message  => "Directory doesn't exists: $Param{Directory}: $!",
+            Message  => "Directory doesn't exist: $Param{Directory}: $!",
             Priority => 'error',
         );
         return;
@@ -966,6 +966,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2010-07-21 11:44:54 $
+$Revision: 1.56 $ $Date: 2010-08-27 19:07:11 $
 
 =cut
