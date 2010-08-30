@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.93 2010-08-30 19:02:10 en Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.94 2010-08-30 19:07:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@
                             </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTMLLoad -->
-                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};"></iframe>
+                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
                             <iframe src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
@@ -140,7 +140,7 @@
 <!-- dtl:block:RichText-->
                     $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage">
                         <p>$Text{"A message should have a body!"}</p>
                     </div>
