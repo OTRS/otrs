@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.48 2010-08-26 09:13:30 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.49 2010-08-30 14:17:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -184,14 +184,19 @@
                                             <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                                             <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>
                                             <input type="hidden" name="ReplyAll" value="$QData{"ReplyAll"}"/>
-                                            <label for="ResponseID" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                                            <label for="ResponseID$QData{"ArticleID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
                                             $Data{"StandardResponsesStrg"}
                                         </form>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
-        var url = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(url, 'Action');
+        var URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'Action');
+    });
+    // make sure this click event does not bubble up to the table row and execute its click handler
+    $('#$QData{"FormID"} select[name=ResponseID]').bind('click', function (Event) {
+        Event.stopPropagation();
+        return false;
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
