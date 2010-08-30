@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.92 2010-08-27 17:41:25 en Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.93 2010-08-30 19:02:10 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@
                             </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTMLLoad -->
-                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
                             <iframe src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
@@ -140,7 +140,13 @@
 <!-- dtl:block:RichText-->
                     $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage">
+                        <p>$Text{"A message should have a body!"}</p>
+                    </div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage">
+                        <p>$Text{"The text is required."}</p>
+                    </div>
                     <fieldset class="DontPrint">
                         <div id="AttachmentHolder">
                             <label for="Attachment">$Text{"Attachment"}:</label>
@@ -159,7 +165,14 @@
 <!-- dtl:block:FollowUpAttachment -->
                             <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
                                 $QData{"Filename"}
-                                <button type="submit" title="$Text{"delete"} $QData{"Filename"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                                <button type="submit" title="$Text{"Delete"} $QData{"Filename"}" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#AttachmentDelete$QData{"FileID"}').bind('click', function () {
+        Core.Form.Validate.DisableValidation($('#AttachmentDelete$QData{"FileID"}').closest('form'));
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                             </div>
 <!-- dtl:block:FollowUpAttachment -->
                         </div>
