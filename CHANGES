@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1336 2010-08-30 11:05:13 mg Exp $
+# $Id: CHANGES,v 1.1337 2010-08-30 12:36:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-30 Updated Chinese translation file, thanks to Never Min!
  - 2010-08-30 Fixed bug#5743 - Popup blocker should be detected.
  - 2010-08-30 Fixed bug#5786 - -Reply- dropdown menu not reverting to initial state then closing reply
     window.

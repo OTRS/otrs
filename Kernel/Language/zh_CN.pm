@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/zh_CN.pm -  provides Chinese Simple language translation
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
-# Copyright (C) 2008-2009 Never Min <never at qnofae.org>
+# Copyright (C) 2008-2010 Never Min <never at qnofae.org>
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>,
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.76 2010-07-30 13:34:50 martin Exp $
+# $Id: zh_CN.pm,v 1.77 2010-08-30 12:36:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -199,11 +199,11 @@ sub Data {
         'Added!' => '已增加!',
         'Category' => '目录',
         'Viewer' => '查看器',
-        'Expand' => '扩展',
-        'Small' => '',
-        'Medium' => '',
-        'Large' => '',
-        'Date picker' => '',
+        'Expand' => '展开',
+        'Small' => '简洁',
+        'Medium' => '基本',
+        'Large' => '详细',
+        'Date picker' => '日期选择器',
         'New message' => '新消息',
         'New message!' => '新消息!',
         'Please answer this ticket(s) to get back to the normal queue view!' => '请先回复该 Ticket，然后回到正常队列视图!',
@@ -211,8 +211,8 @@ sub Data {
         'You have %s new message(s)!' => '您有 %s 条新消息!',
         'You have %s reminder ticket(s)!' => '您有 %s 个提醒!',
         'The recommended charset for your language is %s!' => '建议您所用语言的字符集 %s!',
-        'Change your password.' => '',
-        'Please activate %s first!' => '',
+        'Change your password.' => '改变你的密码.',
+        'Please activate %s first!' => '请首选激活 %s',
         'No suggestions' => '无建议',
         'Word' => '字',
         'Ignore' => '忽略',
@@ -234,7 +234,7 @@ sub Data {
         'reverse' => '后退',
         'Facility' => '类别',
         'Timeover' => '结束',
-        'Time Zone' => '',
+        'Time Zone' => '时区',
         'Pending till' => '等待至',
         'Don\'t work with UserID 1 (System account)! Create new users!' => '不要使用 UserID 1 (系统账号)! 请创建一个新的用户!',
         'Dispatching by email To: field.' => '分派邮件到: 域.',
@@ -247,10 +247,10 @@ sub Data {
         '(Click here to add)' => '(点击此处增加)',
         'Preview' => '预览',
         'Package not correctly deployed! You should reinstall the Package again!' => '软件包展开不正常! 您需要再一次重新安装这个软件包',
-        '%s is not writable!' => '',
-        'Cannot create %s!' => '',
+        '%s is not writable!' => '%s 是不可写的!',
+        'Cannot create %s!' => '无法创建 %s!',
         'Added User "%s"' => '增加用户 "%s".',
-        'Role added!' => '',
+        'Role added!' => '角色已增加!',
         'Contract' => '合同',
         'Online Customer: %s' => '在线客户: %s',
         'Online Agent: %s' => '在线技术支持人员：%s',
@@ -1652,28 +1652,28 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => '驱动方',
-        'About OTRS' => '',
-        'Help' => '',
+        'About OTRS' => '关于 OTRS',
+        'Help' => '帮助',
 
         # Template: CustomerHeader
 
         # Template: CustomerLogin
         'Login' => '登录',
-        'Your User Name' => '',
-        'Your Password' => '',
-        'Forgot password?' => '',
-        'Not yet registered?' => '',
-        'Sign up now' => '',
+        'Your User Name' => '你的用户名',
+        'Your Password' => '你的密码',
+        'Forgot password?' => '忘记密码了?',
+        'Not yet registered?' => '还没有注册?',
+        'Sign up now' => '现在去注册',
         'Request new password' => '设置新密码',
-        'A new password will be sent to your e-mail adress.' => '',
+        'A new password will be sent to your e-mail adress.' => '一个新密码已经发送到你的邮箱',
         'Create Account' => '创建帐户',
-        'How we should adress you' => '',
-        'Your First Name' => '',
-        'Your Last Name' => '',
-        'The User Name you wish to have' => '',
+        'How we should adress you' => '我们应该如何称呼你?',
+        'Your First Name' => '名字',
+        'Your Last Name' => '姓氏',
+        'The User Name you wish to have' => '你想以什么样的名字登录到系统',
 
         # Template: CustomerNavigationBar
-        'Edit personal preferences' => '',
+        'Edit personal preferences' => '编辑个人喜好',
 
         # Template: CustomerPreferences
 
@@ -1688,127 +1688,127 @@ sub Data {
 
         # Template: CustomerTicketSearch
         'Profile' => '搜索约束条件',
-        'e. g. 10*5155 or 105658*' => '',
-        'Customer ID' => '',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
+        'e. g. 10*5155 or 105658*' => '例如: 10*5155 或 105658*',
+        'Customer ID' => '客户编号',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '在 Ticket 里进行全文搜索 (例如: "John*n" 或 "Will*")',
         'Recipient' => '收件人',
         'Carbon Copy' => '',
         'Time restrictions' => '',
         'Only tickets created' => '',
         'Only tickets created between' => '',
         'Search-Profile as Template?' => '',
-        'Save as Template?' => '',
-        'Template Name' => '',
-        'Output to' => '',
+        'Save as Template?' => '保存为模板',
+        'Template Name' => '模板名称',
+        'Output to' => '输出为',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-        'Search Results for' => '',
-        'Remove this Search Term.' => '',
+        'Search Results for' => '搜索结果',
+        'Remove this Search Term.' => '删除此搜索关键词',
 
         # Template: CustomerTicketZoom
-        'Loading' => '',
-        'Reply' => '',
-        'delete' => '',
+        'Loading' => '装载',
+        'Reply' => '回复',
+        'delete' => '删除',
 
         # Template: CustomerWarning
 
         # Template: Datepicker
-        'Previous' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
-        'Fr' => '',
-        'Sa' => '',
-        'Open date selection' => '',
+        'Previous' => '往前',
+        'Sunday' => '星期天',
+        'Monday' => '星期一',
+        'Tuesday' => '星期二',
+        'Wednesday' => '星期三',
+        'Thursday' => '星期四',
+        'Friday' => '星期五',
+        'Saturday' => '星期六',
+        'Su' => '日',
+        'Mo' => '一',
+        'Tu' => '二',
+        'We' => '三',
+        'Th' => '四',
+        'Fr' => '五',
+        'Sa' => '六',
+        'Open date selection' => '打开日历',
 
         # Template: Error
-        'Oops! An Error occurred.' => '',
-        'Error Message' => '',
-        'You can' => '',
-        'Send a bugreport' => '',
-        'go back to the previous page' => '',
-        'Error Details' => '',
+        'Oops! An Error occurred.' => '糟, 发生一个错误.',
+        'Error Message' => '出错信息',
+        'You can' => '你可以',
+        'Send a bugreport' => '发送一个错误报告',
+        'go back to the previous page' => '返回上一页',
+        'Error Details' => '详细错误信息',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => '返回页首',
 
         # Template: FooterJS
-        'One or more errors occured!' => '',
-        'If you now leave this page, all open popup windows will be closed, too!' => '',
-        'Close this dialog' => '',
+        'One or more errors occured!' => '发生了一个或多个错误!',
+        'If you now leave this page, all open popup windows will be closed, too!' => '如果你现在离开该页, 所有弹出的窗口也随之关闭!',
+        'Close this dialog' => '关闭该对话',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
 
         # Template: Header
-        'You are logged in as' => '',
+        'You are logged in as' => '您已登录为',
 
         # Template: HeaderSmall
 
         # Template: Installer
-        'JavaScript not available' => '',
-        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
+        'JavaScript not available' => 'JavaScript 没有启用',
+        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '要继续使用 OTRS，请打开浏览器的 JavaScript 功能.',
         'Welcome to %s' => '欢迎使用 %s',
-        'Database check successful.' => '',
-        'Mail check successful.' => '',
-        'Error in the mail settings. Please correct and try again.' => '',
+        'Database check successful.' => '数据库检查完成.',
+        'Mail check successful.' => '邮件配置检查完成',
+        'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请重新修正.',
 
         # Template: InstallerConfigureMail
-        'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
-        'Select outbound mail type.' => '',
-        'SMTP host' => '',
-        'SMTP host.' => '',
-        'SMTP authentication' => '',
-        'Does your SMTP host need authentication?' => '',
-        'SMTP auth user' => '',
-        'Username for SMTP auth.' => '',
-        'SMTP auth password' => '',
-        'Password for SMTP auth.' => '',
-        'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
-        'Select inbound mail type.' => '',
-        'Inbound mail host' => '',
-        'Inbound mail host.' => '',
-        'Inbound mail user' => '',
-        'User for inbound mail.' => '',
-        'Inbound mail password' => '',
-        'Password for inbound mail.' => '',
-        'Result of mail configuration check' => '',
-        'Check mail configuration' => '',
-        'Skip this step' => '',
+        'Configure Outbound Mail' => '出站邮件配置',
+        'Outbound mail type' => '收件邮件服务器类型',
+        'Select outbound mail type.' => '请选择邮件服务器类型.',
+        'SMTP host' => '服务地址',
+        'SMTP host.' => '发送邮件服务器地址',
+        'SMTP authentication' => 'SMTP 认证',
+        'Does your SMTP host need authentication?' => '请确定你的邮件服务器是否需要验证寄件者身份',
+        'SMTP auth user' => '用户名',
+        'Username for SMTP auth.' => '填入在 SMTP 服务器的用户名',
+        'SMTP auth password' => '密码',
+        'Password for SMTP auth.' => '填入在 SMTP 服务器的密码',
+        'Configure Inbound Mail' => '入站邮件配置',
+        'Inbound mail type' => '邮件服务器类型',
+        'Select inbound mail type.' => '请选择邮件服务器类型',
+        'Inbound mail host' => '寄件服务器地址',
+        'Inbound mail host.' => '收件邮件服务器地址',
+        'Inbound mail user' => '用户名',
+        'User for inbound mail.' => '填入收件服务器的用户名',
+        'Inbound mail password' => '密码',
+        'Password for inbound mail.' => '填入收件服务器的密码',
+        'Result of mail configuration check' => '验证邮件服务器配置结果',
+        'Check mail configuration' => '检查我的邮件配置',
+        'Skip this step' => '暂时跳过这一步',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'False' => '出错',
 
         # Template: InstallerDBStart
-        'Admin-User' => '管理员',
+        'Admin-User' => '数据库管理员',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
-        'Admin-password' => '',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on other database systems, please refer to the file README.database.' => '',
+        'Admin-password' => '管理员密码',
+        'Currently only MySQL is supported in the web installer.' => 'Web 安装向导目前仅支持 MySQL。',
+        'If you want to install OTRS on other database systems, please refer to the file README.database.' => '如果你想在其它的数据系统上安装 OTRS, 请参考 README.database 文件.',
         'Database-User' => '数据库用户名称',
         'New' => '新',
-        'A new database user with limited rights will be created for this OTRS system.' => '',
+        'A new database user with limited rights will be created for this OTRS system.' => '已经为 OTRS 系统创建一个新的数据库用户',
         'default \'hot\'' => '默认密码 \'hot\'',
         'DB connect host' => '数据连接主机',
         'Database' => '数据库',
-        'Check database settings' => '',
-        'Result of database check' => '',
+        'Check database settings' => '测试数据库设置',
+        'Result of database check' => '数据库安装检查结果',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '为了能够使用OTRS, 您必须以root身份输入以下行在命令行中(Terminal/Shell).',
@@ -1825,44 +1825,44 @@ sub Data {
 
         # Template: InstallerSystem
         'SystemID' => '系统ID',
-        'The identify of the system. Each ticket number and each http session id starts with this number.' => '',
+        'The identify of the system. Each ticket number and each http session id starts with this number.' => '这是系统的标识符. 每一个 Ticket 和 http 会话都使用此数字.',
         'System FQDN' => '系统域名',
-        'Full qualified domain name of your system.' => '',
+        'Full qualified domain name of your system.' => '为系统指定一个域名(FQDN)',
         'AdminEmail' => '管理员地址',
-        'Email of the system admin.' => '',
+        'Email of the system admin.' => '管理员的邮件地址',
         'Organization' => '组织',
         'Log' => '日志',
         'LogModule' => '日志模块',
         'Used log backend.' => '',
-        'LogFile' => '',
+        'LogFile' => '日志文件',
         'Logfile just needed for File-LogModule!' => '',
         'Webfrontend' => 'Web 前端',
-        'Default language' => '',
-        'Used default language.' => '',
+        'Default language' => '默认语言',
+        'Used default language.' => '指定默认语言.',
         'CheckMXRecord' => '检查 MX 记录',
-        'Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behind a dial-up line!' => '',
+        'Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behind a dial-up line!' => '检查 MX 记录可校验邮件地址的正确性, 如果你的 OTRS 系统是使用拔号方式接入互联网, 请不要打开此功能!',
 
         # Template: LinkObject
-        'LinkType' => '',
-        'Ticket#' => '',
+        'LinkType' => '连接类型',
+        'Ticket#' => 'Ticket 号码',
 
         # Template: Login
-        'JavaScript Not Available' => '',
-        'In order to experience OTRS, you\'ll need to enable Javascript in your browser.' => '',
-        'Browser Warning' => '',
-        'The browser you are using is too old.' => '',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' => '',
-        'Please see the documentation or ask your admin for further information.' => '',
-        'Have you lost your password?' => '',
-        'Request New Password' => '',
-        'Back to login' => '',
+        'JavaScript Not Available' => '没有启用 JavaScript',
+        'In order to experience OTRS, you\'ll need to enable Javascript in your browser.' => '如果你想继续体验OTRS， 你需要启用浏览器的 JavaScript 功能',
+        'Browser Warning' => '提示',
+        'The browser you are using is too old.' => '你使用的游览器太旧了.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' => 'OTRS 已确认下列的游览器可正常显示, 请挑一个你喜欢用的升级之.',
+        'Please see the documentation or ask your admin for further information.' => '有关进一步的信息, 请向你的管理询问或参考相关文档.',
+        'Have you lost your password?' => '你的密码忘记了?',
+        'Request New Password' => '请求新密码',
+        'Back to login' => '重新登录',
 
         # Template: Motd
-        'Message of the Day' => '',
+        'Message of the Day' => '今日消息',
 
         # Template: NoPermission
-        'Insufficient Rights' => '',
-        'Back to the previous page' => '',
+        'Insufficient Rights' => '没有足够的权限',
+        'Back to the previous page' => '返回上一页',
 
         # Template: Notify
 
@@ -1888,7 +1888,7 @@ sub Data {
         'Counter' => '计数器',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => '返回上一页',
 
         # SysConfig
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' => '',
