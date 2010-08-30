@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.10 2010-08-19 11:20:37 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.11 2010-08-30 11:01:25 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -26,6 +26,9 @@ Core.UI.Dialog = (function (TargetNS) {
      * check dependencies first
      */
     if (!Core.Debug.CheckDependency('Core.UI.Dialog', '$([]).draggable', 'jQuery UI dialog')) {
+        return;
+    }
+    if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.Config', 'Core.Config')) {
         return;
     }
 
