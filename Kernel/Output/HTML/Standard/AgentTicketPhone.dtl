@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.111 2010-08-17 12:17:01 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.112 2010-08-30 22:12:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,10 @@ $Include{"AgentCustomerSearch"}
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="StoreNew"/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-    <input type="hidden" name="ExpandCustomerName" value="0"/>
+    <input type="hidden" name="ExpandCustomerName" id="ExpandCustomerName" value="0"/>
     <input type="hidden" name="OwnerAll" id="OwnerAll" value="$QData{"OwnerAll"}"/>
     <input type="hidden" name="ResponsibleAll" id="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
-    <input type="hidden" name="PreSelectedCustomerUser" value=""/>
+    <input type="hidden" name="PreSelectedCustomerUser" id="PreSelectedCustomerUser" value=""/>
     <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
