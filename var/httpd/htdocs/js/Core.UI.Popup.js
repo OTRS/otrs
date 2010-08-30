@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.3 2010-07-21 23:02:04 cg Exp $
+// $Id: Core.UI.Popup.js,v 1.4 2010-08-30 11:05:15 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,10 @@ Core.UI.Popup = (function (TargetNS) {
         PopupProfiles,
         PopupDefaultProfile = 'Default',
         RegisterPopupTimeOut = 1000;
+
+    if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.Config', 'Core.Config')) {
+        return;
+    }
 
     PopupProfiles = {
         'Default': "dependent=yes,height=500,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
@@ -195,7 +199,7 @@ Core.UI.Popup = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.OpenPopup = function (URL, Type, Profile) {
-        var PopupObject, PopupProfile;
+        var PopupObject, PopupProfile, NewWindow;
         CheckOpenPopups();
         if (URL) {
             PopupObject = GetPopupObjectByType(Type);
@@ -203,8 +207,18 @@ Core.UI.Popup = (function (TargetNS) {
                 TargetNS.ClosePopup(PopupObject);
             }
             PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
-            OpenPopups[Type] = window.open(URL, Type, PopupProfiles[PopupProfile]);
-            OpenPopups[Type].WindowType = Type;
+            NewWindow = window.open(URL, Type, PopupProfiles[PopupProfile]);
+
+            // check for popup blockers.
+            // currently, popup windows cannot easily be detected in chrome, because it will
+            //      load the entire content in an invisible window.
+            if (!NewWindow ||  NewWindow.closed || typeof NewWindow.closed === 'undefined') {
+                window.alert(Core.Config.Get('PopupBlockerMsg'));
+            }
+            else {
+                OpenPopups[Type] = NewWindow;
+                OpenPopups[Type].WindowType = Type;
+            }
         }
     };
 

@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.31 2010-08-24 09:28:30 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.32 2010-08-30 11:05:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,8 @@
             AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
             ValidateServerErrorTitle: '$JSText{"Error"}',
             ValidateServerErrorMsg: '$JSText{"One or more errors occured!"}',
-            DialogCloseMsg: '$JSText{"Close this dialog"}'
+            DialogCloseMsg: '$JSText{"Close this dialog"}',
+            PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
         });
 
         Core.Customer.Init();
