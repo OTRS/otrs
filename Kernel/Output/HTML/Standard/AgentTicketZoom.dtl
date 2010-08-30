@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.141 2010-08-25 15:27:34 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.142 2010-08-30 11:02:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -485,8 +485,14 @@ $Data{"ArticleItems"}
 <!-- dtl:block:ArticleReplyOnLoad -->
 <script type="text/javascript">//<![CDATA[
     $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
-        var url = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(url, 'Action');
+        var URL;
+
+        if ($(this).val() > 0) {
+            URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+            Core.UI.Popup.OpenPopup(URL, 'Action');
+            // reset the select box so that it can be used again from the same window
+            $(this).val('0');
+        }
     });
 //]]></script>
 <!-- dtl:block:ArticleReplyOnLoad -->
