@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.16 2010-04-23 18:02:17 mp Exp $
+# $Id: AdminMailAccount.pm,v 1.17 2010-08-30 21:49:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,11 +89,15 @@ sub Run {
 
         my ( $Self, %Param ) = @_;
 
+        # get valid list
+        my %ValidList        = $Self->{ValidObject}->ValidList();
+        my %ValidListReverse = reverse %ValidList;
+
         # build ValidID string
         $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
-            Data       => { $Self->{ValidObject}->ValidList(), },
+            Data       => \%ValidList,
             Name       => 'ValidID',
-            SelectedID => $Param{ValidID},
+            SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         );
 
         $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
@@ -282,11 +286,15 @@ sub Run {
 sub _MaskUpdate {
     my ( $Self, %Param ) = @_;
 
+    # get valid list
+    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
     # build ValidID string
     $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{ValidObject}->ValidList(), },
+        Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $Param{ValidID},
+        SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
     $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
