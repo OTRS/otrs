@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1339 2010-08-30 17:01:25 en Exp $
+# $Id: CHANGES,v 1.1340 2010-08-30 21:47:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-30 Fixed bug#5824 - "Cancel & close window" link do nothing on Bulk operation at Tickets Status.
  - 2010-08-30 Fixed bug#5829 - The body of the most recent article is not shown in the CustomerTicketZoom.
  - 2010-08-30 Fixed bug#5765 - reply buttons in queue view produce perl error.
  - 2010-08-30 Updated Chinese translation file, thanks to Never Min!
