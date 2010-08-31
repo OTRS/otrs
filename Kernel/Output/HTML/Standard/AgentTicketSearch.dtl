@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.36 2010-08-06 14:53:51 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.37 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -131,7 +131,7 @@
             $Data{"ServicesStrg"}
         </div>
         <div class="Clear"></div>
-        <label for="SLAIDs">$Text{"SLA"}</label>
+        <label for="SLAIDs">$Text{"Service Level Agreement"}</label>
         <div class="Field">
             $Data{"SLAsStrg"}
         </div>

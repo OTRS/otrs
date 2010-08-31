@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.77 2010-08-25 10:36:26 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.78 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -246,7 +246,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="SLAIDs">$Text{"SLA"}:</label>
+                            <label for="SLAIDs">$Text{"Service Level Agreement"}:</label>
                             <div class="Field">
                                 $Data{"SLAsStrg"}
                             </div>
@@ -452,7 +452,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewSLAID">$Text{"Set new SLA"}:</label>
+                            <label for="NewSLAID">$Text{"Set new Service Level Agreement"}:</label>
                             <div class="Field">
                                 $Data{"NewSLAsStrg"}
                             </div>

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.143 2010-08-30 11:43:25 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.144 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                        <label>$Text{"SLA"}:</label>
+                        <label>$Text{"Service Level Agreement"}:</label>
                         <p class="Value" title="$QData{"SLA"}">$QData{"SLA","18"}</p>
                         <div class="Clear"></div>
 <!-- dtl:block:SLA -->

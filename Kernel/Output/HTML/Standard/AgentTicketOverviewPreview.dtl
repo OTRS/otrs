@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.49 2010-08-30 14:17:47 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.50 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@
                             </td>
                             <td>
 <!-- dtl:block:SLA -->
-                                <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
+                                <label>$Text{"Service Level Agreement"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
 <!-- dtl:block:SLA -->
                             </td>
                         </tr>

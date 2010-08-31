@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.28 2010-08-12 11:09:57 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.29 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,7 +114,7 @@
 <!-- dtl:block:Service -->
 
 <!-- dtl:block:SLA -->
-                <label for="SLAID">$Text{"SLA"}:</label>
+                <label for="SLAID">$Text{"Service Level Agreement"}:</label>
                 <div class="Field">
                     $Data{"SLAStrg"}
 <!--dtl:js_on_document_complete-->

@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.41 2010-08-26 09:13:30 mg Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.42 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,7 +168,7 @@
                             <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","26"}</div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                            <label>$Text{"SLA"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
+                            <label>$Text{"Service Level Agreement"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
 <!-- dtl:block:SLA -->
                         </td>
 #                        <td>

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.112 2010-08-30 22:12:45 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.113 2010-08-31 17:11:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,7 +110,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:TicketService -->
 
 <!-- dtl:block:TicketSLA -->
-                    <label for="SLAID">$Text{"SLA"}:</label>
+                    <label for="SLAID">$Text{"Service Level Agreement"}:</label>
                     <div class="Field">
                         $Data{"SLAStrg"}
 <!--dtl:js_on_document_complete-->
