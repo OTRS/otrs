@@ -2,7 +2,7 @@
 # scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.4 2010-08-17 21:56:29 ub Exp $
+# $Id: JSON.t,v 1.5 2010-08-31 09:26:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,16 @@ my @Tests = (
         },
         Result => '{"Key1":"Value1","Key2":42,"Key3":"Another Value"}',
         Name   => 'JSON - simple'
+    },
+    {
+        Input  => Kernel::System::JSON::True(),
+        Result => 'true',
+        Name   => 'JSON - bool true'
+    },
+    {
+        Input  => Kernel::System::JSON::False(),
+        Result => 'false',
+        Name   => 'JSON - bool false'
     },
 );
 

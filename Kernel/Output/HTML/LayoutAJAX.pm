@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.27 2010-08-19 16:47:21 en Exp $
+# $Id: LayoutAJAX.pm,v 1.28 2010-08-31 09:26:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =item BuildSelectionJSON()
 
@@ -88,12 +88,12 @@ sub BuildSelectionJSON {
                     if ( defined $Row->{Value} ) {
                         $Value = $Row->{Value};
                     }
-                    my $SelectedDisabled = 'false';
+                    my $SelectedDisabled = Kernel::System::JSON::False();
                     if ( $Row->{Selected} ) {
-                        $SelectedDisabled = 'true';
+                        $SelectedDisabled = Kernel::System::JSON::True();
                     }
                     elsif ( $Row->{Disabled} ) {
-                        $SelectedDisabled = 'false';
+                        $SelectedDisabled = Kernel::System::JSON::False();
                     }
 
                     push @DataArray, [ $Key, $Value, $SelectedDisabled, $SelectedDisabled ];
