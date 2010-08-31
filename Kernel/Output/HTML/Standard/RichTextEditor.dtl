@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.37 2010-08-17 08:44:04 mg Exp $
+# $Id: RichTextEditor.dtl,v 1.38 2010-08-31 11:27:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@
 <script type="text/javascript">//<![CDATA[
     Core.Config.Set('RichText.Width', '$Config{"Frontend::RichTextWidth"}');
     Core.Config.Set('RichText.Height', '$Config{"Frontend::RichTextHeight"}');
-    Core.Config.Set('RichText.BasePath', '$Config{"Frontend::RichTextPath"}');
     Core.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
     Core.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
     Core.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
