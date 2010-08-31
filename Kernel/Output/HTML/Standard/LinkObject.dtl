@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.22 2010-08-21 18:24:30 cr Exp $
+# $Id: LinkObject.dtl,v 1.23 2010-08-31 13:08:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,29 +43,17 @@ $Text{"none"}
 <!-- dtl:block:TableSimpleNone -->
 
 <!-- dtl:block:TableSimple -->
-<table class="DataTable">
-    <thead>
-        <tr>
-            <th>$Text{"LinkType"}</th>
-            <th>$Text{"Object#"}</th>
-        </tr>
-    </thead>
-
-    <tbody>
 <!-- dtl:block:TableSimpleType -->
-        <tr>
-            <td>
-                $Text{"$Data{"LinkTypeName"}"}
-            </td>
-            <td>
+<h3 class="SpacingTopSmall">
+    $Text{"$Data{"LinkTypeName"}"}
+</h3>
+<ul class="Tablelike SpacingTopSmall">
+    <li class="Header">$Text{"Object#"}</li>
 <!-- dtl:block:TableSimpleTypeRow -->
-                $Data{"Content"}
+    <li>$Data{"Content"}</li>
 <!-- dtl:block:TableSimpleTypeRow -->
-            </td>
-        </tr>
+</ul>
 <!-- dtl:block:TableSimpleType -->
-    </tbody>
-</table>
 <!-- dtl:block:TableSimple -->
 
 <!-- dtl:block:TableComplex -->
