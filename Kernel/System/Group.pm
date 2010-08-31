@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Group.pm - All Groups related function should be here eventually
+# Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.81 2010-06-17 21:39:40 cr Exp $
+# $Id: Group.pm,v 1.82 2010-08-31 15:31:34 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,15 +18,15 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
-Kernel::System::Group - group lib
+Kernel::System::Group - group and roles lib
 
 =head1 SYNOPSIS
 
-All group functions. E. g. to add groups or to get a member list of a group.
+All group and roles functions. E. g. to add groups or to get a member list of a group.
 
 =head1 PUBLIC INTERFACE
 
@@ -1652,6 +1652,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.82 $ $Date: 2010-08-31 15:31:34 $
 
 =cut
