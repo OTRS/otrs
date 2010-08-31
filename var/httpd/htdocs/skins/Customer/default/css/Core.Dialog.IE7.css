@@ -1,0 +1,37 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Customer Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Dialogs
+ * @css-for     IE7
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Dialog
+ */
+.Dialog > .Header {
+    float: left;
+    width: 100%;
+    position: absolute;
+}
+
+.Dialog > .Content > .ContentFooter {
+    float: left;
+    width: 100%;
+    position: absolute;
+}
+
+.Dialog > .Footer {
+    float: left;
+    width: 100%;
+    position: absolute;
+}
+
+} /* end @media */
