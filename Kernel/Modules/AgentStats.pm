@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.96 2010-07-14 14:23:42 mn Exp $
+# $Id: AgentStats.pm,v 1.97 2010-08-31 15:25:05 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,12 @@ use strict;
 use warnings;
 
 use List::Util qw( first );
+
 use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +173,7 @@ sub Run {
         # permission check
         $Self->{AccessRo} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
-        # get statID
+        # get StatID
         my $StatID = $Self->{ParamObject}->GetParam( Param => 'StatID' );
         if ( !$StatID ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'View: Get no StatID!' );
@@ -1236,7 +1237,7 @@ sub Run {
                     );
                 }
 
-                # more static stats available? than make a SelectField
+                # more static stats available? then make a SelectField
                 if ( $#StaticFilesArray > 0 ) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
                         Data        => $StaticFiles,
@@ -1249,7 +1250,7 @@ sub Run {
                     );
                 }
 
-                # only one static stats available? than show the onw
+                # only one static stats available? then show the one
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'Selected',
