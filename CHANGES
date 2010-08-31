@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1348 2010-08-31 17:11:08 cg Exp $
+# $Id: CHANGES,v 1.1349 2010-08-31 18:34:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-31 Fixed bug#5751 - TicketZoom Scroller Height is incorrectly calculated in Opera 10.61 Browser.
  - 2010-08-31 Fixed bug#5809 - SLA should be Service Level Agreement.
  - 2010-08-31 Fixed bug#2671 - Postmaster filter creation does not require a name.
  - 2010-08-31 Fixed bug#5838 - Dialogs are not shown correctly in IE7.
