@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.23 2010-08-31 13:08:37 mg Exp $
+# $Id: LinkObject.dtl,v 1.24 2010-08-31 13:27:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,11 +74,6 @@ $Text{"none"}
                 </span>
             </li>
 <!-- dtl:block:TableComplexBlockActionRowBulk -->
-<!-- dtl:block:TableComplexBlockActionRowMenu -->
-            <li>
-                <a href="#" class="MenuAction" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-            </li>
-<!-- dtl:block:TableComplexBlockActionRowMenu -->
         </ul>
         <div class="ClearLeft"></div>
     </div>
@@ -104,32 +99,33 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlockRow -->
             </tbody>
         </table>
+
 <!-- dtl:block:TableComplexBlockFooterNormal -->
-    </div>
 <!-- dtl:block:TableComplexBlockFooterNormal -->
+
 <!-- dtl:block:TableComplexBlockFooterAdd -->
-    $Data{"LinkTypeStrg"}
-    <input type="hidden" name="SubmitLink" value="$Text{"Link"}" />
-</div>
-</div>
+        <div class="SpacingTopSmall">
+            $Data{"LinkTypeStrg"}
+            <button class="Primary" type="submit" title="$Text{"Add links"}">$Text{"Add links"}</button>
+        </div>
+        <input type="hidden" name="SubmitLink" value="$Text{"Link"}" />
 <!-- dtl:block:TableComplexBlockFooterAdd -->
+
 <!-- dtl:block:TableComplexBlockFooterDelete -->
-<input type="hidden" name="SubmitDelete" value="$Text{"Delete"}" />
-</div>
-</div>
+        <div class="SpacingTopSmall">
+            <button class="Primary" type="submit" title="$Text{"Delete links"}">$Text{"Delete links"}</button>
+        </div>
+        <input type="hidden" name="SubmitDelete" value="$Text{"Delete"}" />
 <!-- dtl:block:TableComplexBlockFooterDelete -->
 
+    </div>
+</div>
 <!-- dtl:block:TableComplexBlock -->
 
 <!-- dtl:block:TableComplex -->
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('.MenuAction').bind('click', function (Event) {
-        $(this).closest('form').submit();
-        return false;
-    });
-
     $('.SelectAll').bind('click', function () {
         var Status = $(this).attr('checked');
         $(this).closest('.WidgetBox').find('table input[type=checkbox]').attr('checked', Status);
