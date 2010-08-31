@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.48 2010-08-24 17:05:08 mb Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.49 2010-08-31 16:21:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,9 @@
                     <fieldset class="TableLike">
                         <label for="EditName">$Text{"Filter name"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Name" id="EditName" value="$QData{"Name"}"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"NameServerError"}" name="Name" id="EditName" value="$QData{"Name"}"/>
+                            <div id="EditNameError" class="TooltipErrorMessage"><p>$Text{"A filter should have a name!"}</p></div>
+                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>$Text{"Filter name is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.31 2010-05-17 17:31:40 en Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.32 2010-08-31 16:21:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,10 +41,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' )           || '';
-    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' )        || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' );
+    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' );
     my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
-    my %GetParam       = ();
+    my %GetParam = ();
     for ( 1 .. 12 ) {
         $GetParam{"MatchHeader$_"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$_" );
         $GetParam{"MatchValue$_"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$_" );
@@ -118,15 +118,23 @@ sub Run {
         if ( !%Match ) {
             $Invalid{'InvalidMatch1'} = 'invalid';
         }
-        if (%Invalid) {
+
+        # Name validation
+        my $NameServerError = '';
+        if ( $Name eq '' ) {
+            $NameServerError = 'ServerError';
+        }
+
+        if ( %Invalid || $NameServerError ) {
             return $Self->_MaskUpdate(
                 Name => $Name,
                 Data => {
                     %Invalid,
-                    Name           => $Name,
-                    Set            => \%Set,
-                    Match          => \%Match,
-                    StopAfterMatch => $StopAfterMatch,
+                    Name            => $Name,
+                    Set             => \%Set,
+                    Match           => \%Match,
+                    StopAfterMatch  => $StopAfterMatch,
+                    NameServerError => $NameServerError,
                 },
             );
         }
