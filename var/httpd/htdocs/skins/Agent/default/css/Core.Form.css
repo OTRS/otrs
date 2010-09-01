@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -226,10 +226,6 @@ fieldset.TableLike > label {
 .RTL fieldset.TableLike > label {
     float: right;
     text-align: left;
-}
-
-form fieldset.TableLike > label {
-    line-height: 20px;
 }
 
 fieldset.TableLike > label > input,
