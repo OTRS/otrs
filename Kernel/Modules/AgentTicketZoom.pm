@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.115 2010-09-01 11:24:32 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.116 2010-09-01 12:19:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,11 +49,6 @@ sub new {
     }
     if ( !defined $Self->{ZoomExpandSort} ) {
         $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpandSort');
-    }
-    my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketQueue');
-    if ($Config) {
-        $Self->{HighlightColor1} = $Config->{HighlightColor1} || 'orange';
-        $Self->{HighlightColor2} = $Config->{HighlightColor2} || 'red';
     }
     $Self->{ArticleFilterActive}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
@@ -509,18 +504,6 @@ sub MaskAgentZoom {
 
     # age design
     $Ticket{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' );
-    if ( $Ticket{UntilTime} ) {
-        if ( $Ticket{UntilTime} < -1 && $Self->{HighlightColor2} ) {
-            $Ticket{PendingUntil} = qq§<span style="color: $Self->{HighlightColor2};">§;
-        }
-        $Ticket{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
-            Age   => $Ticket{UntilTime},
-            Space => '<br/>'
-        );
-        if ( $Ticket{UntilTime} < -1 && $Self->{HighlightColor2} ) {
-            $Ticket{PendingUntil} .= "</span>";
-        }
-    }
 
     # number of articles
     $Param{ArticleCount} = scalar @ArticleBox;
@@ -642,14 +625,7 @@ sub MaskAgentZoom {
             Data => { %Ticket, %AclAction },
         );
         if ( 60 * 60 * 1 > $Ticket{FirstResponseTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FirstResponseTimeFontStart',
-                Data => { %Ticket, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'FirstResponseTimeFontStop',
-                Data => { %Ticket, %AclAction },
-            );
+            $Ticket{FirstResponseTimeClass} = 'Warning';
         }
     }
 
@@ -668,14 +644,7 @@ sub MaskAgentZoom {
             Data => { %Ticket, %AclAction },
         );
         if ( 60 * 60 * 1 > $Ticket{UpdateTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'UpdateTimeFontStart',
-                Data => { %Ticket, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'UpdateTimeFontStop',
-                Data => { %Ticket, %AclAction },
-            );
+            $Ticket{UpdateTimeClass} = 'Warning';
         }
     }
 
@@ -694,22 +663,22 @@ sub MaskAgentZoom {
             Data => { %Ticket, %AclAction },
         );
         if ( 60 * 60 * 1 > $Ticket{SolutionTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SolutionTimeFontStart',
-                Data => { %Ticket, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'SolutionTimeFontStop',
-                Data => { %Ticket, %AclAction },
-            );
+            $Ticket{SolutionTimeClass} = 'Warning';
         }
     }
 
     # show pending until, if set:
-    if ( defined $Ticket{PendingUntil} ) {
+    if ( $Ticket{UntilTime} ) {
+        if ( $Ticket{UntilTime} < -1 ) {
+            $Ticket{PendingUntilClass} = 'Warning';
+        }
+        $Ticket{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
+            Age   => $Ticket{UntilTime},
+            Space => '<br/>'
+        );
         $Self->{LayoutObject}->Block(
             Name => 'PendingUntil',
-            Data => { %Ticket, }
+            Data => \%Ticket,
         );
     }
 

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.145 2010-09-01 10:00:57 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.146 2010-09-01 12:19:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,51 +126,33 @@
 <!-- dtl:block:FirstResponseTime -->
                         <label>$Text{"First Response Time"}:</label>
                         <div class="Value">
-<!-- dtl:block:FirstResponseTimeFontStart -->
-                            <div class="Notice">
-<!-- dtl:block:FirstResponseTimeFontStart -->
-                                <p title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">
-                                    $QData{"FirstResponseTimeHuman"}
-                                    <br/>
-                                    $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
-                                </p>
-<!-- dtl:block:FirstResponseTimeFontStop -->
-                            </div>
-<!-- dtl:block:FirstResponseTimeFontStop -->
+                            <p title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}" class="$QData{"FirstResponseTimeClass"}">
+                                $QData{"FirstResponseTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}
+                            </p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:FirstResponseTime -->
 <!-- dtl:block:UpdateTime -->
                         <label>$Text{"Update Time"}:</label>
                         <div class="Value">
-<!-- dtl:block:UpdateTimeFontStart -->
-                            <div class="Notice">
-<!-- dtl:block:UpdateTimeFontStart -->
-                                <p title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">
-                                    $QData{"UpdateTimeHuman"}
-                                    <br/>
-                                    $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
-                                </p>
-<!-- dtl:block:UpdateTimeFontStop -->
-                            </div>
-<!-- dtl:block:UpdateTimeFontStop -->
+                            <p title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}" class="$QData{"UpdateTimeClass"}">
+                                $QData{"UpdateTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}
+                            </p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:UpdateTime -->
 <!-- dtl:block:SolutionTime -->
                         <label>$Text{"Solution Time"}:</label>
                         <div class="Value">
-<!-- dtl:block:SolutionTimeFontStart -->
-                            <div class="Notice">
-<!-- dtl:block:SolutionTimeFontStart -->
-                                <p title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">
-                                    $QData{"SolutionTimeHuman"}
-                                    <br/>
-                                    $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
-                                </p>
-<!-- dtl:block:SolutionTimeFontStop -->
-                            </div>
-<!-- dtl:block:SolutionTimeFontStop -->
+                            <p title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}" class="$QData{"SolutionTimeClass"}">
+                                $QData{"SolutionTimeHuman"}
+                                <br/>
+                                $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}
+                            </p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:SolutionTime -->
@@ -187,7 +169,7 @@
 
 <!-- dtl:block:PendingUntil -->
                         <label>$Text{"Pending till"}:</label>
-                        <p class="Value">$Data{"PendingUntil"}</p>
+                        <p class="Value $QData{"PendingUntilClass"}">$Data{"PendingUntil"}</p>
                         <div class="Clear"></div>
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->

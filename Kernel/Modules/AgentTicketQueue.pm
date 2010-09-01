@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.74 2010-07-26 13:58:17 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.75 2010-09-01 12:19:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -250,11 +250,9 @@ sub _MaskQueueView {
     my @ListedQueues;
     my $Level       = 0;
     my $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get( $Self->{CustomQueue} );
-    $Self->{HighlightAge1}   = $Self->{Config}->{HighlightAge1};
-    $Self->{HighlightAge2}   = $Self->{Config}->{HighlightAge2};
-    $Self->{HighlightColor1} = $Self->{Config}->{HighlightColor1};
-    $Self->{HighlightColor2} = $Self->{Config}->{HighlightColor2};
-    $Self->{Blink}           = $Self->{Config}->{Blink};
+    $Self->{HighlightAge1} = $Self->{Config}->{HighlightAge1};
+    $Self->{HighlightAge2} = $Self->{Config}->{HighlightAge2};
+    $Self->{Blink}         = $Self->{Config}->{Blink};
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
     my @MetaQueue = split /::/, $Param{SelectedQueue};

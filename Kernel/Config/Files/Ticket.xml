@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.376 2010-08-27 17:25:37 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.377 2010-09-01 12:19:15 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1789,15 +1789,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,5}$">1440</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightColor1" Required="1" Valid="1">
-        <Description Translatable="1">Sets the highlighting color for queues that contain untouched tickets (first level).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="">orange</String>
+            <String Regex="^[0-9]{1,7}$">1440</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightAge2" Required="1" Valid="1">
@@ -1805,15 +1797,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,5}$">2880</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightColor2" Required="1" Valid="1">
-        <Description Translatable="1">Sets the highlighting color for queues that contain untouched tickets (second level).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="">red</String>
+            <String Regex="^[0-9]{1,7}$">2880</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###Blink" Required="0" Valid="1">
@@ -6142,6 +6126,19 @@ $QData{"Signature"}
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target">PopUp</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###445-Move" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to close a ticket in every ticket overview of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuMove</Item>
+                <Item Key="Name">Move</Item>
+                <Item Key="Action">AgentTicketMove</Item>
+                <Item Key="Description">Change queue!</Item>
             </Hash>
         </Setting>
     </ConfigItem>
