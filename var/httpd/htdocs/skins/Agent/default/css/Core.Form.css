@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.19 $
+ * @version     $Revision: 1.20 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -248,10 +248,6 @@ fieldset.TableLike > .Field {
     margin-right: 30%;
     padding-left: 0;
     padding-right: 10px;
-}
-
-fieldset.TableLike > .Field p {
-    margin-top: 3px;
 }
 
 fieldset.TableLike select {
