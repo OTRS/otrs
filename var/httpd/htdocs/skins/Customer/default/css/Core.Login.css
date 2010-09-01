@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -113,7 +113,7 @@
     margin-top: 17px;
 }
 
-.Js .Floating button {
+.JavaScriptAvailable .Floating button {
     margin-top: 0;
     padding: 4px 0;
 }
@@ -124,7 +124,7 @@
  * @see         Login
  */
 
-.Js .Login label {
+.JavaScriptAvailable .Login label {
     margin: 1px 5px;
     color: #999;
     font-size: 14px;
@@ -133,8 +133,8 @@
     z-index: 1;
 }
 
-.Js .Login input[type='text'],
-.Js .Login input[type='password'] {
+.JavaScriptAvailable .Login input[type='text'],
+.JavaScriptAvailable .Login input[type='password'] {
     margin: 0;
     position: relative;
     z-index: 10;
@@ -164,7 +164,7 @@
     clear: left;
 }
 
-.Js .Floating .NewLine button {
+.JavaScriptAvailable .Floating .NewLine button {
     margin-top: 8px;
 }
 

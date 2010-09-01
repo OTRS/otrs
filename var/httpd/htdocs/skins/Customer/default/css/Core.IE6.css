@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE6
@@ -40,7 +40,7 @@ button, .Button {
     padding: 0;
 }
     
-.Js .Floating button {
+.JavaScriptAvailable .Floating button {
     margin-top: 2px;
     padding: 0;
 }

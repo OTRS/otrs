@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -322,11 +322,11 @@
     border-bottom: 1px solid #D6D6D6;
 }
 
-.Js #FollowUp {
+.JavaScriptAvailable #FollowUp {
     margin-bottom: 21px;
 }
 
-.Js #FollowUp #Messenger {
+.JavaScriptAvailable #FollowUp #Messenger {
     height: 0;
     overflow: hidden;
 }
@@ -406,7 +406,7 @@
     box-shadow: 0 0 2px #F6F9F9;
 }
 
-.Js #ReplyButton {
+.JavaScriptAvailable #ReplyButton {
     display: block;
 }
 
