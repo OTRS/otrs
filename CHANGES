@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1351 2010-09-01 06:48:50 mg Exp $
+# $Id: CHANGES,v 1.1352 2010-09-01 08:31:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-08-32 Fixed bug#4423 - Hard coded CSS-Path in DTL templates.
  - 2010-08-32 Fixed bug#5844 - Missing AJAX refresh indicator in the selection lists.
  - 2010-08-31 Fixed bug#5729 - In Database creation or delete from Installer.pl the green colored word
     "Done" higher that the rest of the line.
