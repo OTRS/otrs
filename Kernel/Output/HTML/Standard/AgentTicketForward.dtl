@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.65 2010-08-12 08:58:12 mg Exp $
+# $Id: AgentTicketForward.dtl,v 1.66 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,9 +43,9 @@ $Include{"AgentCustomerSearch"}
 
             <h2>$Text{"Options"}</h2>
 
-            <fieldset class="TableLike">
+            <fieldset class="TableLike FixedLabel">
                 <label>$Text{"From"}:</label>
-                <div class="Field">
+                <div class="Value">
                     $QData{"From"}
                     <input type="hidden" name="From" value="$QData{"From"}"/>
                 </div>

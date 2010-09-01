@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.28 2010-08-09 17:40:41 cr Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.29 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,8 +42,7 @@ $Include{"AgentCustomerSearch"}
                         <h2>$Text{"Options"}</h2>
                     </div>
                     <div class="Content">
-                        <p>$Text{"Set customer user and customer id of a ticket"}:</p>
-                        <fieldset class="TableLike">
+                        <fieldset class="TableLike FixedLabel">
                             <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
                             <div class="Field">
                                 <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
@@ -59,9 +58,6 @@ $Include{"AgentCustomerSearch"}
                                 <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
                             </div>
                             <div class="Clear"></div>
-                            <div class="Field SpacingTop">
-                                <button class="Primary" id="submit" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                            </div>
                         </fieldset>
                     </div>
                 </div>
@@ -70,7 +66,9 @@ $Include{"AgentCustomerSearch"}
 
             <div id="CustomerTickets"></div>
         </div>
-        <div class="Footer">&nbsp;</div>
+        <div class="Footer">
+            <button class="Primary" id="submit" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+        </div>
     </div>
 </form>
 <!-- dtl:block:Customer -->

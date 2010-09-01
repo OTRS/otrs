@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.49 2010-08-12 11:09:57 mg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.50 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
 <!-- dtl:block:CustomerTable -->
 
             <div class="ContentColumn">
-                <fieldset class="TableLike">
+                <fieldset class="TableLike FixedLabel">
                     <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"} W75pc"/>

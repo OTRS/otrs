@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.43 2010-08-21 18:23:43 cr Exp $
+# $Id: AgentLinkObject.dtl,v 1.44 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@
                     <h2>$Text{"Search"} $QData{"TargetRealname"}</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike">
+                    <fieldset class="TableLike FixedLabel">
 <!-- dtl:block:LinkSearchRow -->
                         <label>
                             $Text{"$Data{"Name"}"}:

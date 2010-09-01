@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.29 2010-08-31 17:11:07 cg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.30 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@
 
             <h2>$Text{"Options"}</h2>
 
-            <fieldset class="TableLike">
+            <fieldset class="TableLike FixedLabel">
 
 <!-- dtl:block:Title -->
                 <label for="Title">$Text{"Title"}:</label>

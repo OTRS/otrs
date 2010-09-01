@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.20 2010-07-23 21:26:28 mp Exp $
+# $Id: AgentBook.dtl,v 1.21 2010-09-01 11:34:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <div class="Content">
         <h1>$Text{"Address Book"}</h1>
         <form id="AdressBook" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-            <fieldset class="TableLike SpacingTop">
+            <fieldset class="SpacingTop">
                 <input type="text" name="Search" id="Search" value="" class="W75pc" title="$Text{"Search for a customer"}"/>
                 <button type="submit" value="$Text{"Search"}" >$Text{"Search"}</button>
             </fieldset>
@@ -46,7 +46,7 @@
             </table>
 <!-- dtl:block:SearchResult -->
             <input type="hidden" name="Action" value="AgentBook" />
-            <fieldset class="TableLike SpacingTop">
+            <fieldset class="TableLike FixedLabel SpacingTop">
                 <label for="To">$Text{"To"}:</label>
                 <div class="Field">
                     <input type="text" name="To" id="To" value="$QData{"To"}" class="W75pc" />
@@ -61,11 +61,12 @@
                 <div class="Field">
                     <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc" />
                 </div>
-                <div class="Clear"></div>
-                <button type="button" id="Apply" value="$Text{"Apply"}">$Text{"Apply"}</button>
-                <button type="button" id="Cancel" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
             </fieldset>
         </form>
+        <div class="Center SpacingTop">
+            <button type="button" id="Apply" value="$Text{"Apply"}">$Text{"Apply"}</button>
+            <button type="button" id="Cancel" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+        </div>
     </div>
 </div>
 <!--dtl:js_on_document_complete-->
