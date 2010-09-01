@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.58 2010-08-26 09:13:30 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.59 2010-09-01 12:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,13 +121,7 @@
                     </td>
 <!-- dtl:block:RecordEscalationTime -->
                     <td>
-<!-- dtl:block:RecordEscalationTimeFontStart -->
-                        <div class="Warning">
-<!-- dtl:block:RecordEscalationTimeFontStart -->
-                            <div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
-<!-- dtl:block:RecordEscalationTimeFontStop -->
-                        </div>
-<!-- dtl:block:RecordEscalationTimeFontStop -->
+                        <div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}" class="$QData{"EscalationClass"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
                     </td>
 <!-- dtl:block:RecordEscalationTime -->
                     <td>

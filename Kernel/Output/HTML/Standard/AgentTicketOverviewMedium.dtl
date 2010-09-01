@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.42 2010-08-31 17:11:07 cg Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.43 2010-09-01 12:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,13 +98,7 @@
                         <td>
                             <label>$Text{"First Response Time"}</label>
 <!-- dtl:block:FirstResponseTime -->
-<!-- dtl:block:FirstResponseTimeFontStart -->
-                            <div class="Warning">
-<!-- dtl:block:FirstResponseTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
-<!-- dtl:block:FirstResponseTimeFontStop -->
-                            </div>
-<!-- dtl:block:FirstResponseTimeFontStop -->
+                            <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}" class="$QData{"FirstResponseTimeClass"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
 <!-- dtl:block:FirstResponseTime -->
                         </td>
                     </tr>
@@ -143,13 +137,7 @@
                         <td>
                             <label>$Text{"Update Time"}</label>
 <!-- dtl:block:UpdateTime -->
-<!-- dtl:block:UpdateTimeFontStart -->
-                            <div class="Warning">
-<!-- dtl:block:UpdateTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
-<!-- dtl:block:UpdateTimeFontStop -->
-                            </div>
-<!-- dtl:block:UpdateTimeFontStop -->
+                            <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}" class="$QData{"UpdateTimeClass"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
 <!-- dtl:block:UpdateTime -->
                         </td>
                     </tr>
@@ -191,13 +179,7 @@
                         <td>
                             <label>$Text{"Solution Time"}</label>
 <!-- dtl:block:SolutionTime -->
-<!-- dtl:block:SolutionTimeFontStart -->
-                            <div class="Warning">
-<!-- dtl:block:SolutionTimeFontStart -->
-                                <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
-<!-- dtl:block:SolutionTimeFontStop -->
-                            </div>
-<!-- dtl:block:SolutionTimeFontStop -->
+                            <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}" class="$QData{"SolutionTimeClass"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
 <!-- dtl:block:SolutionTime -->
                         </td>
                     </tr>
@@ -207,61 +189,6 @@
         </div>
     </li>
 
-<!-- dtl:block:DISABLE -->
-#                <td>
-#                    <label>$Text{"Priority"}</label><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","26"}</div>
-#                </td>
-# show the Article::FreeKey1-3 and Article::FreeText1-3
-#<!-- dtl:block:ArticleFreeText -->
-#                <td>
-#                    <label>$QData{"Key"}</label>
-#                    <div title="$QData{"Value"}">$QData{"Value","80"}</div>
-#                </tr>
-#<!-- dtl:block:ArticleFreeText -->
-# --
-# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
-# --
-#   <tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>
-#   <tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>
-#   <tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>
-# --
-# --
-# show TicketFreeKey1-2 and TicketFreeText1-2
-#<!-- dtl:block:TicketFreeText -->
-#               <td>
-#                   <label>$QData{"TicketFreeKey","25"}</label>
-#<!-- dtl:block:TicketFreeTextPlain -->
-#                   <div title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","25"}</div>
-#<!-- dtl:block:TicketFreeTextPlain -->
-#<!-- dtl:block:TicketFreeTextLink -->
-#                   <div title="$QData{"TicketFreeText"}"><a href="$Data{"TicketFreeTextLink"}" target="_blank">$QData{"TicketFreeText","25"}</a></div>
-#<!-- dtl:block:TicketFreeTextLink -->
-#               </td>
-#<!-- dtl:block:TicketFreeText -->
-
-# use this if you want to show TicketFreeTime1-6
-#<!-- dtl:block:TicketFreeTime -->
-#               <td>
-#                   <label>$Text{"$Data{"TicketFreeTimeKey"}"}</label>
-#                   <div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div>
-#               </td>
-#<!-- dtl:block:TicketFreeTime -->
-<!-- dtl:block:DISABLE -->
-
-# use the following if you want also a change queue option in this view
-#  <tr>
-#    <td valign="top" class="contentkey">&nbsp;</td>
-#    <td valign="top" class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Change queue"}:</b></td>
-#    <td valign="top" class="PriorityID-$Data{"PriorityID"}">
-#      <form action="$Env{"CGIHandle"}" method="get">
-#        <input type="hidden" name="Action" value="AgentTicketMove"/>
-#        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
-#        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-#        $Data{"MoveQueuesStrg"}
-#        <button class="button" type="submit" value="$Text{"Move"}">$Text{"Move"}</button>
-#      </form>
-#    </td>
-#  </tr>
 <!-- dtl:block:DocumentContent -->
 
 <!-- dtl:block:DocumentFooter -->

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.28 2010-08-18 15:42:01 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.29 2010-09-01 12:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -348,20 +348,13 @@ sub Run {
 
         # show escalation
         if ( $Param{Escalation} ) {
+            if ( $Article{EscalationTime} < 60 * 60 * 1 ) {
+                $Article{EscalationClass} = 'Warning';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'RecordEscalationTime',
                 Data => { %Article, %UserInfo },
             );
-            if ( $Article{EscalationTime} < 60 * 60 * 1 ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'RecordEscalationTimeFontStart',
-                    Data => { %Article, %UserInfo },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'RecordEscalationTimeFontStop',
-                    Data => { %Article, %UserInfo },
-                );
-            }
         }
 
         # check if last customer subject or ticket title should be shown

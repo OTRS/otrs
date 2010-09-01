@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.116 2010-09-01 12:19:15 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.117 2010-09-01 12:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -620,13 +620,13 @@ sub MaskAgentZoom {
             Age   => $Ticket{FirstResponseTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Ticket{FirstResponseTime} ) {
+            $Ticket{FirstResponseTimeClass} = 'Warning';
+        }
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
             Data => { %Ticket, %AclAction },
         );
-        if ( 60 * 60 * 1 > $Ticket{FirstResponseTime} ) {
-            $Ticket{FirstResponseTimeClass} = 'Warning';
-        }
     }
 
     # show update time if needed
@@ -639,13 +639,13 @@ sub MaskAgentZoom {
             Age   => $Ticket{UpdateTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Ticket{UpdateTime} ) {
+            $Ticket{UpdateTimeClass} = 'Warning';
+        }
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
             Data => { %Ticket, %AclAction },
         );
-        if ( 60 * 60 * 1 > $Ticket{UpdateTime} ) {
-            $Ticket{UpdateTimeClass} = 'Warning';
-        }
     }
 
     # show solution time if needed
@@ -658,13 +658,13 @@ sub MaskAgentZoom {
             Age   => $Ticket{SolutionTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Ticket{SolutionTime} ) {
+            $Ticket{SolutionTimeClass} = 'Warning';
+        }
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
             Data => { %Ticket, %AclAction },
         );
-        if ( 60 * 60 * 1 > $Ticket{SolutionTime} ) {
-            $Ticket{SolutionTimeClass} = 'Warning';
-        }
     }
 
     # show pending until, if set:

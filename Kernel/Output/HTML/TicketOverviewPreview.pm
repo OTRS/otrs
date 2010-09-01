@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.35 2010-08-30 14:17:47 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.36 2010-09-01 12:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,16 +363,12 @@ sub _Show {
             my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
 
             for my $DataRef (@Data) {
-                if ( $DataRef->{Successful} eq "0" ) {
-                    $DataRef->{Result} = "Error";
+                if ( $DataRef->{Successful} ) {
+                    $DataRef->{Result} = 'Error';
                 }
                 else {
-                    $DataRef->{Result} = "Success";
+                    $DataRef->{Result} = 'Success';
                 }
-
-                #                $Self->{LayoutObject}->Block(
-                #                    Name => 'DISABLE',
-                #                );
 
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleOption',
@@ -466,7 +462,7 @@ sub _Show {
         )
     {
         my $Access = 1;
-        my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCompose');
         if ( $Config->{Permission} ) {
             my $Ok = $Self->{TicketObject}->Permission(
                 Type     => $Config->{Permission},
@@ -494,7 +490,7 @@ sub _Show {
         )
     {
         my $Access = 1;
-        my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketPhoneOutbound');
         if ( $Config->{Permission} ) {
             my $OK = $Self->{TicketObject}->Permission(
                 Type     => $Config->{Permission},
@@ -546,20 +542,13 @@ sub _Show {
             Age   => $Article{FirstResponseTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
+            $Article{FirstResponseTimeClass} = 'Warning'
+        }
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
             Data => { %Param, %Article },
         );
-        if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FirstResponseTimeFontStart',
-                Data => { %Param, %Article },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'FirstResponseTimeFontStop',
-                Data => { %Param, %Article },
-            );
-        }
     }
 
     # show update time if needed
@@ -572,20 +561,13 @@ sub _Show {
             Age   => $Article{UpdateTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
+            $Article{UpdateTimeClass} = 'Warning'
+        }
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
             Data => { %Param, %Article },
         );
-        if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'UpdateTimeFontStart',
-                Data => { %Param, %Article },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'UpdateTimeFontStop',
-                Data => { %Param, %Article },
-            );
-        }
     }
 
     # show solution time if needed
@@ -598,20 +580,13 @@ sub _Show {
             Age   => $Article{SolutionTimeWorkingTime},
             Space => ' ',
         );
+        if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
+            $Article{SolutionTimeClass} = 'Warning'
+        }
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
             Data => { %Param, %Article },
         );
-        if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SolutionTimeFontStart',
-                Data => { %Param, %Article },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'SolutionTimeFontStop',
-                Data => { %Param, %Article },
-            );
-        }
     }
 
     # show inline article
