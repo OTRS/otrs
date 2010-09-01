@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.114 2010-09-01 09:54:23 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.115 2010-09-01 11:24:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1259,10 +1259,11 @@ sub _ArticleItem {
         }
 
         # check if forward link should be shown
+        # (only show forward on email-external, email-internal, phone, webrequest and fax
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketForward}
             && ( !defined $AclAction{AgentTicketForward} || $AclAction{AgentTicketForward} )
-            && $Article{ArticleType} !~ /^(note|email-noti|phone|webrequest)$/i
+            && $Article{ArticleType} =~ /^(email-external|email-internal|phone|webrequest|fax)$/i
             )
         {
             my $Access = 1;
@@ -1305,10 +1306,11 @@ sub _ArticleItem {
         }
 
         # check if bounce link should be shown
+        # (only show forward on email-external and email-internal
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBounce}
             && ( !defined $AclAction{AgentTicketBounce} || $AclAction{AgentTicketBounce} )
-            && $Article{ArticleType} !~ /^(note|email-noti|phone|webrequest)$/i
+            && $Article{ArticleType} =~ /^(email-external|email-internal)$/i
             )
         {
             my $Access = 1;
