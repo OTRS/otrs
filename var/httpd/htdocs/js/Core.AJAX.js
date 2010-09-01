@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.6 2010-09-01 06:48:50 mg Exp $
+// $Id: Core.AJAX.js,v 1.7 2010-09-01 16:36:11 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,9 +34,8 @@ Core.AJAX = (function (TargetNS) {
             $Loader = $('#' + AJAXLoaderPrefix + FieldID),
             LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
 
-
         if (!$Loader.length) {
-            if ($Element.length) {
+            if ( ($Element.length) && ($Element.attr('type') != 'hidden') ) {
                 $Element.after(LoaderHTML);
                 if (typeof ActiveAJAXCalls[FieldID] === 'undefined') {
                     ActiveAJAXCalls[FieldID] = 0;
