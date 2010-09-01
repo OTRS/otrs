@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1356 2010-09-01 12:19:15 martin Exp $
+# $Id: CHANGES,v 1.1357 2010-09-01 14:28:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-01 Fixed bug#5835 - Client side validation without JavaScript broken in
+    customer interface.
  - 2010-09-01 Fixed bug#5816 - SysConfig HighlightAge, wrong limits and handling.
  - 2010-09-01 Fixed bug#5747 - Too much whitespace in popups.
  - 2010-09-01 Fixed bug#5801 - Article action "Bounce article" gives error message.

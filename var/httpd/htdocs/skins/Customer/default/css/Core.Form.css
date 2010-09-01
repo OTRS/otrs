@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -346,8 +346,22 @@ form label.LabelError {
 }
 
 /*
- * This will be displayed by Core.UI.Tooltips
+ * @note    This will be displayed by Core.UI.Tooltips
  */
 div.TooltipErrorMessage {
     display: none;
+}
+
+/*
+ * @note    Special case: do display
+ *          ServerError message divs when JavaScript is not active,
+ *          otherwise the user will not see these messages
+ */
+.NoJavaScript div.TooltipServerErrorMessage {
+    display: block;
+}
+
+.NoJavaScript div.TooltipServerErrorMessage,
+.NoJavaScript div.TooltipServerErrorMessage * {
+    color: #ff505e;
 }

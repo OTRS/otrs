@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.9 2010-09-01 13:56:33 mg Exp $
+// $Id: Core.Customer.js,v 1.10 2010-09-01 14:28:06 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@ Core.Customer = (function (TargetNS) {
      *      This function adds the class 'JavaScriptAvailable' to the 'Body' div to enhance the interface (clickable rows).
      */
     TargetNS.Enhance = function(){
-        $('body').addClass('JavaScriptAvailable');
+        $('body').removeClass('NoJavaScript').addClass('JavaScriptAvailable');
     }
 
     TargetNS.InitFocus = function(){
