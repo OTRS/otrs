@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.113 2010-08-12 10:56:07 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.114 2010-09-01 09:54:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,7 +226,7 @@ sub Run {
         # send JSON response
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON || '',
+            Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
         );
@@ -1262,6 +1262,7 @@ sub _ArticleItem {
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketForward}
             && ( !defined $AclAction{AgentTicketForward} || $AclAction{AgentTicketForward} )
+            && $Article{ArticleType} !~ /^(note|email-noti|phone|webrequest)$/i
             )
         {
             my $Access = 1;
@@ -1307,6 +1308,7 @@ sub _ArticleItem {
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBounce}
             && ( !defined $AclAction{AgentTicketBounce} || $AclAction{AgentTicketBounce} )
+            && $Article{ArticleType} !~ /^(note|email-noti|phone|webrequest)$/i
             )
         {
             my $Access = 1;
