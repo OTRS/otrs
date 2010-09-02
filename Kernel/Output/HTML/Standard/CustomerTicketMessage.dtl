@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.48 2010-09-01 14:28:06 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.49 2010-09-02 14:28:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@
                     </label>
                     $Data{"ToStrg"}
                     <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"To is required."}</p></div>
-                    <div id="DestServerError" class="TooltipErrorMessage TooltipServerErrorMessage" ><p>$Text{"To is required."}</p></div>
+                    <div id="DestServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"QueueInvalid"}" ><p>$Text{"To is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
 <!--dtl:js_on_document_complete-->
@@ -103,7 +103,7 @@
                     </label>
                     <input title="Subject" type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"}" />
                     <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"Subject is required."}</p></div>
-                    <div id="SubjectServerError" class="TooltipErrorMessage TooltipServerErrorMessage" ><p>$Text{"Subject is required."}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"SubjectInvalid"}" ><p>$Text{"Subject is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
                 <div class="RichTextHolder">
@@ -117,7 +117,7 @@ $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText -->
                     <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage" ><p>$Text{"Body is required."}</p></div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage TooltipServerErrorMessage" ><p>$Text{"Body is required."}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"BodyInvalid"}" ><p>$Text{"Body is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
                 <div>

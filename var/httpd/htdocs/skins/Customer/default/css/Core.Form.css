@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -357,11 +357,12 @@ div.TooltipErrorMessage {
  *          ServerError message divs when JavaScript is not active,
  *          otherwise the user will not see these messages
  */
-.NoJavaScript div.TooltipServerErrorMessage {
+.NoJavaScript .NoJavaScriptMessageServerError {
     display: block;
+    padding: 2px 5px;
 }
 
-.NoJavaScript div.TooltipServerErrorMessage,
-.NoJavaScript div.TooltipServerErrorMessage * {
+.NoJavaScript .NoJavaScriptMessageServerError,
+.NoJavaScript .NoJavaScriptMessageServerError * {
     color: #ff505e;
 }
