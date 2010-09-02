@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1361 2010-09-02 10:14:11 mg Exp $
+# $Id: CHANGES,v 1.1362 2010-09-02 10:49:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-02 Fixed bug#5780 - Have to resize window when replying on ticket.
  - 2010-09-02 Fixed bug#5638 - Strange labels/buttons in TicketSearch "Create New  Delete".
  - 2010-09-02 Fixed bug#5629 - Search Dialog of new Ticket Search Feature is not working with IE7.
  - 2010-09-02 Fixed bug#5582 - Ticket::Frontend::MergeText and special carachters.
