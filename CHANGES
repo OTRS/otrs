@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1364 2010-09-02 13:16:09 martin Exp $
+# $Id: CHANGES,v 1.1365 2010-09-02 14:03:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-02 Fixed bug#5818 - Standard height of the article list.
  - 2010-09-02 Fixed bug#5693 - Error messages appearing during mysql tables migration.
  - 2010-09-02 Fixed bug#5802 - OTRS 3.0.0 beta 2 doesn't install default packages on login.
  - 2010-09-02 Fixed bug#5780 - Have to resize window when replying on ticket.

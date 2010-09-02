@@ -2,7 +2,7 @@
 // Core.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Resizable.js,v 1.2 2010-08-11 15:23:23 martin Exp $
+// $Id: Core.UI.Resizable.js,v 1.3 2010-09-02 14:03:35 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,10 @@ Core.UI = Core.UI || {};
  *      Contains the code for resizable elements.
  */
 Core.UI.Resizable = (function (TargetNS) {
+
+    var ScrollerMinHeight = 84,
+        HandleHeight = 10,
+        TableHeaderHeight = 28;
     /**
      * @function
      * @description
@@ -31,36 +35,30 @@ Core.UI.Resizable = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function ($Element, ScrollerHeight, Callback) {
-        if (!ScrollerHeight) {
-            ScrollerHeight = 140;
-        }
+        ScrollerHeight = Math.max(ScrollerHeight, ScrollerMinHeight);
 
         if (isJQueryObject($Element) && $Element.length) {
-            if (($Element.find('table').height() + 10) < ScrollerHeight) {
-                $Element.find('.Scroller').height($Element.find('table').height() + 10);
+            if (($Element.find('table').height() + HandleHeight) < ScrollerHeight) {
+                $Element.find('.Scroller').height($Element.find('table').height() + HandleHeight);
             }
             else {
-                $Element.find('.Scroller').height(ScrollerHeight);
+                $Element.find('.Scroller').height(ScrollerHeight + 4); // strange 4 pixels mismatch
             }
 
             $Element.resizable({
                 handles: {
                     s: $Element.find('.Handle a')
                 },
-                minHeight: 60,
-                maxHeight: $Element.find('table').height() + 40,
-                resize: function    (event, ui) {
+                minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight + 4,
+                maxHeight: $Element.find('table').height() + HandleHeight + TableHeaderHeight,
+                resize: function (Event, UI) {
                     var Height, Width;
-                    Height = ui.size.height - 38;
-                    Width = ui.size.width;
+                    Height = UI.size.height - TableHeaderHeight - HandleHeight;
+                    Width = UI.size.width;
                     $Element.find('div.Scroller').height(Height + 'px').width(Width + 'px');
 
-                    // execute callback
                     if ($.isFunction(Callback)) {
-                        Callback(event, ui, Height, Width);
-                    }
-                    else {
-                        Core.Exception.Throw('Invalid callback method: ' + Callback.toString(), 'CommunicationError');
+                        Callback(Event, UI, Height, Width);
                     }
                 }
             });
