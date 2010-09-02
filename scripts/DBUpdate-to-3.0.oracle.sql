@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2010-07-30 17:15:14
+--  driver: oracle, generated: 2010-09-02 15:15:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -10,7 +10,6 @@ UPDATE ticket SET archive_flag = 0 WHERE archive_flag IS NULL;
 ALTER TABLE ticket MODIFY archive_flag NUMBER (5, 0) DEFAULT 0 NOT NULL;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_create_time ON ticket (create_time);
-CREATE INDEX ticket_until_time ON ticket (until_time);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type

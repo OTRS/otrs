@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-07-30 17:15:14
+#  driver: mysql, generated: 2010-09-02 15:15:40
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -9,14 +9,13 @@ UPDATE ticket SET archive_flag = 0 WHERE archive_flag IS NULL;
 ALTER TABLE ticket CHANGE archive_flag archive_flag SMALLINT DEFAULT 0 NOT NULL;
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 CREATE INDEX ticket_create_time ON ticket (create_time);
-CREATE INDEX ticket_until_time ON ticket (until_time);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 # ----------------------------------------------------------
 #  insert into table ticket_history_type
 # ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  create table ticket_flag
 # ----------------------------------------------------------
@@ -350,7 +349,6 @@ ALTER TABLE package_repository CHANGE name name VARCHAR (200) NOT NULL;
 #  alter table article_attachment
 # ----------------------------------------------------------
 ALTER TABLE article_attachment CHANGE content_type content_type TEXT NULL;
-ALTER TABLE article_attachment ALTER content_type DROP DEFAULT;
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

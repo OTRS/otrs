@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2010-07-30 17:15:14
+--  driver: ingres, generated: 2010-09-02 15:15:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -8,9 +8,9 @@ ALTER TABLE ticket ADD COLUMN archive_flag SMALLINT NOT NULL WITH DEFAULT;\g
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (40, 'ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
+    ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
 CREATE TABLE ticket_flag (
     ticket_id BIGINT NOT NULL,
     ticket_key VARCHAR(50) NOT NULL,
@@ -35,9 +35,9 @@ ALTER TABLE article_flag DROP COLUMN article_flag RESTRICT;\g
 --  alter table article_flag
 -- ----------------------------------------------------------
 ALTER TABLE article_flag ADD COLUMN article_value VARCHAR(50);\g
-CREATE SEQUENCE virtual_fs_983;\g
+CREATE SEQUENCE virtual_fs_955;\g
 CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_983.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_955.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     backend VARCHAR(60) NOT NULL,
     backend_key VARCHAR(160) NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE virtual_fs_preferences (
 MODIFY virtual_fs_preferences TO btree;\g
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
 CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);\g
-CREATE SEQUENCE virtual_fs_db_300;\g
+CREATE SEQUENCE virtual_fs_db_124;\g
 CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_300.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT virtual_fs_db_124.NEXTVAL,
     filename VARCHAR(350) NOT NULL,
     content LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL

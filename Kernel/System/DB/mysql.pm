@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.54 2010-07-09 17:22:57 ub Exp $
+# $Id: mysql.pm,v 1.55 2010-09-02 13:16:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -409,8 +409,10 @@ sub TableAlter {
             # normal data type
             push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
-            # remove possible default
-            push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
+            # remove possible default (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
+            if ( $Tag->{Type} !~ /^(TEXT|BLOB|LONGBLOB)$/i ) {
+                push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
+            }
 
             # investigate the default value
             my $Default = '';

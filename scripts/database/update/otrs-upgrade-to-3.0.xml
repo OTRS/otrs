@@ -9,16 +9,12 @@
         <IndexCreate Name="ticket_create_time">
             <IndexColumn Name="create_time"/>
         </IndexCreate>
-        <IndexCreate Name="ticket_until_time">
-            <IndexColumn Name="until_time"/>
-        </IndexCreate>
         <IndexCreate Name="ticket_archive_flag">
             <IndexColumn Name="archive_flag"/>
         </IndexCreate>
     </TableAlter>
 
     <Insert Table="ticket_history_type">
-        <Data Key="id" Type="AutoIncrement">40</Data>
         <Data Key="name" Type="Quote">ArchiveFlagUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-07-30 17:15:14
+--  driver: db2, generated: 2010-09-02 15:15:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -19,8 +19,6 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 
 CREATE INDEX ticket_create_time ON ticket (create_time);
-
-CREATE INDEX ticket_until_time ON ticket (until_time);
 
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 
