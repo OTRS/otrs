@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminInit.pm - init a new setup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.16 2010-06-18 18:27:39 dz Exp $
+# $Id: AdminInit.pm,v 1.17 2010-09-02 12:20:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,32 +58,7 @@ sub Run {
     if ( $Self->{MainObject}->Require('Kernel::System::Package') ) {
         my $PackageObject = Kernel::System::Package->new( %{$Self} );
         if ($PackageObject) {
-            my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
-            my @PackageFiles = $Self->{MainObject}->DirectoryRead(
-                Directory => $Directory,
-                Filter    => '*.opm',
-            );
-
-            # read packages and install
-            for my $Location (@PackageFiles) {
-
-                # read package
-                my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-                    Location => $Location,
-                    Mode     => 'binmode',
-                    Type     => 'Local',
-                    Result   => 'SCALAR',
-                );
-                next if !$ContentSCALARRef;
-
-                # install package (use eval to be save)
-                eval {
-                    $PackageObject->PackageInstall( String => ${$ContentSCALARRef} );
-                };
-                if ($@) {
-                    $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
-                }
-            }
+            $PackageObject->PackageInstallDefaultFiles();
         }
     }
 

@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.117 2010-07-21 11:36:17 bes Exp $
+# $Id: Package.pm,v 1.118 2010-09-02 12:20:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 =head1 NAME
 
@@ -1723,6 +1723,46 @@ sub PackageIsInstalled {
     return $Flag;
 }
 
+=item PackageInstallDefaultFiles()
+
+returns true if the distribution package (located under ) can get installed
+
+    $PackageObject->PackageInstallDefaultFiles();
+
+=cut
+
+sub PackageInstallDefaultFiles {
+    my ( $Self, %Param ) = @_;
+
+    my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
+    my @PackageFiles = $Self->{MainObject}->DirectoryRead(
+        Directory => $Directory,
+        Filter    => '*.opm',
+    );
+
+    # read packages and install
+    for my $Location (@PackageFiles) {
+
+        # read package
+        my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+            Type     => 'Local',
+            Result   => 'SCALAR',
+        );
+        next if !$ContentSCALARRef;
+
+        # install package (use eval to be save)
+        eval {
+            $Self->PackageInstall( String => ${$ContentSCALARRef} );
+        };
+        if ($@) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
+        }
+    }
+    return 1;
+}
+
 =begin Internal:
 
 =cut
@@ -1837,6 +1877,7 @@ sub _OSCheck {
     my $PossibleOS = '';
     if ( ref $Param{OS} eq 'ARRAY' ) {
         for my $OS ( @{ $Param{OS} } ) {
+            next if !$OS;
             $PossibleOS .= $OS->{Content} . ';';
             if ( $CurrentOS =~ /^$OS$/i ) {
                 $OSCheck = 1;
@@ -1881,6 +1922,7 @@ sub _CheckFramework {
     my $PossibleFramework = '';
     if ( ref $Param{Framework} eq 'ARRAY' ) {
         for my $FW ( @{ $Param{Framework} } ) {
+            next if !$FW;
             $PossibleFramework .= $FW->{Content} . ';';
 
             # regexp modify
@@ -1971,6 +2013,7 @@ sub _CheckPackageRequired {
     # check required packages
     if ( $Param{PackageRequired} && ref $Param{PackageRequired} eq 'ARRAY' ) {
         for my $Package ( @{ $Param{PackageRequired} } ) {
+            next if !$Package;
             my $Installed        = 0;
             my $InstalledVersion = 0;
             for my $Local ( $Self->RepositoryList() ) {
@@ -2025,6 +2068,7 @@ sub _CheckModuleRequired {
     # check required perl modules
     if ( $Param{ModuleRequired} && ref $Param{ModuleRequired} eq 'ARRAY' ) {
         for my $Module ( @{ $Param{ModuleRequired} } ) {
+            next if !$Module;
             my $Installed        = 0;
             my $InstalledVersion = 0;
 
@@ -2438,6 +2482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.117 $ $Date: 2010-07-21 11:36:17 $
+$Revision: 1.118 $ $Date: 2010-09-02 12:20:47 $
 
 =cut
