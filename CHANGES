@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1359 2010-09-02 09:30:20 mg Exp $
+# $Id: CHANGES,v 1.1360 2010-09-02 09:44:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-02 Fixed bug#5629 - Search Dialog of new Ticket Search Feature is not working with IE7.
  - 2010-09-02 Fixed bug#5582 - Ticket::Frontend::MergeText and special carachters.
  - 2010-09-01 Fixed bug#5851 - 3 AJAX refresh indicators are shown at the top of the AgentTicketPhone page.
  - 2010-09-01 Fixed bug#5835 - Client side validation without JavaScript broken in
