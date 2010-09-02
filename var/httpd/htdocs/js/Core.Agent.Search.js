@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.14 2010-08-11 10:23:14 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.15 2010-09-02 10:14:11 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,15 +58,10 @@ Core.Agent.Search = (function (TargetNS) {
 
     TargetNS.ItemAdd = function (Attribute) {
         $('#SerachAttributesHidden').find('label').each(function () {
-            var $Element1, $Element2, $Element3;
             if ($(this).attr('for') === Attribute) {
-                $Element1 = $(this).prev().clone();
-                $Element2 = $(this).clone();
-                $Element3 = $(this).next().clone();
-                $Element1.appendTo('#SearchInsert');
-                $Element2.appendTo('#SearchInsert');
-                $Element3.appendTo('#SearchInsert');
-                return true;
+                $(this).prev().clone().appendTo('#SearchInsert');;
+                $(this).clone().appendTo('#SearchInsert');
+                $(this).next().clone().appendTo('#SearchInsert');;
             }
         });
         return false;
@@ -136,6 +131,10 @@ Core.Agent.Search = (function (TargetNS) {
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
 
+                if ($('#Profile').val() && $('#Profile').val() !== 'last-search') {
+                    $('#SearchProfileDelete').show();
+                }
+
                 // register add of attribute
                 $('.Add').bind('click', function () {
                     var Attribute = $('#Attribute').val();
@@ -181,13 +180,10 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // show add profile block or not
-                $('#SearchProfileNew').bind('click', function () {
-                    if ($('#SearchProfileAddBlock').css('display') === 'none') {
-                        $('#SearchProfileAddBlock').show();
-                    }
-                    else {
-                        $('#SearchProfileAddBlock').hide();
-                    }
+                $('#SearchProfileNew').bind('click', function (Event) {
+                    $('#SearchProfileAddBlock').toggle();
+                    Event.preventDefault();
+                    return false;
                 });
 
                 // add new profile
@@ -216,11 +212,13 @@ Core.Agent.Search = (function (TargetNS) {
                     // hide add template block
                     $('#SearchProfileAddBlock').hide();
 
+                    $('#SearchProfileDelete').show();
+
                     return false;
                 });
 
                 // delete profile
-                $('#SearchProfileDelete').bind('click', function () {
+                $('#SearchProfileDelete').bind('click', function (Event) {
 
                     // strip all already used attributes
                     $('#Profile').find('option').each(function () {
@@ -245,6 +243,11 @@ Core.Agent.Search = (function (TargetNS) {
                         }
                     });
 
+                    if ($('#Profile').val() && $('#Profile').val() === 'last-search') {
+                        $('#SearchProfileDelete').hide();
+                    }
+
+                    Event.preventDefault();
                     return false;
                 });
 

@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.37 2010-08-31 17:11:07 cg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.38 2010-09-02 10:14:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,8 +20,11 @@
             <label>$Text{"Search-Template"}</label>
             <div class="Field">
                 $Data{"ProfilesStrg"}
-                <a id="SearchProfileNew">$Text{"Create New"}</a>
-                <a id="SearchProfileDelete">$Text{"Delete"}</a>
+
+                <button id="SearchProfileNew" value="$Text{"Create New"}">$Text{"Create New"}</button>
+
+                <button id="SearchProfileDelete" class="Hidden" value="$Text{"Delete"}">$Text{"Delete"}</button>
+
                 <div id="SearchProfileAddBlock">
                     <input type="text" name="Name" id="SearchProfileAddName"/>
                     <button type="submit" title="$Text{"Create Template"}" id="SearchProfileAddAction">$Text{"Create New Template"}</button>
@@ -266,8 +269,12 @@
 
 <script type="text/javascript">//<![CDATA[
 <!-- dtl:block:SearchAJAXShow -->
-    window.setTimeout("Core.Agent.Search.ItemAdd('$QData{"Attribute"}');", 150);
-    window.setTimeout("Core.Agent.Search.RebuildSelection();", 200);
+    window.setTimeout(function (){
+        Core.Agent.Search.ItemAdd('$QData{"Attribute"}');
+        window.setTimeout(function (){
+            Core.Agent.Search.RebuildSelection();
+        }, 50);
+    }, 150);
 <!-- dtl:block:SearchAJAXShow -->
 //]]></script>
 
