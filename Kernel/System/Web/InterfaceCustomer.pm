@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.50 2010-08-25 08:22:46 mb Exp $
+# $Id: InterfaceCustomer.pm,v 1.51 2010-09-02 21:32:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -601,13 +601,17 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $GetParams{UserLogin} );
         if ( $UserData{UserID} || !$GetParams{UserLogin} ) {
-            my $Output = $LayoutObject->CustomerHeader( Area => 'Core', Title => 'Error' );
-            $Output .= $LayoutObject->CustomerWarning(
-                Message => 'This account exists.',
-                Comment => 'Please press Back and try again.'
+            $LayoutObject->Block( Name => 'SignupError' );
+            $LayoutObject->Print(
+                Output => \$LayoutObject->CustomerLogin(
+                    Title         => 'Login',
+                    Message       => 'This account exists!',
+                    UserTitle     => $GetParams{UserTitle},
+                    UserFirstname => $GetParams{UserFirstname},
+                    UserLastname  => $GetParams{UserLastname},
+                    UserEmail     => $GetParams{UserEmail},
+                ),
             );
-            $Output .= $LayoutObject->CustomerFooter();
-            $LayoutObject->Print( Output => \$Output );
             return;
         }
 
@@ -622,15 +626,17 @@ sub Run {
             UserID  => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
         if ( !$Add ) {
-            my $Output = $LayoutObject->CustomerHeader(
-                Area  => 'Core',
-                Title => 'Error',
+            $LayoutObject->Block( Name => 'SignupError' );
+            $LayoutObject->Print(
+                Output => \$LayoutObject->CustomerLogin(
+                    Title         => 'Login',
+                    Message       => 'Customer user can\'t be added!',
+                    UserTitle     => $GetParams{UserTitle},
+                    UserFirstname => $GetParams{UserFirstname},
+                    UserLastname  => $GetParams{UserLastname},
+                    UserEmail     => $GetParams{UserEmail},
+                ),
             );
-            $Output .= $LayoutObject->CustomerWarning(
-                Comment => 'Please press Back and try again.'
-            );
-            $Output .= $LayoutObject->CustomerFooter();
-            $LayoutObject->Print( Output => \$Output );
             return;
         }
 
@@ -1016,6 +1022,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2010-08-25 08:22:46 $
+$Revision: 1.51 $ $Date: 2010-09-02 21:32:03 $
 
 =cut

@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.45 2010-08-24 09:29:57 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.46 2010-09-02 21:32:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@ $Include{"CustomerHeader"}
                     <div class="Clear"></div>
                 </form>
 <!-- dtl:block:CreateAccountLink -->
-                <p>$Text{"Not yet registered?"} <a href="#Signup">$Text{"Sign up now"}</a>.</p>
+                <p>$Text{"Not yet registered?"} <a href="#Signup" id="ToSignUp">$Text{"Sign up now"}</a>.</p>
 <!-- dtl:block:CreateAccountLink -->
             </div>
 <!-- dtl:block:LostPassword -->
@@ -72,24 +72,27 @@ $Include{"CustomerHeader"}
                 <a href="#Login" class="InlineNavigation">&larr; $Text{"Back"}</a>
                 <h2>$Text{"Create Account"}</h2>
                 <p>Please fill out this form to recieve login credentials.</p>
-                <form class="Floating" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+                <form class="Floating Validate" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
                     <div>
                         <label for="Title">$Text{"Title{CustomerUser}"}</label>
-                        <input title="$Text{"How we should adress you"}" type="text" name="Title"  id="Title" maxlength="128" />
+                        <input title="$Text{"How we should adress you"}" type="text" name="Title"  id="Title" maxlength="128" value="$QData{"UserTitle"}"/>
                     </div>
                     <div class="NewLine">
-                        <label for="FirstName">$Text{"Firstname{CustomerUser}"}</label>
-                        <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="128" />
+                        <label class="Mandatory" for="FirstName"><span class="Marker">*</span> $Text{"Firstname{CustomerUser}"}</label>
+                        <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="128" value="$QData{"UserFirstname"}" class="W50pc Validate_Required"/>
+                        <div id="FirstNameError" class="TooltipErrorMessage"><p>$Text{"An account should have a first name!"}</p></div>
                     </div>
                     <div>
-                        <label for="LastName">$Text{"Lastname{CustomerUser}"}</label>
-                        <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="128" />
+                        <label class="Mandatory" for="LastName"><span class="Marker">*</span> $Text{"Lastname{CustomerUser}"}</label>
+                        <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="128" value="$QData{"UserLastname"}" class="W50pc Validate_Required"/>
+                        <div id="LastNameError" class="TooltipErrorMessage"><p>$Text{"An account should have a last name!"}</p></div>
                     </div>
                     <div class="NewLine">
-                        <label for="Email">$Text{"Email{CustomerUser}"}/$Text{"Login"}</label>
-                        <input title="$Text{"The User Name you wish to have"}" name="Email" type="text" id="Email" maxlength="128" />
+                        <label class="Mandatory" for="Email"><span class="Marker">*</span> $Text{"Email{CustomerUser}"}/$Text{"Login"}</label>
+                        <input title="$Text{"The User Name you wish to have"}" name="Email" type="text" id="Email" maxlength="128" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
+                        <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"An account should have a"} $Text{"Email{CustomerUser}"}/$Text{"Login"} !</p></div>
                     </div>
                     <div class="NewLine">
                         <button type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
@@ -102,9 +105,23 @@ $Include{"CustomerHeader"}
     </div>
 </div>
 <!-- stop login -->
+
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
     Core.Customer.Login.Init({LastLoginFailed: '$Data{"LoginFailed"}'});
 </script>
 <!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:SignupError -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">
+    $('#ToSignUp').bind('click', function () {
+        var NextPosition = $("#Signup").offset().top;
+        $('#Slider').animate({scrollTop:NextPosition}, 0);
+    });
+    $('#ToSignUp').trigger('click');
+</script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:SignupError -->
+
 $Include{"CustomerFooter"}
