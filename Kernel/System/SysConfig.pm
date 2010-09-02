@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.21 2010-07-28 08:22:44 ub Exp $
+# $Id: SysConfig.pm,v 1.22 2010-09-02 09:30:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -297,17 +297,13 @@ sub Upload {
             return;
         }
     }
-    my $Out;
-    if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!"
-        );
-        return;
-    }
 
-    print $Out $Param{Content};
-    close($Out);
+    my $FileLocation = $Self->{MainObject}->FileWrite(
+        Location => "$Home/Kernel/Config/Files/ZZZAuto.pm",
+        Content  => \$Param{Content},
+        Mode     => 'binmode',
+    );
+
     return 1;
 }
 
@@ -2150,6 +2146,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2010-07-28 08:22:44 $
+$Revision: 1.22 $ $Date: 2010-09-02 09:30:20 $
 
 =cut
