@@ -2,13 +2,15 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.51 2010-08-17 08:00:57 mg Exp $
+# $Id: AAATicket.dtl,v 1.52 2010-09-02 08:40:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+$Text{"Status View"}
+$Text{"Bulk"}
 $Text{"Lock"}
 $Text{"Unlock"}
 $Text{"History"}
