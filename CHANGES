@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1366 2010-09-02 21:32:03 cg Exp $
+# $Id: CHANGES,v 1.1367 2010-09-02 21:43:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-02 Fixed bug#5860 - Tooltips are not displayed correct in Customer interface.
  - 2010-09-02 Fixed bug#5811 - Customer Interface account creation error handling does not work correctly.
  - 2010-09-02 Fixed bug#5818 - Standard height of the article list.
  - 2010-09-02 Fixed bug#5693 - Error messages appearing during mysql tables migration.

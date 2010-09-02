@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -44,6 +44,12 @@ div.Tooltip > div.Tongue {
 
 div.Tooltip > div.Content {
     padding: 5px 10px 15px 10px;
+    border: 0px;
+}
+
+div.Tooltip > div.Content p {
+    line-height: 1.3em;
+    margin: 0px;
 }
 
 div.Tooltip.TongueLeft > div.Content {
