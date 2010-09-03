@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.75 2010-07-22 12:39:57 mn Exp $
+# $Id: AdminCustomerUser.pm,v 1.76 2010-09-03 08:49:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -323,7 +323,7 @@ sub Run {
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                     $URL
                         .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
-                        . $Self->{LayoutObject}->{LanguageObject}->Get('PhoneView') . "</a>";
+                        . $Self->{LayoutObject}->{LanguageObject}->Get('New phone ticket') . "</a>";
                 }
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail} ) {
                     if ($URL) {
@@ -331,13 +331,13 @@ sub Run {
                     }
                     $URL
                         .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
-                        . $Self->{LayoutObject}->{LanguageObject}->Get('Compose Email') . "</a>";
+                        . $Self->{LayoutObject}->{LanguageObject}->Get('New email ticket') . "</a>";
                 }
                 if ($URL) {
                     $Output
                         .= $Self->{LayoutObject}->Notify(
                         Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                            'Added User "%s"", "' . $UserQuote
+                            'Customer "%s" added", "' . $UserQuote
                             )
                             . " ( $URL )!",
                         );
@@ -346,7 +346,7 @@ sub Run {
                     $Output
                         .= $Self->{LayoutObject}->Notify(
                         Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                            'Added User "%s"", "' . $UserQuote
+                            'Customer "%s" added", "' . $UserQuote
                             )
                             . "!",
                         );
