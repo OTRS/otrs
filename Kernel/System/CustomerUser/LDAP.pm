@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.58 2010-04-14 19:42:03 martin Exp $
+# $Id: LDAP.pm,v 1.59 2010-09-03 10:45:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -353,7 +353,7 @@ sub CustomerSearch {
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
             my $Value = $Self->_ConvertFrom( $entry->get_value($Field) );
             if ($Value) {
-                if ( $_ =~ /^targetaddress$/i ) {
+                if ( $Value =~ /^targetaddress$/i ) {
                     $Value =~ s/SMTP:(.*)/$1/;
                 }
                 $CustomerString .= $Value . ' ';
