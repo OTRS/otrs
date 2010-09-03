@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -12,11 +12,11 @@
  * @section     Login
  */
 
-.Login { 
+.Login {
     padding: 34px 0;
     background: url(../img/body_bg.png) repeat-x;
 }
-    
+
 .Login p {
     padding: 0;
 }
@@ -84,7 +84,7 @@
     display: block;
 }
 
-.Login input:focused { 
+.Login input:focused {
     border-color: #F92;
 }
 
@@ -120,13 +120,14 @@
 
 /**
  * @subsection  Inline Labels (javascript only)
- * @note        labels are put inside of the input field 
+ * @note        labels are put inside of the input field
  * @see         Login
  */
 
-.JavaScriptAvailable .Login label {
+.JavaScriptAvailable .Login label,
+.JavaScriptAvailable .Login label.Mandatory {
     margin: 1px 5px;
-    color: #999;
+    color: #999 !important;
     font-size: 14px;
     line-height: 14px;
     position: absolute;
@@ -151,13 +152,12 @@
  * @subsection  Custom Field Sizes
  */
 
-#Title {
+#Signup #Title {
     width: 55px;
 }
 
-#FirstName,
-#LastName {
-    width: 80px;
+#Signup input[type='text'] {
+    width: 250px;
 }
 
 .NewLine {
@@ -191,18 +191,18 @@
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
 }
-    
+
 
 /**
  * @subsection  Login Content
  * @note        if you want to place some content into the login (for example CustomerAccept.dtl)
  */
- 
+
 .Login .Content {
     margin-left: 142px;
     border-top: none;
 }
- 
+
 .RTL .Login .Content {
     margin-right: 142px;
     margin-left: 0;

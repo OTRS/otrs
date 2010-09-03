@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.47 2010-09-03 13:41:20 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.48 2010-09-03 14:56:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@ $Include{"CustomerHeader"}
                         <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="128" value="$QData{"UserFirstname"}" class="W50pc Validate_Required"/>
                         <div id="FirstNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a first name"}</p></div>
                     </div>
-                    <div>
+                    <div class="NewLine">
                         <label class="Mandatory" for="LastName"><span class="Marker">*</span> $Text{"Lastname{CustomerUser}"}</label>
                         <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="128" value="$QData{"UserLastname"}" class="W50pc Validate_Required"/>
                         <div id="LastNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a last name"}</p></div>
