@@ -16,6 +16,7 @@
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
+%dir /opt/otrs/Custom/
 %dir /opt/otrs/Kernel/
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
