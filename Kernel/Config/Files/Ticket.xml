@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.378 2010-09-03 07:44:30 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.379 2010-09-03 07:51:22 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7485,6 +7485,16 @@ $QData{"Signature"}
                 <Description>Search Ticket</Description>
                 <Title>Search</Title>
                 <NavBarName>Ticket</NavBarName>
+                <NavBar>
+                    <Description Translatable="1">Search Ticket</Description>
+                    <Name Translatable="1">Search</Name>
+                    <Link>Action=AgentTicketSearch</Link>
+                    <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey>s</AccessKey>
+                    <Prio>300</Prio>
+                </NavBar>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
