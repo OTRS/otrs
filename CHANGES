@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1373 2010-09-03 15:07:10 mb Exp $
+# $Id: CHANGES,v 1.1374 2010-09-03 21:25:41 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-03 Fixed bug#5873 - Permissions fields are displaced in the EditSpecification of a Stat.
  - 2010-09-03 Fixed bug#5812 - Customer Interface Password Sent dialog could be less confusing.
  - 2010-09-03 Fixed bug#5870 - Login boxes in Customer Interface are too small.
  - 2010-09-03 Fixed bug#5811 - Customer Interface account creation error handling does not work correctly.

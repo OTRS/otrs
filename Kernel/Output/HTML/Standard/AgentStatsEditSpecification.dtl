@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.26 2010-07-16 13:45:37 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.27 2010-09-03 21:25:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,6 +100,7 @@ Core.Agent.Stats.FormatGraphSizeRelation();
 <!-- dtl:block:Selected -->
                         </div>
 <!-- dtl:block:Selection -->
+                        <div class="Clear"></div>
 
                         <label class="Mandatory" for="Permission">
                             <span class="Marker">*</span>
