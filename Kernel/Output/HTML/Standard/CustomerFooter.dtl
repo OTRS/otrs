@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.32 2010-08-30 11:05:13 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.33 2010-09-03 08:26:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,29 +23,31 @@
 <!-- dtl:block:ModuleJS -->
 
 <script type="text/javascript">//<![CDATA[
-    Core.Customer.Enhance();
+"use strict";
 
-    Core.App.Ready(function() {
+Core.Customer.Enhance();
 
-        Core.Config.AddConfig({
-            Baselink: '$Env{"Baselink"}',
-            CGIHandle: '$Env{"CGIHandle"}',
-            Action: '$Env{"Action"}',
-            SessionIDCookie: '$Env{"SessionIDCookie"}',
-            SessionName: '$Config{"SessionName"}',
-            SessionID: '$Env{"SessionID"}',
-            CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
-            Images: '$Config{"Frontend::ImagePath"}',
-            UserLanguage: '$Env{"UserLanguage"}',
-            AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
-            ValidateServerErrorTitle: '$JSText{"Error"}',
-            ValidateServerErrorMsg: '$JSText{"One or more errors occured!"}',
-            DialogCloseMsg: '$JSText{"Close this dialog"}',
-            PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
-        });
+Core.App.Ready(function() {
 
-        Core.Customer.Init();
+    Core.Config.AddConfig({
+        Baselink: '$Env{"Baselink"}',
+        CGIHandle: '$Env{"CGIHandle"}',
+        Action: '$Env{"Action"}',
+        SessionIDCookie: '$Env{"SessionIDCookie"}',
+        SessionName: '$Config{"SessionName"}',
+        SessionID: '$Env{"SessionID"}',
+        CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
+        Images: '$Config{"Frontend::ImagePath"}',
+        UserLanguage: '$Env{"UserLanguage"}',
+        AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+        ValidateServerErrorTitle: '$JSText{"Error"}',
+        ValidateServerErrorMsg: '$JSText{"One or more errors occured!"}',
+        DialogCloseMsg: '$JSText{"Close this dialog"}',
+        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
     });
+
+    Core.Customer.Init();
+});
 //]]></script>
 
 #
@@ -55,11 +57,12 @@
 $Include{"Datepicker"}
 
 <script type="text/javascript">//<![CDATA[
-    Core.App.Ready(function() {
+"use strict";
+Core.App.Ready(function() {
 
-        <!-- dtl:js_on_document_complete_placeholder -->
+    <!-- dtl:js_on_document_complete_placeholder -->
 
-    });
+});
 //]]></script>
 
 </body>
