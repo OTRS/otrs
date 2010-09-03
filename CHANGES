@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1369 2010-09-03 10:45:09 martin Exp $
+# $Id: CHANGES,v 1.1370 2010-09-03 12:21:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-03 Fixed bug#5632 - New Ticket Search Dialog takes about 3 Seconds to load, 3 seconds
+    with no feedback. User Experience need to get improved. Faster load of the dialog.
  - 2010-09-03 Fixed bug#5789 - Use of uninitialized value $_ in Kernel/System/CustomerUser/LDAP.pm.
  - 2010-09-03 Fixed bug#5691 - Not possbible for a package to modify a file
     that belongs to another package.

@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.16 2010-09-03 08:11:58 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.17 2010-09-03 12:21:53 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -102,6 +102,10 @@ Core.Agent.Search = (function (TargetNS) {
         );
     }
 
+    function ShowWaitingDialog(){
+        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', '', '10px', 'Center', true);
+    }
+
     /**
      * @function
      * @param {Event} Action
@@ -122,6 +126,9 @@ Core.Agent.Search = (function (TargetNS) {
             Referrer: Action,
             Profile: Profile
         };
+
+        ShowWaitingDialog();
+
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
             Data,
@@ -167,8 +174,9 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register submit
-                $('#SearchFormSubmit').live('click', function () {
+                $('#SearchFormSubmit').bind('click', function () {
                     $('#SearchForm').submit();
+                    ShowWaitingDialog();
                     return false;
                 });
 
