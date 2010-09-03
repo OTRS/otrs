@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.141 2010-08-19 16:47:22 en Exp $
+# $Id: AgentTicketEmail.pm,v 1.142 2010-09-03 13:41:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1277,7 +1277,7 @@ sub Run {
     else {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Subaction!!',
-            Comment => 'Please contact your admin',
+            Comment => 'Please contact your administrator',
         );
     }
 }

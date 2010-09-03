@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.51 2010-09-02 21:32:03 cg Exp $
+# $Id: InterfaceCustomer.pm,v 1.52 2010-09-03 13:41:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -143,14 +143,14 @@ sub Run {
         my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
         if ( !$Self->{DBObject} ) {
             $LayoutObject->CustomerFatalError(
-                Comment => 'Please contact your admin',
+                Comment => 'Please contact your administrator',
             );
             return;
         }
         if ( $Self->{ParamObject}->Error() ) {
             $LayoutObject->CustomerFatalError(
                 Message => $Self->{ParamObject}->Error(),
-                Comment => 'Please contact your admin',
+                Comment => 'Please contact your administrator',
             );
             return;
         }
@@ -173,7 +173,7 @@ sub Run {
 
             # print error
             my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
-            $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+            $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
         }
     }
 
@@ -223,7 +223,7 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
-                        || 'Login failed! Your username or password was entered incorrectly.',
+                        || 'Login failed! Your user name or password was entered incorrectly.',
                     User        => $PostUser,
                     LoginFailed => 1,
                     %Param,
@@ -250,8 +250,9 @@ sub Run {
             # show need user data error message
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Panic!',
-                    Message => 'Panic! No UserData!!!',
+                    Title => 'Panic!',
+                    Message =>
+                        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.',
                     %Param,
                 ),
             );
@@ -385,7 +386,7 @@ sub Run {
 
         # remove session id
         if ( !$Self->{SessionObject}->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
-            $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+            $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
             return;
         }
 
@@ -455,7 +456,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => 'There is no account with that login name.',
+                    Message => 'There is no account with that user name.',
                 ),
             );
             return;
@@ -489,7 +490,7 @@ sub Run {
             );
             if ( !$Sent ) {
                 $LayoutObject->FatalError(
-                    Comment => 'Please contact your admin'
+                    Comment => 'Please contact your administrator'
                 );
                 return;
             }
@@ -545,7 +546,7 @@ sub Run {
         );
         if ( !$Sent ) {
             $LayoutObject->CustomerFatalError(
-                Comment => 'Please contact your admin'
+                Comment => 'Please contact your administrator'
             );
             return;
         }
@@ -604,8 +605,9 @@ sub Run {
             $LayoutObject->Block( Name => 'SignupError' );
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title         => 'Login',
-                    Message       => 'This account exists!',
+                    Title => 'Login',
+                    Message =>
+                        'This e-mail address already exists. Please log in or reset your password.',
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
@@ -816,7 +818,7 @@ sub Run {
                 Message =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+            $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
             return;
         }
 
@@ -865,7 +867,7 @@ sub Run {
                     Priority => 'error',
                     Message  => 'No Permission to use this frontend module!'
                 );
-                $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+                $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
                 return;
             }
         }
@@ -988,7 +990,7 @@ sub Run {
         %Param,
         %Data,
     );
-    $LayoutObject->CustomerFatalError( Comment => 'Please contact your admin' );
+    $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
     return;
 }
 
@@ -1022,6 +1024,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2010-09-02 21:32:03 $
+$Revision: 1.52 $ $Date: 2010-09-03 13:41:19 $
 
 =cut

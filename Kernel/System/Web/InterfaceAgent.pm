@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.54 2010-08-25 08:18:00 mb Exp $
+# $Id: InterfaceAgent.pm,v 1.55 2010-09-03 13:41:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -142,14 +142,14 @@ sub Run {
         my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
         if ( !$Self->{DBObject} ) {
             $LayoutObject->FatalError(
-                Comment => 'Please contact your admin',
+                Comment => 'Please contact your administrator',
             );
             return;
         }
         if ( $Self->{ParamObject}->Error() ) {
             $LayoutObject->FatalError(
                 Message => $Self->{ParamObject}->Error(),
-                Comment => 'Please contact your admin'
+                Comment => 'Please contact your administrator'
             );
             return;
         }
@@ -170,7 +170,7 @@ sub Run {
 
             # print error
             my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
-            $LayoutObject->FatalError( Comment => 'Please contact your admin' );
+            $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
             return;
         }
     }
@@ -390,7 +390,7 @@ sub Run {
         if ( !$Self->{SessionObject}->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
             $LayoutObject->FatalError(
                 Message => 'Can`t remove SessionID',
-                Comment => 'Please contact your admin'
+                Comment => 'Please contact your administrator'
             );
             return;
         }
@@ -498,7 +498,7 @@ sub Run {
             );
             if ( !$Sent ) {
                 $LayoutObject->FatalError(
-                    Comment => 'Please contact your admin'
+                    Comment => 'Please contact your administrator'
                 );
                 return;
             }
@@ -554,7 +554,7 @@ sub Run {
 
         if ( !$Sent ) {
             $LayoutObject->FatalError(
-                Comment => 'Please contact your admin'
+                Comment => 'Please contact your administrator'
             );
             return;
         }
@@ -702,7 +702,7 @@ sub Run {
                 Message =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            $LayoutObject->FatalError( Comment => 'Please contact your admin' );
+            $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
             return;
         }
 
@@ -873,7 +873,7 @@ sub Run {
         %Param,
         %Data,
     );
-    $LayoutObject->FatalError( Comment => 'Please contact your admin' );
+    $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
     return;
 }
 
@@ -907,6 +907,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2010-08-25 08:18:00 $
+$Revision: 1.55 $ $Date: 2010-09-03 13:41:19 $
 
 =cut

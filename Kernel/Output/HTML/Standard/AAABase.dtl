@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.88 2010-09-03 08:49:33 mb Exp $
+# $Id: AAABase.dtl,v 1.89 2010-09-03 13:41:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,8 +199,9 @@ $Text{"Ignore"}
 $Text{"replace with"}
 
 $Text{"There is no account with that login name."}
-$Text{"Login failed! Your username or password was entered incorrectly."}
-$Text{"Please contact your admin"}
+$Text{"Login failed! Your user name or password was entered incorrectly."}
+$Text{"There is no acount with that user name."}
+$Text{"Please contact your administrator"}
 $Text{"Logout"}
 $Text{"Logout successful. Thank you for using OTRS!"}
 $Text{"Invalid SessionID!"}
@@ -286,7 +287,7 @@ $Text{"Dear Mr. %s,"}
 $Text{"Dear Mrs. %s,"}
 $Text{"Dear %s,"}
 $Text{"Hello %s,"}
-$Text{"This account exists."}
+$Text{"This e-mail address already exists. Please log in or reset your password."}
 $Text{"New account created. Sent login information to %s. Please check your e-mail."}
 $Text{"Please press Back and try again."}
 $Text{"Sent password reset instructions to %s. Please check your e-mail."}

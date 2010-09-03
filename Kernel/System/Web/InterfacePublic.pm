@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.30 2010-08-25 08:25:54 mb Exp $
+# $Id: InterfacePublic.pm,v 1.31 2010-09-03 13:41:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -145,12 +145,12 @@ sub Run {
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
     if ( !$Self->{DBObject} ) {
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
     if ( $Self->{ParamObject}->Error() ) {
         $Self->{LayoutObject}->CustomerFatalError(
             Message => $Self->{ParamObject}->Error(),
-            Comment => 'Please contact your admin'
+            Comment => 'Please contact your administrator'
         );
     }
 
@@ -166,7 +166,8 @@ sub Run {
         else {
 
             # print error
-            $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+            $Self->{LayoutObject}
+                ->CustomerFatalError( Comment => 'Please contact your administrator' );
         }
     }
 
@@ -181,7 +182,7 @@ sub Run {
 
     # run modules if a version value exists
     if ( !$Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
         return 1;
     }
 
@@ -193,7 +194,7 @@ sub Run {
             Message =>
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
         return;
     }
 
@@ -283,6 +284,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2010-08-25 08:25:54 $
+$Revision: 1.31 $ $Date: 2010-09-03 13:41:19 $
 
 =cut

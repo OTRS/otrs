@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.68 2010-09-02 14:28:16 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.69 2010-09-03 13:41:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -461,7 +461,7 @@ sub Run {
     my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
     $Output .= $Self->{LayoutObject}->CustomerError(
         Message => 'No Subaction!!',
-        Comment => 'Please contact your admin',
+        Comment => 'Please contact your administrator',
     );
     $Output .= $Self->{LayoutObject}->CustomerFooter();
     return $Output;

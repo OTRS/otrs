@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.pm,v 1.16 2010-07-02 06:57:48 mg Exp $
+# $Id: AgentTicketPlain.pm,v 1.17 2010-09-03 13:41:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +43,7 @@ sub Run {
     if ( !$Self->{ArticleID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No ArticleID!',
-            Comment => 'Please contact your admin'
+            Comment => 'Please contact your administrator'
         );
     }
 
@@ -65,7 +65,7 @@ sub Run {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'Can\'t read plain article! Maybe there is no plain email in backend! '
             , 'Read BackendMessage.',
-            Comment => 'Please contact your admin!',
+            Comment => 'Please contact your administrator',
         );
     }
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.46 2010-07-26 23:00:56 en Exp $
+# $Id: AgentTicketBounce.pm,v 1.47 2010-09-03 13:41:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
         if ( !defined $Self->{$Needed} ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "$Needed is needed!",
-                Comment => 'Please contact your admin',
+                Comment => 'Please contact your administrator',
             );
         }
     }
@@ -430,7 +430,7 @@ $Param{Signature}";
     }
     return $Self->{LayoutObject}->ErrorScreen(
         Message => 'Wrong Subaction!!',
-        Comment => 'Please contact your admin',
+        Comment => 'Please contact your administrator',
     );
 }
 
