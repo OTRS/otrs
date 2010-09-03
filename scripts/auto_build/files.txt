@@ -17,7 +17,7 @@
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
 %dir /opt/otrs/Custom/
-/opt/otrs/Custom/RELEASE
+/opt/otrs/Custom/README
 %dir /opt/otrs/Kernel/
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
