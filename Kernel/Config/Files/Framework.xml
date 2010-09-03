@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.372 2010-09-03 08:03:24 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.373 2010-09-03 14:15:45 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3794,11 +3794,12 @@ Your OTRS Notification Master
                 <Title></Title>
                 <NavBarName>Dashboard</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Dashboard</Description>
+                    <Description Translatable="1"></Description>
                     <Name Translatable="1">Dashboard</Name>
                     <Link>Action=AgentDashboard</Link>
                     <NavBar>Dashboard</NavBar>
                     <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
                     <Block>ItemArea</Block>
                     <AccessKey>d</AccessKey>
                     <Prio>50</Prio>
@@ -3934,8 +3935,8 @@ Your OTRS Notification Master
                 <Title></Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Admin-Area</Description>
                     <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Admin</Name>
                     <Link>Action=Admin</Link>
@@ -4040,10 +4041,10 @@ Your OTRS Notification Master
                 <Title>Customers</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Edit Customers</Description>
                     <Name Translatable="1">Customers</Name>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <NavBar>Customers</NavBar>
+                    <Description Translatable="1"></Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
@@ -4075,10 +4076,10 @@ Your OTRS Notification Master
                 <Title>Customer Companies</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Edit Customer Company</Description>
                     <Name Translatable="1">Companies</Name>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <NavBar>Customer</NavBar>
+                    <Description Translatable="1"></Description>
                     <Type>Menu</Type>
                     <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
@@ -4530,11 +4531,11 @@ Your OTRS Notification Master
                 <Description>Stats</Description>
                 <NavBarName>Stats</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Stats</Description>
                     <Name Translatable="1">Statistics</Name>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
                     <NavBar>Stats</NavBar>
                     <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
                     <Prio>8500</Prio>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
