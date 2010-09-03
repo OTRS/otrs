@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.148 2010-09-03 08:11:58 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.149 2010-09-03 12:52:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>Ticket Information</h2>
+                    <h2>$Text{"Ticket Information"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabelSmall Tight">
