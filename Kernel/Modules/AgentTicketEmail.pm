@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.142 2010-09-03 13:41:20 mb Exp $
+# $Id: AgentTicketEmail.pm,v 1.143 2010-09-03 18:47:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -638,83 +638,75 @@ sub Run {
         }
 
         # check some values
-        for my $Line (qw(To Cc Bcc)) {
-            next if !$GetParam{$Line};
-            for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+        for my $Param (qw(To Cc Bcc)) {
+            next if !$GetParam{$Param};
+            for my $Email ( Mail::Address->parse( $GetParam{$Param} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    if ( $IsUpload == 0 ) {
-                        $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    if ( !$IsUpload ) {
+                        $Error{ $Param . "Invalid" } = 'ServerError';
                     }
                 }
                 my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                     Address => $Email->address()
                 );
                 if ( !$IsUpload && $IsLocal ) {
-                    $Error{ "$Line" . "Invalid" } = ' ServerError';
+                    $Error{ $Param . "Invalid" } = 'ServerError';
                 }
             }
-        }
-        if (
-            !$IsUpload
-            && !$GetParam{To}
-            && $ExpandCustomerName != 1
-            && $ExpandCustomerName == 0
-            )
-        {
-            $Error{'ToInvalid'} = ' ServerError';
-        }
-        if ( !$IsUpload && !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            $Error{'SubjectInvalid'} = ' ServerError';
-        }
-        if ( !$IsUpload && !$NewQueueID && $ExpandCustomerName == 0 ) {
-            $Error{'DestinationInvalid'} = ' ServerError';
-        }
-        if ( !$IsUpload && !$GetParam{Body} && $ExpandCustomerName == 0 ) {
-            $Error{'BodyInvalid'} = ' ServerError';
         }
 
-        # check if date is valid
-        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
-            if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = ' ServerError';
-                }
-            }
+        # if it is not a subaction about attachments, check for server errors
+        if ( !$IsUpload ) {
             if (
-                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
-                < $Self->{TimeObject}->SystemTime()
+                !$GetParam{To}
+                && $ExpandCustomerName != 1
+                && $ExpandCustomerName == 0
                 )
             {
-                if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = ' ServerError';
+                $Error{'ToInvalid'} = 'ServerError';
+            }
+            if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
+                $Error{'SubjectInvalid'} = 'ServerError';
+            }
+            if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
+                $Error{'DestinationInvalid'} = 'ServerError';
+            }
+            if ( !$GetParam{Body} && $ExpandCustomerName == 0 ) {
+                $Error{'BodyInvalid'} = 'ServerError';
+            }
+
+            # check if date is valid
+            if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+                if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+                if (
+                    $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                    < $Self->{TimeObject}->SystemTime()
+                    )
+                {
+                    $Error{'DateInvalid'} = 'ServerError';
                 }
             }
-        }
-        if (
-            $Self->{ConfigObject}->Get('Ticket::Service')
-            && $GetParam{SLAID}
-            && !$GetParam{ServiceID}
-            )
-        {
-            if ( $IsUpload == 0 ) {
-                $Error{'ServiceInvalid'} = ' ServerError';
-            }
-        }
 
-        if ( $Self->{ConfigObject}->Get('Ticket::Type') && !$GetParam{TypeID} ) {
-            if ( $IsUpload == 0 ) {
-                $Error{'TypeInvalid'} = ' ServerError';
+            if (
+                $Self->{ConfigObject}->Get('Ticket::Service')
+                && $GetParam{SLAID}
+                && !$GetParam{ServiceID}
+                )
+            {
+                $Error{'ServiceInvalid'} = 'ServerError';
             }
-        }
-
-        if (
-            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
-            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-            && !$GetParam{TimeUnits}
-            )
-        {
-            if ( $IsUpload == 0 ) {
-                $Error{'TimeUnitsInvalid'} = ' ServerError';
+            if ( $Self->{ConfigObject}->Get('Ticket::Type') && !$GetParam{TypeID} ) {
+                $Error{'TypeInvalid'} = 'ServerError';
+            }
+            if (
+                $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+                && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                && !$GetParam{TimeUnits}
+                )
+            {
+                $Error{'TimeUnitsInvalid'} = 'ServerError';
             }
         }
 
