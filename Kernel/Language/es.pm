@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.109 2010-09-03 17:46:28 en Exp $
+# $Id: es.pm,v 1.110 2010-09-03 20:54:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -466,14 +466,14 @@ sub Data {
         'Priorities' => '',
         'Priority Update' => 'Modificar prioridad',
         'SLA' => 'SLA',
-        'Service Level Agreement' => '',
-        'Service Level Agreements' => '',
-        'Service' => 'Servicios',
-        'Services' => '',
+        'Service Level Agreement' => 'Acuerdo de Nivel de Servicio',
+        'Service Level Agreements' => 'Acuerdos de Nivel de Servicio',
+        'Service' => 'Servicio',
+        'Services' => 'Servicios',
         'State' => 'Estado',
-        'States' => '',
+        'States' => 'Estados',
         'Status' => 'Estados',
-        'Statuses' => '',
+        'Statuses' => 'Estados',
         'Ticket Type' => '',
         'Ticket Types' => '',
         'Compose' => 'Redactar',
@@ -1423,7 +1423,7 @@ sub Data {
         'The ticket was locked' => '',
         'Undo & close window' => '',
         'Title is required.' => '',
-        'A ticket should have a type!' => '',
+        'A ticket should have a type!' => '¡El ticket debe tener un tipo!',
         'Ticket type is required.' => '',
         'Service invalid.' => '',
         'New Owner' => 'Nuevo Propietario',
@@ -1472,7 +1472,7 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Redacte una respuesta para el ticket',
-        'Need a valid email address.' => '',
+        'Need a valid email address.' => 'Se requiere una dirección de correo electrónico válida.',
         'Need a valid email address or don\'t use a local email address.' => '',
         'Need a valid email address or don\'t use a local email address' => '',
         'Need a valid mail address or don\'t use a local email address' => '',
@@ -1493,7 +1493,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
-        'From queue' => '',
+        'From queue' => 'De la fila',
         'A ticket should be associated with a queue!' => '',
         'Queue is required.' => '',
         'Need a valid mail address or don\'t use a local email address.' => '',
