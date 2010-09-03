@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.11 2010-08-30 11:01:25 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.12 2010-09-03 12:17:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -171,7 +171,7 @@ Core.UI.Dialog = (function (TargetNS) {
         // If Param HTML is provided, get the HTML data
         // Data can be a HTML string or an jQuery object with containing HTML data
         if (Params.HTML) {
-            // Get HTML with JS function innerhTML, because jQuery html() strips out the script blocks
+            // Get HTML with JS function innerHTML, because jQuery html() strips out the script blocks
             if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
                 HTMLBackup = (Params.HTML)[0].innerHTML;
                 Core.Data.Set($('body'), 'DialogCopy', HTMLBackup);
