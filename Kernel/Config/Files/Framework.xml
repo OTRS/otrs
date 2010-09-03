@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.373 2010-09-03 14:15:45 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.374 2010-09-03 15:04:48 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2785,7 +2785,7 @@
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">New OTRS Password request!</String>
+            <String Regex="">New OTRS password request</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPasswordToken" Required="1" Valid="1">
@@ -2795,14 +2795,14 @@
         <Setting>
             <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
-you or someone impersonating you has requested to change your OTRS
+You or someone impersonating you has requested to change your OTRS
 password.
 
-If you want to do this, click on this link to get a new password.
+If you want to do this, click on the link below. You will receive another e-mail containing the password.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=LostPassword;Token=&lt;OTRS_TOKEN&gt;
 
-Your OTRS Notification Master
+If you did not request a new password, please ignore this e-mail.
             </TextArea>
         </Setting>
     </ConfigItem>
@@ -2811,7 +2811,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">New OTRS Password!</String>
+            <String Regex="">New OTRS password</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPassword" Required="1" Valid="1">
@@ -2821,14 +2821,14 @@ Your OTRS Notification Master
         <Setting>
             <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
-you or someone impersonating you has requested to change your OTRS
-password.
 
-New Password: &lt;OTRS_NEWPW&gt;
+Here's your new OTRS password.
+
+New password: &lt;OTRS_NEWPW&gt;
+
+You can log in via the following URL:
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl
-
-Your OTRS Notification Master
             </TextArea>
         </Setting>
     </ConfigItem>
@@ -3340,7 +3340,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">New OTRS Password request!</String>
+            <String Regex="">New OTRS password request</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPasswordToken" Required="1" Valid="1">
@@ -3350,14 +3350,14 @@ Your OTRS Notification Master
         <Setting>
             <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
-you or someone impersonating you has requested to change your OTRS
+You or someone impersonating you has requested to change your OTRS
 password.
 
-If you want to do this, click on this link to get a new password.
+If you want to do this, click on this link. You will receive another e-mail containing the password.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerLostPassword;Token=&lt;OTRS_TOKEN&gt;
 
-Your OTRS Notification Master
+If you did not request a new password, please ignore this e-mail.
             </TextArea>
         </Setting>
     </ConfigItem>
@@ -3366,7 +3366,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">New OTRS Password!</String>
+            <String Regex="">New OTRS password</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
@@ -3376,14 +3376,10 @@ Your OTRS Notification Master
         <Setting>
             <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
-you or someone impersonating you has requested to change your OTRS
-password.
 
-New Password: &lt;OTRS_NEWPW&gt;
+New password: &lt;OTRS_NEWPW&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
-
-Your OTRS Notification Master
             </TextArea>
         </Setting>
     </ConfigItem>
@@ -3402,15 +3398,17 @@ Your OTRS Notification Master
         <Setting>
             <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
-you or someone impersonating you has created a new OTRS account for
-you (&lt;OTRS_USERFIRSTNAME&gt; &lt;OTRS_USERLASTNAME&gt;).
+You or someone impersonating you has created a new OTRS account for
+you.
 
-Login: &lt;OTRS_USERLOGIN&gt;
-Password: &lt;OTRS_USERPASSWORD&gt;
+Full name: &lt;OTRS_USERFIRSTNAME&gt; &lt;OTRS_USERLASTNAME&gt;
+User name: &lt;OTRS_USERLOGIN&gt;
+Password : &lt;OTRS_USERPASSWORD&gt;
+
+You can log in via the following URL. We encourage you to change your password
+via the Preferences button after logging in.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
-
-Your OTRS Notification Master
             </TextArea>
         </Setting>
     </ConfigItem>
