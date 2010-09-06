@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1375 2010-09-06 07:23:04 mg Exp $
+# $Id: CHANGES,v 1.1376 2010-09-06 07:59:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
- - 2010-09-03 Fixed bug#5876 - Chinese UI issue.
+ - 2010-09-06 Fixed bug#5871 - Ticket information in dashboard is not properly aligned.
+ - 2010-09-06 Fixed bug#5876 - Chinese UI issue.
  - 2010-09-03 Fixed bug#5873 - Permissions fields are displaced in the EditSpecification of a Stat.
  - 2010-09-03 Fixed bug#5812 - Customer Interface Password Sent dialog could be less confusing.
  - 2010-09-03 Fixed bug#5870 - Login boxes in Customer Interface are too small.

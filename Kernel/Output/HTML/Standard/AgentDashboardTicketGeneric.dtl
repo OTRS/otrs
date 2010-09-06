@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.34 2010-08-11 10:56:30 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.35 2010-09-06 07:59:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@
 <!-- dtl:block:ContentLargeTicketGenericRow -->
         <tr>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
-            <td class="$QData{"ClassTable"} Fixed" title="$Text{"$Data{"Title"}"}">
+            <td class="$QData{"ClassTable"} Flags" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                 <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
                     <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
@@ -101,10 +101,10 @@
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
             </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
-            <td width="10%">
+            <td class="W10pc">
                 <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock">$Data{"TicketNumber"}</a>
             </td>
-            <td width="55%">
+            <td class="W50pc">
                 <div title="$QData{"Title"}">$QData{"Title","70"}</div>
             </td>
             <td>$QData{"Time"}</td>
