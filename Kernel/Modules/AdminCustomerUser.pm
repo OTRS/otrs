@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.76 2010-09-03 08:49:33 mb Exp $
+# $Id: AdminCustomerUser.pm,v 1.77 2010-09-06 09:04:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
     my $NavBar = '';
-    my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
+    my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || '';
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
 
@@ -53,7 +53,9 @@ sub Run {
     }
     else {
         $NavBar = $Self->{LayoutObject}->Header();
-        $NavBar .= $Self->{LayoutObject}->NavigationBar();
+        $NavBar .= $Self->{LayoutObject}->NavigationBar(
+            Type => $Nav eq 'Agent' ? 'Customers' : 'Admin',
+        );
     }
 
     # search user list
@@ -483,6 +485,7 @@ sub _Overview {
                         Name => 'OverviewResultRowLink',
                         Data => {
                             Search => $Param{Search},
+                            Nav    => $Param{Nav},
                             %UserData,
                         },
                     );

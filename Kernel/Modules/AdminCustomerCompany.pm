@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.20 2010-06-01 09:03:20 mb Exp $
+# $Id: AdminCustomerCompany.pm,v 1.21 2010-09-06 09:04:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,6 +42,9 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Nav = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
+    my $NavigationBarType = $Nav eq 'Agent' ? 'Companies' : 'Admin';
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -49,9 +52,12 @@ sub Run {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $CustomerID, );
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(
+            Type => $NavigationBarType,
+        );
         $Self->_Edit(
             Action => 'Change',
+            Nav    => $Nav,
             %Data,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -87,9 +93,13 @@ sub Run {
             )
             )
         {
-            $Self->_Overview();
+            $Self->_Overview(
+                Nav => $Nav,
+            );
             my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(
+                Type => $NavigationBarType,
+            );
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminCustomerCompany',
@@ -100,11 +110,14 @@ sub Run {
         }
         else {
             my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(
+                Type => $NavigationBarType,
+            );
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action     => 'Change',
                 Validation => 'ServerError',
+                Nav        => $Nav,
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -125,9 +138,12 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
         }
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(
+            Type => $NavigationBarType,
+        );
         $Self->_Edit(
             Action => 'Add',
+            Nav    => $Nav,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -148,17 +164,21 @@ sub Run {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
         }
 
-        # add user
+        # add company
         if (
-            my $AddressID
-            = $Self->{CustomerCompanyObject}->CustomerCompanyAdd(
-                %GetParam, UserID => $Self->{UserID}
+            $Self->{CustomerCompanyObject}->CustomerCompanyAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
             )
             )
         {
-            $Self->_Overview();
+            $Self->_Overview(
+                Nav => $Nav,
+            );
             my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(
+                Type => $NavigationBarType,
+            );
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminCustomerCompany',
@@ -169,11 +189,14 @@ sub Run {
         }
         else {
             my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(
+                Type => $NavigationBarType,
+            );
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action     => 'Add',
                 Validation => 'ServerError',
+                Nav        => $Nav,
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -189,9 +212,13 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+        $Self->_Overview(
+            Nav => $Nav,
+        );
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(
+            Type => $NavigationBarType,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
@@ -311,7 +338,10 @@ sub _Edit {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'PreferencesGeneric',
-                    Data => { Item => $Entry->[1], %Param },
+                    Data => {
+                        Item => $Entry->[1],
+                        %Param
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => "PreferencesGeneric$Block",
@@ -350,7 +380,12 @@ sub _Overview {
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionSearch',
+        Data => {
+            Nav => $Param{Nav},
+            }
+    );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
     $Self->{LayoutObject}->Block(
@@ -388,6 +423,7 @@ sub _Overview {
                         Valid => $ValidList{ $Data{ValidID} },
                         %Data,
                         Search => $Search,
+                        Nav    => $Param{Nav},
                     },
                 );
             }

@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.22 2010-07-14 10:47:35 mn Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.23 2010-09-06 09:04:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@
                         <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value=""/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
                             <input type="text" name="Search" value="$QData{"Search"}" id="Search" title="$Text{"Search"}"/>
                             <button type="submit" value="$Text{"Search"}">$Text{"Search"}</button>
                         </form>
@@ -88,7 +89,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"}">$QData{"CustomerID","20"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=$LQData{"Nav"}">$QData{"CustomerID","20"}</a></td>
                             <td>$QData{"CustomerCompanyName"}</td>
                             <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","26"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
@@ -115,6 +116,7 @@
                 <form action="$Env{"CGIHandle"}"  class="Validate" method="post">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                    <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
                     <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerID"}"/>
                     <fieldset class="TableLike">
 <!-- dtl:block:PreferencesGeneric -->
@@ -162,7 +164,7 @@
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                             $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

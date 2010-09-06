@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.21 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminCustomerUser.dtl,v 1.22 2010-09-06 09:04:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
 <!-- dtl:block:OverviewResultRowLink -->
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"};Search=$LQData{"Search"};Nav=$LQData{"Nav"}">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLink -->
 <!-- dtl:block:OverviewResultRowLinkNone -->
                             <td><a class="AsBlock" href="#">$QData{"UserLogin"}</a></td>
@@ -216,7 +216,7 @@
                         <div class="Field SpacingTop">
                             <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                             $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
