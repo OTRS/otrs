@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1378 2010-09-06 10:31:09 mg Exp $
+# $Id: CHANGES,v 1.1379 2010-09-06 10:43:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-06 Fixed bug#3521 - Error messages from password regex rules are
+    truncated at comma which should't be there.
  - 2010-09-06 Fixed bug#5875 - Customer ticket print view has too much information.
  - 2010-09-06 Fixed bug#5867 - Navigation bar does not obey click path.
  - 2010-09-06 Fixed bug#5871 - Ticket information in dashboard is not properly aligned.
@@ -17,7 +19,8 @@
  - 2010-09-03 Fixed bug#5873 - Permissions fields are displaced in the EditSpecification of a Stat.
  - 2010-09-03 Fixed bug#5812 - Customer Interface Password Sent dialog could be less confusing.
  - 2010-09-03 Fixed bug#5870 - Login boxes in Customer Interface are too small.
- - 2010-09-03 Fixed bug#5811 - Customer Interface account creation error handling does not work correctly.
+ - 2010-09-03 Fixed bug#5811 - Customer Interface account creation error handling
+    does not work correctly.
  - 2010-09-03 Fixed bug#5632 - New Ticket Search Dialog takes about 3 Seconds to load, 3 seconds
     with no feedback. User Experience need to get improved. Faster load of the dialog.
  - 2010-09-03 Fixed bug#5789 - Use of uninitialized value $_ in Kernel/System/CustomerUser/LDAP.pm.
@@ -36,7 +39,8 @@
  - 2010-09-02 Fixed bug#5638 - Strange labels/buttons in TicketSearch "Create New  Delete".
  - 2010-09-02 Fixed bug#5629 - Search Dialog of new Ticket Search Feature is not working with IE7.
  - 2010-09-02 Fixed bug#5582 - Ticket::Frontend::MergeText and special carachters.
- - 2010-09-01 Fixed bug#5851 - 3 AJAX refresh indicators are shown at the top of the AgentTicketPhone page.
+ - 2010-09-01 Fixed bug#5851 - 3 AJAX refresh indicators are shown at the top of the
+    AgentTicketPhone page.
  - 2010-09-01 Fixed bug#5835 - Client side validation without JavaScript broken in
     customer interface.
  - 2010-09-01 Fixed bug#5816 - SysConfig HighlightAge, wrong limits and handling.
