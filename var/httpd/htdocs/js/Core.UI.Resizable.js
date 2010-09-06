@@ -2,7 +2,7 @@
 // Core.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Resizable.js,v 1.3 2010-09-02 14:03:35 mg Exp $
+// $Id: Core.UI.Resizable.js,v 1.4 2010-09-06 15:17:50 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ Core.UI = Core.UI || {};
 Core.UI.Resizable = (function (TargetNS) {
 
     var ScrollerMinHeight = 84,
-        HandleHeight = 10,
+        HandleHeight = 14,
         TableHeaderHeight = 28;
     /**
      * @function
@@ -49,7 +49,7 @@ Core.UI.Resizable = (function (TargetNS) {
                 handles: {
                     s: $Element.find('.Handle a')
                 },
-                minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight + 4,
+                minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight,
                 maxHeight: $Element.find('table').height() + HandleHeight + TableHeaderHeight,
                 resize: function (Event, UI) {
                     var Height, Width;
