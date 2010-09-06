@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.15 2010-07-26 08:28:10 mn Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.16 2010-09-06 11:22:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,6 +34,11 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # don't show ticket search links in the print views
+    if ( $Self->{LayoutObject}->{Action} =~ m{Print$}smx ) {
+        return;
+    }
 
     # lookup map
     my %Lookup = (
