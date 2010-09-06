@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.13 2010-06-30 17:28:56 dz Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.14 2010-09-06 10:31:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,24 +34,6 @@
                                 <td class="contentkey">$Text{"Queue"}:</td>
                                 <td class="contentvalue">$QData{"Queue"}</td>
                             </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Lock"}:</td>
-                                <td class="contentvalue">$Text{"$Data{"Lock"}"}</td>
-                            </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"CustomerID"}:</td>
-                                <td class="contentvalue">$QData{"CustomerID"}</td>
-                            </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Owner"}:</td>
-                                <td class="contentvalue">$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
-                            </tr>
-<!-- dtl:block:Responsible -->
-                            <tr>
-                                <td class="contentkey">$Text{"Responsible"}:</td>
-                                <td class="contentvalue">$QData{"ResponsibleString"}</td>
-                            </tr>
-<!-- dtl:block:Responsible -->
 <!-- dtl:block:TicketType -->
                             <tr>
                                 <td class="contentkey">$Text{"Type"}:</td>
@@ -73,6 +55,10 @@
                     <td width="50%" valign="top">
                         <table border="0" cellspacing="3" cellpadding="0" width="100%">
                             <tr>
+                                <td class="contentkey">$Text{"CustomerID"}:</td>
+                                <td class="contentvalue">$QData{"CustomerID"}</td>
+                            </tr>
+                            <tr>
                                 <td class="contentkey" width="40%">$Text{"Age"}:</td>
                                 <td class="contentvalue" width="60%">$QData{"Age"}</td>
                             </tr>
@@ -80,26 +66,6 @@
                                 <td class="contentkey">$Text{"Created"}:</td>
                                 <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
                             </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Accounted time"}:</td>
-                                <td class="contentvalue">$QData{"TicketTimeUnits"}</td>
-                            </tr>
-                            <tr>
-                                <td class="contentkey">$Text{"Pending till"}:</td>
-                                <td class="contentvalue">$QData{"PendingUntil"}</td>
-                            </tr>
-<!-- dtl:block:FirstResponseTime -->
-                            <tr>
-                                <td class="contentkey">$Text{"First Response Time"}:</td>
-                                <td class="contentvalue">$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</td>
-                            </tr>
-<!-- dtl:block:FirstResponseTime -->
-<!-- dtl:block:UpdateTime -->
-                            <tr>
-                                <td class="contentkey">$Text{"Update Time"}:</td>
-                                <td class="contentvalue">$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</td>
-                            </tr>
-<!-- dtl:block:UpdateTime -->
 <!-- dtl:block:SolutionTime -->
                             <tr>
                                 <td class="contentkey">$Text{"Solution Time"}:</td>

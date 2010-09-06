@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.34 2010-07-02 12:09:33 mg Exp $
+# $Id: CustomerTicketPrint.pm,v 1.35 2010-09-06 10:31:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,9 +82,6 @@ sub Run {
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
         UserID                     => $Self->{UserID},
-    );
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
-        TicketID => $Ticket{TicketID},
     );
 
     # customer info
@@ -295,14 +292,6 @@ sub _PDFOutputTicketInfos {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':',
             Value => $Ticket{Queue},
         },
-        {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':',
-            Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Lock} ),
-        },
-        {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
-            Value => $Ticket{CustomerID},
-        },
     ];
 
     # add type row, if feature is enabled
@@ -331,6 +320,10 @@ sub _PDFOutputTicketInfos {
     # create right table
     my $TableRight = [
         {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
+            Value => $Ticket{CustomerID},
+        },
+        {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Age} ),
         },
@@ -340,14 +333,6 @@ sub _PDFOutputTicketInfos {
                 Template => '$TimeLong{"$Data{"Created"}"}',
                 Data     => \%Ticket,
             ),
-        },
-        {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
-            Value => $Ticket{TicketTimeUnits},
-        },
-        {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
-            Value => $Ticket{PendingUntil},
         },
     ];
 
@@ -984,20 +969,6 @@ sub _HTMLMask {
                     },
                 );
             }
-        }
-
-        # show accounted article time
-        if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {
-            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
-                ArticleID => $Article{ArticleID},
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    Key   => 'Time',
-                    Value => $ArticleTime,
-                },
-            );
         }
 
         # show article free text
