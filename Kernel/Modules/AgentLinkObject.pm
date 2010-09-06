@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.54 2010-08-14 00:54:45 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.55 2010-09-06 13:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +39,15 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # ------------------------------------------------------------ #
+    # close
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'Close' ) {
+        return $Self->{LayoutObject}->PopupClose(
+            Reload => 1,
+        );
+    }
 
     # get params
     my %Form;

@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.44 2010-09-01 11:34:15 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.45 2010-09-06 13:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,11 +17,13 @@
             $Text{"Link Object: %s", "$Data{"SourceObjectLong"}"}
         </h1>
         <p>
-            <a class="CancelClosePopup" href="">$Text{"Cancel & close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close">$Text{"Close window"}</a>
 
 <!-- dtl:block:LinkMenuDelete -->
             $Text{"or"}
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete;Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}">$Text{"delete links"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LinkDelete;Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}">
+                $Text{"go to link delete screen"}
+            </a>
 <!-- dtl:block:LinkMenuDelete -->
 
         </p>
@@ -96,9 +98,11 @@
             $Text{"Unlink Object: %s", "$QData{"SourceObjectNormal"}"}
         </h1>
         <p>
-            <a href="">$Text{"Close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close">$Text{"Close window"}</a>
             $Text{"or"}
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">$Text{"go back"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">
+                $Text{"go to link add screen"}
+            </a>
         </p>
     </div>
     <div class="Content">

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1380 2010-09-06 11:22:58 mg Exp $
+# $Id: CHANGES,v 1.1381 2010-09-06 13:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-06 Fixed bug#5877 - No screen refresh when linking tickets.
  - 2010-09-06 Fixed bug#4411 - CustomerTicket plain print (PDF=off) shows wrong URLs.
  - 2010-09-06 Fixed bug#3521 - Error messages from password regex rules are
     truncated at comma which should't be there.
