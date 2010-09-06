@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.52 2010-09-03 13:41:19 mb Exp $
+# $Id: InterfaceCustomer.pm,v 1.53 2010-09-06 10:30:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -210,7 +210,7 @@ sub Run {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
                 print $LayoutObject->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                        . "?Reason=LoginFailed;RequestedURL=$Param{RequestedURL}",
                 );
                 return;
             }
@@ -355,7 +355,7 @@ sub Run {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
                 print $LayoutObject->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                        . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
                 );
             }
 
@@ -680,8 +680,8 @@ sub Run {
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
             print $LayoutObject->Redirect(
                 ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                    . "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&"
-                    . "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
+                    . "?RequestedURL=$Param{RequestedURL};User=$GetParams{UserLogin};"
+                    . "Email=$GetParams{UserEmail};Reason=NewAccountCreated",
             );
             return 1;
         }
@@ -711,7 +711,7 @@ sub Run {
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
             print $LayoutObject->Redirect(
-                OP => "Action=Login&RequestedURL=$Param{RequestedURL}",
+                OP => "Action=Login;RequestedURL=$Param{RequestedURL}",
             );
             return;
         }
@@ -760,7 +760,7 @@ sub Run {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
                 print $LayoutObject->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                        . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
                 );
                 return;
             }
@@ -957,7 +957,7 @@ sub Run {
         # log request time
         if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
             if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
-                $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
+                $QueryString = 'Action=' . $Param{Action} . ';Subaction=' . $Param{Subaction};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
             if ( open my $Out, '>>', $File ) {
@@ -1024,6 +1024,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2010-09-03 13:41:19 $
+$Revision: 1.53 $ $Date: 2010-09-06 10:30:51 $
 
 =cut
