@@ -2,7 +2,7 @@
 # AAAPreferences.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.23 2010-05-04 00:27:39 martin Exp $
+# $Id: AAAPreferences.dtl,v 1.24 2010-09-06 07:23:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,8 @@ $Text{"Other Settings"}
 
 $Text{"Change Password"}
 $Text{"Current Password"}
-$Text{"New Password"}
-$Text{"Verify New Password"}
+$Text{"New password"}
+$Text{"Verify password"}
 
 $Text{"Spelling Dictionary"}
 $Text{"Default spelling dictionary"}
