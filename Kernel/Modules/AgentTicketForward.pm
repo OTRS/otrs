@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.81 2010-07-27 16:36:28 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.82 2010-09-07 08:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -462,9 +462,9 @@ sub SendEmail {
     }
 
     # prepare subject
-    my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
+    my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => '123',
+        TicketNumber => $TicketNumber,
         Action       => 'Forward',
         Subject      => $GetParam{Subject} || '',
     );
@@ -640,11 +640,11 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $Tn,
+            Value => $TicketNumber,
             Type  => 'Small',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $Tn,
+            TicketNumber => $TicketNumber,
             TicketID     => $Self->{TicketID},
             QueueID      => $QueueID,
             NextStates   => $Self->_GetNextStates(),

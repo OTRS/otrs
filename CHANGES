@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1384 2010-09-07 08:28:46 mg Exp $
+# $Id: CHANGES,v 1.1385 2010-09-07 08:45:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-07 Fixed bug#5885 - Forwarding an article adds string to subject.
  - 2010-09-07 Fixed bug#5024 - Adding a new ticket-priority results in a PriorityID-<new ID> tag
     from the layout engine in the generated HTML wo/ matching CSS class.
  - 2010-09-07 Fixed bug#5884 - For CSV and Print (PDF) search results the search window does not auto close.
