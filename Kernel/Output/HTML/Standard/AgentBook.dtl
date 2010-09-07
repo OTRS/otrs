@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.21 2010-09-01 11:34:15 mg Exp $
+# $Id: AgentBook.dtl,v 1.22 2010-09-07 09:59:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th>$Text{"Name"}</th>
-                        <th>$Text{"An"}</th>
+                        <th>$Text{"To"}</th>
                         <th>$Text{"Cc"}</th>
                         <th>$Text{"Bcc"}</th>
                     </tr>
