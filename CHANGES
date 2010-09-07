@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1388 2010-09-07 16:43:38 cg Exp $
+# $Id: CHANGES,v 1.1389 2010-09-07 22:43:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-03 Fixed bug#5779 - Mandatory FreeTime fields are not validated.
  - 2010-09-03 Fixed bug#5811 - Customer Interface account creation error handling
     does not work correctly.
  - 2010-09-07 Fixed bug#5861 - Dashboard: CacheTTL for Stats breaks the generation of the chart.

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.69 2010-09-03 13:41:20 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.70 2010-09-07 22:43:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,15 +106,19 @@ sub Run {
 
         # get ticket free time params
         my %TicketFreeTime;
-        for ( 1 .. 6 ) {
+        for my $Count ( 1 .. 6 ) {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
-                $TicketFreeTime{ "TicketFreeTime" . $_ . $Type }
-                    = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+                $TicketFreeTime{ "TicketFreeTime" . $Count . $Type }
+                    = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $Count . $Type );
             }
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
-                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+            if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+            }
+
+            if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
             }
         }
 
@@ -169,6 +173,41 @@ sub Run {
                 $To         = $Queue;
             }
         }
+
+        # If is an action about attachments
+        my $IsUpload = 0;
+
+        # attachment delete
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
+            $IsUpload = 1;
+        }
+
+        # attachment upload
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $IsUpload = 1;
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => 'file_upload',
+                Source => 'string',
+            );
+            $Self->{UploadCacheObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
+
         my %TicketFree;
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
@@ -202,14 +241,18 @@ sub Run {
             # If Key has value 2, this means that the freetextfield is required
             if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
                 $TicketFreeText{Required}->{$Count} = 1;
+            }
 
-                if (
-                    $TicketFree{"TicketFreeText$Count"} eq ''
-                    && !$GetParam{Expand}
-                    )
-                {
-                    $TicketFreeText{Error}->{$Count} = 1;
-                }
+            # check required FreeTextField (if configured)
+            if (
+                $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && !$GetParam{Expand}
+                && $IsUpload == 0
+                )
+            {
+                $TicketFreeText{Error}->{$Count} = 1;
+                $Error{$Text} = 'ServerError';
             }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -219,16 +262,21 @@ sub Run {
 
         # get ticket free time params
         my %TicketFreeTime;
-        for ( 1 .. 6 ) {
+        for my $Count ( 1 .. 6 ) {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
-                $TicketFreeTime{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
-                    Param => "TicketFreeTime" . $_ . $Type,
-                );
+                $TicketFreeTime{ "TicketFreeTime" . $Count . $Type }
+                    = $Self->{ParamObject}->GetParam(
+                    Param => "TicketFreeTime" . $Count . $Type,
+                    );
             }
-            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
-                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
-                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+                = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+            if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+            }
+
+            if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
             }
         }
 
@@ -244,47 +292,18 @@ sub Run {
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
-        # attachment delete
-        for my $Count ( 1 .. 32 ) {
-            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-            next if !$Delete;
-            $Error{AttachmentDelete} = 1;
-            $Self->{UploadCacheObject}->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-        }
-
-        # attachment upload
-        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'string',
-            );
-            $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID => $Self->{FormID},
-                %UploadStuff,
-            );
-        }
-
-        # get all attachments meta data
-        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
-        );
-
         # check queue
-        if ( !$NewQueueID ) {
+        if ( !$NewQueueID && !$IsUpload && !$GetParam{Expand} ) {
             $Error{'QueueInvalid'} = 'ServerError';
         }
 
         # check subject
-        if ( !$GetParam{Subject} ) {
+        if ( !$GetParam{Subject} && !$IsUpload ) {
             $Error{'SubjectInvalid'} = 'ServerError';
         }
 
         # check body
-        if ( !$GetParam{Body} ) {
+        if ( !$GetParam{Body} && !$IsUpload ) {
             $Error{'BodyInvalid'} = 'ServerError';
         }
         if ( $GetParam{Expand} ) {
@@ -512,7 +531,7 @@ sub _MaskNew {
             Multiple   => 0,
             Size       => 0,
             Name       => 'Dest',
-            Class      => "Validate_Required $Param{Errors}->{QueueInvalid}",
+            Class      => "Validate_RequiredDropdown $Param{Errors}->{QueueInvalid}",
             SelectedID => $Param{ToSelected},
         );
         $Self->{LayoutObject}->Block(
@@ -635,6 +654,7 @@ sub _MaskNew {
                 TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
                 TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
                 Count               => $Count,
+                ServerError         => $Param{Errors}->{ 'TicketFreeText' . $Count },
                 %Param,
             },
         );
