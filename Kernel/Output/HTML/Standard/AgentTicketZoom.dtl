@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.149 2010-09-03 12:52:11 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.150 2010-09-07 07:38:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -559,7 +559,8 @@ $Data{"Body"}
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTML -->
                 <div class="message">
-                    <iframe width="100%" height="250" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}'));" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+# execute IFrame JS asynchronously. Otherwise it could happen before our API was loaded
+                    <iframe width="100%" height="250" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}')); } }, 500);" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>
