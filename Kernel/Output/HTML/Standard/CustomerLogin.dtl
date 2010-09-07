@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.48 2010-09-03 14:56:31 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.49 2010-09-07 09:25:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@ $Include{"CustomerHeader"}
                     <div class="Clear"></div>
                 </form>
 <!-- dtl:block:CreateAccountLink -->
-                <p>$Text{"Not yet registered?"} <a href="#Signup" id="ToSignUp">$Text{"Sign up now"}</a>.</p>
+                <p>$Text{"Not yet registered?"} <a href="#Signup">$Text{"Sign up now"}</a>.</p>
 <!-- dtl:block:CreateAccountLink -->
             </div>
 <!-- dtl:block:LostPassword -->
@@ -95,8 +95,9 @@ $Include{"CustomerHeader"}
                         <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"Please supply a"} $Text{"Email{CustomerUser}"}</p></div>
                     </div>
                     <div class="NewLine">
-                        <button type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
+                        <button id="CreateAccount" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
                     </div>
+                    <div class="Clear"></div>
                 </form>
             </div>
 <!-- dtl:block:CreateAccount -->
@@ -115,11 +116,7 @@ $Include{"CustomerHeader"}
 <!-- dtl:block:SignupError -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
-    $('#ToSignUp').bind('click', function () {
-        var NextPosition = $("#Signup").offset().top;
-        $('#Slider').animate({scrollTop:NextPosition}, 0);
-    });
-    $('#ToSignUp').trigger('click');
+    window.location.hash = 'Signup';
 </script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SignupError -->
