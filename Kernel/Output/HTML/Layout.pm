@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.303 2010-09-07 12:02:34 mg Exp $
+# $Id: Layout.pm,v 1.304 2010-09-07 12:19:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.303 $) [1];
+$VERSION = qw($Revision: 1.304 $) [1];
 
 =head1 NAME
 
@@ -443,20 +443,31 @@ sub Block {
 
 =item Output()
 
-use a dtl template and get html back
+generates HTML output based on a template file.
 
-using a template file
+Using a template file:
 
     my $HTML = $LayoutObject->Output(
         TemplateFile => 'AdminLog',
         Data         => \%Param,
     );
 
-using a template string
+Using a template string:
 
     my $HTML = $LayoutObject->Output(
-        Template => '<b>$QData{"SomeKey"}</b>',
-        Data     => \%Param,
+        Template     => '<b>$QData{"SomeKey"}</b>',
+        Data         => \%Param,
+    );
+
+Additional parameters:
+
+KeepScriptTags - this causes <!-- dtl:js_on_document_complete --> blocks NOT
+to be replaced. This is important to be able to generate snippets which can be cached.
+
+    my $HTML = $LayoutObject->Output(
+        TemplateFile   => 'AdminLog',
+        Data           => \%Param,
+        KeepScriptTags => 1,
     );
 
 =cut
@@ -701,31 +712,34 @@ sub Output {
         }iegx;
     }
 
-    # find document ready
-    $Output =~ s{
-            <!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->(.+?)<!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->
-    }
-    {
-            if (!$Self->{JSOnDocumentComplete}->{$1}) {
-                $Self->{JSOnDocumentComplete}->{$1} = 1;
-                $Self->{EnvRef}->{JSOnDocumentComplete} .= $Self->_RemoveScriptTags(Code => $1);
-            }
-            "";
-    }segxm;
+    if ( !$Param{KeepScriptTags} ) {
 
-    # replace document ready placeholder (only if it's not included via $Include{""})
-    if ( !$Param{Include} ) {
+        # find document ready
         $Output =~ s{
-            <!--\s{0,1}dtl:js_on_document_complete_placeholder\s{0,1}-->
+                <!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->(.+?)<!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->
         }
         {
-            if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
-                $Self->{EnvRef}->{JSOnDocumentComplete};
-            }
-            else {
+                if (!$Self->{JSOnDocumentComplete}->{$1}) {
+                    $Self->{JSOnDocumentComplete}->{$1} = 1;
+                    $Self->{EnvRef}->{JSOnDocumentComplete} .= $Self->_RemoveScriptTags(Code => $1);
+                }
                 "";
-            }
         }segxm;
+
+        # replace document ready placeholder (only if it's not included via $Include{""})
+        if ( !$Param{Include} ) {
+            $Output =~ s{
+                <!--\s{0,1}dtl:js_on_document_complete_placeholder\s{0,1}-->
+            }
+            {
+                if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
+                    $Self->{EnvRef}->{JSOnDocumentComplete};
+                }
+                else {
+                    "";
+                }
+            }segxm;
+        }
     }
 
     # custom post filters
@@ -4639,6 +4653,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.303 $ $Date: 2010-09-07 12:02:34 $
+$Revision: 1.304 $ $Date: 2010-09-07 12:19:52 $
 
 =cut
