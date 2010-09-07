@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.53 2010-09-06 10:30:51 mg Exp $
+# $Id: InterfaceCustomer.pm,v 1.54 2010-09-07 16:43:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -453,6 +453,7 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User );
         if ( !$UserData{UserID} ) {
+            $LayoutObject->Block( Name => 'LostPasswordError' );
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
@@ -1024,6 +1025,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2010-09-06 10:30:51 $
+$Revision: 1.54 $ $Date: 2010-09-07 16:43:38 $
 
 =cut

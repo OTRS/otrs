@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -27,7 +27,7 @@
 #Slider {
     margin-bottom: 34px;
     width: 642px;
-    height: 230px;
+    height: 260px;
     overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
 #Reset,
 #Signup {
     width: 500px;
-    height: 230px;
+    height: 260px;
     padding-left: 142px;
     position: relative;
 }

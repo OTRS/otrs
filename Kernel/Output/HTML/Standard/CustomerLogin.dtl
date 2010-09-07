@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.49 2010-09-07 09:25:52 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.50 2010-09-07 16:43:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,5 +120,13 @@ $Include{"CustomerHeader"}
 </script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SignupError -->
+
+<!-- dtl:block:LostPasswordError -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">
+    window.location.hash = 'Reset';
+</script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:LostPasswordError -->
 
 $Include{"CustomerFooter"}
