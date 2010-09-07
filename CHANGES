@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1382 2010-09-06 22:35:22 en Exp $
+# $Id: CHANGES,v 1.1383 2010-09-07 06:59:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-07 Fixed bug#5884 - For CSV and Print (PDF) search results the search window does not auto close.
  - 2010-09-06 Fixed bug#5887 - The size of the widget in the import statistic is too small for the input file.
  - 2010-09-06 Fixed bug#5877 - No screen refresh when linking tickets.
  - 2010-09-06 Fixed bug#4411 - CustomerTicket plain print (PDF=off) shows wrong URLs.
