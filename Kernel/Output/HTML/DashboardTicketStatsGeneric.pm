@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.16 2010-04-27 06:47:38 mn Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.17 2010-09-07 12:22:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -197,6 +197,7 @@ sub Run {
             TicketWeekdays => $TicketWeekdaysJSON,
             TicketYAxis    => $TicketYAxisJSON
         },
+        KeepScriptTags => 1,
     );
 
     return $Content;
