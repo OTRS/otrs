@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.39 2010-09-08 08:20:23 martin Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.40 2010-09-08 08:46:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,12 +102,12 @@
 <!-- dtl:block:OverviewNavBarViewModeNotSelected -->
 <!-- dtl:block:OverviewNavBarViewMode -->
                     </ul>
-                    <div class="Pagination">
+                    <span class="Pagination">
 <!-- dtl:block:OverviewNavBarPageNavBar -->
                         $Data{"ResultLong"}
                         $Data{"SiteNavBarLong"}
 <!-- dtl:block:OverviewNavBarPageNavBar -->
-                    </div>
+                    </span>
                     <div class="ClearLeft"></div>
                 </div>
 # sort order bar if needed
