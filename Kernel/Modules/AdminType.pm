@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminType.pm - to add/update/delete ticket types
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.16 2010-06-01 09:03:20 mb Exp $
+# $Id: AdminType.pm,v 1.17 2010-09-08 14:32:20 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -251,9 +251,12 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{TypeObject}->TypeGet( ID => $_, );
+        for my $TypeID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+            my %Data = $Self->{TypeObject}->TypeGet(
+                ID => $TypeID,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {
