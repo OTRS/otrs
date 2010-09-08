@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.62 2010-07-23 22:49:38 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.63 2010-09-08 12:30:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -549,8 +549,9 @@ sub _Mask {
                 %Param,
                 Format   => 'DateInputFormatLong',
                 DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-                Validate => 1,
                 Class    => $Param{Errors}->{DateInvalid} || '',
+                Validate => 1,
+                ValidateDateInFuture => 1,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'StatePending',

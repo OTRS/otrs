@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.83 2010-09-07 08:55:47 mb Exp $
+# $Id: AgentTicketForward.pm,v 1.84 2010-09-08 12:30:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -913,6 +913,8 @@ sub _Mask {
         Format           => 'DateInputFormatLong',
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         Class            => $Param{Errors}->{DateInvalid} || ' ',
+        Validate         => 1,
+        ValidateDateInFuture => 1,
     );
 
     # ticket free text

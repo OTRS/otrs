@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.143 2010-09-03 18:47:20 en Exp $
+# $Id: AgentTicketEmail.pm,v 1.144 2010-09-08 12:30:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1645,8 +1645,9 @@ sub _MaskEmailNew {
         YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Validate         => 1,
         Class            => $Param{Errors}->{DateInvalid} || ' ',
+        Validate         => 1,
+        ValidateDateInFuture => 1,
     );
 
     # show owner selection

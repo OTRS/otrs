@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.67 2010-07-26 17:21:41 en Exp $
+# $Id: AgentTicketMove.pm,v 1.68 2010-09-08 12:30:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -929,6 +929,8 @@ sub AgentMove {
                     || 0,
                 %Param,
                 Class => $Param{DateInvalid} || ' ',
+                Validate             => 1,
+                ValidateDateInFuture => 1,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'StatePending',
