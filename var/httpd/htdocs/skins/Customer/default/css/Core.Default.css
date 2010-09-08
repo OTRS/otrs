@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -265,6 +265,32 @@ div.Clear {
 .RTL .ARIAAlertMessage {
     left: auto;
     right: -10000px;
+}
+
+/**
+ * @note        Give the user a hint about linked label elements (they are clickable and
+ *                  give focus to the linked element.
+ */
+
+form label[for] {
+    cursor: pointer;
+}
+
+form input.Error,
+form textarea.Error {
+    border-color: #ff505e;
+}
+
+form select.Error {
+    color: #ff505e;
+}
+
+/**
+ * @subsection  MainBox
+ */
+#MainBox {
+    min-height: 300px;
+    border-bottom: 20px;
 }
 
 
