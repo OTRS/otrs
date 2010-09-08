@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.22 2010-05-06 18:39:05 mb Exp $
+# $Id: Type.pm,v 1.23 2010-09-08 14:50:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -417,9 +417,6 @@ sub TypeLookup {
         $Data = $Row[0];
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
     # check if data exists
     if ( !$Data ) {
         $Self->{LogObject}->Log(
@@ -428,6 +425,9 @@ sub TypeLookup {
         );
         return;
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
 
     return $Data;
 }
@@ -448,6 +448,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-05-06 18:39:05 $
+$Revision: 1.23 $ $Date: 2010-09-08 14:50:48 $
 
 =cut
