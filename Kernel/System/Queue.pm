@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.121 2010-07-29 11:59:41 ub Exp $
+# $Id: Queue.pm,v 1.122 2010-09-08 14:33:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 =head1 NAME
 
@@ -490,9 +490,6 @@ sub QueueLookup {
         $Data = $Row[0];
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
     # check if data exists
     if ( !$Data ) {
         $Self->{LogObject}->Log(
@@ -501,6 +498,9 @@ sub QueueLookup {
         );
         return;
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
 
     # return result
     return $Data;
@@ -1142,6 +1142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.121 $ $Date: 2010-07-29 11:59:41 $
+$Revision: 1.122 $ $Date: 2010-09-08 14:33:21 $
 
 =cut
