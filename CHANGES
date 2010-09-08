@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1394 2010-09-08 12:30:18 mg Exp $
+# $Id: CHANGES,v 1.1395 2010-09-08 14:00:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-08 Fixed bug#5881 - ArticleDialog does not show last article description
+    fully.
  - 2010-09-08 Fixed bug#5846 - Missing error message if tickets pending time gets
     set to an invalid time.
  - 2010-09-08 Fixed bug#5651 - Spellcheck can't be disabled.
