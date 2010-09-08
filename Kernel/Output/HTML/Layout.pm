@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.304 2010-09-07 12:19:52 mg Exp $
+# $Id: Layout.pm,v 1.305 2010-09-08 08:20:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.304 $) [1];
+$VERSION = qw($Revision: 1.305 $) [1];
 
 =head1 NAME
 
@@ -2417,12 +2417,17 @@ sub PageNavBar {
         TemplateFile => 'Pagination'
     );
 
+    # return of only 1 page is shown
+    return ( Link => $Param{Link} ) if ( $Pages eq 1 );
+
     # return data
     return (
-        TotalHits  => $Param{TotalHits},
-        Result     => $Param{Results},
-        SiteNavBar => $Param{SearchNavBar},
-        Link       => $Param{Link},
+        TotalHits      => $Param{TotalHits},
+        Result         => $Param{Results},
+        ResultLong     => "$Param{Results} \$Text{\"of\"} $Param{TotalHits} -",
+        SiteNavBar     => $Param{SearchNavBar},
+        SiteNavBarLong => "\$Text{\"Page\"}: $Param{SearchNavBar}",
+        Link           => $Param{Link},
     );
 }
 
@@ -4653,6 +4658,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.304 $ $Date: 2010-09-07 12:19:52 $
+$Revision: 1.305 $ $Date: 2010-09-08 08:20:23 $
 
 =cut

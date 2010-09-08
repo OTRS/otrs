@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1390 2010-09-08 08:05:38 mg Exp $
+# $Id: CHANGES,v 1.1391 2010-09-08 08:20:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 3.0.0 beta3 ????-??-??
- - 2010-09-03 Fixed bug#5882 - ArticleBox 'Direction' is not implemented.
+ - 2010-09-08 Fixed bug#5668 - Dashboard Widgets "Agents Online" shows pagination
+   links even if no pagination is needed.
+ - 2010-09-08 Fixed bug#5882 - ArticleBox 'Direction' is not implemented.
  - 2010-09-03 Fixed bug#5779 - Mandatory FreeTime fields are not validated.
  - 2010-09-03 Fixed bug#5811 - Customer Interface account creation error handling
     does not work correctly.
@@ -1351,7 +1353,7 @@
  - 2008-10-02 Added password reset option based on auth backend for multi
     auth support.
 
-2.3.6 (2010/??/??)
+2.3.6 (2010/09/15)
  - 2010-07-23 Fixed bug# 3426 - Abort while processing mails with invalid
     charset messes up POP3 mailbox handling.
 
