@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.122 2010-09-08 14:33:21 ub Exp $
+# $Id: Queue.pm,v 1.123 2010-09-08 16:39:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 =head1 NAME
 
@@ -874,6 +874,7 @@ update queue attributes
         UnlockTimeOut       => ''
         FollowUpLock        => 1,
         ParentQueueID       => '',
+        CheckSysConfig      => 0,   # (optional) default 1
     );
 
 =cut
@@ -882,7 +883,6 @@ sub QueueUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-
     for (
         qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID FollowUpID)
         )
@@ -891,6 +891,11 @@ sub QueueUpdate {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # check CheckSysConfig param
+    if ( !defined $Param{CheckSysConfig} ) {
+        $Param{CheckSysConfig} = 1;
     }
 
     # FollowUpLock 0 | 1
@@ -1019,14 +1024,18 @@ sub QueueUpdate {
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-    # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        %{$Self},
-        TimeObject => $TimeObject,
-    );
+    # check all sysconfig options
+    if ( $Param{CheckSysConfig} ) {
 
-    # check all sysconfig options and correct them automatically if neccessary
-    $SysConfigObject->ConfigItemCheckAll();
+        # create a sysconfig object locally for performance reasons
+        my $SysConfigObject = Kernel::System::SysConfig->new(
+            %{$Self},
+            TimeObject => $TimeObject,
+        );
+
+        # check all sysconfig options and correct them automatically if neccessary
+        $SysConfigObject->ConfigItemCheckAll();
+    }
 
     return 1;
 }
@@ -1142,6 +1151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.122 $ $Date: 2010-09-08 14:33:21 $
+$Revision: 1.123 $ $Date: 2010-09-08 16:39:22 $
 
 =cut

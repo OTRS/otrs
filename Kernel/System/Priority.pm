@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.31 2010-07-29 11:59:41 ub Exp $
+# $Id: Priority.pm,v 1.32 2010-09-08 16:39:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -225,10 +225,11 @@ sub PriorityAdd {
 update a existing ticket priority
 
     my $True = $PriorityObject->PriorityUpdate(
-        PriorityID => 123,
-        Name       => 'New Prio',
-        ValidID    => 1,
-        UserID     => 1,
+        PriorityID     => 123,
+        Name           => 'New Prio',
+        ValidID        => 1,
+        CheckSysConfig => 0,   # (optional) default 1
+        UserID         => 1,
     );
 
 =cut
@@ -242,6 +243,11 @@ sub PriorityUpdate {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # check CheckSysConfig param
+    if ( !defined $Param{CheckSysConfig} ) {
+        $Param{CheckSysConfig} = 1;
     }
 
     return if !$Self->{DBObject}->Do(
@@ -259,14 +265,18 @@ sub PriorityUpdate {
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-    # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        %{$Self},
-        TimeObject => $TimeObject,
-    );
+    # check all sysconfig options
+    if ( $Param{CheckSysConfig} ) {
 
-    # check all sysconfig options and correct them automatically if neccessary
-    $SysConfigObject->ConfigItemCheckAll();
+        # create a sysconfig object locally for performance reasons
+        my $SysConfigObject = Kernel::System::SysConfig->new(
+            %{$Self},
+            TimeObject => $TimeObject,
+        );
+
+        # check all sysconfig options and correct them automatically if neccessary
+        $SysConfigObject->ConfigItemCheckAll();
+    }
 
     return 1;
 }
@@ -360,6 +370,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2010-07-29 11:59:41 $
+$Revision: 1.32 $ $Date: 2010-09-08 16:39:22 $
 
 =cut
