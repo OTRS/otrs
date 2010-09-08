@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.77 2010-09-06 09:04:06 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.78 2010-09-08 16:56:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -579,9 +579,26 @@ sub _Edit {
             $Param{ReadOnly}     = '';
         }
 
+        # show required flag
+        if ( $Entry->[4] ) {
+            $Param{RequiredClass}          = 'Validate_Required';
+            $Param{RequiredLabelClass}     = 'Mandatory';
+            $Param{RequiredLabelCharacter} = '*';
+        }
+        else {
+            $Param{RequiredClass}          = '';
+            $Param{RequiredLabelClass}     = '';
+            $Param{RequiredLabelCharacter} = '';
+        }
+
         # build selections or input fields
         if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
             $Block = 'Option';
+
+            # Change the validation class
+            if ( $Param{RequiredClass} ) {
+                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+            }
 
             # get the data of the current selection
             my $SelectionsData
@@ -597,10 +614,16 @@ sub _Edit {
                 Name                => $Entry->[0],
                 LanguageTranslation => 0,
                 SelectedID          => $Param{ $Entry->[0] },
+                Class               => $Param{RequiredClass},
             );
 
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
+
+            # Change the validation class
+            if ( $Param{RequiredClass} ) {
+                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+            }
 
             # build ValidID string
             $Block = 'Option';
@@ -608,6 +631,7 @@ sub _Edit {
                 Data       => { $Self->{ValidObject}->ValidList(), },
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
+                Class      => $Param{RequiredClass},
             );
         }
         elsif (
@@ -629,23 +653,21 @@ sub _Edit {
                 }
             }
             $Block = 'Option';
+
+            # Change the validation class
+            if ( $Param{RequiredClass} ) {
+                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+            }
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%CompanyList,
                 Name       => $Entry->[0],
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] },
+                Class      => $Param{RequiredClass},
             );
         }
         else {
             $Param{Value} = $Param{ $Entry->[0] } || '';
-        }
-
-        # show required flag
-        if ( $Entry->[4] ) {
-            $Param{Required} = '*';
-        }
-        else {
-            $Param{Required} = '';
         }
 
         # add form option

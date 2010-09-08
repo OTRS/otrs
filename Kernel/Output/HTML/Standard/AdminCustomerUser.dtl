@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.22 2010-09-06 09:04:06 mg Exp $
+# $Id: AdminCustomerUser.dtl,v 1.23 2010-09-08 16:56:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,7 +135,7 @@
             </div>
 
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
+                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -150,23 +150,26 @@
                         </div>
 <!-- dtl:block:PreferencesGenericInputHidden -->
 <!-- dtl:block:PreferencesGenericInput -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Item"}"}:</label>
+                        <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
-                            <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+                            <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
 <!-- dtl:block:PreferencesGenericPassword -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Item"}"}:</label>
+                        <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             <input type="password" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="" maxlength="60" $QData{"ReadOnlyType"}/>
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericPassword -->
 <!-- dtl:block:PreferencesGenericOption -->
-                        <label for="$QData{"Name"}">$Text{"$Data{"Item"}"}:</label>
+                        <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericOption -->
