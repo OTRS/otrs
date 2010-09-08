@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.12 2010-08-19 12:10:13 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.13 2010-09-08 12:09:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -185,15 +185,16 @@ Core.Form.Validate = (function (TargetNS) {
         return (parseInt(Value, 10) > 0 && parseInt(Value, 10) < 13);
     }, "");
 
-    $.validator.addMethod("Validate_DateDay", function (Value, Element) {
+    function DateValidator (Value, Element, Options) {
         var Classes = $(Element).attr('class'),
-            DateObject,
-            RegExYear,
-            RegExMonth,
-            YearElement = '',
-            MonthElement = '',
-            DateYearClassPrefix = 'Validate_DateYear_',
-            DateMonthClassPrefix = 'Validate_DateMonth_';
+        DateObject,
+        RegExYear,
+        RegExMonth,
+        YearElement = '',
+        MonthElement = '',
+        DateYearClassPrefix = 'Validate_DateYear_',
+        DateMonthClassPrefix = 'Validate_DateMonth_';
+
         RegExYear = new RegExp(DateYearClassPrefix);
         RegExMonth = new RegExp(DateMonthClassPrefix);
         $.each(Classes.split(' '), function (Index, Value) {
@@ -209,10 +210,25 @@ Core.Form.Validate = (function (TargetNS) {
             if (DateObject.getFullYear() === parseInt($('#' + YearElement).val(), 10) &&
                 DateObject.getMonth() + 1 === parseInt($('#' + MonthElement).val(), 10) &&
                 DateObject.getDate() === parseInt(Value, 10)) {
-                return true;
+                if (Options.DateInFuture) {
+                    if (DateObject > new Date) {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    $.validator.addMethod("Validate_DateDay", function (Value, Element) {
+        return DateValidator(Value, Element, {});
+    }, "");
+
+    $.validator.addMethod("Validate_DateInFuture", function (Value, Element) {
+        return DateValidator(Value, Element, { DateInFuture: true });
     }, "");
 
     $.validator.addMethod("Validate_DateHour", function (Value, Element) {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.306 2010-09-08 08:30:30 martin Exp $
+# $Id: Layout.pm,v 1.307 2010-09-08 12:09:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.306 $) [1];
+$VERSION = qw($Revision: 1.307 $) [1];
 
 =head1 NAME
 
@@ -2664,8 +2664,13 @@ sub BuildDateSelection {
     my $Required       = $Param{ $Prefix . 'Required' } || 0;
     my $Used           = $Param{ $Prefix . 'Used' } || 0;
     my $Class          = $Param{ $Prefix . 'Class' } || '';
-    my $Validate       = $Param{Validate}
-        || 0;    # Defines, if the date selection should be validated on client side with JS
+
+    # Defines, if the date selection should be validated on client side with JS
+    my $Validate = $Param{Validate} || 0;
+
+    # Validate that the date is in the future (e. g. pending times)
+    my $ValidateDateInFuture = $Param{ValidateDateInFuture} || 0;
+
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
@@ -2758,6 +2763,15 @@ sub BuildDateSelection {
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
 
+    my $DateValidateClasses;
+    if ($Validate) {
+        $DateValidateClasses
+            .= "Validate_DateDay Validate_DateYear_${Prefix}Year Validate_DateMonth_${Prefix}Month";
+        if ($ValidateDateInFuture) {
+            $DateValidateClasses .= " Validate_DateInFuture";
+        }
+    }
+
     # day
     if ( $DateInputStyle eq 'Option' ) {
         my %Day;
@@ -2770,20 +2784,13 @@ sub BuildDateSelection {
             Data                => \%Day,
             SelectedID          => int( $Param{ $Prefix . 'Day' } || $D ),
             LanguageTranslation => 0,
-            Class               => $Validate
-            ? "Validate_DateDay Validate_DateYear_${Prefix}Year Validate_DateMonth_${Prefix}Month $Class"
-            : $Class,
-            Title => $Self->{LanguageObject}->Get('Please choose a day'),
+            Class               => "$DateValidateClasses $Class",
+            Title               => $Self->{LanguageObject}->Get('Please choose a day'),
         );
     }
     else {
         $Param{Day} = "<input type=\"text\" "
-            .
-            (
-            $Validate
-            ? "class=\"Validate_DateDay Validate_DateYear_${Prefix}Year Validate_DateMonth_${Prefix}Month $Class\" "
-            : "class=\"$Class\" "
-            )
+            . "class=\"$DateValidateClasses $Class\" "
             . "name=\"${Prefix}Day\" id=\"${Prefix}Day\" size=\"2\" maxlength=\"2\" "
             . "title=\""
             . $Self->{LanguageObject}->Get('Please choose a day')
@@ -4661,6 +4668,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.306 $ $Date: 2010-09-08 08:30:30 $
+$Revision: 1.307 $ $Date: 2010-09-08 12:09:37 $
 
 =cut
