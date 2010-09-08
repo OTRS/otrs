@@ -2,15 +2,15 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.41 2010-09-08 09:15:59 martin Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.42 2010-09-08 09:46:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div id="DialogSettings" class="Hidden">
-    <form action="$Env{"CGIHandle"}" method="post" id="DialogSettingsForm" name="DialogSettingsForm">
+<div id="ContextSettingsDialogContainer" class="Hidden">
+    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialog">
         <input type="hidden" name="Action" value="AgentPreferences"/>
         <input type="hidden" name="Subaction" value="Update"/>
         <input type="hidden" name="Group" value="$QData{"Group"}"/>
@@ -27,7 +27,7 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Dialog.RegisterContentDialog($('#DialogSet'), $('#DialogSettings'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
+    Core.UI.Dialog.RegisterContentDialog($('#ShowContextSettingsDialog'), $('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
@@ -76,7 +76,7 @@
 <!-- dtl:block:OverviewNavBarPageBack -->
                 <ul class="ContextFunctions">
                     <li class="ContextSettings">
-                        <a href="#" id="DialogSet" title="$Text{"Context Settings"}"><span>$Text{"Context Settings"}</span></a>
+                        <a href="#" id="ShowContextSettingsDialog" title="$Text{"Context Settings"}"><span>$Text{"Context Settings"}</span></a>
                     </li>
                 </ul>
             </div>

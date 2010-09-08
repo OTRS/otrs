@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.32 $
+ * @version     $Revision: 1.33 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -627,6 +627,11 @@ iframe.TextOption.Customer {
 #ArticleFilterDialogForm {
     width: 450px;
     height: 300px;
+}
+
+#ContextSettingsDialog {
+    width: 450px;
+    max-height: 100px;
 }
 
 } /* end @media */
