@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.99 2010-09-07 22:43:12 cg Exp $
+# $Id: LayoutTicket.pm,v 1.100 2010-09-08 09:15:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1067,6 +1067,7 @@ sub TicketListShow {
     # build shown ticket a page
     $Param{RequestedURL}    = "Action=$Self->{Action}";
     $Param{Group}           = $Group;
+    $Param{PreferencesKey}  = $PageShownPreferencesKey;
     $Param{PageShownString} = $Self->BuildSelection(
         Name       => $PageShownPreferencesKey,
         SelectedID => $PageShown,
@@ -1213,28 +1214,6 @@ sub TicketListShow {
     else {
         $OutputRaw .= $Output;
     }
-
-    # nav bar at the end of a overview
-    #    $Env->{LayoutObject}->Block(
-    #        Name => 'OverviewNavBar',
-    #        Data => \%Param,
-    #    );
-    #    if (%PageNav) {
-    #        $Env->{LayoutObject}->Block(
-    #            Name => 'OverviewNavBarPageNavBar',
-    #            Data => \%PageNav,
-    #        );
-    #    }
-    #    my $OutputNavBarSmall = $Env->{LayoutObject}->Output(
-    #        TemplateFile => 'AgentTicketOverviewNavBarSmall',
-    #        Data         => { %Param, },
-    #    );
-    #    if ( !$Param{Output} ) {
-    #        $Env->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
-    #    }
-    #    else {
-    #        $OutputRaw .= $OutputNavBarSmall;
-    #    }
 
     return $OutputRaw;
 }
