@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.4 2010-09-07 14:17:28 mg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.5 2010-09-08 12:27:16 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -174,7 +174,13 @@ Core.UI.Datepicker = (function (TargetNS) {
             return false;
         });
 
-        ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
+        if (Element.DateInFuture) {
+            ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateInFuture');
+        }
+        else {
+            ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
+        }
+
 
         // Add validation error messages for all dateselection elements
         Element.Year

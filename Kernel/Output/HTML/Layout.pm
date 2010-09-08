@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.307 2010-09-08 12:09:37 mg Exp $
+# $Id: Layout.pm,v 1.308 2010-09-08 12:27:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.307 $) [1];
+$VERSION = qw($Revision: 1.308 $) [1];
 
 =head1 NAME
 
@@ -2763,7 +2763,7 @@ sub BuildDateSelection {
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
 
-    my $DateValidateClasses;
+    my $DateValidateClasses = '';
     if ($Validate) {
         $DateValidateClasses
             .= "Validate_DateDay Validate_DateYear_${Prefix}Year Validate_DateMonth_${Prefix}Month";
@@ -2874,7 +2874,8 @@ sub BuildDateSelection {
             Month: $(\'#' . $Prefix . 'Month\'),
             Year: $(\'#' . $Prefix . 'Year\'),
             Hour: $(\'#' . $Prefix . 'Hour\'),
-            Minute: $(\'#' . $Prefix . 'Minute\')
+            Minute: $(\'#' . $Prefix . 'Minute\'),
+            DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . '
         });
     //]]></script>
     <!--dtl:js_on_document_complete-->';
@@ -2883,19 +2884,19 @@ sub BuildDateSelection {
 
     # optional checkbox
     if ($Optional) {
-        my $Checked  = '';
-        my $Validate = '';
+        my $Checked       = '';
+        my $ValidateClass = '';
         if ($Used) {
             $Checked = ' checked="checked"';
         }
         if ($Required) {
-            $Validate = ' class="Validate_Required"';
+            $ValidateClass = ' class="Validate_Required"';
         }
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
             . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""
             . $Checked
-            . $Validate
+            . $ValidateClass
             . " title=\""
             . $Self->{LanguageObject}->Get('Check to activate this date')
             . "\" />&nbsp;";
@@ -4668,6 +4669,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.307 $ $Date: 2010-09-08 12:09:37 $
+$Revision: 1.308 $ $Date: 2010-09-08 12:27:16 $
 
 =cut
