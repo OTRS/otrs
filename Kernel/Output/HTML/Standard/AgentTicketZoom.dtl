@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.150 2010-09-07 07:38:10 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.151 2010-09-08 08:05:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -398,7 +398,20 @@ $Data{"ArticleItems"}
                             <input type="hidden" class="ArticleID" value="$QData{"ArticleID"}" />
                         </td>
                         <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
-                        <td class="Direction">dir</td>
+                        <td class="Direction">
+<!-- dtl:block:TreeItemDirectionIncoming -->
+                            <span class="Direction Incoming" title="$Text{"Incoming message"}"></span>
+                            <input type="hidden" class="SortData" value="0" />
+<!-- dtl:block:TreeItemDirectionIncoming -->
+<!-- dtl:block:TreeItemDirectionOutgoing -->
+                            <span class="Direction Outgoing" title="$Text{"Outgoing message"}"></span>
+                            <input type="hidden" class="SortData" value="1" />
+<!-- dtl:block:TreeItemDirectionOutgoing -->
+<!-- dtl:block:TreeItemDirectionInternal -->
+                            <span class="Direction Internal" title="$Text{"Internal message"}"></span>
+                            <input type="hidden" class="SortData" value="2" />
+<!-- dtl:block:TreeItemDirectionInternal -->
+                        </td>
                         <td class="From"><div title="$QData{"From"}"><a href="#">$QData{"FromRealname","34"}</a></div></td>
                         <td class="Subject"><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
                         <td class="Created">

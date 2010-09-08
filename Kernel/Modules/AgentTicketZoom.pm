@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.117 2010-09-01 12:34:46 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.118 2010-09-08 08:05:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1045,6 +1045,19 @@ sub _ArticleTree {
                     Class => $Class,
                 },
             );
+        }
+
+        # Determine communication direction
+        if ( $Article{ArticleType} =~ /-internal$/smx ) {
+            $Self->{LayoutObject}->Block( Name => 'TreeItemDirectionInternal' );
+        }
+        else {
+            if ( $Article{SenderType} eq 'customer' ) {
+                $Self->{LayoutObject}->Block( Name => 'TreeItemDirectionIncoming' );
+            }
+            else {
+                $Self->{LayoutObject}->Block( Name => 'TreeItemDirectionOutgoing' );
+            }
         }
 
         # show attachment info
