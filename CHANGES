@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1400 2010-09-09 12:34:07 mg Exp $
+# $Id: CHANGES,v 1.1401 2010-09-09 12:58:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -535,6 +535,8 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.9 (2010/??/??)
+ - 2010-09-09 Fixed bug#5462 - Kernel::System::Ticket::TicketEscalationIndexBuild()
+    does not invalidate the cache.
  - 2010-08-27 Fixed bug#5667 - Rich Text is not working in ipad. It's not
     possible to add a note or close a ticket.
  - 2010-08-25 Fixed bug#5266 - Ticket Zoom shows wrong html content if there
