@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1401 2010-09-09 12:58:26 martin Exp $
+# $Id: CHANGES,v 1.1402 2010-09-09 16:38:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-09 Fixed bug#5916 - Used search fields are not removed from the
+    available search fields list.
  - 2010-09-09 Fixed bug#5866 - AutoLoginCreation does not work.
  - 2010-09-09 Fixed bug#5674 - Attachment name and size are not displayed in
     attachment column in ticket zoom article table.
