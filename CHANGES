@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1396 2010-09-08 16:56:17 cg Exp $
+# $Id: CHANGES,v 1.1397 2010-09-09 08:56:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-09 Fixed bug#5900 - ~otrs/bin/otrs.DeleteCache.pl should also delete the
+    minified JS cache.
  - 2010-09-08 Fixed bug#5665 - In Admin-Customer Management, required fields are not shown but
     validation is working.
  - 2010-09-08 Fixed bug#5881 - ArticleDialog does not show last article description
