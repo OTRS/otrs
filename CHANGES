@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1398 2010-09-09 09:11:00 mg Exp $
+# $Id: CHANGES,v 1.1399 2010-09-09 10:45:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta3 ????-??-??
+ - 2010-09-09 Fixed bug#5674 - Attachment name and size are not displayed in
+    attachment column in ticket zoom article table.
  - 2010-09-09 Fixed bug#5902 - Long text overflow in infobox is not cut or wrapped.
  - 2010-09-09 Fixed bug#5900 - ~otrs/bin/otrs.DeleteCache.pl should also delete the
     minified JS cache.
