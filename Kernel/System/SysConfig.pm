@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.22 2010-09-02 09:30:20 mg Exp $
+# $Id: SysConfig.pm,v 1.23 2010-09-09 08:43:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,14 @@ package Kernel::System::SysConfig;
 use strict;
 use warnings;
 
-use Storable;
+use Storable qw();
 
 use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -1706,8 +1706,8 @@ sub _DataDiff {
     }
 
     local $Storable::canonical = 1;
-    my $StringData1 = Storable::freeze( $Param{Data1} );
-    my $StringData2 = Storable::freeze( $Param{Data2} );
+    my $StringData1 = Storable::nfreeze( $Param{Data1} );
+    my $StringData2 = Storable::nfreeze( $Param{Data2} );
     return if ( $StringData1 eq $StringData2 );
 
     return 1;
@@ -2146,6 +2146,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-09-02 09:30:20 $
+$Revision: 1.23 $ $Date: 2010-09-09 08:43:17 $
 
 =cut
