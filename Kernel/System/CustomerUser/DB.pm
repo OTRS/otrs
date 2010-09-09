@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.83 2010-08-02 16:53:02 cr Exp $
+# $Id: DB.pm,v 1.84 2010-09-09 12:34:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -515,8 +515,13 @@ sub CustomerUserAdd {
     }
 
     # check needed stuff
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] ) {
+
+            # skip UserLogin, will be checked later
+            next ENTRY if ( $Entry->[0] eq 'UserLogin' );
+
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
             return;
         }
