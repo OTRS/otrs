@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.20 2010-09-10 12:41:54 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.21 2010-09-10 14:08:04 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -57,11 +57,21 @@ Core.Agent.Search = (function (TargetNS) {
      */
 
     TargetNS.ItemAdd = function (Attribute) {
-        $('#SerachAttributesHidden').find('label').each(function () {
+        $('#SearchAttributesHidden').find('label').each(function () {
             if ($(this).attr('for') === Attribute) {
                 $(this).prev().clone().appendTo('#SearchInsert');
                 $(this).clone().appendTo('#SearchInsert');
-                $(this).next().clone().appendTo('#SearchInsert');
+                $(this).next().clone().appendTo('#SearchInsert')
+                    // bind click function to remove button now
+                    .find('.Remove').bind('click', function () {
+                        var $Element = $(this).parent();
+                        TargetNS.ItemRemove($Element);
+
+                        // rebuild selection
+                        TargetNS.RebuildSelection();
+
+                        return false;
+                    });
             }
         });
 
@@ -147,17 +157,6 @@ Core.Agent.Search = (function (TargetNS) {
                 $('.Add').bind('click', function () {
                     var Attribute = $('#Attribute').val();
                     TargetNS.ItemAdd(Attribute);
-                    TargetNS.RebuildSelection();
-
-                    return false;
-                });
-
-                // register remove of attribute
-                $('.Remove').live('click', function () {
-                    var $Element = $(this).parent();
-                    TargetNS.ItemRemove($Element);
-
-                    // rebuild selection
                     TargetNS.RebuildSelection();
 
                     return false;
