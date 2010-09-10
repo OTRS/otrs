@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.61.2.8 2010-08-19 08:42:12 martin Exp $
+# $Id: auto_build.sh,v 1.61.2.9 2010-09-10 09:11:54 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.61.2.8 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.61.2.9 $>"
 echo "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -38,7 +38,7 @@ PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
 PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 #RPM_BUILD="rpmbuild"
 RPM_BUILD="rpm"
-SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.1.1.opm"
+SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.1.3.opm"
 IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-0.9.5.opm"
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
