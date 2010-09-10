@@ -2,7 +2,7 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminLog.dtl,v 1.24 2010-07-27 13:38:12 fn Exp $
+# $Id: AdminLog.dtl,v 1.25 2010-09-10 09:31:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
                 <table class="DataTable">
                     <thead>
                         <tr>
-                            <th>$Text{"Time"}</th>
+                            <th class="W25pc">$Text{"Time"}</th>
                             <th>$Text{"Priority"}</th>
                             <th>$Text{"Facility"}</th>
                             <th class="W75pc">$Text{"Message"}</th>
