@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.75 2010-02-21 19:14:30 martin Exp $
+# $Id: StaticDB.pm,v 1.76 2010-09-10 09:26:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -50,7 +50,7 @@ sub TicketAcceleratorUpdate {
         }
     }
 
-    # check if this ticket ist still viewable
+    # check if this ticket is still viewable
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'Name',
@@ -149,7 +149,7 @@ sub TicketAcceleratorAdd {
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
 
-    # check if this ticket ist still viewable
+    # check if this ticket is still viewable
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'Name',
@@ -343,7 +343,7 @@ sub TicketAcceleratorIndex {
             $Queues{TicketsAvail} = $RowTmp[3];
         }
 
-        # get the oldes queue id
+        # get the oldest queue id
         if ( $Hashes{MaxAge} > $Queues{MaxAge} ) {
             $Queues{MaxAge}          = $Hashes{MaxAge};
             $Queues{QueueIDOfMaxAge} = $Hashes{QueueID};
