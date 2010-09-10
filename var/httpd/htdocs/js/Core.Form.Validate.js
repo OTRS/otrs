@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.13 2010-09-08 12:09:37 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.14 2010-09-10 13:27:50 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -193,7 +193,8 @@ Core.Form.Validate = (function (TargetNS) {
         YearElement = '',
         MonthElement = '',
         DateYearClassPrefix = 'Validate_DateYear_',
-        DateMonthClassPrefix = 'Validate_DateMonth_';
+        DateMonthClassPrefix = 'Validate_DateMonth_',
+        DateCheck;
 
         RegExYear = new RegExp(DateYearClassPrefix);
         RegExMonth = new RegExp(DateMonthClassPrefix);
@@ -211,7 +212,9 @@ Core.Form.Validate = (function (TargetNS) {
                 DateObject.getMonth() + 1 === parseInt($('#' + MonthElement).val(), 10) &&
                 DateObject.getDate() === parseInt(Value, 10)) {
                 if (Options.DateInFuture) {
-                    if (DateObject > new Date) {
+                    DateCheck = new Date();
+                    DateCheck.setHours(0, 0, 0, 0);
+                    if (DateObject >= DateCheck) {
                         return true;
                     }
                 }
