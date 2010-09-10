@@ -2,14 +2,14 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.63 2010-09-01 11:34:15 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.64 2010-09-10 21:52:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate" id="MoveTicketToQueue">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits" id="MoveTicketToQueue">
     <input type="hidden" name="Action"       value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction"    value="MoveTicket"/>
     <input type="hidden" name="FormID"       value="$QData{"FormID"}"/>
