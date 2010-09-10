@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.80 2010-09-10 08:58:17 martin Exp $
+# $Id: auto_build.sh,v 1.81 2010-09-10 14:00:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.80 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.81 $>"
 echo "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -292,6 +292,10 @@ echo -n "Source code lines (*.dtl): "
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.dtl | xargs cat | wc -l
 echo -n "Source code lines (*.xml): "
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.xml | xargs cat | wc -l
+echo -n "Source code lines (*.js): "
+find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.js | xargs cat | wc -l
+echo -n "Source code lines (*.css): "
+find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.css | xargs cat | wc -l
 echo "-----------------------------------------------------------------";
 echo "You will find your tar.gz, RPMs and SRPMs in $PACKAGE_DEST_DIR";
 cd $PACKAGE_DEST_DIR
