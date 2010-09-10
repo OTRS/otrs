@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.21 2010-09-10 14:08:04 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.22 2010-09-10 14:44:35 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -234,25 +234,23 @@ Core.Agent.Search = (function (TargetNS) {
                 $('#SearchProfileDelete').bind('click', function (Event) {
 
                     // strip all already used attributes
-                    $('#Profile').find('option').each(function () {
+                    $('#Profile').find('option:selected').each(function () {
                         if ($(this).attr('value') !== 'last-search') {
-                            if ($(this).attr('selected') === true) {
 
-                                // rebuild attributes
-                                $('#SearchInsert').text('');
+                            // rebuild attributes
+                            $('#SearchInsert').text('');
 
-                                // remove remote
-                                DeleteRemote($(this).val());
+                            // remove remote
+                            DeleteRemote($(this).val());
 
-                                // remove local
-                                $(this).remove();
+                            // remove local
+                            $(this).remove();
 
-                                // show fulltext
-                                TargetNS.ItemAdd('Fulltext');
+                            // show fulltext
+                            TargetNS.ItemAdd('Fulltext');
 
-                                // rebuild selection
-                                TargetNS.RebuildSelection();
-                            }
+                            // rebuild selection
+                            TargetNS.RebuildSelection();
                         }
                     });
 
