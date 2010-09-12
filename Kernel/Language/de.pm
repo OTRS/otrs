@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.233 2010-08-18 13:07:30 mg Exp $
+# $Id: de.pm,v 1.234 2010-09-12 16:55:01 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.233 $) [1];
+$VERSION = qw($Revision: 1.234 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1731,7 +1731,7 @@ sub Data {
         'Open date selection' => 'Datumsauswahl öffnen',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'Hopla. Es ist ein Fehler passiert.',
+        'Oops! An Error occurred.' => 'Hoppla. Es ist ein Fehler aufgetreten.',
         'Error Message' => 'Fehlermeldung',
         'You can' => 'Sie können',
         'Send a bugreport' => 'einen Fehlerbericht senden',
