@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.52 2010-09-14 11:44:56 mb Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.53 2010-09-14 17:17:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@
                         </tr>
                         <tr class="Middle">
                             <td>
-                                <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                                <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                             </td>
                             <td>
                                 <label>$Text{"First Response Time"}</label>
@@ -264,4 +264,11 @@ $Data{"Body"}
         Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
     //]]></script>
 <!-- dtl:block:DocumentReadyStart -->
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:js_on_document_complete -->
+$('a.AsPopup').bind('click', function (Event) {
+Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+return false;
+});
 <!-- dtl:js_on_document_complete -->
