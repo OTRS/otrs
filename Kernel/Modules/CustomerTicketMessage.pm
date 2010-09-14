@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.71 2010-09-13 22:43:33 cg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.72 2010-09-14 08:32:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -253,7 +253,6 @@ sub Run {
             {
                 $TicketFreeText{Error}->{$Count} = 1;
                 $Error{$Text} = 'ServerError';
-                print STDERR "FreeText " . $Count . " - " . $Error{$Text} . "\n";
             }
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
