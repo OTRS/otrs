@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.51 2010-09-01 12:34:46 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.52 2010-09-14 11:44:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -172,8 +172,14 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
-        var URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'Action');
+        var URL;
+
+        if ($(this).val() > 0) {
+            var URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+            Core.UI.Popup.OpenPopup(URL, 'Action');
+            // reset the select box so that it can be used again from the same window
+            $(this).val('0');
+        }
     });
     // make sure this click event does not bubble up to the table row and execute its click handler
     $('#$QData{"FormID"} select[name=ResponseID]').bind('click', function (Event) {
