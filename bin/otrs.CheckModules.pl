@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.10 2010-08-02 17:09:33 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.11 2010-09-14 11:49:13 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -265,7 +265,12 @@ my @NeededModules = (
             {
                 Version => '0.711',
                 Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
+                    'This version is broken and not useable! Please use another version.',
+            },
+            {
+                Version => '0.712',
+                Comment =>
+                    'This version is broken and not useable! Please use another version.',
             },
         ],
     },
