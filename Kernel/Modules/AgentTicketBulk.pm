@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.64 2010-09-15 08:13:30 bes Exp $
+# $Id: AgentTicketBulk.pm,v 1.65 2010-09-15 08:18:36 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,6 +159,7 @@ sub Run {
 
     # process tickets
     my @TicketIDSelected;
+    TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
@@ -174,7 +175,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Data => $Ticket{TicketNumber} . ': $Text{"No access to ticket!"}',
             );
-            next;
+            next TICKET_ID;
         }
 
         $Param{TicketsWereLocked} = 0;
@@ -196,7 +197,7 @@ sub Run {
                         Data => $Ticket{TicketNumber}
                             . ': $Text{"Ticket is locked for another agent!"}',
                     );
-                    next;
+                    next TICKET_ID;
                 }
             }
             else {
@@ -538,10 +539,11 @@ sub _Mask {
             Data => \%Param,
         );
 
+        STATE_ID:
         for my $StateID ( sort keys %StateList ) {
-            next if !$StateID;
+            next STATE_ID if !$StateID;
             my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
-            next if $StateData{TypeName} !~ /pending/i;
+            next STATE_ID if $StateData{TypeName} !~ /pending/i;
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
                 Format   => 'DateInputFormatLong',
@@ -573,8 +575,9 @@ sub _Mask {
                     Type    => 'rw',
                     Result  => 'HASH',
                 );
+                USER_ID:
                 for my $UserID ( sort keys %GroupMember ) {
-                    next if !$AllGroupsMembers{$UserID};
+                    next USER_ID if !$AllGroupsMembers{$UserID};
                     $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
                 }
                 %AllGroupsMembers = %AllGroupsMembersNew;
@@ -607,8 +610,9 @@ sub _Mask {
                     Type    => 'rw',
                     Result  => 'HASH',
                 );
+                USER_ID:
                 for my $UserID ( sort keys %GroupMember ) {
-                    next if !$AllGroupsMembers{$UserID};
+                    next USER_ID if !$AllGroupsMembers{$UserID};
                     $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
                 }
                 %AllGroupsMembers = %AllGroupsMembersNew;
