@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.63 2010-09-08 12:30:17 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.64 2010-09-15 08:13:30 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,13 +55,10 @@ sub Run {
         );
     }
 
-    # get involved tickets
-    my @TicketIDs;
-    my @TicketIDsRaw = $Self->{ParamObject}->GetArray( Param => 'TicketID' );
-    for my $TicketID (@TicketIDsRaw) {
-        next if !$TicketID;
-        push @TicketIDs, $TicketID;
-    }
+    # get involved tickets, filterung empty TicketIDs
+    my @TicketIDs
+        = grep {$_}
+        $Self->{ParamObject}->GetArray( Param => 'TicketID' );
 
     # check needed stuff
     if ( !@TicketIDs ) {
