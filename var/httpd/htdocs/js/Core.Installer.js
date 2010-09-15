@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.2 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.Installer.js,v 1.3 2010-09-15 22:46:15 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ InstallerDBStart
      */
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
-        if (value == "smtp") {
+        if (value != "sendmail") {
             $('#InfoSMTP').show();
         }
         else {
