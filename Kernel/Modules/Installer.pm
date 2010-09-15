@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.80 2010-09-03 13:41:20 mb Exp $
+# $Id: Installer.pm,v 1.81 2010-09-15 22:42:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -701,6 +701,8 @@ sub Run {
             Data => {
                 sendmail => 'Sendmail',
                 smtp     => 'SMTP',
+                smtps    => 'SMTPS',
+                smtptls  => 'SMTPTLS',
             },
             Name => 'OutboundMailType',
         );
@@ -944,18 +946,23 @@ sub CheckMailConfiguration {
     # first check outbound mail config
     my $OutboundMailType = $Self->{ParamObject}->GetParam( Param => 'OutboundMailType' );
     my $SMTPHost         = $Self->{ParamObject}->GetParam( Param => 'SMTPHost' );
+    my $SMTPPort         = $Self->{ParamObject}->GetParam( Param => 'SMTPPort' );
     my $SMTPAuthUser     = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthUser' );
     my $SMTPAuthPassword = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthPassword' );
 
     # if chosen config option is SMTP, set some Config params
-    if ( $OutboundMailType eq 'smtp' ) {
+    if ( $OutboundMailType && $OutboundMailType ne 'sendmail' ) {
         $Self->{ConfigObject}->Set(
             Key   => 'SendmailModule',
-            Value => 'Kernel::System::Email::SMTP',
+            Value => 'Kernel::System::Email::' . uc($OutboundMailType),
         );
         $Self->{ConfigObject}->Set(
             Key   => 'SendmailModule::Host',
             Value => $SMTPHost,
+        );
+        $Self->{ConfigObject}->Set(
+            Key   => 'SendmailModule::Port',
+            Value => $SMTPPort,
         );
         if ($SMTPAuthUser) {
             $Self->{ConfigObject}->Set(
@@ -980,7 +987,7 @@ sub CheckMailConfiguration {
     }
 
     # if config option smtp and no smtp host given, return with error
-    if ( $OutboundMailType eq 'smtp' && !$SMTPHost ) {
+    if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
         return ( Successful => 0, Message => 'No SMTP Host given!' );
     }
 
@@ -997,10 +1004,11 @@ sub CheckMailConfiguration {
 
     # if smtp check was successful, write data into config
     my $SendmailModule = $Self->{ConfigObject}->Get('SendmailModule');
-    if ( $Result{Successful} && $SendmailModule eq 'Kernel::System::Email::SMTP' ) {
+    if ( $Result{Successful} && $SendmailModule ne 'Kernel::System::Email::Sendmail' ) {
         my %NewConfigs = (
-            'SendmailModule'       => $Self->{ConfigObject}->Get('SendmailModule'),
+            'SendmailModule'       => $SendmailModule,
             'SendmailModule::Host' => $SMTPHost,
+            'SendmailModule::Port' => $SMTPPort,
         );
 
         for my $Key ( keys %NewConfigs ) {
