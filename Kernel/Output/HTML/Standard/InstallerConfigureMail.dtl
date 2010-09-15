@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.14 2010-07-16 13:45:37 mg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.15 2010-09-15 22:41:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,15 @@
                         $Data{"OutboundMailType"}
                         <p class="FieldExplanation">
                             $Text{"Select outbound mail type."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SMTPPort">$Text{"Outbound mail port"}:</label>
+                    <div class="Field">
+                        <input type="text" id="SMTPPort" name="SMTPPort" value="$QData{"SMTPPort"}" class="W25pc"/>
+                        <p class="FieldExplanation">
+                            $Text{"Select outbound mail port."}
                         </p>
                     </div>
                     <div class="Clear"></div>
