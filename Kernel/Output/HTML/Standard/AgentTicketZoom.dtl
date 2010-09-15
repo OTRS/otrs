@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.152 2010-09-09 10:45:00 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.153 2010-09-15 20:58:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -160,7 +160,7 @@
 
                     <fieldset class="TableLike FixedLabelSmall Tight">
                         <label>$Text{"CustomerID"}:</label>
-                        <p class="Value"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a></p>
+                        <p class="Value"><a href="$Config{"CustomerDBLink"}" class="OpenAsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a></p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Accounted time"}:</label>
@@ -593,7 +593,7 @@ $Data{"Body"}
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('$Env{"UserTicketZoomArticleTableHeight"}', 10)});
-    $('ul.Actions a.AsPopup').bind('click', function (Event) {
+    $('ul.Actions a.AsPopup, .OpenAsPopup').bind('click', function (Event) {
         Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
         return false;
     });
