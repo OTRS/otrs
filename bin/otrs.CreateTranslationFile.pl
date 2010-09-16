@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.7 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.8 2010-09-16 13:37:31 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -130,23 +130,15 @@ for my $File (@List) {
         print "# Template: $File\n";
         $Data .= "\n        # Template: $File\n";
 
-        # do dtl
-        $Content =~ s{
-            <dtl\sif.+?;\s\}>
-        }
-        {
-            '';
-        }egx;
-
-        # do data
+        # replace data tags so that stuff like
+        #   $Text{"$Data{"ernie"}"} will not be translated
         $Content =~ s{
             \$(Env|Data|QData)({"(.+?)"}|{""}|{"(.+?)","(.+?)"})
         }
-        {
-            '';
-        }egx;
+        {}gx;
 
-        # do config
+        # replace $Config so that stuff like
+        #   $Text{"$Config{"Ticket::Frontend::TimeUnits"}"} will be translated
         $Content =~ s{
             \$Config\{"([^\}]+?)?"\}
         }
@@ -193,7 +185,7 @@ for my $File (@List) {
     }
 }
 
-# add sys config words
+# add translatable strings from SysConfig
 print "# SysConfig\n";
 $Data .= "\n        # SysConfig\n";
 my @Strings = $CommonObject{SysConfigObject}->ConfigItemTranslatableStrings();
@@ -227,6 +219,9 @@ for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
     my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
     $Translation =~ s/'/\\'/g;
     $Key         =~ s/'/\\'/g;
+
+    # TODO: clarify if regular expression check is still needed
+    #   in the past it was used to guard against wrong matches
     if ( $Key !~ /(a href|\$(Text|Quote)\{")/i ) {
         $Data .= "        '$Key' => '$Translation',\n";
     }
