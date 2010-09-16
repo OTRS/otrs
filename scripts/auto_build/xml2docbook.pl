@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.24 2010-05-17 11:02:00 mae Exp $
+# $Id: xml2docbook.pl,v 1.25 2010-09-16 13:06:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use warnings;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -78,7 +78,7 @@ print '<?xml version="1.0" encoding="' . $CommonObject{ConfigObject}->Get('Defau
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';
 if ( $Opts{l} eq 'de' ) {
-    print "\n<appendix id=\"config\"><title>Config Referenzliste</title>\n";
+    print "\n<appendix id=\"config\"><title>Referenz der Konfigurationsoptionen</title>\n";
 }
 else {
     print "\n<appendix id=\"config\"><title>Configuration Options Reference</title>\n";
@@ -173,16 +173,13 @@ for my $Group (@Groups) {
             $Key =~ s/\\/\\\\/g;
             $Key =~ s/'/\'/g;
             $Key =~ s/###/'}->{'/g;
-            my $Config = " \$Self->{'$Key'} = "
-                . $CommonObject{SysConfigObject}->_XML2Perl( Data => \%ConfigItemDefault );
-            $Config =~ s/&/&amp;/g;
-            $Config =~ s/</&lt;/g;
-            $Config =~ s/>/&gt;/g;
             print "<row>\n";
             print " <entry>Config-Setting:</entry>\n";
-            print " <entry namest=\"col2\" nameend=\"col4\"><programlisting>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\"><programlisting><![CDATA[\n";
+            my $Config = " \$Self->{'$Key'} = "
+                . $CommonObject{SysConfigObject}->_XML2Perl( Data => \%ConfigItemDefault );
             print $Config;
-            print "</programlisting>\n";
+            print "]]></programlisting>\n";
             print " </entry>\n";
             print "</row>\n";
             print "</tbody>\n";
