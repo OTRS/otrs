@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.81 2010-09-15 22:42:15 cg Exp $
+# $Id: Installer.pm,v 1.82 2010-09-20 23:00:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -706,6 +706,16 @@ sub Run {
             },
             Name => 'OutboundMailType',
         );
+        my $OutboundMailDefaultPorts = $Self->{LayoutObject}->BuildSelection(
+            Class => 'Hidden',
+            Data  => {
+                sendmail => '25',
+                smtp     => '25',
+                smtps    => '465',
+                smtptls  => '587',
+            },
+            Name => 'OutboundMailDefaultPorts',
+        );
 
         my $InboundMailTypeSelection = $Self->{LayoutObject}->BuildSelection(
             Data => \%MailBackends,
@@ -720,6 +730,7 @@ sub Run {
                 Step             => '3/4',
                 InboundMailType  => $InboundMailTypeSelection,
                 OutboundMailType => $OutboundMailTypeSelection,
+                OutboundPorts    => $OutboundMailDefaultPorts,
             },
         );
         $Output .= $Self->{LayoutObject}->Output(

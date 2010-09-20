@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Installer.js,v 1.3 2010-09-15 22:46:15 cg Exp $
+// $Id: Core.Installer.js,v 1.4 2010-09-20 23:00:59 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -71,6 +71,10 @@ InstallerDBStart
         else {
             $('#InfoSMTP, #InfoSMTPAuth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
         }
+
+        // Change default port
+        $('#OutboundMailDefaultPorts').val( $('#OutboundMailType').val() );
+        $('#SMTPPort').val( $('#OutboundMailDefaultPorts :selected').text() );
     };
 
     /**

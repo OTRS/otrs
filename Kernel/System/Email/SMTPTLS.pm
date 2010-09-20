@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTPTLS.pm - the global email send module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPTLS.pm,v 1.1 2010-06-09 10:19:01 mb Exp $
+# $Id: SMTPTLS.pm,v 1.2 2010-09-20 23:00:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::SMTP::TLS;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,44 @@ sub new {
     $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword')
         || die "No SendmailModule::AuthPassword found in Core::Postmaster";
     return $Self;
+}
+
+sub Check {
+    my ( $Self, %Param ) = @_;
+
+    # try it 3 times to connect with the SMTP server
+    # (M$ Exchange Server 2007 have sometimes problems on port 25)
+    my $SMTP;
+    TRY:
+    for my $Try ( 1 .. 3 ) {
+
+        # connect to mail server
+        # During construction of an <Net::SMTP::TLS> instance,
+        # the full login process will occur.
+        $SMTP = Net::SMTP::TLS->new(
+            $Self->{MailHost},
+            Hello   => $Self->{FQDN},
+            Port    => $Self->{SMTPPort},
+            Timeout => $Self->{SMTPTimeout},
+
+            #            Debug   => $Self->{SMTPDebug},
+            Debug    => 1,
+            User     => $Self->{User},
+            Password => $Self->{Password},
+        );
+
+        last TRY if $SMTP;
+
+        # sleep 0,3 seconds;
+        select( undef, undef, undef, 0.3 );
+    }
+
+    # return if no connect was possible
+    if ( !$SMTP ) {
+        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+    }
+
+    return ( Successful => 1, SMTPTLS => $SMTP );
 }
 
 sub Send {

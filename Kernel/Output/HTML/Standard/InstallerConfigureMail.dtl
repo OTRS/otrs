@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.15 2010-09-15 22:41:26 cg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.16 2010-09-20 23:00:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,6 +35,7 @@
                     <label for="OutboundMailType">$Text{"Outbound mail type"}:</label>
                     <div class="Field">
                         $Data{"OutboundMailType"}
+                        $Data{"OutboundPorts"}
                         <p class="FieldExplanation">
                             $Text{"Select outbound mail type."}
                         </p>
@@ -165,6 +166,7 @@
     $('#OutboundMailType').bind('change', function () {
         Core.Installer.SelectOutboundMailType($(this));
     });
+    $('#OutboundMailType').trigger('change');
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigureMail-->

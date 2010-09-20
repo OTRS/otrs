@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1410 2010-09-15 22:08:01 cg Exp $
+# $Id: CHANGES,v 1.1411 2010-09-20 23:00:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-20 Fixed bug#5707 - Web Installer Mail Configuration does not list all SMTP backends/options.
  - 2010-09-15 Fixed bug#5948 - Address Book will not open for ticket forwarding.
  - 2010-09-15 Fixed bug#5943 - Customer Link behaviour in ZoomView.
  - 2010-09-13 Fixed bug#5649 - Changing owner from L view opens in same tab instead of popup.
