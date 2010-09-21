@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.20 2010-09-21 12:15:47 mb Exp $
+# $Id: InstallerSystem.dtl,v 1.21 2010-09-21 12:21:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
                     <div class="Field">
                         $Data{"SystemIDString"}
                         <p class="FieldExplanation">
-                            $Text{"The identify of the system. Each ticket number and each http session id starts with this number."}
+                            $Text{"The identifier of the system. Each ticket number and each HTTP session ID contain this number."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -39,7 +39,7 @@
                     <div class="Field">
                         <input type="text" id="FQDN" name="FQDN" value="$Config{"FQDN"}" class="W33pc"/>
                         <p class="FieldExplanation">
-                            $Text{"Full qualified domain name of your system."}
+                            $Text{"Fully qualified domain name of your system."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -48,7 +48,7 @@
                     <div class="Field">
                         <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc"/>
                         <p class="FieldExplanation">
-                            $Text{"Email of the system admin."}
+                            $Text{"E-mail address of the system administrator."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -68,7 +68,7 @@
                     <div class="Field">
                         $Data{"LogModuleString"}
                         <p class="FieldExplanation">
-                            $Text{"Used log backend."}
+                            $Text{"Log backend to use."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -77,7 +77,7 @@
                     <div class="Field">
                         <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
                         <p class="FieldExplanation">
-                            $Text{"Logfile just needed for File-LogModule!"}
+                            $Text{"Log file location is only needed for File-LogModule!"}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -91,7 +91,7 @@
                     <div class="Field">
                         $Data{"LanguageString"}
                         <p class="FieldExplanation">
-                            $Text{"Used default language."}
+                            $Text{"Default language."}
                         </p>
                     </div>
                     <div class="Clear"></div>
