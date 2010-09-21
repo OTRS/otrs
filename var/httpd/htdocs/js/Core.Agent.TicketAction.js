@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.7 2010-08-17 10:23:21 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.8 2010-09-21 13:15:16 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,13 +39,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @function
      * @private
      * @return nothing
-     * @description Open the AdressBook screen
+     * @description Open the AddressBook screen
      */
-    function OpenAdressBook() {
-        var AdressBookIFrameURL, AdressBookIFrame;
-        AdressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + encodeURIComponent($('#CustomerAutoComplete').val()) + ';Cc=' + encodeURIComponent($('#Cc').val()) + ';Bcc=' + encodeURIComponent($('#Bcc').val());
-        AdressBookIFrame = '<iframe class="TextOption" src="' + AdressBookIFrameURL + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(AdressBookIFrame, '', '10px', 'Center', true);
+    function OpenAddressBook() {
+        var AddressBookIFrameURL, AddressBookIFrame;
+        AddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + encodeURIComponent($('#CustomerAutoComplete').val()) + ';Cc=' + encodeURIComponent($('#Cc').val()) + ';Bcc=' + encodeURIComponent($('#Bcc').val());
+        AddressBookIFrame = '<iframe class="TextOption" src="' + AddressBookIFrameURL + '"></iframe>';
+        Core.UI.Dialog.ShowContentDialog(AddressBookIFrame, '', '10px', 'Center', true);
     }
 
     /**
@@ -66,7 +66,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @return nothing
      * @description Open the spellchecker screen
      */
-    function AddMailAdress($Link) {
+    function AddMailAddress($Link) {
         var $Element = $('#' + $Link.attr('rel')),
             NewValue = $Element.val();
         if (NewValue.length) {
@@ -110,9 +110,9 @@ Core.Agent.TicketAction = (function (TargetNS) {
             return false;
         });
 
-        // Register event for adressbook dialog
-        $('#OptionAdressBook').bind('click', function (Event) {
-            OpenAdressBook();
+        // Register event for addressbook dialog
+        $('#OptionAddressBook').bind('click', function (Event) {
+            OpenAddressBook();
             return false;
         });
 
@@ -128,10 +128,10 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @return nothing
      *      This function initializes the necessary stuff for address book link in TicketAction screens
      */
-    TargetNS.InitAdressBook = function () {
-        // Register event for copying mail adress to input field
+    TargetNS.InitAddressBook = function () {
+        // Register event for copying mail address to input field
         $('#SearchResult a').bind('click', function (Event) {
-            AddMailAdress($(this));
+            AddMailAddress($(this));
             return false;
         });
 

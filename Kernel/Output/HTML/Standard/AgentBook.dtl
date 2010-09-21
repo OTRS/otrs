@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.22 2010-09-07 09:59:57 mb Exp $
+# $Id: AgentBook.dtl,v 1.23 2010-09-21 13:15:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
 <div class="WidgetPopup">
     <div class="Content">
         <h1>$Text{"Address Book"}</h1>
-        <form id="AdressBook" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <form id="AddressBook" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
             <fieldset class="SpacingTop">
                 <input type="text" name="Search" id="Search" value="" class="W75pc" title="$Text{"Search for a customer"}"/>
                 <button type="submit" value="$Text{"Search"}" >$Text{"Search"}</button>
@@ -32,9 +32,9 @@
 <!-- dtl:block:Row -->
                     <tr id="Row$QData{"Count"}">
                         <td>$QData{"Name"}</td>
-                        <td><a href="" rel="To" title="$Text{"Add mail adress %s to the To field", "$QData{"Email"}"}">$Text{"To"}</a></td>
-                        <td><a href="" rel="Cc" title="$Text{"Add mail adress %s to the Cc field", "$QData{"Email"}"}">$Text{"Cc"}</a></td>
-                        <td><a href="" rel="Bcc" title="$Text{"Add mail adress %s to the Bcc field", "$QData{"Email"}"}">$Text{"Bcc"}</a></td>
+                        <td><a href="" rel="To" title="$Text{"Add email address %s to the To field", "$QData{"Email"}"}">$Text{"To"}</a></td>
+                        <td><a href="" rel="Cc" title="$Text{"Add email address %s to the Cc field", "$QData{"Email"}"}">$Text{"Cc"}</a></td>
+                        <td><a href="" rel="Bcc" title="$Text{"Add email address %s to the Bcc field", "$QData{"Email"}"}">$Text{"Bcc"}</a></td>
                     </tr>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -71,6 +71,6 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.InitAdressBook();
+    Core.Agent.TicketAction.InitAddressBook();
 //]]></script>
 <!--dtl:js_on_document_complete-->
