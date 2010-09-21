@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.16 2010-02-21 15:25:49 martin Exp $
+# $Id: StaticDB.pm,v 1.17 2010-09-21 12:45:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -326,7 +326,7 @@ sub _ArticleIndexStringToWord {
             next;
         }
 
-        # do not index words/strings longer the x chars
+        # do not index words/strings longer then x chars
         if ( $Length > $LengthMax ) {
             next;
         }

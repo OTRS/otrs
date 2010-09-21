@@ -2,7 +2,7 @@
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.12 2010-07-16 13:45:37 mg Exp $
+# $Id: InstallerDBStart.dtl,v 1.13 2010-09-21 12:45:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
 
             <div class="Content">
                 <fieldset class="TableLike">
-                    <label for="DBUser">$Text{"Admin-User"}:</label>
+                    <label for="DBUser">$Text{"User"}:</label>
                     <div class="Field">
                         <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc"/>
                         <p class="FieldExplanation">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="DBPassword">$Text{"Admin-password"}:</label>
+                    <label for="DBPassword">$Text{"Password"}:</label>
                     <div class="Field">
                         <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc"/>
                     </div>
@@ -52,7 +52,7 @@
                         $Data{"SelectDBType"}
                         <p class="FieldExplanation">
                             $Text{"Currently only MySQL is supported in the web installer."}
-                            $Text{"If you want to install OTRS on other database systems, please refer to the file README.database."}
+                            $Text{"If you want to install OTRS on another database type, please refer to the file README.database."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="OTRSDBConnectHost">$Text{"DB connect host"}:</label>
+                    <label for="OTRSDBConnectHost">$Text{"DB--- host"}:</label>
                     <div class="Field">
                         <input type="text" id="OTRSDBConnectHost" name="OTRSDBConnectHost" value="localhost" class="W25pc"/>
                     </div>
