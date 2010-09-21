@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.19 2010-09-21 11:50:30 ub Exp $
+# $Id: InstallerSystem.dtl,v 1.20 2010-09-21 12:15:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,7 +100,7 @@
                     <div class="Field">
                         $Data{"SelectCheckMXRecord"}
                         <p class="FieldExplanation">
-                            $Text{"Checks MX records of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behind a dial-up line!"}
+                            $Text{"E-mail addresses that are manually entered are checked against the MX records found in DNS. Don't use this option if your DNS is slow or does not resolve public addresses."}
                         </p>
                     </div>
                     <div class="Clear"></div>
