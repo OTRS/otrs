@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.50 2010-09-07 16:43:38 cg Exp $
+# $Id: CustomerLogin.dtl,v 1.51 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@ $Include{"CustomerHeader"}
                     </div>
                     <div class="Clear"></div>
                 </form>
-                <p>$Text{"A new password will be sent to your e-mail adress."}</p>
+                <p>$Text{"A new password will be sent to your email address."}</p>
             </div>
 <!-- dtl:block:LostPassword -->
 <!-- dtl:block:CreateAccount -->

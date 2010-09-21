@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides the system data for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerSystem.dtl,v 1.21 2010-09-21 12:21:08 mb Exp $
+# $Id: InstallerSystem.dtl,v 1.22 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                     <div class="Field">
                         <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc"/>
                         <p class="FieldExplanation">
-                            $Text{"E-mail address of the system administrator."}
+                            $Text{"Email address of the system administrator."}
                         </p>
                     </div>
                     <div class="Clear"></div>
@@ -100,7 +100,7 @@
                     <div class="Field">
                         $Data{"SelectCheckMXRecord"}
                         <p class="FieldExplanation">
-                            $Text{"E-mail addresses that are manually entered are checked against the MX records found in DNS. Don't use this option if your DNS is slow or does not resolve public addresses."}
+                            $Text{"Email addresses that are manually entered are checked against the MX records found in DNS. Don't use this option if your DNS is slow or does not resolve public addresses."}
                         </p>
                     </div>
                     <div class="Clear"></div>

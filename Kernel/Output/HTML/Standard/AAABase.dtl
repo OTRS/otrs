@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.89 2010-09-03 13:41:20 mb Exp $
+# $Id: AAABase.dtl,v 1.90 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -287,11 +287,11 @@ $Text{"Dear Mr. %s,"}
 $Text{"Dear Mrs. %s,"}
 $Text{"Dear %s,"}
 $Text{"Hello %s,"}
-$Text{"This e-mail address already exists. Please log in or reset your password."}
-$Text{"New account created. Sent login information to %s. Please check your e-mail."}
+$Text{"This email address already exists. Please log in or reset your password."}
+$Text{"New account created. Sent login information to %s. Please check your email."}
 $Text{"Please press Back and try again."}
-$Text{"Sent password reset instructions to %s. Please check your e-mail."}
-$Text{"Sent new password to %s. Please check your e-mail."}
+$Text{"Sent password reset instructions to %s. Please check your email."}
+$Text{"Sent new password to %s. Please check your email."}
 $Text{"Upcoming Events"}
 $Text{"Event"}
 $Text{"Events"}

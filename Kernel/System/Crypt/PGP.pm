@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.36 2010-06-17 21:40:19 cr Exp $
+# $Id: PGP.pm,v 1.37 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -254,7 +254,7 @@ The returned hash %Result has the following keys:
     SignatureFound => 1,        # was a signature found at all (0 or 1)
     Successful     => 1,        # could the signature be verified (0 or 1)
     KeyID          => 'FA23FB24'  # hex ID of PGP-key that was used for signing
-    KeyUserID      => 'username <user@test.org>'  # PGP-User-ID (e-mail adress) used for signing
+    KeyUserID      => 'username <user@test.org>'  # PGP-User-ID (email adress) used for signing
     Message        => '...'       # descriptive text containing the result status
     MessageLong    => '...'       # full output of GPG binary
 
@@ -763,6 +763,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2010-06-17 21:40:19 $
+$Revision: 1.37 $ $Date: 2010-09-21 12:44:38 $
 
 =cut

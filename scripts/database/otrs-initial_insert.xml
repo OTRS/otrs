@@ -569,12 +569,12 @@ Your Ticket-Team
         <Data Key="text0" Type="Quote">This is a demo text which is send to every inquery.
 It could contain something like:
 
-Thanks for your e-mail. A new ticket has been created.
+Thanks for your email. A new ticket has been created.
 
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your e-mail will be answered by a human asap
+Your email will be answered by a human asap
 
 Have fun with OTRS! :-)
 
@@ -618,12 +618,12 @@ Your OTRS Team
         <Data Key="type_id">3</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default follow up (after a ticket follow up has been added)</Data>
-        <Data Key="text0" Type="Quote">Thanks for your follow up e-mail
+        <Data Key="text0" Type="Quote">Thanks for your follow up email
 
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your e-mail will be answered by a human asap.
+Your email will be answered by a human asap.
 
 Have fun with OTRS!
 
@@ -651,7 +651,7 @@ Your OTRS Team
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your e-mail will be answered by a human asap.
+Your email will be answered by a human asap.
 
 Have fun with OTRS!
 

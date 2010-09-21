@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.56 2010-09-21 11:20:41 ub Exp $
+# $Id: InterfaceAgent.pm,v 1.57 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -506,7 +506,7 @@ sub Run {
                 Output => \$LayoutObject->Login(
                     Title => 'Login',
                     Message =>
-                        "Sent password reset instructions to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                        "Sent password reset instructions to \%s. Please check your email.\", \"$UserData{UserEmail}",
                     %Param,
                 ),
             );
@@ -562,7 +562,7 @@ sub Run {
             Output => \$LayoutObject->Login(
                 Title => 'Login',
                 Message =>
-                    "Sent new password to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                    "Sent new password to \%s. Please check your email.\", \"$UserData{UserEmail}",
                 User => $User,
                 %Param,
             ),
@@ -907,6 +907,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2010-09-21 11:20:41 $
+$Revision: 1.57 $ $Date: 2010-09-21 12:44:38 $
 
 =cut

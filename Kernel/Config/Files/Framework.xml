@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.375 2010-09-06 09:04:06 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.376 2010-09-21 12:44:38 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -79,7 +79,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
-        <Description Translatable="1">Defines the system administrator's e-mail address. It will be displayed in the error screens of the application.</Description>
+        <Description Translatable="1">Defines the system administrator's email address. It will be displayed in the error screens of the application.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -87,7 +87,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Translatable="1">If configured, all e-mails sent by the application will contain a X-Header with this organization or company name.</Description>
+        <Description Translatable="1">If configured, all emails sent by the application will contain an X-Header with this organization or company name.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -95,7 +95,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign e-mails, or text, otherwise this could lead to problems.</Description>
+        <Description Translatable="1">Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign emails, or text, otherwise this could lead to problems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -324,7 +324,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
-        <Description Translatable="1">Makes the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket.</Description>
+        <Description Translatable="1">Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -335,7 +335,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord::Nameserver" Required="0" Valid="0">
-        <Description Translatable="1">Defines the configuration of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.</Description>
+        <Description Translatable="1">Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -343,7 +343,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
-        <Description Translatable="1">Makes the application check the syntax of e-mail addresses.</Description>
+        <Description Translatable="1">Makes the application check the syntax of email addresses.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -354,7 +354,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
-        <Description Translatable="1">Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for e-mail addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
+        <Description Translatable="1">Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -362,7 +362,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
-        <Description Translatable="1">Defines a regular expression that filters all e-mail addresses that should not be used in the application.</Description>
+        <Description Translatable="1">Defines a regular expression that filters all email addresses that should not be used in the application.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2773,7 +2773,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Translatable="1">Specifies the e-mail address that should be used by the application when sending notifications. The e-mail address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.</Description>
+        <Description Translatable="1">Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -2798,11 +2798,11 @@
 You or someone impersonating you has requested to change your OTRS
 password.
 
-If you want to do this, click on the link below. You will receive another e-mail containing the password.
+If you want to do this, click on the link below. You will receive another email containing the password.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=LostPassword;Token=&lt;OTRS_TOKEN&gt;
 
-If you did not request a new password, please ignore this e-mail.
+If you did not request a new password, please ignore this email.
             </TextArea>
         </Setting>
     </ConfigItem>
@@ -3353,11 +3353,11 @@ You can log in via the following URL:
 You or someone impersonating you has requested to change your OTRS
 password.
 
-If you want to do this, click on this link. You will receive another e-mail containing the password.
+If you want to do this, click on this link. You will receive another email containing the password.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerLostPassword;Token=&lt;OTRS_TOKEN&gt;
 
-If you did not request a new password, please ignore this e-mail.
+If you did not request a new password, please ignore this email.
             </TextArea>
         </Setting>
     </ConfigItem>

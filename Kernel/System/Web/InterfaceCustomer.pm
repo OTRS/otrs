@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.54 2010-09-07 16:43:38 cg Exp $
+# $Id: InterfaceCustomer.pm,v 1.55 2010-09-21 12:44:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -499,7 +499,7 @@ sub Run {
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
                     Message =>
-                        "Sent password reset instructions to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                        "Sent password reset instructions to \%s. Please check your email.\", \"$UserData{UserEmail}",
                     %Param,
                 ),
             );
@@ -555,7 +555,7 @@ sub Run {
             Output => \$LayoutObject->CustomerLogin(
                 Title => 'Login',
                 Message =>
-                    "Sent new password to \%s. Please check your e-mail.\", \"$UserData{UserEmail}",
+                    "Sent new password to \%s. Please check your email.\", \"$UserData{UserEmail}",
                 User => $User,
             ),
         );
@@ -608,7 +608,7 @@ sub Run {
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
                     Message =>
-                        'This e-mail address already exists. Please log in or reset your password.',
+                        'This email address already exists. Please log in or reset your password.',
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
@@ -692,7 +692,7 @@ sub Run {
             Output => \$LayoutObject->CustomerLogin(
                 Title => 'Login',
                 Message =>
-                    "New account created. Sent login information to \%s. Please check your e-mail.\", \"$GetParams{UserEmail}",
+                    "New account created. Sent login information to \%s. Please check your email.\", \"$GetParams{UserEmail}",
                 User => $GetParams{UserLogin},
             ),
         );
@@ -1025,6 +1025,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2010-09-07 16:43:38 $
+$Revision: 1.55 $ $Date: 2010-09-21 12:44:38 $
 
 =cut
