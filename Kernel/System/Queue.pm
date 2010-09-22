@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.124 2010-09-21 13:15:16 mb Exp $
+# $Id: Queue.pm,v 1.125 2010-09-22 08:27:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 =head1 NAME
 
@@ -151,7 +151,7 @@ sub new {
 
 get a queue system email address as hash (Email, RealName)
 
-    my %Addresss = $QueueObject->GetSystemAddress(
+    my %Address = $QueueObject->GetSystemAddress(
         QueueID => 123,
     );
 
@@ -1151,6 +1151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.124 $ $Date: 2010-09-21 13:15:16 $
+$Revision: 1.125 $ $Date: 2010-09-22 08:27:12 $
 
 =cut
