@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2010-08-16 14:28:59
+--  driver: mssql, generated: 2010-09-22 14:23:02
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -312,7 +312,7 @@ INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your email. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asapHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
@@ -324,13 +324,13 @@ INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, chars
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up emailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_type
 -- ----------------------------------------------------------
@@ -714,25 +714,25 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, title, create_time_unix, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1249866945, 0, 0, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
+    ('2010080210123456', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1280750400, 0, 0, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
 INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/. ((enjoy))Your OTRS Team--Communication with success!', '<007@localhost>', 1249866945, '2009/08/10', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!Thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsouse our mailing lists http://lists.otrs.org/ or our forums athttp://forums.otrs.org/Regards,The OTRS.org Project', '<007@localhost>', 1280750400, '2010/08/02', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_plain
 -- ----------------------------------------------------------
 INSERT INTO article_plain (article_id, body, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'From: OTRS Feedback <feedback@otrs.org>To: Your OTRS System <otrs@localhost>Subject: Welcome to OTRS!Welcome!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/. ((enjoy))Your OTRS Team--Communication with success!', 1, current_timestamp, 1, current_timestamp);
+    (1, 'From: OTRS Feedback <feedback@otrs.org>To: Your OTRS System <otrs@localhost>Subject: Welcome to OTRS!Welcome!Thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsouse our mailing lists http://lists.otrs.org/ or our forums athttp://forums.otrs.org/Regards,The OTRS.org Project', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_history
 -- ----------------------------------------------------------
 INSERT INTO ticket_history (name, history_type_id, ticket_id, type_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('New Ticket [1010001] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('New Ticket [2010080210123456] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
@@ -853,3 +853,63 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
     VALUES
     ('Agent::EscalationNotifyBefore', 'utf-8', 'de', 'Ticket Eskalations-Warnung! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_UserFirstname> <OTRS_UserLastname>,das Ticket [<OTRS_TICKET_TicketNumber>] wird bald eskalieren!Eskalation um: <OTRS_TICKET_EscalationDestinationDate>Eskalation in: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM>schrieb:<snip><OTRS_CUSTOMER_EMAIL[30]><snip>Bitte um Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::NewTicket', 'utf-8', 'nl', 'Nieuw ticket (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Er is een nieuw ticket aangemaakt in <OTRS_TICKET_Queue>!<OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::FollowUp', 'utf-8', 'nl', 'Reactie ontvangen (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Er is een reactie ontvangen op onderstaand ticket.<OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::LockTimeout', 'utf-8', 'nl', 'Ticket ontgrendeld (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,De bewerkingstijd van ticket [<OTRS_TICKET_TicketNumber>] is overschreden, het ticket is nu ontgrendeld.<OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::OwnerUpdate', 'utf-8', 'nl', 'Ticket toegewezen (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Ticket [<OTRS_TICKET_TicketNumber>] is aan jou toegewezen door <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>.Opmerking:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::ResponsibleUpdate', 'utf-8', 'nl', 'Verantwoordelijkheid bijgewerkt (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_RESPONSIBLE_UserFirstname>,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft je geregistreerd als verantwoordelijke voor ticket [<OTRS_TICKET_TicketNumber>].Opmerking:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::AddNote', 'utf-8', 'nl', 'Nieuwe notitie (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft een nieuwe notitie toegevoegd aan [<OTRS_TICKET_TicketNumber>].Notitie:<OTRS_CUSTOMER_BODY><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::Move', 'utf-8', 'nl', 'Ticket verplaatst naar <OTRS_CUSTOMER_QUEUE> (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> heeft [<OTRS_TICKET_TicketNumber>] verplaatst naar <OTRS_CUSTOMER_QUEUE>.OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::PendingReminder', 'utf-8', 'nl', 'Herinnering (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het herinnermoment voor ticket [<OTRS_TICKET_TicketNumber>] is bereikt.<OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::Escalation', 'utf-8', 'nl', 'Escalatie (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het ticket [<OTRS_TICKET_TicketNumber>] is geëscaleerd!Geëscaleerd op:    <OTRS_TICKET_EscalationDestinationDate>Geëscaleerd sinds: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::EscalationNotifyBefore', 'utf-8', 'nl', 'Ticket gaat escaleren (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het ticket [<OTRS_TICKET_TicketNumber>] gaat escaleren!Escalatie op:   <OTRS_TICKET_EscalationDestinationDate>Escalatie over: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM> schreef:OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
