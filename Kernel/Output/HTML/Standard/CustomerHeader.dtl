@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.49 2010-09-01 14:28:06 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.50 2010-09-22 14:21:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,12 +76,27 @@ $Include{"Copyright"}
 
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
 
+<!-- dtl:block:HeaderLogoCSS -->
+    <style type="text/css">
+        #Header #Logo {
+            background-image: $QData{"URL"};
+            top: $QData{"StyleTop"};
+            right: $QData{"StyleRight"};
+            width: $QData{"StyleWidth"};
+            height: $QData{"StyleHeight"};
+        }
+    </style>
+<!-- dtl:block:HeaderLogoCSS -->
+
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
 <body class="NoJavaScript $QData{"BodyClass"}">
 <!-- start CI layout -->
     <div id="Header">
-        <h1 class="CompanyName"><a href="#">Company Support</a></h1>
+        <h1 class="CompanyName"><a href="#">$Config{"CustomerHeadline"}</a></h1>
+<!-- dtl_block:HeaderLogo -->
+        <div id="Logo"></div>
+<!-- dtl_block:HeaderLogo -->
 <!-- dtl:block:DebugRTLButton -->
         <button onclick="Core.Debug.SimulateRTLPage();" type="button">Simulate RTL</button>
 <!-- dtl:block:DebugRTLButton -->

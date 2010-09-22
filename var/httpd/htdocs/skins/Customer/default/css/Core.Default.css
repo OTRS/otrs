@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -72,6 +72,15 @@ strong {
 #Header a {
     color: #222;
     outline: none;
+}
+
+#Header #Logo {
+    position: absolute;
+    top: 2px;
+    right: 25px;
+    width: 135px;
+    height: 50px;
+    background: transparent url(../img/logo.png) no-repeat;
 }
 
 /* RTL Button placement - development purpose only */

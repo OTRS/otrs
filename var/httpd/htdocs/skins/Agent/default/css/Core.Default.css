@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.33 $
+ * @version     $Revision: 1.34 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -356,6 +356,15 @@ dd {
 .W950px {
     width: 950px;
 }
+
+/**
+ * @subsection  Customizable logos
+ */
+#LoginLogo {
+    background: transparent url(../img/loginlogo_default.png) center no-repeat;
+    height: 100px;
+}
+
 
 /**
  * @subsection  MessageBox

@@ -2,7 +2,7 @@
 # HTMLHead.dtl - provides global HTML head snippet
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHead.dtl,v 1.6 2010-08-20 17:04:11 mn Exp $
+# $Id: HTMLHead.dtl,v 1.7 2010-09-22 14:21:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,27 @@
 <!-- dtl:block:ModuleCSS_IE8 -->
 
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
+
+<!-- dtl:block:HeaderLogoCSS -->
+    <style type="text/css">
+        #Header #Logo {
+            background-image: $QData{"URL"};
+            top: $QData{"StyleTop"};
+            right: $QData{"StyleRight"};
+            width: $QData{"StyleWidth"};
+            height: $QData{"StyleHeight"};
+        }
+    </style>
+<!-- dtl:block:HeaderLogoCSS -->
+
+<!-- dtl:block:LoginLogoCSS -->
+    <style type="text/css">
+        #LoginLogo {
+            background-image: $QData{"URL"};
+            height: $QData{"StyleHeight"};
+        }
+    </style>
+<!-- dtl:block:LoginLogoCSS -->
 
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.309 2010-09-22 11:54:41 mg Exp $
+# $Id: Layout.pm,v 1.310 2010-09-22 14:21:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.309 $) [1];
+$VERSION = qw($Revision: 1.310 $) [1];
 
 =head1 NAME
 
@@ -947,6 +947,52 @@ sub Login {
     $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin} );
     $Self->LoaderCreateAgentJSCalls();
 
+    # Add header logo, if configured
+    if ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
+        my %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+        my %Data;
+
+        for my $CSSStatement ( keys %AgentLogo ) {
+            if ( $CSSStatement eq 'URL' ) {
+                my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+                $Data{'URL'} = 'url(' . $WebPath . $AgentLogo{$CSSStatement} . ')';
+            }
+            else {
+                $Data{$CSSStatement} = $AgentLogo{$CSSStatement};
+            }
+        }
+
+        $Self->Block(
+            Name => 'HeaderLogoCSS',
+            Data => \%Data,
+        );
+    }
+
+    # add login logo, if configured
+    if ( defined $Self->{ConfigObject}->Get('AgentLoginLogo') ) {
+        my %AgentLoginLogo = %{ $Self->{ConfigObject}->Get('AgentLoginLogo') };
+        my %Data;
+
+        for my $CSSStatement ( keys %AgentLoginLogo ) {
+            if ( $CSSStatement eq 'URL' ) {
+                my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+                $Data{'URL'} = 'url(' . $WebPath . $AgentLoginLogo{$CSSStatement} . ')';
+            }
+            else {
+                $Data{$CSSStatement} = $AgentLoginLogo{$CSSStatement};
+            }
+        }
+
+        $Self->Block(
+            Name => 'LoginLogoCSS',
+            Data => \%Data,
+        );
+
+        $Self->Block(
+            Name => 'LoginLogo'
+        );
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
 
@@ -1264,6 +1310,27 @@ sub Header {
 
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls( Skin => $Self->{UserSkin} );
+
+    # Add header logo, if configured
+    if ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
+        my %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+        my %Data;
+
+        for my $CSSStatement ( keys %AgentLogo ) {
+            if ( $CSSStatement eq 'URL' ) {
+                my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+                $Data{'URL'} = 'url(' . $WebPath . $AgentLogo{$CSSStatement} . ')';
+            }
+            else {
+                $Data{$CSSStatement} = $AgentLogo{$CSSStatement};
+            }
+        }
+
+        $Self->Block(
+            Name => 'HeaderLogoCSS',
+            Data => \%Data,
+        );
+    }
 
     # add cookies if exists
     my $Output = '';
@@ -2981,6 +3048,31 @@ sub CustomerLogin {
     $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
 
+    # Add header logo, if configured
+    if ( defined $Self->{ConfigObject}->Get('CustomerLogo') ) {
+        my %CustomerLogo = %{ $Self->{ConfigObject}->Get('CustomerLogo') };
+        my %Data;
+
+        for my $CSSStatement ( keys %CustomerLogo ) {
+            if ( $CSSStatement eq 'URL' ) {
+                my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+                $Data{'URL'} = 'url(' . $WebPath . $CustomerLogo{$CSSStatement} . ')';
+            }
+            else {
+                $Data{$CSSStatement} = $CustomerLogo{$CSSStatement};
+            }
+        }
+
+        $Self->Block(
+            Name => 'HeaderLogoCSS',
+            Data => \%Data,
+        );
+
+        $Self->Block(
+            Name => 'HeaderLogo',
+        );
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
 
@@ -3065,6 +3157,31 @@ sub CustomerHeader {
     elsif ( $Self->{ConfigObject}->Get('Frontend::DebugMode') ) {
         $Self->Block(
             Name => 'DebugRTLButton',
+        );
+    }
+
+    # Add header logo, if configured
+    if ( defined $Self->{ConfigObject}->Get('CustomerLogo') ) {
+        my %CustomerLogo = %{ $Self->{ConfigObject}->Get('CustomerLogo') };
+        my %Data;
+
+        for my $CSSStatement ( keys %CustomerLogo ) {
+            if ( $CSSStatement eq 'URL' ) {
+                my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+                $Data{'URL'} = 'url(' . $WebPath . $CustomerLogo{$CSSStatement} . ')';
+            }
+            else {
+                $Data{$CSSStatement} = $CustomerLogo{$CSSStatement};
+            }
+        }
+
+        $Self->Block(
+            Name => 'HeaderLogoCSS',
+            Data => \%Data,
+        );
+
+        $Self->Block(
+            Name => 'HeaderLogo',
         );
     }
 
@@ -4669,6 +4786,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.309 $ $Date: 2010-09-22 11:54:41 $
+$Revision: 1.310 $ $Date: 2010-09-22 14:21:20 $
 
 =cut
