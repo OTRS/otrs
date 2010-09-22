@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1416 2010-09-22 13:11:00 mg Exp $
+# $Id: CHANGES,v 1.1417 2010-09-22 14:54:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-22 Fixed bug#5964 - The given param 'klant@ykoon.xx' in 'WatchUserIDs' is
+    invalid in customer panel!
  - 2010-09-22 Fixed bug#5956 - Arrows to expand/collapse Support Module details point
     in the wrong direction.
  - 2010-09-22 Fixed bug#5976 - Admin Notification (event) text box runs outside the screen.
@@ -553,6 +555,7 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.9 (2010/??/??)
+ - 2010-09-14 Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - 2010-09-09 Fixed bug#5462 - Kernel::System::Ticket::TicketEscalationIndexBuild()
     does not invalidate the cache.
  - 2010-08-27 Fixed bug#5667 - Rich Text is not working in ipad. It's not

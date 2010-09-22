@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.310 2010-09-22 14:21:20 mn Exp $
+# $Id: Layout.pm,v 1.311 2010-09-22 14:54:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.310 $) [1];
+$VERSION = qw($Revision: 1.311 $) [1];
 
 =head1 NAME
 
@@ -1383,44 +1383,44 @@ sub Header {
     }
 
     # run tool bar item modules
-    my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
-    if ( $Param{ShowToolbarItems} && $Self->{UserID} && ref $ToolBarModule eq 'HASH' ) {
-        my %Modules;
-        my %Jobs = %{$ToolBarModule};
-        for my $Job ( sort keys %Jobs ) {
+    if ( $Self->{UserID} && $Self->{UserType} eq 'User' ) {
+        my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+        if ( $Param{ShowToolbarItems} && ref $ToolBarModule eq 'HASH' ) {
+            my %Modules;
+            my %Jobs = %{$ToolBarModule};
+            for my $Job ( sort keys %Jobs ) {
 
-            # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
-            my $Object = $Jobs{$Job}->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-            next if !$Object;
-            %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
-        }
+                # load and run module
+                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    LayoutObject => $Self,
+                );
+                next if !$Object;
+                %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
+            }
 
-        # show tool bar items
-        my $ToolBarShown = 0;
-        for my $Key ( sort keys %Modules ) {
-            next if !%{ $Modules{$Key} };
+            # show tool bar items
+            my $ToolBarShown = 0;
+            for my $Key ( sort keys %Modules ) {
+                next if !%{ $Modules{$Key} };
 
-            # show tool bar wrapper
-            if ( !$ToolBarShown ) {
-                $ToolBarShown = 1;
+                # show tool bar wrapper
+                if ( !$ToolBarShown ) {
+                    $ToolBarShown = 1;
+                    $Self->Block(
+                        Name => 'ToolBar',
+                        Data => \%Param,
+                    );
+                }
                 $Self->Block(
-                    Name => 'ToolBar',
-                    Data => \%Param,
+                    Name => $Modules{$Key}->{Block},
+                    Data => $Modules{$Key},
                 );
             }
-            $Self->Block(
-                Name => $Modules{$Key}->{Block},
-                Data => $Modules{$Key},
-            );
         }
-    }
 
-    # show logged in notice
-    if ( $Self->{UserID} ) {
+        # show logged in notice
         if ( $Param{ShowPrefLink} ) {
             $Self->Block(
                 Name => 'Login',
@@ -1433,19 +1433,18 @@ sub Header {
                 Data => \%Param,
             );
         }
-    }
 
-    # show logout button (if registered)
-    if (
-        $Param{ShowLogoutButton}
-        && $Self->{UserID}
-        && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout}
-        )
-    {
-        $Self->Block(
-            Name => 'Logout',
-            Data => \%Param,
-        );
+        # show logout button (if registered)
+        if (
+            $Param{ShowLogoutButton}
+            && $Self->{ConfigObject}->Get('Frontend::Module')->{Logout}
+            )
+        {
+            $Self->Block(
+                Name => 'Logout',
+                Data => \%Param,
+            );
+        }
     }
 
     # create & return output
@@ -4786,6 +4785,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.310 $ $Date: 2010-09-22 14:21:20 $
+$Revision: 1.311 $ $Date: 2010-09-22 14:54:41 $
 
 =cut
