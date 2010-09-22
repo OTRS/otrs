@@ -1838,4 +1838,224 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
+<!-- notifications agent - nl -->
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Nieuw ticket (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Er is een nieuw ticket aangemaakt in &lt;OTRS_TICKET_Queue&gt;!
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Reactie ontvangen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Er is een reactie ontvangen op onderstaand ticket.
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Ticket ontgrendeld (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+De bewerkingstijd van ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is overschreden, het ticket is nu ontgrendeld.
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Ticket toegewezen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is aan jou toegewezen door &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;.
+
+Opmerking:
+
+&lt;OTRS_COMMENT&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Verantwoordelijkheid bijgewerkt (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft je geregistreerd als verantwoordelijke voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+
+Opmerking:
+
+&lt;OTRS_COMMENT&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Nieuwe notitie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft een nieuwe notitie toegevoegd aan [&lt;OTRS_TICKET_TicketNumber&gt;].
+
+Notitie:
+&lt;OTRS_CUSTOMER_BODY&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::Move</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Ticket verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt; (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft [&lt;OTRS_TICKET_TicketNumber&gt;] verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt;.
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Herinnering (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Escalatie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Het ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is geëscaleerd!
+
+Geëscaleerd op:    &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Geëscaleerd sinds: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Ticket gaat escaleren (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Het ticket [&lt;OTRS_TICKET_TicketNumber&gt;] gaat escaleren!
+
+Escalatie op:   &lt;OTRS_TICKET_EscalationDestinationDate&gt;
+Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
 </database>
