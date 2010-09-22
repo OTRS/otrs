@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1415 2010-09-22 12:16:35 mg Exp $
+# $Id: CHANGES,v 1.1416 2010-09-22 13:11:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-22 Fixed bug#5956 - Arrows to expand/collapse Support Module details point
+    in the wrong direction.
  - 2010-09-22 Fixed bug#5976 - Admin Notification (event) text box runs outside the screen.
  - 2010-09-22 Fixed bug#5959 - Agent gets "Invalid argument" JavaScript Error in Ticket Zoom.
  - 2010-09-21 Fixed bug#5970 - Wrong orientation of expand / collapse arrows.
