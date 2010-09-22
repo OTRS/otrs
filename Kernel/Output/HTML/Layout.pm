@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.176.2.22 2010-08-27 06:32:53 martin Exp $
+# $Id: Layout.pm,v 1.176.2.23 2010-09-22 11:54:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.176.2.22 $) [1];
+$VERSION = qw($Revision: 1.176.2.23 $) [1];
 
 =head1 NAME
 
@@ -1157,7 +1157,7 @@ return html for browser to redirect
     );
 
     my $HTML = $LayoutObject->Redirect(
-        ExtURL => "L<http://some.example.com/>",
+        ExtURL => "http://some.example.com/",
     );
 
 =cut
@@ -1490,7 +1490,7 @@ create notify lines
     my $Output = $LayoutObject->Notify(
         Priority => 'warning',
         Data => '$Text{"Some DTL Stuff"}',
-        Link => 'L<http://example.com/>',
+        Link => 'http://example.com/',
     );
 
     errors, the text will be translated
@@ -4432,6 +4432,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.176.2.22 $ $Date: 2010-08-27 06:32:53 $
+$Revision: 1.176.2.23 $ $Date: 2010-09-22 11:54:00 $
 
 =cut
