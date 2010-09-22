@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.7.2.1 2010-06-24 18:13:20 dz Exp $
+# $Id: DashboardUserOnline.pm,v 1.7.2.2 2010-09-22 09:30:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7.2.1 $) [1];
+$VERSION = qw($Revision: 1.7.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,7 @@ sub new {
 
     $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
-    $Self->{StartHit} = int $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
     $Self->{CacheKey} = $Self->{Name};
 
