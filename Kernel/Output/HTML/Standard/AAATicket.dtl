@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.53 2010-09-03 12:52:11 mg Exp $
+# $Id: AAATicket.dtl,v 1.54 2010-09-22 12:57:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -227,10 +227,10 @@ $Text{"Reminder Tickets"}
 $Text{"Escalated Tickets"}
 $Text{"New Tickets"}
 $Text{"Open Tickets / Need to be answered"}
-$Text{"Tickets which need to be answered!"}
-$Text{"All new tickets!"}
-$Text{"All tickets which are escalated!"}
-$Text{"All tickets where the reminder date has reached!"}
+$Text{"All open tickets, these tickets have already been worked on, but need a response"}
+$Text{"All new tickets, these tickets have not been worked on yet"}
+$Text{"All escalated tickets"}
+$Text{"All tickets with a reminder set where the reminder date has been reached"}
 
 # ticket history text
 $Text{"History::Move"}
