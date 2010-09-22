@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1413 2010-09-22 09:54:41 mg Exp $
+# $Id: CHANGES,v 1.1414 2010-09-22 12:07:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-22 Fixed bug#5979 - IE8 - articles for a ticket doesn't switch.
  - 2010-09-22 Fixed bug#5959 - Agent gets "Invalid argument" JavaScript Error in Ticket Zoom.
  - 2010-09-21 Fixed bug#5970 - Wrong orientation of expand / collapse arrows.
  - 2010-09-20 Fixed bug#5707 - Web Installer Mail Configuration does not list all SMTP backends/options.
