@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.17 2010-09-23 09:38:51 mg Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.18 2010-09-23 11:23:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,8 +67,8 @@
 
 <!-- dtl:block:Empty -->
         <div class="Placeholder">
-            <h2>$Text{"No Ticket has been written yet."}</h2>
-            <p>$Text{"You as the customer have the abillity to let us support staff people jump around as you wish because it's all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called 'ticket'. Please command us."}</p>
+            <h2>$Text{"You have not created a ticket yet."}</h2>
+            <p>$Text{"You as the customer have the ability to let us support staff people jump around as you wish because it's all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called 'ticket'. Please command us."}</p>
             <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first Ticket"}</a>
         </div>
 
