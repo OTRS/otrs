@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.9 2010-07-23 11:07:17 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.10 2010-09-23 22:22:32 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -112,6 +112,15 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
                 Core.UI.Table.InitCSSPseudoClasses();
             }
+
+            if ( Core.Config.Get('Action') === 'AgentTicketCustomer' ) {
+                $('a.MasterActionLink').bind('click', function () {
+                    window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: this.href });
+                    window.close();
+                    return false;
+                });
+            }
+            return false;
         }
 
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {

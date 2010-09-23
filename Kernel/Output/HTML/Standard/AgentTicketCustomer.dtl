@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.29 2010-09-01 11:34:15 mg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.30 2010-09-23 22:22:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,4 +71,9 @@ $Include{"AgentCustomerSearch"}
         </div>
     </div>
 </form>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.Init();
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:Customer -->

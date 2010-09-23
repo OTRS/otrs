@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.23 2010-07-22 13:56:47 mn Exp $
+# $Id: AgentCustomerSearch.pm,v 1.24 2010-09-23 22:22:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,65 +153,64 @@ sub Run {
         );
 
         # show customer tickets
-        if ($CustomerUserID) {
+        my @CustomerIDs;
 
-            # get secondary customer ids
-            my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
-                User => $CustomerUserID,
+        # get secondary customer ids
+        @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+            User => $CustomerUserID,
+        );
+
+        # get own customer id
+        if ($CustomerID) {
+            push @CustomerIDs, $CustomerID;
+        }
+
+        my $View    = $Self->{ParamObject}->GetParam( Param => 'View' )    || '';
+        my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
+        my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
+
+        my @ViewableTickets = ();
+        if (@CustomerIDs) {
+            @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+                Result     => 'ARRAY',
+                Limit      => 250,
+                SortBy     => [$SortBy],
+                OrderBy    => [$OrderBy],
+                CustomerID => \@CustomerIDs,
+                UserID     => $Self->{UserID},
+                Permission => 'ro',
             );
+        }
 
-            # get own customer id
-            if ($CustomerID) {
-                push @CustomerIDs, $CustomerID;
-            }
+        my $LinkSort = 'Subaction=' . $Self->{Subaction}
+            . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . '&';
+        my $LinkPage = 'Subaction=' . $Self->{Subaction}
+            . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+            . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . '&';
+        my $LinkFilter = 'Subaction=' . $Self->{Subaction}
+            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . '&';
 
-            my $View    = $Self->{ParamObject}->GetParam( Param => 'View' )    || '';
-            my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
-            my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
-
-            my @ViewableTickets = ();
-            if (@CustomerIDs) {
-                @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-                    Result     => 'ARRAY',
-                    Limit      => 250,
-                    SortBy     => [$SortBy],
-                    OrderBy    => [$OrderBy],
-                    CustomerID => \@CustomerIDs,
-                    UserID     => $Self->{UserID},
-                    Permission => 'ro',
-                );
-            }
-
-            my $LinkSort = 'Subaction=' . $Self->{Subaction}
-                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
-                . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
-                . '&';
-            my $LinkPage = 'Subaction=' . $Self->{Subaction}
-                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
-                . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
-                . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
-                . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
-                . '&';
-            my $LinkFilter = 'Subaction=' . $Self->{Subaction}
-                . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
-                . '&';
-
-            if ( scalar @ViewableTickets ) {
-                $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
-                    TicketIDs  => \@ViewableTickets,
-                    Total      => scalar @ViewableTickets,
-                    Env        => $Self,
-                    View       => $View,
-                    TitleName  => 'Customer history',
-                    LinkPage   => $LinkPage,
-                    LinkSort   => $LinkSort,
-                    LinkFilter => $LinkFilter,
-                    Output     => 'raw',
-                );
-            }
+        if ( scalar @ViewableTickets ) {
+            $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
+                TicketIDs  => \@ViewableTickets,
+                Total      => scalar @ViewableTickets,
+                Env        => $Self,
+                View       => $View,
+                TitleName  => 'Customer history',
+                LinkPage   => $LinkPage,
+                LinkSort   => $LinkSort,
+                LinkFilter => $LinkFilter,
+                Output     => 'raw',
+            );
         }
 
         # build JSON output
