@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.71 2010-09-21 13:15:16 mb Exp $
+# $Id: AgentTicketCompose.dtl,v 1.72 2010-09-23 19:48:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,14 +51,14 @@ $Include{"AgentCustomerSearch"}
                     <label for="Cc">$Text{"Cc"}:</label>
                     <div class="Field">
                         <input type="text" name="Cc" id="Cc" value="$QData{"Cc"}"  class="W75pc $QData{"CcInvalid"} " />
-                        <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
+                        <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Bcc">$Text{"Bcc"}:</label>
                     <div class="Field">
                         <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc $QData{"BccInvalid"}"/>
-                        <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address"}</p></div>
+                        <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
 
