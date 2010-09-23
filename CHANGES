@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1426 2010-09-23 15:40:20 cg Exp $
+# $Id: CHANGES,v 1.1427 2010-09-23 18:15:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-23 Fixed bug#5965 - AgentTicketMove does not support setting of "Note" and "Subject".
  - 2010-09-23 Fixed bug#6002 - Company logo is overlap in login screen.
  - 2010-09-23 Fixed bug#5999 - Undefined variables generate warning in CustomerTicketMessage.
  - 2010-09-23 Fixed bug#5980 - Free fields are not properly aligned.
