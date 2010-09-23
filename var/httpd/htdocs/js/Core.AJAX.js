@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.10 2010-09-23 12:32:44 mn Exp $
+// $Id: Core.AJAX.js,v 1.11 2010-09-23 13:23:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -157,7 +157,7 @@ Core.AJAX = (function (TargetNS) {
                 // only add element to the string, if there is no key in the data hash with the same name
                 if (typeof Data[$(this).attr('name')] === 'undefined') {
                     if ($(this).is(':checkbox, :radio')) {
-                        QueryString += $(this).attr('name') + '=' + encodeURIComponent(($(this).is(':checked') ? 'on' : '')) + ";";
+                        QueryString += $(this).attr('name') + '=' + encodeURIComponent(($(this).is(':checked') ? ($(this).val() || 'on') : '')) + ";";
                     }
                     else {
                         QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + ";";
