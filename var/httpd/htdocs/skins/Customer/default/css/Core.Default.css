@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -63,7 +63,7 @@ strong {
  */
 
 #Header {
-    padding: 37px 34px 18px;
+    padding: 21px 34px 18px;
     background: #A7AAAA url(../img/GradientSmall.png) repeat-x 0 0;
     border-bottom: 1px solid #999;
     text-shadow: 0 1px 0 #EEE;
