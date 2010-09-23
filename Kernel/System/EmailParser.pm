@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.98 2010-08-25 16:07:12 martin Exp $
+# $Id: EmailParser.pm,v 1.99 2010-09-23 09:07:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 =head1 NAME
 
@@ -85,6 +85,15 @@ create an object
         Debug        => 0,
     );
 
+    # as stand alone mode, without parsing emails
+    my $ParserObject = Kernel::System::EmailParser->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        EncodeObject => $EncodeObject,
+        Mode         => 'Standalone',
+        Debug        => 0,
+    );
+
 =cut
 
 sub new {
@@ -103,6 +112,10 @@ sub new {
     }
 
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
+
+    if ( $Param{Mode} && $Param{Mode} eq 'Standalone' ) {
+        return $Self;
+    }
 
     # check needed objects
     if ( !$Param{Email} && !$Param{Entity} ) {
@@ -266,8 +279,15 @@ To get the senders realname back.
 
 sub GetRealname {
     my ( $Self, %Param ) = @_;
-
     my $Realname = '';
+
+    # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
+    if ( $Param{Email} =~ /"(.+?)"/ ) {
+        $Realname = $1;
+        return $Realname;
+    }
+
+    # fallback of Mail::Address
     for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
         $Realname = $EmailSplit->name();
     }
@@ -912,6 +932,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2010-08-25 16:07:12 $
+$Revision: 1.99 $ $Date: 2010-09-23 09:07:23 $
 
 =cut

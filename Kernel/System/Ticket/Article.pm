@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.254 2010-07-26 06:28:25 martin Exp $
+# $Id: Article.pm,v 1.255 2010-09-23 09:07:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,10 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
-use Mail::Address;
+use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.254 $) [1];
+$VERSION = qw($Revision: 1.255 $) [1];
 
 =head1 NAME
 
@@ -1755,15 +1755,16 @@ sub ArticleGet {
         $Part->{State}     = $StateData{Name};
 
         # add real name lines
+        my $EmailParser = Kernel::System::EmailParser->new( %{$Self}, Mode => 'Standalone' );
         for my $Key (qw( From To Cc)) {
             next if !$Part->{$Key};
 
             # strip out real names
             my $Realname = '';
-            for my $EmailSplit ( Mail::Address->parse( $Part->{$Key} ) ) {
-                my $Name = $EmailSplit->name();
+            for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Part->{$Key} ) ) {
+                my $Name = $EmailParser->GetRealname( Email => $EmailSplit );
                 if ( !$Name ) {
-                    $Name = $EmailSplit->address();
+                    $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
                 }
                 next if !$Name;
                 if ($Realname) {
@@ -3245,6 +3246,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.254 $ $Date: 2010-07-26 06:28:25 $
+$Revision: 1.255 $ $Date: 2010-09-23 09:07:23 $
 
 =cut
