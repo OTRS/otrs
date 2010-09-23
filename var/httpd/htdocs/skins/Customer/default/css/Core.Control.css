@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -22,6 +22,7 @@
     position: relative;
     border-top: 1px solid #EEE;
     border-bottom: 1px solid #979999;
+    clear: both;
 }
 
 #Navigation ul {
@@ -126,6 +127,7 @@
     border-bottom: 1px solid #B8BBBB;
     overflow: hidden;
     text-shadow: 0 1px 0 #F6F9F9;
+    clear: both;
 }
 
 .MessageBox p {
