@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -179,18 +179,18 @@
     padding-right: 5px;
 }
 
-#Filter {
-    padding: 0;
+.Filter {
+    padding: 0 !important;
 }
 
-#Filter a {
+.Filter a {
     padding: 5px 9px;
     background: url(../img/actionrow_divider.png) no-repeat right 7px;
     text-shadow: 0 1px 0 #ECF0F0;
     display: block;
 }
 
-.RTL #Filter a {
+.RTL .Filter a {
     background-position: left;
 }
 
@@ -239,7 +239,7 @@
 }
 
 .ActionRow .Last a,
-#Filter .Last a {
+.Filter .Last a {
     background: none;
 }
 

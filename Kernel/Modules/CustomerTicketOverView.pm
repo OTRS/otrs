@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.63 2010-08-19 15:34:11 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.64 2010-09-23 09:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -286,7 +286,7 @@ sub Run {
         }
 
         # show footer filter - show only if more the one page is available
-        if ( $PageNav{TotalHits} > $Self->{PageShown} ) {
+        if ( $AllTickets > $Self->{PageShown} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FilterFooter',
                 Data => {
@@ -296,7 +296,7 @@ sub Run {
             );
         }
         for my $Key ( sort keys %NavBarFilter ) {
-            if ( $PageNav{TotalHits} > $Self->{PageShown} ) {
+            if ( $AllTickets > $Self->{PageShown} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'FilterFooterItem',
                     Data => {

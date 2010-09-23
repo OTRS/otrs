@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -49,7 +49,7 @@ body {
 
 .MessageHeader h3 {
     font-weight: 18px !important;
-    
+
 }
 
 /**
@@ -59,7 +59,7 @@ body {
 .MessageBody {
     display: block !important;
 }
- 
+
  /**
  * @subsection Misc
  */
@@ -107,7 +107,7 @@ iframe {
     Customer Ticket Overview
 */
 
-#Filter a {
+.Filter a {
     display:block;
     padding:5px 9px;
     color:#FFF;

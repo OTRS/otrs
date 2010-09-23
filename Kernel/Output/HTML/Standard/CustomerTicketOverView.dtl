@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.16 2010-08-19 09:35:21 mg Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.17 2010-09-23 09:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,14 +11,14 @@
 <div id="MainBox" class="TicketView ARIARoleMain $Config{"Ticket::Frontend::CustomerTicketOverviewSortable"}">
 <!-- dtl:block:Filled -->
     <div class="ActionRow">
-        <ul id="Filter" class="Tabs">
+        <ul class="Filter Tabs">
 <!-- dtl:block:FilterHeader -->
             <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a></li>
 <!-- dtl:block:FilterHeader -->
             <li class="Clear"></li>
         </ul>
         <div class="Tabs Pagination">
-            <strong>$Data{"Result"}</strong> $Text{"of"} <strong>$Data{"TotalHits"}</strong> - $Text{"Page"}: $Data{"SiteNavBar"}
+            $Data{"SiteNavBar"}
         </div>
         <div class="Clear"></div>
     </div>
@@ -53,7 +53,7 @@
                 <li class="Clear"></li>
             </ul>
             <div class="Tabs Pagination">
-                <strong>$Data{"Result"}</strong> $Text{"of"} <strong>$Data{"TotalHits"}</strong> - $Text{"Page"}: $Data{"SiteNavBar"}
+                $Data{"SiteNavBar"}
             </div>
             <div class="Clear"></div>
         </div>
