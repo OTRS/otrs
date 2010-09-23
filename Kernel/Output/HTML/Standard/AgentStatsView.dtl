@@ -1,8 +1,8 @@
 # --
-# AgentStatsView.dtl - provides HTML form for view IDMEF
+# AgentStatsView.dtl - provides HTML form for view stat screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.24 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentStatsView.dtl,v 1.25 2010-09-23 10:51:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,8 @@
             </div>
             <div class="Content">
                 <p>
-                    $Text{"With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat."}
+                    $Text{"With the input and select fields you can influence the format and contents of the statistic."}
+                    $Text{"Exactly what fields and formats you can influence is defined by the statistic administrator."}
                 </p>
             </div>
         </div>
