@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.54 2010-09-22 12:57:23 mb Exp $
+# $Id: AAATicket.dtl,v 1.55 2010-09-23 08:44:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,8 +216,6 @@ $Text{"Send ticket watch notifications"}
 
 $Text{"Out Of Office Time"}
 
-$Text{"CompanyTickets"}
-$Text{"MyTickets"}
 $Text{"New Ticket"}
 $Text{"Create new Ticket"}
 $Text{"Customer called"}

@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.118 2010-09-02 12:20:47 martin Exp $
+# $Id: Package.pm,v 1.119 2010-09-23 08:44:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 =head1 NAME
 
@@ -948,7 +948,7 @@ sub PackageOnlineList {
     if ( !@XMLARRAY ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Unable to parse Online Repository index document!',
+            Message  => 'Unable to parse repository index document.',
         );
         return;
     }
@@ -1013,12 +1013,12 @@ sub PackageOnlineList {
         }
     }
 
-    # return of there are packages but not for this framework
+    # return if there are packages, just not for this framework version
     if ( @Packages && !$PackageForRequestedFramework ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                'No Packages for requested Framework in this Online Repository, but Packages for other Framework!',
+                'No packages for your framework version found in this repository, it only contains packages for other framework versions.',
         );
     }
     @Packages = @NewPackages;
@@ -1208,6 +1208,7 @@ sub DeployCheckInfo {
 =item PackageVerify()
 
 check if package is verified by the vendor
+this code is not implemented yet
 
     $PackageObject->PackageVerify(
         Package   => $Package,
@@ -1245,7 +1246,7 @@ sub PackageVerify {
     # verify info
     $Self->{PackageVerifyInfo} = {
         Description => "This package is not deployed by the OTRS Project. The OTRS "
-            . "Project is not responable if you run into problems by using this package. "
+            . "Project is not responsible if you run into problems by using this package. "
             . "Please contact <a href=\"mailto:enjoy\@otrs.com?Subject=Package "
             . $Param{Structure}->{Name}->{Content}
             . "Version=" . $Param{Structure}->{Name}->{Content}
@@ -1282,7 +1283,7 @@ sub PackageVerifyInfo {
 
 =item PackageBuild()
 
-build a opm package
+build an opm package
 
     my $Package = $PackageObject->PackageBuild(
         Name => {
@@ -2482,6 +2483,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2010-09-02 12:20:47 $
+$Revision: 1.119 $ $Date: 2010-09-23 08:44:35 $
 
 =cut

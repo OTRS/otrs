@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.90 2010-09-21 12:44:38 mb Exp $
+# $Id: AAABase.dtl,v 1.91 2010-09-23 08:44:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -217,7 +217,6 @@ $Text{"possible"}
 $Text{"reject"}
 $Text{"reverse"}
 $Text{"Facility"}
-$Text{"Timeover"}
 $Text{"Time Zone"}
 $Text{"Pending till"}
 $Text{"Don't work with UserID 1 (System account)! Create new users!"}
@@ -276,9 +275,9 @@ $Text{"uninstalled"}
 
 $Text{"Security Note: You should activate %s because application is already running!"}
 
-$Text{"Unable to parse Online Repository index document!"}
-$Text{"No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!"}
-$Text{"No Packages or no new Packages in selected Online Repository!"}
+$Text{"Unable to parse repository index document."}
+$Text{"No packages for your framework version found in this repository, it only contains packages for other framework versions."}
+$Text{"No packages, or no new packages, found in selected repository."}
 
 $Text{"printed at"}
 $Text{"Loading..."}
