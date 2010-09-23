@@ -2,7 +2,7 @@
 # SpellingInline.dtl - provides HTML form for SpellingInline
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SpellingInline.dtl,v 1.6 2010-07-13 09:46:45 mg Exp $
+# $Id: SpellingInline.dtl,v 1.7 2010-09-23 10:58:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ wordWindowObj.textInputs = textinputs;
 
 
 function init_spell() {
-    // check if any error occured during server-side processing
+    // check if any error occurred during server-side processing
     if( error ) {
         alert( error );
     } else {
