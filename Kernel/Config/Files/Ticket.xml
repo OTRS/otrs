@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.385 2010-09-22 12:57:23 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.386 2010-09-23 08:57:35 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1760,6 +1760,17 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">18</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketOverviewSortable" Required="0" Valid="1">
+        <Description Translatable="1">Controls if customers have the ability to sort their tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Option SelectedID="">
+                <Item Key="">No</Item>
+                <Item Key="Sortable">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" Required="1" Valid="1">

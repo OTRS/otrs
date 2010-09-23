@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1417 2010-09-22 14:54:41 martin Exp $
+# $Id: CHANGES,v 1.1418 2010-09-23 08:57:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-??
+ - 2010-09-23 Fixed bug#5987 - No column titles for ticket list in customer interface.
+    This can now be configured with the config setting
+    "Ticket::Frontend::CustomerTicketOverviewSortable".
  - 2010-09-22 Fixed bug#5964 - The given param 'klant@ykoon.xx' in 'WatchUserIDs' is
     invalid in customer panel!
  - 2010-09-22 Fixed bug#5956 - Arrows to expand/collapse Support Module details point
