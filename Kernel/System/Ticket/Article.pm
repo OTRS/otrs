@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.255 2010-09-23 09:07:23 martin Exp $
+# $Id: Article.pm,v 1.256 2010-09-23 10:26:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.255 $) [1];
+$VERSION = qw($Revision: 1.256 $) [1];
 
 =head1 NAME
 
@@ -3168,6 +3168,13 @@ sub ArticleAttachmentIndex {
             {
                 $AttachmentIDHTML = $AttachmentID;
             }
+
+            # remove any files with content-id from attachment list
+            if ( $File{ContentID} ) {
+                if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
+                    delete $Attachments{$AttachmentID};
+                }
+            }
         }
         if ($AttachmentIDHTML) {
             delete $Attachments{$AttachmentIDPlain};
@@ -3246,6 +3253,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.255 $ $Date: 2010-09-23 09:07:23 $
+$Revision: 1.256 $ $Date: 2010-09-23 10:26:59 $
 
 =cut
