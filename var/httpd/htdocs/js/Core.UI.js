@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.10 2010-09-22 13:11:00 mg Exp $
+// $Id: Core.UI.js,v 1.11 2010-09-23 08:25:26 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,10 @@ Core.UI = (function (TargetNS) {
             Adjusted = true,
             Adjustments = [],
             I;
+
+        if (!$TBodyElements.length) {
+            return;
+        }
 
         /**
          * @function
