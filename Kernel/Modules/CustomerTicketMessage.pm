@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.72 2010-09-14 08:32:40 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.73 2010-09-23 15:11:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -490,6 +490,7 @@ sub _MaskNew {
     my ( $Self, %Param ) = @_;
 
     $Param{FormID} = $Self->{FormID};
+    $Param{Errors}->{QueueInvalid} = $Param{Errors}->{QueueInvalid} || '';
 
     # get list type
     my $TreeView = 0;
@@ -531,7 +532,7 @@ sub _MaskNew {
             Multiple   => 0,
             Size       => 0,
             Name       => 'Dest',
-            Class      => "Validate_RequiredDropdown $Param{Errors}->{QueueInvalid}",
+            Class      => "Validate_RequiredDropdown " . $Param{Errors}->{QueueInvalid},
             SelectedID => $Param{ToSelected},
         );
         $Self->{LayoutObject}->Block(
