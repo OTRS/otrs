@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.22 2010-09-10 14:44:35 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.23 2010-09-24 07:01:53 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,10 +25,9 @@ Core.Agent.Search = (function (TargetNS) {
     /**
      * @function
      * @return nothing
-     *      This function rebuild attribute selection, only show available attributes
+     *      This function rebuild attribute selection, only show available attributes.
      */
-
-    TargetNS.RebuildSelection = function () {
+    TargetNS.AdditionalAttributeSelectionRebuild = function () {
 
         // get original selection
         var $AttributeClone = $('#AttributeOrig').clone();
@@ -52,11 +51,11 @@ Core.Agent.Search = (function (TargetNS) {
 
     /**
      * @function
+     * @param {String} of attribute to add.
      * @return nothing
-     *      This function add attributes for search
+     *      This function adds one attributes for search.
      */
-
-    TargetNS.ItemAdd = function (Attribute) {
+    TargetNS.SearchAttributeAdd = function (Attribute) {
         $('#SearchAttributesHidden').find('label').each(function () {
             if ($(this).attr('for') === Attribute) {
                 $(this).prev().clone().appendTo('#SearchInsert');
@@ -65,10 +64,10 @@ Core.Agent.Search = (function (TargetNS) {
                     // bind click function to remove button now
                     .find('.Remove').bind('click', function () {
                         var $Element = $(this).parent();
-                        TargetNS.ItemRemove($Element);
+                        TargetNS.SearchAttributeRemove($Element);
 
                         // rebuild selection
-                        TargetNS.RebuildSelection();
+                        TargetNS.AdditionalAttributeSelectionRebuild();
 
                         return false;
                     });
@@ -81,26 +80,52 @@ Core.Agent.Search = (function (TargetNS) {
     /**
      * @function
      * @param {jQueryObject} $Element The jQuery object of the form  or any element within this form
+check.
      * @return nothing
-     *      This function remove attributes from an element
+     *      This function remove attributes from an element.
      */
 
-    TargetNS.ItemRemove = function ($Element) {
+    TargetNS.SearchAttributeRemove = function ($Element) {
         $Element.prev().prev().remove();
         $Element.prev().remove();
         $Element.remove();
     };
 
-    // delete profile
+    /**
+     * @function
+     * @return nothing
+     *      This function rebuild attribute selection, only show available attributes.
+     */
+    TargetNS.AdditionalAttributeSelectionRebuild = function () {
+
+        // get original selection
+        var $AttributeClone = $('#AttributeOrig').clone();
+        $AttributeClone.attr('id', 'Attribute');
+
+        // strip all already used attributes
+        $AttributeClone.find('option').each(function () {
+            var $Attribute = $(this);
+            $('#SearchInsert label').each(function () {
+                if ($(this).attr('for') === $Attribute.attr('value')) {
+                    $Attribute.remove();
+                }
+            });
+        });
+
+        // replace selection with original selection
+        $('#Attribute').replaceWith($AttributeClone);
+
+        return true;
+    };
 
     /**
      * @function
      * @private
-     * @param {Profile} Profile The profile that will be delete
+     * @param {String} Profile The profile name that will be delete.
      * @return nothing
-     * @description Delete a profile via an ajax requests
+     * @description Delete a profile via an ajax requests.
      */
-    function DeleteRemote(Profile) {
+    function SearchProfileDelete(Profile) {
         var Data = {
             Action: 'AgentTicketSearch',
             Subaction: 'AJAXProfileDelete',
@@ -113,15 +138,22 @@ Core.Agent.Search = (function (TargetNS) {
         );
     }
 
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Shows waiting dialog until search screen is ready.
+     */
     function ShowWaitingDialog(){
         Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', '', '10px', 'Center', true);
     }
 
     /**
      * @function
-     * @param {Event} Action
+     * @param {String} Action which is used in framework right now.
+     * @param {String} Used profile name.
      * @return nothing
-     *      This function open the search dialog
+     *      This function open the search dialog after clicking on "search" button in nav bar.
      */
 
     TargetNS.OpenSearchDialog = function (Action, Profile) {
@@ -149,15 +181,15 @@ Core.Agent.Search = (function (TargetNS) {
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
 
-                if ($('#Profile').val() && $('#Profile').val() !== 'last-search') {
+                if ($('#SearchProfile').val() && $('#SearchProfile').val() !== 'last-search') {
                     $('#SearchProfileDelete').show();
                 }
 
                 // register add of attribute
                 $('.Add').bind('click', function () {
                     var Attribute = $('#Attribute').val();
-                    TargetNS.ItemAdd(Attribute);
-                    TargetNS.RebuildSelection();
+                    TargetNS.SearchAttributeAdd(Attribute);
+                    TargetNS.AdditionalAttributeSelectionRebuild();
 
                     return false;
                 });
@@ -186,8 +218,8 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // load profile
-                $('#Profile').bind('change', function () {
-                    var Profile = $('#Profile').val();
+                $('#SearchProfile').bind('change', function () {
+                    var Profile = $('#SearchProfile').val();
                     TargetNS.OpenSearchDialog(Action, Profile);
                     return false;
                 });
@@ -210,14 +242,14 @@ Core.Agent.Search = (function (TargetNS) {
                     }
 
                     // add name to profile selection
-                    $Element1 = $('#ProfileList').children().first().clone();
+                    $Element1 = $('#SearchProfileList').children().first().clone();
                     $Element1.text(Name);
-                    $('#ProfileList').append($Element1);
-                    $Element2 = $('#Profile').children().first().clone();
+                    $('#SearchProfileList').append($Element1);
+                    $Element2 = $('#SearchProfile').children().first().clone();
                     $Element2.text(Name);
                     $Element2.attr('value', Name);
                     $Element2.attr('selected', 'selected');
-                    $('#Profile').append($Element2);
+                    $('#SearchProfile').append($Element2);
 
                     // set input box to empty
                     $('#SearchProfileAddName').val('');
@@ -234,27 +266,27 @@ Core.Agent.Search = (function (TargetNS) {
                 $('#SearchProfileDelete').bind('click', function (Event) {
 
                     // strip all already used attributes
-                    $('#Profile').find('option:selected').each(function () {
+                    $('#SearchProfile').find('option:selected').each(function () {
                         if ($(this).attr('value') !== 'last-search') {
 
                             // rebuild attributes
                             $('#SearchInsert').text('');
 
                             // remove remote
-                            DeleteRemote($(this).val());
+                            SearchProfileDelete($(this).val());
 
                             // remove local
                             $(this).remove();
 
                             // show fulltext
-                            TargetNS.ItemAdd('Fulltext');
+                            TargetNS.SearchAttributeAdd('Fulltext');
 
                             // rebuild selection
-                            TargetNS.RebuildSelection();
+                            TargetNS.AdditionalAttributeSelectionRebuild();
                         }
                     });
 
-                    if ($('#Profile').val() && $('#Profile').val() === 'last-search') {
+                    if ($('#SearchProfile').val() && $('#SearchProfile').val() === 'last-search') {
                         $('#SearchProfileDelete').hide();
                     }
 

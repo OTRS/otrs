@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.99 2010-08-19 16:47:22 en Exp $
+# $Id: AgentTicketSearch.pm,v 1.100 2010-09-24 07:01:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1413,6 +1413,7 @@ sub Run {
         $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%Profiles,
             Name       => 'Profile',
+            ID         => 'SearchProfile',
             SelectedID => $Profile,
         );
 
