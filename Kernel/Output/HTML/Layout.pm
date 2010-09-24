@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.311 2010-09-22 14:54:41 martin Exp $
+# $Id: Layout.pm,v 1.312 2010-09-24 15:13:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.311 $) [1];
+$VERSION = qw($Revision: 1.312 $) [1];
 
 =head1 NAME
 
@@ -4024,20 +4024,16 @@ sub _Output {
         # add block counter to template blocks
         if ( $Block->{Layer} == 1 ) {
             $TemplateString =~ s{
-                ( <!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
+                <!-- [ ] dtl:place_block:($Block->{Name}) [ ] -->
             }
-            {
-                "$1:".$LayerHash{$Block->{Layer}}.$2;
-            }segxm;
+            {<!-- dtl:place_block:$1:$LayerHash{$Block->{Layer}} -->}sgxm;
         }
 
         # add block counter to in block blocks
         $Block->{Data} =~ s{
-            (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
+            <!-- [ ] dtl:place_block:(.+?) [ ] -->
         }
-        {
-            "$1:$ID:-$2";
-        }segxm;
+        {<!-- dtl:place_block:$1:$ID:- -->}sgxm;
 
         # count up place_block counter
         $ID =~ s/^(.*:)(\d+)$/$1-/g;
@@ -4054,7 +4050,7 @@ sub _Output {
         }
 
         $TemplateString =~ s{
-            <!--\sdtl:place_block:$Block->{Name}:$ID\s-->
+            <!-- [ ] dtl:place_block:$Block->{Name}:$ID [ ] -->
         }
         {$Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->}sxm;
         $OldLayer = $Block->{Layer};
@@ -4062,7 +4058,7 @@ sub _Output {
 
     # remove empty blocks and block preferences
     if ( $Param{BlockReplace} ) {
-        $TemplateString =~ s{ <!--\s{0,1}dtl:place_block:.+?\s{0,1}--> }{}sgxm;
+        $TemplateString =~ s{<!-- [ ] dtl:place_block:.+? [ ] --> }{}sgxm;
     }
 
     # process template
@@ -4785,6 +4781,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.311 $ $Date: 2010-09-22 14:54:41 $
+$Revision: 1.312 $ $Date: 2010-09-24 15:13:10 $
 
 =cut
