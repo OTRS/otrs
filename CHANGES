@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1429 2010-09-23 22:22:32 cg Exp $
+# $Id: CHANGES,v 1.1430 2010-09-24 07:13:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-3.0.0 beta4 2010-09-??
+3.0.0 beta4 2010-09-27
+ - 2010-09-24 Fixed bug#5962 - ToolBarModule and TicketSearchProfile, management
+    of search profiles is not working correctly.
  - 2010-09-23 Fixed bug#5950 - Customer History not shown in Change Customer View.
  - 2010-09-23 Changed ResponseFormat to TOFU (what people expect).
  - 2010-09-23 Fixed bug#5965 - AgentTicketMove does not support setting of "Note" and "Subject".
