@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1430 2010-09-24 07:13:08 martin Exp $
+# $Id: CHANGES,v 1.1431 2010-09-24 07:46:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-27
+ - 2010-09-24 Fixed bug#5848 - Wrong characters in Czech language.
+ - 2010-09-24 Updated Czech translation file, thanks to Pavel!
  - 2010-09-24 Fixed bug#5962 - ToolBarModule and TicketSearchProfile, management
     of search profiles is not working correctly.
  - 2010-09-23 Fixed bug#5950 - Customer History not shown in Change Customer View.
