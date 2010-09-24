@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.101 2010-09-22 14:43:02 mb Exp $
+# $Id: LayoutTicket.pm,v 1.102 2010-09-24 18:29:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -447,7 +447,7 @@ sub AgentFreeText {
                 $Data{"TicketFreeTextField$_"}
                     = '<input type="text" class="TicketFreeText '
                     . $ClassParam
-                    . '" name="TicketFreeText"'
+                    . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
                     . $_
