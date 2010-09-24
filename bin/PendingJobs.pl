@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.43 2009-07-20 10:36:05 mh Exp $
+# $Id: PendingJobs.pl,v 1.43.2.1 2010-09-24 08:19:33 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.43.2.1 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -62,7 +62,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -142,7 +142,7 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Result => 'ID',
 );
 
-# check if pendig time has reached and send notification
+# check if pending time has reached and send notification
 if (@PendingReminderStateIDs) {
 
     # ask the database

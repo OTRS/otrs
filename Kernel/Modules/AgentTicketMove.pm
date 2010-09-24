@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.37.2.8 2010-07-15 22:45:55 en Exp $
+# $Id: AgentTicketMove.pm,v 1.37.2.9 2010-09-24 08:19:33 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.8 $) [1];
+$VERSION = qw($Revision: 1.37.2.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -585,7 +585,7 @@ sub Run {
             );
         }
 
-        # set pending time on pendig state
+        # set pending time on pending state
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
             # set pending time
@@ -1041,15 +1041,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $KeyGropMember ( keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $KeyGropMember ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$KeyGropMember};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
