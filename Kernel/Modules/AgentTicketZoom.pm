@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.119 2010-09-09 10:45:00 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.120 2010-09-24 11:10:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -117,8 +117,20 @@ sub Run {
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
+    # mark shown article as seen
+    if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
+        my $Success = $Self->_ArticleItemSeen( ArticleID => $Self->{ArticleID} );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => $Success,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # article update
-    if ( $Self->{Subaction} eq 'ArticleUpdate' ) {
+    elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
         my $Count = $Self->{ParamObject}->GetParam( Param => 'Count' );
         my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
         $Article{Count} = $Count;
@@ -1129,20 +1141,26 @@ sub _ArticleTree {
     );
 }
 
+sub _ArticleItemSeen {
+    my ( $Self, %Param ) = @_;
+
+    # mark shown article as seen
+    $Self->{TicketObject}->ArticleFlagSet(
+        ArticleID => $Param{ArticleID},
+        Key       => 'Seen',
+        Value     => 1,
+        UserID    => $Self->{UserID},
+    );
+
+    return 1;
+}
+
 sub _ArticleItem {
     my ( $Self, %Param ) = @_;
 
     my %Ticket    = %{ $Param{Ticket} };
     my %Article   = %{ $Param{Article} };
     my %AclAction = %{ $Param{AclAction} };
-
-    # mark shown article as seen
-    $Self->{TicketObject}->ArticleFlagSet(
-        ArticleID => $Article{ArticleID},
-        Key       => 'Seen',
-        Value     => 1,
-        UserID    => $Self->{UserID},
-    );
 
     # cleanup subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
@@ -1154,6 +1172,17 @@ sub _ArticleItem {
         Name => 'ArticleItem',
         Data => { %Param, %Article, %AclAction },
     );
+
+    # mark shown article as seen
+    if ( $Param{Type} eq 'OnLoad' ) {
+        $Self->_ArticleItemSeen( ArticleID => $Article{ArticleID} );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleItemMarkAsSeen',
+            Data => { %Param, %Article, %AclAction },
+        );
+    }
 
     # show article actions
 

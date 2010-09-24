@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.19 2010-09-13 12:55:42 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.20 2010-09-24 11:10:41 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,33 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains the special module functions for TicketZoom.
  */
 Core.Agent.TicketZoom = (function (TargetNS) {
+    /**
+     * @function
+     * @param {String} TicketID of ticket which get's shown
+     * @param {String} ArticleID of article which get's shown
+     * @return nothing
+     *      Mark an article as seen in frontend and backend.
+     */
+    TargetNS.MarkAsSeen = function (TicketID, ArticleID) {
+        TargetNS.MarkAsSeenTimeout = window.setTimeout(function () {
+            // Mark old row as readed
+            $('#FixedTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+
+            // Mark article as seen in backend
+            var Data = {
+                Action: 'AgentTicketZoom',
+                Subaction: 'MarkAsSeen',
+                TicketID: TicketID,
+                ArticleID: ArticleID
+            };
+            Core.AJAX.FunctionCall(
+                Core.Config.Get('CGIHandle'),
+                Data,
+                function () {}
+            );
+        }, 3000);
+    };
+
     /**
      * @function
      * @param {jQueryObject} $Iframe The iframe which should be auto-heighted
