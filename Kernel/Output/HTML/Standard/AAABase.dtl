@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.91 2010-09-23 08:44:35 mb Exp $
+# $Id: AAABase.dtl,v 1.92 2010-09-24 08:15:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -278,6 +278,7 @@ $Text{"Security Note: You should activate %s because application is already runn
 $Text{"Unable to parse repository index document."}
 $Text{"No packages for your framework version found in this repository, it only contains packages for other framework versions."}
 $Text{"No packages, or no new packages, found in selected repository."}
+$Text{"Edit the system configuration settings."}
 
 $Text{"printed at"}
 $Text{"Loading..."}
