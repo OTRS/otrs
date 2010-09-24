@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1431 2010-09-24 07:46:03 mg Exp $
+# $Id: CHANGES,v 1.1432 2010-09-24 08:24:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@
     of search profiles is not working correctly.
  - 2010-09-23 Fixed bug#5950 - Customer History not shown in Change Customer View.
  - 2010-09-23 Changed ResponseFormat to TOFU (what people expect).
+ - 2010-09-23 Fixed bug#3515 - AgentTicketMove standard "Note" and "Subject" cannot be configured.
  - 2010-09-23 Fixed bug#5965 - AgentTicketMove does not support setting of "Note" and "Subject".
  - 2010-09-23 Fixed bug#6002 - Company logo is overlap in login screen.
  - 2010-09-23 Fixed bug#5999 - Undefined variables generate warning in CustomerTicketMessage.
