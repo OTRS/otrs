@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1434 2010-09-24 11:10:42 martin Exp $
+# $Id: CHANGES,v 1.1435 2010-09-24 11:11:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta4 2010-09-27
+ - 2010-09-24 Updated Russian translation file, thanks to Eugene Kungurov!
  - 2010-09-24 Fixed bug#5655 - In Article Zoom, after a new article got created
     and page reloads, new article is shown as new. It's confusing.
  - 2010-09-24 Fixed bug#5848 - Wrong characters in Czech language.
