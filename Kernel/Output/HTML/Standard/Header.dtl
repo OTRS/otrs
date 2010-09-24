@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.100 2010-08-02 12:04:12 mn Exp $
+# $Id: Header.dtl,v 1.101 2010-09-24 07:37:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ $Include{"HTMLHead"}
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
-                $('#Profile').bind('change', function (Event) {
+                $('#ToolBarSearchProfile').bind('change', function (Event) {
                     $(Event.target).closest('form').submit();
                     Event.preventDefault();
                     Event.stopPropagation();
