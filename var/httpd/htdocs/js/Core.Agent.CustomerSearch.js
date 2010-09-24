@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.10 2010-09-23 22:22:32 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.11 2010-09-24 08:13:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
 
             // Replace overview mode links (S, M, L view), pagination links with AJAX
-            $('#CustomerTickets').find('.OverviewZoom a, .Pagination a').click(function () {
+            $('#CustomerTickets').find('.OverviewZoom a, .Pagination a, .TableSmall th a').click(function () {
                 // Cut out BaseURL and query string from the URL
                 var Link = $(this).attr('href'),
                     URLComponents;
@@ -142,7 +142,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     TargetNS.Init = function ($Element, ActiveAutoComplete) {
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
-            GetCustomerTickets($('#CustomerUserID').val(), $('#CustomerID').val());
+            GetCustomerTickets($('#CustomerAutoComplete').val(), $('#CustomerID').val());
         }
 
         // get customer tickets for AgentTicketPhone and AgentTicketEmail
