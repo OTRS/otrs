@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.11 2010-06-22 22:00:52 dz Exp $
+# $Id: Queue.t,v 1.12 2010-09-27 15:01:18 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,7 +133,7 @@ $Self->True(
 
 my $QueueUpdate1 = $Self->{QueueObject}->QueueUpdate(
     QueueID             => $QueueID,
-    Name                => $QueueRand . "1",
+    Name                => $QueueRand . '1',
     ValidID             => 2,
     GroupID             => 1,
     Calendar            => '1',
@@ -154,6 +154,39 @@ my $QueueUpdate1 = $Self->{QueueObject}->QueueUpdate(
 $Self->True(
     $QueueUpdate1,
     'QueueUpdate()',
+);
+
+# lookup the queue name for $QueueID
+my $LookupQueueName = $Self->{QueueObject}->QueueLookup(
+    QueueID => $QueueID,
+);
+
+$Self->Is(
+    $LookupQueueName,
+    $QueueRand . '1',
+    "QueueLookup() - lookup the queue name for ID $QueueID",
+);
+
+# lookup the queue id for $QueueRand . '1'
+my $LookupQueueID = $Self->{QueueObject}->QueueLookup(
+    Queue => $QueueRand . '1',
+);
+
+$Self->Is(
+    $LookupQueueID,
+    $QueueID,
+    "QueueLookup() - lookup the queue ID for queue name " . $QueueRand . '1',
+);
+
+# lookup the queue id for $QueueRand, this should be undef, because this queue was renamed meanwhile!
+$LookupQueueID = $Self->{QueueObject}->QueueLookup(
+    Queue => $QueueRand,
+);
+
+$Self->Is(
+    $LookupQueueID,
+    undef,
+    "QueueLookup() - lookup the queue ID for queue name " . $QueueRand,
 );
 
 %QueueGet = $Self->{QueueObject}->QueueGet(
