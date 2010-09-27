@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.9 2010-06-22 22:00:51 dz Exp $
+# $Id: Type.t,v 1.10 2010-09-27 19:36:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,6 @@ $Self->Is(
 );
 
 my %TypeList = $Self->{TypeObject}->TypeList(
-    Valid => 0,
 );
 my $Hit = 0;
 for ( sort keys %TypeList ) {
@@ -118,6 +117,21 @@ $Self->Is(
     $TypeIDLookup || '',
     $TypeID,
     'TypeLookup() - Type',
+);
+
+%TypeList = $Self->{TypeObject}->TypeList(
+    Valid => 0,
+);
+
+$Hit = 0;
+for ( sort keys %TypeList ) {
+    if ( $_ eq $TypeID ) {
+        $Hit = 1;
+    }
+}
+$Self->False(
+    $Hit eq 1,
+    'TypeList() - only valid types',
 );
 
 1;
