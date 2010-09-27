@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1436 2010-09-24 18:29:04 cg Exp $
+# $Id: CHANGES,v 1.1437 2010-09-27 07:06:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+3.0.0 beta5 2010-??-??
+ - 2010-09-24 Fixed bug#6007 - Free field content not saved.
+
 3.0.0 beta4 2010-09-27
  - 2010-09-24 Fixed bug#6007 - Free field content not saved.
  - 2010-09-24 Updated Russian translation file, thanks to Eugene Kungurov!
