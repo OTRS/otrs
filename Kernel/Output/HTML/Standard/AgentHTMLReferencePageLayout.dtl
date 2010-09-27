@@ -1,0 +1,101 @@
+# --
+# AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.1 2010-09-27 15:08:34 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain AgentHTMLReference OutlineBox">
+    <h1>Page Layout</h1>
+
+    <p class="Spacing">
+        Around the content, a <code>&lt;div class="MainBox"&gt;&lt;/div&gt;</code>
+        has to be used in most cases (this one is highlighted).
+    </p>
+
+    <p class="Spacing">
+        There are 2 different kind of layout containers that you can use to
+        achieve different page layouts.
+    </p>
+
+    <h2 class="">LayoutFixedSidebar</h2>
+    <p class="Spacing">
+        This will generate a layout with a fixed-width sidebar which will be displayed
+        <em>before</em> the content column (in reading direction).
+    </p>
+
+    <div class="LayoutFixedSidebar SidebarFirst OutlineBox SpacingTop">
+        <div class="SidebarColumn OutlineBox">Sidebar</div>
+        <div class="ContentColumn OutlineBox">Content</div>
+        <div class="Clear"></div>
+    </div>
+    <p class="Warning Spacing">
+        Don't forget to add the clearing div after the content column.
+    </p>
+
+    <p>
+        If you want to switch the sidebar so that it comes <em>after</em>
+        the content column, just exchange the modificator class
+        <code>SidebarFirst</code> for <code>SidebarLast</code>. Don't modify
+        the order in the markup, i.e. the sidebar must still come first.
+    </p>
+    <div class="LayoutFixedSidebar SidebarLast OutlineBox SpacingTop">
+        <div class="SidebarColumn OutlineBox">Sidebar</div>
+        <div class="ContentColumn OutlineBox">Content</div>
+        <div class="Clear"></div>
+    </div>
+
+    <p class="Spacing">
+        An example layout with some content:
+    </p>
+    <div class="LayoutFixedSidebar SidebarFirst OutlineBox SpacingTop">
+        <div class="SidebarColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Actions</h2>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+                        <li>
+                            <a href="#" class="CallForAction"><span>Go to overview</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>List</h2>
+                </div>
+                <div class="Content">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Group</th>
+                                <th>Comment</th>
+                                <th>Valid</th>
+                                <th>Changed</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6">
+                                    No data found.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+
+</div>

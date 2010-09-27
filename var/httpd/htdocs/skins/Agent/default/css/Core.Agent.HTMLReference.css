@@ -1,0 +1,30 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  HTML Reference
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.AgentHTMLReference code {
+    padding: 2px;
+    border: 1px dotted grey;
+    background-color: yellow;
+}
+
+.AgentHTMLReference .OutlineBox {
+    border: 1px dotted grey;
+}
+
+} /* end @media print*/
