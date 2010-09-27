@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.104.2.7 2010-05-19 18:50:03 mb Exp $
+# $Id: nl.pm,v 1.104.2.8 2010-09-27 18:36:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.7 $) [1];
+$VERSION = qw($Revision: 1.104.2.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1148,7 +1148,7 @@ sub Data {
         'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardCalendarOverview
-        'in' => 'tussen',
+        'in' => 'over',
 
         # Template: AgentDashboardImage
 
