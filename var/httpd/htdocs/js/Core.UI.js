@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.11 2010-09-23 08:25:26 mg Exp $
+// $Id: Core.UI.js,v 1.12 2010-09-27 08:00:19 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -151,10 +151,7 @@ Core.UI = (function (TargetNS) {
                     ContentDivID = TargetNS.GetID($WidgetElement.children('.Content'));
 
                 // fallback to Expanded if default state was not given
-                if (
-                        !$WidgetElement.hasClass('Expanded')
-                        && !$WidgetElement.hasClass('Collapsed')
-                    ){
+                if (!$WidgetElement.hasClass('Expanded') && !$WidgetElement.hasClass('Collapsed')){
                     $WidgetElement.addClass('Expanded');
                 }
 
