@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.84 2010-09-09 12:34:06 mg Exp $
+# $Id: DB.pm,v 1.85 2010-09-28 08:41:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,6 +114,8 @@ sub new {
         $Self->{NotParentDBObject} = 1;
     }
 
+    $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
+
     return $Self;
 }
 
@@ -152,7 +154,12 @@ sub CustomerName {
     else {
 
         $UserLogin = $Self->{DBObject}->Quote($UserLogin);
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('$UserLogin')";
+        if ( $Self->{CaseSensitive} ) {
+            $SQL .= "$Self->{CustomerKey} = '$UserLogin'";
+        }
+        else {
+            $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('$UserLogin')";
+        }
     }
 
     # check cache
@@ -245,7 +252,12 @@ sub CustomerSearch {
                     $SQLExt .= ' OR ';
                 }
                 my $PostMasterSearch = $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' );
-                $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') ";
+                if ( $Self->{CaseSensitive} ) {
+                    $SQLExt .= " $Field LIKE '$PostMasterSearch' ";
+                }
+                else {
+                    $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') ";
+                }
             }
             $SQL .= $SQLExt;
         }
@@ -265,7 +277,12 @@ sub CustomerSearch {
         else {
             $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Like' );
             $UserLogin =~ s/\*/%/g;
-            $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin')";
+            if ( $Self->{CaseSensitive} ) {
+                $SQL .= "$Self->{CustomerKey} LIKE '$UserLogin'";
+            }
+            else {
+                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin')";
+            }
         }
     }
 
@@ -455,7 +472,13 @@ sub CustomerUserDataGet {
         $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $User, 'Integer' );
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote($User) . "')";
+        if ( $Self->{CaseSensitive} ) {
+            $SQL .= "$Self->{CustomerKey} = '" . $Self->{DBObject}->Quote($User) . "'";
+        }
+        else {
+            $SQL
+                .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote($User) . "')";
+        }
     }
 
     # get initial data
@@ -863,10 +886,17 @@ sub SetPassword {
                 .= "$Param{LoginCol} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
         }
         else {
-            $SQL .= "LOWER($Param{LoginCol}) = LOWER('"
-                . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+            if ( $Self->{CaseSensitive} ) {
+                $SQL .= "$Param{LoginCol} = '"
+                    . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "'";
+            }
+            else {
+                $SQL .= "LOWER($Param{LoginCol}) = LOWER('"
+                    . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+            }
 
         }
+
         return if !$Self->{DBObject}->Do( SQL => $SQL );
 
         # log notice
