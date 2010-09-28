@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.120 2010-09-24 11:10:42 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.121 2010-09-28 22:35:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1227,64 +1227,113 @@ sub _ArticleItem {
             }
             if ($Access) {
 
-                # get StandardResponsesStrg
-                $Param{StandardResponses}->{0}
-                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                my $ReplyType = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomReplyDisplay');
+                if ( $ReplyType eq 'Dropdown' ) {
 
-                # build html string
-                my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
-                    Name => 'ResponseID',
-                    ID   => 'ResponseID',
-                    Data => $Param{StandardResponses},
-                );
+                    # get StandardResponsesStrg
+                    $Param{StandardResponses}->{0}
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
 
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleReply',
-                    Data => {
-                        %Ticket, %Article, %AclAction,
-                        StandardResponsesStrg => $StandardResponsesStrg,
-                        Name                  => 'Reply',
-                        Class                 => 'AsPopup',
-                        Action                => 'AgentTicketCompose',
-                        FormID                => 'Reply',
-                    },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleReply' . $Param{Type},
-                    Data => {
-                        %Ticket, %Article, %AclAction,
-                        FormID => 'Reply',
-                    },
-                );
+                    # build html string
+                    my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                        Name => 'ResponseID',
+                        ID   => 'ResponseID',
+                        Data => $Param{StandardResponses},
+                    );
 
-                $Param{StandardResponses}->{0}
-                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReply',
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            StandardResponsesStrg => $StandardResponsesStrg,
+                            Name                  => 'Reply',
+                            Class                 => 'AsPopup',
+                            Action                => 'AgentTicketCompose',
+                            FormID                => 'Reply',
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReply' . $Param{Type},
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            FormID => 'Reply',
+                        },
+                    );
 
-                $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
-                    Name => 'ResponseID',
-                    ID   => 'ResponseIDAll',
-                    Data => $Param{StandardResponses},
-                );
+                    $Param{StandardResponses}->{0}
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
 
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleReply',
-                    Data => {
-                        %Ticket, %Article, %AclAction,
-                        StandardResponsesStrg => $StandardResponsesStrg,
-                        Name                  => 'Reply All',
-                        Class                 => 'AsPopup',
-                        Action                => 'AgentTicketCompose',
-                        FormID                => 'ReplyAll',
-                        ReplyAll              => 1,
-                    },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleReply' . $Param{Type},
-                    Data => {
-                        %Ticket, %Article, %AclAction,
-                        FormID => 'ReplyAll',
-                    },
-                );
+                    $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                        Name => 'ResponseID',
+                        ID   => 'ResponseIDAll',
+                        Data => $Param{StandardResponses},
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReply',
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            StandardResponsesStrg => $StandardResponsesStrg,
+                            Name                  => 'Reply All',
+                            Class                 => 'AsPopup',
+                            Action                => 'AgentTicketCompose',
+                            FormID                => 'ReplyAll',
+                            ReplyAll              => 1,
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReply' . $Param{Type},
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            FormID => 'ReplyAll',
+                        },
+                    );
+                }
+                else {
+
+                    # Reply
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReplyLikeButton',
+                        Data => {
+                            ReplyType => 'Reply',
+                        },
+                    );
+                    for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleReplyMenu',
+                            Data => {
+                                %Ticket, %Article, %AclAction,
+                                Template   => $Param{StandardResponses}{$ResponseID},
+                                Class      => 'AsPopup',
+                                Action     => 'AgentTicketCompose',
+                                ResponseID => $ResponseID,
+                                ReplyAll   => '0',
+                            },
+                        );
+                    }
+
+                    # Reply All
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleReplyLikeButton',
+                        Data => {
+                            ReplyType => 'Reply All',
+                        },
+                    );
+                    for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleReplyMenu',
+                            Data => {
+                                %Ticket, %Article, %AclAction,
+                                Template   => $Param{StandardResponses}{$ResponseID},
+                                Class      => 'AsPopup',
+                                Action     => 'AgentTicketCompose',
+                                ResponseID => $ResponseID,
+                                ReplyAll   => '1',
+                            },
+                        );
+                    }
+
+                }
             }
         }
 

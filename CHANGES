@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1439 2010-09-28 09:30:43 mg Exp $
+# $Id: CHANGES,v 1.1440 2010-09-28 22:35:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-09-28 Fixed bug#5909 - Add link list of predefined answers.
  - 2010-09-28 Fixed bug#6021 - Ticket Types are still displayed if they're invalid.
  - 2010-09-28 Fixed bug#4732 - Mysql table index not used when LOWER()
     is used in queries for customer_user.login. There is now a new flag CaseSensitive
@@ -17,7 +18,6 @@
  - 2010-09-24 Fixed bug#6007 - Free field content not saved.
 
 3.0.0 beta4 2010-09-27
- - 2010-09-24 Fixed bug#6007 - Free field content not saved.
  - 2010-09-24 Updated Russian translation file, thanks to Eugene Kungurov!
  - 2010-09-24 Fixed bug#5655 - In Article Zoom, after a new article got created
     and page reloads, new article is shown as new. It's confusing.

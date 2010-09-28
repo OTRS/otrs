@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.154 2010-09-24 11:10:41 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.155 2010-09-28 22:35:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -516,10 +516,22 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 <!-- dtl:block:ArticleReplyStatic -->
                 </li>
 <!-- dtl:block:ArticleReply -->
-
             </ul>
             <div class="ClearLeft"></div>
         </div>
+<!-- dtl:block:ArticleReplyLikeButton -->
+        <div class="LightRow Bottom">
+            <h4><strong>$QData{"ReplyType"}</strong></h4>
+            <ul class="Actions">
+<!-- dtl:block:ArticleReplyMenu -->
+                <li class="$QData{"Class"}">
+                    <a href="$Env{"Baselink"}Action=$QData{"Action"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ReplyAll=$QData{"ReplyAll"};ResponseID=$QData{"ResponseID"}" class="$QData{"Class"}" >$Text{"$Data{"Template"}"}</a>
+                </li>
+<!-- dtl:block:ArticleReplyMenu -->
+            </ul>
+            <div class="ClearLeft"></div>
+        </div>
+<!-- dtl:block:ArticleReplyLikeButton -->
         <div class="Content">
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall Tight">
