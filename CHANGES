@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1438 2010-09-28 08:41:13 mg Exp $
+# $Id: CHANGES,v 1.1439 2010-09-28 09:30:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-09-28 Fixed bug#6021 - Ticket Types are still displayed if they're invalid.
  - 2010-09-28 Fixed bug#4732 - Mysql table index not used when LOWER()
     is used in queries for customer_user.login. There is now a new flag CaseSensitive
     in the customer DB settings. Setting this to 1 will improve performance

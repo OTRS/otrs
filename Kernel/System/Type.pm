@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.23 2010-09-08 14:50:48 ub Exp $
+# $Id: Type.pm,v 1.24 2010-09-28 09:30:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -142,7 +142,8 @@ sub TypeAdd {
     # delete cache
     my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $ID );
     push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $ID;
-    push @CacheKeys, 'TypeList';
+    push @CacheKeys, 'TypeList::Valid::0';
+    push @CacheKeys, 'TypeList::Valid::1';
     for my $CacheKey (@CacheKeys) {
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
@@ -287,7 +288,8 @@ sub TypeUpdate {
     # delete cache
     my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $Param{ID} );
     push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $Param{ID};
-    push @CacheKeys, 'TypeList';
+    push @CacheKeys, 'TypeList::Valid::0';
+    push @CacheKeys, 'TypeList::Valid::1';
     for my $CacheKey (@CacheKeys) {
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
@@ -319,7 +321,8 @@ sub TypeList {
     }
 
     # check cache
-    my $CacheKey = 'TypeList';
+    my $CacheKey = "TypeList::Valid::$Valid";
+
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
@@ -448,6 +451,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2010-09-08 14:50:48 $
+$Revision: 1.24 $ $Date: 2010-09-28 09:30:43 $
 
 =cut
