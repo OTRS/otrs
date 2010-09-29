@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.156 2010-09-29 07:54:04 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.157 2010-09-29 08:03:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -559,10 +559,9 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
-                    <tr>
-                        <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-                        <td class="contentvalue" > <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div></td>
-                    </tr>
+                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <div title="$QData{"Value"}" class="$QData{"Result"}">$QData{"Value","160"}</div>
+                    <div class="Clear"></div>
 <!-- dtl:block:ArticleOption -->
 
 # show attachments
