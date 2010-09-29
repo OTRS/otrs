@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketResponsible.pm,v 1.5 2010-07-07 08:33:15 martin Exp $
+# $Id: ToolBarTicketResponsible.pm,v 1.6 2010-09-29 10:25:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,30 +83,36 @@ sub Run {
     my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Responsibles Reminder Reached');
     my $URL         = $Self->{LayoutObject}->{Baselink};
     my %Return;
-    $Return{'0999897'} = {
-        Block       => 'ToolBarItem',
-        Description => $TextNew,
-        Count       => $CountNew,
-        Class       => $ClassNew,
-        Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
-        AccessKey   => 'r',
-    };
-    $Return{'0999898'} = {
-        Block       => 'ToolBarItem',
-        Description => $TextReached,
-        Count       => $CountReached,
-        Class       => $ClassReached,
-        Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
-        AccessKey   => 'r',
-    };
-    $Return{'0999899'} = {
-        Block       => 'ToolBarItem',
-        Description => $Text,
-        Count       => $Count,
-        Class       => $Class,
-        Link        => $URL . 'Action=AgentTicketResponsibleView',
-        AccessKey   => 'r',
-    };
+    if ($CountNew) {
+        $Return{'0999897'} = {
+            Block       => 'ToolBarItem',
+            Description => $TextNew,
+            Count       => $CountNew,
+            Class       => $ClassNew,
+            Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
+            AccessKey   => 'r',
+        };
+    }
+    if ($CountReached) {
+        $Return{'0999898'} = {
+            Block       => 'ToolBarItem',
+            Description => $TextReached,
+            Count       => $CountReached,
+            Class       => $ClassReached,
+            Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
+            AccessKey   => 'r',
+        };
+    }
+    if ($Count) {
+        $Return{'0999899'} = {
+            Block       => 'ToolBarItem',
+            Description => $Text,
+            Count       => $Count,
+            Class       => $Class,
+            Link        => $URL . 'Action=AgentTicketResponsibleView',
+            AccessKey   => 'r',
+        };
+    }
     return %Return;
 }
 

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketLocked.pm,v 1.5 2010-07-07 08:33:15 martin Exp $
+# $Id: ToolBarTicketLocked.pm,v 1.6 2010-09-29 10:25:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,30 +82,36 @@ sub Run {
         = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Reminder Reached');
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
-    $Return{'0999997'} = {
-        Block       => 'ToolBarItem',
-        Count       => $CountNew,
-        Description => $TextNew,
-        Class       => $ClassNew,
-        Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
-        AccessKey   => 'k',
-    };
-    $Return{'0999998'} = {
-        Block       => 'ToolBarItem',
-        Count       => $CountReached,
-        Description => $TextReached,
-        Class       => $ClassReached,
-        Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
-        AccessKey   => 'k',
-    };
-    $Return{'0999999'} = {
-        Block       => 'ToolBarItem',
-        Count       => $Count,
-        Description => $Text,
-        Class       => $Class,
-        Link        => $URL . 'Action=AgentTicketLockedView',
-        AccessKey   => 'k',
-    };
+    if ($CountNew) {
+        $Return{'0999997'} = {
+            Block       => 'ToolBarItem',
+            Count       => $CountNew,
+            Description => $TextNew,
+            Class       => $ClassNew,
+            Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
+            AccessKey   => 'k',
+        };
+    }
+    if ($CountReached) {
+        $Return{'0999998'} = {
+            Block       => 'ToolBarItem',
+            Count       => $CountReached,
+            Description => $TextReached,
+            Class       => $ClassReached,
+            Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
+            AccessKey   => 'k',
+        };
+    }
+    if ($Count) {
+        $Return{'0999999'} = {
+            Block       => 'ToolBarItem',
+            Count       => $Count,
+            Description => $Text,
+            Class       => $Class,
+            Link        => $URL . 'Action=AgentTicketLockedView',
+            AccessKey   => 'k',
+        };
+    }
     return %Return;
 }
 
