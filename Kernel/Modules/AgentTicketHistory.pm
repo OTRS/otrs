@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.20 2010-08-06 22:14:42 cg Exp $
+# $Id: AgentTicketHistory.pm,v 1.21 2010-09-29 06:53:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,10 +83,10 @@ sub Run {
         my %Data = %{$DataTmp};
 
         # replace text
-        if ( $Data{Name} && $Data{Name} =~ /^%%/ ) {
+        if ( $Data{Name} && $Data{Name} =~ m/^%%/x ) {
             my %Info = ();
-            $Data{Name} =~ s/^%%//g;
-            my @Values = split( /%%/, $Data{Name} );
+            $Data{Name} =~ s/^%%//xg;
+            my @Values = split( /%%/x, $Data{Name} );
             $Data{Name} = '';
             for my $Value (@Values) {
                 if ( $Data{Name} ) {
@@ -102,7 +102,7 @@ sub Run {
             );
 
             # remove not needed place holder
-            $Data{Name} =~ s/\%s//g;
+            $Data{Name} =~ s/\%s//xg;
         }
 
         $Self->{LayoutObject}->Block(
@@ -134,7 +134,7 @@ sub Run {
         Data         => {
             TicketNumber => $Tn,
             TicketID     => $Self->{TicketID},
-            Title        => %Ticket->{Title},
+            Title        => $Ticket{Title},
         },
     );
     $Output .= $Self->{LayoutObject}->Footer(
