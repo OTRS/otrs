@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.44 2010-09-29 11:25:03 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.45 2010-09-29 11:28:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -272,7 +272,7 @@
 <!-- dtl:block:SearchAJAXShow -->
         Core.Agent.Search.SearchAttributeAdd('$QData{"Attribute"}');
 <!-- dtl:block:SearchAJAXShow -->
-        Core.Agent.Search.RebuildSelection();
+        Core.Agent.Search.AdditionalAttributeSelectionRebuild();
     }, 0);
 //]]></script>
 
