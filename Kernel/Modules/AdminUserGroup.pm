@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.36 2009-02-20 12:04:29 mh Exp $
+# $Id: AdminUserGroup.pm,v 1.36.2.1 2010-09-29 09:52:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.36.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,21 +121,21 @@ sub Run {
 
         # get group data
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
-        my %NewPermission = ();
-        for ( keys %UserData ) {
+        my %NewPermission;
+        for my $UserID ( keys %UserData ) {
             for my $Permission ( keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {
-                    if ( $_ == $ID ) {
+                    if ( $UserID == $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
                 }
             }
             $Self->{GroupObject}->GroupMemberAdd(
-                UID        => $_,
+                UID        => $UserID,
                 GID        => $ID,
-                Permission => {%NewPermission},
+                Permission => \%NewPermission,
                 UserID     => $Self->{UserID},
             );
         }
@@ -154,21 +154,21 @@ sub Run {
 
         # get group data
         my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
-        my %NewPermission = ();
-        for ( keys %GroupData ) {
+        my %NewPermission;
+        for my $GroupID ( keys %GroupData ) {
             for my $Permission ( keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {
-                    if ( $_ == $ID ) {
+                    if ( $GroupID eq $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
                 }
             }
             $Self->{GroupObject}->GroupMemberAdd(
                 UID        => $ID,
-                GID        => $_,
-                Permission => {%NewPermission},
+                GID        => $GroupID,
+                Permission => \%NewPermission,
                 UserID     => $Self->{UserID},
             );
         }
