@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.123 2010-09-29 08:03:36 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.124 2010-09-29 13:01:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1566,16 +1566,17 @@ sub _ArticleItem {
             },
         );
     }
-    for my $Key (qw(Subject)) {
-        next if !$Article{$Key};
-        $Self->{LayoutObject}->Block(
-            Name => 'RowData',
-            Data => {
-                Key   => $Key,
-                Value => $Article{$Key},
-            },
-        );
-    }
+
+    #    for my $Key (qw(Subject)) {
+    #        next if !$Article{$Key};
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'RowData',
+    #            Data => {
+    #                Key   => $Key,
+    #                Value => $Article{$Key},
+    #            },
+    #        );
+    #    }
 
     # show accounted article time
     if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {

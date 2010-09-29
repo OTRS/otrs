@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.157 2010-09-29 08:03:36 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.158 2010-09-29 13:01:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -465,6 +465,9 @@ $Data{"ArticleItems"}
         <div class="LightRow Header">
             <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content."}"><span></span></a></div>
             <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
+            <div class="AdditionalInformation">
+                $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
+            </div>
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
@@ -546,9 +549,6 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
                     <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:RowData -->
-                    <label>$Text{"Created"}:</label>
-                    <p class="Value" title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</p>
-                    <div class="Clear"></div>
 
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
