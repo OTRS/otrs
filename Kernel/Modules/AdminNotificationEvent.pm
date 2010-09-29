@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.5.2.2 2009-11-16 09:07:29 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.5.2.3 2010-09-29 05:58:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5.2.2 $) [1];
+$VERSION = qw($Revision: 1.5.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -323,8 +323,28 @@ sub _Edit {
             TicketSLAUpdate           => 'TicketSLAUpdate',
             TicketUnlockTimeoutUpdate => 'TicketUnlockTimeoutUpdate',
             TicketCustomerUpdate      => 'TicketCustomerUpdate',
-            TicketFreeTextUpdate      => 'TicketFreeTextUpdate',
-            TicketFreeTimeUpdate      => 'TicketFreeTimeUpdate',
+            TicketFreeTextUpdate1     => 'TicketFreeTextUpdate1',
+            TicketFreeTextUpdate2     => 'TicketFreeTextUpdate2',
+            TicketFreeTextUpdate3     => 'TicketFreeTextUpdate3',
+            TicketFreeTextUpdate4     => 'TicketFreeTextUpdate4',
+            TicketFreeTextUpdate5     => 'TicketFreeTextUpdate5',
+            TicketFreeTextUpdate6     => 'TicketFreeTextUpdate6',
+            TicketFreeTextUpdate7     => 'TicketFreeTextUpdate7',
+            TicketFreeTextUpdate8     => 'TicketFreeTextUpdate8',
+            TicketFreeTextUpdate9     => 'TicketFreeTextUpdate9',
+            TicketFreeTextUpdate10    => 'TicketFreeTextUpdate10',
+            TicketFreeTextUpdate11    => 'TicketFreeTextUpdate11',
+            TicketFreeTextUpdate12    => 'TicketFreeTextUpdate12',
+            TicketFreeTextUpdate13    => 'TicketFreeTextUpdate13',
+            TicketFreeTextUpdate14    => 'TicketFreeTextUpdate14',
+            TicketFreeTextUpdate15    => 'TicketFreeTextUpdate15',
+            TicketFreeTextUpdate16    => 'TicketFreeTextUpdate16',
+            TicketFreeTimeUpdate1     => 'TicketFreeTimeUpdate1',
+            TicketFreeTimeUpdate2     => 'TicketFreeTimeUpdate2',
+            TicketFreeTimeUpdate3     => 'TicketFreeTimeUpdate3',
+            TicketFreeTimeUpdate4     => 'TicketFreeTimeUpdate4',
+            TicketFreeTimeUpdate5     => 'TicketFreeTimeUpdate5',
+            TicketFreeTimeUpdate6     => 'TicketFreeTimeUpdate6',
             TicketPendingTimeUpdate   => 'TicketPendingTimeUpdate',
             TicketLockUpdate          => 'TicketLockUpdate',
             TicketOwnerUpdate         => 'TicketOwnerUpdate',
