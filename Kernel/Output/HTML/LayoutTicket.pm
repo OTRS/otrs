@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.102 2010-09-24 18:29:04 cg Exp $
+# $Id: LayoutTicket.pm,v 1.103 2010-09-29 10:09:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1176,6 +1176,18 @@ sub TicketListShow {
             Name => 'OverviewNavBarPageNavBar',
             Data => \%PageNav,
         );
+
+        # don't show context settings in AJAX case (e. g. in customer ticket history),
+        #   because the submit with page reload will not work there
+        if ( !$Param{AJAX} ) {
+            $Env->{LayoutObject}->Block(
+                Name => 'ContextSettings',
+                Data => {
+                    %PageNav,
+                    %Param,
+                },
+            );
+        }
     }
 
     if ( $Param{NavBar} ) {

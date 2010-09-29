@@ -2,34 +2,12 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.42 2010-09-08 09:46:56 mg Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.43 2010-09-29 10:09:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-<div id="ContextSettingsDialogContainer" class="Hidden">
-    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialog">
-        <input type="hidden" name="Action" value="AgentPreferences"/>
-        <input type="hidden" name="Subaction" value="Update"/>
-        <input type="hidden" name="Group" value="$QData{"Group"}"/>
-        <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
-        <fieldset class="TableLike">
-            <label for="$QData{"PreferencesKey"}">$Text{"Max. shown Tickets a page"}:</label>
-            <div class="Field">
-                $Data{"PageShownString"}
-            </div>
-            <div class="Clear"></div>
-        </fieldset>
-    </form>
-</div>
-
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Dialog.RegisterContentDialog($('#ShowContextSettingsDialog'), $('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
-//]]></script>
-<!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:OverviewNavBar -->
 <div class="OverviewBox ARIARoleMain $QData{"View"}">
@@ -74,11 +52,37 @@
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:OverviewNavBarPageBack -->
+
+<!-- dtl:block:ContextSettings -->
                 <ul class="ContextFunctions">
                     <li class="ContextSettings">
                         <a href="#" id="ShowContextSettingsDialog" title="$Text{"Context Settings"}"><span>$Text{"Context Settings"}</span></a>
                     </li>
                 </ul>
+
+                <div id="ContextSettingsDialogContainer" class="Hidden">
+                    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialog">
+                        <input type="hidden" name="Action" value="AgentPreferences"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="$QData{"Group"}"/>
+                        <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
+                        <fieldset class="TableLike">
+                            <label for="$QData{"PreferencesKey"}">$Text{"Max. shown Tickets a page"}:</label>
+                            <div class="Field">
+                                $Data{"PageShownString"}
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Dialog.RegisterContentDialog($('#ShowContextSettingsDialog'), $('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContextSettings -->
+
             </div>
             <div class="ActionRow">
                 <div class="OverviewActions">
