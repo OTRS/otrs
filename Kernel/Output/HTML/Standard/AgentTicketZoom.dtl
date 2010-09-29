@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.155 2010-09-28 22:35:06 cg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.156 2010-09-29 07:54:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -469,13 +469,13 @@ $Data{"ArticleItems"}
         <div class="LightRow Bottom">
             <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
-                <li class="$QData{"Class"}">
+                <li class="AsPopup">
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
 
-<!-- dtl:block:ArticleReply -->
-                <li class="$QData{"Class"}">
+<!-- dtl:block:ArticleReplyAsDropdown -->
+                <li>
                     <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
                         <input type="hidden" name="Action" value="$QData{"Action"}"/>
                         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
@@ -484,7 +484,7 @@ $Data{"ArticleItems"}
                         <label for="ResponseID" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
                         $Data{"StandardResponsesStrg"}
                     </form>
-<!-- dtl:block:ArticleReplyOnLoad -->
+<!-- dtl:block:ArticleReplyAsDropdownJSOnLoad -->
 <script type="text/javascript">//<![CDATA[
 $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
     var URL;
@@ -497,8 +497,8 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
     }
 });
 //]]></script>
-<!-- dtl:block:ArticleReplyOnLoad -->
-<!-- dtl:block:ArticleReplyStatic -->
+<!-- dtl:block:ArticleReplyAsDropdownJSOnLoad -->
+<!-- dtl:block:ArticleReplyAsDropdownJSStatic -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
@@ -513,25 +513,26 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<!-- dtl:block:ArticleReplyStatic -->
+<!-- dtl:block:ArticleReplyAsDropdownJSStatic -->
                 </li>
-<!-- dtl:block:ArticleReply -->
+<!-- dtl:block:ArticleReplyAsDropdown -->
             </ul>
             <div class="ClearLeft"></div>
         </div>
-<!-- dtl:block:ArticleReplyLikeButton -->
+<!-- dtl:block:ArticleReplyAsButtons -->
         <div class="LightRow Bottom">
-            <h4><strong>$QData{"ReplyType"}</strong></h4>
+            <h4>$QData{"ReplyType"}</h4>
             <ul class="Actions">
-<!-- dtl:block:ArticleReplyMenu -->
-                <li class="$QData{"Class"}">
-                    <a href="$Env{"Baselink"}Action=$QData{"Action"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};ReplyAll=$QData{"ReplyAll"};ResponseID=$QData{"ResponseID"}" class="$QData{"Class"}" >$Text{"$Data{"Template"}"}</a>
+<!-- dtl:block:ArticleReplyAsButtonsItem -->
+                <li>
+                    <a href="$Env{"Baselink"}Action=$LQData{"Action"};TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ReplyAll=$LQData{"ReplyAll"};ResponseID=$LQData{"ResponseID"}" class="AsPopup" >$Text{"$Data{"Template"}"}</a>
                 </li>
-<!-- dtl:block:ArticleReplyMenu -->
+<!-- dtl:block:ArticleReplyAsButtonsItem -->
             </ul>
             <div class="ClearLeft"></div>
         </div>
-<!-- dtl:block:ArticleReplyLikeButton -->
+<!-- dtl:block:ArticleReplyAsButtons -->
+
         <div class="Content">
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall Tight">

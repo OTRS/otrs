@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.121 2010-09-28 22:35:07 cg Exp $
+# $Id: AgentTicketZoom.pm,v 1.122 2010-09-29 07:54:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1242,7 +1242,7 @@ sub _ArticleItem {
                     );
 
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReply',
+                        Name => 'ArticleReplyAsDropdown',
                         Data => {
                             %Ticket, %Article, %AclAction,
                             StandardResponsesStrg => $StandardResponsesStrg,
@@ -1253,7 +1253,7 @@ sub _ArticleItem {
                         },
                     );
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReply' . $Param{Type},
+                        Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
                         Data => {
                             %Ticket, %Article, %AclAction,
                             FormID => 'Reply',
@@ -1270,7 +1270,7 @@ sub _ArticleItem {
                     );
 
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReply',
+                        Name => 'ArticleReplyAsDropdown',
                         Data => {
                             %Ticket, %Article, %AclAction,
                             StandardResponsesStrg => $StandardResponsesStrg,
@@ -1282,7 +1282,7 @@ sub _ArticleItem {
                         },
                     );
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReply' . $Param{Type},
+                        Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
                         Data => {
                             %Ticket, %Article, %AclAction,
                             FormID => 'ReplyAll',
@@ -1293,18 +1293,17 @@ sub _ArticleItem {
 
                     # Reply
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyLikeButton',
+                        Name => 'ArticleReplyAsButtons',
                         Data => {
                             ReplyType => 'Reply',
                         },
                     );
                     for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
                         $Self->{LayoutObject}->Block(
-                            Name => 'ArticleReplyMenu',
+                            Name => 'ArticleReplyAsButtonsItem',
                             Data => {
                                 %Ticket, %Article, %AclAction,
                                 Template   => $Param{StandardResponses}{$ResponseID},
-                                Class      => 'AsPopup',
                                 Action     => 'AgentTicketCompose',
                                 ResponseID => $ResponseID,
                                 ReplyAll   => '0',
@@ -1314,18 +1313,17 @@ sub _ArticleItem {
 
                     # Reply All
                     $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyLikeButton',
+                        Name => 'ArticleReplyAsButtons',
                         Data => {
                             ReplyType => 'Reply All',
                         },
                     );
                     for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
                         $Self->{LayoutObject}->Block(
-                            Name => 'ArticleReplyMenu',
+                            Name => 'ArticleReplyAsButtonsItem',
                             Data => {
                                 %Ticket, %Article, %AclAction,
                                 Template   => $Param{StandardResponses}{$ResponseID},
-                                Class      => 'AsPopup',
                                 Action     => 'AgentTicketCompose',
                                 ResponseID => $ResponseID,
                                 ReplyAll   => '1',
