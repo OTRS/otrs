@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -522,9 +522,10 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .LightRow h4 {
     margin: 0;
-    padding: 4px 0 2px 8px;
-    font-weight: normal;
-    color: #171717;
+    padding: 4px 4px 2px 8px;
+    line-height: 16px;
+    min-width: 100px;
+    float: left;
 }
 
 .Collapsed .LightRow.Header {
