@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1443 2010-09-29 10:25:18 mg Exp $
+# $Id: CHANGES,v 1.1444 2010-09-29 11:16:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-09-29 Fixed bug#6019 - Choosing a search template does nothing.
  - 2010-09-29 Fixed bug#6033 - Too many toolbar icons shown by default.
     Toolbar shortcuts are not shown by default.
     Toolbar items for tickets (such as locked tickets) are only shown if
