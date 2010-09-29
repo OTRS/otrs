@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.16 2010-06-01 11:14:24 mb Exp $
+# $Id: NotificationEvent.pm,v 1.17 2010-09-29 05:58:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,6 +67,28 @@ sub Run {
         Event  => $Param{Event},
         UserID => $Param{UserID},
     );
+
+    # check if free text key X event got executed
+    if ( $Param{Event} eq 'TicketFreeTextUpdate' && $Param{Data} && $Param{Data}->{Counter} ) {
+        if ( !@IDs ) {
+            $Param{Event} = 'TicketFreeTextUpdate' . $Param{Data}->{Counter};
+            @IDs = $NotificationEventObject->NotificationEventCheck(
+                Event  => $Param{Event},
+                UserID => $Param{UserID},
+            );
+        }
+    }
+
+    # check if free time X event got executed
+    if ( $Param{Event} eq 'TicketFreeTimeUpdate' && $Param{Data} && $Param{Data}->{Counter} ) {
+        if ( !@IDs ) {
+            $Param{Event} = 'TicketFreeTimeUpdate' . $Param{Data}->{Counter};
+            @IDs = $NotificationEventObject->NotificationEventCheck(
+                Event  => $Param{Event},
+                UserID => $Param{UserID},
+            );
+        }
+    }
 
     # return if no notification for event exists
     return 1 if !@IDs;
