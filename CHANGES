@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1447 2010-09-30 10:07:36 mg Exp $
+# $Id: CHANGES,v 1.1448 2010-09-30 10:12:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-09-30 Fixed bug#5979 - IE8 - articles for a ticket doesn't switch
  - 2010-09-29 Fixed bug#6017 - QueueLookup function returns wrong QueueID if a
     queue name was updated.
  - 2010-09-29 Fixed bug#6019 - Choosing a search template does nothing.
