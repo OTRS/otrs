@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1445 2010-09-29 14:57:57 ub Exp $
+# $Id: CHANGES,v 1.1446 2010-09-30 09:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,6 @@
     Toolbar items for tickets (such as locked tickets) are only shown if
     they have active tickets.
  - 2010-09-29 Fixed bug#6032 - Customer History context settings not working.
- - 2010-09-28 Fixed bug#5909 - Add link list of predefined answers.
  - 2010-09-28 Fixed bug#6021 - Ticket Types are still displayed if they're invalid.
  - 2010-09-28 Fixed bug#4732 - Mysql table index not used when LOWER()
     is used in queries for customer_user.login. There is now a new flag CaseSensitive

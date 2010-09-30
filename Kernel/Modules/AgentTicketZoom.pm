@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.124 2010-09-29 13:01:14 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.125 2010-09-30 09:33:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1227,111 +1227,64 @@ sub _ArticleItem {
             }
             if ($Access) {
 
-                my $ReplyType = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomReplyDisplay');
-                if ( $ReplyType eq 'Dropdown' ) {
+                # get StandardResponsesStrg
+                $Param{StandardResponses}->{0}
+                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
 
-                    # get StandardResponsesStrg
-                    $Param{StandardResponses}->{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                # build html string
+                my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                    Name => 'ResponseID',
+                    ID   => 'ResponseID',
+                    Data => $Param{StandardResponses},
+                );
 
-                    # build html string
-                    my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseID',
-                        Data => $Param{StandardResponses},
-                    );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReplyAsDropdown',
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        StandardResponsesStrg => $StandardResponsesStrg,
+                        Name                  => 'Reply',
+                        Class                 => 'AsPopup',
+                        Action                => 'AgentTicketCompose',
+                        FormID                => 'Reply',
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        FormID => 'Reply',
+                    },
+                );
 
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsDropdown',
-                        Data => {
-                            %Ticket, %Article, %AclAction,
-                            StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => 'Reply',
-                            Class                 => 'AsPopup',
-                            Action                => 'AgentTicketCompose',
-                            FormID                => 'Reply',
-                        },
-                    );
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
-                        Data => {
-                            %Ticket, %Article, %AclAction,
-                            FormID => 'Reply',
-                        },
-                    );
+                $Param{StandardResponses}->{0}
+                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
 
-                    $Param{StandardResponses}->{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                    Name => 'ResponseID',
+                    ID   => 'ResponseIDAll',
+                    Data => $Param{StandardResponses},
+                );
 
-                    $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseIDAll',
-                        Data => $Param{StandardResponses},
-                    );
-
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsDropdown',
-                        Data => {
-                            %Ticket, %Article, %AclAction,
-                            StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => 'Reply All',
-                            Class                 => 'AsPopup',
-                            Action                => 'AgentTicketCompose',
-                            FormID                => 'ReplyAll',
-                            ReplyAll              => 1,
-                        },
-                    );
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
-                        Data => {
-                            %Ticket, %Article, %AclAction,
-                            FormID => 'ReplyAll',
-                        },
-                    );
-                }
-                else {
-
-                    # Reply
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsButtons',
-                        Data => {
-                            ReplyType => 'Reply',
-                        },
-                    );
-                    for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ArticleReplyAsButtonsItem',
-                            Data => {
-                                %Ticket, %Article, %AclAction,
-                                Template   => $Param{StandardResponses}{$ResponseID},
-                                Action     => 'AgentTicketCompose',
-                                ResponseID => $ResponseID,
-                                ReplyAll   => '0',
-                            },
-                        );
-                    }
-
-                    # Reply All
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleReplyAsButtons',
-                        Data => {
-                            ReplyType => 'Reply All',
-                        },
-                    );
-                    for my $ResponseID ( sort keys %{ $Param{StandardResponses} } ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ArticleReplyAsButtonsItem',
-                            Data => {
-                                %Ticket, %Article, %AclAction,
-                                Template   => $Param{StandardResponses}{$ResponseID},
-                                Action     => 'AgentTicketCompose',
-                                ResponseID => $ResponseID,
-                                ReplyAll   => '1',
-                            },
-                        );
-                    }
-
-                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReplyAsDropdown',
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        StandardResponsesStrg => $StandardResponsesStrg,
+                        Name                  => 'Reply All',
+                        Class                 => 'AsPopup',
+                        Action                => 'AgentTicketCompose',
+                        FormID                => 'ReplyAll',
+                        ReplyAll              => 1,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleReplyAsDropdownJS' . $Param{Type},
+                    Data => {
+                        %Ticket, %Article, %AclAction,
+                        FormID => 'ReplyAll',
+                    },
+                );
             }
         }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.392 2010-09-29 10:17:25 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.393 2010-09-30 09:33:34 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7640,17 +7640,6 @@ $QData{"Body"}
                     <JavaScript>Core.Agent.TicketZoom.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ZoomReplyDisplay" Required="1" Valid="1">
-        <Description Translatable="1">Determines if the template list for 'Reply' and 'Reply All' will show as a dropdown list or a list of buttons.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
-        <Setting>
-            <Option SelectedID="Dropdown">
-                <Item Key="Dropdown">Dropdown</Item>
-                <Item Key="Buttons">Buttons</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketAttachment" Required="0" Valid="1">

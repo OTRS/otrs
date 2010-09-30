@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.158 2010-09-29 13:01:13 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.159 2010-09-30 09:33:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -522,19 +522,6 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
             </ul>
             <div class="ClearLeft"></div>
         </div>
-<!-- dtl:block:ArticleReplyAsButtons -->
-        <div class="LightRow Bottom">
-            <h4>$QData{"ReplyType"}</h4>
-            <ul class="Actions">
-<!-- dtl:block:ArticleReplyAsButtonsItem -->
-                <li>
-                    <a href="$Env{"Baselink"}Action=$LQData{"Action"};TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ReplyAll=$LQData{"ReplyAll"};ResponseID=$LQData{"ResponseID"}" class="AsPopup" >$Text{"$Data{"Template"}"}</a>
-                </li>
-<!-- dtl:block:ArticleReplyAsButtonsItem -->
-            </ul>
-            <div class="ClearLeft"></div>
-        </div>
-<!-- dtl:block:ArticleReplyAsButtons -->
 
         <div class="Content">
             <div class="ArticleMailHeader">
