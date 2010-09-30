@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.25 $
+ * @version     $Revision: 1.26 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -205,7 +205,7 @@ tbody tr.UnreadArticles td {
 }
 
 .DataTable tr td {
-    line-height: 18px;
+    line-height: 16px;
 }
 
 .DataTable tr:first td {
@@ -235,21 +235,21 @@ tbody tr.UnreadArticles td {
 .DataTable td:first-child input {
     margin: 0;
 }
-    
+
 /**
  * @subsection  Sortable DataTable
  */
- 
+
 .Sortable.DataTable th {
     padding: 0;
 }
-    
+
 .Sortable.DataTable th a,
 .Sortable.DataTable th span {
     padding: 4px 10px 3px;
     display: block;
 }
-    
+
 .Sortable.DataTable .SortAscending,
 .Sortable.DataTable .SortDescending {
     border-top-color: #DDD;
@@ -554,7 +554,7 @@ td.Attachment {
 }
 
 .FixedHeader td {
-    line-height: 20px;
+    line-height: 18px;
 }
 
 .FixedHeader .From div,
