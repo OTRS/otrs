@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.17.2.4 2010-08-18 13:06:25 mh Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.17.2.5 2010-09-30 11:48:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17.2.4 $) [1];
+$VERSION = qw($Revision: 1.17.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,6 +34,9 @@ sub new {
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
     $Self->{FileID}    = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+
+    $Self->{LoadInlineContent} = $Self->{ParamObject}->GetParam( Param => 'LoadInlineContent' )
+        || 0;
 
     return $Self;
 }
@@ -115,6 +118,11 @@ sub Run {
         # unset filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
+        # safety check only on customer article
+        if ( !$Self->{LoadInlineContent} && $Article{SenderType} ne 'customer' ) {
+            $Self->{LoadInlineContent} = 1;
+        }
+
         # get charset and convert content to internal charset
         if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
             my $Charset = $Data{ContentType};
@@ -136,18 +144,6 @@ sub Run {
             }
         }
 
-        # safety check
-        $Self->_Safety(
-            String       => \$Data{Content},
-            NoApplet     => 1,
-            NoObject     => 0,
-            NoEmbed      => 1,
-            NoIntSrcLoad => 0,
-            NoExtSrcLoad => 0,
-            NoJavaScript => 1,
-            Debug        => $Self->{Debug},
-        );
-
         # add html links
         $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
             String => $Data{Content},
@@ -157,6 +153,13 @@ sub Run {
         $Data{Content} = $Self->{LayoutObject}->RichTextDocumentCleanup(
             String => $Data{Content},
         );
+
+        # safety check
+        if ( !$Self->{LoadInlineContent} ) {
+            $Data{Content} = $Self->RichTextDocumentSafetyCheck(
+                String => $Data{Content},
+            );
+        }
 
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
@@ -211,7 +214,97 @@ sub Run {
     return $Self->{LayoutObject}->Attachment(%Data);
 }
 
-sub _Safety {
+=item RichTextDocumentSafetyCheck()
+
+check if content is safety
+
+    $HTMLBody = $LayoutObject->RichTextDocumentSafetyCheck(
+        String => $HTMLBody,
+    );
+
+=cut
+
+sub RichTextDocumentSafetyCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # safety check
+    my %Safety = $Self->Safety(
+        String       => \$Param{String},
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+        Debug        => $Self->{Debug},
+    );
+
+    # return if no safety change has been done
+    return $Param{String} if !$Safety{Replaced};
+
+    # generate blocker message
+    my $Message = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AttachmentBlocker',
+    );
+
+    # add it on top of page
+    if ( ${ $Safety{String} } =~ /<body.*?/si ) {
+        ${ $Safety{String} } =~ s/(<body.*?>)/$1\n$Message/si;
+    }
+
+    # add it to end of page
+    else {
+        ${ $Safety{String} } = $Message . ${ $Safety{String} };
+    }
+
+    return ${ $Safety{String} };
+}
+
+=item Safety()
+
+To remove/strip active html tags/addons (javascript, applets, embeds and objects)
+from html strings.
+
+    my %Safe = $HTMLUtilsObject->Safety(
+        String       => $HTMLString,
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+    );
+
+also string ref is possible
+
+    my %Safe = $HTMLUtilsObject->Safety(
+        String       => \$HTMLStringRef,
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+    );
+
+returns
+
+    my %Safe = (
+        String   => $HTMLString, # modified html string (scalar or ref)
+        Replaced => 1,           # 1|0 - info if something got replaced
+    );
+
+=cut
+
+sub Safety {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -333,6 +426,20 @@ sub _Safety {
             }segxim;
 
             # remove javascript in a href links or src links
+            $Tag =~ s{
+                (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
+            }
+            {
+                $Safety{Replaced} = 1;
+                if ($Param{Debug}) {
+                    " # removed java script # ";
+                }
+                else {
+                    "$1$4";
+                }
+            }segxim;
+
+            # remove link javascript tags
             $Tag =~ s{
                 (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
             }
