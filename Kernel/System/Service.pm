@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.43 2010-06-17 21:39:40 cr Exp $
+# $Id: Service.pm,v 1.44 2010-09-30 18:38:29 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -803,7 +803,7 @@ sub CustomerUserServiceMemberList {
     }
     if ( $Param{CustomerUserLogin} && $Param{DefaultServices} && !keys(%Data) ) {
         %Data = $Self->CustomerUserServiceMemberList(
-            CustomerUserLogin => '<DEFAULT>',
+            CustomerUserLogin => 'DEFAULT',
             Result            => 'HASH',
             DefaultServices   => 0,
         );
@@ -937,6 +937,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.44 $ $Date: 2010-09-30 18:38:29 $
 
 =cut
