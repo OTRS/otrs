@@ -1,0 +1,66 @@
+/**
+ * This file containts the CSS Styles for the header
+ * with it's toolbar, the userbar and the whole main navigation
+ *
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Slim"
+ * @section     Header
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Header
+ */
+#Header {
+    height: 42px;
+    background-position: bottom;
+}
+
+/**
+ * @subsection  Logo
+ */
+#Logo {
+    right: 246px;
+}
+
+.RTL #Logo {
+    right: auto;
+    left: 246px;
+}
+
+/**
+ * @subsection  Toolbar
+ */
+#ToolBar {
+    top: 24px;
+    left: auto;
+    right: 45px;
+}
+
+.RTL #ToolBar {
+    right: auto;
+    left: 45px;
+}
+
+/**
+ * @subsection  UserInfo
+ */
+#UserInfo {
+    top: 2px;
+}
+
+/**
+ * @subsection      Navigation Level-0
+ */
+#Navigation {
+    top: 21px;
+}
+
+} /* end @media */

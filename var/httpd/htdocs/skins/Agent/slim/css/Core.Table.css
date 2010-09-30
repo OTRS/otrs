@@ -1,0 +1,25 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Slim"
+ * @section     Tables
+ */
+
+@media screen,projection,tv,handheld {
+
+.DataTable tr td {
+    line-height: 14px;
+}
+
+.FixedHeader td {
+    line-height: 16px;
+}
+
+
+
+} /* end @media */

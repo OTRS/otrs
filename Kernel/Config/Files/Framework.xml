@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.379 2010-09-30 11:04:36 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.380 2010-09-30 14:19:22 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5665,6 +5665,19 @@ via the Preferences button after logging in.
                 <Item Key="VisibleName">Ivory</Item>
                 <Item Key="Description">Balanced white skin by Felix Niklas</Item>
                 <Item Key="HomePage">www.felixniklas.de</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::Skin###001-slim" Required="0" Valid="1">
+        <Description Translatable="1">Experimental "Slim" skin which tries to save screen space for power users.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">slim</Item>
+                <Item Key="VisibleName">Slim</Item>
+                <Item Key="Description">Experimental "Slim" skin which tries to save screen space for power users.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
     </ConfigItem>
