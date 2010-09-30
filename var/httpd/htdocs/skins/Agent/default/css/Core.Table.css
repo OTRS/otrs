@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.26 $
+ * @version     $Revision: 1.27 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -325,6 +325,7 @@ td.Attachment {
     height: 15px;
     text-transform: uppercase;
     display: block;
+    white-space: nowrap;
 }
 
 .RTL .TableSmall thead a,
