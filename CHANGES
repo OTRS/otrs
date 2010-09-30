@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1446 2010-09-30 09:34:19 mg Exp $
+# $Id: CHANGES,v 1.1447 2010-09-30 10:07:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -594,6 +594,7 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.9 (2010/??/??)
+ - 2010-09-22 Fixed bug#5903 - E-mail notification links don't contain <a href... tags.
  - 2010-09-29 Fixed bug#6030 - Event notifications get's fired several times on
     event "TicketFreeTextUpdate".
  - 2010-09-14 Fixed bug#5541 - Dashboard Chart generates error in webserver log.
