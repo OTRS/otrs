@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1449 2010-09-30 10:26:47 mg Exp $
+# $Id: CHANGES,v 1.1450 2010-09-30 11:04:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-09-30 Fixed bug#5911 - Enhance menu behaviour.
+    The submenus in the agent main menu open on click by default. With the new
+    config "OpenMainMenuOnHover" setting it can be specified that they should
+    also open on mouse hover.
  - 2010-09-30 Updated Ukrainian translation file, thanks to Бельский Артем!
  - 2010-09-30 Fixed bug#5979 - IE8 - articles for a ticket doesn't switch
  - 2010-09-29 Fixed bug#6017 - QueueLookup function returns wrong QueueID if a

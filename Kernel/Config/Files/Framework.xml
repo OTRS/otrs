@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.378 2010-09-27 15:08:34 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.379 2010-09-30 11:04:36 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5622,6 +5622,17 @@ via the Preferences button after logging in.
     </ConfigItem>
     <ConfigItem Name="NewTicketInNewWindow::Enabled" Required="1" Valid="1">
         <Description Translatable="1">If enabled, TicketPhone and TicketEmail will be open in new windows.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="OpenMainMenuOnHover" Required="1" Valid="1">
+        <Description Translatable="1">If enabled, the first level of the main menu opens on mouse hover (instead of click only).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>

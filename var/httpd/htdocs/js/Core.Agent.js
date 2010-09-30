@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.9 2010-08-19 09:48:09 mg Exp $
+// $Id: Core.Agent.js,v 1.10 2010-09-30 11:04:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,9 @@ Core.Agent = (function (TargetNS) {
             })
             .bind('mouseenter', function () {
                 var $Element = $(this);
-                if ($Element.parent().attr('id') !== 'Navigation') {
+                // special treatment for the first menu level: by default this opens submenus only via click,
+                //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
+                if ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover')) {
                     $Element.addClass('Active').attr('aria-expanded', true)
                         .siblings().removeClass('Active');
                 }
