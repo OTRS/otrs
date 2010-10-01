@@ -2,7 +2,7 @@
 // Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.Sort.js,v 1.5 2010-08-12 13:46:08 mg Exp $
+// $Id: Core.UI.Table.Sort.js,v 1.6 2010-10-01 13:22:15 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,18 +28,13 @@ Core.UI.Table.Sort = (function (TargetNS) {
      * @function
      * @description
      *      Custom text extractor. It will look if an hidden field with the class
-     *      'SortData' is in the table cell and use its contents, if available.
-     *      If not, it will call jQuery's text() method to get the text contents.
-     * @param {jQueryObject or DOM object} $Node Current node of which the text should be extracted
+     *      'SortData' is in the table cell and return its contents.
+     * @param {jQueryObject or DOM object} $Node
+     *      Current node of which the sorting data should be extracted
      * @return {String} Extracted text.
      */
     function CustomTextExtractor($Node) {
-        $Node = $($Node);
-        var $SortData = $Node.find('.SortData');
-        if ($SortData.length) {
-            return $SortData.val();
-        }
-        return $Node.text();
+        return $($Node).find('.SortData').val() || '';
     }
 
     /**

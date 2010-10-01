@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.160 2010-10-01 12:22:54 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.161 2010-10-01 13:22:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -396,8 +396,12 @@ $Data{"ArticleItems"}
                             $QData{"Count"}
                             <input type="hidden" class="ArticleInfo" name="Link$LQData{"Count"}" value="$Env{"Baselink"}Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=$LQData{"Count"};TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"};"/>
                             <input type="hidden" class="ArticleID" value="$QData{"ArticleID"}" />
+                            <input type="hidden" class="SortData" value="$QData{"Count"}" />
                         </td>
-                        <td class="Type"><div title="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}">$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div></td>
+                        <td class="Type">
+                            <div>$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}</div>
+                            <input type="hidden" class="SortData" value="$Text{"$Data{"SenderType"}"} &ndash; $Text{"$Data{"ArticleType"}"}" />
+                        </td>
                         <td class="Direction">
 <!-- dtl:block:TreeItemDirectionIncoming -->
                             <span class="Direction Incoming" title="$Text{"Incoming message"}"></span>
@@ -412,8 +416,14 @@ $Data{"ArticleItems"}
                             <input type="hidden" class="SortData" value="2" />
 <!-- dtl:block:TreeItemDirectionInternal -->
                         </td>
-                        <td class="From"><div title="$QData{"From"}"><a href="#">$QData{"FromRealname","34"}</a></div></td>
-                        <td class="Subject"><div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div></td>
+                        <td class="From">
+                            <div title="$QData{"From"}"><a href="#">$QData{"FromRealname","34"}</a></div>
+                            <input type="hidden" class="SortData" value="$QData{"From"}" />
+                        </td>
+                        <td class="Subject">
+                            <div title="$QData{"Subject"}"><a href="#">$QData{"Subject","36"}</a></div>
+                            <input type="hidden" class="SortData" value="$QData{"Subject"}" />
+                        </td>
                         <td class="Created">
                             <a href="#">$TimeShort{"$QData{"Created"}"}</a>
 # Include custom sorting information: date in ISO format.
@@ -598,7 +608,9 @@ $Data{"Body"}
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+console.time('TIInit');
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('$Env{"UserTicketZoomArticleTableHeight"}', 10)});
+console.timeEnd('TIInit');
     $('ul.Actions a.AsPopup, .OpenAsPopup').bind('click', function (Event) {
         Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
         return false;
