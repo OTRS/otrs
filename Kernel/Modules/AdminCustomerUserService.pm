@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.22 2010-08-24 16:43:26 en Exp $
+# $Id: AdminCustomerUserService.pm,v 1.23 2010-10-01 20:52:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,14 +64,9 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        my $CustomerUserName
-            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
-        my $CustomerUserLogin
-            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? 'DEFAULT' : $Param{CustomerUserLogin};
-
         # get service member
         my %ServiceMemberList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            CustomerUserLogin => $CustomerUserLogin,
+            CustomerUserLogin => $Param{CustomerUserLogin},
             Result            => 'HASH',
             DefaultServices   => 0,
         );
@@ -81,8 +76,11 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
+        my $CustomerUserName
+            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
+
         $Output .= $Self->_Change(
-            ID                 => $CustomerUserLogin,
+            ID                 => $Param{CustomerUserLogin},
             Name               => $CustomerUserName,
             Data               => \%ServiceData,
             Selected           => \%ServiceMemberList,
