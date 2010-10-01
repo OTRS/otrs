@@ -2,7 +2,7 @@
 // Core.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Resizable.js,v 1.7 2010-09-22 09:54:41 mg Exp $
+// $Id: Core.UI.Resizable.js,v 1.8 2010-10-01 14:25:58 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,13 +35,16 @@ Core.UI.Resizable = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function ($Element, ScrollerHeight, Callback) {
+        var CurrentTableHeight;
+
         // also catch NaN or undefined values for ScrollerHeight, but pass 0
         //      to Math.max in these cases, otherwise it may cause an exception
         ScrollerHeight = Math.max(ScrollerHeight || 0, ScrollerMinHeight);
 
         if (isJQueryObject($Element) && $Element.length) {
-            if (($Element.find('table').height() + HandleHeight) < ScrollerHeight) {
-                $Element.find('.Scroller').height($Element.find('table').height());
+            CurrentTableHeight = $Element.find('table').height();
+            if ((CurrentTableHeight + HandleHeight) < ScrollerHeight) {
+                $Element.find('.Scroller').height(CurrentTableHeight);
             }
             else {
                 $Element.find('.Scroller').height(ScrollerHeight);
