@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.20 2010-09-24 11:10:41 martin Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.21 2010-10-01 13:19:23 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -203,7 +203,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         // loading new articles
-        $('#FixedTable tr').bind('click', function (Event) {
+        $('#FixedTable tbody tr').bind('click', function (Event) {
 
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
