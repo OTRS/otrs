@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.53 2010-07-28 10:04:04 fn Exp $
+# $Id: AgentDashboard.dtl,v 1.54 2010-10-01 12:22:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,8 @@
 <!-- dtl:block:ContentSettings -->
                         <li>
                             <span title="$Text{"$Data{"Description"}"}">
-                                <input type="checkbox" name="Backend" value="$QData{"Name"}" $Data{"Checked"}/> $Text{"$Data{"Title"}"}
+                                <input type="checkbox" name="Backend" id="Settings$QData{"Name"}" value="$QData{"Name"}" $Data{"Checked"}/>
+                                <label for="Settings$QData{"Name"}">$Text{"$Data{"Title"}"}</label>
                             </span>
                         </li>
 <!-- dtl:block:ContentSettings -->

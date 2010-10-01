@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.159 2010-09-30 09:33:35 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.160 2010-10-01 12:22:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -484,7 +484,7 @@ $Data{"ArticleItems"}
                         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                         <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>
                         <input type="hidden" name="ReplyAll" value="$QData{"ReplyAll"}"/>
-                        <label for="ResponseID" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                        <label for="$QData{"ResponseElementID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
                         $Data{"StandardResponsesStrg"}
                     </form>
 <!-- dtl:block:ArticleReplyAsDropdownJSOnLoad -->
