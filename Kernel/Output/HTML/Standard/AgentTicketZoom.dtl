@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.161 2010-10-01 13:22:15 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.162 2010-10-01 14:27:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -375,7 +375,7 @@ $Data{"ArticleItems"}
                 <thead>
                     <tr>
                         <th class="UnreadArticles"><a class="UnreadArticles" href="#" title="$Text{"Unread articles"}"><span class="UnreadArticles"></span></a></th>
-                        <th class="No Sortable InitialSorting"><a href="#">$Text{"No."}</a></th>
+                        <th class="No Sortable"><a href="#">$Text{"No."}</a></th>
                         <th class="Type Sortable"><a href="#">$Text{"Type"}</a></th>
                         <th class="Direction Sortable"><a href="#" title="Direction"><span class="Direction"><!--Direction--></span></a></th>
                         <th class="From Sortable"><a href="#">$Text{"From"}</a></th>
