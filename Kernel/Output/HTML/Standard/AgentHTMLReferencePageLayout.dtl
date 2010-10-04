@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.2 2010-10-04 10:12:22 mg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.3 2010-10-04 10:28:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,14 +143,30 @@
                     <h2>Preference1</h2>
                 </div>
                 <div class="Content">
-                    Form Content
+                    <p>
+                        Form Content
+                        <br/>
+                        More
+                        <br/>
+                        More
+                        <br/>
+                        More
+                    </p>
                 </div>
             </div>
         </div>
         <div class="Size1of3">
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>Preference1</h2>
+                    <h2>Preference2-0</h2>
+                </div>
+                <div class="Content">
+                    Form Content
+                </div>
+            </div>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Preference2-1</h2>
                 </div>
                 <div class="Content">
                     Form Content
@@ -160,7 +176,7 @@
         <div class="Size1of3">
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>Preference1</h2>
+                    <h2>Preference3</h2>
                 </div>
                 <div class="Content">
                     Form Content
