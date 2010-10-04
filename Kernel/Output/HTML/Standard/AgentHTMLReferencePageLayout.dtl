@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.3 2010-10-04 10:28:54 mg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.4 2010-10-04 10:33:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,23 +12,23 @@
 <div class="MainBox ARIARoleMain AgentHTMLReference OutlineBox">
     <h1>Page Layout</h1>
 
-    <p class="Spacing">
+    <p class="Documentation">
         Around the content, a <code>&lt;div class="MainBox"&gt;&lt;/div&gt;</code>
         has to be used in most cases (this one is highlighted).
     </p>
 
-    <p class="Spacing">
+    <p class="Documentation">
         There are 2 different kind of layout containers that you can use to
         achieve different page layouts.
     </p>
 
     <h2 class="">LayoutFixedSidebar</h2>
-    <p class="Spacing">
+    <p class="Documentation">
         This will generate a layout with a fixed-width sidebar which will be displayed
         <em>before</em> the content column (in reading direction).
     </p>
 
-    <div class="LayoutFixedSidebar SidebarFirst OutlineBox SpacingTop">
+    <div class="LayoutFixedSidebar SidebarFirst OutlineBox Example">
         <div class="SidebarColumn OutlineBox">Sidebar</div>
         <div class="ContentColumn OutlineBox">Content</div>
         <div class="Clear"></div>
@@ -43,16 +43,16 @@
         <code>SidebarFirst</code> for <code>SidebarLast</code>. Don't modify
         the order in the markup, i.e. the sidebar must still come first.
     </p>
-    <div class="LayoutFixedSidebar SidebarLast OutlineBox SpacingTop">
+    <div class="LayoutFixedSidebar SidebarLast OutlineBox Example">
         <div class="SidebarColumn OutlineBox">Sidebar</div>
         <div class="ContentColumn OutlineBox">Content</div>
         <div class="Clear"></div>
     </div>
 
-    <p class="Spacing">
+    <p class="Documentation">
         An example layout with some content:
     </p>
-    <div class="LayoutFixedSidebar SidebarFirst SpacingTop">
+    <div class="LayoutFixedSidebar SidebarFirst Example">
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
@@ -99,13 +99,13 @@
     </div>
 
     <h2 class="">LayoutGrid</h2>
-    <p class="Spacing">
+    <p class="Documentation">
         <code>LayoutGrid</code> offers a flexible page layout based on columns. You can place boxes inside the container
         and specify for each box how many columns it should take (e. g. 2 of 4). Then it will have the appropriate
         width. After each line, you need to add a clearing div.
     </p>
 
-    <div class="LayoutGrid OutlineBox SpacingTop">
+    <div class="LayoutGrid OutlineBox Example">
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
@@ -115,12 +115,12 @@
         <div class="Clear"></div>
     </div>
 
-    <p class="Spacing">
+    <p class="Documentation">
         If you want to have a spacing between the columns, just add the modificator class
         <code>ColumnsWithSpacing.</code>.
     </p>
 
-    <div class="LayoutGrid ColumnsWithSpacing OutlineBox SpacingTop">
+    <div class="LayoutGrid ColumnsWithSpacing OutlineBox Example">
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
@@ -130,13 +130,13 @@
         <div class="Clear"></div>
     </div>
 
-    <p class="Spacing">
+    <p class="Documentation">
         Currently, there are 2-, 3- and 4-column grid layouts available.
         Let's see an example with some content.
     </p>
 
 
-    <div class="LayoutGrid ColumnsWithSpacing SpacingTop">
+    <div class="LayoutGrid ColumnsWithSpacing Example">
         <div class="Size1of3">
             <div class="WidgetSimple">
                 <div class="Header">
