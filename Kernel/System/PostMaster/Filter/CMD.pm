@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.13 2009-04-08 12:29:40 tr Exp $
+# $Id: CMD.pm,v 1.14 2010-10-04 11:01:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,8 +38,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get config options
-    my %Config = ();
-    my %Set    = ();
+    my %Config;
+    my %Set;
     if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Set} ) {
