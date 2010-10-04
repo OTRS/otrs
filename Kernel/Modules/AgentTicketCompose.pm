@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.108 2010-09-08 12:30:17 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.109 2010-10-04 08:20:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -922,9 +922,14 @@ sub Run {
             Data       => \%Data,
             UserID     => $Self->{UserID},
         );
-        $Data{Salutation}       = $Response{Salutation};
-        $Data{Signature}        = $Response{Signature};
-        $Data{StandardResponse} = $Response{StandardResponse};
+
+        $Data{Salutation} = $Response{Salutation};
+        $Data{Signature}  = $Response{Signature};
+
+        # use key StdResponse to pass the data to the template for legacy reasons,
+        #   because existing systems may have it in their configuration as that was
+        #   the key used before the internal switch to StandardResponse
+        $Data{StdResponse} = $Response{StandardResponse};
 
         %Data = $TemplateGenerator->Attributes(
             TicketID   => $Self->{TicketID},
@@ -939,7 +944,7 @@ sub Run {
 $QData{"OrigFrom"} $Text{"wrote"}:
 $QData{"Body"}
 
-$QData{"StandardResponse"}
+$QData{"StdResponse"}
 
 $QData{"Signature"}
 ';
@@ -967,7 +972,7 @@ $QData{"Signature"}
                 next if !$DataHTML{$Key};
                 next if $Key eq 'Salutation';
                 next if $Key eq 'Body';
-                next if $Key eq 'StandardResponse';
+                next if $Key eq 'StdResponse';
                 next if $Key eq 'Signature';
                 $DataHTML{$Key} = $Self->{LayoutObject}->Ascii2RichText(
                     String => $DataHTML{$Key},

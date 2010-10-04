@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1451 2010-09-30 18:38:29 en Exp $
+# $Id: CHANGES,v 1.1452 2010-10-04 08:20:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.0.0 beta5 2010-??-??
+ - 2010-10-04 Fixed bug#6064 - Predefined responses does not work.
+ - 2010-10-01 Big improvements to TicketZoom rendering performance.
  - 2010-09-30 Fixed bug#6054 - The default services are not loaded when creating a new ticket.
  - 2010-09-30 Fixed bug#5911 - Enhance menu behavior.
     The submenus in the agent main menu open on click by default. With the new
