@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.26 2010-09-23 10:35:24 mb Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.27 2010-10-04 10:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@
             <div class="Header">
                 <h2>$Text{"Search Result:"}</h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Customers">
                         <li class="Header">$Text{"Customers"}
@@ -175,7 +175,7 @@
                     ($QData{"ID"})
                 </h2>
             </div>
-            <div class="Content WithPadding">
+            <div class="Content ">
                 <form action="$Env{"CGIHandle"}" method="post" name="matrix">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
@@ -251,7 +251,7 @@
             <div class="Header">
                 <h2>$Text{"Customer Default Groups:"}</h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Always Groups">
                         <li class="Header">$Text{"Groups"}</li>

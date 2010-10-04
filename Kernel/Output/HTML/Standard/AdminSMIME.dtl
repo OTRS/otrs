@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.17 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminSMIME.dtl,v 1.18 2010-10-04 10:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@
             <div class="Header">
                 <h2>$Text{"Results"}</h2>
             </div>
-            <div class="Content WithPadding">
+            <div class="Content ">
                 <table class="DataTable">
                     <thead>
                         <tr>

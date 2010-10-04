@@ -36,7 +36,7 @@
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Roles">
                         <li class="Header">$Text{"Roles"}</li>
@@ -126,7 +126,7 @@
                     ($QData{"ID"})
                 </h2>
             </div>
-            <div class="Content WithPadding">
+            <div class="Content ">
                 <form action="$Env{"CGIHandle"}" method="post" name="matrix">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>

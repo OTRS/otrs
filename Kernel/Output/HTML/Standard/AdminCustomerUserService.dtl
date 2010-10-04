@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.35 2010-07-19 15:48:09 dz Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.36 2010-10-04 10:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@
             <div class="Header">
                 <h2>$Text{"Search Result:"}</h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Customers">
                         <li class="Header">$Text{"Customers"}
@@ -124,7 +124,7 @@
                     ($QData{"ID"})
                 </h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <form action="$Env{"CGIHandle"}" method="post" name="matrix">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Allocate$QData{"Type"}Save"/>

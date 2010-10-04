@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.71 2010-08-12 22:50:47 dz Exp $
+# $Id: AdminPackageManager.dtl,v 1.72 2010-10-04 10:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -229,7 +229,7 @@
                 <div class="Header">
                     <h2>$Text{"Online Repository"}</h2>
                 </div>
-                <div class="Content WithPadding">
+                <div class="Content ">
                     <table class="DataTable">
                         <thead>
                             <tr>
@@ -284,7 +284,7 @@
                 <div class="Header">
                     <h2>$Text{"Local Repository"}</h2>
                 </div>
-                <div class="Content WithPadding">
+                <div class="Content ">
                     <table class="DataTable">
                         <thead>
                             <tr>
@@ -399,7 +399,7 @@
                 <div class="Header">
                     <h2>$Text{"Metadata"}</h2>
                 </div>
-                <div class="Content WithPadding">
+                <div class="Content ">
                     <fieldset class="TableLike Fixed Label">
 <!-- dtl:block:PackageItemDescription -->
                         <label>$Text{"$Data{"Tag"}"}: </label>
@@ -418,7 +418,7 @@
                 <div class="Header">
                     <h2>$Text{"Change Log"}</h2>
                 </div>
-                <div class="Content WithPadding">
+                <div class="Content ">
                     <table class="DataTable">
                         <thead>
                             <tr>
@@ -443,7 +443,7 @@
                 <div class="Header">
                     <h2>$Text{"List of Files"}</h2>
                 </div>
-                <div class="Content WithPadding">
+                <div class="Content ">
                     <table class="DataTable">
                         <thead>
                             <tr>

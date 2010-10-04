@@ -2,7 +2,7 @@
 # AdminResponseAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.dtl,v 1.17 2010-07-16 13:45:37 mg Exp $
+# $Id: AdminResponseAttachment.dtl,v 1.18 2010-10-04 10:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@
             <div class="Header">
                 <h2>$Text{"Overview"}</h2>
             </div>
-            <div class="Content WithPadding LayoutGrid ColumnsWithSpacing">
+            <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Responses">
                         <li class="Header">$Text{"Responses"}</li>
@@ -87,7 +87,7 @@
                     ($QData{"ID"})
                 </h2>
             </div>
-            <div class="Content WithPadding">
+            <div class="Content ">
                 <form action="$Env{"CGIHandle"}" method="post" name="matrix">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
