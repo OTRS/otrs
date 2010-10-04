@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.21 2010-06-17 21:39:40 cr Exp $
+# $Id: CustomerCompany.pm,v 1.22 2010-10-04 21:42:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,15 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
-Kernel::System::CustomerCompany - project lib
+Kernel::System::CustomerCompany - customer company lib
 
 =head1 SYNOPSIS
 
-All project functions.
+All Customer Company functions. E.g. to add and update customer companies.
 
 =head1 PUBLIC INTERFACE
 
@@ -130,7 +130,7 @@ sub new {
             Type         => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Type} || '',
         ) || die('Can\'t connect to database!');
 
-        # remember that we have the DBObject not from parent call
+        # remember that we don't have inherited the DBObject from parent call
         $Self->{NotParentDBObject} = 1;
     }
 
@@ -139,19 +139,22 @@ sub new {
 
 =item CustomerCompanyAdd()
 
-add new projects
+add a new customer company
 
     my $ID = $CustomerCompanyObject->CustomerCompanyAdd(
-        CustomerID => 'example.com',
-        CustomerCompanyName => 'New Customer Company Inc.',
-        CustomerCompanyStreet => '5201 Blue Lagoon Drive',
-        CustomerCompanyZIP => '33126',
-        CustomerCompanyLocation => 'Miami',
-        CustomerCompanyCountry => 'USA',
-        CustomerCompanyComment => 'some comment',
-        ValidID => 1,
-        UserID => 123,
+        CustomerID              => 'example.com',
+        CustomerCompanyName     => 'New Customer Company Inc.',
+        CustomerCompanyStreet   => '5201 Blue Lagoon Drive',
+        CustomerCompanyZIP      => '33126',
+        CustomerCompanyCity     => 'Miami',
+        CustomerCompanyCountry  => 'USA',
+        CustomerCompanyComment  => 'some comment',
+        ValidID                 => 1,
+        UserID                  => 123,
     );
+
+NOTE: Actual fields accepted by this API call may differ based on
+CustomerCompany mapping in your system configuration.
 
 =cut
 
@@ -199,11 +202,30 @@ sub CustomerCompanyAdd {
 
 =item CustomerCompanyGet()
 
-get projects attributes
+get customer company attributes
 
     my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
         CustomerID => 123,
     );
+
+Returns:
+
+    %CustomerCompany = (
+        'CustomerCompanyName'    => 'Customer Company Inc.',
+        'CustomerID'             => 'example.com',
+        'CustomerCompanyStreet'  => '5201 Blue Lagoon Drive',
+        'CustomerCompanyZIP'     => '33126',
+        'CustomerCompanyCity'    => 'Miami',
+        'CustomerCompanyCountry' => 'United States',
+        'CustomerCompanyURL'     => 'http://example.com',
+        'CustomerCompanyComment' => 'Some Comments',
+        'ValidID'                => '1',
+        'CreateTime'             => '2010-10-04 16:35:49',
+        'ChangeTime'             => '2010-10-04 16:36:12',
+    );
+
+NOTE: Actual fields returned by this API call may differ based on
+CustomerCompany mapping in your system configuration.
 
 =cut
 
@@ -254,19 +276,19 @@ sub CustomerCompanyGet {
 
 =item CustomerCompanyUpdate()
 
-update project attributes
+update customer company attributes
 
     $CustomerCompanyObject->CustomerCompanyUpdate(
-        CustomerCompanyID => 'oldexample.com', #required if CustomerCompanyID-update
-        CustomerID => 'example.com',
-        CustomerCompanyName => 'New Customer Company Inc.',
-        CustomerCompanyStreet => '5201 Blue Lagoon Drive',
-        CustomerCompanyZIP => '33126',
+        CustomerCompanyID       => 'oldexample.com', #required if CustomerCompanyID-update
+        CustomerID              => 'example.com',
+        CustomerCompanyName     => 'New Customer Company Inc.',
+        CustomerCompanyStreet   => '5201 Blue Lagoon Drive',
+        CustomerCompanyZIP      => '33126',
         CustomerCompanyLocation => 'Miami',
-        CustomerCompanyCountry => 'USA',
-        CustomerCompanyComment => 'some comment',
-        ValidID => 1,
-        UserID => 123,
+        CustomerCompanyCountry  => 'USA',
+        CustomerCompanyComment  => 'some comment',
+        ValidID                 => 1,
+        UserID                  => 123,
     );
 
 =cut
@@ -323,7 +345,7 @@ sub CustomerCompanyUpdate {
 
 =item CustomerCompanyList()
 
-get project list
+get list of customer companies.
 
     my %List = $CustomerCompanyObject->CustomerCompanyList();
 
@@ -333,8 +355,15 @@ get project list
 
     my %List = $ProjectObject->ProjectList(
         Search => '*sometext*',
-        Limit => 10,
+        Limit  => 10,
     );
+
+Returns:
+
+%List = {
+          'example.com' => 'example.com Customer Company Inc.        ',
+          'acme.com'    => 'acme.com Acme, Inc.        '
+        };
 
 =cut
 
@@ -448,6 +477,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.22 $ $Date: 2010-10-04 21:42:27 $
 
 =cut
