@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.1 2010-09-27 15:08:34 mg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.2 2010-10-04 10:12:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,7 +52,7 @@
     <p class="Spacing">
         An example layout with some content:
     </p>
-    <div class="LayoutFixedSidebar SidebarFirst OutlineBox SpacingTop">
+    <div class="LayoutFixedSidebar SidebarFirst SpacingTop">
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
@@ -96,6 +96,77 @@
             </div>
         </div>
         <div class="Clear"></div>
+    </div>
+
+    <h2 class="">LayoutGrid</h2>
+    <p class="Spacing">
+        <code>LayoutGrid</code> offers a flexible page layout based on columns. You can place boxes inside the container
+        and specify for each box how many columns it should take (e. g. 2 of 4). Then it will have the appropriate
+        width. After each line, you need to add a clearing div.
+    </p>
+
+    <div class="LayoutGrid OutlineBox SpacingTop">
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
+        <div class="Clear"></div>
+        <div class="Size3of4"><div class="OutlineBox">3 of 4</div></div>
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Clear"></div>
+    </div>
+
+    <p class="Spacing">
+        If you want to have a spacing between the columns, just add the modificator class
+        <code>ColumnsWithSpacing.</code>.
+    </p>
+
+    <div class="LayoutGrid ColumnsWithSpacing OutlineBox SpacingTop">
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
+        <div class="Clear"></div>
+        <div class="Size3of4"><div class="OutlineBox">3 of 4</div></div>
+        <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
+        <div class="Clear"></div>
+    </div>
+
+    <p class="Spacing">
+        Currently, there are 2-, 3- and 4-column grid layouts available.
+        Let's see an example with some content.
+    </p>
+
+
+    <div class="LayoutGrid ColumnsWithSpacing SpacingTop">
+        <div class="Size1of3">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Preference1</h2>
+                </div>
+                <div class="Content">
+                    Form Content
+                </div>
+            </div>
+        </div>
+        <div class="Size1of3">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Preference1</h2>
+                </div>
+                <div class="Content">
+                    Form Content
+                </div>
+            </div>
+        </div>
+        <div class="Size1of3">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Preference1</h2>
+                </div>
+                <div class="Content">
+                    Form Content
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
