@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.314 2010-10-04 14:14:13 mg Exp $
+# $Id: Layout.pm,v 1.315 2010-10-04 15:22:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.314 $) [1];
+$VERSION = qw($Revision: 1.315 $) [1];
 
 =head1 NAME
 
@@ -2622,7 +2622,10 @@ sub NavigationBar {
 
         $Self->Block(
             Name => 'ItemArea',    #$NavBar{$_}->{Block} || 'Item',
-            Data => $Item,
+            Data => {
+                %$Item,
+                AccessKeyReference => $Item->{AccessKey} ? " ($Item->{AccessKey})" : '',
+                }
         );
 
         # show sub menu
@@ -2638,7 +2641,10 @@ sub NavigationBar {
             $ItemSub->{NameTop} = $Item->{NameForID};
             $Self->Block(
                 Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
-                Data => $ItemSub,
+                Data => {
+                    %$ItemSub,
+                    AccessKeyReference => $ItemSub->{AccessKey} ? " ($ItemSub->{AccessKey})" : '',
+                },
             );
         }
     }
@@ -4779,6 +4785,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.314 $ $Date: 2010-10-04 14:14:13 $
+$Revision: 1.315 $ $Date: 2010-10-04 15:22:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.82 2010-09-03 14:13:11 mb Exp $
+# $Id: AgentNavigationBar.dtl,v 1.83 2010-10-04 15:22:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 <ul id="Navigation" class="ARIARoleNavigation">
 <!-- dtl:block:ItemArea -->
     <li id="nav-$QData{"NameForID"}" class="$QData{"CSS"}">
-        <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
+        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Name"}"}$LQData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
 <!-- dtl:block:ItemAreaSub -->
         <div>
             <div class="ShadowTop"></div>
@@ -20,7 +20,7 @@
                 <ul id="nav-$QData{"NameForID"}-container">
 <!-- dtl:block:ItemAreaSubItem -->
                     <li id="nav-$QData{"NameTop"}-$QData{"NameForID"}">
-                        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
+                        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}$LQData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:ItemAreaSubItem -->
 #                    <li id="nav-$QData{"Name"}-4" class="HasSubNavigation ARIAHasPopup"><a href="">Vierter Eintrag<span></span></a>
