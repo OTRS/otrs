@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.162 2010-10-01 14:27:19 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.163 2010-10-04 08:35:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -608,9 +608,7 @@ $Data{"Body"}
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-console.time('TIInit');
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('$Env{"UserTicketZoomArticleTableHeight"}', 10)});
-console.timeEnd('TIInit');
     $('ul.Actions a.AsPopup, .OpenAsPopup').bind('click', function (Event) {
         Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
         return false;
