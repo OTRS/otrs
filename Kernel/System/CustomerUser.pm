@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.60 2010-06-27 10:02:29 bes Exp $
+# $Id: CustomerUser.pm,v 1.61 2010-10-04 21:38:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -25,7 +25,7 @@ Kernel::System::CustomerUser - customer user lib
 
 =head1 SYNOPSIS
 
-All customer user functions. E. g. to add and updated user and other functions.
+All customer user functions. E. g. to add and update customer users.
 
 =head1 PUBLIC INTERFACE
 
@@ -461,9 +461,9 @@ generate a random password
 =cut
 
 sub GenerateRandomPassword {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{CustomerUser}->GenerateRandomPassword(@_);
+    return $Self->{CustomerUser}->GenerateRandomPassword(%Param);
 }
 
 =item SetPreferences()
@@ -681,6 +681,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2010-06-27 10:02:29 $
+$Revision: 1.61 $ $Date: 2010-10-04 21:38:21 $
 
 =cut
