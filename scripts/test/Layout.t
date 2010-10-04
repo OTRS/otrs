@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.43 2010-08-17 12:22:09 mg Exp $
+# $Id: Layout.t,v 1.44 2010-10-04 14:14:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -970,9 +970,7 @@ for my $Test (@Tests) {
 <b>test</b>
 <!-- dtl:block:ConfigElementBlock -->',
         Result => '
-<!--ConfigElementBlock-->
-<b>test</b>
-<!--/ConfigElementBlock-->',
+<b>test</b>',
         Block => [
             {
                 Name => 'ConfigElementBlock',
@@ -988,12 +986,8 @@ for my $Test (@Tests) {
 <b>$QData{"Name"}</b>
 <!-- dtl:block:ConfigElementBlock -->',
         Result => '
-<!--ConfigElementBlock-->
 <b>test123</b>
-<!--/ConfigElementBlock-->
-<!--ConfigElementBlock-->
-<b>test1234</b>
-<!--/ConfigElementBlock-->',
+<b>test1234</b>',
         Block => [
             {
                 Name => 'ConfigElementBlock',
@@ -1061,13 +1055,9 @@ for my $Test (@Tests) {
 <!-- dtl:block:ConfigElementBlock1 -->',
 
         Result => '
-<!--ConfigElementBlock1-->
 <b>test123</b>
 
-<!--ConfigElementBlock2-->
-<b>test1234</b>
-<!--/ConfigElementBlock2-->
-<!--/ConfigElementBlock1-->',
+<b>test1234</b>',
         Block => [
             {
                 Name => 'ConfigElementBlock1',
@@ -1094,27 +1084,15 @@ for my $Test (@Tests) {
 <!-- dtl:block:ConfigElementBlock2 -->',
 
         Result => '
-<!--ConfigElementBlock1-->
 <b>AAA</b>
 
-<!--ConfigElementBlock1A-->
 <b>BBB1</b>
-<!--/ConfigElementBlock1A-->
-<!--ConfigElementBlock1A-->
 <b>BBB2</b>
-<!--/ConfigElementBlock1A-->
-<!--/ConfigElementBlock1-->
-<!--ConfigElementBlock1-->
 <b>XXX</b>
 
-<!--ConfigElementBlock1A-->
 <b>YYY</b>
-<!--/ConfigElementBlock1A-->
-<!--/ConfigElementBlock1-->
 
-<!--ConfigElementBlock2-->
-<b>CCC</b>
-<!--/ConfigElementBlock2-->',
+<b>CCC</b>',
         Block => [
             {
                 Name => 'ConfigElementBlock1',
@@ -1157,27 +1135,15 @@ for my $Test (@Tests) {
 <!-- dtl:block:ConfigElementBlock1 -->',
 
         Result => '
-<!--ConfigElementBlock2-->
 <b>CCC</b>
-<!--/ConfigElementBlock2-->
 
-<!--ConfigElementBlock1-->
 <b>AAA</b>
 
-<!--ConfigElementBlock1A-->
 <b>BBB1</b>
-<!--/ConfigElementBlock1A-->
-<!--ConfigElementBlock1A-->
 <b>BBB2</b>
-<!--/ConfigElementBlock1A-->
-<!--/ConfigElementBlock1-->
-<!--ConfigElementBlock1-->
 <b>XXX</b>
 
-<!--ConfigElementBlock1A-->
-<b>YYY</b>
-<!--/ConfigElementBlock1A-->
-<!--/ConfigElementBlock1-->',
+<b>YYY</b>',
         Block => [
             {
                 Name => 'ConfigElementBlock1',
