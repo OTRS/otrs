@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.22 2010-10-01 14:29:22 mg Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.23 2010-10-05 07:16:50 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,8 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains the special module functions for TicketZoom.
  */
 Core.Agent.TicketZoom = (function (TargetNS) {
+    var CheckURLHashTimeout;
+
     /**
      * @function
      * @param {String} TicketID of ticket which get's shown
@@ -80,7 +82,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     function LoadArticle(ArticleURL, ArticleID) {
 
         // Clear timeout for URL hash check, because hash is now changed manually
-        window.clearTimeout(TargetNS.CheckURLHashTimeout);
+        window.clearTimeout(CheckURLHashTimeout);
 
         // Add loader to the widget
         $('#ArticleItems .WidgetBox').addClass('Loading');
@@ -100,17 +102,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             //Remove Loading class
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 
-            // Initiate URL hash chack again
-            TargetNS.CheckURLHashTimeout = window.setTimeout(function () {
-                TargetNS.CheckURLHash();
-            }, 500);
+            // Initiate URL hash check again
+            TargetNS.CheckURLHash();
         });
     }
 
     /**
      * @function
      * @return nothing
-     *      This function checks if teh url hash has changed and initiates an article load
+     *      This function checks if the url hash (representing the current article)
+     *      has changed and initiates an article load. A change can happen by clicking
+     *      'back' in the browser, for example.
      */
     TargetNS.CheckURLHash = function () {
 
@@ -134,6 +136,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), TargetNS.ActiveURLHash);
             }
         }
+
+        // start check again in 500ms
+        window.clearTimeout(CheckURLHashTimeout);
+        CheckURLHashTimeout = window.setTimeout(function () {
+            TargetNS.CheckURLHash();
+        }, 500);
+
     };
 
     /**
@@ -228,9 +237,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // init control function to check the location hash, if the user used the history back or forward buttons
         if (!ZoomExpand) {
-            TargetNS.CheckURLHashTimeout = window.setTimeout(function () {
-                TargetNS.CheckURLHash();
-            }, 500);
+            TargetNS.CheckURLHash();
         }
     };
 
