@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.11 2010-09-23 13:23:01 mn Exp $
+// $Id: Core.AJAX.js,v 1.12 2010-10-05 09:33:06 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -221,23 +221,6 @@ Core.AJAX = (function (TargetNS) {
 
     /**
      * @function
-     *      Binds an event on the form element to call the FormUpdate on event trigger
-     * @param {jQueryObject} $EventElement The jQuery object of the element(s) which are included in the form that should be submitted
-     * @param {String} Subaction The subaction parameter for the perl module
-     * @param {String} ChangedElement The name of the element which was changed by the user
-     * @param {Object} FieldsToUpdate The names of the fields that should be updated with the server answer
-     * @return nothing
-     */
-    TargetNS.RegisterFormUpdate = function (EventType, $EventElement, Subaction, ChangedElement, FieldsToUpdate) {
-        if ($EventElement.length) {
-            $EventElement.bind(EventType, function () {
-                TargetNS.AJAXFormUpdate($EventElement, Subaction, ChangedElement, FieldsToUpdate);
-            });
-        }
-    };
-
-    /**
-     * @function
      *      Calls an URL via Ajax and updates a html element with the answer html of the server
      * @param {jQueryObject} $ElementToUpdate The jQuery object of the element(s) which should be updated
      * @param {String} URL The URL which is called via Ajax
@@ -283,25 +266,6 @@ Core.AJAX = (function (TargetNS) {
 
     /**
      * @function
-     *      Binds an event on a given element to call The ContentUpdate on event trigger
-     * @param {String} EventType The type of event for which the listener is defined ('click', 'change', ...)
-     * @param {jQueryObject} $EventElement The jQuery object of the element(s) on which the event listener is defined
-     * @param {jQueryObject} $ElementToUpdate The jQuery object of the element(s) which should be updated
-     * @param {String} URL The URL which is called via Ajax
-     * @param {Function} Callback The additional callback function which is called after the request returned from the server
-     * @return nothing
-     */
-    TargetNS.RegisterContentUpdate = function (EventType, $EventElement, $ElementToUpdate, URL, Callback) {
-        if ($EventElement.length) {
-            $EventElement.bind(EventType, function () {
-                TargetNS.AJAXContentUpdate($ElementToUpdate, URL, Callback);
-            });
-        }
-    };
-
-
-    /**
-     * @function
      *      Calls an URL via Ajax and executes a given function after the request returned from the server
      * @param {String} URL The URL which is called via Ajax
      * @param {Object} Data The data hash or data query string
@@ -336,24 +300,6 @@ Core.AJAX = (function (TargetNS) {
                 Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
             }
         });
-    };
-
-    /**
-     * @function
-     *      Binds an event on a given element to call the FunctionCall ajax function on event trigger
-     * @param {String} EventType The type of event for which the listener is defined ('click', 'change', ...)
-     * @param {jQueryObject} $EventElement The jQuery object of the element(s) on which the event listener is defined
-     * @param {String} URL The URL which is called via Ajax
-     * @param {Object} Data The data hash
-     * @param {Function} Callback The callback function which is called after the request returned from the server
-     * @return nothing
-     */
-    TargetNS.RegisterFunctionCall = function (EventType, $EventElement, URL, Data, Callback) {
-        if ($EventElement.length) {
-            $EventElement.bind(EventType, function () {
-                TargetNS.AJAXFunctionCall(URL, Data, Callback);
-            });
-        }
     };
 
     return TargetNS;
