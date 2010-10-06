@@ -2,7 +2,7 @@
 # PrintHeader.dtl - provides global print header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PrintHeader.dtl,v 1.27 2010-07-19 12:19:49 mn Exp $
+# $Id: PrintHeader.dtl,v 1.28 2010-10-06 09:38:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,27 +269,6 @@ fieldset.TableLike.FixedLabelSmall > .Value {
     margin-left: 0;
     margin-right: 100px;
 }
-
-/**
- * @note        LargeLabel - this additional class for TableLike
- *              increases the label width
- */
-fieldset.TableLike.LargeLabel > label {
-    width: 50%;
-}
-
-fieldset.TableLike.LargeLabel > .Field,
-fieldset.TableLike.LargeLabel > .Value {
-    margin-left: 50%;
-    margin-right: 0;
-}
-
-.RTL fieldset.TableLike.LargeLabel > .Field,
-.RTL fieldset.TableLike.LargeLabel > .Value {
-    margin-left: 0;
-    margin-right: 50%;
-}
-
 
 /**
  * @note        Tight - this additional class for TableLike

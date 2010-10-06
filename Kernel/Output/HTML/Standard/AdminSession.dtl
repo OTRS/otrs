@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.35 2010-07-02 11:31:33 mg Exp $
+# $Id: AdminSession.dtl,v 1.36 2010-10-06 09:38:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
 <!-- dtl:block:ActionSummary -->
 
                     <li>
-                        <fieldset class="TableLike LargeLabel">
+                        <fieldset class="TableLike FixedLabel">
                             <label>$Text{"All sessions"}:</label>
                             <div class="Value">$QData{"Counter"}</div>
                             <div class="Clear"></div>

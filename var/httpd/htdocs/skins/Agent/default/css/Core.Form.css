@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -338,27 +338,6 @@ fieldset.TableLike.FixedLabelSmall > .Value {
     margin-left: 0;
     margin-right: 100px;
 }
-
-/**
- * @note        LargeLabel - this additional class for TableLike
- *              increases the label width
- */
-fieldset.TableLike.LargeLabel > label {
-    width: 50%;
-}
-
-fieldset.TableLike.LargeLabel > .Field,
-fieldset.TableLike.LargeLabel > .Value {
-    margin-left: 50%;
-    margin-right: 0;
-}
-
-.RTL fieldset.TableLike.LargeLabel > .Field,
-.RTL fieldset.TableLike.LargeLabel > .Value {
-    margin-left: 0;
-    margin-right: 50%;
-}
-
 
 /**
  * @note        Tight - this additional class for TableLike
