@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHTMLReference.pm - HTML reference pages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReference.pm,v 1.2 2010-10-06 08:42:22 mg Exp $
+# $Id: AgentHTMLReference.pm,v 1.3 2010-10-06 08:44:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,9 +70,5 @@ sub Run {
 
     return $Output;
 }
-
-=end Internal:
-
-=cut
 
 1;
