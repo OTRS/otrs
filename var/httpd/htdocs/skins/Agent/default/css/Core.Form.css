@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -219,7 +219,7 @@ fieldset.TableLike > label {
     text-align: right;
     color: #929292;
     padding-top: 3px;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
     text-shadow: 0 1px 0 #FAFAFA;
 }
 
@@ -235,7 +235,7 @@ fieldset.TableLike > .Field {
     padding-top: 3px;
     padding-left: 10px;
     padding-right: 0;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
 }
 
 .RTL fieldset.TableLike > .Field {
@@ -281,13 +281,13 @@ fieldset.TableLike > .RichTextField {
 
 fieldset.TableLike > .Value {
     margin-left: 30%;
-    padding: 3px 0 5px 8px;
+    padding: 3px 0 3px 8px;
     line-height: 1.3em;
 }
 
 .RTL fieldset.TableLike > .Value {
     margin: 0 30% 0 0;
-    padding: 3px 8px 5px 0;
+    padding: 3px 8px 3px 0;
 }
 
 fieldset.TableLike > .Value img {
@@ -337,16 +337,6 @@ fieldset.TableLike.FixedLabelSmall > .Value {
 .RTL fieldset.TableLike.FixedLabelSmall > .Value {
     margin-left: 0;
     margin-right: 100px;
-}
-
-/**
- * @note        Tight - this additional class for TableLike
- *              decreases the margin between the content elements
- */
-fieldset.Tight > label,
-fieldset.Tight > .Field,
-fieldset.Tight > .Value {
-    padding-bottom: 3px;
 }
 
 iframe.Signature {

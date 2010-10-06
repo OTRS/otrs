@@ -2,14 +2,14 @@
 # AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.22 2010-07-26 08:28:10 mn Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.23 2010-10-06 10:50:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:Customer -->
-<fieldset class="TableLike FixedLabelSmall Tight">
+<fieldset class="TableLike FixedLabelSmall">
 <!-- dtl:block:CustomerImage -->
 <!-- dtl:block:CustomerImageRealname -->
     <p>
