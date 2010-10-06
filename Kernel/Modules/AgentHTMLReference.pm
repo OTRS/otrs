@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHTMLReference.pm - HTML reference pages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReference.pm,v 1.1 2010-09-27 15:08:34 mg Exp $
+# $Id: AgentHTMLReference.pm,v 1.2 2010-10-06 08:42:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,8 +48,12 @@ sub Run {
 
     my $Output = '';
 
-    my $Subaction  = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || 'Overview';
-    my $HeaderType = $Self->{ParamObject}->GetParam( Param => 'Header' )    || '';
+    my $Subaction = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || 'Overview';
+
+    # security: cleanup input data to prevent directory traversal
+    $Subaction =~ s{[./]}{}smxg;
+
+    my $HeaderType = $Self->{ParamObject}->GetParam( Param => 'Header' ) || '';
 
     # build output
     $Output .= $Self->{LayoutObject}->Header(
