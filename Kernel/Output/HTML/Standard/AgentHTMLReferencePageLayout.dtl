@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.5 2010-10-06 08:39:31 mg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.6 2010-10-06 12:04:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@
         <em>before</em> the content column (in reading direction).
     </p>
 
-    <div class="LayoutFixedSidebar SidebarFirst OutlineBox Example">
+    <div class="LayoutFixedSidebar SidebarFirst OutlineBox DocumentationExample">
         <div class="SidebarColumn OutlineBox">Sidebar</div>
         <div class="ContentColumn OutlineBox">Content</div>
         <div class="Clear"></div>
@@ -43,7 +43,7 @@
         <code>SidebarFirst</code> for <code>SidebarLast</code>. Don't modify
         the order in the markup, i.e. the sidebar must still come first.
     </p>
-    <div class="LayoutFixedSidebar SidebarLast OutlineBox Example">
+    <div class="LayoutFixedSidebar SidebarLast OutlineBox DocumentationExample">
         <div class="SidebarColumn OutlineBox">Sidebar</div>
         <div class="ContentColumn OutlineBox">Content</div>
         <div class="Clear"></div>
@@ -52,7 +52,7 @@
     <p class="Documentation">
         An example layout with some content:
     </p>
-    <div class="LayoutFixedSidebar SidebarFirst Example">
+    <div class="LayoutFixedSidebar SidebarFirst DocumentationExample">
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
@@ -105,7 +105,7 @@
         width. After each line, you need to add a clearing div.
     </p>
 
-    <div class="LayoutGrid OutlineBox Example">
+    <div class="LayoutGrid OutlineBox DocumentationExample">
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
@@ -120,7 +120,7 @@
         <code>ColumnsWithSpacing.</code>.
     </p>
 
-    <div class="LayoutGrid ColumnsWithSpacing OutlineBox Example">
+    <div class="LayoutGrid ColumnsWithSpacing OutlineBox DocumentationExample">
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size1of4"><div class="OutlineBox">1 of 4</div></div>
         <div class="Size2of4"><div class="OutlineBox">2 of 4</div></div>
@@ -136,7 +136,7 @@
     </p>
 
 
-    <div class="LayoutGrid ColumnsWithSpacing Example">
+    <div class="LayoutGrid ColumnsWithSpacing DocumentationExample">
         <div class="Size1of3">
             <div class="WidgetSimple">
                 <div class="Header">
@@ -190,7 +190,7 @@
         <code>WidgetPopup</code> is the page layout to use for popup windows. It consists of a Header, Content, and a Footer section.
     </p>
 
-    <div class="Example OutlineBox">
+    <div class="DocumentationExample OutlineBox">
         <div class="WidgetPopup ARIARoleMain">
             <div class="Header">
                 <h1>Header</h1>
