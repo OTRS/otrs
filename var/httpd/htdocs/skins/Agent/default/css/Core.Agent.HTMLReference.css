@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -26,7 +26,7 @@
 .AgentHTMLReference code {
     padding: 2px;
     border: 1px dotted grey;
-    background-color: yellow;
+    background-color: lightgrey;
 }
 
 .AgentHTMLReference .OutlineBox {
