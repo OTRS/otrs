@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.32 2010-09-10 21:52:17 cg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.33 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
 
-    <div class="WidgetPopup ARIARoleMain">
+    <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>
 

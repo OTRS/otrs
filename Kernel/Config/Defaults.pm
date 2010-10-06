@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.366 2010-09-28 08:41:13 mg Exp $
+# $Id: Defaults.pm,v 1.367 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.366 $) [1];
+$VERSION = qw($Revision: 1.367 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -868,7 +868,7 @@ sub LoadDefaults {
       'Core.OverviewMedium.css',
       'Core.OverviewLarge.css',
       'Core.Footer.css',
-      'Core.Grid.css',
+      'Core.PageLayout.css',
       'Core.Form.css',
       'Core.Table.css',
       'Core.Widget.css',
@@ -886,7 +886,7 @@ sub LoadDefaults {
       'Core.OverviewSmall.IE7.css',
       'Core.OverviewMedium.IE7.css',
       'Core.OverviewLarge.IE7.css',
-      'Core.Grid.IE7.css',
+      'Core.PageLayout.IE7.css',
       'Core.Form.IE7.css',
       'Core.Widget.IE7.css',
       'Core.TicketDetail.IE7.css'
@@ -2229,6 +2229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.366 $ $Date: 2010-09-28 08:41:13 $
+$Revision: 1.367 $ $Date: 2010-10-06 13:54:30 $
 
 =cut

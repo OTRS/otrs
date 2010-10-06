@@ -2,14 +2,14 @@
 # AgentTicketPlain.dtl - provides HTML plain article
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPlain.dtl,v 1.17 2010-08-06 22:10:44 cg Exp $
+# $Id: AgentTicketPlain.dtl,v 1.18 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="WidgetPopup ARIARoleMain">
+<div class="LayoutPopup ARIARoleMain">
 
     <div class="Header">
         <h1>$Text{"Email Text Plain View"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>

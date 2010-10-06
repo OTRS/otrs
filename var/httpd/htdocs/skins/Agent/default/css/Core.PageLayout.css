@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -136,6 +136,58 @@
 .LayoutGrid.ColumnsWithSpacing > div.Clear + div > div {
     margin-left: 0px;
     margin-right: 0px;
+}
+
+/**
+ * @subsection  LayoutPopup
+ */
+.LayoutPopup > .Header {
+    background: #E3E3E3 url(../img/gradient_light.png) repeat-x;
+    padding: 5px 20px;
+    border-bottom: 1px solid #999;
+    margin-bottom: 10px;
+}
+
+.RTL .LayoutPopup > .Header {
+    padding: 5px 20px 5px 5px;
+}
+
+.LayoutPopup > .Header h1 {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 5px 0 0;
+}
+
+.RTL .LayoutPopup > .Header h1 {
+    padding: 5px 0 0 5px;
+}
+
+.LayoutPopup > .Header p {
+    margin-bottom: 10px;
+    padding: 5px 5px 0 0;
+}
+
+.RTL .LayoutPopup > .Header p {
+    padding: 5px 10px 0 5px;
+}
+
+.LayoutPopup .Notice {
+    color: red;
+}
+
+.LayoutPopup > .Content {
+    padding: 5px 20px;
+}
+
+.RTL .LayoutPopup > .Content {
+    padding: 5px 20px 5px 5px;
+}
+
+.LayoutPopup > .Footer {
+    background: #DBDBDB url(../img/gradient_light.png) repeat-x;
+    padding: 5px;
+    border-top: 1px solid #999;
+    text-align: center;
 }
 
 } /* end @media */

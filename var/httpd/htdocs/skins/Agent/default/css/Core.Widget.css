@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.25 $
+ * @version     $Revision: 1.26 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -476,58 +476,6 @@ ul.Tablelike li.Header + li {
     padding: 4px 3px 3px;
     background: #E4E4E4 url(../img/SmallDarkGradient.png) repeat-x;
     outline: none;
-}
-
-/**
- * @subsection  WidgetPopup
- */
-.WidgetPopup > .Header {
-    background: #E3E3E3 url(../img/gradient_light.png) repeat-x;
-    padding: 5px 20px;
-    border-bottom: 1px solid #999;
-    margin-bottom: 10px;
-}
-
-.RTL .WidgetPopup > .Header {
-    padding: 5px 20px 5px 5px;
-}
-
-.WidgetPopup > .Header h1 {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px 5px 0 0;
-}
-
-.RTL .WidgetPopup > .Header h1 {
-    padding: 5px 0 0 5px;
-}
-
-.WidgetPopup > .Header p {
-    margin-bottom: 10px;
-    padding: 5px 5px 0 0;
-}
-
-.RTL .WidgetPopup > .Header p {
-    padding: 5px 10px 0 5px;
-}
-
-.WidgetPopup .Notice {
-    color: red;
-}
-
-.WidgetPopup > .Content {
-    padding: 5px 20px;
-}
-
-.RTL .WidgetPopup > .Content {
-    padding: 5px 20px 5px 5px;
-}
-
-.WidgetPopup > .Footer {
-    background: #DBDBDB url(../img/gradient_light.png) repeat-x;
-    padding: 5px;
-    border-top: 1px solid #999;
-    text-align: center;
 }
 
 /**

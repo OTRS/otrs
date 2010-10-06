@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.64 2010-09-10 21:52:17 cg Exp $
+# $Id: AgentTicketMove.dtl,v 1.65 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     <input type="hidden" name="OwnerAll"     value="$QData{"OwnerAll"}"/>
     <input type="hidden" name="NoSubmit"     value=""/>
 
-    <div class="WidgetPopup ARIARoleMain">
+    <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Move Ticket"}: $QData{"TicketNumber"}</h1>
 

@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.30 2010-09-23 22:22:32 cg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.31 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ $Include{"AgentCustomerSearch"}
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value=""/>
 
-    <div class="WidgetPopup ARIARoleMain">
+    <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
             <p>

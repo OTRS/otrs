@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.51 2010-09-10 21:52:17 cg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.52 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="FormID"    value="$QData{"FormID"}"/>
     <input type="hidden" name="TicketID"  value="$QData{"TicketID"}"/>
-    <div class="WidgetPopup ARIARoleMain">
+    <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
             <h1>$Text{"Phone call"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>

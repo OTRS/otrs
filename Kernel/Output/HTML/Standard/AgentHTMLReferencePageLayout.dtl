@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.6 2010-10-06 12:04:26 mg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.7 2010-10-06 13:54:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
 
     <p class="Documentation">
         There are different kind of layout containers that you can use to
-        achieve different page layouts: LayoutFixedSidebar, LayoutGrid and WidgetPopup.
+        achieve different page layouts: LayoutFixedSidebar, LayoutGrid and LayoutPopup.
     </p>
 
     <h2>LayoutFixedSidebar</h2>
@@ -185,13 +185,13 @@
         </div>
     </div>
 
-    <h2>WidgetPopup</h2>
+    <h2>LayoutPopup</h2>
     <p class="Documentation">
-        <code>WidgetPopup</code> is the page layout to use for popup windows. It consists of a Header, Content, and a Footer section.
+        <code>LayoutPopup</code> is the page layout to use for popup windows. It consists of a Header, Content, and a Footer section.
     </p>
 
     <div class="DocumentationExample OutlineBox">
-        <div class="WidgetPopup ARIARoleMain">
+        <div class="LayoutPopup ARIARoleMain">
             <div class="Header">
                 <h1>Header</h1>
                 <p>
@@ -213,7 +213,7 @@
     </div>
 
     <p class="Documentation">
-        Note that you have to put the <code>&lt;form&gt;</code> tag around the entire <code>&lt;div class="WidgetPopup"&gt;</code>,
+        Note that you have to put the <code>&lt;form&gt;</code> tag around the entire <code>&lt;div class="LayoutPopup"&gt;</code>,
         because the Footer element also contains a form element.
     </p>
 

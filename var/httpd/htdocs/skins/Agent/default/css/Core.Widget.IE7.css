@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -27,25 +27,20 @@
     margin-top: -4px;
 }
 
-.WidgetPopup > .Header,
-.WidgetPopup > .Footer {
-    zoom: 1;
-}
-    
 .WidgetSimple > .Header h2 {
     width: 100%;
 }
-    
+
 .WidgetSimple > .Header .WidgetAction + h2 {
     width: auto;
 }
-    
+
 .WidgetAction {
     float: none;
     zoom: 1;
     display: inline;
 }
-    
+
 .WidgetAction.Toggle a {
     background: url(../img/empty_background.png);
 }
@@ -53,15 +48,15 @@
 .ActionList button {
     margin-top: 1px;
 }
-    
+
 ul.Tablelike {
     zoom: 1;
 }
-    
+
 ul.Tablelike li {
     margin-bottom: -3px;
 }
-    
+
 ul.Tablelike li.Header {
     margin-bottom: 0;
 }

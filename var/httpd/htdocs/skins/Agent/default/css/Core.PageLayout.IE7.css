@@ -89,5 +89,10 @@
     overflow: visible;
 }
 
+.LayoutPopup > .Header,
+.LayoutPopup > .Footer {
+    zoom: 1;
+}
+
 
 } /* end @media */
