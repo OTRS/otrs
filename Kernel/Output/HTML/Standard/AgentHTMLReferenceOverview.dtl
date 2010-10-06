@@ -2,7 +2,7 @@
 # AgentHTMLReferenceOverview.dtl - HTML reference overview page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferenceOverview.dtl,v 1.1 2010-09-27 15:08:34 mg Exp $
+# $Id: AgentHTMLReferenceOverview.dtl,v 1.2 2010-10-06 10:52:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,9 @@
     <ul>
         <li>
             <h2><a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PageLayout"><span>Page Layout</span></a></h2>
+        </li>
+        <li>
+            <h2><a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Forms"><span>Forms</span></a></h2>
         </li>
     </ul>
 </div>
