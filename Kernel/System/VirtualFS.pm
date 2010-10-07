@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS.pm - all virtual fs functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.pm,v 1.7 2010-08-09 06:49:50 ub Exp $
+# $Id: VirtualFS.pm,v 1.8 2010-10-07 07:21:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -114,7 +114,7 @@ returns
         # preferences data
         Preferences => {
 
-            # generated automaticaly
+            # generated automatically
             Filesize           => '12.4 KBytes',
             FilesizeRaw        => 12345,
 
@@ -520,6 +520,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-08-09 06:49:50 $
+$Revision: 1.8 $ $Date: 2010-10-07 07:21:40 $
 
 =cut

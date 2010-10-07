@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.23 2010-09-09 08:43:17 mg Exp $
+# $Id: SysConfig.pm,v 1.24 2010-10-07 07:21:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -192,7 +192,7 @@ sub WriteDefault {
         return;
     }
 
-    print $Out "# OTRS config file (automaticaly generated!)\n";
+    print $Out "# OTRS config file (automatically generated)\n";
     print $Out "# VERSION:1.1\n";
     print $Out "package Kernel::Config::Files::ZZZAAuto;\n";
     if ( $Self->{utf8} ) {
@@ -401,7 +401,7 @@ sub CreateConfig {
         return;
     }
 
-    print $Out "# OTRS config file (automaticaly generated!)\n";
+    print $Out "# OTRS config file (automatically generated)\n";
     print $Out "# VERSION:1.1\n";
     print $Out "package Kernel::Config::Files::ZZZAuto;\n";
     if ( $Self->{utf8} ) {
@@ -2146,6 +2146,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2010-09-09 08:43:17 $
+$Revision: 1.24 $ $Date: 2010-10-07 07:21:25 $
 
 =cut
