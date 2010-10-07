@@ -2,12 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1453 2010-10-06 11:34:01 martin Exp $
+# $Id: CHANGES,v 1.1454 2010-10-07 07:20:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.0 beta5 2010-??-??
+ - 2010-10-07 Fixed bug#5975 - Notifications (event-based) to external email
+    address are visible to customers.
+
 3.0.0 beta5 2010-10-11
  - 2010-10-04 Fixed bug#6064 - Predefined responses does not work.
  - 2010-10-01 Big improvements to TicketZoom rendering performance.

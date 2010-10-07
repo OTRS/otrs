@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.17 2010-09-29 05:58:42 martin Exp $
+# $Id: NotificationEvent.pm,v 1.18 2010-10-07 07:20:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,6 +119,7 @@ sub Run {
             next if $Key eq 'ArticleSubjectMatch';
             next if $Key eq 'ArticleBodyMatch';
             next if $Key eq 'ArticleAttachmentInclude';
+            next if $Key eq 'NotificationArticleTypeID';
 
             # check ticket attributes
             next if !$Notification{Data}->{$Key};
@@ -254,8 +255,8 @@ sub _SendNotificationToRecipients {
                 my %Recipient;
 
                 # ArticleLastCustomerArticle() returns the lastest customer article but if there
-                # is no customer acticle it returns the lastest agent article in this case
-                # notificication must not be send to the "From", but to the "To" article field.
+                # is no customer acticle, it returns the latest agent article. In this case
+                # notification must not be send to the "From", but to the "To" article field.
                 if ( $Article{SenderType} eq 'customer' ) {
                     $Recipient{Email} = $Article{From};
                 }
@@ -402,6 +403,13 @@ sub _SendNotificationToRecipients {
             $Recipient{Realname} = '';
             $Recipient{Type}     = 'Customer';
             $Recipient{Email}    = $Param{Notification}->{Data}->{RecipientEmail}->[0];
+
+            # check if we have a specified article type
+            if ( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) {
+                $Recipient{NotificationArticleType} = $Self->{TicketObject}->ArticleTypeLookup(
+                    ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0]
+                ) || 'email-notification-ext';
+            }
 
             # check recipients
             if ( $Recipient{Email} && $Recipient{Email} =~ /@/ ) {
@@ -610,10 +618,10 @@ sub _SendNotification {
         $Notification{Subject} =~ s/<$ArticleItem.+?>/-/gi;
     }
 
-    # send notify
+    # send notification
     if ( $Recipient{Type} eq 'Agent' ) {
 
-        # send notify
+        # send notification
         my $From = $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>';
         $Self->{SendmailObject}->Send(
@@ -653,8 +661,9 @@ sub _SendNotification {
     }
     else {
         my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        my $ArticleType = $Recipient{NotificationArticleType} || 'email-notification-ext';
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
-            ArticleType    => 'email-notification-ext',
+            ArticleType    => $ArticleType,
             SenderType     => 'system',
             TicketID       => $Param{TicketID},
             HistoryType    => 'SendCustomerNotification',

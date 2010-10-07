@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.27 2010-09-29 05:58:42 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.28 2010-10-07 07:20:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,7 +89,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude)
+            qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
@@ -188,7 +188,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude)
+            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
@@ -584,6 +584,21 @@ sub _Edit {
         SelectedID  => $Param{Data}->{ArticleAttachmentInclude} || 0,
         Translation => 1,
         Max         => 200,
+    );
+
+    # Display article types for article creation if notification is sent
+    # only use 'email-notification-*'-type articles
+    my %NotificationArticleTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+    for my $NotifArticleTypeID ( keys %NotificationArticleTypes ) {
+        if ( $NotificationArticleTypes{$NotifArticleTypeID} !~ /^email-notification-/ ) {
+            delete $NotificationArticleTypes{$NotifArticleTypeID};
+        }
+    }
+    $Param{NotificationArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data        => \%NotificationArticleTypes,
+        Name        => 'NotificationArticleTypeID',
+        Translation => 1,
+        SelectedID  => $Param{Data}->{NotificationArticleTypeID},
     );
 
     # take over data fields

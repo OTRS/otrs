@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.25 2010-09-22 12:16:34 mg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.26 2010-10-07 07:20:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -285,6 +285,13 @@
                             <div id="BodyServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="NotificationArticleTypeID">$Text{"Notification article type"}: </label>
+                        <div class="Field">
+                            $Data{"NotificationArticleTypesStrg"}
+                            <p class="FieldExplanation">($Text{"Only for notifications to specified email addresses"})</p>
                         </div>
                         <div class="Clear"></div>
 
