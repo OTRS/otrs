@@ -1,8 +1,7 @@
 #!/bin/sh
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +14,7 @@
 #
 # load the configuration
 #
-if test -r /etc/sysconfig/otrs; then 
+if test -r /etc/sysconfig/otrs; then
     . /etc/sysconfig/otrs
 else
     echo "ERROR: Can't find /etc/sysconfig/otrs!"
@@ -28,9 +27,9 @@ fi
 PATH=$PATH:
 export PATH
 
-# 
+#
 # check needed files
-# 
+#
 if ! test -r $OTRS_POSTMASTER; then
     echo "Error: $OTRS_POSTMASTER not found!"
     exit 5
@@ -46,9 +45,9 @@ if ! test -r $OTRS_CHECKDB; then
     exit 5
 fi
 
-# 
+#
 # main part
-# 
+#
 case "$1" in
     # ------------------------------------------------------
     # start
@@ -77,14 +76,14 @@ case "$1" in
       # --
       if test $OTRS_DB_RUNNING -gt 0; then
     echo -n " Checking MySQL ..."
-        if $OTRS_USED_DB_TEST >/dev/null 2>&1; then 
+        if $OTRS_USED_DB_TEST >/dev/null 2>&1; then
           echo " done."
-        else 
+        else
           echo " failed."
           echo "  --> Please start the database at first! (service $OTRS_USED_DB start) <--"
           exit 1;
         fi
-      else 
+      else
           echo " Disabled: $OTRS_USED_DB check!"
       fi
 
@@ -99,10 +98,10 @@ case "$1" in
           echo " Try the web installer to configure your database: "
           echo ""
           echo "     -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
-          echo ""                               
+          echo ""
           echo " or configure your database with README.database (DB - Setup Example)    "
           exit 1;
-      else 
+      else
           echo " done."
       fi
 
@@ -123,22 +122,22 @@ case "$1" in
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
           if echo $i | grep -v '*' >> /dev/null; then
-              echo -n "   Starting otrs PostMaster... ($i) " 
+              echo -n "   Starting otrs PostMaster... ($i) "
               if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
                   rm $i && echo "(remove email) done.";
-              else 
+              else
                   echo "failed."
-              fi 
+              fi
           fi
       done
       echo " done."
 
       # --
       # Cron stuff
-      # -- 
+      # --
       if test $OTRS_CRON_RUNNING -gt 0; then
         echo -e " Creating cronjobs (source $OTRS_CRON_DIR/*) ..."
-        if mkdir -p $OTRS_CRON_DIR; cd $OTRS_CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| xargs cat > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
+        if mkdir -p $OTRS_CRON_DIR; cd $OTRS_CRON_DIR && ls * |grep -v '.dist'|grep -v '.save'|grep -v 'CVS'|grep -v '.rpm'| xargs cat > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
           echo " done."
         else
           echo " failed!"
@@ -147,7 +146,7 @@ case "$1" in
       else
           echo " Disabled: cronjobs!"
       fi
- 
+
       echo ""
       echo "  -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
       echo $"Final start of $OTRS_PROG.. done"
@@ -188,7 +187,7 @@ case "$1" in
     # restart
     # ------------------------------------------------------
     restart)
-      $0 stop  
+      $0 stop
       $0 start
       # Remember status and be quiet
     ;;
@@ -203,11 +202,11 @@ case "$1" in
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
           if echo $i | grep -v '*' >> /dev/null ;then
-            echo "" 
-            echo -n "   Starting otrs PostMaster... ($i) " 
-            if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 ; then 
+            echo ""
+            echo -n "   Starting otrs PostMaster... ($i) "
+            if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 ; then
                echo -n "remove email... " && (rm $i || echo "failed.")
-            else 
+            else
                echo "failed."
             fi
           fi
@@ -217,7 +216,7 @@ case "$1" in
     # ------------------------------------------------------
     # status
     # ------------------------------------------------------
-    status) 
+    status)
       # --
       # httpd
       # --
@@ -256,7 +255,7 @@ case "$1" in
           # echo old emails
           echo $i | grep -v '*' > /dev/null && \
             echo "" && \
-            echo -n " (message:$i) found! " 
+            echo -n " (message:$i) found! "
       done
       echo "done."
     ;;
