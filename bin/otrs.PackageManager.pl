@@ -3,7 +3,7 @@
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.8 2010-10-11 16:13:58 martin Exp $
+# $Id: otrs.PackageManager.pl,v 1.9 2010-10-11 16:22:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -41,7 +41,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -62,7 +62,7 @@ getopt( 'hapofd', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
-    $Opts{o} = File::Spec->tmpdir;
+    $Opts{o} = File::Spec->tmpdir();
 }
 if ( !$Opts{f} ) {
     $Opts{f} = 0;
