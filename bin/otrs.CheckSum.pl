@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.CheckSum.pl,v 1.5 2010-10-11 15:53:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -69,16 +69,16 @@ if ( $Action eq 'create' ) {
     open( OUT, '>', $Archive ) || die "ERROR: Can't open: $Archive";
 }
 else {
-    open( IN, '<', $Archive ) || die "ERROR: Can't open: $Archive";
-    while (<IN>) {
+    open( my $In, '<', $Archive ) || die "ERROR: Can't open: $Archive";
+    while (<$In>) {
         my @Row = split( /::/, $_ );
-        chomp( $Row[1] );
+        chomp $Row[1];
         $Compare{ $Row[1] } = $Row[0];
     }
-    close IN;
+    close $In;
 }
 
-my @Dirs = ();
+my @Dirs;
 R($Start);
 for my $File ( sort keys %Compare ) {
 
@@ -120,14 +120,13 @@ sub R {
         next if $File =~ /^var\/tmp/;
         next if $File =~ /^var\/article/;
 
+        # next if not readable
         # print "File: $File\n";
-        my $Content = '';
-        open( IN, '<', $OrigFile ) || die "ERROR: $!";
-        while (<IN>) {
-            $Content .= $_;
-        }
-        close IN;
-        my $Digest = md5_hex($Content);
+        open( my $In, '<', $OrigFile ) || die "ERROR: $!";
+        my $ctx = Digest::MD5->new;
+        $ctx->addfile($In);
+        my $Digest = $ctx->hexdigest();
+        close $In;
         if ( $Action eq 'create' ) {
             print OUT $Digest . '::' . $File . "\n";
         }
@@ -138,7 +137,7 @@ sub R {
             elsif ( $Compare{$File} ne $Digest ) {
                 print "Notice: Dif $File\n";
             }
-            if ( defined( $Compare{$File} ) ) {
+            if ( defined $Compare{$File} ) {
                 delete $Compare{$File};
             }
         }
