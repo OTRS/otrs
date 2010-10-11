@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.23 2010-09-30 10:07:36 mg Exp $
+# $Id: HTMLUtils.pm,v 1.24 2010-10-11 15:38:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -924,66 +924,46 @@ sub Safety {
 
     # remove script tags
     if ( $Param{NoJavaScript} ) {
-        ${$String} =~ s{
-            <scrip.+?>(.+?)</script>
+        $Safety{Replace} ||= ${$String} =~ s{
+            <scrip.+?>(.+?|.?)</script>
         }
-        {
-            $Safety{Replaced} = 1;
-            if ($Param{Debug}) {
-                " # removed script tags # ";
-            }
-            else {
-                '';
-            }
-        }segxim;
+        {}sgxim;
+        $Safety{Replace} ||= ${$String} =~ s{
+            <scrip.+?>.+?(<|>)
+        }
+        {}sgxim;
     }
 
     # remove <applet> tags
     if ( $Param{NoApplet} ) {
-        ${$String} =~ s{
+        $Safety{Replace} ||= ${$String} =~ s{
             <apple.+?>(.+?)</applet>
         }
-        {
-            $Safety{Replaced} = 1;
-            if ($Param{Debug}) {
-                " # removed applet tags # ";
-            }
-            else {
-                '';
-            }
-        }segxim;
+        {}sgxim;
     }
 
     # remove <Object> tags
     if ( $Param{NoObject} ) {
-        ${$String} =~ s{
+        $Safety{Replace} ||= ${$String} =~ s{
             <objec.+?>(.+?)</object>
         }
-        {
-            $Safety{Replaced} = 1;
-            if ($Param{Debug}) {
-                " # removed object tags # ";
-            }
-            else {
-                '';
-            }
-        }segxim;
+        {}sgxim;
     }
 
     # remove style/javascript parts
     if ( $Param{NoJavaScript} ) {
-        ${$String} =~ s{
+        $Safety{Replace} ||= ${$String} =~ s{
             <style.+?javascript(.+?|)>(.*)</style>
         }
-        {
-            $Safety{Replaced} = 1;
-            if ($Param{Debug}) {
-                " # removed javascript style tag # ";
-            }
-            else {
-                '';
-            }
-        }segxim;
+        {}sgxim;
+    }
+
+    # remove <embed> tags
+    if ( $Param{NoEmbed} ) {
+        $Safety{Replace} ||= ${$String} =~ s{
+            <embed\s.+?>
+        }
+        {}sgxim;
     }
 
     # check each html tag
@@ -993,72 +973,33 @@ sub Safety {
     {
         my $Tag = $1;
         if ($Param{NoJavaScript}) {
-            # remove on action sub tags
-            $Tag =~ s{
-                \s(on.{4,10}=(".+?"|'.+?'|.+?))
-            }
-            {
-                $Safety{Replaced} = 1;
-                if ($Param{Debug}) {
-                    " # removed java script on action ($1) # ";
-                }
-                else {
-                    '';
-                }
-            }segxim;
 
-            # remove entities sub tags
-            $Tag =~ s{
+            # remove on action attributes
+            $Safety{Replace} ||= $Tag =~ s{
+                \son.+?=(".+?"|'.+?'|.+?)(>|\s)
+            }
+            {$2}sgxim;
+
+            # remove entities in tag
+            $Safety{Replace} ||= $Tag =~ s{
                 (&\{.+?\})
             }
-            {
-                $Safety{Replaced} = 1;
-                if ($Param{Debug}) {
-                    " # removed java script entities tag ($1) # ";
-                }
-                else {
-                    '';
-                }
-            }segxim;
+            {}sgxim;
 
             # remove javascript in a href links or src links
-            $Tag =~ s{
-                (<(a\shref|src)=)("javascript.+?"|'javascript.+?'|javascript.+?)(\s>|>|.+?>)
+            $Safety{Replace} ||= $Tag =~ s{
+                ((\s|;)(background|url|src|href)=)('|"|)(javascript.+?)('|"|)(\s|>)
             }
             {
-                $Safety{Replaced} = 1;
-                if ($Param{Debug}) {
-                    " # removed java script # ";
-                }
-                else {
-                    "$1$4";
-                }
-            }segxim;
+                "$1\"\"$7";
+            }sgxime;
 
             # remove link javascript tags
-            $Tag =~ s{
+            $Safety{Replace} ||= $Tag =~ s{
                 (<link.+?javascript(.+?|)>)
             }
-            {
-                $Safety{Replaced} = 1;
-                " # removed javascript link tag # ";
-            }segxim;
-        }
+            {}sgxim;
 
-        # remove <embed> tags
-        if ($Param{NoEmbed}) {
-            $Tag =~ s{
-                (<embed\s(.+?)>)
-            }
-            {
-                $Safety{Replaced} = 1;
-                if ($Param{Debug}) {
-                    " # removed embed tag ($1) # ";
-                }
-                else {
-                    '';
-                }
-            }segxim;
         }
 
         # remove load tags
@@ -1069,13 +1010,8 @@ sub Safety {
             {
                 my $URL = $3;
                 if ($Param{NoIntSrcLoad} || ($Param{NoExtSrcLoad} && $URL =~ /(http|ftp|https):\//i)) {
-                    $Safety{Replaced} = 1;
-                    if ($Param{Debug}) {
-                        " # blocked '$URL' # ";
-                    }
-                    else {
-                       '';
-                    }
+                    $Safety{Replace} = 1;
+                    '';
                 }
                 else {
                     $1;
@@ -1111,6 +1047,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2010-09-30 10:07:36 $
+$Revision: 1.24 $ $Date: 2010-10-11 15:38:26 $
 
 =cut
