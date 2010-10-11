@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.24 2010-10-11 15:38:26 martin Exp $
+# $Id: HTMLUtils.pm,v 1.25 2010-10-11 16:07:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -894,8 +894,8 @@ also string ref is possible
 returns
 
     my %Safe = (
-        String   => $HTMLString, # modified html string (scalar or ref)
-        Replaced => 1,           # 1|0 - info if something got replaced
+        String  => $HTMLString, # modified html string (scalar or ref)
+        Replace => 1,           # 1|0 - info if something got replaced
     );
 
 =cut
@@ -1047,6 +1047,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2010-10-11 15:38:26 $
+$Revision: 1.25 $ $Date: 2010-10-11 16:07:27 $
 
 =cut
