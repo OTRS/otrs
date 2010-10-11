@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.17 2010-06-17 21:39:40 cr Exp $
+# $Id: SearchProfile.pm,v 1.18 2010-10-11 16:00:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -103,14 +103,14 @@ sub SearchProfileAdd {
 
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # check value
-    if ( !defined( $Param{Value} ) ) {
+    if ( !defined $Param{Value} ) {
         return 1;
     }
     my @Data;
@@ -171,7 +171,7 @@ sub SearchProfileGet {
     my %Result;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Data[0] eq 'ARRAY' ) {
-            push( @{ $Result{ $Data[1] } }, $Data[2] );
+            push @{ $Result{ $Data[1] } }, $Data[2];
         }
         else {
             $Result{ $Data[1] } = $Data[2];
@@ -262,6 +262,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.18 $ $Date: 2010-10-11 16:00:25 $
 
 =cut
