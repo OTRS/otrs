@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.40 2010-08-18 07:33:30 ub Exp $
+# $Id: SMIME.pm,v 1.41 2010-10-11 15:36:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -717,8 +717,8 @@ sub PrivateRemove {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
-    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return 0;
-    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return 0;
+    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
+    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return;
     return 1;
 }
 
@@ -726,7 +726,7 @@ sub PrivateRemove {
 
 returns a list of private key hashs
 
-    my @Hash = $CryptObject->PrivateList();
+    my @HashList = $CryptObject->PrivateList();
 
 =cut
 
@@ -955,6 +955,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-08-18 07:33:30 $
+$Revision: 1.41 $ $Date: 2010-10-11 15:36:31 $
 
 =cut
