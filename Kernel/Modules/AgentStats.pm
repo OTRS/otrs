@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.97 2010-08-31 15:25:05 bes Exp $
+# $Id: AgentStats.pm,v 1.98 2010-10-11 13:27:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1371,7 +1371,9 @@ sub Run {
             Title => 'Common Specification',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Notify( StatData => $Stat, Section => 'Specification' );
+        if ( $Param{StatID} ne 'new' ) {
+            $Output .= $Self->_Notify( StatData => $Stat, Section => 'Specification' );
+        }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditSpecification',
             Data => { %{$Stat}, %Frontend, },
