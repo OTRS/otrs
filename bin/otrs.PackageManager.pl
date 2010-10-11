@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.PackageManager.pl - otrs package manager cmd version
+# bin/otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.7 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.PackageManager.pl,v 1.8 2010-10-11 16:13:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -41,10 +41,10 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 # common objects
-my %CommonObject;
+my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -57,12 +57,12 @@ $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
 # get options
-my %Opts;
-getopt( 'hapofdv', \%Opts );
+my %Opts = ();
+getopt( 'hapofd', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
-    $Opts{o} = File::Spec->tmpdir();
+    $Opts{o} = File::Spec->tmpdir;
 }
 if ( !$Opts{f} ) {
     $Opts{f} = 0;
@@ -87,31 +87,32 @@ if ( $Opts{h} ) {
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print
-        "        [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
-    print "   user (local):\n";
-    print "       otrs.PackageManager.pl -a list\n";
-    print "       otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
-    print "       otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
-    print "       otrs.PackageManager.pl -a reinstall -p Package\n";
-    print "       otrs.PackageManager.pl -a uninstall -p Package\n";
-    print "       otrs.PackageManager.pl -a file -p Kernel/System/File.pm (find package of file)\n";
+        "      [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
+    print " user (local):\n";
+    print "   otrs.PackageManager.pl -a list\n";
+    print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
+    print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
+    print "   otrs.PackageManager.pl -a reinstall -p Package\n";
+    print "   otrs.PackageManager.pl -a uninstall -p Package\n";
+    print "   otrs.PackageManager.pl -a file -p Kernel/System/File.pm (find package of file)\n";
     print
-        "       otrs.PackageManager.pl -a exportfile -p Kernel/System/File.opm -d /export/to/path/ (export files of package)\n";
-    print "   user (remote):\n";
-    print "       otrs.PackageManager.pl -a list-repository\n";
-    print "       otrs.PackageManager.pl -a install -p online:Package\n";
+        "   otrs.PackageManager.pl -a exportfile -p Kernel/System/File.opm -d /export/to/path/ (export files of package)\n";
+    print " user (remote):\n";
+    print "   otrs.PackageManager.pl -a list-repository\n";
+    print "   otrs.PackageManager.pl -a install -p online:Package\n";
     print
-        "       otrs.PackageManager.pl -a install -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
-    print "       otrs.PackageManager.pl -a upgrade -p online:Package\n";
+        "   otrs.PackageManager.pl -a install -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
+    print "   otrs.PackageManager.pl -a upgrade -p online:Package\n";
     print
-        "       otrs.PackageManager.pl -a upgrade -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
-    print "   developer: \n";
-    print "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm\n";
+        "   otrs.PackageManager.pl -a upgrade -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
+    print " developer: \n";
+    print "   otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm\n";
     print
-        "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -v 1.2.3 (define version)\n";
+        "   otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -v 1.2.3 (define version)\n";
+    print "   otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -d module-home-path\n";
     print
-        "       otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -d module-home-path\n";
-    print "       otrs.PackageManager.pl -a index -d /path/to/repository/\n";
+        "   otrs.PackageManager.pl -a build -p /path/to/Package-1.0.0.sopm -o location-of-opm-file\n";
+    print "   otrs.PackageManager.pl -a index -d /path/to/repository/\n";
     exit 1;
 }
 my $FileString = '';
@@ -250,7 +251,7 @@ if ( $Opts{a} eq 'exportfile' ) {
     print "+----------------------------------------------------------------------------+\n";
     print "| Export files of:\n";
     print "| Package: $Opts{p}\n";
-    print "| To:      $Opts{'d'}\n";
+    print "| To:      $Opts{d}\n";
     print "+----------------------------------------------------------------------------+\n";
     $CommonObject{PackageObject}->PackageExport(
         String => $String,
@@ -269,6 +270,7 @@ if ( $Opts{a} eq 'build' ) {
         print STDERR "ERROR: the given version ($Opts{v}) is invalid.\n";
         exit 1;
     }
+
     if ( !-e $Opts{o} ) {
         print STDERR "ERROR: $Opts{o} doesn't exist!\n";
         exit 1;
@@ -286,11 +288,11 @@ if ( $Opts{a} eq 'build' ) {
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
     my $Content  = $CommonObject{PackageObject}->PackageBuild(%Structure);
     my $File     = $CommonObject{MainObject}->FileWrite(
-        Location   => $Opts{'o'} . '/' . $Filename,
+        Location   => $Opts{o} . '/' . $Filename,
         Content    => \$Content,
-        Mode       => 'utf8',                         # binmode|utf8
-        Type       => 'Local',                        # optional - Local|Attachment|MD5
-        Permission => '644',                          # unix file permissions
+        Mode       => 'utf8',                       # binmode|utf8
+        Type       => 'Local',                      # optional - Local|Attachment|MD5
+        Permission => '644',                        # unix file permissions
     );
     if ($File) {
         print "Writing $File\n";
