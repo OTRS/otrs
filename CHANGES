@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1459 2010-10-12 13:59:22 martin Exp $
+# $Id: CHANGES,v 1.1460 2010-10-12 15:04:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -613,6 +613,8 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.9 (2010/??/??)
+ - 2010-10-12 Fixed bug#6087 - Search template name is brocken if & or ; is used.
+ - 2010-09-30 Fixed bug#6016 - AgentTicketZoom is vunerable to XSS attacks from HTML e-mails.
  - 2010-09-22 Fixed bug#5903 - E-mail notification links don't contain <a href... tags.
  - 2010-09-29 Fixed bug#6030 - Event notifications get's fired several times on
     event "TicketFreeTextUpdate".
