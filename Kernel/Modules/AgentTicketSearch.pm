@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.100 2010-09-24 07:01:53 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.101 2010-10-12 15:02:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1051,30 +1051,30 @@ sub Run {
 
             # show ticket's
             my $LinkPage = 'Filter='
-                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-                . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
+                . $Self->{LayoutObject}->LinkEncode( $Self->{Filter} )
+                . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
+                . ';SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
+                . ';OrderBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
                 . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
-                . '&';
+                . ';';
             my $LinkSort = 'Filter='
-                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+                . $Self->{LayoutObject}->LinkEncode( $Self->{Filter} )
+                . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
                 . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
-                . '&';
+                . ';';
             my $LinkFilter = 'TakeLastSearch=1;Subaction=Search;Profile='
-                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
-                . '&';
+                . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} )
+                . ';';
             my $LinkBack = 'Subaction=LoadProfile;Profile='
-                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
+                . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} )
                 . ';TakeLastSearch=1&';
 
             my $FilterLink
-                = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-                . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
-                . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+                = 'SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
+                . ';OrderBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
+                . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
                 . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
-                . '&';
+                . ';';
             $Output .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs => \@ViewableTicketIDs,
                 Total     => scalar @ViewableTicketIDs,
