@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.128 2010-10-11 17:06:56 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.129 2010-10-12 15:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -548,9 +548,10 @@ sub MaskAgentZoom {
                 Config => $Menus{$Menu},
             );
             next if !$Item;
-            if ( $Menus{$Menu}->{Target} eq 'PopUp' ) {
-                $Item->{Class} = 'AsPopup';
+            if ( $Menus{$Menu}->{PopupType} ) {
+                $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
             }
+
             $Self->{LayoutObject}->Block(
                 Name => 'TicketMenu',
                 Data => $Item,
@@ -1247,7 +1248,7 @@ sub _ArticleItem {
                         %Ticket, %Article, %AclAction,
                         StandardResponsesStrg => $StandardResponsesStrg,
                         Name                  => 'Reply',
-                        Class                 => 'AsPopup',
+                        Class                 => 'AsPopup PopupType_TicketAction',
                         Action                => 'AgentTicketCompose',
                         FormID                => 'Reply',
                         ResponseElementID     => 'ResponseID',
@@ -1301,7 +1302,7 @@ sub _ArticleItem {
                             %Ticket, %Article, %AclAction,
                             StandardResponsesStrg => $StandardResponsesStrg,
                             Name                  => 'Reply All',
-                            Class                 => 'AsPopup',
+                            Class                 => 'AsPopup PopupType_TicketAction',
                             Action                => 'AgentTicketCompose',
                             FormID                => 'ReplyAll',
                             ReplyAll              => 1,
@@ -1358,7 +1359,7 @@ sub _ArticleItem {
                     Data => {
                         %Ticket, %Article, %AclAction,
                         Name  => 'Forward',
-                        Class => 'AsPopup',
+                        Class => 'AsPopup PopupType_TicketAction',
                         Link =>
                             'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1405,7 +1406,7 @@ sub _ArticleItem {
                     Data => {
                         %Ticket, %Article, %AclAction,
                         Name  => 'Bounce',
-                        Class => 'AsPopup',
+                        Class => 'AsPopup PopupType_TicketAction',
                         Link =>
                             'Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1460,7 +1461,7 @@ sub _ArticleItem {
                 Data => {
                     %Ticket, %Article, %AclAction,
                     Name  => 'Phone Call Outbound',
-                    Class => 'AsPopup',
+                    Class => 'AsPopup PopupType_TicketAction',
                     Link  => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
                 },
             );
@@ -1502,7 +1503,7 @@ sub _ArticleItem {
                 Data => {
                     %Ticket, %Article, %AclAction,
                     Name  => 'Print',
-                    Class => 'AsPopup',
+                    Class => 'AsPopup PopupType_TicketAction',
                     Link =>
                         'Action=AgentTicketPrint;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                 },
@@ -1531,7 +1532,7 @@ sub _ArticleItem {
                 Data => {
                     %Ticket, %Article, %AclAction,
                     Name  => 'Plain Format',
-                    Class => 'AsPopup',
+                    Class => 'AsPopup PopupType_TicketAction',
                     Link  => $Link,
                 },
             );

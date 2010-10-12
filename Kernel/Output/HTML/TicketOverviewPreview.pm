@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.37 2010-10-12 10:47:26 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.38 2010-10-12 15:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,6 +309,7 @@ sub _Show {
                 HTML        => $Output,
                 ID          => $Item->{ID},
                 Target      => $Item->{Target},
+                PopupType   => $Menus{$Menu}->{PopupType},
                 Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Description => $Item->{Description},
             };

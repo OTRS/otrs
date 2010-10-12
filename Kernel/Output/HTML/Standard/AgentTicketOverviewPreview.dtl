@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.54 2010-09-21 13:15:16 mb Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.55 2010-10-12 15:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,7 +175,7 @@
 
         if ($(this).val() > 0) {
             var URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-            Core.UI.Popup.OpenPopup(URL, 'Action');
+            Core.UI.Popup.OpenPopup(URL, 'TicketAction');
             // reset the select box so that it can be used again from the same window
             $(this).val('0');
         }
@@ -255,19 +255,21 @@ $Data{"Body"}
 //]]></script>
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
-    <script type="text/javascript">//<![CDATA[
-        Core.UI.StaticTableControl($('#OverviewControl'));
-        $('.MasterAction').bind('click', function (Event) {
-            window.location = $(this).find('.MasterActionLink').attr('href');
-        });
-        Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
-    //]]></script>
+<script type="text/javascript">//<![CDATA[
+    Core.UI.StaticTableControl($('#OverviewControl'));
+    $('.MasterAction').bind('click', function (Event) {
+        window.location = $(this).find('.MasterActionLink').attr('href');
+    });
+    Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
+//]]></script>
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
 $('a.AsPopup').bind('click', function (Event) {
-Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-return false;
+    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+    return false;
 });
+//]]></script>
 <!-- dtl:js_on_document_complete -->

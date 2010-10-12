@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.396 2010-10-12 13:59:21 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.397 2010-10-12 15:51:00 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5823,6 +5823,7 @@ $QData{"Body"}
                 <Item Key="Action"></Item>
                 <Item Key="Link">$Env{"LastScreenOverview"};TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5850,7 +5851,8 @@ $QData{"Body"}
                 <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketHistory</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5866,7 +5868,8 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketPrint</Item>
                 <Item Key="Link">Action=AgentTicketPrint;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="LinkParam">target="print"</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5881,7 +5884,8 @@ $QData{"Body"}
                 <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5896,7 +5900,8 @@ $QData{"Body"}
                 <Item Key="Description">Change the ticket free fields!</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
                 <Item Key="Link">Action=AgentTicketFreeText;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5911,7 +5916,8 @@ $QData{"Body"}
                 <Item Key="Description">Link this ticket to an other objects!</Item>
                 <Item Key="Action">AgentLinkObject</Item>
                 <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5926,7 +5932,8 @@ $QData{"Body"}
                 <Item Key="Description">Change the ticket owner!</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5941,7 +5948,8 @@ $QData{"Body"}
                 <Item Key="Description">Change the ticket responsible!</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5956,7 +5964,8 @@ $QData{"Body"}
                 <Item Key="Description">Change the ticket customer!</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5971,7 +5980,8 @@ $QData{"Body"}
                 <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5986,7 +5996,8 @@ $QData{"Body"}
                 <Item Key="Description">Merge this ticket!</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6001,7 +6012,8 @@ $QData{"Body"}
                 <Item Key="Description">Set this ticket to pending!</Item>
                 <Item Key="Action">AgentTicketPending</Item>
                 <Item Key="Link">Action=AgentTicketPending;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6029,7 +6041,8 @@ $QData{"Body"}
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6045,6 +6058,7 @@ $QData{"Body"}
                 <Item Key="Description">Delete this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6060,6 +6074,7 @@ $QData{"Body"}
                 <Item Key="Description">Mark as Spam!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6073,6 +6088,7 @@ $QData{"Body"}
                 <Item Key="Name">Lock</Item>
                 <Item Key="Action">AgentTicketLock</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6088,6 +6104,7 @@ $QData{"Body"}
                 <Item Key="Description">Look into a ticket!</Item>
                 <Item Key="Link">Action=AgentTicketZoom;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6102,7 +6119,8 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketHistory</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6117,7 +6135,8 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6132,7 +6151,8 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6147,7 +6167,8 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="Target">PopUp</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6176,6 +6197,7 @@ $QData{"Body"}
                 <Item Key="Description">Delete this ticket!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6191,6 +6213,7 @@ $QData{"Body"}
                 <Item Key="Description">Mark as Spam!</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
+                <Item Key="PopupType"></Item>
             </Hash>
         </Setting>
     </ConfigItem>

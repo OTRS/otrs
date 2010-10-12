@@ -2,7 +2,7 @@
 // Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.ActionRow.js,v 1.3 2010-08-19 13:36:46 martin Exp $
+// $Id: Core.UI.ActionRow.js,v 1.4 2010-10-12 15:51:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -116,9 +116,9 @@ Core.UI.ActionRow = (function (TargetNS) {
                         if (typeof Value.Target === 'undefined' || Value.Target === "") {
                             ActionRowElement.attr('href', Value.Link);
                         }
-                        else if (Value.Target === "PopUp") {
+                        if (Value.PopupType) {
                             ActionRowElement.bind('click.Popup', function () {
-                                Core.UI.Popup.OpenPopup(Value.Link, 'Action');
+                                Core.UI.Popup.OpenPopup(Value.Link, Value.PopupType);
                                 return false;
                             });
                         }
@@ -187,7 +187,7 @@ Core.UI.ActionRow = (function (TargetNS) {
                 $SelectedTickets.each(function () {
                     TicketIDs += TicketIDParameter + $(this).val() + ";";
                 });
-                Core.UI.Popup.OpenPopup(Core.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'Action');
+                Core.UI.Popup.OpenPopup(Core.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'TicketAction');
             }
             return false;
         });

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.164 2010-10-06 10:50:46 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.165 2010-10-12 15:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -160,7 +160,9 @@
 
                     <fieldset class="TableLike FixedLabelSmall">
                         <label>$Text{"CustomerID"}:</label>
-                        <p class="Value"><a href="$Config{"CustomerDBLink"}" class="OpenAsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a></p>
+                        <p class="Value">
+                            <a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a>
+                        </p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Accounted time"}:</label>
@@ -281,7 +283,7 @@
             <div class="ActionRow">
                 <ul class="Actions">
 <!-- dtl:block:TicketMenu -->
-                    <li class="$QData{"Class"}">
+                    <li>
                         <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:TicketMenu -->
@@ -304,8 +306,8 @@
                     </li>
 <!-- dtl:block:MoveLink -->
 <!-- dtl:block:MoveForm -->
-                    <li class="AsPopup">
-                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsTicketActionPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
                     </li>
 <!-- dtl:block:MoveForm -->
                 </ul>
@@ -482,7 +484,7 @@ $Data{"ArticleItems"}
         <div class="LightRow Bottom">
             <ul class="Actions">
 <!-- dtl:block:ArticleMenu-->
-                <li class="AsPopup">
+                <li>
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                 </li>
 <!-- dtl:block:ArticleMenu-->
@@ -504,7 +506,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 
     if ($(this).val() > 0) {
         URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'Action');
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
         // reset the select box so that it can be used again from the same window
         $(this).val('0');
     }
@@ -519,7 +521,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 
     if ($(this).val() > 0) {
         URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'Action');
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
         // reset the select box so that it can be used again from the same window
         $(this).val('0');
     }
@@ -609,9 +611,5 @@ $Data{"Body"}
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('$Env{"UserTicketZoomArticleTableHeight"}', 10)});
-    $('ul.Actions a.AsPopup, .OpenAsPopup').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-        return false;
-    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

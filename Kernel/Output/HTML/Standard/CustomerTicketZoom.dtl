@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.96 2010-09-02 14:28:16 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.97 2010-10-12 15:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
-                <span title="$Text{"$Data{"StateTypeGeneric"}"}" id="Flag" class="$Data{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
+                <span title="$Text{"$Data{"StateTypeGeneric"}"}" id="Flag" class="$QData{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
                 $QData{"Title","40"}
                 <span class="TicketHook">$QData{"TicketNumber"}</span>
             </h2>
@@ -64,7 +64,7 @@
 #                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
 #<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:Print -->
-                <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$QData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
+                <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$LQData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
 <!-- dtl:block:Print -->
             </ul>
             <div class="Clear"></div>
@@ -201,7 +201,7 @@
 <script type="text/javascript">
     Core.Customer.TicketZoom.Init();
     $('a.AsPopup').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
         return false;
     });
 </script>

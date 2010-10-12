@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.23 2010-10-05 07:16:50 mg Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.24 2010-10-12 15:51:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,14 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $('#ArticleItems .WidgetBox').addClass('Loading');
         Core.AJAX.ContentUpdate($('#ArticleItems'), ArticleURL, function () {
             $('#ArticleItems a.AsPopup').bind('click', function (Event) {
-                Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+                var Matches,
+                    PopupType = 'TicketAction';
+
+                Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+                if (Matches) {
+                    PopupType = Matches[1];
+                }
+                Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
                 return false;
             });
 
@@ -239,6 +246,19 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         if (!ZoomExpand) {
             TargetNS.CheckURLHash();
         }
+
+        $('a.AsPopup').bind('click', function (Event) {
+            var Matches,
+                PopupType = 'TicketAction';
+
+            Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+            if (Matches) {
+                PopupType = Matches[1];
+            }
+
+            Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+            return false;
+        });
     };
 
     return TargetNS;
