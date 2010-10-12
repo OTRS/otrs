@@ -2,7 +2,7 @@
 // Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Data.js,v 1.1 2010-07-13 09:46:41 mg Exp $
+// $Id: Core.Data.js,v 1.2 2010-10-12 15:46:58 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,7 @@ Core.Data = (function (TargetNS) {
 
         return true;
     };
-    
+
     /**
      * @function
      * @description
@@ -131,6 +131,6 @@ Core.Data = (function (TargetNS) {
         }
         return TempObject;
     };
-    
+
     return TargetNS;
 }(Core.Data || {}));
