@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.315 2010-10-04 15:22:19 mg Exp $
+# $Id: Layout.pm,v 1.316 2010-10-12 15:35:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.315 $) [1];
+$VERSION = qw($Revision: 1.316 $) [1];
 
 =head1 NAME
 
@@ -1487,6 +1487,13 @@ sub Footer {
     if ( $Self->{ConfigObject}->Get('NewTicketInNewWindow::Enabled') ) {
         $Self->Block(
             Name => 'NewTicketInNewWindow'
+        );
+    }
+
+    # Banner
+    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
+        $Self->Block(
+            Name => 'Banner'
         );
     }
 
@@ -3078,6 +3085,13 @@ sub CustomerLogin {
         );
     }
 
+    # Banner
+    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
+        $Self->Block(
+            Name => 'Banner'
+        );
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
 
@@ -3226,6 +3240,13 @@ sub CustomerFooter {
                 VacationDays => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
+        );
+    }
+
+    # Banner
+    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
+        $Self->Block(
+            Name => 'Banner'
         );
     }
 
@@ -4785,6 +4806,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.315 $ $Date: 2010-10-04 15:22:19 $
+$Revision: 1.316 $ $Date: 2010-10-12 15:35:53 $
 
 =cut
