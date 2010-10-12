@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.54 2010-10-01 12:22:54 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.55 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                         </li>
 <!-- dtl:block:ContentSettings -->
                     </ul>
-                    <button class="button" accesskey="g" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                    <button class="button" accesskey="g" title="$Text{"Save"} (g)" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                 </form>
             </div>
         </div>

@@ -2,7 +2,7 @@
 # AgentStatsImport.dtl - provides HTML form for import a stat
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsImport.dtl,v 1.13 2010-09-06 22:34:04 en Exp $
+# $Id: AgentStatsImport.dtl,v 1.14 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@
                     </fieldset>
 
                     <p class="Center">
-                        <button class="Primary" accesskey="g" type="submit" value="$Text{"Import"}">$Text{"Import"}</button>
+                        <button class="Primary" accesskey="g" title="$Text{"Import"} (g)" type="submit" value="$Text{"Import"}">$Text{"Import"}</button>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Overview">$Text{"Cancel"}</a>
                     </p>
                 </form>

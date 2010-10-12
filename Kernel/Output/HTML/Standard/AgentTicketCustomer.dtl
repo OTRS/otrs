@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.31 2010-10-06 13:54:30 mg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.32 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@ $Include{"AgentCustomerSearch"}
             <div id="CustomerTickets"></div>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submit" accesskey="g" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            <button class="Primary" id="submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
         </div>
     </div>
 </form>

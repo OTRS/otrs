@@ -2,7 +2,7 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.25 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.26 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,7 +150,7 @@
 <!-- dtl:block:Attribute -->
                         <div class="Field SpacingTop">
                             <button type="submit" name="Back" value="$Text{"...Back"}">$Text{"...Back"}</button>
-                            <button class="Primary" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g">$Text{"Next..."}</button>
+                            <button class="Primary" type="submit" name="Next" value="$Text{"Next..."}" accesskey="g" title="$Text{"Next..."} (g)">$Text{"Next..."}</button>
                         </div>
                     </fieldset>
                 </form>

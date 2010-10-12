@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.42 2010-10-06 13:54:30 mg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.43 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
+            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
         </div>
     </div>
 </form>

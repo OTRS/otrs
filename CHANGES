@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1462 2010-10-12 15:51:01 mg Exp $
+# $Id: CHANGES,v 1.1463 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,10 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-12 Fixed bug#6058 - Keyboard shortcuts should be shown via tooltip.
  - 2010-10-12 Added ability to open ticket history and other ticket actions
     in parallel.
- - 2010-10-11 Fixed bug#6047 - Secure::DisableBanner does not work.
+ - 2010-10-12 Fixed bug#6047 - Secure::DisableBanner does not work.
  - 2010-10-11 Fixed bug#6079 - Unread tickets does mark as readed only second time.
  - 2010-10-11 Fixed bug#5921 - RedHat rc script does not ignore ".save" files
     when rebuilding the cron jobs.

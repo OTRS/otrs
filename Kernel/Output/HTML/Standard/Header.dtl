@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.101 2010-09-24 07:37:53 martin Exp $
+# $Id: Header.dtl,v 1.102 2010-10-12 16:07:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ $Include{"HTMLHead"}
 <!-- dtl:block:ToolBar -->
         <ul id="ToolBar">
 <!-- dtl:block:ToolBarItem -->
-            <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Description"}"} $QData{"Count"}"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
+            <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Description"}"} $QData{"Count"} ($QData{"AccessKey"})"><span class="Counter">$QData{"Count"}</span> $Text{"Description"}<span class="Gloss"></span></a></li>
 <!-- dtl:block:ToolBarItem -->
 <!-- dtl:block:ToolBarSearchProfile -->
             <li class="Extended SearchProfile">
@@ -38,7 +38,7 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="Subaction" value="LoadProfile"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     $Data{"Link"}
-#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$Data{"Description"}"}  ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
 <!-- dtl:js_on_document_complete -->
@@ -59,7 +59,7 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}"/>
-#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"} ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
                 </form>
             </li>
 <!-- dtl:block:ToolBarSearchFulltext -->
