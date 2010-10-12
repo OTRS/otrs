@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.36 2010-09-01 12:34:46 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.37 2010-10-12 10:47:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
+use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +36,7 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
 
     return $Self;
 }
@@ -717,27 +719,55 @@ sub _Show {
                         },
                     );
 
-                    # get StandardResponsesStrg
-                    $StandardResponses{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
-                    $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseIDAll' . $ArticleItem->{ArticleID},
-                        Data => \%StandardResponses,
-                    );
+                    # check if reply all is needed
+                    my $Recipients = '';
+                    for my $Key (qw(From To Cc)) {
+                        next if !$ArticleItem->{$Key};
+                        if ($Recipients) {
+                            $Recipients .= ', ';
+                        }
+                        $Recipients .= $ArticleItem->{$Key};
+                    }
+                    my $RecipientCount = 0;
+                    if ($Recipients) {
+                        my $EmailParser = Kernel::System::EmailParser->new(
+                            %{$Self},
+                            Mode => 'Standalone',
+                        );
+                        my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
+                        for my $Address (@Addresses) {
+                            my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                                Address => $EmailParser->GetEmailAddress( Email => $Address ),
+                            );
+                            next if $IsLocal;
+                            $RecipientCount++;
+                        }
+                    }
+                    if ( $RecipientCount > 1 ) {
 
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticlePreviewActionRowItem',
-                        Data => {
-                            %{$ArticleItem},
-                            StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => 'Reply All',
-                            Class                 => 'AsPopup',
-                            Action                => 'AgentTicketCompose',
-                            FormID                => 'ReplyAll' . $ArticleItem->{ArticleID},
-                            ReplyAll              => 1,
-                        },
-                    );
+                        # get StandardResponsesStrg
+                        $StandardResponses{0}
+                            = '- '
+                            . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                        $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
+                            Name => 'ResponseID',
+                            ID   => 'ResponseIDAll' . $ArticleItem->{ArticleID},
+                            Data => \%StandardResponses,
+                        );
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticlePreviewActionRowItem',
+                            Data => {
+                                %{$ArticleItem},
+                                StandardResponsesStrg => $StandardResponsesStrg,
+                                Name                  => 'Reply All',
+                                Class                 => 'AsPopup',
+                                Action                => 'AgentTicketCompose',
+                                FormID                => 'ReplyAll' . $ArticleItem->{ArticleID},
+                                ReplyAll              => 1,
+                            },
+                        );
+                    }
                 }
             }
         }
