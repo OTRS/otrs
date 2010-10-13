@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.43 2010-09-29 10:09:31 mg Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.44 2010-10-13 14:52:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,7 +78,18 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Dialog.RegisterContentDialog($('#ShowContextSettingsDialog'), $('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true, [{Label: '$JSText{"Submit"}', Type: 'Submit', Class: 'Primary'}]);
+$('#ShowContextSettingsDialog').bind('click', function (Event) {
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true,
+        [
+            {
+                Label: '$JSText{"Submit"}',
+                Type: 'Submit',
+                Class: 'Primary'}
+        ]);
+    Event.preventDefault();
+    Event.stopPropagation();
+    return false;
+});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContextSettings -->

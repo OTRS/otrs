@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.12 2010-09-03 12:17:48 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.13 2010-10-13 14:52:05 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -419,65 +419,6 @@ Core.UI.Dialog = (function (TargetNS) {
         if (BackupHTML && BackupHTMLSelector) {
             $(BackupHTMLSelector).append(BackupHTML);
         }
-    };
-
-    /**
-     * @function
-     * @description
-     *      Registers the click event for the dialogs.
-     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param {Object} Params The dialog parameters
-     * @return nothing
-     */
-    TargetNS.RegisterDialog = function ($Selector, Params) {
-        $Selector.click(function (event) {
-            ShowDialog(Params);
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        });
-    };
-
-    /**
-     * @function
-     * @description
-     *      Registers the click event for content dialogs.
-     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param {string} HTML The content HTML which should be shown
-     * @param {string} Title The title of the dialog
-     * @param {string} PositionTop The top position the dialog is positioned initially
-     * @param {string} PositionLeft The left position the dialog is positioned initially
-     * @param {boolean} Modal If defined and set to true, an overlay is shown for a modal dialog
-     * @return nothing
-     */
-    TargetNS.RegisterContentDialog = function ($Selector, HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
-        $Selector.click(function (event) {
-            TargetNS.ShowContentDialog(HTML, Title, PositionTop, PositionLeft, Modal, Buttons);
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        });
-    };
-
-    /**
-     * @function
-     * @description
-     *      Registers the event for the special attachment dialog.
-     * @param {jQueryObject} $Selector The jQuery Object on which the click event for the dialog should be registered
-     * @param {string} HTMLString The HTML data to be shown in the dialog, can also be the ID of a HTML containing element
-     * @return nothing
-     */
-    TargetNS.RegisterAttachmentDialog = function ($Selector) {
-        $Selector.click(function (event) {
-            var Position, HTML, $HTMLObject;
-            if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
-                Position = $(this).offset();
-                Core.UI.Dialog.ShowContentDialog($('#' + $(this).attr('rel'))[0].innerHTML, 'Attachments', Position.top, parseInt(Position.left, 10) + 25);
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        });
     };
 
     return TargetNS;
