@@ -3,7 +3,7 @@
  * with it's toolbar, the userbar and the whole main navigation
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -422,7 +422,7 @@
 }
 
 .RTL #Navigation > .Active .Footer {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 9px;
 }
 
@@ -510,7 +510,7 @@
 
 #Navigation > .Active .Active > div {
     position: absolute;
-    top:0px;
+    top 0;
     z-index: 1;
     display: block;
 }

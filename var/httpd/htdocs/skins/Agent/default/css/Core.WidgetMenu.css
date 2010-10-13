@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -155,13 +155,13 @@
  */
 ul.ContextFunctions {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
 }
 
 .RTL ul.ContextFunctions {
     right: auto;
-    left: 0px;
+    left: 0;
 }
 
 h1 ul.ContextFunctions {
@@ -254,12 +254,12 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .DataSetNavigation li:first-child {
     background: transparent url(../img/tab_isolator.png) no-repeat 22px 6px;
-    margin-left: 0px;
+    margin-left: 0;
     width: 24px;
 }
 
 .RTL .DataSetNavigation li:first-child {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .DataSetNavigation li:first-child a {
@@ -285,7 +285,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .RTL .ControlRow .DataSetNavigation + h2 {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 60px;
 }
 
@@ -345,13 +345,13 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li:first-child {
-    margin-left: 0px;
-    padding-left: 0px;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .RTL .Actions li:first-child {
-    margin-right: 0px;
-    padding-right: 0px;
+    margin-right: 0;
+    padding-right: 0;
     background: none;
 }
 
@@ -545,7 +545,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .LightRow.Bottom .Actions li span input[type="checkbox"] {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 /**
@@ -558,7 +558,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .RTL .Filter {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 6px;
     float: right;
 }
@@ -592,7 +592,7 @@ ul.ContextFunctions li:last-child:hover > a {
  */
 .Pagination {
     float: right;
-    margin-right: 0px;
+    margin-right: 0;
     font-size: 11px;
 }
 

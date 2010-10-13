@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -33,7 +33,7 @@
 
 .OverviewBox > .Fixed {
     position: fixed;
-    top: 0px;
+    top: 0;
 }
 
 .OverviewControl > div {
@@ -163,7 +163,7 @@
 
 .RTL .OverviewHeaderMediumLarge div.IconContainer {
     float: right;
-    padding-left: 0px;
+    padding-left: 0;
     padding-right: 4px;
     background-position: bottom left;
 }
@@ -185,7 +185,7 @@
 }
 
 .RTL .OverviewHeaderMediumLarge div.IconContainer span.Flag {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 13px;
 }
 
@@ -195,7 +195,7 @@
 }
 
 .RTL .OverviewHeaderMediumLarge div.Filter {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 55px;
 }
 

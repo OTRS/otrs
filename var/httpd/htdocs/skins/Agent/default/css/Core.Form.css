@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -307,7 +307,7 @@ fieldset.TableLike.FixedLabel > .Value {
     margin-left: 170px;
     margin-right: 0;
     padding-left: 17px;
-    padding-right: 0px;
+    padding-right: 0;
 }
 
 .RTL fieldset.TableLike.FixedLabel > .Field,

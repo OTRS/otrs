@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,13 +19,13 @@
 
 .QueueOverview {
     font-size: 12px;
-    margin: 0px 16px 10px 8px;
-    padding: 0px 0px 4px 0px;
+    margin: 0 16px 10px 8px;
+    padding: 0 0 4px 0;
     color: gray;
 }
 
 .RTL .QueueOverview {
-    margin: 0px 8px 10px 16px;
+    margin: 0 8px 10px 16px;
 }
 
 .QueueOverviewList {

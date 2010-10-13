@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.26 $
+ * @version     $Revision: 1.27 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -186,7 +186,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetBox > .Content.AutoHeight {
-    min-height: 0px;
+    min-height: 0;
 }
 
 /**
@@ -458,8 +458,8 @@ ul.Tablelike li.Header + li {
     margin: 0 -4px 0 0;
     -moz-border-radius: 3px 0 0 3px;
     -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
     -webkit-border-bottom-left-radius: 3px;
     border-radius: 3px 0 0 3px;
     text-shadow: 0 1px 0 #FFF;
