@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.162 2010-10-13 09:29:03 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.163 2010-10-13 09:57:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1678,22 +1678,19 @@ sub _MaskPhoneNew {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Param{TimeUnitsRequired} = (
-            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-            ? 'Validate_Required'
-            : ''
-        );
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnitsLabelMandatory',
                 Data => \%Param,
             );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
         }
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnitsLabel',
                 Data => \%Param,
             );
+            $Param{TimeUnitsRequired} = '';
         }
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
