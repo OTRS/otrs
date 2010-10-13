@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.22 2010-07-16 13:45:37 mg Exp $
+# $Id: AdminGroup.dtl,v 1.23 2010-10-13 15:28:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Note"}</h2>
+                <h2>$Text{"Hint"}</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">

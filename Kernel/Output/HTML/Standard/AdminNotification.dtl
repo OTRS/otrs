@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.21 2010-08-11 10:56:29 mg Exp $
+# $Id: AdminNotification.dtl,v 1.22 2010-10-13 15:28:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ $Include{"RichTextEditor"}
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Note"}</h2>
+                <h2>$Text{"Hint"}</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">

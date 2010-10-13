@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.16 2010-09-09 09:11:00 mg Exp $
+# $Id: AdminPGP.dtl,v 1.17 2010-10-13 15:28:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,9 @@
         </div>
 
         <div class="WidgetSimple">
-            <div class="Header"><h2>$Text{"Note"}</h2></div>
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
             <div class="Content">
                 <p class="FieldExplanation">
                     $Text{"In this way you can directly edit the keyring configured in SysConfig."}
