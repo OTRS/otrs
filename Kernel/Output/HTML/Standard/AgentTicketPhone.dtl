@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.114 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.115 2010-10-13 09:29:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ $Include{"AgentCustomerSearch"}
 #                    </div>
 #                    <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
-                    <label for="TypeID">$Text{"Type"}:</label>
+                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span>$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"TypeStrg"}
                         <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"A ticket should have a type!"}</p></div>
@@ -65,7 +65,7 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
 
-                    <label for="CustomerAutoComplete">$Text{"From customer"}:</label>
+                    <label class="Mandatory" for="CustomerAutoComplete"><span class="Marker">*</span>$Text{"From customer"}:</label>
                     <div class="Field">
 
                         <input id="CustomerAutoComplete" type="text" name="From" value="$QData{"From"}" class="W75pc AutocompleteOff Validate_Required $QData{"FromInvalid"}"/>
@@ -78,7 +78,7 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Dest">$Text{"To queue"}:</label>
+                    <label class="Mandatory" for="Dest"><span class="Marker">*</span>$Text{"To queue"}:</label>
                     <div class="Field">
                         $Data{"ToStrg"}
                         <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"A ticket should be associated with a queue!"}</p></div>
@@ -164,7 +164,7 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:ResponsibleSelection -->
 
-                    <label for="Subject">$Text{"Subject"}:</label>
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
                         <input class="W75pc Validate_Required $QData{"SubjectInvalid"}" type="text" name="Subject" id="Subject" value="$QData{"Subject"}"/>
                         <div id="SubjectError" class="TooltipErrorMessage">
@@ -190,7 +190,7 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">
 
 <!-- dtl:block:RichText -->
@@ -338,8 +338,13 @@ $Include{"RichTextEditor"}
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText2 -->
 
-<!-- dtl:block:TimeUnits -->
+<!-- dtl:block:TimeUnitsLabel -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
                     <div class="Field">
                         <input type="text" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" />
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>

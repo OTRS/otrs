@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.144 2010-09-08 12:30:17 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.145 2010-10-13 09:29:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1540,11 +1540,11 @@ sub _MaskEmailNew {
 
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{FromStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data           => \%NewTo,
-            Multiple       => 0,
-            Size           => 0,
-            Class          => 'Validate_Required' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
-            Name           => 'Dest',
+            Data     => \%NewTo,
+            Multiple => 0,
+            Size     => 0,
+            Class => 'Validate_RequiredDropdown' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
+            Name  => 'Dest',
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
         );
@@ -1552,7 +1552,7 @@ sub _MaskEmailNew {
     else {
         $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
-            Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid} || ' ',
+            Class      => 'Validate_RequiredDropdown' . $Param{Errors}->{DestinationInvalid} || ' ',
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
         );
@@ -1728,6 +1728,18 @@ sub _MaskEmailNew {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+        }
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,

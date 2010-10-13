@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.127 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.128 2010-10-13 09:29:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ $Include{"AgentCustomerSearch"}
 #                    <div class="Clear"></div>
 
 <!-- dtl:block:TicketType -->
-                    <label for="TypeID">$Text{"Type"}:</label>
+                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span>$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"TypeStrg"}
                         <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"A ticket should have a type!"}</p></div>
@@ -65,7 +65,7 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
 
-                    <label for="Dest">$Text{"From queue"}:</label>
+                    <label class="Mandatory" for="Dest"><span class="Marker">*</span>$Text{"From queue"}:</label>
                     <div class="Field">
                         $Data{"FromStrg"}
                         <div id="DestError" class="TooltipErrorMessage" ><p>$Text{"A ticket should be associated with a queue!"}</p></div>
@@ -81,7 +81,7 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="CustomerAutoComplete">$Text{"To"}:</label>
+                    <label class="Mandatory" for="CustomerAutoComplete"><span class="Marker">*</span>$Text{"To"}:</label>
                     <div class="Field">
                         <input id="CustomerAutoComplete" type="text" name="To" value="$QData{"To"}" class="W75pc AutocompleteOff Validate_Required $QData{"ToInvalid"}" />
                         <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
@@ -183,7 +183,7 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:Option -->
 
-                    <label for="Subject">$Text{"Subject"}:</label>
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" class="Validate_Required $QData{"SubjectInvalid"} W75pc " name="Subject" id="Subject" value="$QData{"Subject"}"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -206,7 +206,7 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">
 
 <!-- dtl:block:RichText -->
@@ -360,8 +360,13 @@ $Include{"RichTextEditor"}
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText2 -->
 
-<!-- dtl:block:TimeUnits -->
+<!-- dtl:block:TimeUnitsLabel -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
                     <div class="Field">
                         <input type="text" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
