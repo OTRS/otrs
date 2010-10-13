@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.34 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.35 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,7 @@
             <fieldset class="TableLike FixedLabel">
 
 <!-- dtl:block:Title -->
-                <label for="Title">$Text{"Title"}:</label>
+                <label class="Mandatory" for="Title"><span class="Marker">*</span>$Text{"Title"}:</label>
                 <div class="Field">
                     <input type="text" id="Title" name="Title" value="$QData{"Title"}" class="W75pc Validate_Required $QData{"TitleInvalid"}" />
                     <div id="TitleError" class="TooltipErrorMessage" ><p>$Text{"Title is required."}</p></div>
@@ -85,7 +85,7 @@
 <!-- dtl:block:Title -->
 
 <!-- dtl:block:Type -->
-                <label for="TypeID">$Text{"Type"}:</label>
+                <label class="Mandatory" for="TypeID"><span class="Marker">*</span>$Text{"Type"}:</label>
                 <div class="Field">
                     $Data{"TypeStrg"}
                     <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"A ticket should have a type!"}</p></div>
@@ -188,7 +188,7 @@
                 <div class="Clear"></div>
 <!-- dtl:block:InvolvedAgent -->
 
-                <label for="Subject">$Text{"Subject"}:</label>
+                <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                 <div class="Field">
                     <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $Data{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -204,7 +204,7 @@
                 <div class="Clear"></div>
 <!-- dtl:block:SpellCheck -->
 
-                <label for="RichText">$Text{"Text"}:</label>
+                <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                 <div class="RichTextField">
 
 <!-- dtl:block:RichText -->
@@ -359,8 +359,13 @@ $Include{"RichTextEditor"}
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText2 -->
 
-<!-- dtl:block:TimeUnits -->
+<!-- dtl:block:TimeUnitsLabel -->
                 <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
                 <div class="Field">
                     <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>

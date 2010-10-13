@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.72 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketForward.dtl,v 1.73 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,7 +51,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <label for="CustomerAutoComplete">$Text{"To"}:</label>
+                <label class="Mandatory" for="CustomerAutoComplete"><span class="Marker">*</span>$Text{"To"}:</label>
                 <div class="Field">
                     <input type="text" name="To" id="CustomerAutoComplete" value="$QData{"To"}" class="W50pc AutocompleteOff Validate_Required $QData{"ToInvalid"}"/>
                     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"You need a to: recipient!."}</p></div>
@@ -73,7 +73,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <label for="Subject">$Text{"Subject"}:</label>
+                <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                 <div class="Field">
                     <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -101,7 +101,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <label for="RichText">$Text{"Text"}:</label>
+                <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                 <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
@@ -214,8 +214,13 @@ $Include{"RichTextEditor"}
 #               <div class="Clear"></div>
 #<!-- dtl:block:TicketFreeTime2 -->
 
-<!-- dtl:block:TimeUnits -->
+<!-- dtl:block:TimeUnitsLabel -->
                 <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
                 <div class="Field">
                     <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W20pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>

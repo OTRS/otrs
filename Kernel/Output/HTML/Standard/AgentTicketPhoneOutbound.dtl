@@ -2,7 +2,7 @@
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.53 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.54 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@
 
             <div class="ContentColumn">
                 <fieldset class="TableLike FixedLabel">
-                    <label for="Subject">$Text{"Subject"}:</label>
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="Validate_Required $QData{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -57,7 +57,7 @@
                     </div>
 <!-- dtl:block:SpellCheck -->
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
@@ -181,8 +181,13 @@ $Include{"RichTextEditor"}
 #                </tr>
 #<!-- dtl:block:ArticleFreeText2 -->
 
-<!-- dtl:block:TimeUnits -->
+<!-- dtl:block:TimeUnitsLabel -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
                     <div class="Field">
                         <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>

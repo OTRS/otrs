@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.109 2010-10-04 08:20:34 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.110 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1286,11 +1286,20 @@ sub _Mask {
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        $Param{TimeUnitsRequired} = (
-            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-            ? 'Validate_Required'
-            : ''
-        );
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = '';
+        }
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,

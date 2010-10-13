@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.18 2010-09-08 12:30:17 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.19 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1336,6 +1336,18 @@ sub _Mask {
 
         # show time accounting box
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TimeUnitsLabelMandatory',
+                    Data => \%Param,
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TimeUnitsLabel',
+                    Data => \%Param,
+                );
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnits',
                 Data => \%Param,

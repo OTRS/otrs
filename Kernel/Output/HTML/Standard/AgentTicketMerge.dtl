@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.48 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketMerge.dtl,v 1.49 2010-10-13 12:06:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@
             <div class="Content">
                 <fieldset class="TableLike FixedLabel">
 
-                    <label for="MainTicketNumber">$Text{"Merge to"} $Config{"Ticket::Hook"}:</label>
+                    <label class="Mandatory" for="MainTicketNumber"><span class="Marker">*</span>$Text{"Merge to"} $Config{"Ticket::Hook"}:</label>
                     <div class="Field">
                         <input type="text" id="MainTicketNumber" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" class="Validate_Required $Data{"MainTicketNumberInvalid"} W33pc" />
                         <div id="MainTicketNumberError" class="TooltipErrorMessage"><p>$Text{"You need to use a ticket number!"}</p></div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="To">$Text{"To"}:</label>
+                    <label class="Mandatory" for="To"><span class="Marker">*</span>$Text{"To"}:</label>
                     <div class="Field">
                         <input type="text" id="To" name="To" value="$QData{"To"}" class="Validate_Required $Data{"ToInvalid"} W75pc"/>
                         <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Subject">$Text{"Subject"}:</label>
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">
 
 <!-- dtl:block:RichText -->
