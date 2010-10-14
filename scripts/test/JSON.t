@@ -2,7 +2,7 @@
 # scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.5 2010-08-31 09:26:00 mg Exp $
+# $Id: JSON.t,v 1.6 2010-10-14 09:25:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,14 +10,13 @@
 # --
 use strict;
 use warnings;
-use vars (qw($Self));
 
 use Kernel::System::JSON;
 
 # declare externally defined variables to avoid errors under 'use strict'
 use vars qw( $Self %Param );
 
-$Self->{JSONObject} = Kernel::System::JSON->new( %{$Self} );
+my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 # Tests for JSON encode method
 my @Tests = (
@@ -68,7 +67,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $JSON = $Self->{JSONObject}->Encode(
+    my $JSON = $JSONObject->Encode(
         Data     => $Test->{Input},
         SortKeys => 1,
     );
@@ -81,7 +80,7 @@ for my $Test (@Tests) {
 }
 
 # JSON encode not so simple
-my $JSON = $Self->{JSONObject}->Encode(
+my $JSON = $JSONObject->Encode(
     Data => [
         [ 1, 2, "Foo", "Bar" ],
         {
