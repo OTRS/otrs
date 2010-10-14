@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.5 2010-09-30 10:26:47 mg Exp $
+# $Id: uk.pm,v 1.6 2010-10-14 12:13:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -24,7 +24,7 @@ sub Data {
     # Last translation file sync: 2010-07-30 14:48:05
 
     # possible charsets
-    $Self->{Charset} = ['WINDOWS-1251', ];
+    $Self->{Charset} = ['WINDOWS-1251', 'cp1251'];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%M/%D/%Y %T';
     $Self->{DateFormatLong}      = '%T - %M/%D/%Y';
@@ -1971,7 +1971,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Прикріплені файли <-> Відповіді',
-        'Auto Responses <-> Queues' => 'Автовідповіді <-> Черга',
+        'Queues <-> Auto Responses' => 'Черга <-> Автовідповіді',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',

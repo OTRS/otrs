@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # --
-# $Id: ru.pm,v 1.99 2010-09-24 11:11:33 mg Exp $
+# $Id: ru.pm,v 1.100 2010-10-14 12:11:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1981,7 +1981,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Прикрепленные файлы <-> Ответы',
-        'Auto Responses <-> Queues' => 'Автоответы <-> Очередь',
+        'Queues <-> Auto Responses' => 'Очередь <-> Автоответы',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',

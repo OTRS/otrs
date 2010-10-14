@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.128 2010-09-23 11:45:59 martin Exp $
+# $Id: fr.pm,v 1.129 2010-10-14 12:12:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1981,7 +1981,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Pièces jointes <-> Réponses',
-        'Auto Responses <-> Queues' => 'Réponses automatiques <-> Files',
+        'Queues <-> Auto Responses' => 'Files <-> Réponses automatiques',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',

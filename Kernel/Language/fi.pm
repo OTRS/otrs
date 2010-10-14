@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.103 2010-09-23 11:42:42 martin Exp $
+# $Id: fi.pm,v 1.104 2010-10-14 12:11:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1976,7 +1976,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
-        'Auto Responses <-> Queues' => 'Autom. vastaukset <-> Jono',
+        'Queues <-> Auto Responses' => 'Jono <-> Autom. vastaukset',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',

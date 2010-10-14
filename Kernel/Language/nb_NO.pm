@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.93 2010-09-23 11:45:59 martin Exp $
+# $Id: nb_NO.pm,v 1.94 2010-10-14 12:11:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.93 $;
+$VERSION = q$Revision: 1.94 $;
 
 sub Data {
     my $Self = shift;
@@ -1978,7 +1978,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Vedlegg <-> Ferdigsvar',
-        'Auto Responses <-> Queues' => 'Autosvar <-> Mapper',
+        'Queues <-> Auto Responses' => 'Mapper <-> Autosvar',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',
