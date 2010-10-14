@@ -2,7 +2,7 @@
 # User.t - User tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.7 2010-06-22 22:00:52 dz Exp $
+# $Id: User.t,v 1.8 2010-10-14 13:05:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use Kernel::System::User;
 
-$Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+my $UserObject = Kernel::System::User->new( %{$Self} );
 
 # add users
 my $UserRand1 = 'example-user' . int( rand(1000000) );
@@ -25,7 +25,7 @@ $Self->{ConfigObject}->Set(
     Value => 0,
 );
 
-my $UserID1 = $Self->{UserObject}->UserAdd(
+my $UserID1 = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
     UserLogin     => $UserRand1,
@@ -39,7 +39,7 @@ $Self->True(
     'UserAdd()',
 );
 
-my %UserData = $Self->{UserObject}->GetUserData(
+my %UserData = $UserObject->GetUserData(
     UserID => $UserID1,
 );
 
@@ -64,7 +64,7 @@ $Self->Is(
     'GetUserData() - UserEmail',
 );
 
-my $Update = $Self->{UserObject}->UserUpdate(
+my $Update = $UserObject->UserUpdate(
     UserID        => $UserID1,
     UserFirstname => 'Firstname Test2',
     UserLastname  => 'Lastname Test2',
@@ -79,7 +79,7 @@ $Self->True(
     'UserUpdate()',
 );
 
-%UserData = $Self->{UserObject}->GetUserData(
+%UserData = $UserObject->GetUserData(
     UserID => $UserID1,
 );
 
@@ -105,7 +105,7 @@ $Self->Is(
 );
 
 # check token support
-my $Token = $Self->{UserObject}->TokenGenerate(
+my $Token = $UserObject->TokenGenerate(
     UserID => 1,
 );
 $Self->True(
@@ -113,7 +113,7 @@ $Self->True(
     "TokenGenerate() - $Token",
 );
 
-my $TokenValid = $Self->{UserObject}->TokenCheck(
+my $TokenValid = $UserObject->TokenCheck(
     Token  => $Token,
     UserID => 1,
 );
@@ -123,7 +123,7 @@ $Self->True(
     "TokenCheck() - $Token",
 );
 
-$TokenValid = $Self->{UserObject}->TokenCheck(
+$TokenValid = $UserObject->TokenCheck(
     Token  => $Token,
     UserID => 1,
 );
@@ -133,7 +133,7 @@ $Self->True(
     "TokenCheck() - $Token",
 );
 
-$TokenValid = $Self->{UserObject}->TokenCheck(
+$TokenValid = $UserObject->TokenCheck(
     Token  => $Token . '123',
     UserID => 1,
 );
@@ -144,7 +144,7 @@ $Self->True(
 );
 
 #check no out of office
-%UserData = $Self->{UserObject}->GetUserData(
+%UserData = $UserObject->GetUserData(
     UserID        => $UserID1,
     Valid         => 0,
     NoOutOfOffice => 0
@@ -155,7 +155,7 @@ $Self->False(
     'GetUserData() - OutOfOfficeMessage',
 );
 
-%UserData = $Self->{UserObject}->GetUserData(
+%UserData = $UserObject->GetUserData(
     UserID => $UserID1,
     Valid  => 0,
 
@@ -182,13 +182,13 @@ my %Values = (
 );
 
 for my $Key ( keys %Values ) {
-    $Self->{UserObject}->SetPreferences(
+    $UserObject->SetPreferences(
         UserID => $UserID1,
         Key    => $Key,
         Value  => $Values{$Key},
     );
 }
-%UserData = $Self->{UserObject}->GetUserData(
+%UserData = $UserObject->GetUserData(
     UserID        => $UserID1,
     Valid         => 0,
     NoOutOfOffice => 0
@@ -199,7 +199,7 @@ $Self->True(
     'GetUserData() - OutOfOfficeMessage',
 );
 
-%UserData = $Self->{UserObject}->GetUserData(
+%UserData = $UserObject->GetUserData(
     UserID => $UserID1,
     Valid  => 0,
 );
