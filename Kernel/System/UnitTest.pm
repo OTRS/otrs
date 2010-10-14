@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.40 2010-09-09 08:43:17 mg Exp $
+# $Id: UnitTest.pm,v 1.41 2010-10-14 16:34:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -126,6 +126,10 @@ sub new {
 
 Run all tests located in scripts/test/*.t and print result to stdout.
 
+    $UnitTestObject->Run(
+        Name => 'JSON:User:Auth',  # optional, control which tests to select
+    );
+
 =cut
 
 sub Run {
@@ -160,14 +164,16 @@ sub Run {
             }
         }
         $Self->{TestCount} = 0;
-        my $ConfigFile = $Self->{MainObject}->FileRead( Location => $File );
-        if ( !$ConfigFile ) {
+        my $UnitTestFile = $Self->{MainObject}->FileRead( Location => $File );
+        if ( !$UnitTestFile ) {
             $Self->True( 0, "ERROR: $!: $File" );
             print STDERR "ERROR: $!: $File\n";
         }
         else {
             $Self->_PrintHeadlineStart($File);
-            if ( !eval ${$ConfigFile} ) {
+
+            # HERE the actual tests are run!!!
+            if ( !eval ${$UnitTestFile} ) {
                 $Self->True( 0, "ERROR: Syntax error in $File: $@" );
                 print STDERR "ERROR: Syntax error in $File: $@\n";
             }
@@ -257,36 +263,36 @@ sub Run {
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
     $Self->_PrintSummary(%ResultSummary);
-    my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-    $XML .= "<otrs_test>\n";
-    $XML .= "<Summary>\n";
-    for my $Key ( sort keys %ResultSummary ) {
-        $ResultSummary{$Key} =~ s/&/&amp;/g;
-        $ResultSummary{$Key} =~ s/</&lt;/g;
-        $ResultSummary{$Key} =~ s/>/&gt;/g;
-        $ResultSummary{$Key} =~ s/"/&quot;/g;
-        $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
-    }
-    $XML .= "</Summary>\n";
-    for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
-        $XML .= "<Unit Name=\"$Key\">\n";
-        for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
-            my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
-            $Content =~ s/&/&amp;/g;
-            $Content =~ s/</&lt;/g;
-            $Content =~ s/>/&gt;/g;
-            $Content =~ s/"/&quot;/g;
-            $Content =~ s/'/&quot;/g;
-            $XML
-                .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
-        }
-        $XML .= "</Unit>\n";
-    }
-    $XML .= "</otrs_test>\n";
     if ( $Self->{Content} ) {
         print $Self->{Content};
     }
-    if ( $Self->{Output} eq 'XML' && $XML ) {
+
+    if ( $Self->{Output} eq 'XML' ) {
+        my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+        $XML .= "<otrs_test>\n";
+        $XML .= "<Summary>\n";
+        for my $Key ( sort keys %ResultSummary ) {
+            $ResultSummary{$Key} =~ s/&/&amp;/g;
+            $ResultSummary{$Key} =~ s/</&lt;/g;
+            $ResultSummary{$Key} =~ s/>/&gt;/g;
+            $ResultSummary{$Key} =~ s/"/&quot;/g;
+            $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
+        }
+        $XML .= "</Summary>\n";
+        for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
+            $XML .= "<Unit Name=\"$Key\">\n";
+            for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
+                my $Result  = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result};
+                my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
+                $Content =~ s/&/&amp;/g;
+                $Content =~ s/</&lt;/g;
+                $Content =~ s/>/&gt;/g;
+                $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
+            }
+            $XML .= "</Unit>\n";
+        }
+        $XML .= "</otrs_test>\n";
+
         print $XML;
     }
     return 1;
@@ -717,6 +723,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-09-09 08:43:17 $
+$Revision: 1.41 $ $Date: 2010-10-14 16:34:39 $
 
 =cut
