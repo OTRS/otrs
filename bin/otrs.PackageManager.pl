@@ -3,7 +3,7 @@
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.9 2010-10-11 16:22:43 martin Exp $
+# $Id: otrs.PackageManager.pl,v 1.10 2010-10-14 08:54:15 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,6 +31,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -41,7 +42,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -57,8 +58,8 @@ $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
 # get options
-my %Opts = ();
-getopt( 'hapofd', \%Opts );
+my %Opts;
+getopt( 'hapofdv', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
@@ -117,7 +118,7 @@ if ( $Opts{h} ) {
 }
 my $FileString = '';
 if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
-    if ( -e $Opts{'p'} ) {
+    if ( -e $Opts{p} ) {
         my $ContentRef = $CommonObject{MainObject}->FileRead(
             Location => $Opts{p},
             Mode     => 'utf8',      # optional - binmode|utf8

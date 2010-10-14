@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.69 2010-09-23 18:15:15 cg Exp $
+# $Id: AgentTicketMove.pm,v 1.70 2010-10-14 08:54:15 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -120,7 +120,7 @@ sub Run {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
     }
     for my $Parameter (qw(Year Month Day Hour Minute)) {
-        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || 0;
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
     if ( !$GetParam{DestQueueID} ) {
         $GetParam{OwnerAll} = 1;
