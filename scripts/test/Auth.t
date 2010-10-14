@@ -2,7 +2,7 @@
 # Auth.t - Authentication tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.t,v 1.1 2010-10-14 14:55:17 mg Exp $
+# $Id: Auth.t,v 1.2 2010-10-14 14:59:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,20 +33,17 @@ my $TestUserID;
 
 my $UserRand1 = 'example-user' . int( rand(1000000) );
 
-{
+# add test user
+my $GlobalUserObject = Kernel::System::User->new( %{$Self}, ConfigObject => $ConfigObject );
 
-    # add test user
-    my $UserObject = Kernel::System::User->new( %{$Self}, ConfigObject => $ConfigObject );
-
-    $TestUserID = $UserObject->UserAdd(
-        UserFirstname => 'Firstname Test1',
-        UserLastname  => 'Lastname Test1',
-        UserLogin     => $UserRand1,
-        UserEmail     => $UserRand1 . '@example.com',
-        ValidID       => 1,
-        ChangeUserID  => 1,
-    ) || die "Could not create test user";
-}
+$TestUserID = $GlobalUserObject->UserAdd(
+    UserFirstname => 'Firstname Test1',
+    UserLastname  => 'Lastname Test1',
+    UserLogin     => $UserRand1,
+    UserEmail     => $UserRand1 . '@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+) || die "Could not create test user";
 
 for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
 
@@ -168,5 +165,15 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
         );
     }
 }
+
+$TestUserID = $GlobalUserObject->UserUpdate(
+    UserID        => $TestUserID,
+    UserFirstname => 'Firstname Test1',
+    UserLastname  => 'Lastname Test1',
+    UserLogin     => $UserRand1,
+    UserEmail     => $UserRand1 . '@example.com',
+    ValidID       => 2,
+    ChangeUserID  => 1,
+) || die "Could not invalidate test user";
 
 1;
