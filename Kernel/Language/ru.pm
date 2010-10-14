@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # --
-# $Id: ru.pm,v 1.100 2010-10-14 12:11:32 mb Exp $
+# $Id: ru.pm,v 1.101 2010-10-14 18:51:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1636,7 +1636,7 @@ sub Data {
         'Outgoing message' => '',
         'Internal message' => '',
         'Resize' => '',
-        'Show or hide the content.' => 'Отобразить или скрыть содержимое.',
+        'Show or hide the content' => 'Отобразить или скрыть содержимое',
 
         # Template: AttachmentBlocker
         'To protect your privacy, active or/and remote content has blocked.' => '',

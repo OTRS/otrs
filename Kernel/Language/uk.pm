@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.6 2010-10-14 12:13:30 mb Exp $
+# $Id: uk.pm,v 1.7 2010-10-14 18:51:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1631,7 +1631,7 @@ sub Data {
         'Unread articles' => 'Непрочитані заявки',
         'No.' => 'Номер',
         'Unread Article!' => 'Непрочитані заявки!',
-        'Show or hide the content.' => 'Відобразити або сховати вміст.',
+        'Show or hide the content' => 'Відобразити або сховати вміст',
 
         # Template: Agentticketzoomarticlefilterdialog
         'Article filter' => '',

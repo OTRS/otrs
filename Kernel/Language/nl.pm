@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.121 2010-10-14 12:16:08 mb Exp $
+# $Id: nl.pm,v 1.122 2010-10-14 18:50:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1643,7 +1643,7 @@ sub Data {
         'Outgoing message' => 'Uitgaande bericht',
         'Internal message' => 'Intern bericht',
         'Resize' => 'Grootte wijzigen',
-        'Show or hide the content.' => 'Toon of verberg de inhoud.',
+        'Show or hide the content' => 'Toon of verberg de inhoud',
 
         # Template: AttachmentBlocker
         'To protect your privacy, active or/and remote content has blocked.' => 'Om uw privacy te beschermen is actieve inhoud geblokkeerd.',

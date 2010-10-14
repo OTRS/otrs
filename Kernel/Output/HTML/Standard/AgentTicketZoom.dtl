@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.165 2010-10-12 15:51:01 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.166 2010-10-14 18:47:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -475,7 +475,7 @@ $Data{"ArticleItems"}
     <a name="Article$QData{"ArticleID"}"></a>
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
-            <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content."}"><span></span></a></div>
+            <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
             <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
             <div class="AdditionalInformation">
                 $Text{"Created"}: $TimeShort{"$Data{"Created"}"}

@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.94 2010-10-14 12:11:32 mb Exp $
+# $Id: pl.pm,v 1.95 2010-10-14 18:50:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1631,7 +1631,7 @@ sub Data {
         'Outgoing message' => '',
         'Internal message' => '',
         'Resize' => '',
-        'Show or hide the content.' => 'Poka¿ lub ukryj tre¶æ.',
+        'Show or hide the content' => 'Poka¿ lub ukryj tre¶æ',
 
         # Template: AttachmentBlocker
         'To protect your privacy, active or/and remote content has blocked.' => '',

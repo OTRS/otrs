@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.26 2010-10-04 10:18:02 mg Exp $
+# $Id: LinkObject.dtl,v 1.27 2010-10-14 18:47:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlock -->
 <div class="WidgetBox SpacingTop Expanded">
     <div class="LightRow Header">
-        <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content."}"><span></span></a></div>
+        <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
         <h2>$Text{"$Data{"BlockDescription"}"}: $Data{"Blockname"}</h2>
     </div>
 <!-- dtl:block:TableComplexBlockActionRow -->
