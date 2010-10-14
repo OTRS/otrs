@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.55 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentDashboard.dtl,v 1.56 2010-10-14 18:48:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
         <div class="DontPrint WidgetSimple Collapsed Animate">
             <div class="Header">
                 <div class="WidgetAction Toggle">
-                    <a href="#" title="$Text{"Expand"}"></a>
+                    <a href="#" title="$Text{"Show or hide the content"}"></a>
                 </div>
                 <h2>$Text{"Settings"}</h2>
             </div>
