@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.237 2010-10-14 12:30:33 mg Exp $
+# $Id: de.pm,v 1.238 2010-10-14 12:55:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.237 $) [1];
+$VERSION = qw($Revision: 1.238 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -556,8 +556,8 @@ sub Data {
         'My Locked Tickets' => 'Meine Gesperrten Tickets',
         'Watched Tickets' => 'Beobachtete Tickets',
         'Watched' => 'Beobachtet',
-        'Watch' => '',
-        'Unwatch' => '',
+        'Watch' => 'Beobachten',
+        'Unwatch' => 'Nicht beobachten',
         'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
         'Unlock to give it back to the queue!' => 'Freigeben um es in die Queue zurück zu geben!',
         'Shows the ticket history!' => 'Ticket Historie anzeigen!',
