@@ -2,7 +2,7 @@
 # scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.6 2010-10-14 09:25:08 martin Exp $
+# $Id: JSON.t,v 1.7 2010-10-14 09:48:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,24 @@ my @Tests = (
         Result => 'false',
         Name   => 'JSON - bool false'
     },
+    {
+        Input => [
+            [ 1, 2, "Foo", "Bar" ],
+            {
+                Key1 => 'Something',
+                Key2 => [ "Foo", "Bar" ],
+                Key3 => {
+                    Foo => 'Bar',
+                },
+                Key4 => {
+                    Bar => [ "f", "o", "o" ]
+                    }
+            },
+        ],
+        Result =>
+            '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
+        Name => 'JSON - complex structure'
+    },
 );
 
 for my $Test (@Tests) {
@@ -78,31 +96,5 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
-
-# JSON encode not so simple
-my $JSON = $JSONObject->Encode(
-    Data => [
-        [ 1, 2, "Foo", "Bar" ],
-        {
-            Key1 => 'Something',
-            Key2 => [ "Foo", "Bar" ],
-            Key3 => {
-                Foo => 'Bar',
-            },
-            Key4 => {
-                Bar => [ "f", "o", "o" ]
-                }
-        },
-    ],
-);
-
-$Self->True(
-    $JSON     =~ /\[1,2,"Foo","Bar"\]/ &&
-        $JSON =~ /"Key1":"Something"/ &&
-        $JSON =~ /"Key2":\["Foo","Bar"\]/ &&
-        $JSON =~ /"Key3":{"Foo":"Bar"}/ &&
-        $JSON =~ /"Key4":{"Bar":\["f","o","o"\]}/,
-    'JSON - not so simple'
-);
 
 1;
