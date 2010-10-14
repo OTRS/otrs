@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.33 2010-06-17 21:39:40 cr Exp $
+# $Id: Lock.pm,v 1.34 2010-10-14 12:05:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -27,6 +27,9 @@ Kernel::System::Lock - lock lib
 =head1 SYNOPSIS
 
 All lock functions.
+
+The whole lock API is just for "reading" lock states. Per default you have "unlock", "lock" and "lock-tmp".
+Usually you will not modify those lock states, because there is not usecase for this.
 
 =head1 PUBLIC INTERFACE
 
@@ -101,15 +104,23 @@ sub new {
 
 =item LockViewableLock()
 
-get list of lock types
+get list of viewable lock types (used to show available tickets)
 
     my @List = $LockObject->LockViewableLock(
         Type => 'Name', # ID|Name
     );
 
-    my @List = $LockObject->LockViewableLock(
+Returns:
+
+    @List = ( 'unlock', 'lock', 'lock-tmp' );
+
+    my @ListID = $LockObject->LockViewableLock(
         Type => 'ID', # ID|Name
     );
+
+Returns:
+
+    @List = ( 1, 2, 3 );
 
 =cut
 
@@ -156,14 +167,12 @@ sub LockViewableLock {
     if ( $Param{Type} eq 'Name' ) {
         return @Name;
     }
-    else {
-        return @ID;
-    }
+    return @ID;
 }
 
 =item LockLookup()
 
-lock lookup
+lock state lookup by ID or Name
 
     my $LockID = $LockObject->LockLookup( Lock => 'lock' );
 
@@ -228,10 +237,18 @@ sub LockLookup {
 
 =item LockList()
 
-get lock list
+get lock state list
 
     my %List = $LockObject->LockList(
         UserID => 123,
+    );
+
+Returns:
+
+    %List = (
+        1 => 'unlock',
+        2 => 'lock',
+        3 => 'lock-tmp',
     );
 
 =cut
@@ -284,6 +301,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.34 $ $Date: 2010-10-14 12:05:57 $
 
 =cut
