@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.120 2010-10-14 12:14:53 mb Exp $
+# $Id: nl.pm,v 1.121 2010-10-14 12:16:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -704,6 +704,7 @@ sub Data {
         'Add Attachment' => 'Nieuwe bijlage',
         'Edit Attachment' => 'Bijlage bewerken',
         'or' => 'of',
+        'Hint' => 'Opmerking',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Beheer Automatische Antwoorden',
