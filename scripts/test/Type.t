@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.12 2010-09-28 09:30:43 mg Exp $
+# $Id: Type.t,v 1.13 2010-10-15 08:05:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,12 @@ use vars (qw($Self));
 
 use Kernel::System::Type;
 
-$Self->{TypeObject} = Kernel::System::Type->new( %{$Self} );
+my $TypeObject = Kernel::System::Type->new( %{$Self} );
 
 # add type
 my $TypeNameRand0 = 'unittest' . int rand 1000000;
 
-my $TypeID = $Self->{TypeObject}->TypeAdd(
+my $TypeID = $TypeObject->TypeAdd(
     Name    => $TypeNameRand0,
     ValidID => 1,
     UserID  => 1,
@@ -32,7 +32,7 @@ $Self->True(
 );
 
 # get the type by using the type id
-my %Type = $Self->{TypeObject}->TypeGet(
+my %Type = $TypeObject->TypeGet(
     ID => $TypeID,
 );
 
@@ -48,7 +48,7 @@ $Self->Is(
 );
 
 # get the type by using the type name
-%Type = $Self->{TypeObject}->TypeGet(
+%Type = $TypeObject->TypeGet(
     Name => $TypeNameRand0,
 );
 
@@ -58,7 +58,7 @@ $Self->Is(
     'TypeGet() - Name (using the type name)',
 );
 
-my %TypeList = $Self->{TypeObject}->TypeList(
+my %TypeList = $TypeObject->TypeList(
 );
 
 my $Hit = 0;
@@ -72,7 +72,7 @@ $Self->True(
     'TypeList()',
 );
 
-my $TypeUpdate = $Self->{TypeObject}->TypeUpdate(
+my $TypeUpdate = $TypeObject->TypeUpdate(
     ID      => $TypeID,
     Name    => $TypeNameRand0 . '1',
     ValidID => 2,
@@ -84,7 +84,7 @@ $Self->True(
     'TypeUpdate()',
 );
 
-%Type = $Self->{TypeObject}->TypeGet(
+%Type = $TypeObject->TypeGet(
     ID => $TypeID,
 );
 
@@ -100,7 +100,7 @@ $Self->Is(
     'TypeGet() - ValidID',
 );
 
-my $TypeLookup = $Self->{TypeObject}->TypeLookup(
+my $TypeLookup = $TypeObject->TypeLookup(
     TypeID => $TypeID,
 );
 
@@ -110,7 +110,7 @@ $Self->Is(
     'TypeLookup() - TypeID',
 );
 
-my $TypeIDLookup = $Self->{TypeObject}->TypeLookup(
+my $TypeIDLookup = $TypeObject->TypeLookup(
     Type => $TypeLookup,
 );
 
@@ -121,11 +121,11 @@ $Self->Is(
 );
 
 # perform 2 different TypeLists to check the caching
-my %TypeListValid = $Self->{TypeObject}->TypeList(
+my %TypeListValid = $TypeObject->TypeList(
     Valid => 1,
 );
 
-my %TypeListAll = $Self->{TypeObject}->TypeList(
+my %TypeListAll = $TypeObject->TypeList(
     Valid => 0,
 );
 
