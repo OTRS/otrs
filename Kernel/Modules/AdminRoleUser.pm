@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminRoleUser.pm - to add/update/delete groups <-> users
+# Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.29 2010-04-22 16:27:26 en Exp $
+# $Id: AdminRoleUser.pm,v 1.30 2010-10-15 09:51:13 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,6 +30,7 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+
     return $Self;
 }
 
@@ -37,7 +38,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
-    # user <-> group 1:n
+    # user <-> role 1:n  interface to assign roles to an user
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'User' ) {
 
@@ -45,10 +46,10 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $ID );
 
-        # get group data
+        # get role list
         my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
 
-        # get role member
+        # get roles in which the user is a member
         my %Member = $Self->{GroupObject}->GroupUserRoleMemberList(
             UserID => $ID,
             Result => 'HASH',
@@ -64,29 +65,28 @@ sub Run {
             Type     => 'User',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # group <-> user n:1
+    # role <-> user n:1  interface to assign users to a role
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Role' ) {
 
-        # get group data
+        # get role data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %RoleData = $Self->{GroupObject}->RoleGet( ID => $ID );
 
-        # get user list
+        # get user list, with the full name in the value
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
-
-        # get user name
         for my $UserID ( keys %UserData ) {
             my $Name = $Self->{UserObject}->UserName( UserID => $UserID );
             next if !$Name;
             $UserData{$UserID} .= " ($Name)";
         }
 
-        # get role member
+        # get members of the the role
         my %Member = $Self->{GroupObject}->GroupUserRoleMemberList(
             RoleID => $ID,
             Result => 'HASH',
@@ -102,25 +102,29 @@ sub Run {
             Type     => 'Role',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # add user to groups
+    # add or remove users to a role
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeRole' ) {
 
-        # get new role member
+        # to be set members of the role
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Role' );
 
+        # get the role id
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         # get user list
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
+
+        # add or remove user from roles
         for my $UserID ( keys %UserData ) {
             my $Active = 0;
-            for my $RoleID (@IDs) {
-                next if $RoleID ne $UserID;
+            for my $MemberOfRole (@IDs) {
+                next if $MemberOfRole ne $UserID;
                 $Active = 1;
                 last;
             }
@@ -136,21 +140,24 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # groups to user
+    # add or remove roles for a user
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeUser' ) {
 
-        # get new role member
+        # to be set roles of the user
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'User' );
 
+        # get user id
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # get user list
+        # get role list
         my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
+
+        # add or remove user from roles
         for my $RoleID ( keys %RoleData ) {
             my $Active = 0;
-            for my $UserID (@IDs) {
-                next if $UserID ne $RoleID;
+            for my $RoleOfMember (@IDs) {
+                next if $RoleOfMember ne $RoleID;
                 $Active = 1;
                 last;
             }
@@ -172,6 +179,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->_Overview();
     $Output .= $Self->{LayoutObject}->Footer();
+
     return $Output;
 }
 
