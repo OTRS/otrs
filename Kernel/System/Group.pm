@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.83 2010-09-01 07:50:22 bes Exp $
+# $Id: Group.pm,v 1.84 2010-10-15 09:02:00 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -897,11 +897,11 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 
     Type: ro|move_into|priority|create|rw
 
-    Result: HASH -> returns a hash of key => group id, value => group name
-            Name -> returns an array of user names
-            ID   -> returns an array of user ids
+    Result: HASH -> returns a hash of key => group or role id, value => group name
+            Name -> returns an array of group names
+            ID   -> returns an array of role or group ids
 
-    Example (get groups of role):
+Example: Get the groups for which the Role $ID provides 'move_into' access.
 
     $GroupObject->GroupRoleMemberList(
         RoleID => $ID,
@@ -909,12 +909,15 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
         Result => 'HASH',
     );
 
-    Example (get roles of group):
+Example: Get the role ids with 'move_into' access to the group $ID.
 
-    $GroupObject->GroupRoleMemberList(
+Passing HASH or Name as the wanted result is discouraged. The returned name is
+is a group name, not a role name.
+
+    my $GroupObject->GroupRoleMemberList(
         GroupID => $ID,
         Type   => 'move_into',
-        Result => 'HASH',
+        Result => 'ID',
     );
 
 =cut
@@ -967,45 +970,54 @@ sub GroupRoleMemberList {
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
-    # sql
-    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.role_id FROM groups g, group_role gu WHERE "
-        . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
-        . " g.id = gu.group_id AND "
-        . " gu.permission_value = 1 AND "
-        . " gu.permission_key IN ( $TypeString ) AND ";
+    # assemble the query
+    my $SQL = ''
+        . 'SELECT g.id, g.name, gr.permission_key, gr.permission_value, gr.role_id'
+        . ' FROM groups g, group_role gr'
+        . ' WHERE g.valid_id IN (' . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ')'
+        . ' AND g.id = gr.group_id'
+        . ' AND gr.permission_value = 1'
+        . " AND gr.permission_key IN ( $TypeString )"
+        . ' AND ';
 
     if ( $Param{RoleID} ) {
-        $SQL .= ' gu.role_id = ' . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
+        $SQL .= ' gr.role_id = ' . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
     }
     elsif ( $Param{GroupID} ) {
-        $SQL .= ' gu.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
+        $SQL .= ' gr.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{RoleIDs} ) {
         for my $RoleID (@RoleIDs) {
             $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
         }
-        $SQL .= ' gu.role_id IN (' . join( ',', @RoleIDs ) . ')';
+        $SQL .= ' gr.role_id IN (' . join( ',', @RoleIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
             $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
         }
-        $SQL .= ' gu.group_id IN (' . join( ',', @GroupIDs ) . ')';
+        $SQL .= ' gr.group_id IN (' . join( ',', @GroupIDs ) . ')';
     }
 
+    # run the query
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the data
     my %Data;
     my @Name;
     my @ID;
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        my $Key   = '';
-        my $Value = '';
+        my ( $Key, $Value ) = ( '', '' );
         if ( $Param{RoleID} || $Param{RoleIDs} ) {
+
+            # map group ID to group name
             $Key   = $Row[0];
             $Value = $Row[1];
         }
         else {
+
+            # map role ID to a group name
+            # DANGER: this is fairly non-intuitive
             $Key   = $Row[4];
             $Value = $Row[1];
         }
@@ -1656,6 +1668,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2010-09-01 07:50:22 $
+$Revision: 1.84 $ $Date: 2010-10-15 09:02:00 $
 
 =cut
