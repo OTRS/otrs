@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.56 2010-10-15 12:35:15 mb Exp $
+# $Id: AAATicket.dtl,v 1.57 2010-10-15 13:22:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,6 +71,16 @@ $Text{"Merge"}
 $Text{"merged"}
 $Text{"closed successful"}
 $Text{"closed unsuccessful"}
+$Text{"Locked Tickets Total"}
+$Text{"Locked Tickets Reminder Reached"}
+$Text{"Locked Tickets New"}
+$Text{"Responsible Tickets Total"}
+$Text{"Responsible Tickets New"}
+$Text{"Responsible Tickets Reminder Reached"}
+$Text{"Watched Tickets Total"}
+$Text{"Watched Tickets New"}
+$Text{"Watched Tickets Reminder Reached"}
+
 $Text{"new"}
 $Text{"open"}
 $Text{"Open"}
