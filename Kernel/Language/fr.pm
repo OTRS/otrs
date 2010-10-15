@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.130 2010-10-14 18:51:41 mb Exp $
+# $Id: fr.pm,v 1.131 2010-10-15 12:01:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2029,7 +2029,7 @@ sub Data {
         'Default ACL values for ticket actions.' => 'ACL par défaut pour les actions du ticket.',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID de queue par défaut utilisé par le système dans l\'interface agent.',
-        'Default skin for otrs 3.0 interface.' => 'Habillage par défaut pour l\'interface OTRS 3.0.',
+        'Default skin for interface.' => 'Habillage par défaut pour l\'interface.',
         'Default ticket ID used by the system in the agent interface.' => 'ID de ticket par défaut utilisé par le système dans l\'interface agent.',
         'Default ticket ID used by the system in the customer interface.' => 'ID de ticket par défaut utilisé par le système dans l\'interface client.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
