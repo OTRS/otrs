@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.123 2010-10-15 07:15:43 mb Exp $
+# $Id: nl.pm,v 1.124 2010-10-15 12:00:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -142,12 +142,12 @@ sub Data {
         'Password' => 'Wachtwoord',
         'Preferences' => 'Voorkeuren',
         'Salutation' => 'Aanhef',
-        'Salutations' => 'Aanhef',
+        'Salutations' => 'Aanheffen',
         'Signature' => 'Handtekening',
         'Signatures' => 'Handtekeningen',
         'Customer' => 'Klant',
-        'CustomerID' => 'Klantnummer',
-        'CustomerIDs' => 'Klantnummers',
+        'CustomerID' => 'Klantcode',
+        'CustomerIDs' => 'Klantcodes',
         'customer' => 'klant',
         'agent' => 'gebruiker',
         'system' => 'systeem',
@@ -304,7 +304,7 @@ sub Data {
         'Dear Mrs. %s,' => 'Geachte mevrouw %s,',
         'Dear %s,' => 'Geachte %s,',
         'Hello %s,' => 'Beste %s,',
-        'This email address already exists. Please log in or reset your password.' => 'Dit e-mail adres bestaat al. Log in of reset uw wachtwoord.',
+        'This email address already exists. Please log in or reset your password.' => 'Dit e-mailadres bestaat al. Log in of reset uw wachtwoord.',
         'New account created. Sent login information to %s. Please check your email.' => 'Nieuw account aangemaakt. Login informatie gestuurd aan %s. Controleer uw e-mail.',
         'Please press Back and try again.' => 'Druk op Terug en probeer opnieuw.',
         'Sent password reset instructions to %s. Please check your email.' => 'Wachtwoord reset instructies zijn verstuurd aan %s. Controleer uw e-mail.',
@@ -459,7 +459,7 @@ sub Data {
         'Ticket Close Time' => 'Sluittijd ticket',
 
         # Template: AAATicket
-        'Status View' => 'Status overzicht',
+        'Status View' => 'Statusoverzicht',
         'Bulk' => 'Bulk',
         'Lock' => 'Vergrendel',
         'Unlock' => 'Ontgrendel',
@@ -857,7 +857,7 @@ sub Data {
         'new owner' => 'nieuwe eigenaar',
         'Set new ticket lock' => 'Nieuwe vergrendeling',
         'New customer' => 'Nieuwe klant',
-        'New customer ID' => 'Nieuw klant ID',
+        'New customer ID' => 'Nieuwe klantcode',
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
         'New TicketFreeFields' => 'Nieuwe vrije velden',
@@ -946,7 +946,7 @@ sub Data {
         'Recipient groups' => 'Ontvanger groepen',
         'Recipient agents' => 'Ontvanger gebruikers',
         'Recipient roles' => 'Ontvanger rollen',
-        'Recipient email addresses' => 'Ontvanger e-mail adressen',
+        'Recipient email addresses' => 'Ontvanger e-mailadressen',
         'Article type' => 'Soort interactie',
         'Only for ArticleCreate event' => 'Alleen bij ArticleCreate event',
         'Subject match' => 'Onderwerp',
@@ -1096,7 +1096,7 @@ sub Data {
         'Add Response' => 'Nieuw antwoord',
         'Edit Response' => 'Bewerk antwoord',
         'The current ticket state is' => 'De huidige ticketstatus is',
-        'Your email address is' => 'Uw e-mail adres is',
+        'Your email address is' => 'Uw e-mailadres is',
 
         # Template: AdminResponseAttachment
         'Manage Responses <-> Attachments Relations' => 'Beheer Antwoorden <-> Bijlagen',
@@ -1153,7 +1153,7 @@ sub Data {
         'Secret' => 'Geheim',
 
         # Template: AdminSalutation
-        'Salutation Management' => 'Aanhef beheer',
+        'Salutation Management' => 'Beheer aanheffen',
         'Add salutation' => 'Nieuwe aanhef',
         'Add Salutation' => 'Nieuwe aanhef',
         'Edit Salutation' => 'Bewerk aanhef',
@@ -1262,11 +1262,11 @@ sub Data {
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
         'Add system address' => 'Nieuw e-mailadres',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' => 'Alle inkomende berichten met dit adres in Aan of CC worden toegewezen aan de geselecteerde wachtrij.',
-        'Email address' => 'E-mail adres',
+        'Email address' => 'E-mailadres',
         'Display name' => 'Weergegeven naam',
-        'Add System Email Address' => 'Nieuw e-mail adres',
-        'Edit System Email Address' => 'Bewerk e-mail adres',
-        'The display name and email address will be shown on mail you send.' => 'De weergegeven naam en het e-mail adres worden gebruikt voor uitgaande mail.',
+        'Add System Email Address' => 'Nieuw e-mailadres',
+        'Edit System Email Address' => 'Bewerk e-mailadres',
+        'The display name and email address will be shown on mail you send.' => 'De weergegeven naam en het e-mailadres worden gebruikt voor uitgaande mail.',
 
         # Template: AdminType
         'Type Management' => 'Type beheer',
@@ -1468,8 +1468,8 @@ sub Data {
         # Template: AgentTicketBounce
         'Bounce Ticket: ' => 'Bounce Ticket: ',
         'Bounce to' => 'Bounce naar',
-        'You need a email address.' => 'E-mail adres is verplicht.',
-        'Need valid email address or don\'t use local address' => 'Het e-mail adres is ongeldig',
+        'You need a email address.' => 'E-mailadres is verplicht.',
+        'Need valid email address or don\'t use local address' => 'Het e-mailadres is ongeldig',
         'Next ticket state' => 'Status',
         'Inform sender' => 'Informeer afzender',
         'You need a To: recipient!' => 'U hebt een adres nodig bij Aan:',
@@ -1490,8 +1490,8 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Bericht opstellen voor',
-        'Need a valid email address.' => 'Geen geldig e-mail adres.',
-        'Need a valid email address or don\'t use a local email address.' => 'Een e-mail adres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid email address.' => 'Geen geldig e-mailadres.',
+        'Need a valid email address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Address book' => 'Adresboek',
         'Text is required!' => 'Tekst is verplicht.',
         'Pending Date' => 'Wacht tot datum',
@@ -1511,7 +1511,7 @@ sub Data {
         'From queue' => 'In wachtrij',
         'A ticket should be associated with a queue!' => 'Een ticket moet in een wachtrij geplaatst worden.',
         'Queue is required.' => 'Wachtrij is een verplicht veld.',
-        'Need a valid mail address or don\'t use a local email address.' => 'Een e-mail adres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid mail address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Get all' => 'Gebruik alle',
 
         # Template: AgentTicketEscalation
@@ -1519,7 +1519,7 @@ sub Data {
         # Template: AgentTicketForward
         'Forward ticket: ' => 'Doorsturen:',
         'You need a to: recipient!.' => 'U moet een adres invullen bij Aan:',
-        'Need a valid email address or don\'t use a local address!' => 'Een e-mail adres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'The subject is required!' => 'Onderwerp is een verplicht veld.',
         'The text is required!' => 'Tekst is een verplicht veld.',
 
@@ -1676,7 +1676,7 @@ sub Data {
         'Sign up now' => 'Gebruikersnaam registreren',
         'Request new password' => 'Vraag een nieuw wachtwoord aan',
         'Your User Name' => 'Uw gebruikersnaam',
-        'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mail adres verzonden.',
+        'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mailadres verzonden.',
         'Create Account' => 'Maak account',
         'How we should address you' => 'Hoe moeten we u adresseren?',
         'Your First Name' => 'Uw voornaam',
@@ -1859,7 +1859,7 @@ sub Data {
         'Default language' => 'Standaard taal',
         'Default language.' => 'Standaard taal.',
         'CheckMXRecord' => 'Check MX Record',
-        'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' => 'E-mail adressen die handmatig worden ingevoerd worden gecontroleerd met de MX records gevonden in de DNS. Gebruik deze mogelijkheid niet als uw DNS traag is of geen publieke adressen kan herleiden.',
+        'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' => 'E-mailadressen die handmatig worden ingevoerd worden gecontroleerd met de MX records gevonden in de DNS. Gebruik deze mogelijkheid niet als uw DNS traag is of geen publieke adressen kan herleiden.',
 
         # Template: LinkObject
         'Object#' => 'Object#',
@@ -2036,7 +2036,7 @@ sub Data {
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
-        'Default skin for otrs 3.0 interface.' => 'Standaard kleuren voor otrs schermen',
+        'Default skin for interface.' => 'Standaard kleuren voor otrs schermen',
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
@@ -2471,7 +2471,7 @@ sub Data {
         'Enables ticket bulk action feature only for the listed groups.' => '',
         'Enables ticket responsible feature, to keep track of a specific ticket.' => '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => 'Escalatie overzicht',
+        'Escalation view' => 'Escalatieoverzicht',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Voer SQL statements uit op de database.',
@@ -2698,7 +2698,7 @@ sub Data {
         'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' => '',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' => '',
-        'Set sender email addresses for this system.' => 'Instellen van e-mail adressen gebruikt voor dit systeem.',
+        'Set sender email addresses for this system.' => 'Instellen van e-mailadressen gebruikt voor dit systeem.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -2979,7 +2979,7 @@ sub Data {
         'Symptom' => 'Symptoom',
         'Can\'t update password, your new passwords do not match! Please try again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Gegevens van de ticket verantwoordelijke (bijvoorbeeld <OTRS_RESPONSIBLE_UserFirstname).',
-        'Add a new System Address.' => 'Voeg nieuw systeem e-mail adres toe.',
+        'Add a new System Address.' => 'Voeg nieuw systeem e-mailadres toe.',
         'Add a new Group.' => 'Nieuwe groep toevoegen',
         'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
         'for agent firstname' => 'voornaam van de gebruiker',
@@ -3026,7 +3026,6 @@ sub Data {
         'Web-Installer' => 'Web Installer',
         'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
         'Title{user}' => 'Titel',
-        'Add mail adress %s to the Bcc field' => '',
         'Roles <-> Users Management' => 'Beheer Rollen <-> Gebruikers',
         'MyTickets' => 'Mijn tickets',
         'Escalation' => 'Escalatie',
@@ -3037,7 +3036,7 @@ sub Data {
         'Follow up' => 'Reactie',
         'Defines the key of the free field number 14 for tickets to add a new ticket attribute.' => '',
         'Queue <-> Auto Responses Management' => 'Wachtrij <-> Automatische antwoorden',
-        'Admin-Email' => 'Admin e-mail adres',
+        'Admin-Email' => 'Admin e-mailadres',
         'Defines the default selection of the free text field number 11 (if more than one option is provided).' => '',
         'Is Job Valid' => 'Is de taak actief?',
         'Can\'t update password, must be at least %s characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal %s karakters noodzakelijk.',
@@ -3070,7 +3069,6 @@ sub Data {
         'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Als een \'hardcoded\' bestand beschikbaar is zal deze automatisch getoond worden en kunt u deze hier selecteren',
         'Defines the key of the free time field number 3 for tickets.' => '',
         'Group based' => 'Gebaseerd op groep',
-        'Add mail adress %s to the Cc field' => '',
         'Close ticket' => 'Sluit ticket',
         'Can\'t update password, needs at least 1 digit!' => 'Uw wachtwoord kan niet worden gewijzigd, er is minimaal 1 cijfer noodzakelijk.',
         'Default Charset' => 'Standaard karakterset',
@@ -3085,7 +3083,7 @@ sub Data {
         'Users <-> Groups Management' => 'Gebruikers <-> Groepen beheer',
         'Select your QueueView refresh time.' => 'Selecteer de verversingstijd van de wachtrij in uw scherm.',
         'Defines the key of the free time field number 2 for tickets.' => '',
-        'Email{CustomerUser}' => 'E-mail adres',
+        'Email{CustomerUser}' => 'E-mailadres',
         'Ticket unlock!' => 'Ontgrendelen',
         'Defines the default selection of the free text field number 7 (if more than one option is provided).' => '',
         'Tomorrow' => 'Morgen',
@@ -3099,7 +3097,7 @@ sub Data {
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opties van de data van de klant (bijvoorbeeld <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'In de wacht: type',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Voor het gevraagde framework zijn er geen pakketten gevonden in de Online Repository',
-        '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controleerd MX-records voor e-mail adressen)',
+        '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controleerd MX-records voor e-mailadressen)',
         'Comment (internal)' => 'Interne opmerking',
         'Defines the key of the free field number 8 for tickets to add a new ticket attribute.' => '',
         'Used log backend.' => '',
@@ -3249,7 +3247,7 @@ sub Data {
         'New password again' => 'Bevestig nieuw wachtwoord',
         'Role' => 'Rol',
         'Defines the default selection of the free field number 15 (if more than one option is provided).' => '',
-        'Email Address' => 'E-mail adres',
+        'Email Address' => 'E-mailadres',
         'LinkType' => '',
         'Contact customer' => 'Neem contact op',
         'If you need the sum of every column select yes.' => 'Selecteer \'ja\' als u totalen per kolom wilt',
@@ -3339,7 +3337,6 @@ sub Data {
         'Escalation - Solution Time' => 'Escalatiemoment oplostijd',
         'New Priority' => 'Nieuwe prioriteit',
         'Tickets which need to be answered!' => 'Tickets die moeten worden behandeld',
-        'A new password will be sent to your e-mail adress.' => '',
         '"}' => '"}',
         'Defines the default selection of the free field number 5 (if more than one option is provided).' => '',
         'Customer history search' => 'Zoeken in klantgeschiedenis',
@@ -3350,7 +3347,7 @@ sub Data {
         'Street{CustomerUser}' => 'Straat',
         'You as the customer have the abillity to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => '',
         'Customer Users <-> Groups' => 'Klanten <-> Groepen',
-        'Add System Address' => 'Systeem e-mail adres toevoegen',
+        'Add System Address' => 'Systeem e-mailadres toevoegen',
         'ChangeLog' => 'Wijziging',
         'Secure Mode need to be enabled!' => 'Secure Mode moet geactiveerd zijn.',
         'Param 2' => 'Parameter 2',
@@ -3435,7 +3432,6 @@ sub Data {
         'Article created between' => 'Interactie aangemaakt tussen',
         'Save Job as?' => 'Sla taak op onder',
         'Parent-Object' => 'Hoofd item',
-        'Add mail adress %s to the To field' => '',
         '(Logfile just needed for File-LogModule!)' => '(Logbestand alleen nodig voor File-LogModule',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Gegevens van de huidige gebruiker die deze actie heeft verzocht (bijvoorbeeld <OTRS_CURRENT_UserFirstname>).',
         'If you want to install OTRS on other database systems, please refer to the file README.database.' => '',
