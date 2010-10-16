@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.17 2010-09-21 12:45:28 mb Exp $
+# $Id: StaticDB.pm,v 1.18 2010-10-16 09:25:35 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -180,7 +180,7 @@ sub _ArticleIndexQuerySQLExt {
             $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';
         }
 
-        # check if search condition extention is used
+        # check if search condition extension is used
         if ( $Param{Data}->{ConditionInline} ) {
             $FullTextSQL .= $Self->{DBObject}->QueryCondition(
                 Key          => $FieldSQLMapFullText{$Key},

@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.29 2010-06-22 22:00:52 dz Exp $
+# $Id: XML.t,v 1.30 2010-10-16 09:25:35 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,8 +157,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
       <Email type="secundary">sales@example.com</Email>
       <Telephone country="germany">+49-999-99999</Telephone>
-      <Telephone2 country="" extention="123"></Telephone2>
-      <Telephone3 country="" extention="123"/>
+      <Telephone2 country="" extension="123"></Telephone2>
+      <Telephone3 country="" extension="123"/>
       <SpecialCharacters>\'</SpecialCharacters>
       <SpecialCharacters1>\\\'</SpecialCharacters1>
       <SpecialCharacters2>0</SpecialCharacters2>

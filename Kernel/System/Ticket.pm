@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.470 2010-09-09 12:58:26 martin Exp $
+# $Id: Ticket.pm,v 1.471 2010-10-16 09:25:35 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.470 $) [1];
+$VERSION = qw($Revision: 1.471 $) [1];
 
 =head1 NAME
 
@@ -4450,7 +4450,7 @@ sub TicketSearch {
         );
     }
 
-    # add ticket flag extention
+    # add ticket flag extension
     if ( $Param{TicketFlag} ) {
         my @Values;
         for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
@@ -4519,7 +4519,7 @@ sub TicketSearch {
                 }
             }
 
-            # use search condition extention
+            # use search condition extension
             $SQLExt .= $Self->{DBObject}->QueryCondition(
                 Key   => $FieldSQLMap{$Key},
                 Value => $Value,
@@ -8116,6 +8116,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.470 $ $Date: 2010-09-09 12:58:26 $
+$Revision: 1.471 $ $Date: 2010-10-16 09:25:35 $
 
 =cut
