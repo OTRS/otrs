@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.124 2010-10-15 12:00:50 mb Exp $
+# $Id: nl.pm,v 1.125 2010-10-17 13:36:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -61,6 +61,7 @@ sub Data {
         'top' => 'bovenkant',
         'end' => 'onderkant',
         'Done' => 'Klaar',
+'Phone Call Outbound' => 'Uitgaand telefoon',
         'Cancel' => 'Annuleren',
         'Reset' => 'Opnieuw',
         'last' => 'laatste',
@@ -817,7 +818,7 @@ sub Data {
         '(e. g. 234321)' => '(bijvoorbeeld 234321)',
         'Customer login' => 'Klant login',
         '(e. g. U5150)' => '(bijvoorbeeld U5150)',
-        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst artikel. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*")',
+        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*")',
         'Agent' => 'Gebruiker',
         'Ticket lock' => 'Vergrendeling',
         'TicketFreeFields' => 'Vrije invulvelden van het ticket',
@@ -894,7 +895,7 @@ sub Data {
         'Affected Tickets' => 'Gevonden tickets',
 
         # Template: AdminGroup
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'WAARSCHUWING: Als u de naam van de groep \'Admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-rechten meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'WAARSCHUWING: Als u de naam van de groep \'admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-rechten meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
         'Group Management' => 'Groepenbeheer',
         'Add group' => 'Groep toevoegen',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte.',
@@ -948,7 +949,7 @@ sub Data {
         'Recipient roles' => 'Ontvanger rollen',
         'Recipient email addresses' => 'Ontvanger e-mailadressen',
         'Article type' => 'Soort interactie',
-        'Only for ArticleCreate event' => 'Alleen bij ArticleCreate event',
+        'Only for ArticleCreate event' => 'Alleen bij ArticleCreate gebeurtenis',
         'Subject match' => 'Onderwerp',
         'Body match' => 'Bericht tekst',
         'Include attachments to notification' => 'Voeg bijlagen toe aan melding',
@@ -1456,7 +1457,7 @@ sub Data {
         'Spell check' => 'Spellingscontrole',
         'A message should have a body!' => 'Geen berichttekst ingevuld!',
         'The text is required.' => 'Tekst is verplicht',
-        'Note type' => 'Notitietype',
+        'Note type' => 'Notitiesoort',
         'Next state' => 'Status',
         'Pending date' => 'In de wacht: datum',
         'Date invalid!' => 'Ongeldige datum.',
@@ -1567,7 +1568,7 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => 'Maak niew telefoon ticket aan',
+        'Create New Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'From customer' => 'Van klant',
         'A message should have a customer!' => 'Klant is verplicht.',
         'The customer is required.' => 'Kies een klant.',
