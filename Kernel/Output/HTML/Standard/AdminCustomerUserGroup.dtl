@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.28 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.29 2010-10-17 14:47:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,6 @@
                     $Text{"Change %s Relations for", "$Data{"VisibleNeType"}"}
                     $Text{"$Data{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
-                    ($QData{"ID"})
                 </h2>
             </div>
             <div class="Content ">

@@ -114,7 +114,6 @@
                     $Text{"Change %s Relations for", "$QData{"VisibleNeType"}"}
                     $Text{"$Data{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;$LQData{"Queue"}ID=$LQData{"ID"}">$QData{"Name"}</a>
-                    ($QData{"ID"})
                 </h2>
             </div>
             <div class="Content ">

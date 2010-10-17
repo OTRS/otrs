@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1465 2010-10-17 14:11:26 mb Exp $
+# $Id: CHANGES,v 1.1466 2010-10-17 14:47:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-17 Fixed bug#6112 - Database IDs displayed in Admin GUI.
  - 2010-10-17 Fixed bug#6110 - AdminCustomerUserGroup lists non-existing group 'info'.
  - 2010-10-17 Fixed bug#6109 - '0' is not recognized as a valid input for TimeUnits.
  - 2010-10-12 Fixed bug#6058 - Keyboard shortcuts should be shown via tooltip.

@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.36 2010-10-04 10:18:02 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.37 2010-10-17 14:47:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,6 @@
                     $Text{"Allocate %s to", "$QData{"VisibleNeType"}"}
                     $Text{"$Data{"VisibleType"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=$LQData{"SubactionHeader"};$LQData{"IDHeaderStrg"}=$LQData{"ID"}">$QData{"Name"}</a>
-                    ($QData{"ID"})
                 </h2>
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">

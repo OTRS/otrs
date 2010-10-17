@@ -121,7 +121,6 @@
                 <h2>
                     $Text{"Change %s Relations for %s", "$Data{"NeType"}", "$QData{"Type"}"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
-                    ($QData{"ID"})
                 </h2>
             </div>
             <div class="Content ">
