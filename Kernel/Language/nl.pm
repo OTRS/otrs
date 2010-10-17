@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.125 2010-10-17 13:36:05 mb Exp $
+# $Id: nl.pm,v 1.126 2010-10-17 20:19:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -746,7 +746,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten',
         'Last Login' => 'Laatst ingelogd',
         'Add Customer' => 'Klant toevoegen',
-        'Edit Customer' => 'Klant wewerken',
+        'Edit Customer' => 'Klant bewerken',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
