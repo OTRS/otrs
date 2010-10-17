@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.62 2010-10-13 12:06:36 cg Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.63 2010-10-17 13:48:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -424,7 +424,7 @@ sub Run {
             && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             )
         {
-            if ( !$IsUpload && $GetParam{'TimeUnits'} eq '' ) {
+            if ( !$IsUpload && !defined $GetParam{'TimeUnits'} ) {
                 $Error{'TimeUnitsInvalid'} = 'ServerError';
             }
         }

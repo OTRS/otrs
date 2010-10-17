@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.70 2010-10-14 08:54:15 bes Exp $
+# $Id: AgentTicketMove.pm,v 1.71 2010-10-17 13:48:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -400,7 +400,7 @@ sub Run {
         # check time units
         if (
             ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
-            && !$GetParam{TimeUnits}
+            && !defined $GetParam{TimeUnits}
             )
         {
             $Error{'TimeUnitsInvalid'} = ' ServerError';
