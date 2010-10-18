@@ -3,7 +3,7 @@
 # bin/otrs.UnitTest.pl - the global test handle
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.UnitTest.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.UnitTest.pl,v 1.4 2010-10-18 15:21:46 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,28 +42,26 @@ use Kernel::System::UnitTest;
 use Kernel::System::Main;
 
 # get options
-my %Opts = ();
+my %Opts;
 getopt( 'hqtdnop', \%Opts );
 if ( $Opts{h} ) {
-    print "UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
+    print "otrs.UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
     print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print
-        "usage: UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-o ASCII|HTML|XML] [-p PRODUCT]\n";
+        "usage: otrs.UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-o ASCII|HTML|XML] [-p PRODUCT]\n";
     exit 1;
 }
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-Test',
+    LogPrefix => 'OTRS-UnitTest',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-
-# create needed objects
+$CommonObject{MainObject}     = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}     = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UnitTestObject} = Kernel::System::UnitTest->new(
     %CommonObject,
@@ -75,4 +73,4 @@ $CommonObject{UnitTestObject}->Run(
     Product => $Opts{p} || '',
 );
 
-exit(0);
+exit 0;
