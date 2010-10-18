@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.126 2010-09-29 14:56:42 ub Exp $
+# $Id: Queue.pm,v 1.127 2010-10-18 08:18:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 =head1 NAME
 
@@ -508,9 +508,11 @@ sub QueueLookup {
 
 =item GetFollowUpOption()
 
-...
+get FollowUpOption for the given QueueID
 
-    ...
+    my $FollowUpOption = $QueueObject->GetFollowUpOption( QueueID => $QueueID );
+
+returns any of 'possible', 'reject', 'new ticket'.
 
 =cut
 
@@ -538,9 +540,11 @@ sub GetFollowUpOption {
 
 =item GetFollowUpLockOption()
 
-...
+get FollowUpLockOption for the given QueueID
 
-    ...
+    my $FollowUpLockOption = $QueueObject->GetFollowUpLockOption( QueueID => $QueueID );
+
+returns '1' if ticket should be locked after a follow up, '0' if not.
 
 =cut
 
@@ -567,9 +571,9 @@ sub GetFollowUpLockOption {
 
 =item GetQueueGroupID()
 
-...
+get GroupID defined for the given QueueID.
 
-    ...
+    my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
 
 =cut
 
@@ -1151,6 +1155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.126 $ $Date: 2010-09-29 14:56:42 $
+$Revision: 1.127 $ $Date: 2010-10-18 08:18:33 $
 
 =cut
