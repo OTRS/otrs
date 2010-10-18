@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.384 2010-10-17 14:11:26 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.385 2010-10-18 19:02:53 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -603,7 +603,7 @@
             <String Regex="">http://host.example.com/thanks-for-using-otrs.html</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
+    <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0" ConfigLevel="300">
         <Description Translatable="1">Defines a useful module to load specific user options or to display news.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -611,7 +611,7 @@
             <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="InfoKey" Required="0" Valid="0">
+    <ConfigItem Name="InfoKey" Required="0" Valid="0" ConfigLevel="300">
         <Description Translatable="1">Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -619,7 +619,7 @@
             <String Regex="">wpt22</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="InfoFile" Required="0" Valid="0">
+    <ConfigItem Name="InfoFile" Required="0" Valid="0" ConfigLevel="300">
         <Description Translatable="1">File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
