@@ -2,7 +2,7 @@
 # VirtualFS.t - VirtualFS tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.t,v 1.4 2010-06-22 22:00:51 dz Exp $
+# $Id: VirtualFS.t,v 1.5 2010-10-18 00:05:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,6 +36,12 @@ my @Tests = (
             ContentType => 'text/xml',
             ContentID   => '<some_id_xls@example.net>',
         },
+        FindFilenameAndPreferences => {
+            Filename    => 'TEST/File.txt',
+            Preferences => {
+                ContentType => 'text/plain',
+            },
+        },
     },
     {
         Name        => '.pdf',
@@ -57,6 +63,13 @@ my @Tests = (
             ContentType => 'text/rfc-822',
             ContentID   => '<some_id@example.net>',
         },
+        FindFilenameAndPreferences => {
+            Filename    => 'me_t o_alal.pdf',
+            Preferences => {
+                ContentType => 'text/plain',
+                ContentID   => '<some_id@example.com>',
+            },
+        },
     },
     {
         Name        => '.xls',
@@ -76,6 +89,13 @@ my @Tests = (
         FindNotPreferences => {
             ContentType => 'image/png',
             ContentID   => '<some_id_xls@example.com>',
+        },
+        FindFilenameAndPreferences => {
+            Filename    => 'me_t o_alal.xls',
+            Preferences => {
+                ContentType => 'text/xls',
+                ContentID   => '<some_id_xls@example.com>',
+            },
         },
     },
 );
@@ -201,6 +221,21 @@ for my $Backend (qw( FS DB )) {
         $Self->False(
             $Hit,
             "$Backend Find() - Preferences Not",
+        );
+
+        # find filename AND preferences
+        @List = $Self->{VirtualFSObject}->Find(
+            %{ $Test->{FindFilenameAndPreferences} },
+        );
+        $Hit = 0;
+        for (@List) {
+            if ( $_ eq $Test->{Filename} ) {
+                $Hit = 1;
+            }
+        }
+        $Self->True(
+            $Hit,
+            "$Backend Find() - Filename AND Preferences",
         );
     }
 

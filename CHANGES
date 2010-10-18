@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1467 2010-10-17 20:16:01 mb Exp $
+# $Id: CHANGES,v 1.1468 2010-10-18 00:07:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-18 Fixed bug#6117 - Find method in VirtualFS is not able to find a file
+    by Filename and Preferences
  - 2010-10-17 Fixed bug#6090 - Accounted Time is not displayed in articles if
     Ticket::ZoomTimeDisplay is set to 'yes'.
  - 2010-10-17 Fixed bug#6112 - Database IDs displayed in Admin GUI.
