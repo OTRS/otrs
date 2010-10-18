@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.14 2010-06-22 22:00:52 dz Exp $
+# $Id: Group.t,v 1.15 2010-10-18 22:20:55 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,6 +183,14 @@ my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
 $Self->True(
     $GroupUpdate,
     'GroupUpdate()',
+);
+
+# lookup the old group name, should return undef
+my $OldGroupID = $Self->{GroupObject}->GroupLookup( Group => $GroupRand1 );
+$Self->Is(
+    $OldGroupID,
+    undef,
+    'GroupLookup() the old group name',
 );
 
 # get data of updated Group1
