@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.14 2010-09-10 13:27:50 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.15 2010-10-19 18:06:20 dz Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -503,7 +503,7 @@ Core.Form.Validate = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.AddRule = function (Name, MethodHash) {
-        if (Name && typeof MethodHash === "Object") {
+        if (Name && (typeof MethodHash === "object" || typeof MethodHash === "Object")) {
             $.validator.addClassRules(Name, MethodHash);
         }
     };
