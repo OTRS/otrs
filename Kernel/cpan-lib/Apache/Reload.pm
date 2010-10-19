@@ -17,9 +17,9 @@ package Apache::Reload;
 
 use strict;
 
-$Apache::Reload::VERSION = '0.10';
+$Apache::Reload::VERSION = '0.11';
 
-use vars qw(%INCS %Stat $TouchTime %UndefFields);
+use vars qw(%INCS %Stat $TouchTime %UndefFields %Ignore);
 
 %Stat = ($INC{"Apache/Reload.pm"} => time);
 
@@ -30,6 +30,13 @@ sub import {
     my ($package,$file) = (caller)[0,1];
     
     $class->register_module($package, $file);
+}
+
+sub unimport {
+    my $class = shift;
+    my ($package,$file) = (caller)[0,1];
+
+    $class->unregister_module($package, $file);
 }
 
 sub package_to_module {
@@ -56,6 +63,13 @@ sub register_module {
     if (%{"${package}::FIELDS"}) {
         $UndefFields{$module} = "${package}::FIELDS";
     }
+}
+
+sub unregister_module {
+    my ($class, $package, $file) = @_;
+    my $module = package_to_module($package);
+
+    $Ignore{$module} = 1;
 }
 
 sub handler {
@@ -135,9 +149,14 @@ sub handler {
         }
 		# remove the modules
         if ($mtime > $Stat{$file}) {
-            delete $INC{$key};
-            push @changed, $key;
-	 	}
+            if ($Ignore{$key}) {
+                warn "Apache::Reload: Not reloading $key\n";
+            }
+            else {
+                delete $INC{$key};
+                push @changed, $key;
+            }
+        }
         $Stat{$file} = $mtime;
     }
 
@@ -229,6 +248,15 @@ you want to be reloaded on change:
 
 Note that these are split on whitespace, but the module list B<must>
 be in quotes, otherwise Apache tries to parse the parameter list.
+
+=head2 Un-Register Modules Explicitly
+
+If ReloadAll is set to On, then you can explicity force a module not to be reloaded with
+
+  no Apache::Reload;
+
+A warning will appear in the error log that the file has changed, but will
+not be reloaded
 
 =head2 Special "Touch" File
 

@@ -20,7 +20,7 @@ use warnings FATAL => 'all';
 
 use mod_perl2;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use Apache2::Const -compile => qw(OK);
 
@@ -86,6 +86,8 @@ sub handler {
 
     my $DEBUG = ref($o) && (lc($o->dir_config("ReloadDebug") || '') eq 'on');
 
+    my $ReloadByModuleName = ref($o) && (lc($o->dir_config("ReloadByModuleName") || '') eq 'on');
+
     my $TouchFile = ref($o) && $o->dir_config("ReloadTouchFile");
 
     my $ConstantRedefineWarnings = ref($o) && 
@@ -138,6 +140,7 @@ sub handler {
         my $file = $Apache2::Reload::INCS{$key};
 
         next unless defined $file;
+        next if ref $file;
         next if @watch_dirs && !grep { $file =~ /^$_/ } @watch_dirs;
         warn "Apache2::Reload: Checking mtime of $key\n" if $DEBUG;
 
@@ -158,24 +161,29 @@ sub handler {
         }
 
         if ($mtime > $Stat{$file}) {
-            push @changed, $key;
+            push @changed, [$key, $file];
         }
         $Stat{$file} = $mtime;
     }
     
     #First, let's unload all changed modules
-    foreach my $module (@changed) {
+    foreach my $change (@changed) {
+        my ($module, $file) = @$change;
         my $package = module_to_package($module);
         ModPerl::Util::unload_package($package);
     }
-    
+
     #Then, let's reload them all, so that module dependencies can satisfy
     #themselves in the correct order.
-    foreach my $module (@changed) {
-        my $package = module_to_package($module);
-        require $module;
-        warn("Apache2::Reload: process $$ reloading $package from $module\n")
-            if $DEBUG;
+    foreach my $change (@changed) {
+        my ($module, $file) = @$change;
+        my $name = $ReloadByModuleName ? $module : $file;
+        require $name;
+        if ($DEBUG) {
+          my $package = module_to_package($module);
+          warn sprintf("Apache2::Reload: process %d reloading %s from %s\n",
+            $$, $package, $name);
+        }
     }
 
     return Apache2::Const::OK;
@@ -206,6 +214,7 @@ Apache2::Reload - Reload Perl Modules when Changed on Disk
   PerlSetVar ReloadAll Off
   PerlSetVar ReloadModules "ModPerl::* Apache2::*"
   #PerlSetVar ReloadDebug On
+  #PerlSetVar ReloadByModuleName On
   
   # Reload a single module from within itself:
   package My::Apache2::Module;
@@ -226,16 +235,28 @@ modules that have registered themselves with C<Apache2::Reload>. It can
 also do the check for modified modules, when a special touch-file has
 been modified.
 
-Note that C<Apache2::Reload> operates on the current context of
-C<@INC>.  Which means, when called as a C<Perl*Handler> it will not
-see C<@INC> paths added or removed by C<ModPerl::Registry> scripts, as
-the value of C<@INC> is saved on server startup and restored to that
-value after each request.  In other words, if you want
-C<Apache2::Reload> to work with modules that live in custom C<@INC>
-paths, you should modify C<@INC> when the server is started.  Besides,
-C<'use lib'> in the startup script, you can also set the C<PERL5LIB>
-variable in the httpd's environment to include any non-standard 'lib'
-directories that you choose.  For example, to accomplish that you can
+Require-hooks, i.e., entries in %INC which are references, are ignored.  The 
+hook should modify %INC itself, adding the path to the module file, for it to 
+be reloaded.
+
+C<Apache2::Reload> inspects and reloads the B<file> associated with a given 
+module.  Changes to @INC are not recognized, as it is the file which is 
+being re-required, not the module name.
+
+In version 0.10 and earlier the B<module name>, not the file, is re-required.  
+Meaning it operated on the the current context of @INC.  If you still want this 
+behavior set this environment variable in I<httpd.conf>:
+
+  PerlSetVar ReloadByModuleName On
+
+This means, when called as a C<Perl*Handler>, C<Apache2::Reload> will not see 
+C<@INC> paths added or removed by C<ModPerl::Registry> scripts, as the value of 
+C<@INC> is saved on server startup and restored to that value after each 
+request.  In other words, if you want C<Apache2::Reload> to work with modules 
+that live in custom C<@INC> paths, you should modify C<@INC> when the server is 
+started.  Besides, C<'use lib'> in the startup script, you can also set the 
+C<PERL5LIB> variable in the httpd's environment to include any non-standard 
+'lib' directories that you choose.  For example, to accomplish that you can 
 include a line:
 
   PERL5LIB=/home/httpd/perl/extra; export PERL5LIB
