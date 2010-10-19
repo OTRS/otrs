@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.367 2010-10-06 13:54:30 mg Exp $
+# $Id: Defaults.pm,v 1.368 2010-10-19 15:02:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.367 $) [1];
+$VERSION = qw($Revision: 1.368 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -246,7 +246,7 @@ sub LoadDefaults {
     # (if the tickets attachments will be opened in browser or just to
     # force the download) [attachment|inline]
     #    $Self->{'AttachmentDownloadType'} = 'inline';
-    $Self->{'AttachmentDownloadType'} = 'attachment';
+    $Self->{AttachmentDownloadType} = 'attachment';
 
     # --------------------------------------------------- #
     # Check Settings
@@ -271,7 +271,7 @@ sub LoadDefaults {
     # LogModule                                           #
     # --------------------------------------------------- #
     # (log backend module)
-    $Self->{'LogModule'} = 'Kernel::System::Log::SysLog';
+    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 
 #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
@@ -306,7 +306,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details. Or use the SMTP backend.)
-    $Self->{'SendmailModule'}      = 'Kernel::System::Email::Sendmail';
+    $Self->{SendmailModule}      = 'Kernel::System::Email::Sendmail';
     $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
 
 #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
@@ -318,7 +318,7 @@ sub LoadDefaults {
     # SendmailBcc
     # (Send all outgoing email via bcc to...
     # Warning: use it only for external archive functions)
-    $Self->{'SendmailBcc'} = '';
+    $Self->{SendmailBcc} = '';
 
     # SendmailNotificationEnvelopeFrom
     # Set a email address that is used as envelope from header in outgoing
@@ -332,14 +332,14 @@ sub LoadDefaults {
     # or against Radius server)                           #
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
-    $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
+    $Self->{AuthModule} = 'Kernel::System::Auth::DB';
 
     # password crypt type (sha2|sha1|md5|crypt|plain)
 #    $Self->{'AuthModule::DB::CryptType'} = 'md5';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
-#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+#    $Self->{AuthModule} = 'Kernel::System::Auth::LDAP';
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
@@ -392,7 +392,7 @@ sub LoadDefaults {
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth.
-#    $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+#    $Self->{AuthModule} = 'Kernel::System::Auth::HTTPBasicAuth';
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
 #    $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
@@ -420,7 +420,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # This is an example configuration for an LDAP auth sync. backend.
     # (take care that Net::LDAP is installed!)
-#    $Self->{'AuthSyncModule'} = 'Kernel::System::Auth::Sync::LDAP';
+#    $Self->{AuthSyncModule} = 'Kernel::System::Auth::Sync::LDAP';
 #    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
@@ -710,7 +710,7 @@ sub LoadDefaults {
 
     # TimeWorkingHours
     # (counted hours for working time used)
-    $Self->{'TimeWorkingHours'} = {
+    $Self->{TimeWorkingHours} = {
         Mon => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
         Tue => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
         Wed => [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
@@ -724,7 +724,7 @@ sub LoadDefaults {
     # adde new days with:
     # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
 
-    $Self->{'TimeVacationDays'} = {
+    $Self->{TimeVacationDays} = {
         1  => { 1 => 'New Year\'s Eve!', },
         5  => { 1 => '1 St. May', },
         12 => {
@@ -737,9 +737,9 @@ sub LoadDefaults {
 
     # TimeVacationDaysOneTime
     # adde new own days with:
-# "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
+# "$Self->{TimeVacationDaysOneTime}->{1977}-{10}->{27} = 'Some Info';"
 
-    $Self->{'TimeVacationDaysOneTime'} = {
+    $Self->{TimeVacationDaysOneTime} = {
 #        2004 => {
 #            6 => {
 #                7 => 'Some Day',
@@ -824,13 +824,13 @@ sub LoadDefaults {
     # directories                                         #
     # --------------------------------------------------- #
     # root directory
-    $Self->{'Home'} = '/opt/otrs';
+    $Self->{Home} = '/opt/otrs';
 
     # tmp dir
-    $Self->{'TempDir'} = '<OTRS_CONFIG_Home>/var/tmp';
+    $Self->{TempDir} = '<OTRS_CONFIG_Home>/var/tmp';
 
     # html template dir
-    $Self->{'TemplateDir'} = '<OTRS_CONFIG_Home>/Kernel/Output';
+    $Self->{TemplateDir} = '<OTRS_CONFIG_Home>/Kernel/Output';
 
     # --------------------------------------------------- #
     # CommonCSS                                           #
@@ -981,7 +981,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{'PGP'}          = 0;
+    $Self->{PGP}          = 0;
     $Self->{'PGP::Bin'}     = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes';
 
@@ -992,7 +992,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
     # --------------------------------------------------- #
-    $Self->{'SMIME'} = 0;
+    $Self->{SMIME} = 0;
 
     # maybe openssl need a HOME env!
     #$ENV{HOME} = '/var/lib/wwwrun';
@@ -2229,6 +2229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.367 $ $Date: 2010-10-06 13:54:30 $
+$Revision: 1.368 $ $Date: 2010-10-19 15:02:03 $
 
 =cut
