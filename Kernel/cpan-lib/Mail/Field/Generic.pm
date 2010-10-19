@@ -4,7 +4,7 @@
 # Pod stripped from pm file by OODoc 1.06.
 package Mail::Field::Generic;
 use vars '$VERSION';
-$VERSION = '2.06';
+$VERSION = '2.07';
 
 
 use Carp;
