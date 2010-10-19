@@ -7,8 +7,9 @@ use Carp;
 use IO::File;
 use IO::Socket;
 use IO::Select;
+use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.1916";
+our $VERSION = "1.2017";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -17,6 +18,8 @@ BEGIN {
        use overload fallback=>1, '""' => sub { local $"=""; "@{$_[0]}" };
        sub new { bless $_[1] })
 }
+
+our $uidm;
 
 sub new {
     my ( $class, $server, %opts ) = @_;
@@ -52,24 +55,33 @@ sub new {
         } or croak "IO::Socket::INET6 must be installed in order to use_v6";
     }
 
-    my ( $srv, $prt ) = split( /:/, $server, 2 );
-    $prt ||= ( $opts{port} ? $opts{port} : $self->_port );
+    if( $server =~ m/cmd:(.+)/ ) {
+        $self->{cmd} = $1;
 
-    $self->{server} = $srv;
-    $self->{port}   = $prt;
+    } else {
+        if( ($self->{server}, $self->{port}) = $server =~ m/^(\d{1,3}(?:\.\d{1,3}){3})(?::(\d+))?\z/ ) {
 
-    $self->{timeout}          = ( $opts{timeout} ? $opts{timeout} : $self->_timeout );
-    $self->{retry}            = ( $opts{retry} ? $opts{retry} : $self->_retry );
-    $self->{retry_delay}      = ( $opts{retry_delay} ? $opts{retry_delay} : $self->_retry_delay );
-    $self->{bindaddr}         = $opts{bindaddr};
-    $self->{use_select_cache} = $opts{use_select_cache};
-    $self->{select_cache_ttl} = $opts{select_cache_ttl};
-    $self->{debug}            = $opts{debug};
+        } elsif( ($self->{server}, $self->{port}) = $server =~ m/^\[([a-fA-F0-9:]+)\]:(\d+)\z/ ) {
 
-    # Pop the port off the address string if it's not an IPv6 IP address
-    if ( !$self->{use_v6} && $self->{server} =~ /^[A-Fa-f0-9]{4}:[A-Fa-f0-9]{4}:/ && $self->{server} =~ s/:(\d+)$//g ) {
-        $self->{port} = $1;
+        } elsif( ($self->{server}, $self->{port}) = $server =~ m/^([a-fA-F0-9:]+)\z/ ) {
+
+        } elsif( ($self->{server}, $self->{port}) = $server =~ m/^([^:]+):(\d+)\z/ ) {
+
+        } else {
+            $self->{server} = $server;
+        }
+
+        $self->{port} = $self->_port unless defined $self->{port};
     }
+
+    $self->{timeout}           = ( $opts{timeout} ? $opts{timeout} : $self->_timeout );
+    $self->{retry}             = ( $opts{retry} ? $opts{retry} : $self->_retry );
+    $self->{retry_delay}       = ( $opts{retry_delay} ? $opts{retry_delay} : $self->_retry_delay );
+    $self->{bindaddr}          = $opts{bindaddr};
+    $self->{use_select_cache}  = $opts{use_select_cache};
+    $self->{select_cache_ttl}  = $opts{select_cache_ttl};
+    $self->{debug}             = $opts{debug};
+    $self->{readline_callback} = $opts{readline_callback};
 
     my $sock;
     my $c;
@@ -97,10 +109,11 @@ sub new {
 
     my $select = $self->{sel} = IO::Select->new($sock);
 
-    $self->_debug( caller, __LINE__, 'new', "looking for greeting" ) if $self->{debug};
+    $self->_debug( caller, __LINE__, 'new', "waiting for socket ready" ) if $self->{debug};
 
     my $greeting_ok = 0;
     if( $select->can_read($self->{timeout}) ) {
+        $self->_debug( caller, __LINE__, 'new', "looking for greeting" ) if $self->{debug};
         if( my $line = $sock->getline ) {
             # Cool, we got a line, check to see if it's a
             # greeting.
@@ -132,21 +145,26 @@ sub _connect {
     my ($self) = @_;
     my $sock;
 
-    $sock = $self->_sock_from->new(
-        PeerAddr => $self->{server},
-        PeerPort => $self->{port},
-        Timeout  => $self->{timeout},
-        Proto    => 'tcp',
-        ( $self->{bindaddr} ? { LocalAddr => $self->{bindaddr} } : () )
-    );
+    if( $self->{cmd} ) {
+        $sock = Net::IMAP::Simple::PipeSocket->new(cmd=>$self->{cmd});
+
+    } else {
+        $sock = $self->_sock_from->new(
+            PeerAddr => $self->{server},
+            PeerPort => $self->{port},
+            Timeout  => $self->{timeout},
+            Proto    => 'tcp',
+            ( $self->{bindaddr} ? { LocalAddr => $self->{bindaddr} } : () )
+        );
+    }
 
     return $sock;
 }
 
-sub _port        { return $_[0]->{use_ssl} ? 993 : 143 } 
+sub _port        { return $_[0]->{use_ssl} ? 993 : 143 }
 sub _sock        { return $_[0]->{sock} }
 sub _count       { return $_[0]->{count} }
-sub _last        { $_[0]->select unless exists $_[0]->{last}; return $_[0]->{last} }
+sub _last        { $_[0]->select unless exists $_[0]->{last}; return $_[0]->{last}||0 }
 sub _timeout     { return 90 }
 sub _retry       { return 1 }
 sub _retry_delay { return 5 }
@@ -211,24 +229,69 @@ sub _clear_cache {
     return 1;
 }
 
+sub uidnext {
+    my $self = shift;
+    my $mbox = shift || $self->current_box || "INBOX";
+
+    return $self->status($mbox => 'uidnext');
+}
+
+sub uidvalidity {
+    my $self = shift;
+    my $mbox = shift || $self->current_box || "INBOX";
+
+    return $self->status($mbox => 'uidvalidity');
+}
+
+sub uidsearch {
+    my $self = shift;
+
+    local $uidm = 1;
+
+    return $self->search(@_);
+}
+
+sub uid {
+    my $self = shift;
+       $self->_be_on_a_box; # does a select if we're not on a mailbox
+
+    return $self->uidsearch( shift || "1:*" );
+}
+
+sub seq {
+    my $self = shift;
+    my $msgno = shift || "1:*";
+
+    $self->_be_on_a_box; # does a select if we're not on a mailbox
+
+    return $self->search("uid $msgno");
+}
+
 sub status {
     my $self = shift;
     my $mbox = shift || $self->current_box || "INBOX";
+    my @fields = @_ ? @_ : qw(unseen recent messages);
 
     # Example: C: A042 STATUS blurdybloop (UIDNEXT MESSAGES)
     #          S: * STATUS blurdybloop (MESSAGES 231 UIDNEXT 44292)
     #          S: A042 OK STATUS completed
 
-    my ($unseen, $recent, $messages);
+    @fields = map{uc$_} @fields;
+    my %fields;
 
     return $self->_process_cmd(
-        cmd     => [ STATUS => _escape($mbox) . " (UNSEEN RECENT MESSAGES)" ],
-        final   => sub { return unless defined $messages; ($unseen, $recent, $messages) },
+        cmd     => [ STATUS => _escape($mbox) . " (@fields)" ],
+        final   => sub { (@fields{@fields}) },
         process => sub {
             if( my ($status) = $_[0] =~ m/\* STATUS.+?$mbox.+?\((.+?)\)/i ) {
-                $unseen   = $1 if $status =~ m/UNSEEN (\d+)/i;
-                $recent   = $1 if $status =~ m/RECENT (\d+)/i;
-                $messages = $1 if $status =~ m/MESSAGES (\d+)/i;
+
+                for( @fields ) {
+                    $fields{$_} = _unescape($1)
+                        if $status =~ m/$_\s+(\S+|"[^"]+"|'[^']+')/i
+                            # NOTE: this regex isn't perfect, but should almost always work
+                            # for status values returned by a well meaning IMAP server
+                }
+
             }
         },
     );
@@ -363,7 +426,12 @@ sub top {
 
     return $self->_process_cmd(
         cmd   => [ FETCH => qq[$number RFC822.HEADER] ],
-        final => sub { \@lines },
+        final => sub {
+            $lines[-1] =~ s/\)\x0d\x0a\z//; # sometimes we get this and I don't think we should
+                                            # I really hoping I'm not breaking someting by doing this.
+
+            \@lines
+        },
         process => sub {
             return if $_[0] =~ m/\*\s+\d+\s+FETCH/i; # should this really be case insensitive?
 
@@ -395,11 +463,43 @@ sub deleted {
     return 0;
 }
 
+sub range2list {
+    my $self_or_class = shift;
+    my %h;
+    my @items = sort {$a<=>$b} grep {!$h{$_}++} map { m/(\d+):(\d+)/ ? ($1 .. $2) : ($_) } split(m/[,\s]+/, shift);
+
+    return @items;
+}
+
+sub list2range {
+    my $self_or_class = shift;
+    my %h;
+    my @a = sort { $a<=>$b } grep {!$h{$_}++} grep {m/^\d+/} grep {defined $_} @_;
+    my @b;
+
+    while(@a) {
+        my $e = 0;
+
+        $e++ while $e+1 < @a and $a[$e]+1 == $a[$e+1];
+
+        push @b, ($e>0 ? [$a[0], $a[$e]] : [$a[0]]);
+        splice @a, 0, $e+1;
+    }
+
+    return join(",", map {join(":", @$_)} @b);
+}
+
 sub list {
     my ( $self, $number ) = @_;
 
+    # NOTE: this entire function is horrible:
+    # 1. it should be called message_size() or something similar
+    # 2. what if $number is a range? none of this works right
+
     my $messages = $number || '1:' . $self->_last;
     my %list;
+
+    return {} if $messages eq "1:0";
 
     return $self->_process_cmd(
         cmd => [ FETCH => qq[$messages RFC822.SIZE] ],
@@ -414,9 +514,13 @@ sub list {
 
 sub search {
     my ($self, $search, $sort, $charset) = @_;
+
     $search   ||= "ALL";
     $charset  ||= 'UTF-8';
-    my $cmd   = 'SEARCH';
+
+    my $cmd = $uidm ? 'UID SEARCH' : 'SEARCH';
+
+    $self->_be_on_a_box; # does a select if we're not on a mailbox
 
     # add rfc5256 sort, requires charset :(
     if ($sort) {
@@ -430,8 +534,10 @@ sub search {
         cmd => [ $cmd => $search ],
         final => sub { wantarray ? @seq : int @seq },
         process => sub { if ( my ($msgs) = $_[0] =~ /^\*\s+(?:SEARCH|SORT)\s+(.*)/i ) {
-            push @seq, $1 while $msgs =~ m/\b(\d+)\b/g;
-        } },
+
+            @seq = $self->range2list($msgs);
+
+        }},
     );
 }
 
@@ -460,7 +566,7 @@ sub _process_date {
             # NOTE: RFC 3501 wants this poorly-internationalized date format
             # for SEARCH.  Not my fault.
 
-            return Date::Manip::UnixDate($pd, '%d-%m-%Y');
+            return Date::Manip::UnixDate($pd, '%d-%b-%Y');
         }
 
     } else {
@@ -494,12 +600,13 @@ sub search_subject { my $self = shift; my $t = _process_qstring(shift); return $
 sub search_body    { my $self = shift; my $t = _process_qstring(shift); return $self->search("BODY $t"); }
 
 sub get {
-    my ( $self, $number ) = @_;
+    my ( $self, $number, $part ) = @_;
+    my $arg = $part ? "BODY[$part]" : 'RFC822';
 
     my @lines;
 
     return $self->_process_cmd(
-        cmd => [ FETCH => qq[$number RFC822] ],
+        cmd => [ FETCH => qq[$number $arg] ],
         final => sub { pop @lines; wantarray ? @lines : Net::IMAP::Simple::_message->new(\@lines) },
         process => sub {
             if ( $_[0] !~ /^\* \d+ FETCH/ ) {
@@ -596,20 +703,35 @@ sub getfh {
     );
 }
 
+sub logout {
+    my $self = shift;
+
+    return $self->_process_cmd( cmd => ['LOGOUT'], final => sub { $self->_sock->close; 1 }, process => sub { } );
+}
+
 sub quit {
     my ( $self, $hq ) = @_;
-    $self->_send_cmd('EXPUNGE');
+    $self->_send_cmd('EXPUNGE'); # XXX: $self->expunge_mailbox?
 
     if ( !$hq ) {
+        # XXX: $self->logout?
         $self->_process_cmd( cmd => ['LOGOUT'], final => sub { 1 }, process => sub { } );
 
     } else {
+        # XXX: do people use the $hq?
         $self->_send_cmd('LOGOUT');
     }
 
     $self->_sock->close;
 
     return 1;
+}
+
+sub _be_on_a_box {
+    my $self = shift;
+    return if $self->{working_box};
+    $self->select; # sit on something
+    return;
 }
 
 sub last { ## no critic -- too late to choose a different name now...
@@ -842,6 +964,17 @@ sub copy {
     );
 }
 
+sub uidcopy {
+    my ( $self, $number, $box ) = @_;
+    my $b = _escape($box);
+
+    return $self->_process_cmd(
+        cmd     => [ 'UID COPY' => qq[$number $b] ],
+        final   => sub { 1 },
+        process => sub { },
+    );
+}
+
 sub waserr {
     return $_[0]->{_waserr};
 }
@@ -930,13 +1063,22 @@ sub _process_cmd {
     my ( $self, %args ) = @_;
     my ( $sock, $id )   = $self->_send_cmd( @{ $args{cmd} } );
 
+    $args{process} = sub {} unless ref($args{process}) eq "CODE";
+    $args{final}   = sub {} unless ref($args{final})   eq "CODE";
+
+    my $cb = $self->{readline_callback};
+
     my $res;
     while ( $res = $sock->getline ) {
+        $cb->($res) if $cb;
         $self->_debug( caller, __LINE__, '_process_cmd', $res ) if $self->{debug};
 
         if ( $res =~ /^\*.*\{(\d+)\}[\r\n]*$/ ) {
             $args{process}->($res);
-            $args{process}->($_) foreach $self->_read_multiline( $sock, $1 );
+            foreach( $self->_read_multiline( $sock, $1 ) ) {
+                $cb->($_) if $cb;
+                $args{process}->($_)
+            }
 
         } else {
             my $ok = $self->_cmd_ok($res);
@@ -982,6 +1124,14 @@ sub _debug {
     if ( ref( $self->{debug} ) eq 'GLOB' ) {
         print { $self->{debug} } $line;
 
+    } elsif( $self->{debug} eq "warn" ) {
+        warn $line;
+
+    } elsif( $self->{debug} =~ m/^file:(.+)/ ) {
+        open my $out, ">>",  $1 or warn "[log io fail: $@] $line";
+        print $out $line;
+        CORE::close($out);
+
     } else {
         print STDOUT $line;
     }
@@ -989,4 +1139,4 @@ sub _debug {
     return;
 }
 
-"True"; ## no critic -- pfft
+1;
