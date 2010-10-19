@@ -5,7 +5,7 @@ use base qw/Net::Cmd IO::Socket::SSL Exporter/;
 use 5.008001;
 use Net::POP3;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our @EXPORT = 'pop3s';
 
 my @instances;
@@ -41,8 +41,8 @@ Net::POP3::SSLWrapper - simple POP3S wrapper for Net::POP3
 
   use Net::POP3::SSLWrapper;
   pop3s {
-    my $pop = Net::POP3->new('mail.example.com', Port => 995) or die "Can't connect";
-    if ($pop->login($YOURMAIL, $PASSWORD) > 0) {
+    my $pop3 = Net::POP3->new('mail.example.com', Port => 995) or die "Can't connect";
+    if ($pop3->login($YOURMAIL, $PASSWORD) > 0) {
       my $msgnum = $pop3->list;
     }
     $pop3->quit;
