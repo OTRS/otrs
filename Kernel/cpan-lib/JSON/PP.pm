@@ -11,7 +11,7 @@ use Carp ();
 use B ();
 #use Devel::Peek;
 
-$JSON::PP::VERSION = '2.27003';
+$JSON::PP::VERSION = '2.27007';
 
 @JSON::PP::EXPORT = qw(encode_json decode_json from_json to_json);
 
@@ -39,6 +39,8 @@ use constant P_ESCAPE_SLASH         => 16;
 use constant P_AS_NONBLESSED        => 17;
 
 use constant P_ALLOW_UNKNOWN        => 18;
+
+use constant OLD_PERL => $] < 5.008 ? 1 : 0;
 
 BEGIN {
     my @xs_compati_bit_properties = qw(
@@ -356,8 +358,7 @@ sub allow_bigint {
 
     sub hash_to_json {
         my ($self, $obj) = @_;
-        my ($k,$v);
-        my %res;
+        my @res;
 
         encode_error("json text or perl structure exceeds maximum nesting level (max_depth set too low?)")
                                          if (++$depth > $max_depth);
@@ -365,34 +366,17 @@ sub allow_bigint {
         my ($pre, $post) = $indent ? $self->_up_indent() : ('', '');
         my $del = ($space_before ? ' ' : '') . ':' . ($space_after ? ' ' : '');
 
-        if ( my $tie_class = tied %$obj ) {
-            if ( $tie_class->can('TIEHASH') ) {
-                $tie_class =~ s/=.+$//;
-                tie %res, $tie_class;
-            }
-        }
-
-        # In the old Perl verions, tied hashes in bool context didn't work.
-        # So, we can't use such a way (%res ? a : b)
-        my $has;
-
-        for my $k (keys %$obj) {
-            my $v = $obj->{$k};
-            $res{$k} = $self->object_to_json($v) || $self->value_to_json($v);
-            $has = 1 unless ( $has );
+        for my $k ( _sort( $obj ) ) {
+            if ( OLD_PERL ) { utf8::decode($k) } # key for Perl 5.6 / be optimized
+            push @res, string_to_json( $self, $k )
+                          .  $del
+                          . ( $self->object_to_json( $obj->{$k} ) || $self->value_to_json( $obj->{$k} ) );
         }
 
         --$depth;
         $self->_down_indent() if ($indent);
 
-        return '{' . ( $has ? $pre : '' )                                                   # indent
-                   . ( $has ? join(",$pre", map { utf8::decode($_) if ($] < 5.008);         # key for Perl 5.6
-                                                string_to_json($self, $_) . $del . $res{$_} # key : value
-                                            } _sort( $self, \%res )
-                             ) . $post                                                      # indent
-                           : ''
-                     )
-             . '}';
+        return   '{' . ( @res ? $pre : '' ) . ( @res ? join( ",$pre", @res ) . $post : '' )  . '}';
     }
 
 
@@ -404,13 +388,6 @@ sub allow_bigint {
                                          if (++$depth > $max_depth);
 
         my ($pre, $post) = $indent ? $self->_up_indent() : ('', '');
-
-        if (my $tie_class = tied @$obj) {
-            if ( $tie_class->can('TIEARRAY') ) {
-                $tie_class =~ s/=.+$//;
-                tie @res, $tie_class;
-            }
-        }
 
         for my $v (@$obj){
             push @res, $self->object_to_json($v) || $self->value_to_json($v);
@@ -535,8 +512,7 @@ sub allow_bigint {
 
 
     sub _sort {
-        my ($self, $res) = @_;
-        defined $keysort ? (sort $keysort (keys %$res)) : keys %$res;
+        defined $keysort ? (sort $keysort (keys %{$_[0]})) : keys %{$_[0]};
     }
 
 
@@ -613,7 +589,7 @@ my $max_intsize;
 
 BEGIN {
     my $checkint = 1111;
-    for my $d (5..30) {
+    for my $d (5..64) {
         $checkint .= 1;
         my $int   = eval qq| $checkint |;
         if ($int =~ /[eE]/) {

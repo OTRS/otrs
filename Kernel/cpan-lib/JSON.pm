@@ -7,7 +7,7 @@ use base qw(Exporter);
 @JSON::EXPORT = qw(from_json to_json jsonToObj objToJson encode_json decode_json);
 
 BEGIN {
-    $JSON::VERSION = '2.21';
+    $JSON::VERSION = '2.26';
     $JSON::DEBUG   = 0 unless (defined $JSON::DEBUG);
 }
 
@@ -128,6 +128,9 @@ sub objToJson {
 # INTERFACES
 
 sub to_json ($@) {
+    if ( ref($_[0]) eq 'JSON' or $_[0] eq 'JSON' ) {
+        Carp::croak "to_json should not be called as a method.";
+    }
     my $json = new JSON;
 
     if (@_ == 2 and ref $_[1] eq 'HASH') {
@@ -142,6 +145,9 @@ sub to_json ($@) {
 
 
 sub from_json ($@) {
+    if ( ref($_[0]) eq 'JSON' or $_[0] eq 'JSON' ) {
+        Carp::croak "from_json should not be called as a method.";
+    }
     my $json = new JSON;
 
     if (@_ == 2 and ref $_[1] eq 'HASH') {
@@ -405,6 +411,18 @@ sub support_by_pp {
     local $^W;
     no strict qw(refs);
 
+    my $JSON_XS_encode_orignal     = \&JSON::XS::encode;
+    my $JSON_XS_decode_orignal     = \&JSON::XS::decode;
+    my $JSON_XS_incr_parse_orignal = \&JSON::XS::incr_parse;
+
+    *JSON::XS::decode     = \&JSON::Backend::XS::Supportable::_decode;
+    *JSON::XS::encode     = \&JSON::Backend::XS::Supportable::_encode;
+    *JSON::XS::incr_parse = \&JSON::Backend::XS::Supportable::_incr_parse;
+
+    *{JSON::XS::_original_decode}     = $JSON_XS_decode_orignal;
+    *{JSON::XS::_original_encode}     = $JSON_XS_encode_orignal;
+    *{JSON::XS::_original_incr_parse} = $JSON_XS_incr_parse_orignal;
+
     push @JSON::Backend::XS::Supportable::ISA, 'JSON';
 
     my $pkg = 'JSON::Backend::XS::Supportable';
@@ -441,21 +459,6 @@ sub support_by_pp {
 #
 
 package JSON::Backend::XS::Supportable;
-
-{
-    my $JSON_XS_encode_orignal = \&JSON::XS::encode;
-    my $JSON_XS_decode_orignal = \&JSON::XS::decode;
-    my $JSON_XS_incr_parse_orignal = \&JSON::XS::incr_parse;
-
-    local $^W;
-    *JSON::XS::decode = \&JSON::Backend::XS::Supportable::_decode;
-    *JSON::XS::encode = \&JSON::Backend::XS::Supportable::_encode;
-    *JSON::XS::incr_parse = \&JSON::Backend::XS::Supportable::_incr_parse;
-
-    *{JSON::XS::_original_decode} = $JSON_XS_decode_orignal;
-    *{JSON::XS::_original_encode} = $JSON_XS_encode_orignal;
-    *{JSON::XS::_original_incr_parse} = $JSON_XS_incr_parse_orignal;
-}
 
 $Carp::Internal{'JSON::Backend::XS::Supportable'} = 1;
 
@@ -608,7 +611,7 @@ JSON - JSON (JavaScript Object Notation) encoder/decoder
  
 =head1 VERSION
 
-    2.21
+    2.26
 
 This version is compatible with JSON::XS B<2.27> and later.
 
