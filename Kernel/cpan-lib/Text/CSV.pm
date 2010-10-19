@@ -6,14 +6,14 @@ use Carp ();
 use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $VERSION = '1.18';
+    $VERSION = '1.19';
     $DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.72';
+my $XS_Version = '0.74';
 
 my $Is_Dynamic = 0;
 
@@ -287,13 +287,13 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.17
+    1.19
 
-This module is compatible with Text::CSV_XS B<0.72> and later.
+This module is compatible with Text::CSV_XS B<0.74> and later.
 
 =head2 Embedded newlines
 
-B<Important Note>: The default behavior is to only accept ascii characters.
+B<Important Note>: The default behavior is to only accept ASCII characters.
 This means that fields can not contain newlines. If your data contains
 newlines embedded in fields, or characters above 0x7e (tilde), or binary data,
 you *must* set C<< binary => 1 >> in the call to C<new ()>.  To cover the widest
@@ -308,7 +308,7 @@ usage:
      $csv->parse ($_);
      my @fields = $csv->fields ();
 
-will break, as the while might read broken lines, as that doesn't care
+will break, as the while might read broken lines, as that does not care
 about the quoting. If you need to support embedded newlines, the way to go
 is either
 
@@ -329,9 +329,6 @@ On parsing (both for C<getline ()> and C<parse ()>), if the source is
 marked being UTF8, then all fields that are marked binary will also be
 be marked UTF8.
 
-On combining (C<print ()> and C<combine ()>), if any of the combining
-fields was marked UTF8, the resulting string will be marked UTF8.
-
 For complete control over encoding, please use L<Text::CSV::Encoded>:
 
     use Text::CSV::Encoded;
@@ -347,6 +344,19 @@ For complete control over encoding, please use L<Text::CSV::Encoded>:
     $csv = Text::CSV::Encoded->new ({ encoding  => undef }); # default
     # combine () and print () accept UTF8 marked data
     # parse () and getline () return UTF8 marked data
+
+On combining (C<print ()> and C<combine ()>), if any of the combining
+fields was marked UTF8, the resulting string will be marked UTF8.
+
+Note however if the backend module is Text::CSV_XS,
+that all fields C<before> the first field that was marked UTF8
+and contained 8-bit characters that were not upgraded to UTF8, these
+will be bytes in the resulting string too, causing errors. If you pass
+data of different encoding, or you don't know if there is different
+encoding, force it to be upgraded before you pass them on:
+
+    # backend = Text::CSV_XS
+    $csv->print ($fh, [ map { utf8::upgrade (my $x = $_); $x } @data ]);
 
 =head1 SPECIFICATION
 
@@ -453,7 +463,7 @@ is read as
 
  (1, undef, undef, " ", 2)
 
-Note that this only effects fields that are I<realy> empty, not fields
+Note that this only effects fields that are I<really> empty, not fields
 that are empty after stripping allowed whitespace. YMMV.
 
 =item quote_char
@@ -542,8 +552,8 @@ of the I<types> method below.
 
 By default the generated fields are quoted only, if they need to, for
 example, if they contain the separator. If you set this attribute to
-a TRUE value, then all fields will be quoted. This is typically easier
-to handle in external applications.
+a TRUE value, then all defined fields will be quoted. This is typically
+easier to handle in external applications.
 
 =item quote_space
 
@@ -589,7 +599,7 @@ Imagine a file format like
 where, the line ending is a very specific "#\r\n", and the sep_char
 is a ^ (caret). None of the fields is quoted, but embedded binary
 data is likely to be present. With the specific line ending, that
-shouldn't be too hard to detect.
+shouldn not be too hard to detect.
 
 By default, Text::CSV' parse function however is instructed to only
 know about "\n" and "\r" to be legal line endings, and so has to deal
@@ -674,7 +684,7 @@ implies that the following is wrong in perl 5.005_xx and older:
  $status = $csv->print (\*FILE, $colref);
 
 as in perl 5.005 and older, the glob C<\*FILE> is not an object, thus it
-doesn't have a print method. The solution is to use an IO::File object or
+does not have a print method. The solution is to use an IO::File object or
 to hide the glob behind an IO::Wrap object. See L<IO::File> and L<IO::Wrap>
 for details.
 
@@ -847,7 +857,7 @@ was called more recently.
 
 For each field, a meta_info field will hold flags that tell something about
 the field returned by the C<fields ()> method or passed to the C<combine ()>
-method. The flags are bitwise-or'd like:
+method. The flags are bit-wise-or'd like:
 
 =over 4
 

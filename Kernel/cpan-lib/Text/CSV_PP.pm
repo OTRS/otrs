@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.26';
+$VERSION = '1.27';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -58,7 +58,7 @@ my $ERRORS = {
         3003 => "EHR - bind_columns () and column_names () fields count mismatch",
         3004 => "EHR - bind_columns () only accepts refs to scalars",
         3006 => "EHR - bind_columns () did not pass enough refs for parsed fields",
-        3007 => "EHR - bind_columns needs refs to writeable scalars",
+        3007 => "EHR - bind_columns needs refs to writable scalars",
         3008 => "EHR - unexpected error in bound fields",
 
         0    => "",
@@ -361,7 +361,6 @@ sub _parse {
     my $re_quot_char    = $self->{_re_quot_char}->{$quot}            ||= qr/\Q$quot\E/;
     my $re_esc          = $self->{_re_esc}->{$quot}->{$esc}          ||= qr/\Q$esc\E(\Q$quot\E|\Q$esc\E|0)/;
     my $re_invalid_quot = $self->{_re_invalid_quot}->{$quot}->{$esc} ||= qr/^$re_quot_char|[^\Q$re_esc\E]$re_quot_char/;
-    my $re_rs           = $self->{_re_rs}->{$/} ||= qr{\Q$/\E?$}; # $/ .. input record separator
 
     if ($allow_whitespace) {
         $re_split = $self->{_re_split_allow_sp}->{$quot}->{$esc}->{$sep}
@@ -620,12 +619,13 @@ sub getline {
 
     my $quot = $self->{quote_char};
     my $sep  = $self->{sep_char};
-    my $re   = defined $quot ? qr/(?:\Q$quot\E)/ : '';
+    my $re   =  defined $quot ? qr/(?:\Q$quot\E)/ : undef;
 
-    local $/ = "\r" if $self->{_AUTO_DETECT_CR};
+    my $eol  = $self->{eol};
+
+    local $/ = $eol if ( defined $eol and $eol ne '' );
 
     my $line = $io->getline();
-    my $eol  = $self->{eol};
 
     # AUTO DETECTION EOL CR
     if ( defined $line and defined $eol and $eol eq '' and $line =~ /[^\r]\r[^\r\n]/ and eof ) {
@@ -635,24 +635,22 @@ sub getline {
         return $self->getline( $io );
     }
 
-    if ( defined $line and $line =~ /${re}0/ ) { # null containing line
-        my $auto_diag = $self->auto_diag;
-        $self->auto_diag( 0 ) if ( $auto_diag ); # stop auto error diag
+    if ( $re and defined $line ) {
+        LOOP: {
+            my $is_continued   = scalar(my @list = $line =~ /$re/g) % 2; # if line is valid, quot is even
 
-        while ( not $self->_parse($line) and !eof($io) ) {
-            $line .= $io->getline();
+            if ( $line =~ /${re}0/ ) { # null suspicion case
+                $is_continued = $line =~ /^($re(?:$re$re|${re}0|[^$re])+$re[^0])+$/  ? 0 : 1;
+            }
+
+            if ( $is_continued and !eof($io) ) {
+                $line .= $io->getline();
+                goto LOOP;
+            }
         }
-
-        $self->auto_diag( $auto_diag ) if ( $auto_diag ); # restore
-
-        return $self->_return_getline_result;
     }
 
-    $line .= $io->getline() while ( defined $line and scalar(my @list = $line =~ /$re/g) % 2 and !eof($io) );
-
-    if ( $self->{verbatim} and defined $eol and defined $line ) { # VERBATIM MODE
-        $line =~ s/\Q$eol\E$//;
-    }
+    $line =~ s/\Q$eol\E$// if ( defined $line and defined $eol and $eol ne '' );
 
     $self->_parse($line);
 
@@ -981,9 +979,9 @@ is a XS module and Text::CSV_PP is a Puer Perl one.
 
 =head1 VERSION
 
-    1.24
+    1.27
 
-This module is compatible with Text::CSV_XS B<0.68> and later.
+This module is compatible with Text::CSV_XS B<0.74> and later.
 
 =head2 Unicode (UTF8)
 
@@ -1186,8 +1184,8 @@ of the I<types> method below.
 
 By default the generated fields are quoted only, if they need to, for
 example, if they contain the separator. If you set this attribute to
-a TRUE value, then all fields will be quoted. This is typically easier
-to handle in external applications.
+a TRUE value, then all defined fields will be quoted. This is typically
+easier to handle in external applications.
 
 =item quote_space
 
@@ -1654,7 +1652,7 @@ C<escape_char> is not allowed.
 
 =item 3006 "EHR - bind_columns () did not pass enough refs for parsed fields"
 
-=item 3007 "EHR - bind_columns needs refs to writeable scalars"
+=item 3007 "EHR - bind_columns needs refs to writable scalars"
 
 =item 3008 "EHR - unexpected error in bound fields"
 
