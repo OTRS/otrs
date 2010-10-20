@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.15 2010-10-18 22:20:55 ub Exp $
+# $Id: Group.t,v 1.16 2010-10-20 11:07:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -187,6 +187,7 @@ $Self->True(
 
 # lookup the old group name, should return undef
 my $OldGroupID = $Self->{GroupObject}->GroupLookup( Group => $GroupRand1 );
+
 $Self->Is(
     $OldGroupID,
     undef,
@@ -322,6 +323,15 @@ my $RoleUpdate = $Self->{GroupObject}->RoleUpdate(
 $Self->True(
     $RoleUpdate,
     'RoleUpdate()',
+);
+
+# lookup the old role name, should return undef
+my $OldRoleID = $Self->{GroupObject}->RoleLookup( Role => $RoleRand1 );
+
+$Self->Is(
+    $OldRoleID,
+    undef,
+    'RoleLookup() the old role name',
 );
 
 # get data of updated Role1

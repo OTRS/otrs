@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1474 2010-10-19 18:06:21 dz Exp $
+# $Id: CHANGES,v 1.1475 2010-10-20 11:07:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-20 Fixed bug#6132 - Wrong caching in RoleLookup function in Kernel/System/Group.pm.
+ - 2010-10-19 Fixed bug#6124 - Wrong caching in GroupLookup function in Kernel/System/Group.pm.
  - 2010-10-19 Fixed bug#6127 - External function to create validation rules fails in Firefox on Ubuntu Linux.
  - 2010-10-19 Updated CPAN module Text::CSV to version 1.19.
  - 2010-10-19 Updated CPAN module Net::POP3::SSLWrapper to version 0.05.

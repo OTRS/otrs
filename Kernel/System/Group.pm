@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.85 2010-10-18 22:20:55 ub Exp $
+# $Id: Group.pm,v 1.86 2010-10-20 11:07:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -1581,6 +1581,9 @@ sub RoleUpdate {
         }
     }
 
+    # get the old role name to delete the cache
+    my $OldRoleName = $Self->RoleLookup( RoleID => $Param{ID} );
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE roles SET name = ?, comments = ?, valid_id = ?, '
@@ -1594,6 +1597,7 @@ sub RoleUpdate {
     my @CacheKeys = (
         'RoleLookup::ID::' . $Param{ID},
         'RoleLookup::Name::' . $Param{Name},
+        'RoleLookup::Name::' . $OldRoleName,
     );
     for my $CacheKey (@CacheKeys) {
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
@@ -1672,6 +1676,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2010-10-18 22:20:55 $
+$Revision: 1.86 $ $Date: 2010-10-20 11:07:44 $
 
 =cut
