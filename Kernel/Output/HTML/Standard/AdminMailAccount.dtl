@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.27 2010-10-13 15:32:13 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.28 2010-10-20 07:15:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@
                 <h2>$Text{"Add Mail Account"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="AddAction"/>
                     <fieldset class="TableLike">
@@ -116,21 +116,39 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="LoginAdd">$Text{"Username"}:</label>
+                        <label class="Mandatory" for="LoginAdd"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Login" id="LoginAdd" value="" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required" name="Login" id="LoginAdd" value="" maxlength="200"/>
+                            <div id="LoginAddError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a username!"}</p>
+                            </div>
+                            <div id="LoginAddServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The username is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="PasswordAdd">$Text{"Password"}:</label>
+                        <label class="Mandatory" for="PasswordAdd"><span class="Marker">*</span> $Text{"Password"}:</label>
                         <div class="Field">
-                            <input type="password" class="W50pc" name="Password" id="PasswordAdd" value="" maxlength="200"/>
+                            <input type="password" class="W50pc Validate_Required" name="Password" id="PasswordAdd" value="" maxlength="200"/>
+                            <div id="PasswordAddError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a password!"}</p>
+                            </div>
+                            <div id="PasswordAddServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The username is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="HostAdd">$Text{"Host"}:</label>
+                        <label class="Mandatory" for="HostAdd"><span class="Marker">*</span> $Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Host" id="HostAdd" value="" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required" name="Host" id="HostAdd" value="" maxlength="200"/>
+                            <div id="HostAddError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a host!"}</p>
+                            </div>
+                            <div id="HostAddServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The host is required."}</p>
+                            </div>
                             <p class="FieldExplanation">Example: mail.example.com</p>
                         </div>
                         <div class="Clear"></div>
@@ -181,7 +199,7 @@
                 <h2>$Text{"Edit Mail Account"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -192,21 +210,39 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="LoginEdit">$Text{"Username"}:</label>
+                        <label class="Mandatory" for="LoginEdit"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
+                            <div id="LoginEditError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a username!"}</p>
+                            </div>
+                            <div id="LoginEditServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The username is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="PasswordEdit">$Text{"Password"}:</label>
+                        <label class="Mandatory" for="PasswordEdit"><span class="Marker">*</span> $Text{"Password"}:</label>
                         <div class="Field">
-                            <input type="password" class="W50pc" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
+                            <input type="password" class="W50pc Validate_Required" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
+                            <div id="PasswordEditError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a password!"}</p>
+                            </div>
+                            <div id="PasswordEditServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The username is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="HostEdit">$Text{"Host"}:</label>
+                        <label class="Mandatory" for="HostEdit"><span class="Marker">*</span> $Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
+                            <div id="HostEditError" class="TooltipErrorMessage">
+                                <p>$Text{"A mail account should have a host!"}</p>
+                            </div>
+                            <div id="HostEditServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The host is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

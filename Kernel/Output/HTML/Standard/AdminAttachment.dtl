@@ -2,7 +2,7 @@
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.17 2010-08-06 16:07:51 en Exp $
+# $Id: AdminAttachment.dtl,v 1.18 2010-10-20 07:15:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,21 +99,38 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
 
                     <fieldset class="TableLike">
-                        <label for="Name">$Text{"Name"}:</label>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="50"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"An attachment should have a name!"}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The name is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
+<!-- dtl:block:ContenLabelAdd -->
+                        <label class="Mandatory" for="file_upload"><span class="Marker">*</span> $Text{"Attachment"}:</label>
+<!-- dtl:block:ContenLabelAdd -->
+<!-- dtl:block:ContenLabelEdit -->
                         <label for="file_upload">$Text{"Attachment"}:</label>
+<!-- dtl:block:ContenLabelEdit -->
                         <div class="Field">
-                            <input name="file_upload" id="file_upload" type="file" class="W50pc"/>
+                            <input name="file_upload" id="file_upload" type="file" class="W50pc $QData{"ValidateContent"}"/>
+                            <div id="file_uploadError" class="TooltipErrorMessage">
+                                <p>$Text{"An attachment should have content!"}</p>
+                            </div>
+                            <div id="file_uploadError" class="TooltipErrorMessage">
+                                <p>$Text{"The content is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

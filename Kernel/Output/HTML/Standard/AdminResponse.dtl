@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.28 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminResponse.dtl,v 1.29 2010-10-20 07:15:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,20 +116,32 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
-                        <label for="Name">$Text{"Name"}:</label>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="50"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"A response should have a name!"}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The name is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="RichText">$Text{"Response"}:</label>
                         <div class="RichTextField">
                             <textarea id="RichText" class="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>$Text{"A response should have a text!"}</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The text is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

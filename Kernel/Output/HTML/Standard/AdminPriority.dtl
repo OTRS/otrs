@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.24 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminPriority.dtl,v 1.25 2010-10-20 07:15:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,14 +97,20 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="get">
+                <form action="$Env{"CGIHandle"}" method="get" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}" />
                     <input type="hidden" name="Subaction" value="PrioritySave" />
                     <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}" />
                     <fieldset class="TableLike">
-                        <label for="Name">$Text{"Priority"}:</label>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" maxlength="200" />
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"A priority should have a name!"}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"The name is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
