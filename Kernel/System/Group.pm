@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.86 2010-10-20 11:07:44 ub Exp $
+# $Id: Group.pm,v 1.87 2010-10-20 14:53:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -525,8 +525,16 @@ sub GroupMemberList {
     # check cache
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ($Cache) {
-        return @{$Cache} if ref $Cache eq 'ARRAY';
-        return %{$Cache} if ref $Cache eq 'HASH';
+
+        # check if cache contains an array reference and is not empty
+        if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+            return @{$Cache};
+        }
+
+        # check if cache contains a hash reference and is not empty
+        if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+            return %{$Cache};
+        }
     }
 
     # return result
@@ -638,7 +646,11 @@ sub GroupMemberInvolvedList {
 
     # check cache
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return %{$Cache} if $Cache;
+
+    # check if cache contains a hash reference and is not empty
+    if ( $Cache && ref $Cache eq 'HASH' && %{$Cache} ) {
+        return %{$Cache};
+    }
 
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
@@ -804,8 +816,16 @@ sub GroupGroupMemberList {
     if ( $Param{UserID} || $Param{GroupID} ) {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-            return @{$Cache} if ref $Cache eq 'ARRAY';
-            return %{$Cache} if ref $Cache eq 'HASH';
+
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
+
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -966,8 +986,16 @@ sub GroupRoleMemberList {
 
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-            return @{$Cache} if ref $Cache eq 'ARRAY';
-            return %{$Cache} if ref $Cache eq 'HASH';
+
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
+
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -1230,8 +1258,16 @@ sub GroupUserRoleMemberList {
     if ( $Param{RoleID} || $Param{UserID} ) {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-            return @{$Cache} if ref $Cache eq 'ARRAY';
-            return %{$Cache} if ref $Cache eq 'HASH';
+
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
+
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -1676,6 +1712,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2010-10-20 11:07:44 $
+$Revision: 1.87 $ $Date: 2010-10-20 14:53:22 $
 
 =cut
