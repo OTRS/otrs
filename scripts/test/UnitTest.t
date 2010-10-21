@@ -2,7 +2,7 @@
 # UnitTest.t - unit tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.t,v 1.6 2010-06-22 22:00:52 dz Exp $
+# $Id: UnitTest.t,v 1.7 2010-10-21 11:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -238,48 +238,51 @@ my $Scalar2 = {
     test => [ 1, 2, 3 ],
 };
 
+my $Count = 0;
 for my $Value1 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+    $Count++;
     my $IsDeeplyResult = $UnitTestObject->IsDeeply(
         $Value1,
         $Value1,
-        'Dummy Test Name',
+        'Dummy Test Name' . $Count,
     );
     $Self->True(
         $IsDeeplyResult,
-        'IsDeeply()',
+        'IsDeeply() - Dummy Test Name' . $Count,
     );
     my $IsNotDeeplyResult = $UnitTestObject->IsNotDeeply(
         $Value1,
         $Value1,
-        'Dummy False Test Name',
+        'Dummy False Test Name' . $Count,
     );
     $Self->False(
         $IsNotDeeplyResult,
-        'IsNotDeeply()',
+        'IsNotDeeply() - Dummy False Test Name' . $Count,
     );
 
+    my $Count2 = 0;
     VALUE2: for my $Value2 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
         if ( $Value2 == $Value1 ) {
             next VALUE2;
         }
-
+        $Count2++;
         my $IsDeeplyResult = $UnitTestObject->IsDeeply(
             $Value1,
             $Value2,
-            'Dummy Test Name',
+            'Dummy Test Name' . $Count . ':' . $Count2,
         );
         $Self->False(
             $IsDeeplyResult,
-            'IsDeeply()',
+            'IsDeeply() - Dummy Test Name' . $Count . ':' . $Count2,
         );
         my $IsNotDeeplyResult = $UnitTestObject->IsNotDeeply(
             $Value1,
             $Value2,
-            'Dummy False Test Name',
+            'Dummy False Test Name' . $Count . ':' . $Count2,
         );
         $Self->True(
             $IsNotDeeplyResult,
-            'IsNotDeeply()',
+            'IsNotDeeply() - Dummy False Test Name' . $Count . ':' . $Count2,
         );
     }
 }
