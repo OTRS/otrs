@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.98 2010-10-11 13:27:00 cg Exp $
+# $Id: AgentStats.pm,v 1.99 2010-10-21 08:14:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use List::Util qw( first );
 
 use Kernel::System::Stats;
 use Kernel::System::CSV;
+use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -598,6 +599,9 @@ sub Run {
                 Data => $Stat,
             );
         }
+
+        # check if the PDF module is installed and enabled
+        $Stat->{PDFUsable} = Kernel::System::PDF->new( %{$Self} ) ? 1 : 0;
 
         # build output
         $Output .= $Self->{LayoutObject}->Header( Title => 'View' );

@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view stat screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.26 2010-10-13 15:28:58 mb Exp $
+# $Id: AgentStatsView.dtl,v 1.27 2010-10-21 08:14:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,7 @@
                     <input type="hidden" name="Action"    value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Run"/>
                     <input type="hidden" name="StatID"    value="$QData{"StatID"}"/>
+                    <input type="hidden" id="PDFUsable" name="PDFUsable" value="$QData{"PDFUsable"}"/>
 
                     <fieldset class="TableLike">
                         <label>$Text{"$Config{"Stats::StatsHook"}"}:</label>
@@ -89,7 +90,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Format -->
 <!-- dtl:block:FormatFixed -->
-                        <input type="hidden" name="Format" value="$QData{"FormatKey"}"/>
+                        <input type="hidden" id="Format" name="Format" value="$QData{"FormatKey"}"/>
                         <label>$Text{"Format"}:</label>
                         <div class="Value">$Text{"$Data{"Format"}"}</div>
                         <div class="Clear"></div>
@@ -236,9 +237,23 @@
 <!--dtl:block:FormSubmit -->
                     <fieldset class="TableLike">
                         <div class="Value">
-                            <button class="Primary" type="submit" name="Start" value="$Text{"Start"}">$Text{"Start"}</button>
+                            <button class="Primary" type="submit" id="StartStatistic" name="Start" value="$Text{"Start"}">$Text{"Start"}</button>
                         </div>
                     </fieldset>
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#StartStatistic').bind('click', function (Event) {
+        var Format = $('#Format').val(),
+            PDFUsable = $('#PDFUsable').val() === 1;
+        if (Format === 'Print' && !PDFUsable) {
+            Core.UI.Popup.OpenPopup('about:blank', 'Statistic', 'Default');
+            $('#StartStatistic').closest('form').attr('target', 'Statistic');
+        }
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
 <!--dtl:block:FormSubmit -->
                 </form>
             </div>
