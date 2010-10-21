@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.41 2010-10-14 16:34:39 mg Exp $
+# $Id: UnitTest.pm,v 1.42 2010-10-21 09:15:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -502,9 +502,10 @@ sub IsDeeply {
         return;
     }
 
-    local $Storable::canonical = 1;
-    my $TestString     = Storable::nfreeze($Test);
-    my $ShouldBeString = Storable::nfreeze($ShouldBe);
+    my $Diff = $Self->_DataDiff(
+        Data1 => $Test,
+        Data2 => $ShouldBe,
+    );
 
     if ( !defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 1, "$Name (is 'undef')" );
@@ -518,7 +519,7 @@ sub IsDeeply {
         $Self->_Print( 0, "$Name (is defined should be 'undef')" );
         return;
     }
-    elsif ( $TestString eq $ShouldBeString ) {
+    elsif ( !$Diff ) {
         $Self->_Print( 1, "$Name matches expected value" );
         return 1;
     }
@@ -551,9 +552,10 @@ sub IsNotDeeply {
         return;
     }
 
-    local $Storable::canonical = 1;
-    my $TestString     = Storable::nfreeze($Test);
-    my $ShouldBeString = Storable::nfreeze($ShouldBe);
+    my $Diff = $Self->_DataDiff(
+        Data1 => $Test,
+        Data2 => $ShouldBe,
+    );
 
     if ( !defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 0, "$Name (is 'undef')" );
@@ -568,7 +570,7 @@ sub IsNotDeeply {
         return 1;
     }
 
-    if ( $TestString ne $ShouldBeString ) {
+    if ($Diff) {
         $Self->_Print( 1, "$Name (The structures are not equal.)" );
         return 1;
     }
@@ -585,6 +587,120 @@ sub IsNotDeeply {
 =begin Internal:
 
 =cut
+
+sub _DataDiff {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data1 Data2)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # ''
+    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
+
+        # do noting, it's ok
+        return if !defined $Param{Data1} && !defined $Param{Data2};
+
+        # return diff, because its different
+        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
+
+        # return diff, because its different
+        return 1 if $Param{Data1} ne $Param{Data2};
+
+        # return, because its not different
+        return;
+    }
+
+    # SCALAR
+    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
+
+        # do noting, it's ok
+        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
+
+        # return diff, because its different
+        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
+
+        # return diff, because its different
+        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
+
+        # return, because its not different
+        return;
+    }
+
+    # ARRAY
+    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
+        my @A = @{ $Param{Data1} };
+        my @B = @{ $Param{Data2} };
+
+        # check if the count is different
+        return 1 if $#A ne $#B;
+
+        # compare array
+        for my $Count ( 0 .. $#A ) {
+
+            # do noting, it's ok
+            next if !defined $A[$Count] && !defined $B[$Count];
+
+            # return diff, because its different
+            return 1 if !defined $A[$Count] || !defined $B[$Count];
+
+            if ( $A[$Count] ne $B[$Count] ) {
+                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
+                    return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    next;
+                }
+                return 1;
+            }
+        }
+        return;
+    }
+
+    # HASH
+    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
+        my %A = %{ $Param{Data1} };
+        my %B = %{ $Param{Data2} };
+
+        # compare %A with %B and remove it if checked
+        for my $Key ( keys %A ) {
+
+            # do noting, it's ok
+            next if !defined $A{$Key} && !defined $B{$Key};
+
+            # return diff, because its different
+            return 1 if !defined $A{$Key} || !defined $B{$Key};
+
+            if ( $A{$Key} eq $B{$Key} ) {
+                delete $A{$Key};
+                delete $B{$Key};
+                next;
+            }
+
+            # return if values are different
+            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
+                return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                delete $A{$Key};
+                delete $B{$Key};
+                next;
+            }
+            return 1;
+        }
+
+        # check rest
+        return 1 if %B;
+        return;
+    }
+
+    if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
+        return 1 if $Self->_DataDiff( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
+        return;
+    }
+
+    return 1;
+}
 
 sub _PrintSummary {
     my ( $Self, %ResultSummary ) = @_;
@@ -723,6 +839,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-10-14 16:34:39 $
+$Revision: 1.42 $ $Date: 2010-10-21 09:15:38 $
 
 =cut
