@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.88 2010-10-20 15:05:00 ub Exp $
+# $Id: Group.pm,v 1.89 2010-10-21 15:06:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 NAME
 
@@ -526,18 +526,15 @@ sub GroupMemberList {
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ($Cache) {
 
-        # temporarily disabled caching as this as unwanted side effects on ITSMChangeManagement
-        # for further details see Bug# 6133 - http://bugs.otrs.org/show_bug.cgi?id=6133
+        # check if cache contains an array reference and is not empty
+        if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+            return @{$Cache};
+        }
 
-        #        # check if cache contains an array reference and is not empty
-        #        if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-        #            return @{$Cache};
-        #        }
-        #
-        #        # check if cache contains a hash reference and is not empty
-        #        if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-        #            return %{$Cache};
-        #        }
+        # check if cache contains a hash reference and is not empty
+        if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+            return %{$Cache};
+        }
     }
 
     # return result
@@ -823,15 +820,15 @@ sub GroupGroupMemberList {
             # temporarily disabled caching as this as unwanted side effects on ITSMChangeManagement
             # for further details see Bug# 6133 - http://bugs.otrs.org/show_bug.cgi?id=6133
 
-            #            # check if cache contains an array reference and is not empty
-            #            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-            #                return @{$Cache};
-            #            }
-            #
-            #            # check if cache contains a hash reference and is not empty
-            #            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-            #                return %{$Cache};
-            #            }
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
+
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -993,18 +990,15 @@ sub GroupRoleMemberList {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
 
-            # temporarily disabled caching as this as unwanted side effects on ITSMChangeManagement
-            # for further details see Bug# 6133 - http://bugs.otrs.org/show_bug.cgi?id=6133
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
 
-            #            # check if cache contains an array reference and is not empty
-            #            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-            #                return @{$Cache};
-            #            }
-            #
-            #            # check if cache contains a hash reference and is not empty
-            #            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-            #                return %{$Cache};
-            #            }
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -1268,18 +1262,15 @@ sub GroupUserRoleMemberList {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
 
-            # temporarily disabled caching as this as unwanted side effects on ITSMChangeManagement
-            # for further details see Bug# 6133 - http://bugs.otrs.org/show_bug.cgi?id=6133
+            # check if cache contains an array reference and is not empty
+            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
+                return @{$Cache};
+            }
 
-            #            # check if cache contains an array reference and is not empty
-            #            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-            #                return @{$Cache};
-            #            }
-            #
-            #            # check if cache contains a hash reference and is not empty
-            #            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-            #                return %{$Cache};
-            #            }
+            # check if cache contains a hash reference and is not empty
+            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
+                return %{$Cache};
+            }
         }
     }
 
@@ -1724,6 +1715,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2010-10-20 15:05:00 $
+$Revision: 1.89 $ $Date: 2010-10-21 15:06:38 $
 
 =cut
