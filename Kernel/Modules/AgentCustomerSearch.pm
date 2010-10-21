@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.26 2010-09-29 10:09:30 mg Exp $
+# $Id: AgentCustomerSearch.pm,v 1.27 2010-10-21 09:42:21 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,22 +145,12 @@ sub Run {
         my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
         my $CustomerID     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
 
-        my $CustomerTicketsHTMLString = '';
-
-        # get customer data
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $CustomerUserID,
-        );
-
-        # show customer tickets
-        my @CustomerIDs;
-
         # get secondary customer ids
-        @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
             User => $CustomerUserID,
         );
 
-        # get own customer id
+        # add own customer id
         if ($CustomerID) {
             push @CustomerIDs, $CustomerID;
         }
@@ -169,7 +159,7 @@ sub Run {
         my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
         my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
 
-        my @ViewableTickets = ();
+        my @ViewableTickets;
         if (@CustomerIDs) {
             @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                 Result     => 'ARRAY',
@@ -199,7 +189,8 @@ sub Run {
             . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
             . '&';
 
-        if ( scalar @ViewableTickets ) {
+        my $CustomerTicketsHTMLString = '';
+        if (@ViewableTickets) {
             $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs  => \@ViewableTickets,
                 Total      => scalar @ViewableTickets,
