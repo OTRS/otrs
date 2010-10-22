@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.126 2010-10-17 20:19:35 mb Exp $
+# $Id: nl.pm,v 1.127 2010-10-22 09:03:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -224,6 +224,7 @@ sub Data {
         'Change your password.' => 'Verander uw wachtwoord.',
         'Please activate %s first!' => 'Activeer %s eerst.',
         'No suggestions' => 'Geen suggesties',
+        'Agent updated!' => 'Gebruiker aangepast.',
         'Word' => 'Woord',
         'Ignore' => 'Negeren',
         'replace with' => 'vervangen met',
