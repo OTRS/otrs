@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesSkin.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesSkin.pm,v 1.3 2010-08-13 14:09:22 mg Exp $
+# $Id: PreferencesSkin.pm,v 1.4 2010-10-22 12:56:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,7 @@ sub Param {
             HTMLQuote  => 0,
             SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserSkin' )
                 || $Param{UserData}->{UserSkin}
-                || $Self->{ConfigObject}->Get('DefaultSkin'),
+                || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin'),
             Block => 'Option',
             Max   => 100,
         },

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1477 2010-10-22 09:59:44 mh Exp $
+# $Id: CHANGES,v 1.1478 2010-10-22 12:56:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-22 Fixed bug#6149 - New users get Ivory skin when created by admin using non-english language.
  - 2010-10-22 Updated CPAN module Text::CSV to version 1.20.
  - 2010-10-21 Fixed bug#6089 - Close Window in Statistics doesn't work.
  - 2010-10-20 Fixed bug#6132 - Wrong caching in RoleLookup function in Kernel/System/Group.pm.
