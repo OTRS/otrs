@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1478 2010-10-22 12:56:22 mb Exp $
+# $Id: CHANGES,v 1.1479 2010-10-22 13:13:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta6 2010-??-??
+ - 2010-10-22 Fixed bug#6150 - Spell checker should not be enabled by default.
  - 2010-10-22 Fixed bug#6149 - New users get Ivory skin when created by admin using non-english language.
  - 2010-10-22 Updated CPAN module Text::CSV to version 1.20.
  - 2010-10-21 Fixed bug#6089 - Close Window in Statistics doesn't work.

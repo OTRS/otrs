@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.386 2010-10-22 12:54:08 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.387 2010-10-22 13:13:04 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2490,14 +2490,14 @@
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
-            <Option SelectedID="1">
+            <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellCheckerBin" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Installs ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
+        <Description Translatable="1">Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -2994,7 +2994,7 @@ You can log in via the following URL:
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###SpellDict" Required="0" Valid="1">
+    <ConfigItem Name="PreferencesGroups###SpellDict" Required="0" Valid="0">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
