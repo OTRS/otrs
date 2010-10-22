@@ -1,8 +1,8 @@
 # --
 # AAABase.dtl - $Text variable file
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.76.2.2 2009-11-24 10:21:14 mb Exp $
+# $Id: AAABase.dtl,v 1.76.2.3 2010-10-22 08:59:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -229,6 +229,7 @@ $Text{"%s is not writable!"}
 $Text{"Cannot create %s!"}
 
 $Text{"Added User "%s""}
+$Text{"Agent updated!"}
 $Text{"Contract"}
 $Text{"Online Customer: %s"}
 $Text{"Online Agent: %s"}
