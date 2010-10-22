@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.83 2010-09-22 18:18:38 ub Exp $
+# $Id: Installer.pm,v 1.84 2010-10-22 10:13:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -726,7 +726,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigureMail',
             Data => {
-                Item             => 'Mail configuration',
+                Item             => 'Mail Configuration',
                 Step             => '3/4',
                 InboundMailType  => $InboundMailTypeSelection,
                 OutboundMailType => $OutboundMailTypeSelection,
