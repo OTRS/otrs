@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.27';
+$VERSION = '1.28';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -640,7 +640,24 @@ sub getline {
             my $is_continued   = scalar(my @list = $line =~ /$re/g) % 2; # if line is valid, quot is even
 
             if ( $line =~ /${re}0/ ) { # null suspicion case
-                $is_continued = $line =~ /^($re(?:$re$re|${re}0|[^$re])+$re[^0])+$/  ? 0 : 1;
+                $is_continued = $line =~ qr/
+                    ^
+                    (
+                        (?:
+                            $re             # $quote
+                            (?:
+                                  $re$re    #    escaped $quote
+                                | ${re}0    # or escaped zero
+                                | [^$quot]  # or exceptions of $quote
+                            )*
+                            $re             # $quote
+                            [^0$quot]       # non zero or $quote
+                        )
+                        |                   
+                        (?:[^$quot]*)       # exceptions of $quote
+                    )+
+                    $
+                /x ? 0 : 1;
             }
 
             if ( $is_continued and !eof($io) ) {
@@ -979,7 +996,7 @@ is a XS module and Text::CSV_PP is a Puer Perl one.
 
 =head1 VERSION
 
-    1.27
+    1.28
 
 This module is compatible with Text::CSV_XS B<0.74> and later.
 
