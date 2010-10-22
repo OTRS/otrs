@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.127 2010-10-22 09:03:42 mb Exp $
+# $Id: nl.pm,v 1.128 2010-10-22 10:04:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -346,6 +346,8 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Ongedaan maken',
         'Redo' => 'Herhalen',
+        'Create Database' => 'Database aanmaken',
+        'System Settings' => 'Systeemconfiguratie',
 
         # Template: AAAMonth
         'Jan' => 'jan',
