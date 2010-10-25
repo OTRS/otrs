@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -27,6 +27,12 @@
 .RTL .OverviewLarge {
     margin-right: 8px;
     margin-left: 16px;
+}
+
+#LargeEmptyMessage {
+   padding: 20px 8px 8px;
+   border-bottom: 1px solid #DDD;
+   min-height:15px;
 }
 
 .OverviewLarge > li {
