@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.59 2010-09-01 12:34:46 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.60 2010-10-25 16:57:53 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,12 @@
     Core.UI.ActionRow.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<div id="OverviewBody" class="Overview FixedHeader">
+<div id="OverviewBody" class="Overview FixedHeader $QData{"OverviewClass"}">
+<!-- dtl:block:NoTicketFound -->
+    <div id="EmptyMessage">
+        $Text{"No ticket data found."}
+    </div>
+<!-- dtl:block:NoTicketFound -->
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
@@ -146,7 +151,7 @@
                         <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                     </td>
                     <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}">
+                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}">
                             <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
                         </a>
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>

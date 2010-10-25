@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,6 +20,15 @@
     margin: 0 16px 8px 8px;
     border-left: 1px solid #DDD;
     border-right: 1px solid #DDD;
+}
+
+#OverviewBody.BodyEmpty {
+    padding-top: 53px;
+}
+
+#EmptyMessage {
+   padding: 8px 8px;
+   border-bottom: 1px solid #DDD;
 }
 
 .RTL #OverviewBody {
