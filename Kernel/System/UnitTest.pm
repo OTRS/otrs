@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.42 2010-10-21 09:15:38 martin Exp $
+# $Id: UnitTest.pm,v 1.43 2010-10-25 08:06:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -588,6 +588,21 @@ sub IsNotDeeply {
 
 =cut
 
+=item _DataDiff()
+
+compares two data structures with each other. Returns 1 if
+they are different, undef otherwise.
+
+Data parameters need to be passed by reference and can be SCALAR,
+ARRAY or HASH.
+
+    my $DataIsDifferent = $SysConfigObject->_DataDiff(
+        Data1 => \$Data1,
+        Data2 => \$Data2,
+    );
+
+=cut
+
 sub _DataDiff {
     my ( $Self, %Param ) = @_;
 
@@ -839,6 +854,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2010-10-21 09:15:38 $
+$Revision: 1.43 $ $Date: 2010-10-25 08:06:49 $
 
 =cut
