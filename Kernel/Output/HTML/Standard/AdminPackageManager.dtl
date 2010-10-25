@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.72 2010-10-04 10:18:02 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.73 2010-10-25 08:37:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -448,8 +448,8 @@
                         <thead>
                             <tr>
                                 <th class="W50pc">$Text{"Filename"}</th>
-                                <th class="W20pc">$Text{"Permission"}</th>
-                                <th class="W20pc">$Text{"Status"}</th>
+                                <th>$Text{"Permission"}</th>
+                                <th>$Text{"Status"}</th>
                                 <th class="W20pc">$Text{"Download"}</th>
                             </tr>
                         </thead>
@@ -471,7 +471,7 @@
 <!-- dtl:block:PackageItemFilelistFileNote -->
                                 </td>
                                 <td>
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" class="AsBlock IconSave" title="$Text{"Download file from package!"}"></a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Name=$LQData{"Name"};Version=$LQData{"Version"};File=$LQData{"File"};Location=$LQData{"Location"}" class="IconSave IconInline" title="$Text{"Download file from package!"}"></a>
                                     $QData{"Size"}
                                 </td>
                             </tr>

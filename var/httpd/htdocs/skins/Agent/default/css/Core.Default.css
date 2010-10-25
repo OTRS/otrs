@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.35 $
+ * @version     $Revision: 1.36 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -580,6 +580,10 @@ tbody tr:hover span.UnreadArticles {
 /**
  * @subsection  Icons
  */
+.IconInline {
+    display: inline-block;
+}
+
 .IconPDF {
     width: 16px;
     height: 16px;
