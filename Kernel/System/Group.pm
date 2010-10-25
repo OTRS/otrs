@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.89 2010-10-21 15:06:38 ub Exp $
+# $Id: Group.pm,v 1.90 2010-10-25 10:31:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -525,16 +525,8 @@ sub GroupMemberList {
     # check cache
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ($Cache) {
-
-        # check if cache contains an array reference and is not empty
-        if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-            return @{$Cache};
-        }
-
-        # check if cache contains a hash reference and is not empty
-        if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-            return %{$Cache};
-        }
+        return @{$Cache} if ref $Cache eq 'ARRAY';
+        return %{$Cache} if ref $Cache eq 'HASH';
     }
 
     # return result
@@ -646,11 +638,7 @@ sub GroupMemberInvolvedList {
 
     # check cache
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-
-    # check if cache contains a hash reference and is not empty
-    if ( $Cache && ref $Cache eq 'HASH' && %{$Cache} ) {
-        return %{$Cache};
-    }
+    return %{$Cache} if $Cache;
 
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
@@ -816,19 +804,8 @@ sub GroupGroupMemberList {
     if ( $Param{UserID} || $Param{GroupID} ) {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-
-            # temporarily disabled caching as this as unwanted side effects on ITSMChangeManagement
-            # for further details see Bug# 6133 - http://bugs.otrs.org/show_bug.cgi?id=6133
-
-            # check if cache contains an array reference and is not empty
-            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-                return @{$Cache};
-            }
-
-            # check if cache contains a hash reference and is not empty
-            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-                return %{$Cache};
-            }
+            return @{$Cache} if ref $Cache eq 'ARRAY';
+            return %{$Cache} if ref $Cache eq 'HASH';
         }
     }
 
@@ -989,16 +966,8 @@ sub GroupRoleMemberList {
 
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-
-            # check if cache contains an array reference and is not empty
-            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-                return @{$Cache};
-            }
-
-            # check if cache contains a hash reference and is not empty
-            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-                return %{$Cache};
-            }
+            return @{$Cache} if ref $Cache eq 'ARRAY';
+            return %{$Cache} if ref $Cache eq 'HASH';
         }
     }
 
@@ -1261,16 +1230,8 @@ sub GroupUserRoleMemberList {
     if ( $Param{RoleID} || $Param{UserID} ) {
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         if ($Cache) {
-
-            # check if cache contains an array reference and is not empty
-            if ( ref $Cache eq 'ARRAY' && @{$Cache} ) {
-                return @{$Cache};
-            }
-
-            # check if cache contains a hash reference and is not empty
-            if ( ref $Cache eq 'HASH' && %{$Cache} ) {
-                return %{$Cache};
-            }
+            return @{$Cache} if ref $Cache eq 'ARRAY';
+            return %{$Cache} if ref $Cache eq 'HASH';
         }
     }
 
@@ -1715,6 +1676,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2010-10-21 15:06:38 $
+$Revision: 1.90 $ $Date: 2010-10-25 10:31:06 $
 
 =cut
