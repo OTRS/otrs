@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.31 2010-10-25 16:57:53 dz Exp $
+# $Id: TicketOverviewSmall.pm,v 1.32 2010-10-25 20:49:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -223,14 +223,83 @@ sub Run {
         }
     }
 
+    my $TicketData = scalar @ArticleBox;
+
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
         Data => \%Param,
     );
 
-    my $TicketData = 0;
+    if ($TicketData) {
+
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewTable',
+            Data => \%Param,
+        );
+
+        if ($BulkFeature) {
+            $Self->{LayoutObject}->Block(
+                Name => 'BulkNavBar',
+                Data => \%Param,
+            );
+        }
+
+        # meta items
+        my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
+        for my $Item (@TicketMetaItems) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPageFlag',
+                Data => {
+                    Name => $Item,
+                },
+            );
+        }
+
+        my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
+
+        # show escalation
+        if ( $Param{Escalation} ) {
+            push @Col, 'EscalationTime';
+        }
+
+        # check if last customer subject or ticket title should be shown
+        if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+            push @Col, 'LastCustomerSubject';
+        }
+        elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+            push @Col, 'Title';
+        }
+
+        for my $Key (@Col) {
+            my $CSS = '';
+            my $OrderBy;
+            if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
+                if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
+                    $OrderBy = 'Down';
+                    $CSS .= ' SortDescending';
+                }
+                else {
+                    $OrderBy = 'Up';
+                    $CSS .= ' SortAscending';
+                }
+            }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPage' . $Key,
+                Data => {
+                    %Param,
+                    OrderBy => $OrderBy,
+                    CSS     => $CSS,
+                },
+            );
+        }
+    }
+    else {
+        $Param{OverviewClass} = 'BodyEmpty';
+        $Self->{LayoutObject}->Block( Name => 'NoTicketFound' );
+    }
+
     for my $ArticleRef (@ArticleBox) {
-        $TicketData = 1;
 
         # get last customer article
         my %Article = %{$ArticleRef};
@@ -331,70 +400,6 @@ sub Run {
                 },
             );
         }
-    }
-
-    if ($TicketData) {
-
-        if ($BulkFeature) {
-            $Self->{LayoutObject}->Block(
-                Name => 'BulkNavBar',
-                Data => \%Param,
-            );
-        }
-
-        # meta items
-        my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
-        for my $Item (@TicketMetaItems) {
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewNavBarPageFlag',
-                Data => {
-                    Name => $Item,
-                },
-            );
-        }
-
-        my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
-
-        # show escalation
-        if ( $Param{Escalation} ) {
-            push @Col, 'EscalationTime';
-        }
-
-        # check if last customer subject or ticket title should be shown
-        if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-            push @Col, 'LastCustomerSubject';
-        }
-        elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-            push @Col, 'Title';
-        }
-
-        for my $Key (@Col) {
-            my $CSS = '';
-            my $OrderBy;
-            if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
-                if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
-                    $OrderBy = 'Down';
-                    $CSS .= ' SortDescending';
-                }
-                else {
-                    $OrderBy = 'Up';
-                    $CSS .= ' SortAscending';
-                }
-            }
-
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewNavBarPage' . $Key,
-                Data => {
-                    %Param,
-                    OrderBy => $OrderBy,
-                    CSS     => $CSS,
-                },
-            );
-        }
-    }
-    else {
-        $Param{OverviewClass} = 'BodyEmpty';
-        $Self->{LayoutObject}->Block( Name => 'NoTicketFound' );
     }
 
     # init for table control

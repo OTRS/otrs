@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.60 2010-10-25 16:57:53 dz Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.61 2010-10-25 20:49:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,6 +41,7 @@
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
 
+<!-- dtl:block:OverviewTable -->
         <table id="FixedTable" class="TableSmall">
             <thead>
                 <tr>
@@ -152,7 +153,7 @@
                     </td>
                     <td>
                         <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}">
-                            <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
+                            <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
                         </a>
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                     </td>
@@ -160,6 +161,7 @@
 <!-- dtl:block:Record -->
             </tbody>
         </table>
+<!-- dtl:block:OverviewTable -->
     </form>
 </div>
 <!-- dtl:block:DocumentReadyActionRowAdd -->

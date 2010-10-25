@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.44 2010-10-25 18:51:52 dz Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.45 2010-10-25 20:49:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,9 +43,9 @@
 <!-- dtl:block:DocumentHeader -->
 
 <!-- dtl:block:NoTicketFound -->
-    <div id="MediumEmptyMessage">
+    <li id="MediumEmptyMessage">
         $Text{"No ticket data found."}
-    </div>
+    </li>
 <!-- dtl:block:NoTicketFound -->
 
 <!-- dtl:block:DocumentContent -->
