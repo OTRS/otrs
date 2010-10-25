@@ -2,7 +2,7 @@
 # Lock.t - Lock tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.t,v 1.1 2010-10-21 13:44:44 martin Exp $
+# $Id: Lock.t,v 1.2 2010-10-25 08:43:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 
 my $LockObject = Kernel::System::Lock->new( %{$Self} );
 
-my @Names = $LockObject->LockViewableLock(
+my @Names = sort $LockObject->LockViewableLock(
     Type => 'Name',
 );
 
