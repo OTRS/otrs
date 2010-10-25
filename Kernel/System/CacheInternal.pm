@@ -2,7 +2,7 @@
 # Kernel/System/CacheInternal.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.7 2010-10-21 12:50:16 martin Exp $
+# $Id: CacheInternal.pm,v 1.8 2010-10-25 06:19:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,8 @@ use strict;
 use warnings;
 use Kernel::System::Cache;
 
-use vars qw(@ISA $VERSION $CACHE);
-$VERSION = qw($Revision: 1.7 $) [1];
-$CACHE = {};
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -127,7 +126,7 @@ sub Set {
     }
 
     # set runtime cache
-    $CACHE->{ $Self->{Type} }->{ $Param{Key} } = $Param{Value};
+    $Self->{Cache}->{ $Param{Key} } = $Param{Value};
 
     # set permanent cache
     if ( $Self->{CacheObject} ) {
@@ -164,8 +163,7 @@ sub Get {
     }
 
     # check runtime cache
-    return $CACHE->{ $Self->{Type} }->{ $Param{Key} }
-        if exists $CACHE->{ $Self->{Type} }->{ $Param{Key} };
+    return $Self->{Cache}->{ $Param{Key} } if exists $Self->{Cache}->{ $Param{Key} };
 
     # check permanent cache
     my $Cache;
@@ -178,7 +176,7 @@ sub Get {
     return if !defined $Cache;
 
     # set runtime cache
-    $CACHE->{ $Self->{Type} }->{ $Param{Key} } = $Cache;
+    $Self->{Cache}->{ $Param{Key} } = $Cache;
 
     return $Cache;
 }
@@ -205,7 +203,7 @@ sub Delete {
     }
 
     # delete runtime cache
-    delete $CACHE->{ $Self->{Type} }->{ $Param{Key} };
+    delete $Self->{Cache}->{ $Param{Key} };
 
     # check permanent cache
     if ( $Self->{CacheObject} ) {
@@ -230,7 +228,7 @@ sub CleanUp {
     my ( $Self, %Param ) = @_;
 
     # delete all runtime cache
-    $CACHE->{ $Self->{Type} } = undef;
+    $Self->{Cache} = undef;
 
     # delete permanent cache
     if ( $Self->{CacheObject} ) {
@@ -256,6 +254,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-10-21 12:50:16 $
+$Revision: 1.8 $ $Date: 2010-10-25 06:19:18 $
 
 =cut
