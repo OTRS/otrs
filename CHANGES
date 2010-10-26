@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1482 2010-10-26 03:58:49 dz Exp $
+# $Id: CHANGES,v 1.1483 2010-10-26 09:51:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,13 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-10-26 Fixed bug#6114 - Percentage sign in Customers <-> Services interface when using
+    Dutch translation.
  - 2010-10-25 Fixed bug#6160 - ServiceList function breaks if you have service names with
-     special chars like ? ? ? or + + +.
- - 2010-10-25 Fixed bug#6118 - The "Small", "Medium" and "Large" Queue View is broken if no data is found.
+    special characters like ? ? ? or + + +.
+ - 2010-10-25 Fixed bug#6118 - The "Small", "Medium" and "Large" Queue views are broken if no
+    data is found.
+
 3.0.0 beta6 2010-10-25
  - 2010-10-22 Fixed bug#6150 - Spell checker should not be enabled by default.
  - 2010-10-22 Fixed bug#6149 - New users get Ivory skin when created by admin using non-english language.
