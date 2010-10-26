@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2006 - 2008 Jörn Zaefferer
  *
- * $Id: jquery.validate.js,v 1.1 2010-07-13 09:47:08 mg Exp $
+ * $Id: jquery.validate.js,v 1.2 2010-10-26 22:47:49 cg Exp $
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -803,7 +803,7 @@ $.extend($.validator, {
 	staticRules: function(element) {
 		var rules = {};
 		var validator = $.data(element.form, 'validator');
-		if (validator.settings.rules) {
+		if (validator && validator.settings.rules) {
 			rules = $.validator.normalizeRule(validator.settings.rules[element.name]) || {};
 		}
 		return rules;
