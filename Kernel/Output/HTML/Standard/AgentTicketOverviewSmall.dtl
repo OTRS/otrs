@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.62 2010-10-26 17:32:14 dz Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.63 2010-10-26 20:22:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,9 +40,9 @@
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
-
-<!-- dtl:block:OverviewTable -->
+<!-- dtl:block:OverviewTable-->
         <table id="FixedTable" class="TableSmall">
+<!-- dtl:block:TableHeader -->
             <thead>
                 <tr>
 <!-- dtl:block:BulkNavBar -->
@@ -102,6 +102,8 @@
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
                 </tr>
             </thead>
+<!-- dtl:block:TableHeader-->
+<!-- dtl:block:TableBody-->
             <tbody>
 <!-- dtl:block:Record -->
                 <tr id="TicketID_$QData{"TicketID"}" class="MasterAction">
@@ -158,12 +160,7 @@
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                     </td>
                 </tr>
-<!-- dtl:block:Record -->
-            </tbody>
-        </table>
-<!-- dtl:block:OverviewTable -->
-    </form>
-</div>
+
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -171,6 +168,14 @@
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:DocumentReadyActionRowAdd -->
+
+<!-- dtl:block:Record -->
+            </tbody>
+<!-- dtl:block:TableBody-->
+        </table>
+<!-- dtl:block:OverviewTable-->
+    </form>
+</div>
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[

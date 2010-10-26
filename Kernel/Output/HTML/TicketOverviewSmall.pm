@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.33 2010-10-26 17:32:14 dz Exp $
+# $Id: TicketOverviewSmall.pm,v 1.34 2010-10-26 20:22:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -231,10 +231,8 @@ sub Run {
     my $TicketData = scalar @ArticleBox;
     if ($TicketData) {
 
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewTable',
-            Data => \%Param,
-        );
+        $Self->{LayoutObject}->Block( Name => 'OverviewTable' );
+        $Self->{LayoutObject}->Block( Name => 'TableHeader' );
 
         if ($BulkFeature) {
             $Self->{LayoutObject}->Block(
@@ -292,6 +290,9 @@ sub Run {
                 },
             );
         }
+
+        $Self->{LayoutObject}->Block( Name => 'TableBody' );
+
     }
     else {
         $Self->{LayoutObject}->Block( Name => 'NoTicketFound' );
