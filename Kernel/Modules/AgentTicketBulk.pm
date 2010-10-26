@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.66 2010-10-17 13:48:23 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.67 2010-10-26 23:00:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,6 +159,7 @@ sub Run {
 
     # process tickets
     my @TicketIDSelected;
+    my $ActionFlag = 0;
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
@@ -447,10 +448,13 @@ sub Run {
                     UserID   => $Self->{UserID},
                 );
             }
-
-            # redirect
-            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
+            $ActionFlag = 1;
         }
+    }
+
+    # redirect
+    if ( $ActionFlag == 1 ) {
+        return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
     }
 
     $Output .= $Self->_Mask(
