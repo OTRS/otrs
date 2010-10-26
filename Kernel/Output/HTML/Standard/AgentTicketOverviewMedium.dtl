@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.45 2010-10-25 20:49:37 dz Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.46 2010-10-26 17:32:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,11 +39,11 @@
     Core.UI.ActionRow.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<ul id="TicketOverviewMedium" class="Overview OverviewMedium $QData{"Class"}">
+<ul id="TicketOverviewMedium" class="Overview OverviewMedium">
 <!-- dtl:block:DocumentHeader -->
 
 <!-- dtl:block:NoTicketFound -->
-    <li id="MediumEmptyMessage">
+    <li id="EmptyMessageMedium">
         $Text{"No ticket data found."}
     </li>
 <!-- dtl:block:NoTicketFound -->

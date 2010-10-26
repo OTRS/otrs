@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.39 2010-10-25 21:20:47 dz Exp $
+# $Id: TicketOverviewPreview.pm,v 1.40 2010-10-26 17:32:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,17 +131,9 @@ sub Run {
         }
     }
 
-    my $Class = '';
-    if ( !@{ $Param{TicketIDs} } ) {
-        $Class = 'Empty';
-    }
-
     $Self->{LayoutObject}->Block(
         Name => 'DocumentHeader',
-        Data => {
-            %Param,
-            Class => $Class,
-            }
+        Data => \%Param,
     );
 
     my $OutputMeta = $Self->{LayoutObject}->Output(
@@ -160,7 +152,8 @@ sub Run {
     my $CounterOnSite = 0;
     my @TicketIDsShown;
 
-    if ( @{ $Param{TicketIDs} } ) {
+    my $TicketData = scalar @{ $Param{TicketIDs} };
+    if ($TicketData) {
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
             if (

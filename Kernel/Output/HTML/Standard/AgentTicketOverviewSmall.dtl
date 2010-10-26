@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.61 2010-10-25 20:49:37 dz Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.62 2010-10-26 17:32:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,9 +31,9 @@
     Core.UI.ActionRow.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<div id="OverviewBody" class="Overview FixedHeader $QData{"OverviewClass"}">
+<div id="OverviewBody" class="Overview FixedHeader">
 <!-- dtl:block:NoTicketFound -->
-    <div id="EmptyMessage">
+    <div id="EmptyMessageSmall">
         $Text{"No ticket data found."}
     </div>
 <!-- dtl:block:NoTicketFound -->
