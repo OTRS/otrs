@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.84 2010-10-22 10:13:37 mb Exp $
+# $Id: Installer.pm,v 1.85 2010-10-26 13:52:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,12 +81,7 @@ sub Run {
         if ( exists $ENV{MOD_PERL} ) {
             eval 'require mod_perl';
             if ( defined $mod_perl::VERSION ) {
-                if ( $mod_perl::VERSION >= 1.99 ) {
-                    $Dist{Webserver} = 'rcapache2 restart';
-                }
-                else {
-                    $Dist{Webserver} = 'rcapache restart';
-                }
+                $Dist{Webserver} = 'rcapache2 restart';
             }
         }
         else {
@@ -101,12 +96,7 @@ sub Run {
         if ( exists $ENV{MOD_PERL} ) {
             eval 'require mod_perl';
             if ( defined $mod_perl::VERSION ) {
-                if ( $mod_perl::VERSION >= 1.99 ) {
-                    $Dist{Webserver} = 'Apache2 + mod_perl2';
-                }
-                else {
-                    $Dist{Webserver} = 'Apache + mod_perl';
-                }
+                $Dist{Webserver} = 'Apache2 + mod_perl2';
             }
         }
     }
@@ -115,7 +105,7 @@ sub Run {
     for my $Module ( keys %INC ) {
         $Module =~ s/\//::/g;
         $Module =~ s/\.pm$//g;
-        if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
+        if ( $Module eq 'Apache2::Reload' ) {
             $Dist{Vendor}    = '';
             $Dist{Webserver} = '';
         }
@@ -481,6 +471,7 @@ sub Run {
                 DatabaseUser => $DB{DatabaseUser},
                 DatabasePw   => $DB{DatabasePw},
             );
+
             if ($ReConfigure) {
                 my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Error' );
                 $Output .= $Self->{LayoutObject}->Warning(
@@ -853,6 +844,9 @@ sub ReConfigure {
     print $Out $Config;
     close $Out;
 
+    if ( $ENV{MOD_PERL} =~ /mod_perl/ ) {
+        ModPerl::Util::unload_package('Kernel::Config');
+    }
     return;
 }
 
