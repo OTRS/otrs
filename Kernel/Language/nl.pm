@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.129 2010-10-22 10:13:37 mb Exp $
+# $Id: nl.pm,v 1.130 2010-10-26 09:49:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -783,7 +783,7 @@ sub Data {
         'Manage Customer-Services Relations' => 'Beheer Klant - Service koppelingen',
         'Edit default services' => 'Beheer standaard services',
         'Filter for Services' => 'Filter op services',
-        'Allocate %s to' => 'Wijs % toe aan',
+        'Allocate %s to' => 'Wijs %s toe aan',
         'Toggle active state for all' => 'Alles actief aan/uit',
         'Active' => 'Actief',
         'Toggle active state for %s' => 'Actief aan/uit voor %s',
