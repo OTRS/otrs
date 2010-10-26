@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.208.2.9 2010-03-04 15:46:10 mb Exp $
+# $Id: de.pm,v 1.208.2.10 2010-10-26 12:35:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208.2.9 $) [1];
+$VERSION = qw($Revision: 1.208.2.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -206,7 +206,7 @@ sub Data {
         'There is no account with that login name.' => 'Es existiert kein Benutzerkonto mit diesem Namen.',
         'Login failed! Your username or password was entered incorrectly.' => 'Anmeldung fehlgeschlagen! Benutzername oder Passwort falsch.',
         'Please contact your admin' => 'Bitte kontaktieren Sie Ihren Administrator',
-        'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
+        'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von OTRS!',
         'Invalid SessionID!' => 'Ungültige SessionID!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Notification (Event)' => 'Benachrichtigung (Ereignis)',
@@ -300,7 +300,7 @@ sub Data {
         'Outdent' => 'Einzug vermindern',
         'Create an Unordered List' => 'Aufzählungsliste erstellen',
         'Create an Ordered List' => 'Nummerierte Liste erstellen',
-        'HTML Link' => 'HTML Verknüpfung',
+        'HTML Link' => 'HTML-Verknüpfung',
         'Insert Image' => 'Bild einfügen',
         'CTRL' => 'STRG',
         'SHIFT' => 'Umschalt',
@@ -352,9 +352,9 @@ sub Data {
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Salutations' => 'Anreden',
         'Signatures' => 'Signaturen',
-        'Email Addresses' => 'E-Mail Adressen',
+        'Email Addresses' => 'E-Mail-Adressen',
         'Notifications' => 'Benachrichtigungen',
-        'Category Tree' => 'Kategorie Baum',
+        'Category Tree' => 'Kategorie-Baum',
         'Admin Notification' => 'Admin-Benachrichtigung',
 
         # Template: AAAPreferences
@@ -376,7 +376,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
         'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktualisiert werden, Zeichen ungülig.',
         'Can\'t update password, must be at least %s characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. %s Zeichen.',
-        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktualisiert werden; benötige min. zwei großgeschriebene und zwei kleingeschriebene Buchstaben.',
         'Can\'t update password, needs at least 1 digit!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss mind. eine Zahl enthalten!',
         'Can\'t update password, needs at least 2 characters!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss mind. zwei Buchstaben enthalten!',
 
@@ -391,10 +391,10 @@ sub Data {
         'If you use a checkbox you have to select some attributes of the select field!' => 'Wenn Sie Inhalte eines Auswahlfelds auswählen müssen Sie mindestens zwei Attribute auswählen!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Tragen Sie bitte etwas in die Eingabezeile ein oder entfernen Sie das Häkchen aus der Checkbox \'Fixed\'!',
         'The selected end time is before the start time!' => 'Die ausgewählte Endzeit ist vor der Startzeit!',
-        'You have to select one or more attributes from the select field!' => 'Bitte wählen Sie bitte ein oder mehrere Attribute aus dem Auswahlfeld aus!',
+        'You have to select one or more attributes from the select field!' => 'Bitte wählen Sie ein oder mehrere Attribute aus dem Auswahlfeld aus!',
         'The selected Date isn\'t valid!' => 'Sie haben ein ungültiges Datum ausgewählt!',
         'Please select only one or two elements via the checkbox!' => 'Bitte wählen Sie nur ein oder zwei Elemente aus!',
-        'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur kein weiteres Element mehr auswählen!',
+        'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur ein Element auswählen!',
         'You have an error in your time selection!' => 'Sie haben einen Fehler in Ihrer Zeitauswahl!',
         'Your reporting time interval is too small, please use a larger time scale!' => 'Die Zeitskalierung ist zu klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
         'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist außerhalb des erlaubten Bereichs!',
@@ -483,7 +483,7 @@ sub Data {
         'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
         'This is a' => 'Dies ist eine',
         'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
-        'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken, um sie anzuzeigen.',
+        'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML-E-Mail. Hier klicken, um sie anzuzeigen.',
         'Free Fields' => 'Freie Felder',
         'Merge' => 'Zusammenfassen',
         'merged' => 'zusammengefügt',
@@ -835,11 +835,11 @@ sub Data {
         'Recipient' => 'Empfänger',
         'Group based' => 'Gruppen basierend',
         'Agent based' => 'Agenten basierend',
-        'Email based' => 'Email basierend',
-        'Article Type' => 'Artikel Typ',
+        'Email based' => 'E-Mail-basierend',
+        'Article Type' => 'Artikel-Typ',
         'Only for ArticleCreate Event.' => 'Nur für Ereignis ArticleCreate.',
-        'Subject match' => 'Betreff treffer',
-        'Body match' => 'Body treffer',
+        'Subject match' => 'Suche im Betreff',
+        'Body match' => 'Suche im Text',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'To get the first 20 character of the subject (of the latest agent article).' => 'Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikel).',
         'To get the first 5 lines of the body (of the latest agent article).' => 'Die ersten fünf Zeilen der Nachricht (des letzten Agenten-Artikel).',
@@ -917,12 +917,12 @@ sub Data {
         'Match' => 'Treffer',
         'Value' => 'Wert',
         'Set' => 'Setzen',
-        'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Verteilt oder Filtern einkommende E-Mail anhand der X-Headers! RegExp ist auch möglich.',
-        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Wenn nur eine Email-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc.',
-        'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ist RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
+        'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Verteilt oder filtern einkommende E-Mails anhand der X-Headers! RegExp sind auch möglich.',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Wenn nur eine E-Mail-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc.',
+        'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' => 'Werden RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
 
         # Template: AdminPriority
-        'Priority Management' => 'Priorität Verwaltung',
+        'Priority Management' => 'Prioritätsverwaltung',
         'Add Priority' => 'Priorität hinzufügen',
         'Add a new Priority.' => 'Eine neue Priorität hinzufügen.',
 
@@ -941,7 +941,7 @@ sub Data {
         'Follow up Option' => 'Nachfrage Option',
         'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
         'Systemaddress' => 'Systemadresse',
-        'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben.',
+        'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben. Das Ticket ist dann für alle Agenten sichtbar.',
         'Escalation time' => 'Eskalationszeit',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in dieser Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde ein Follow-Up sendet, wird das Ticket für den alten Besitzer gesperrt.',
@@ -1006,10 +1006,10 @@ sub Data {
         'Add a new Salutation.' => 'Eine neue Anrede hinzufügen.',
 
         # Template: AdminSecureMode
-        'Secure Mode need to be enabled!' => 'Secure Mode muss aktiviert werden!',
-        'Secure mode will (normally) be set after the initial installation is completed.' => '',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
-        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+        'Secure mode needs to be enabled!' => 'Secure Mode muss aktiviert werden!',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '(Normalerweise) ist nach der Erstinstallation der Secure Mode aktiviert.',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => 'Bitte deaktivieren Sie den Secude Mode, um den Web-Installer benutzen zu können.',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => 'Wenn der Secure Mode nicht aktiviert ist, aktivieren Sie ihn über die SysConfig (da die Anwendung bereits läuft).',
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL Box',
@@ -1047,7 +1047,7 @@ sub Data {
         'Add Private Key' => 'Privaten Schlüssel hinzufügen',
         'Secret' => 'Secret',
         'Hash' => 'Hash',
-        'In this way you can directly edit the certification and private keys in file system.' => 'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
+        'In this way you can directly edit the certification and private keys in file system.' => 'Über diesen Weg können die Zertifikate und privaten Schlüssel direkt im Dateisystem bearbeitet werden.',
 
         # Template: AdminStateForm
         'State Management' => 'Status Verwaltung',
@@ -1086,7 +1086,7 @@ sub Data {
         'Add System Address' => 'System Adresse hinzufügen',
         'Add a new System Address.' => 'Eine neue Systemadresse hinzufügen.',
         'Realname' => 'Tatsächlicher Name',
-        'All email addresses get excluded on replaying on composing an email.' => 'Alle Email-Adressen werden beim Erstellen einer Antwort exkludiert.',
+        'All email addresses get excluded on replaying on composing an email.' => 'Alle E-Mail-Adressen werden beim Erstellen einer Antwort exkludiert.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
         # Template: AdminTypeForm
@@ -1220,7 +1220,7 @@ sub Data {
         'Scale' => 'Skalierung',
         'minimal' => 'minimal',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Bitte bedenken Sie, dass die Zeitskalierung für die Wertereihen größer sein muss als für die X-Achse (z. B. X-Achse => Monat; Wertereihe => Jahr).',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite werden die Wertereihen festgelegt. Jedes Attribut wird als einzelne Wertereihe dargestellt. Wenn Sie keine Attribute auswählen werden alle Attribute bei der Generierung einer Statistik verwendet. Auch, wenn ein neues Attribut nach der Statistikkonfiguration hinzugefügt wird.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite werden die Wertereihen festgelegt. Sie haben die Möglichkeit, ein oder zwei Elemente auszuwählen. Dann können Sie die Attribute der Elemente wählen. Jedes Attribut wird als einzelne Wertereihe dargestellt. Wenn Sie keine Attribute auswählen, werden alle Attribute bei der Generierung einer Statistik verwendet. Auch, wenn ein neues Attribut nach der Statistikkonfiguration hinzugefügt wird.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Auswahl des Elements, welches für die X-Achse genutzt wird.',
@@ -1514,11 +1514,11 @@ sub Data {
         'Database' => 'Datenbank',
         'Default Charset' => 'Standard-Zeichensatz',
         'utf8' => 'utf8',
-        'false' => 'false',
+        'false' => 'falsch',
         'SystemID' => 'SystemID',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticketnummer und http-Sitzung beginnt mit dieser Kennung)',
         'System FQDN' => 'System FQDN',
-        '(Full qualified domain name of your system)' => '(Voll qualifizierter Domain-Name des Systems)',
+        '(Full qualified domain name of your system)' => '(Vollständiger Domain-Name (FQDN) des Systems)',
         'AdminEmail' => 'AdminE-Mail',
         '(Email of the system admin)' => '(E-Mail des System-Administrators)',
         'Organization' => 'Organisation',
@@ -1591,7 +1591,7 @@ sub Data {
         'CSV' => 'CSV',
         'Select Source (for add)' => 'Quelle auswählen (zum Hinzufügen)',
         'Node-Name' => 'Node-Name',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'EInstellungen der Ticketdaten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Einstellungen der Ticketdaten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Kinder-Objekte',
         'Workflow Groups' => 'Workflow Gruppen',
         'Current Impact Rating' => 'aktuelles Schadenspotential',
@@ -1623,7 +1623,7 @@ sub Data {
         'Today' => 'Heute',
         'No * possible!' => 'Kein "*" möglich!',
         'Load' => 'Laden',
-        'Change Time' => 'Geändert',
+        'Change Time' => 'Änderungszeitpunkt',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Einstellungen für den Benutzer, der diese Aktion ausgelöst hat (z. B. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => 'Nachricht an neuen Besitzer',
         'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
@@ -1682,7 +1682,7 @@ sub Data {
         'read' => 'gelesen',
         'Product' => 'Produkt(e)',
         'kill all sessions' => 'Alle Sitzungen löschen',
-        'to get the from line of the email' => 'Um die From: Zeile zu erhalten',
+        'to get the from line of the email' => 'Um die From:-Zeile der E-Mail zu erhalten',
         'Solution' => 'Lösung',
         'QueueView' => 'Queue-Ansicht',
         'My Queue' => 'Meine Queue',
