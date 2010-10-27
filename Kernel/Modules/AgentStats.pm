@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.99 2010-10-21 08:14:35 en Exp $
+# $Id: AgentStats.pm,v 1.100 2010-10-27 19:27:30 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1703,8 +1703,17 @@ sub Run {
             }
         }
 
-        if ( $Param{Format} =~ m{^GD::Graph\.*}x && !$Param{GraphSize} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Run: Need GraphSize!' );
+        if ( $Param{Format} =~ m{^GD::Graph\.*}x ) {
+
+            # check installed packages
+            for my $Module ( 'GD', 'GD::Graph' ) {
+                if ( !$Self->{MainObject}->Require($Module) ) {
+                    return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Need $Module!" );
+                }
+            }
+            if ( !$Param{GraphSize} ) {
+                return $Self->{LayoutObject}->ErrorScreen( Message => 'Run: Need GraphSize!' );
+            }
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
