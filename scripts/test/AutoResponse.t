@@ -2,7 +2,7 @@
 # AutoResponse.t - AutoResponse tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.t,v 1.6 2010-06-22 22:00:52 dz Exp $
+# $Id: AutoResponse.t,v 1.7 2010-10-27 11:49:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,12 @@ use vars (qw($Self));
 use Kernel::System::AutoResponse;
 use Kernel::System::SystemAddress;
 
-$Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new( %{$Self} );
-$Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
+my $AutoResponseObject  = Kernel::System::AutoResponse->new( %{$Self} );
+my $SystemAddressObject = Kernel::System::SystemAddress->new( %{$Self} );
 
-# adde system address
+# add system address
 my $SystemAddressNameRand0 = 'unittest' . int rand 1000000;
-my $SystemAddressID        = $Self->{SystemAddressObject}->SystemAddressAdd(
+my $SystemAddressID        = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressNameRand0 . '@example.com',
     Realname => $SystemAddressNameRand0,
     ValidID  => 1,
@@ -36,7 +36,7 @@ $Self->True(
 # add auto response
 my $AutoResponseNameRand0 = 'unittest' . int rand 1000000;
 
-my $AutoResponseID = $Self->{AutoResponseObject}->AutoResponseAdd(
+my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
     Name        => $AutoResponseNameRand0,
     Subject     => 'Some Subject',
     Response    => 'Some Response',
@@ -54,7 +54,7 @@ $Self->True(
     'AutoResponseAdd()',
 );
 
-my %AutoResponse = $Self->{AutoResponseObject}->AutoResponseGet(
+my %AutoResponse = $AutoResponseObject->AutoResponseGet(
     ID => $AutoResponseID,
 );
 
@@ -110,7 +110,7 @@ $Self->Is(
     'AutoResponseGet() - ValidID',
 );
 
-my %AutoResponseList = $Self->{AutoResponseObject}->AutoResponseList(
+my %AutoResponseList = $AutoResponseObject->AutoResponseList(
     Valid => 0,
 );
 my $Hit = 0;
@@ -124,7 +124,7 @@ $Self->True(
     'AutoResponseList()',
 );
 
-my $AutoResponseUpdate = $Self->{AutoResponseObject}->AutoResponseUpdate(
+my $AutoResponseUpdate = $AutoResponseObject->AutoResponseUpdate(
     ID          => $AutoResponseID,
     Name        => $AutoResponseNameRand0 . '1',
     Subject     => 'Some Subject1',
@@ -143,7 +143,7 @@ $Self->True(
     'AutoResponseUpdate()',
 );
 
-%AutoResponse = $Self->{AutoResponseObject}->AutoResponseGet(
+%AutoResponse = $AutoResponseObject->AutoResponseGet(
     ID => $AutoResponseID,
 );
 
@@ -199,7 +199,7 @@ $Self->Is(
     'AutoResponseGet() - ValidID',
 );
 
-my $AutoResponseQueue = $Self->{AutoResponseObject}->AutoResponseQueue(
+my $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
     QueueID         => 1,
     AutoResponseIDs => [$AutoResponseID],
     UserID          => 1,
@@ -209,7 +209,7 @@ $Self->True(
     'AutoResponseQueue()',
 );
 
-my %Address = $Self->{AutoResponseObject}->AutoResponseGetByTypeQueueID(
+my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
     QueueID => 1,
     Type    => 'auto reply',
 );
@@ -224,7 +224,7 @@ $Self->Is(
     'AutoResponseGetByTypeQueueID() - Realname',
 );
 
-$AutoResponseQueue = $Self->{AutoResponseObject}->AutoResponseQueue(
+$AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
     QueueID         => 1,
     AutoResponseIDs => [],
     UserID          => 1,
