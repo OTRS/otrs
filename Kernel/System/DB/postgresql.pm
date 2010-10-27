@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.54 2010-07-12 11:28:06 ub Exp $
+# $Id: postgresql.pm,v 1.55 2010-10-27 08:30:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,7 +36,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSingle'}      = '\'';
     $Self->{'DB::QuoteBack'}        = '\\';
     $Self->{'DB::QuoteSemicolon'}   = '\\';
-    $Self->{'DB::QuoteUnderscore'}  = '\\\\';
+    $Self->{'DB::QuoteUnderscore'}  = '\\';
     $Self->{'DB::CaseInsensitive'}  = 0;
     $Self->{'DB::LikeEscapeString'} = '';
 
@@ -55,8 +55,13 @@ sub LoadPreferences {
 
     #$Self->{'DB::ShellConnect'} = '';
 
-    # init sql setting on db connect
-    #$Self->{'DB::Connect'} = '';
+# init sql setting on db connect
+#
+# Postgres has a setting which determines how strings must be escaped. We cannot rely on the system configuration
+# for that, so we set it to the recommended value.
+# see http://www.postgresql.org/docs/9.0/static/runtime-config-compatible.html#GUC-STANDARD-CONFORMING-STRINGS
+# and http://www.postgresql.org/docs/9.0/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS
+    $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
 
     return 1;
 }
