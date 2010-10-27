@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.30 2010-06-22 22:00:52 dz Exp $
+# $Id: EmailParser.t,v 1.31 2010-10-27 17:13:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,8 @@ $Self->False(
 
 # test #2
 my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(
-    Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
+    Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
+        Juergen "quoted name" Weber <juergen.qeber@air.com>',
 );
 
 $Self->Is(
@@ -64,6 +65,13 @@ $Self->Is(
     'hans@example.com (Hans Huber)',
     "#2 SplitAddressLine()",
 );
+
+$Self->Is(
+    $Addresses[3],
+    'Juergen "quoted name" Weber <juergen.qeber@air.com>',
+    "#2 SplitAddressLine() with quoted name",
+);
+
 $Self->Is(
     $Self->{EmailParserObject}->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
     'juergen.qeber@air.com',
@@ -88,6 +96,13 @@ $Self->Is(
     $Self->{EmailParserObject}->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
+);
+
+$Self->Is(
+    $Self->{EmailParserObject}
+        ->GetRealname( Email => 'Juergen "quoted name" Weber <juergen.qeber@air.com>' ),
+    'Juergen "quoted name" Weber',
+    "#1 GetRealname() with quoted name",
 );
 
 # test #3
