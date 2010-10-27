@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.124 2010-07-09 17:22:57 ub Exp $
+# $Id: DB.pm,v 1.125 2010-10-27 08:26:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 =head1 NAME
 
@@ -1046,7 +1046,14 @@ sub QueryCondition {
             $Word =~ s/\*/%/g;
             $Word =~ s/%%/%/g;
             $Word =~ s/%%/%/g;
-            $Word = $Self->Quote( $Word, 'Like' );
+
+            # perform quoting depending on query type
+            if ( $Word =~ m/%/ ) {
+                $Word = $Self->Quote( $Word, 'Like' );
+            }
+            else {
+                $Word = $Self->Quote($Word);
+            }
 
             # if it's a NOT LIKE condition
             if ( $Array[$Position] eq '!' || $Not ) {
@@ -1059,7 +1066,7 @@ sub QueryCondition {
 
                     # check if like is used
                     my $Type = 'NOT LIKE';
-                    if ( $Word !~ /%/ ) {
+                    if ( $Word !~ m/%/ ) {
                         $Type = '!=';
                     }
 
@@ -1087,7 +1094,7 @@ sub QueryCondition {
 
                     # check if like is used
                     my $Type = 'LIKE';
-                    if ( $Word !~ /%/ ) {
+                    if ( $Word !~ m/%/ ) {
                         $Type = '=';
                     }
 
@@ -1252,6 +1259,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.124 $ $Date: 2010-07-09 17:22:57 $
+$Revision: 1.125 $ $Date: 2010-10-27 08:26:07 $
 
 =cut

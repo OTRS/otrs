@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.71 2010-07-12 09:12:42 ub Exp $
+# $Id: DB.t,v 1.72 2010-10-27 08:26:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1948,7 +1948,9 @@ my %Fill = (
     Some1 => 'John Smith',
     Some2 => 'John Meier',
     Some3 => 'Franz Smith',
-    Some4 => 'Franz Ferdinand Smith'
+    Some4 => 'Franz Ferdinand Smith',
+    Some5 => 'customer_id_with_underscores',
+
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
@@ -1968,6 +1970,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 1,
+            Some5 => 0,
             }
     },
     {
@@ -1977,6 +1980,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -1986,6 +1990,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -1995,6 +2000,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2004,6 +2010,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2013,6 +2020,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2022,6 +2030,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2031,6 +2040,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2040,6 +2050,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2049,6 +2060,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2058,6 +2070,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2067,6 +2080,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2076,6 +2090,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2085,6 +2100,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2094,6 +2110,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2103,6 +2120,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2112,6 +2130,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2121,6 +2140,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2130,6 +2150,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2139,6 +2160,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2148,6 +2170,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2157,6 +2180,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 1,
         },
     },
     {
@@ -2166,6 +2190,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 1,
         },
     },
     {
@@ -2175,6 +2200,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 1,
         },
     },
     {
@@ -2184,6 +2210,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 1,
         },
     },
     {
@@ -2193,6 +2220,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 1,
         },
     },
     {
@@ -2202,6 +2230,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 1,
         },
     },
     {
@@ -2211,6 +2240,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 1,
         },
     },
     {
@@ -2220,6 +2250,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 1,
         },
     },
     {
@@ -2229,6 +2260,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2238,6 +2270,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2247,6 +2280,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2256,6 +2290,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2265,6 +2300,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2274,6 +2310,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2283,6 +2320,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2292,6 +2330,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2301,6 +2340,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2310,6 +2350,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2319,6 +2360,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 0,
             Some4 => 0,
+            Some5 => 0,
         },
     },
     {
@@ -2328,6 +2370,7 @@ my @Queries = (
             Some2 => 1,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 1,
         },
     },
     {
@@ -2337,6 +2380,7 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2346,15 +2390,17 @@ my @Queries = (
             Some2 => 0,
             Some3 => 0,
             Some4 => 1,
+            Some5 => 0,
         },
     },
     {
         Query  => 'franz ferdinand smith',
         Result => {
-            Some1   => 0,
-            Some2   => 0,
-            SomYee3 => 0,
-            Some4   => 1,
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 1,
+            Some5 => 0,
         },
     },
     {
@@ -2364,6 +2410,57 @@ my @Queries = (
             Some2 => 0,
             Some3 => 1,
             Some4 => 1,
+            Some5 => 0,
+        },
+    },
+    {
+        Query  => 'customer_id_with_underscores',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 1,
+        },
+    },
+    {
+        Query  => 'customer_*',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 1,
+        },
+    },
+    {
+        Query  => '*_*',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 1,
+        },
+    },
+    {
+        Query  => '_',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 1,
+        },
+    },
+    {
+        Query  => '!_',
+        Result => {
+            Some1 => 1,
+            Some2 => 1,
+            Some3 => 1,
+            Some4 => 1,
+            Some5 => 0,
         },
     },
 );
