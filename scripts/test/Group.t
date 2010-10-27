@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.16 2010-10-20 11:07:43 ub Exp $
+# $Id: Group.t,v 1.17 2010-10-27 11:22:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,20 +15,27 @@ use vars (qw($Self));
 use Kernel::System::Group;
 use Kernel::System::User;
 
-$Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-$Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
+my $ConfigObject = Kernel::Config->new();
+$ConfigObject->Set(
+    Key   => 'CheckEmailInvalidAddress',
+    Value => 0,
+);
+
+my $GroupObject = Kernel::System::Group->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # add three users
 my $UserRand1 = 'example-user' . int( rand(1000000) );
 my $UserRand2 = 'example-user' . int( rand(1000000) );
 my $UserRand3 = 'example-user' . int( rand(1000000) );
 
-$Self->{ConfigObject}->Set(
-    Key   => 'CheckEmailInvalidAddress',
-    Value => 0,
-);
-
-my $UserID1 = $Self->{UserObject}->UserAdd(
+my $UserID1 = $UserObject->UserAdd(
     UserFirstname => 'Test1',
     UserLastname  => 'Test1',
     UserLogin     => $UserRand1,
@@ -42,7 +49,7 @@ $Self->True(
     'UserAdd1()',
 );
 
-my $UserID2 = $Self->{UserObject}->UserAdd(
+my $UserID2 = $UserObject->UserAdd(
     UserFirstname => 'Test2',
     UserLastname  => 'Test2',
     UserLogin     => $UserRand2,
@@ -56,7 +63,7 @@ $Self->True(
     'UserAdd2()',
 );
 
-my $UserID3 = $Self->{UserObject}->UserAdd(
+my $UserID3 = $UserObject->UserAdd(
     UserFirstname => 'Test3',
     UserLastname  => 'Test3',
     UserLogin     => $UserRand3,
@@ -75,7 +82,7 @@ my $GroupRand1 = 'example-group1' . int( rand(1000000) );
 my $GroupRand2 = 'example-group1' . int( rand(1000000) );
 my $GroupRand3 = 'example-group1' . int( rand(1000000) );
 
-my $GroupID1 = $Self->{GroupObject}->GroupAdd(
+my $GroupID1 = $GroupObject->GroupAdd(
     Name    => $GroupRand1,
     ValidID => 1,
     UserID  => 1,
@@ -86,7 +93,7 @@ $Self->True(
     'GroupAdd1()',
 );
 
-my $GroupID2 = $Self->{GroupObject}->GroupAdd(
+my $GroupID2 = $GroupObject->GroupAdd(
     Name    => $GroupRand2,
     ValidID => 1,
     UserID  => 1,
@@ -97,7 +104,7 @@ $Self->True(
     'GroupAdd2()',
 );
 
-my $GroupID3 = $Self->{GroupObject}->GroupAdd(
+my $GroupID3 = $GroupObject->GroupAdd(
     Name    => $GroupRand3,
     ValidID => 1,
     UserID  => 1,
@@ -109,63 +116,63 @@ $Self->True(
 );
 
 # lookup Group1 by name
-my $LookupGroupID1 = $Self->{GroupObject}->GroupLookup( Group => $GroupRand1 );
+my $LookupGroupID1 = $GroupObject->GroupLookup( Group => $GroupRand1 );
 $Self->True(
     $LookupGroupID1 == $GroupID1,
     "GroupLookup(Group => '$GroupRand1')",
 );
 
 # lookup Group2 by name
-my $LookupGroupID2 = $Self->{GroupObject}->GroupLookup( Group => $GroupRand2 );
+my $LookupGroupID2 = $GroupObject->GroupLookup( Group => $GroupRand2 );
 $Self->True(
     $LookupGroupID2 == $GroupID2,
     "GroupLookup(Group => '$GroupRand2')",
 );
 
 # lookup Group3 by name
-my $LookupGroupID3 = $Self->{GroupObject}->GroupLookup( Group => $GroupRand3 );
+my $LookupGroupID3 = $GroupObject->GroupLookup( Group => $GroupRand3 );
 $Self->True(
     $LookupGroupID3 == $GroupID3,
     "GroupLookup(Group => '$GroupRand3')",
 );
 
 # lookup non-existing group by name
-my $UnknownGroupID = $Self->{GroupObject}->GroupLookup( Group => 'agroupthatdoesnotexistatall' );
+my $UnknownGroupID = $GroupObject->GroupLookup( Group => 'agroupthatdoesnotexistatall' );
 $Self->True(
     !defined $UnknownGroupID,
     "GroupLookup(Group => 'agroupthatdoesnotexistatall')",
 );
 
 # lookup Group1 by ID
-my $LookupGroupName1 = $Self->{GroupObject}->GroupLookup( GroupID => $GroupID1 );
+my $LookupGroupName1 = $GroupObject->GroupLookup( GroupID => $GroupID1 );
 $Self->True(
     $LookupGroupName1 eq $GroupRand1,
     "GroupLookup(GroupID => $GroupID1)",
 );
 
 # lookup Group2 by ID
-my $LookupGroupName2 = $Self->{GroupObject}->GroupLookup( GroupID => $GroupID2 );
+my $LookupGroupName2 = $GroupObject->GroupLookup( GroupID => $GroupID2 );
 $Self->True(
     $LookupGroupName2 eq $GroupRand2,
     "GroupLookup(GroupID => $GroupID2)",
 );
 
 # lookup Group3 by ID
-my $LookupGroupName3 = $Self->{GroupObject}->GroupLookup( GroupID => $GroupID3 );
+my $LookupGroupName3 = $GroupObject->GroupLookup( GroupID => $GroupID3 );
 $Self->True(
     $LookupGroupName3 eq $GroupRand3,
     "GroupLookup(GroupID => $GroupID3)",
 );
 
 # lookup non-existing group by ID
-my $UnknownGroupName = $Self->{GroupObject}->GroupLookup( GroupID => '987654321' );
+my $UnknownGroupName = $GroupObject->GroupLookup( GroupID => '987654321' );
 $Self->True(
     !defined $UnknownGroupName,
     "GroupLookup(GroupID => 9876543210)",
 );
 
 # get data of Group1
-my %Group = $Self->{GroupObject}->GroupGet( ID => $GroupID1 );
+my %Group = $GroupObject->GroupGet( ID => $GroupID1 );
 
 $Self->True(
     $Group{Name} eq $GroupRand1,
@@ -173,7 +180,7 @@ $Self->True(
 );
 
 # update Group1
-my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
+my $GroupUpdate = $GroupObject->GroupUpdate(
     ID      => $GroupID1,
     Name    => $GroupRand1 . "1",
     ValidID => 1,
@@ -186,7 +193,7 @@ $Self->True(
 );
 
 # lookup the old group name, should return undef
-my $OldGroupID = $Self->{GroupObject}->GroupLookup( Group => $GroupRand1 );
+my $OldGroupID = $GroupObject->GroupLookup( Group => $GroupRand1 );
 
 $Self->Is(
     $OldGroupID,
@@ -195,7 +202,7 @@ $Self->Is(
 );
 
 # get data of updated Group1
-%Group = $Self->{GroupObject}->GroupGet( ID => $GroupID1 );
+%Group = $GroupObject->GroupGet( ID => $GroupID1 );
 
 $Self->True(
     $Group{Name} eq $GroupRand1 . "1",
@@ -203,7 +210,7 @@ $Self->True(
 );
 
 # get list of valid groups
-my %Groups = $Self->{GroupObject}->GroupList( Valid => 1 );
+my %Groups = $GroupObject->GroupList( Valid => 1 );
 
 $Self->True(
     $Groups{$GroupID1},
@@ -215,7 +222,7 @@ my $RoleRand1 = 'example-role1' . int( rand(1000000) );
 my $RoleRand2 = 'example-role2' . int( rand(1000000) );
 my $RoleRand3 = 'example-role3' . int( rand(1000000) );
 
-my $RoleID1 = $Self->{GroupObject}->RoleAdd(
+my $RoleID1 = $GroupObject->RoleAdd(
     Name    => $RoleRand1,
     ValidID => 1,
     UserID  => 1,
@@ -226,7 +233,7 @@ $Self->True(
     'RoleAdd1()',
 );
 
-my $RoleID2 = $Self->{GroupObject}->RoleAdd(
+my $RoleID2 = $GroupObject->RoleAdd(
     Name    => $RoleRand2,
     ValidID => 1,
     UserID  => 1,
@@ -237,7 +244,7 @@ $Self->True(
     'RoleAdd2()',
 );
 
-my $RoleID3 = $Self->{GroupObject}->RoleAdd(
+my $RoleID3 = $GroupObject->RoleAdd(
     Name    => $RoleRand3,
     ValidID => 1,
     UserID  => 1,
@@ -249,63 +256,63 @@ $Self->True(
 );
 
 # lookup Role1 by name
-my $LookupRoleID1 = $Self->{GroupObject}->RoleLookup( Role => $RoleRand1 );
+my $LookupRoleID1 = $GroupObject->RoleLookup( Role => $RoleRand1 );
 $Self->True(
     $LookupRoleID1 == $RoleID1,
     "RoleLookup(Role => '$RoleRand1')",
 );
 
 # lookup Role2 by name
-my $LookupRoleID2 = $Self->{GroupObject}->RoleLookup( Role => $RoleRand2 );
+my $LookupRoleID2 = $GroupObject->RoleLookup( Role => $RoleRand2 );
 $Self->True(
     $LookupRoleID2 == $RoleID2,
     "RoleLookup(Role => '$RoleRand2')",
 );
 
 # lookup Role3 by name
-my $LookupRoleID3 = $Self->{GroupObject}->RoleLookup( Role => $RoleRand3 );
+my $LookupRoleID3 = $GroupObject->RoleLookup( Role => $RoleRand3 );
 $Self->True(
     $LookupRoleID3 == $RoleID3,
     "RoleLookup(Role => '$RoleRand3')",
 );
 
 # lookup non-existing role by name
-my $UnknownRoleID = $Self->{GroupObject}->RoleLookup( Role => 'arolethatdoesnotexistatall' );
+my $UnknownRoleID = $GroupObject->RoleLookup( Role => 'arolethatdoesnotexistatall' );
 $Self->True(
     !defined $UnknownRoleID,
     "RoleLookup(Role => 'arolethatdoesnotexistatall')",
 );
 
 # lookup Role1 by ID
-my $LookupRoleName1 = $Self->{GroupObject}->RoleLookup( RoleID => $RoleID1 );
+my $LookupRoleName1 = $GroupObject->RoleLookup( RoleID => $RoleID1 );
 $Self->True(
     $LookupRoleName1 eq $RoleRand1,
     "RoleLookup(RoleID => $RoleID1)",
 );
 
 # lookup Role2 by ID
-my $LookupRoleName2 = $Self->{GroupObject}->RoleLookup( RoleID => $RoleID2 );
+my $LookupRoleName2 = $GroupObject->RoleLookup( RoleID => $RoleID2 );
 $Self->True(
     $LookupRoleName2 eq $RoleRand2,
     "RoleLookup(RoleID => $RoleID2)",
 );
 
 # lookup Role3 by ID
-my $LookupRoleName3 = $Self->{GroupObject}->RoleLookup( RoleID => $RoleID3 );
+my $LookupRoleName3 = $GroupObject->RoleLookup( RoleID => $RoleID3 );
 $Self->True(
     $LookupRoleName3 eq $RoleRand3,
     "RoleLookup(RoleID => $RoleID3)",
 );
 
 # lookup non-existing role by ID
-my $UnknownRoleName = $Self->{GroupObject}->RoleLookup( RoleID => '9876543210' );
+my $UnknownRoleName = $GroupObject->RoleLookup( RoleID => '9876543210' );
 $Self->True(
     !defined $UnknownRoleName,
     "RoleLookup(RoleID => 9876543210)",
 );
 
 # get data of Role1
-my %Role = $Self->{GroupObject}->RoleGet( ID => $RoleID1 );
+my %Role = $GroupObject->RoleGet( ID => $RoleID1 );
 
 $Self->True(
     $Role{Name} eq $RoleRand1,
@@ -313,7 +320,7 @@ $Self->True(
 );
 
 # update Role1
-my $RoleUpdate = $Self->{GroupObject}->RoleUpdate(
+my $RoleUpdate = $GroupObject->RoleUpdate(
     ID      => $RoleID1,
     Name    => $RoleRand1 . "1",
     ValidID => 1,
@@ -326,7 +333,7 @@ $Self->True(
 );
 
 # lookup the old role name, should return undef
-my $OldRoleID = $Self->{GroupObject}->RoleLookup( Role => $RoleRand1 );
+my $OldRoleID = $GroupObject->RoleLookup( Role => $RoleRand1 );
 
 $Self->Is(
     $OldRoleID,
@@ -335,7 +342,7 @@ $Self->Is(
 );
 
 # get data of updated Role1
-%Role = $Self->{GroupObject}->RoleGet( ID => $RoleID1 );
+%Role = $GroupObject->RoleGet( ID => $RoleID1 );
 
 $Self->True(
     $Role{Name} eq $RoleRand1 . "1",
@@ -343,7 +350,7 @@ $Self->True(
 );
 
 # get list of Roles
-my %Roles = $Self->{GroupObject}->RoleList( Valid => 1 );
+my %Roles = $GroupObject->RoleList( Valid => 1 );
 
 $Self->True(
     $Roles{$RoleID1},
@@ -351,7 +358,7 @@ $Self->True(
 );
 
 # add User1 to Group1
-$Self->{GroupObject}->GroupMemberAdd(
+$GroupObject->GroupMemberAdd(
     GID        => $GroupID1,
     UID        => $UserID1,
     Permission => {
@@ -366,7 +373,7 @@ $Self->{GroupObject}->GroupMemberAdd(
 );
 
 # add User2 to Group1
-$Self->{GroupObject}->GroupMemberAdd(
+$GroupObject->GroupMemberAdd(
     GID        => $GroupID1,
     UID        => $UserID2,
     Permission => {
@@ -381,7 +388,7 @@ $Self->{GroupObject}->GroupMemberAdd(
 );
 
 # add User3 to Group2
-$Self->{GroupObject}->GroupMemberAdd(
+$GroupObject->GroupMemberAdd(
     GID        => $GroupID2,
     UID        => $UserID3,
     Permission => {
@@ -396,7 +403,7 @@ $Self->{GroupObject}->GroupMemberAdd(
 );
 
 # add User1 to Role1
-$Self->{GroupObject}->GroupUserRoleMemberAdd(
+$GroupObject->GroupUserRoleMemberAdd(
     UID    => $UserID1,
     RID    => $RoleID1,
     Active => 1,
@@ -404,7 +411,7 @@ $Self->{GroupObject}->GroupUserRoleMemberAdd(
 );
 
 # add User2 to Role2
-$Self->{GroupObject}->GroupUserRoleMemberAdd(
+$GroupObject->GroupUserRoleMemberAdd(
     UID    => $UserID2,
     RID    => $RoleID2,
     Active => 1,
@@ -412,7 +419,7 @@ $Self->{GroupObject}->GroupUserRoleMemberAdd(
 );
 
 # add User3 to Role2
-$Self->{GroupObject}->GroupUserRoleMemberAdd(
+$GroupObject->GroupUserRoleMemberAdd(
     UID    => $UserID3,
     RID    => $RoleID2,
     Active => 1,
@@ -420,7 +427,7 @@ $Self->{GroupObject}->GroupUserRoleMemberAdd(
 );
 
 # add Group1 to Role1
-$Self->{GroupObject}->GroupRoleMemberAdd(
+$GroupObject->GroupRoleMemberAdd(
     GID        => $GroupID1,
     RID        => $RoleID1,
     Permission => {
@@ -435,7 +442,7 @@ $Self->{GroupObject}->GroupRoleMemberAdd(
 );
 
 # add Group3 to Role2
-$Self->{GroupObject}->GroupRoleMemberAdd(
+$GroupObject->GroupRoleMemberAdd(
     GID        => $GroupID3,
     RID        => $RoleID2,
     Permission => {
@@ -450,7 +457,7 @@ $Self->{GroupObject}->GroupRoleMemberAdd(
 );
 
 # check groupmembers of User1
-my %MemberList1 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList1 = $GroupObject->GroupMemberList(
     UserID => $UserID1,
     Type   => 'ro',
     Result => 'HASH',
@@ -467,7 +474,7 @@ $Self->True(
 );
 
 # check groupmembers of User2
-my %MemberList2 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList2 = $GroupObject->GroupMemberList(
     UserID => $UserID2,
     Type   => 'ro',
     Result => 'HASH',
@@ -487,7 +494,7 @@ $Self->True(
 );
 
 # check groupmembers of User3
-my %MemberList3 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList3 = $GroupObject->GroupMemberList(
     UserID => $UserID3,
     Type   => 'ro',
     Result => 'HASH',
@@ -507,7 +514,7 @@ $Self->True(
 );
 
 # check groupmembers of Group1
-my %MemberList4 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList4 = $GroupObject->GroupMemberList(
     GroupID => $GroupID1,
     Type    => 'ro',
     Result  => 'HASH',
@@ -527,7 +534,7 @@ $Self->True(
 );
 
 # check groupmembers of Group2
-my %MemberList5 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList5 = $GroupObject->GroupMemberList(
     GroupID => $GroupID2,
     Type    => 'ro',
     Result  => 'HASH',
@@ -544,7 +551,7 @@ $Self->True(
 );
 
 # check groupmembers of Group3
-my %MemberList6 = $Self->{GroupObject}->GroupMemberList(
+my %MemberList6 = $GroupObject->GroupMemberList(
     GroupID => $GroupID3,
     Type    => 'ro',
     Result  => 'HASH',
@@ -564,7 +571,7 @@ $Self->True(
 );
 
 # check involved users of User1
-my %InvolvedList1 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList1 = $GroupObject->GroupMemberInvolvedList(
     UserID => $UserID1,
     Type   => 'ro',
 );
@@ -580,7 +587,7 @@ $Self->True(
 );
 
 # check involved users of User2
-my %InvolvedList2 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList2 = $GroupObject->GroupMemberInvolvedList(
     UserID => $UserID2,
     Type   => 'ro',
 );
@@ -596,7 +603,7 @@ $Self->True(
 );
 
 # check involved users of User3
-my %InvolvedList3 = $Self->{GroupObject}->GroupMemberInvolvedList(
+my %InvolvedList3 = $GroupObject->GroupMemberInvolvedList(
     UserID => $UserID3,
     Type   => 'ro',
 );
@@ -617,7 +624,7 @@ my @GroupRands = ( $GroupRand1, $GroupRand2, $GroupRand3 );
 my @RoleIDs    = ( $RoleID1,    $RoleID2,    $RoleID3 );
 my @RoleRands  = ( $RoleRand1,  $RoleRand2,  $RoleRand3 );
 for ( 0 .. 2 ) {
-    my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
+    my $GroupUpdate = $GroupObject->GroupUpdate(
         ID      => $GroupIDs[$_],
         Name    => $GroupRands[$_],
         ValidID => 2,
@@ -627,7 +634,7 @@ for ( 0 .. 2 ) {
         $GroupUpdate,
         'GroupUpdate() set group invalid',
     );
-    my $RoleUpdate = $Self->{GroupObject}->RoleUpdate(
+    my $RoleUpdate = $GroupObject->RoleUpdate(
         ID      => $RoleIDs[$_],
         Name    => $RoleRands[$_],
         ValidID => 2,
