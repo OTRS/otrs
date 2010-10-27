@@ -2,7 +2,7 @@
 # User.t - User tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.8 2010-10-14 13:05:51 mg Exp $
+# $Id: User.t,v 1.9 2010-10-27 11:23:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,19 @@ use vars (qw($Self));
 
 use Kernel::System::User;
 
-my $UserObject = Kernel::System::User->new( %{$Self} );
-
-# add users
-my $UserRand1 = 'example-user' . int( rand(1000000) );
-
-$Self->{ConfigObject}->Set(
+my $ConfigObject = Kernel::Config->new();
+$ConfigObject->Set(
     Key   => 'CheckEmailInvalidAddress',
     Value => 0,
 );
+
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# add users
+my $UserRand1 = 'example-user' . int( rand(1000000) );
 
 my $UserID1 = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
