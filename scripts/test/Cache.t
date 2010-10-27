@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.12 2010-10-27 11:53:11 mg Exp $
+# $Id: Cache.t,v 1.13 2010-10-27 12:17:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,19 +15,13 @@ use vars (qw($Self));
 use utf8;
 use Kernel::System::Cache;
 
-# use local Config object because it will be modified
-my $ConfigObject = Kernel::Config->new();
-
 for my $Module qw(FileStorable FileRaw) {
-    $ConfigObject->Set(
+    $Self->{ConfigObject}->Set(
         Key   => 'Cache::Module',
         Value => "Kernel::System::Cache::$Module"
     );
 
-    my $CacheObject = Kernel::System::Cache->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $CacheObject = Kernel::System::Cache->new( %{$Self} );
 
     my $CacheSet = $CacheObject->Set(
         Type  => 'CacheTest2',
@@ -51,7 +45,7 @@ for my $Module qw(FileStorable FileRaw) {
     );
 
     # test charset specific situations
-    my $Charset = $ConfigObject->Get('DefaultCharset');
+    my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
     if ( $Charset eq 'utf-8' ) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
@@ -191,17 +185,17 @@ for my $Module qw(FileStorable FileRaw) {
             Key   => 'Test',
             Value => {
                 Key1 => 'Value1',
-                Key2 => 'Value2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+                Key2 => 'Value2ÄÜÖäüöß',
                 Key3 => 'Value3',
                 Key4 => [
-                    'ï¿½bel ï¿½berlegt',
+                    'Übel überlegt',
                     '123456789',
-                    'ï¿½rtlicher ï¿½rger',
+                    'örtlicher Ärger',
                     {
                         KeyA  => 'ValueA',
-                        KeyB  => 'ï¿½stetisches ï¿½',
+                        KeyB  => 'Ästetisches Ü',
                         KeyC  => 'ValueC',
-                        Value => 'ï¿½blicher ï¿½tzi',
+                        Value => 'üblicher Ötzi',
                     },
                 ],
             },
@@ -220,7 +214,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet->{Key2} || '',
-            'Value2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+            'Value2ÄÜÖäüöß',
             "#2 - $Module - CacheGet() - {Key2}",
         );
         $Self->True(
@@ -229,7 +223,7 @@ for my $Module qw(FileStorable FileRaw) {
         );
         $Self->Is(
             $CacheGet->{Key4}->[0] || '',
-            'ï¿½bel ï¿½berlegt',
+            'Übel überlegt',
             "#2 - $Module - CacheGet() - {Key4}->[0]",
         );
         $Self->True(
@@ -243,7 +237,7 @@ for my $Module qw(FileStorable FileRaw) {
         );
         $Self->Is(
             $CacheGet->{Key4}->[3]->{KeyB} || '',
-            'ï¿½stetisches ï¿½',
+            'Ästetisches Ü',
             "#2 - $Module - CacheGet() - {Key4}->[3]->{KeyB}",
         );
         $Self->True(
@@ -254,7 +248,7 @@ for my $Module qw(FileStorable FileRaw) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
-            Value => 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+            Value => 'ÄÖÜäüö',
             TTL   => 2,
         );
 
@@ -270,7 +264,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet || '',
-            'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+            'ÄÖÜäüö',
             "#3 - $Module - CacheGet()",
         );
 
@@ -282,7 +276,7 @@ for my $Module qw(FileStorable FileRaw) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
-            Value => '9ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+            Value => '9äüöÄÜÖß',
             TTL   => 2,
         );
 
@@ -298,7 +292,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet || '',
-            '9ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+            '9äüöÄÜÖß',
             "#4 - $Module - CacheGet()",
         );
         $Self->True(
@@ -351,7 +345,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     # A-z char type test
     $CacheSet = $CacheObject->Set(
-        Type  => 'Value2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+        Type  => 'Value2ÄÜÖäüöß',
         Key   => 'Test',
         Value => '1',
         TTL   => 60,
@@ -362,7 +356,7 @@ for my $Module qw(FileStorable FileRaw) {
     );
 
     $CacheDelete = $CacheObject->Delete(
-        Type => 'Value2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+        Type => 'Value2ÄÜÖäüöß',
         Key  => 'Test',
     );
     $Self->True(
