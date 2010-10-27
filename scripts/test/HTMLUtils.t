@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.28 2010-10-25 09:05:42 mg Exp $
+# $Id: HTMLUtils.t,v 1.29 2010-10-27 11:09:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,13 +103,7 @@ test<br />
 test<br />
 test<br />
 </p>
-<ul>
-   <li>1</li>
-   <li>2</li>
-   <li>3</li>
-   <li>4</li>
-   <li>5</li>
-</ul></body></html>',
+<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></body></html>',
         Result => '
 test
 test
