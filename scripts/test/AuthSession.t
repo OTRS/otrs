@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.14 2010-06-22 22:00:52 dz Exp $
+# $Id: AuthSession.t,v 1.15 2010-10-27 11:47:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,20 @@ use vars (qw($Self));
 use utf8;
 use Kernel::System::AuthSession;
 
+# use local Config object because it will be modified
+my $ConfigObject = Kernel::Config->new();
+
 for my $Module (qw(DB FS)) {
 
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'SessionModule',
         Value => "Kernel::System::AuthSession::$Module"
     );
 
-    my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+    my $SessionObject = Kernel::System::AuthSession->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
 
     my $LongString = '';
     for my $Count ( 1 .. 2 ) {
@@ -201,7 +207,10 @@ for my $Module (qw(DB FS)) {
         );
 
         # session reconnect 1
-        $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+        $SessionObject = Kernel::System::AuthSession->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
 
         %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
@@ -236,7 +245,10 @@ for my $Module (qw(DB FS)) {
         );
 
         # session reconnect 2
-        $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+        $SessionObject = Kernel::System::AuthSession->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
 
         %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
