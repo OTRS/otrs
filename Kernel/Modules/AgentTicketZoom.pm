@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.130 2010-10-17 20:16:01 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.131 2010-10-27 18:21:37 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -387,13 +387,20 @@ sub MaskAgentZoom {
             last;
         }
 
-        # set first article as default
+        # set selected article
         if ( !$ArticleID ) {
-            if (@ArticleBox) {
+            if ( @ArticleBox && $Self->{ZoomExpandSort} eq 'normal' ) {
+
+                # set first article as default if normal sort
                 $ArticleID = $ArticleBox[0]->{ArticleID};
             }
+            elsif ( @ArticleBox && $Self->{ZoomExpandSort} eq 'reverse' ) {
 
-            # get last customer article
+                # set last article as default if reverse sort
+                $ArticleID = $ArticleBox[$#ArticleBox]->{ArticleID};
+            }
+
+            # set last customer article as selected article replacing last set
             for my $ArticleTmp (@ArticleBox) {
                 if ( $ArticleTmp->{SenderType} eq 'customer' ) {
                     $ArticleID = $ArticleTmp->{ArticleID};
@@ -479,7 +486,7 @@ sub MaskAgentZoom {
     }
 
     # resort article order
-    if ( $Self->{ZoomExpandSort} ne 'reverse' ) {
+    if ( $Self->{ZoomExpandSort} eq 'reverse' ) {
         @ArticleBox      = reverse @ArticleBox;
         @ArticleBoxShown = reverse @ArticleBoxShown;
     }
@@ -973,7 +980,7 @@ sub _ArticleTree {
     }
 
     # show article tree
-    for my $ArticleTmp ( reverse @ArticleBox ) {
+    for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 
         # article filter is activated in sysconfig and there are articles
