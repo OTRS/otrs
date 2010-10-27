@@ -2,7 +2,7 @@
 # Auth.t - Authentication tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.t,v 1.2 2010-10-14 14:59:52 mg Exp $
+# $Id: Auth.t,v 1.3 2010-10-27 12:14:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,13 @@ $ConfigObject->Set( 'AuthBackend', 'DB' );
 for my $Count ( 1 .. 10 ) {
     $ConfigObject->Set( "AuthBackend$Count", '' );
 }
+
+# disable email checks to create new user
+my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
 
 my $TestUserID;
 
@@ -175,5 +182,11 @@ $TestUserID = $GlobalUserObject->UserUpdate(
     ValidID       => 2,
     ChangeUserID  => 1,
 ) || die "Could not invalidate test user";
+
+# restore original email check param
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => $CheckEmailAddressesOrg,
+);
 
 1;
