@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1485 2010-10-26 23:03:48 dz Exp $
+# $Id: CHANGES,v 1.1486 2010-10-27 12:58:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-10-28 Fixed bug#5637 - In Phone Ticket -> Create a new customer via Popup,
+    then it's not possible to take over the recent created customer.
+    Only a link to create a new ticket appears.
  - 2010-10-26 Fixed bug#6076 - Bulk unlock does not work correctly.
  - 2010-10-26 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choose a customer.
  - 2010-10-26 Fixed bug#6114 - Percentage sign in Customers <-> Services interface when using

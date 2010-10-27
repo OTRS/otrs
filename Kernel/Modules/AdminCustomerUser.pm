@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.79 2010-10-11 08:48:09 mb Exp $
+# $Id: AdminCustomerUser.pm,v 1.80 2010-10-27 12:58:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,22 +309,40 @@ sub Run {
 
             # get user data and show screen again
             if ( !$Note ) {
+
+                # in borrowed view, take the new created customer over into the new ticket
+                if ( $Nav eq 'None' ) {
+                    my $Output = $NavBar;
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'BorrowedViewSubmitJS',
+                        Data => {
+                            Customer => $User,
+                        },
+                    );
+
+                    $Output .= $Self->{LayoutObject}->Output(
+                        TemplateFile => 'AdminCustomerUser',
+                        Data         => \%Param,
+                    );
+
+                    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+
+                    return $Output;
+                }
+
                 $Self->_Overview(
                     Nav    => $Nav,
                     Search => $Search,
                 );
-                my $Output  = $NavBar . $Note;
-                my $OnClick = '';
-                if ( $Nav eq 'None' ) {
-                    $OnClick
-                        = " onclick=\"parent.window.location.href = \$(this).attr('href'); return false;\"";
-                }
+
+                my $Output        = $NavBar . $Note;
                 my $URL           = '';
                 my $UserHTMLQuote = $Self->{LayoutObject}->LinkEncode($User);
                 my $UserQuote     = $Self->{LayoutObject}->Ascii2Html( Text => $User );
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\">"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('New phone ticket') . "</a>";
                 }
                 if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail} ) {
@@ -332,7 +350,7 @@ sub Run {
                         $URL .= " - ";
                     }
                     $URL
-                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\"$OnClick>"
+                        .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\">"
                         . $Self->{LayoutObject}->{LanguageObject}->Get('New email ticket') . "</a>";
                 }
                 if ($URL) {

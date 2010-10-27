@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.8 2010-09-21 13:15:16 mb Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.9 2010-10-27 12:58:51 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -74,27 +74,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
         }
         NewValue = NewValue + Core.Data.Get($Link.closest('tr'), 'Email');
         $Element.val(NewValue);
-    }
-
-    /**
-     * @function
-     * @private
-     * @param {String} Customer The customer that select in the customer popup window
-     * @return nothing
-     * @description Update the preselected customer user in the parent document
-     */
-    function UpdateCustomer(Customer) {
-        var $UpdateForm = $('form[name=compose]', parent.document);
-        $UpdateForm
-            .find('#ExpandCustomerName').val('2')
-            .end()
-            .find('#PreSelectedCustomerUser').val(Customer)
-            .end()
-            .submit();
-
-        // Because we are in an iframe, we need to call the parent frames javascript function
-        // with a jQuery object which is in the parent frames context
-        parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
     }
 
     /**
@@ -195,14 +174,26 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     /**
      * @function
+     * @param
+     *      {String} Customer The customer that was selected in the customer popup window
      * @return nothing
-     *      This function initializes the necessary stuff for Customer link in TicketAction screens
+     * @description
+     *      In some screens, the customer management dialog can be used as a borrowed view
+     *      (iframe in a dialog). This function is used to take over the currently selected
+     *      customer into the main window, closing the dialog.
      */
-    TargetNS.InitCustomer = function () {
-        $('#CustomerTable a').bind('click', function (Event) {
-            var Customer = $(this).text();
-            UpdateCustomer(Customer);
-        });
+    TargetNS.UpdateCustomer = function (Customer) {
+        var $UpdateForm = $('form[name=compose]', parent.document);
+        $UpdateForm
+            .find('#ExpandCustomerName').val('2')
+            .end()
+            .find('#PreSelectedCustomerUser').val(Customer)
+            .end()
+            .submit();
+
+        // Because we are in an iframe, we need to call the parent frames javascript function
+        // with a jQuery object which is in the parent frames context
+        parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
     };
 
     /**
