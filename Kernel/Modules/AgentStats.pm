@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.100 2010-10-27 19:27:30 en Exp $
+# $Id: AgentStats.pm,v 1.101 2010-10-28 22:46:25 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1708,7 +1708,8 @@ sub Run {
             # check installed packages
             for my $Module ( 'GD', 'GD::Graph' ) {
                 if ( !$Self->{MainObject}->Require($Module) ) {
-                    return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Need $Module!" );
+                    return $Self->{LayoutObject}
+                        ->ErrorScreen( Message => "Run: Please install $Module module!" );
                 }
             }
             if ( !$Param{GraphSize} ) {
