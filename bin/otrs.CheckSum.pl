@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.8 2010-10-28 10:37:36 ep Exp $
+# $Id: otrs.CheckSum.pl,v 1.9 2010-10-28 11:13:28 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -115,11 +115,12 @@ sub R {
         $File =~ s/$Start//;
         $File =~ s/^\/(.*)$/$1/;
 
-        # ignore var directories
+        # ignore directories
         next if $File =~ /^doc\//;
         next if $File =~ /^var\/tmp/;
         next if $File =~ /^var\/article/;
-        next if $File =~ /^var\/httpd\/htdocs\/js_new\/js-cache/;
+        next if $File =~ /js-cache/;
+        next if $File =~ /css-cache/;
 
         # next if not readable
         # print "File: $File\n";
