@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1491 2010-10-28 18:31:36 en Exp $
+# $Id: CHANGES,v 1.1492 2010-10-28 20:03:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-10-28 Fixed bug#5657 - In Global Ticket Overview, sorting for Prio is missing.
  - 2010-10-28 Fixed bug#6141 - Sysconfig Address Book disable.
  - 2010-10-28 Upgraded CKEditor to 3.4.1.
  - 2010-10-27 Fixed bug#6082 - Graph selections do appear even if GD is not installed.

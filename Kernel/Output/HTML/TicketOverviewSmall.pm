@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.34 2010-10-26 20:22:00 dz Exp $
+# $Id: TicketOverviewSmall.pm,v 1.35 2010-10-28 20:03:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,12 +244,44 @@ sub Run {
         # meta items
         my @TicketMetaItems = $Self->{LayoutObject}->TicketMetaItemsCount();
         for my $Item (@TicketMetaItems) {
+
+            my $CSS = '';
+            my $OrderBy;
+            my $Link;
+
+            if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
+                if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
+                    $OrderBy = 'Down';
+                    $CSS .= ' SortDescending';
+                }
+                else {
+                    $OrderBy = 'Up';
+                    $CSS .= ' SortAscending';
+                }
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewNavBarPageFlag',
                 Data => {
-                    Name => $Item,
+                    CSS => $CSS,
                 },
             );
+
+            if ( $Item eq 'New Article' ) {
+                $Self->{LayoutObject}->Block( Name => 'OverviewNavBarPageFlagEmpty' );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewNavBarPageFlagLink',
+                    Data => {
+                        %Param,
+                        Name    => $Item,
+                        CSS     => $CSS,
+                        OrderBy => $OrderBy,
+                    },
+                );
+            }
+
         }
 
         my @Col = (qw(TicketNumber Age State Lock Queue Owner CustomerID));
