@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.12 2010-09-27 08:00:19 mg Exp $
+// $Id: Core.UI.js,v 1.13 2010-10-28 12:18:44 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -178,7 +178,7 @@ Core.UI = (function (TargetNS) {
                         .toggleClass('Expanded')
                         .end()
                         .end()
-                        .attr('aria-expanded', $(this).closest("div.Header").parent('div').hasClass('Expanded'));
+                        .attr('aria-expanded', $that.closest("div.Header").parent('div').hasClass('Expanded'));
                 }
 
                 if (Animate && Core.Config.Get('AnimationEnabled')) {
