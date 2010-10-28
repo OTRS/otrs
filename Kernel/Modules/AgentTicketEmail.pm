@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.147 2010-10-28 21:42:55 en Exp $
+# $Id: AgentTicketEmail.pm,v 1.148 2010-10-28 21:56:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.147 $) [1];
+$VERSION = qw($Revision: 1.148 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1754,26 +1754,28 @@ sub _MaskEmailNew {
         );
     }
 
-    # show address book
-    if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
+    # show address book if the module is registered and java script support is available
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentBook} &&
+        $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'AddressBook',
             Data => {},
         );
     }
 
-    # show customer edit link if the module is registered and the agent has permissions
-    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentBook} ) {
-        my $OptionCustomer = $Self->{LayoutObject}->Permission(
-            Action => 'AdminCustomerUser',
-            Type   => 'rw',
+    # show customer edit link
+    my $OptionCustomer = $Self->{LayoutObject}->Permission(
+        Action => 'AdminCustomerUser',
+        Type   => 'rw',
+    );
+    if ($OptionCustomer) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OptionCustomer',
+            Data => {},
         );
-        if ($OptionCustomer) {
-            $Self->{LayoutObject}->Block(
-                Name => 'OptionCustomer',
-                Data => {},
-            );
-        }
     }
 
     # show attachments
