@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.368 2010-10-19 15:02:03 en Exp $
+# $Id: Defaults.pm,v 1.369 2010-10-28 12:27:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.368 $) [1];
+$VERSION = qw($Revision: 1.369 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -902,7 +902,7 @@ sub LoadDefaults {
 
     # Customer Common JS
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
-      'thirdparty/jquery-1.4.2/jquery.js',
+      'thirdparty/jquery-1.4.3/jquery.js',
       'Core.Debug.js',
       'Core.Exception.js',
       'Core.App.js',
@@ -915,7 +915,7 @@ sub LoadDefaults {
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
       'thirdparty/json/json2.js',
-      'thirdparty/jquery-1.4.2/jquery.js',
+      'thirdparty/jquery-1.4.3/jquery.js',
       'thirdparty/jquery-ui-1.8/jquery-ui-core.js',
       'thirdparty/jquery-ui-1.8/jquery-ui-widget.js',
       'thirdparty/jquery-ui-1.8/jquery-ui-mouse.js',
@@ -2229,6 +2229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.368 $ $Date: 2010-10-19 15:02:03 $
+$Revision: 1.369 $ $Date: 2010-10-28 12:27:10 $
 
 =cut
