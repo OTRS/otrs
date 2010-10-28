@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.369 2010-10-28 12:27:10 mg Exp $
+# $Id: Defaults.pm,v 1.370 2010-10-28 13:00:07 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.369 $) [1];
+$VERSION = qw($Revision: 1.370 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -916,15 +916,7 @@ sub LoadDefaults {
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
       'thirdparty/json/json2.js',
       'thirdparty/jquery-1.4.3/jquery.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-core.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-widget.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-mouse.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-position.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-draggable.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-sortable.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-datepicker.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-resizable.js',
-      'thirdparty/jquery-ui-1.8/jquery-ui-autocomplete.js',
+      'thirdparty/jquery-ui-1.8.5/jquery-ui.js',
       'thirdparty/jquery-validate-1.7/jquery.validate.js',
       'Core.JavaScriptEnhancements.js',
       'Core.Debug.js',
@@ -2229,6 +2221,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.369 $ $Date: 2010-10-28 12:27:10 $
+$Revision: 1.370 $ $Date: 2010-10-28 13:00:07 $
 
 =cut
