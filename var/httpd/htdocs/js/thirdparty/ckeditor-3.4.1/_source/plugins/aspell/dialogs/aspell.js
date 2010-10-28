@@ -9,7 +9,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		textareaId = 'cke_data_' + number,
 		interval,
 		errorMsg = editor.lang.spellCheck.notAvailable;
-	
+
 	var spellHTML =
 	// Input for exchanging data CK<--->spellcheck
 		'<textarea name="'+textareaId+'" id="'+textareaId+
@@ -18,7 +18,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		'<iframe src="" style="width:485px; height:380px"' +
 		' frameborder="0" name="' + iframeId + '" id="' + iframeId + '"' +
 		' allowtransparency="1"></iframe>';
-	
+
 	function spellTime(dialog, errorMsg)
 	{
 		var i = 0;
@@ -29,16 +29,17 @@ CKEDITOR.dialog.add('aspell', function( editor )
 				// Call from window.setInteval expected at once.
 				if (typeof interval != 'undefined')
 					window.clearInterval(interval);
-				
+
 				// Create spellcheck object, set options/attributes
 				var oSpeller = new spellChecker(document.getElementById(textareaId));
+// OTRS
 				oSpeller.spellCheckScript = CKEDITOR.config.spellerPagesServerScript;
-				//oSpeller.spellCheckScript = editor.plugins.aspell.path+'spellerpages/server-scripts/spellchecker.php';
+// /OTRS
 				oSpeller.OnFinished = function (numChanges) { oSpeller_OnFinished(dialog, numChanges) };
 				oSpeller.popUpUrl = editor.plugins.aspell.path+'spellerpages/spellchecker.html';
 				oSpeller.popUpName = iframeId;
 				oSpeller.popUpProps = null;
-				
+
 				// Place language in global variable;
 				// A bit of a hack, but how does e.g. controls.html know which language to use?
 				FCKLang = {};
@@ -60,7 +61,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 				// spellchecker.html
 				FCKLang.DlgSpellProgress      = CKEDITOR.lang[editor.langCode].spellCheck.progress;
 				// End language
-				
+
 				// Start spellcheck!
 				oSpeller.openChecker();
 			}
@@ -71,7 +72,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 			}
 		};
 	}
-	
+
 	function oSpeller_OnFinished(dialog, numberOCorrections)
 	{
 		if (numberOCorrections > 0)
@@ -83,7 +84,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		}
 		dialog.hide();
 	}
-	
+
 	// Fx and IE don't see the same sizes, it seems. That or Fx is allowing everything to grow.
 	var minW = 485;
 	var minH = 380;
@@ -92,7 +93,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		minW = 510;
 		minH = 405;
 	}
-	
+
 	return {
 		title: editor.lang.spellCheck.title,
 		minWidth: minW,
@@ -103,7 +104,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 			// Put spellcheck input and iframe in the dialog content
 			var contentArea = this.getContentElement('general', 'content').getElement();
 			contentArea.setHtml(spellHTML);
-			
+
 			// Define spellcheck init function
 			OnSpellerControlsLoad = function (controlsWindow)
 			{
@@ -111,7 +112,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 				var spans  = controlsWindow.document.getElementsByTagName('span');
 				var inputs = controlsWindow.document.getElementsByTagName('input');
 				var i, attr;
-				
+
 				for (i=0; i < spans.length; i++)
 				{
 					attr = spans[i].getAttribute && spans[i].getAttribute('fckLang');
@@ -125,19 +126,19 @@ CKEDITOR.dialog.add('aspell', function( editor )
 						inputs[i].value = FCKLang[attr];
 				}
 			}
-			
+
 			// Add spellcheck script to head
 			CKEDITOR.document.getHead().append(CKEDITOR.document.createElement('script', {
 				attributes: {
 					type: 'text/javascript',
 					src: editor.plugins.aspell.path+'spellerpages/spellChecker.js'
 			}}));
-			
+
 			// Get the data to be checked.
 			var sData = editor.getData();
 			//CKEDITOR.document.getById(textareaId).setValue(sData); <-- doesn't work for some reason
 			document.getElementById(textareaId).value = sData;
-			
+
 			// Wait for spellcheck script to load, then execute
 			interval = window.setInterval(spellTime(this, errorMsg), 250);
 		},
@@ -147,7 +148,7 @@ CKEDITOR.dialog.add('aspell', function( editor )
 			window.int_framsetLoaded = undefined;
 			window.framesetLoaded = undefined;
 			window.is_window_opened = false;
-			
+
 			OnSpellerControlsLoad = null;
 			FCKLang = null;
 		},
