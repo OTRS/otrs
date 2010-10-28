@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.6 2010-10-25 21:37:28 mh Exp $
+# $Id: otrs.CheckSum.pl,v 1.7 2010-10-28 10:34:46 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -43,7 +43,7 @@ my %Compare;
 # get options
 my %Opts;
 getopt( 'habd', \%Opts );
-if ( exists $Opts{h} ) {
+if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
     print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print
