@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1489 2010-10-27 21:16:23 en Exp $
+# $Id: CHANGES,v 1.1490 2010-10-28 09:47:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-10-28 Upgraded CKEditor to 3.4.1.
  - 2010-10-27 Fixed bug#6082 - Graph selections do appear even if GD is not installed.
  - 2010-10-27 Fixed bug#6059 - Customer name with quotes is truncated.
  - 2010-10-27 Fixed bug#6094 - Responses in ticket view don't match.
