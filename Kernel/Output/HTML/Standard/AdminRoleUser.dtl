@@ -11,8 +11,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Role-Agent Relations"}</h1>
-
+    <h1>$Text{"Manage Agent-Role Relations"}</h1>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
