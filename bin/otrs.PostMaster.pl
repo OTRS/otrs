@@ -3,7 +3,7 @@
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMaster.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.PostMaster.pl,v 1.5 2010-10-29 09:30:19 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -35,7 +35,7 @@ use lib dirname($RealBin);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +47,7 @@ use Kernel::System::Log;
 use Kernel::System::PostMaster;
 
 # get options
-my %Opts = ();
+my %Opts;
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
@@ -67,7 +67,7 @@ if ( !$Opts{q} ) {
 }
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
