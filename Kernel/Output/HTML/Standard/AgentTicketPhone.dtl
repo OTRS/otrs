@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.116 2010-10-29 11:04:17 mb Exp $
+# $Id: AgentTicketPhone.dtl,v 1.117 2010-10-29 18:29:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,35 +10,34 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewPhoneTicket" class="Validate PreventMultipleSubmits">
-    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-    <input type="hidden" name="Subaction" value="StoreNew"/>
-    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-    <input type="hidden" name="ExpandCustomerName" id="ExpandCustomerName" value="0"/>
-    <input type="hidden" name="OwnerAll" id="OwnerAll" value="$QData{"OwnerAll"}"/>
-    <input type="hidden" name="ResponsibleAll" id="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
-    <input type="hidden" name="PreSelectedCustomerUser" id="PreSelectedCustomerUser" value=""/>
-    <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
-    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-    <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
+<div class="MainBox ARIARoleMain">
 
-    <div class="MainBox ARIARoleMain">
+    <h1>$Text{"Create New Phone Ticket"}</h1>
 
-        <h1>$Text{"Create New Phone Ticket"}</h1>
-
-        <div class="LayoutFixedSidebar SidebarLast">
+    <div class="LayoutFixedSidebar SidebarLast">
 <!-- dtl:block:CustomerTable -->
-            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Customer Information"}</h2>
-                </div>
-                <div class="Content">
-                    $Data{"CustomerTable"}
-                </div>
+        <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Customer Information"}</h2>
             </div>
+            <div class="Content">
+                $Data{"CustomerTable"}
+            </div>
+        </div>
 <!-- dtl:block:CustomerTable -->
 
-            <div class="ContentColumn">
+        <div class="ContentColumn">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewPhoneTicket" class="Validate PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="StoreNew"/>
+                <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                <input type="hidden" name="ExpandCustomerName" id="ExpandCustomerName" value="0"/>
+                <input type="hidden" name="OwnerAll" id="OwnerAll" value="$QData{"OwnerAll"}"/>
+                <input type="hidden" name="ResponsibleAll" id="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
+                <input type="hidden" name="PreSelectedCustomerUser" id="PreSelectedCustomerUser" value=""/>
+                <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
+                <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
 
                 <fieldset class="TableLike">
 
@@ -356,11 +355,11 @@ $Include{"RichTextEditor"}
                         <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Create"} (g)" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
                     </div>
                 </fieldset>
-            </div>
+            </form>
         </div>
-        <div id="CustomerTickets"></div>
     </div>
-</form>
+    <div id="CustomerTickets"></div>
+</div>
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[

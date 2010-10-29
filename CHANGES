@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1496 2010-10-29 15:43:26 mn Exp $
+# $Id: CHANGES,v 1.1497 2010-10-29 18:29:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-10-29 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choose a customer.
  - 2010-10-29 Fixed bug#5917 - Thirdparty [Firefox]: Search freezes after delete one field from profile.
  - 2010-10-29 Fixed bug#5989 - Thirdparty [ckeditor?]: Using address book in reply window breaks the message body text box.
  - 2010-10-29 Updated Russian translation, thanks to Eugene Kungurov!
