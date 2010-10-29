@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.101 2010-10-28 22:46:25 dz Exp $
+# $Id: AgentStats.pm,v 1.102 2010-10-29 18:32:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1348,8 +1348,32 @@ sub Run {
         $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(%Permission);
 
         # create multiselectboxes 'format'
+        my $GDAvailable;
+        my $AvailableFormats = $Self->{ConfigObject}->Get('Stats::Format');
+
+        # check availability of packages
+        for my $Module ( 'GD', 'GD::Graph' ) {
+            $GDAvailable = ( !$Self->{MainObject}->Require($Module) ) ? 0 : 1;
+        }
+
+        # if the GD package is not installed, all the graph options will be disabled
+        if ( !$GDAvailable ) {
+            my @ResultFormat;
+
+            # create array of hashes
+            for my $FormatName ( keys %$AvailableFormats ) {
+                my %Format;
+                $Format{Key}      = $FormatName;
+                $Format{Value}    = $FormatName;
+                $Format{Disabled} = ( $FormatName =~ m/graph/gi ) ? 1 : 0;
+                push @ResultFormat, \%Format;
+            }
+            $AvailableFormats = \@ResultFormat;
+            $Self->{LayoutObject}->Block( Name => 'PackageUnavailableMsg' );
+        }
+
         $Stat->{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
-            Data       => $Self->{ConfigObject}->Get('Stats::Format'),
+            Data       => $AvailableFormats,
             Name       => 'Format',
             Class      => 'Validate_Required',
             Multiple   => 1,
@@ -1444,7 +1468,7 @@ sub Run {
             $BlockData{Element} = $ObjectAttribute->{Element};
 
             # show the attribute block
-            $Self->{LayoutObject}->Block( Name => 'Attribute', );
+            $Self->{LayoutObject}->Block( Name => 'Attribute' );
 
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
                 my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
