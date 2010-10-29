@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.11 2010-10-29 13:13:29 mb Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.12 2010-10-29 13:25:46 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -249,6 +249,10 @@ sub HandleLanguage {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
         $Key         =~ s/'/\\'/g;
+
+        # if a string was previously in a DTL, but has not yet been translated,
+        # there's no need to preserve it in the translation file.
+        next if ( !$Translation );
 
         # TODO: clarify if regular expression check is still needed
         #   in the past it was used to guard against wrong matches
