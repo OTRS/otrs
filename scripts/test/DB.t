@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.72 2010-10-27 08:26:07 mg Exp $
+# $Id: DB.t,v 1.73 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,14 +11,12 @@
 
 use strict;
 use warnings;
-
 use vars qw($Self);
-
 use Encode;
 
 use Kernel::System::XML;
 
-$Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
+my $XMLObject = Kernel::System::XML->new( %{$Self} );
 
 # ------------------------------------------------------------ #
 # quoting tests
@@ -232,7 +230,7 @@ my $XML = '
     </Index>
 </TableCreate>
 ';
-my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -270,7 +268,7 @@ $Self->True(
 
 # rename table
 $XML      = '<TableAlter NameOld="test_a" NameNew="test_aa"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -306,7 +304,7 @@ $Self->True(
 );
 
 $XML      = '<TableDrop Name="test_aa"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -334,7 +332,7 @@ $XML = '
     </Index>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -364,7 +362,7 @@ $XML = '
     <ColumnDrop Name="test3"/>
 </TableAlter>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -384,7 +382,7 @@ $XML = '
     <Data Key="name_b" Type="Quote">Lalala1</Data>
 </Insert>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -428,7 +426,7 @@ for my $Count ( 1 .. 6 ) {
             <Data Key="name_b" Type="Quote">' . $String . '</Data>
         </Insert>
     ';
-    @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+    @XMLARRAY = $XMLObject->XMLParse( String => $XML );
     @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
@@ -612,7 +610,7 @@ $Self->True(
 );
 
 $XML      = '<TableDrop Name="test_a"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -639,7 +637,7 @@ $XML = '
     </Index>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -663,7 +661,7 @@ for my $Count ( 1 .. 40 ) {
             <Data Key="name_b" Type="Quote">' . $Count . '</Data>
         </Insert>
     ';
-    @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+    @XMLARRAY = $XMLObject->XMLParse( String => $XML );
     @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
@@ -810,7 +808,7 @@ $Self->Is(
 );
 
 $XML      = '<TableDrop Name="test_b"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -833,7 +831,7 @@ $XML = '
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -967,7 +965,7 @@ for my $TestRef ( @{$LikeTests} ) {
 }
 
 $XML      = '<TableDrop Name="test_c"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -990,7 +988,7 @@ $XML = '
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1264,7 +1262,7 @@ continue {
 }
 
 $XML      = '<TableDrop Name="test_d"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1295,7 +1293,7 @@ $XML = '
 </TableCreate>
 ';
 
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -1423,7 +1421,7 @@ continue {
 }
 
 $XML      = '<TableDrop Name="test_e"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1451,7 +1449,7 @@ $XML = '
     <Column Name="name_f" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -1590,7 +1588,7 @@ $XML = '
     <ColumnAdd Name="name3_d" Required="false" Size="20" Type="VARCHAR" />
 </TableAlter>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1768,7 +1766,7 @@ $XML = '
     <ColumnChange NameOld="name3_d" NameNew="name3_d" Required="true" Default="Test1" Size="20" Type="VARCHAR" />
 </TableAlter>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1907,7 +1905,7 @@ continue {
 }
 
 $XML      = '<TableDrop Name="test_f"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -1930,7 +1928,7 @@ $XML = '
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -2639,7 +2637,7 @@ for my $Query (@Queries) {
 }
 
 $XML      = '<TableDrop Name="test_condition"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -2711,7 +2709,7 @@ $XML = '
     </Insert>
 </SQL>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -2747,7 +2745,7 @@ $XML = '
     </ForeignKeyDrop>
 </TableAlter>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -2768,7 +2766,7 @@ $XML = '
     <ColumnDrop Name="name_a"/>
 </TableAlter>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -2790,7 +2788,7 @@ $XML = '
     <TableDrop Name="test_foreignkeys_2"/>
 </SQL>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -2818,7 +2816,7 @@ $XML = '
     <Column Name="name_d" Required="true" Size="3998" Type="VARCHAR"/>
 </TableCreate>
 ';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
@@ -2896,7 +2894,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 }
 
 $XML      = '<TableDrop Name="test_j"/>';
-@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],

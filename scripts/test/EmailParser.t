@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.31 2010-10-27 17:13:18 en Exp $
+# $Id: EmailParser.t,v 1.32 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 use utf8;
+
 use Kernel::System::EmailParser;
 
 my $Home = $Self->{ConfigObject}->Get('Home');
@@ -25,37 +26,38 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+# create local object
+my $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+    $EmailParserObject->GetParam( WHAT => 'To' ),
     'darthvader@otrs.org',
     "#1 GetParam(WHAT => 'To')",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
+    $EmailParserObject->GetParam( WHAT => 'From' ),
     'Skywalker Attachment <skywalker@otrs.org>',
     "#1 GetParam(WHAT => 'From')",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'us-ascii',
     "#1 GetCharset()",
 );
 
-my @Attachments = $Self->{EmailParserObject}->GetAttachments();
+my @Attachments = $EmailParserObject->GetAttachments();
 $Self->False(
     $Attachments[1]->{Filename} || '',
     "#1 GetAttachments() - no attachments",
 );
 
 # test #2
-my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(
+my @Addresses = $EmailParserObject->SplitAddressLine(
     Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
         Juergen "quoted name" Weber <juergen.qeber@air.com>',
 );
@@ -73,19 +75,19 @@ $Self->Is(
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
     'juergen.qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
+    $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress(
+    $EmailParserObject->GetEmailAddress(
         Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
     ),
     'juergen+qeber@air.com',
@@ -93,13 +95,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
+    $EmailParserObject->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}
+    $EmailParserObject
         ->GetRealname( Email => 'Juergen "quoted name" Weber <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
@@ -113,16 +115,16 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'UTF-8',
     "#3 GetCharset()",
 );
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 my $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -145,28 +147,28 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'iso-8859-15',
     "#4 GetCharset()",
 );
 if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
+        $EmailParserObject->GetParam( WHAT => 'From' ),
         'Hans BÄKOSchönland <me@bogen.net>',
         "#4 From()",
     );
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+        $EmailParserObject->GetParam( WHAT => 'To' ),
         'Namedyński (hans@example.com)',
         "#4 To()",
     );
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam( WHAT => 'Subject' ),
+        $EmailParserObject->GetParam( WHAT => 'Subject' ),
         'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
         "#4 Subject()",
     );
@@ -182,7 +184,7 @@ my %Match = (
     "Compare Cable, DSL or Satellite" => 0,
 );
 for my $Key ( sort keys %Match ) {
-    if ( $Self->{EmailParserObject}->GetMessageBody() =~ /$Key/ ) {
+    if ( $EmailParserObject->GetMessageBody() =~ /$Key/ ) {
         $Match{$Key} = 1;
     }
     $Self->True(
@@ -200,7 +202,7 @@ my %MatchNot = (
     "html"       => 0,
 );
 for my $Key ( sort keys %MatchNot ) {
-    if ( $Self->{EmailParserObject}->GetMessageBody() !~ /$Key/ ) {
+    if ( $EmailParserObject->GetMessageBody() !~ /$Key/ ) {
         $MatchNot{$Key} = 1;
     }
     $Self->True(
@@ -217,16 +219,16 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'iso-8859-1',
     "#5 GetCharset()",
 );
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -274,16 +276,16 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'utf-8',
     "#6 GetCharset()",
 );
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -332,16 +334,16 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'iso-8859-1',
     "#7 GetCharset()",
 );
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -384,18 +386,18 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     '',
     "#8 GetCharset() - no charset should be found (non text body)",
 );
 
-my $Body = $Self->{EmailParserObject}->GetMessageBody();
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+my $Body = $EmailParserObject->GetMessageBody();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Body ) || '';
 
 $Self->Is(
@@ -417,17 +419,17 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'us-ascii',
     "#9 GetCharset() - us-ascii charset should be found",
 );
 
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
 
 $Self->Is(
@@ -454,24 +456,24 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'iso-8859-1',
     "#10 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '7ddc731e5a3e76cd27d4b1e0628468b1',
     "#10 md5 body check",
 );
 
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -507,24 +509,24 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'ISO-8859-1',
     "#11 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '52f20c90a1f0d8cf3bd415e278992001',
     "#11 md5 body check",
 );
 
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $Self->True(
     !$Attachments[0] || 0,
     "#11 attachment check #0",
@@ -538,34 +540,34 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'ISO-8859-1',
     "#12 GetCharset() - iso-8859-1 charset should be found",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+    $EmailParserObject->GetParam( WHAT => 'To' ),
     '金田　美羽 <support@example.com>',
     "#12 GetParam(WHAT => 'To')",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'Cc' ),
+    $EmailParserObject->GetParam( WHAT => 'Cc' ),
     '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
     "#12 GetParam(WHAT => 'Cc')",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '603c11a38065909cc13bf53c650506c1',
     "#12 md5 body check",
 );
 
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -643,21 +645,21 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     '',
     "#13 GetCharset() - no charset should be found",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+    $EmailParserObject->GetParam( WHAT => 'To' ),
     '<support@example.com>',
     "#13 GetParam(WHAT => 'To')",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '474f97c23688e88edfb70139d5658e01',
@@ -672,26 +674,26 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'UTF-8',
     "#14 GetCharset() - no charset should be found",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+    $EmailParserObject->GetParam( WHAT => 'To' ),
     '<security@example.org>',
     "#14 GetParam(WHAT => 'To')",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
+    $EmailParserObject->GetParam( WHAT => 'From' ),
     'VIAGRA � Official Site <security@example.org>',
     "#14 GetParam(WHAT => 'From')",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '3a5519f26da763887a38e79663441dc1',
@@ -706,17 +708,17 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'ISO-8859-1',
     "#15 GetCharset() - iso-8859-1 charset should be found",
 );
 
-@Attachments = $Self->{EmailParserObject}->GetAttachments();
+@Attachments = $EmailParserObject->GetAttachments();
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
@@ -779,7 +781,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my %Data = $Self->{EmailParserObject}->GetContentTypeParams(
+    my %Data = $EmailParserObject->GetContentTypeParams(
         ContentType => $Test->{ContentType},
     );
     $Self->Is(
@@ -802,19 +804,19 @@ while (<IN>) {
 }
 close(IN);
 
-$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+$EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
     Email => \@Array,
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetCharset(),
+    $EmailParserObject->GetCharset(),
     'iso-8859-1',
     "#17 GetCharset() - iso-8859-1 charset should be found",
 );
 
 #test #18
 my $ContentType = qq(Content-Type: text/html; charset="iso-8859-1"; charset="iso-8859-1");
-my %Data        = $Self->{EmailParserObject}->GetContentTypeParams(
+my %Data        = $EmailParserObject->GetContentTypeParams(
     ContentType => $ContentType,
 );
 $Self->Is(

@@ -2,7 +2,7 @@
 # Email.t - email parser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.t,v 1.5 2010-06-22 22:00:51 dz Exp $
+# $Id: Email.t,v 1.6 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,16 @@ use strict;
 use warnings;
 use vars (qw($Self));
 use utf8;
+
 use Kernel::System::Email;
 use Kernel::System::EmailParser;
+use Kernel::Config;
+
+# create local object
+my $ConfigObject = Kernel::Config->new();
 
 # do not really send emails
-$Self->{ConfigObject}->Set(
+$ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
@@ -70,7 +75,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         my $Name = "#$Count.$CountSub $Encoding $Test->{Name}";
 
         # set forcing of encoding
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'SendmailEncodingForce',
             Value => $Encoding,
         );
@@ -132,11 +137,5 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         }
     }
 }
-
-# reset email encoding
-$Self->{ConfigObject}->Set(
-    Key   => 'SendmailEncodingForce',
-    Value => '',
-);
 
 1;

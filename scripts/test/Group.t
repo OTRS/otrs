@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.17 2010-10-27 11:22:20 mg Exp $
+# $Id: Group.t,v 1.18 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,15 +12,18 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::Group;
 use Kernel::System::User;
 
+# create local config object
 my $ConfigObject = Kernel::Config->new();
 $ConfigObject->Set(
     Key   => 'CheckEmailInvalidAddress',
     Value => 0,
 );
 
+# create local objects
 my $GroupObject = Kernel::System::Group->new(
     %{$Self},
     ConfigObject => $ConfigObject,

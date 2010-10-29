@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.15 2010-06-12 02:55:31 cr Exp $
+# $Id: Crypt.t,v 1.16 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,34 +11,45 @@
 
 use strict;
 use warnings;
-
-use Kernel::System::Crypt;
-
 use vars qw($Self);
 
+use Kernel::System::Crypt;
+use Kernel::Config;
+
+# create local object
+my $ConfigObject = $Self->{ConfigObject};
+
 # set config
-$Self->{ConfigObject}->Set( Key => 'PGP', Value => 1 );
-$Self->{ConfigObject}->Set(
-    Key => 'PGP::Options', Value => '--batch --no-tty --yes'
+$ConfigObject->Set(
+    Key   => 'PGP',
+    Value => 1,
 );
-$Self->{ConfigObject}->Set( Key => 'PGP::Key::Password', Value => { '04A17B7A' => 'somepass' } );
+$ConfigObject->Set(
+    Key   => 'PGP::Options',
+    Value => '--batch --no-tty --yes',
+);
+$ConfigObject->Set(
+    Key => 'PGP::Key::Password',
+    Value => { '04A17B7A' => 'somepass' },
+);
 
 # check if gpg is located there
-if ( !-e $Self->{ConfigObject}->Get('PGP::Bin') ) {
+if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/gpg' ) {
-        $Self->{ConfigObject}->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
+        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
     }
 }
 
-# create crypt object
-$Self->{CryptObject} = Kernel::System::Crypt->new(
+# create local crypt object
+my $CryptObject = Kernel::System::Crypt->new(
     %{$Self},
-    CryptType => 'PGP',
+    ConfigObject => $ConfigObject,
+    CryptType    => 'PGP',
 );
 
-if ( !$Self->{CryptObject} ) {
+if ( !$CryptObject ) {
     print STDERR "NOTICE: No PGP support!\n";
     return;
 }
@@ -76,7 +87,7 @@ my %Check = (
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $Self->{CryptObject}->KeySearch(
+    my @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
@@ -86,10 +97,10 @@ for my $Count ( 1 .. 2 ) {
 
     # get keys
     my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Crypt/",
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
         Filename  => "PGPPrivateKey-$Count.asc",
     );
-    my $Message = $Self->{CryptObject}->KeyAdd(
+    my $Message = $CryptObject->KeyAdd(
         Key => ${$KeyString},
     );
     $Self->True(
@@ -97,7 +108,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count KeyAdd()",
     );
 
-    @Keys = $Self->{CryptObject}->KeySearch(
+    @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
     );
 
@@ -114,7 +125,7 @@ for my $Count ( 1 .. 2 ) {
         );
     }
 
-    my $PublicKeyString = $Self->{CryptObject}->PublicKeyGet(
+    my $PublicKeyString = $CryptObject->PublicKeyGet(
         Key => $Keys[0]->{Key},
     );
     $Self->True(
@@ -122,7 +133,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PublicKeyGet()",
     );
 
-    my $PrivateKeyString = $Self->{CryptObject}->SecretKeyGet(
+    my $PrivateKeyString = $CryptObject->SecretKeyGet(
         Key => $Keys[0]->{KeyPrivate},
     );
     $Self->True(
@@ -131,7 +142,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # crypt
-    my $Crypted = $Self->{CryptObject}->Crypt(
+    my $Crypted = $CryptObject->Crypt(
         Message => $TestText,
         Key     => $Keys[0]->{Key},
     );
@@ -145,7 +156,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    my %Decrypt = $Self->{CryptObject}->Decrypt(
+    my %Decrypt = $CryptObject->Decrypt(
         Message => $Crypted,
     );
     $Self->True(
@@ -164,7 +175,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign inline
-    my $Sign = $Self->{CryptObject}->Sign(
+    my $Sign = $CryptObject->Sign(
         Message => $TestText,
         Key     => $Keys[0]->{KeyPrivate},
         Type    => 'Inline'                  # Detached|Inline
@@ -175,7 +186,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    my %Verify = $Self->{CryptObject}->Verify(
+    my %Verify = $CryptObject->Verify(
         Message => $Sign,
     );
     $Self->True(
@@ -196,7 +207,7 @@ for my $Count ( 1 .. 2 ) {
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
-    %Verify = $Self->{CryptObject}->Verify(
+    %Verify = $CryptObject->Verify(
         Message => $ManipulatedSign,
     );
     $Self->True(
@@ -205,7 +216,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign detached
-    $Sign = $Self->{CryptObject}->Sign(
+    $Sign = $CryptObject->Sign(
         Message => $TestText,
         Key     => $Keys[0]->{KeyPrivate},
         Type    => 'Detached'                # Detached|Inline
@@ -216,7 +227,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    %Verify = $Self->{CryptObject}->Verify(
+    %Verify = $CryptObject->Verify(
         Message => $TestText,
         Sign    => $Sign,
     );
@@ -236,7 +247,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify failure
-    %Verify = $Self->{CryptObject}->Verify(
+    %Verify = $CryptObject->Verify(
         Message => " $TestText ",
         Sign    => $Sign,
     );
@@ -248,14 +259,14 @@ for my $Count ( 1 .. 2 ) {
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
         my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Crypt/",
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );
         my $Reference = ${$Content};
 
         # crypt
-        my $Crypted = $Self->{CryptObject}->Crypt(
+        my $Crypted = $CryptObject->Crypt(
             Message => $Reference,
             Key     => $Keys[0]->{Key},
         );
@@ -269,7 +280,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # decrypt
-        my %Decrypt = $Self->{CryptObject}->Decrypt(
+        my %Decrypt = $CryptObject->Decrypt(
             Message => $Crypted,
         );
         $Self->True(
@@ -287,7 +298,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign inline
-        my $Sign = $Self->{CryptObject}->Sign(
+        my $Sign = $CryptObject->Sign(
             Message => $Reference,
             Key     => $Keys[0]->{KeyPrivate},
             Type    => 'Inline'                  # Detached|Inline
@@ -298,7 +309,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        my %Verify = $Self->{CryptObject}->Verify(
+        my %Verify = $CryptObject->Verify(
             Message => $Sign,
         );
         $Self->True(
@@ -317,7 +328,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign detached
-        $Sign = $Self->{CryptObject}->Sign(
+        $Sign = $CryptObject->Sign(
             Message => $Reference,
             Key     => $Keys[0]->{KeyPrivate},
             Type    => 'Detached'                # Detached|Inline
@@ -328,7 +339,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        %Verify = $Self->{CryptObject}->Verify(
+        %Verify = $CryptObject->Verify(
             Message => ${$Content},
             Sign    => $Sign,
         );
@@ -356,7 +367,7 @@ for my $Count ( 1 .. 2 ) {
         utf8::is_utf8($UTF8Text),
         "Should now have a UTF8-string",
     );
-    $Crypted = $Self->{CryptObject}->Crypt(
+    $Crypted = $CryptObject->Crypt(
         Message => $UTF8Text,
         Key     => $Keys[0]->{Key},
     );
@@ -370,7 +381,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    %Decrypt = $Self->{CryptObject}->Decrypt(
+    %Decrypt = $CryptObject->Decrypt(
         Message => $Crypted,
     );
     $Self->True(
@@ -389,14 +400,14 @@ for my $Count ( 1 .. 2 ) {
 
 # delete keys
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $Self->{CryptObject}->KeySearch(
+    my @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->True(
         $Keys[0] || '',
         "#$Count KeySearch()",
     );
-    my $DeleteSecretKey = $Self->{CryptObject}->SecretKeyDelete(
+    my $DeleteSecretKey = $CryptObject->SecretKeyDelete(
         Key => $Keys[0]->{KeyPrivate},
     );
     $Self->True(
@@ -404,7 +415,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count SecretKeyDelete()",
     );
 
-    my $DeletePublicKey = $Self->{CryptObject}->PublicKeyDelete(
+    my $DeletePublicKey = $CryptObject->PublicKeyDelete(
         Key => $Keys[0]->{Key},
     );
     $Self->True(
@@ -412,7 +423,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PublicKeyDelete()",
     );
 
-    @Keys = $Self->{CryptObject}->KeySearch(
+    @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
@@ -420,8 +431,5 @@ for my $Count ( 1 .. 2 ) {
         "#$Count KeySearch()",
     );
 }
-
-# reset config
-$Self->{ConfigObject}->Set( Key => 'PGP', Value => 0 );
 
 1;

@@ -2,7 +2,7 @@
 # MailAccount.t - MailAccount tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.t,v 1.4 2010-06-22 22:00:52 dz Exp $
+# $Id: MailAccount.t,v 1.5 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,10 @@ use warnings;
 use vars (qw($Self));
 use Kernel::System::MailAccount;
 
-$Self->{MailAccountObject} = Kernel::System::MailAccount->new( %{$Self} );
+# create local object
+my $MailAccountObject = Kernel::System::MailAccount->new( %{$Self} );
 
-my $MailAccountAdd = $Self->{MailAccountObject}->MailAccountAdd(
+my $MailAccountAdd = $MailAccountObject->MailAccountAdd(
     Login         => 'mail',
     Password      => 'SomePassword',
     Host          => 'pop3.example.com',
@@ -33,7 +34,7 @@ $Self->True(
     'MailAccountAdd()',
 );
 
-my %MailAccount = $Self->{MailAccountObject}->MailAccountGet(
+my %MailAccount = $MailAccountObject->MailAccountGet(
     ID => $MailAccountAdd,
 );
 
@@ -54,7 +55,7 @@ $Self->True(
     'MailAccountGet() - Type',
 );
 
-my $MailAccountUpdate = $Self->{MailAccountObject}->MailAccountUpdate(
+my $MailAccountUpdate = $MailAccountObject->MailAccountUpdate(
     ID            => $MailAccountAdd,
     Login         => 'mail2',
     Password      => 'SomePassword2',
@@ -72,7 +73,7 @@ $Self->True(
     'MailAccountUpdate()',
 );
 
-%MailAccount = $Self->{MailAccountObject}->MailAccountGet(
+%MailAccount = $MailAccountObject->MailAccountGet(
     ID => $MailAccountAdd,
 );
 
@@ -93,7 +94,7 @@ $Self->True(
     'MailAccountGet() - Type',
 );
 
-my %List = $Self->{MailAccountObject}->MailAccountList(
+my %List = $MailAccountObject->MailAccountList(
     Valid => 0,    # just valid/all accounts
 );
 
@@ -102,7 +103,7 @@ $Self->True(
     'MailAccountList()',
 );
 
-my $MailAccountDelete = $Self->{MailAccountObject}->MailAccountDelete(
+my $MailAccountDelete = $MailAccountObject->MailAccountDelete(
     ID => $MailAccountAdd,
 );
 

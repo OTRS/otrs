@@ -2,7 +2,7 @@
 # Encode.t - Encode tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.t,v 1.5 2010-06-22 22:00:52 dz Exp $
+# $Id: Encode.t,v 1.6 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+use Kernel::Config;
+
+# create local objects
+my $ConfigObject = Kernel::Config->new();
 
 # EncodeInternalUsed tests
 my @Tests = (
@@ -32,7 +37,7 @@ my @Tests = (
     },
 );
 for my $Test (@Tests) {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'DefaultCharset',
         Value => $Test->{Charset},
     );
@@ -117,14 +122,10 @@ for my $Test (@Tests) {
         $Self->True(
             $IsUTF8 eq $Test->{UTF8},
             $Test->{Name} . " is_utf8",
-
-            #$Test->{Name} . " is_utf8 ($Test->{Input})",
         );
         $Self->True(
             $Result eq $Test->{Result},
             $Test->{Name},
-
-            #$Test->{Name} . " ($Test->{Input})",
         );
     }
 }

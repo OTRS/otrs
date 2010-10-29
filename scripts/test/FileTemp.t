@@ -2,7 +2,7 @@
 # FileTemp.t - FileTemp tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileTemp.t,v 1.10 2010-07-15 07:54:04 bes Exp $
+# $Id: FileTemp.t,v 1.11 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::FileTemp;
 
 my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );

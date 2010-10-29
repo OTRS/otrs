@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.29 2010-10-27 11:09:23 mg Exp $
+# $Id: HTMLUtils.t,v 1.30 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
+
 use Kernel::System::HTMLUtils;
 
-$Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
+my $HTMLUtilsObject = Kernel::System::HTMLUtils->new( %{$Self} );
 
 # ToAscii tests
 my @Tests = (
@@ -158,7 +160,7 @@ Fifth Line',
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $Self->{HTMLUtilsObject}->ToAscii(
+    my $Ascii = $HTMLUtilsObject->ToAscii(
         String => $Test->{Input},
     );
 
@@ -187,7 +189,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $Self->{HTMLUtilsObject}->DocumentComplete(
+    my $Ascii = $HTMLUtilsObject->DocumentComplete(
         Charset => 'iso-8859-1',
         String  => $Test->{Input},
     );
@@ -320,7 +322,7 @@ for my $Test (@Tests) {
     # these 2 lines are for Windows check-out
     $Test->{Input}  =~ s{\r\n}{\n}smxg;
     $Test->{Result} =~ s{\r\n}{\n}smxg;
-    my $Ascii = $Self->{HTMLUtilsObject}->DocumentStrip(
+    my $Ascii = $HTMLUtilsObject->DocumentStrip(
         String => $Test->{Input},
     );
     $Self->Is(
@@ -413,7 +415,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+    my $HTML = $HTMLUtilsObject->DocumentStyleCleanup(
         String => $Test->{Input},
     );
     $Self->Is(
@@ -666,7 +668,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
+    my $HTML = $HTMLUtilsObject->LinkQuote(
         String    => $Test->{Input},
         Target    => $Test->{Target},
         TargetAdd => $Test->{TargetAdd},
@@ -689,7 +691,7 @@ $XML = ${$XML};
 
 my $StartSeconds = $Self->{TimeObject}->SystemTime();
 
-my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
+my $HTML = $HTMLUtilsObject->LinkQuote(
     String => \$XML,
 );
 
@@ -1088,7 +1090,7 @@ PT
 );
 
 for my $Test (@Tests) {
-    my %Result = $Self->{HTMLUtilsObject}->Safety(
+    my %Result = $HTMLUtilsObject->Safety(
         String       => $Test->{Input},
         NoApplet     => 1,
         NoObject     => 1,

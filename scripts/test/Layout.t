@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.44 2010-10-04 14:14:13 mg Exp $
+# $Id: Layout.t,v 1.45 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,8 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
+use utf8;
+use vars (qw($Self %Param));
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
@@ -20,62 +21,27 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::Output::HTML::Layout;
 
-# declare externally defined variables to avoid errors under 'use strict'
-use vars qw( $Self %Param );
-
-$Self->{SessionObject} = Kernel::System::AuthSession->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    DBObject     => $Self->{DBObject},
-    MainObject   => $Self->{MainObject},
-    TimeObject   => $Self->{TimeObject},
-);
-
-$Self->{ParamObject} = Kernel::System::Web::Request->new(
+# create local objects
+my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
+my $GroupObject   = Kernel::System::Group->new( %{$Self} );
+my $TicketObject  = Kernel::System::Ticket->new( %{$Self} );
+my $UserObject    = Kernel::System::User->new( %{$Self} );
+my $ParamObject   = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
-
-$Self->{GroupObject} = Kernel::System::Group->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
-);
-
-$Self->{TicketObject} = Kernel::System::Ticket->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    TimeObject   => $Self->{TimeObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
-);
-
-$Self->{UserObject} = Kernel::System::User->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    EncodeObject => $Self->{EncodeObject},
-    LogObject    => $Self->{LogObject},
-    TimeObject   => $Self->{TimeObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
-);
-
-$Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
     ConfigObject       => $Self->{ConfigObject},
     LogObject          => $Self->{LogObject},
     TimeObject         => $Self->{TimeObject},
     MainObject         => $Self->{MainObject},
     EncodeObject       => $Self->{EncodeObject},
-    SessionObject      => $Self->{SessionObject},
+    SessionObject      => $SessionObject,
     DBObject           => $Self->{DBObject},
-    ParamObject        => $Self->{ParamObject},
-    TicketObject       => $Self->{TicketObject},
-    UserObject         => $Self->{UserObject},
-    GroupObject        => $Self->{GroupObject},
+    ParamObject        => $ParamObject,
+    TicketObject       => $TicketObject,
+    UserObject         => $UserObject,
+    GroupObject        => $GroupObject,
     UserChallengeToken => 'TestToken',
     UserID             => 1,
     Lang               => 'de',
@@ -104,7 +70,7 @@ my $StartTime = time();
 # --------------------------------------------------------------------#
 
 # check the header
-my $Header = $Self->{LayoutObject}->Header( Title => 'HeaderTest' );
+my $Header = $LayoutObject->Header( Title => 'HeaderTest' );
 my $HeaderFlag = 1;
 if (
     $Header =~ m{ \$ (QData|LQData|Data|Env|QEnv|Config|Include) }msx
@@ -120,7 +86,7 @@ $Self->True(
 );
 
 # check the navigation bar
-my $NavigationBar  = $Self->{LayoutObject}->NavigationBar();
+my $NavigationBar  = $LayoutObject->NavigationBar();
 my $NavigationFlag = 1;
 if (
     $NavigationBar =~ m{ \$ (QData|LQData|Data|Env|QEnv|Config|Include) }msx
@@ -135,7 +101,7 @@ $Self->True(
 );
 
 # check the footer
-my $Footer     = $Self->{LayoutObject}->Footer();
+my $Footer     = $LayoutObject->Footer();
 my $FooterFlag = 1;
 if (
     $Footer =~ m{ \$ (QData|LQData|Data|Env|QEnv|Config|Include) }msx
@@ -190,7 +156,7 @@ for my $File (@Files) {
 
             # do it three times (its more realistic)
             for ( 1 .. 3 ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $Block,
                     Data => \%Data,
                 );
@@ -198,7 +164,7 @@ for my $File (@Files) {
         }
 
         # call the output function
-        my $Output = $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Output(
             TemplateFile => $DTLName,
             Data         => \%Data,
         );
@@ -307,7 +273,7 @@ lk<br/>
 END_RESULT
 
 # html quoting
-my $ConvertedString = $Self->{LayoutObject}->Ascii2Html(
+my $ConvertedString = $LayoutObject->Ascii2Html(
     NewLine        => 90,
     Text           => $TestString,
     VMax           => 6000,
@@ -484,7 +450,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{LayoutObject}->Ascii2Html(
+    my $HTML = $LayoutObject->Ascii2Html(
         Text           => $Test->{String},
         LinkFeature    => 1,
         HTMLResultMode => 1,
@@ -529,7 +495,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{LayoutObject}->Ascii2Html(
+    my $HTML = $LayoutObject->Ascii2Html(
         Text => $Test->{String},
         Max  => $Test->{Max},
     );
@@ -577,7 +543,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{LayoutObject}->HTMLLinkQuote(
+    my $HTML = $LayoutObject->HTMLLinkQuote(
         String => $Test->{String},
     );
     $Self->Is(
@@ -592,7 +558,7 @@ for my $Test (@Tests) {
 #-------------------------------------#
 
 # zero test for SelectedID attribute
-my $HTMLCode = $Self->{LayoutObject}->BuildSelection(
+my $HTMLCode = $LayoutObject->BuildSelection(
     Data => {
         0 => 'zero',
         1 => 'one',
@@ -688,7 +654,7 @@ $Self->True(
     },
 );
 for my $Test (@Tests) {
-    my $Result = $Self->{LayoutObject}->Output(
+    my $Result = $LayoutObject->Output(
         Template => $Test->{String},
         Data     => {
             Key1 => 'Value1',
@@ -735,7 +701,7 @@ $Self->True(
 );
 
 for my $Test (@Tests) {
-    my $HTML = $Self->{LayoutObject}->_RichTextReplaceLinkOfInlineContent(
+    my $HTML = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
         String => \$Test->{String},
     );
     $Self->Is(
@@ -858,7 +824,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my %HTML = $Self->{LayoutObject}->RichTextDocumentServe(
+    my %HTML = $LayoutObject->RichTextDocumentServe(
         %{$Test},
     );
     $Self->Is(
@@ -951,7 +917,7 @@ EOF
 );
 
 for my $Test (@Tests) {
-    my $LRST = $Self->{LayoutObject}->_RemoveScriptTags(
+    my $LRST = $LayoutObject->_RemoveScriptTags(
         Code => $Test->{Input},
     );
     $Self->Is(
@@ -1177,9 +1143,9 @@ for my $Test (@Tests) {
 
 for my $Test (@Tests) {
     for my $Block ( @{ $Test->{Block} } ) {
-        $Self->{LayoutObject}->Block( %{$Block} );
+        $LayoutObject->Block( %{$Block} );
     }
-    my $Output = $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Output(
         Template => $Test->{Input},
         Data     => {},
     );

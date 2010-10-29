@@ -2,7 +2,7 @@
 # scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.7 2010-10-14 09:48:06 mg Exp $
+# $Id: JSON.t,v 1.8 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 use strict;
 use warnings;
+use utf8;
 
 use Kernel::System::JSON;
 

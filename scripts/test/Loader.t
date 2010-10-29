@@ -2,7 +2,7 @@
 # Loader.t - Loader backend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.t,v 1.7 2010-07-14 10:13:53 mg Exp $
+# $Id: Loader.t,v 1.8 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::Loader;
 
 my $LoaderObject = Kernel::System::Loader->new( %{$Self} );

@@ -2,21 +2,36 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.8 2010-05-04 01:10:10 martin Exp $
+# $Id: CheckItem.t,v 1.9 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+use vars (qw($Self));
+
 use Kernel::System::CheckItem;
+use Kernel::Config;
+
+# create local objects
+my $ConfigObject    = Kernel::Config->new();
+my $CheckItemObject = Kernel::System::CheckItem->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # disable dns lookups
-$Self->{ConfigObject}->Set( Key => 'CheckMXRecord',       Value => 0 );
-$Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 1 );
-
-# create new object
-$Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+$ConfigObject->Set(
+    Key   => 'CheckMXRecord',
+    Value => 0,
+);
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 1,
+);
 
 # email address checks
 my @Tests = (
@@ -85,7 +100,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # check address
-    my $Valid = $Self->{CheckItemObject}->CheckEmail(
+    my $Valid = $CheckItemObject->CheckEmail(
         Address => $Test->{Email},
     );
 
@@ -241,7 +256,7 @@ for my $Test (@Tests) {
     my $String = $Test->{String};
 
     # start sting preparation
-    my $StringRef = $Self->{CheckItemObject}->StringClean(
+    my $StringRef = $CheckItemObject->StringClean(
         StringRef => \$String,
         %{ $Test->{Params} },
     );
@@ -328,7 +343,7 @@ for my $Test (@Tests) {
     my $String = $Test->{String};
 
     # start sting preparation
-    my ( $StringRef, $Found ) = $Self->{CheckItemObject}->CreditCardClean(
+    my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean(
         StringRef => \$String,
     );
 

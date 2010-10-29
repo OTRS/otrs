@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.11 2010-06-22 22:00:52 dz Exp $
+# $Id: GenericAgent.t,v 1.12 2010-10-29 05:03:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,24 +12,43 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
+
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::GenericAgent;
+use Kernel::Config;
 
-my $Hook = $Self->{ConfigObject}->Get('Ticket::Hook');
+# create local config object
+my $ConfigObject = Kernel::Config->new();
+my $Hook         = $ConfigObject->Get('Ticket::Hook');
 
-$Self->{ConfigObject}->Set(
+$ConfigObject->Set(
     Key   => 'Ticket::NumberGenerator',
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
-$Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
-$Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
-$Self->{GenericAgentObject} = Kernel::System::GenericAgent->new( %{$Self} );
+
+# create local objects
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+    TicketObject => $TicketObject,
+);
+my $GenericAgentObject = Kernel::System::GenericAgent->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+    TicketObject => $TicketObject,
+    QueueObject  => $QueueObject,
+);
 
 my %Jobs = ();
 
 # Get the the existing JobList
-%Jobs = $Self->{GenericAgentObject}->JobList();
+%Jobs = $GenericAgentObject->JobList();
 my $JobCounter1 = keys %Jobs;
 
 # Add a new Job
@@ -102,7 +121,7 @@ my %NewJob = (
     },
 );
 
-my $JobAdd = $Self->{GenericAgentObject}->JobAdd(
+my $JobAdd = $GenericAgentObject->JobAdd(
     %NewJob,
     UserID => 1,
 );
@@ -112,7 +131,7 @@ $Self->True(
 );
 
 # Get the new JobList
-%Jobs = $Self->{GenericAgentObject}->JobList();
+%Jobs = $GenericAgentObject->JobList();
 my $JobCounter2 = keys %Jobs;
 
 # Check if the new job exists
@@ -129,7 +148,7 @@ $Self->Is(
 );
 
 # check job attributes
-my %GetParam = $Self->{GenericAgentObject}->JobGet( Name => $Name );
+my %GetParam = $GenericAgentObject->JobGet( Name => $Name );
 $Self->Is(
     $GetParam{CustomerUserLogin} || '',
     'customerUnitTest@example.com',
@@ -188,7 +207,7 @@ $Self->True(
 );
 
 # Try to add the same JobName double
-my $Return = $Self->{GenericAgentObject}->JobAdd(
+my $Return = $GenericAgentObject->JobAdd(
     Name => $Name,
     Data => {
         ScheduleLastRun => '',
@@ -202,7 +221,7 @@ $Self->True(
 );
 
 # Create a Ticket to test JobRun and JobRunTicket
-my $TicketID = $Self->{TicketObject}->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Testticket for Untittest of the Generic Agent',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -214,7 +233,7 @@ my $TicketID = $Self->{TicketObject}->TicketCreate(
     UserID       => 1,
 );
 
-my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+my $ArticleID = $TicketObject->ArticleCreate(
     TicketID    => $TicketID,
     ArticleType => 'note-internal',
     SenderType  => 'agent',
@@ -239,9 +258,9 @@ $Self->True(
     'TicketCreate() - uses for GenericAgenttest',
 );
 
-%GetParam = $Self->{GenericAgentObject}->JobGet( Name => $Name );
+%GetParam = $GenericAgentObject->JobGet( Name => $Name );
 
-my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
+my @ViewableIDs = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     SortBy  => 'Age',
     OrderBy => 'Down',
@@ -256,14 +275,14 @@ $Self->Is(
 );
 
 $Self->True(
-    $Self->{GenericAgentObject}->JobRun(
+    $GenericAgentObject->JobRun(
         Job    => $Name,
         UserID => 1,
     ),
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
 # more change checks are useful!!
 $Self->Is(
@@ -308,7 +327,7 @@ $Self->Is(
 );
 
 $Self->True(
-    $Self->{TicketObject}->TicketDelete(
+    $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => 1,
     ),
@@ -316,7 +335,7 @@ $Self->True(
 );
 
 # check job attributes
-%GetParam = $Self->{GenericAgentObject}->JobGet( Name => $Name );
+%GetParam = $GenericAgentObject->JobGet( Name => $Name );
 $Self->Is(
     $GetParam{CustomerUserLogin} || '',
     'customerUnitTest@example.com',
@@ -370,7 +389,7 @@ $Self->True(
 );
 
 # delete job
-my $JobDelete = $Self->{GenericAgentObject}->JobDelete(
+my $JobDelete = $GenericAgentObject->JobDelete(
     Name   => $Name,
     UserID => 1,
 );
@@ -383,7 +402,7 @@ $Self->True(
 $GetParam{From}  = 'Some From';
 $GetParam{Body}  = 'Some Body';
 $GetParam{Title} = 'some new new title';
-$JobAdd          = $Self->{GenericAgentObject}->JobAdd(
+$JobAdd          = $GenericAgentObject->JobAdd(
     Name   => $Name,
     Data   => \%GetParam,
     UserID => 1,
@@ -394,7 +413,7 @@ $Self->True(
 );
 
 # check job attributes
-%GetParam = $Self->{GenericAgentObject}->JobGet( Name => $Name );
+%GetParam = $GenericAgentObject->JobGet( Name => $Name );
 $Self->Is(
     $GetParam{CustomerUserLogin} || '',
     'customerUnitTest@example.com',
@@ -450,7 +469,7 @@ $Self->True(
 );
 
 # delete job
-$JobDelete = $Self->{GenericAgentObject}->JobDelete(
+$JobDelete = $GenericAgentObject->JobDelete(
     Name   => $Name,
     UserID => 1,
 );
@@ -460,7 +479,7 @@ $Self->True(
 );
 
 # Get the new JobList
-%Jobs = $Self->{GenericAgentObject}->JobList();
+%Jobs = $GenericAgentObject->JobList();
 my $JobCounter3 = keys %Jobs;
 
 # Check if a job is lost or too much added
