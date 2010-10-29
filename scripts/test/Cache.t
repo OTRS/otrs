@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.15 2010-10-27 13:55:18 mg Exp $
+# $Id: Cache.t,v 1.16 2010-10-29 13:19:16 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 use utf8;
+
 use Kernel::System::Cache;
 
 for my $Module qw(FileStorable FileRaw) {
@@ -185,17 +186,17 @@ for my $Module qw(FileStorable FileRaw) {
             Key   => 'Test',
             Value => {
                 Key1 => 'Value1',
-                Key2 => 'Value2ÄÜÖäüöß',
+                Key2 => 'Value2Ã„ÃœÃ–Ã¤Ã¼Ã¶ÃŸ',
                 Key3 => 'Value3',
                 Key4 => [
-                    'Übel überlegt',
+                    'Ãœbel Ã¼berlegt',
                     '123456789',
-                    'örtlicher Ärger',
+                    'Ã¶rtlicher Ã„rger',
                     {
                         KeyA  => 'ValueA',
-                        KeyB  => 'Ästetisches Ü',
+                        KeyB  => 'Ã„stetisches Ãœ',
                         KeyC  => 'ValueC',
-                        Value => 'üblicher Ötzi',
+                        Value => 'Ã¼blicher Ã–tzi',
                     },
                 ],
             },
@@ -214,7 +215,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet->{Key2} || '',
-            'Value2ÄÜÖäüöß',
+            'Value2Ã„ÃœÃ–Ã¤Ã¼Ã¶ÃŸ',
             "#2 - $Module - CacheGet() - {Key2}",
         );
         $Self->True(
@@ -223,7 +224,7 @@ for my $Module qw(FileStorable FileRaw) {
         );
         $Self->Is(
             $CacheGet->{Key4}->[0] || '',
-            'Übel überlegt',
+            'Ãœbel Ã¼berlegt',
             "#2 - $Module - CacheGet() - {Key4}->[0]",
         );
         $Self->True(
@@ -237,7 +238,7 @@ for my $Module qw(FileStorable FileRaw) {
         );
         $Self->Is(
             $CacheGet->{Key4}->[3]->{KeyB} || '',
-            'Ästetisches Ü',
+            'Ã„stetisches Ãœ',
             "#2 - $Module - CacheGet() - {Key4}->[3]->{KeyB}",
         );
         $Self->True(
@@ -248,7 +249,7 @@ for my $Module qw(FileStorable FileRaw) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
-            Value => 'ÄÖÜäüö',
+            Value => 'Ã„Ã–ÃœÃ¤Ã¼Ã¶',
             TTL   => 2,
         );
 
@@ -264,7 +265,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet || '',
-            'ÄÖÜäüö',
+            'Ã„Ã–ÃœÃ¤Ã¼Ã¶',
             "#3 - $Module - CacheGet()",
         );
 
@@ -276,7 +277,7 @@ for my $Module qw(FileStorable FileRaw) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
-            Value => '9äüöÄÜÖß',
+            Value => '9Ã¤Ã¼Ã¶Ã„ÃœÃ–ÃŸ',
             TTL   => 2,
         );
 
@@ -292,7 +293,7 @@ for my $Module qw(FileStorable FileRaw) {
 
         $Self->Is(
             $CacheGet || '',
-            '9äüöÄÜÖß',
+            '9Ã¤Ã¼Ã¶Ã„ÃœÃ–ÃŸ',
             "#4 - $Module - CacheGet()",
         );
         $Self->True(
@@ -345,7 +346,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     # A-z char type test
     $CacheSet = $CacheObject->Set(
-        Type  => 'Value2ÄÜÖäüöß',
+        Type  => 'Value2Ã„ÃœÃ–Ã¤Ã¼Ã¶ÃŸ',
         Key   => 'Test',
         Value => '1',
         TTL   => 60,
@@ -356,7 +357,7 @@ for my $Module qw(FileStorable FileRaw) {
     );
 
     $CacheDelete = $CacheObject->Delete(
-        Type => 'Value2ÄÜÖäüöß',
+        Type => 'Value2Ã„ÃœÃ–Ã¤Ã¼Ã¶ÃŸ',
         Key  => 'Test',
     );
     $Self->True(
