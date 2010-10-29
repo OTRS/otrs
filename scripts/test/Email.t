@@ -2,7 +2,7 @@
 # Email.t - email parser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.t,v 1.6 2010-10-29 05:03:20 en Exp $
+# $Id: Email.t,v 1.7 2010-10-29 07:32:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,10 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         );
 
         # gererate email
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = Kernel::System::Email->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
         my ( $Header, $Body ) = $EmailObject->Send(
             %{ $Test->{Data} },
         );
@@ -96,7 +99,8 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         # parse email
         my $ParserObject = Kernel::System::EmailParser->new(
             %{$Self},
-            Email => \@Array,
+            ConfigObject => $ConfigObject,
+            Email        => \@Array,
         );
 
         # check header
