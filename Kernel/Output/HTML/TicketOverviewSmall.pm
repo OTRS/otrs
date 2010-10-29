@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.35 2010-10-28 20:03:15 dz Exp $
+# $Id: TicketOverviewSmall.pm,v 1.36 2010-10-29 22:25:53 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -268,7 +268,10 @@ sub Run {
             );
 
             if ( $Item eq 'New Article' ) {
-                $Self->{LayoutObject}->Block( Name => 'OverviewNavBarPageFlagEmpty' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'OverviewNavBarPageFlagEmpty',
+                    Data => { Name => $Item, }
+                );
             }
             else {
                 $Self->{LayoutObject}->Block(
