@@ -2,7 +2,7 @@
 # CustomerUserService.t - CustomerUserService tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserService.t,v 1.7 2010-10-29 05:03:20 en Exp $
+# $Id: CustomerUserService.t,v 1.8 2010-10-29 07:28:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,23 @@ use vars (qw($Self));
 use Kernel::System::Service;
 
 my $ServiceObject = Kernel::System::Service->new( %{$Self} );
+
+# save all original default services
+my @OriginalDefaultServices = $ServiceObject->CustomerUserServiceMemberList(
+    CustomerUserLogin => '<DEFAULT>',
+    Result            => 'ID',
+    DefaultServices   => 0,
+);
+
+# delete all default services
+for my $ServiceID (@OriginalDefaultServices) {
+    $ServiceObject->CustomerUserServiceMemberAdd(
+        CustomerUserLogin => '<DEFAULT>',
+        ServiceID         => $ServiceID,
+        Active            => 0,
+        UserID            => 1,
+    );
+}
 
 # add service1
 my $ServiceRand1 = 'SomeService' . int( rand(1000000) );
@@ -365,6 +382,16 @@ $ServiceObject->CustomerUserServiceMemberAdd(
     Active            => 0,
     UserID            => 1,
 );
+
+# restore all original default services
+for my $ServiceID (@OriginalDefaultServices) {
+    $ServiceObject->CustomerUserServiceMemberAdd(
+        CustomerUserLogin => '<DEFAULT>',
+        ServiceID         => $ServiceID,
+        Active            => 1,
+        UserID            => 1,
+    );
+}
 
 # set service1 invalid
 my $ServiceUpdate1 = $ServiceObject->ServiceUpdate(
