@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # --
-# $Id: ru.pm,v 1.101 2010-10-14 18:51:40 mb Exp $
+# $Id: ru.pm,v 1.102 2010-10-29 12:12:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -56,28 +56,28 @@ sub Data {
         'Done' => 'Готово.',
         'Cancel' => 'Отменить',
         'Reset' => 'Отклонить',
-        'last' => 'последний',
-        'before' => 'перед',
-        'day' => 'сутки',
-        'days' => 'суток',
-        'day(s)' => 'суток',
+        'last' => 'последние',
+        'before' => 'кроме последних',
+        'day' => 'день',
+        'days' => 'дней',
+        'day(s)' => 'день/дней',
         'hour' => 'час',
         'hours' => 'часов',
-        'hour(s)' => 'ч.',
-        'minute' => 'мин.',
-        'minutes' => 'мин.',
-        'minute(s)' => 'мин.',
-        'month' => 'мес.',
-        'months' => 'мес.',
-        'month(s)' => 'мес.',
-        'week' => 'нед.',
-        'week(s)' => 'нед.',
-        'year' => 'год.',
-        'years' => 'год.',
-        'year(s)' => 'год.',
-        'second(s)' => 'сек.',
-        'seconds' => 'сек.',
-        'second' => 'сек.',
+        'hour(s)' => 'час(ов)',
+        'minute' => 'минута',
+        'minutes' => 'минут',
+        'minute(s)' => 'минут(a)',
+        'month' => 'месяц',
+        'months' => 'месяцев',
+        'month(s)' => 'месяц(ев)',
+        'week' => 'неделя',
+        'week(s)' => 'неделя(-ль)',
+        'year' => 'год',
+        'years' => 'лет',
+        'year(s)' => 'год/лет',
+        'second(s)' => 'секунд(a)',
+        'seconds' => 'секунд',
+        'second' => 'секунда',
         'wrote' => 'написал(а)',
         'Message' => 'Сообщение',
         'Error' => 'Ошибка',
@@ -176,9 +176,9 @@ sub Data {
         'description' => 'описание',
         'Theme' => 'Тема',
         'Created' => 'Создан',
-        'Created by' => 'Создано',
+        'Created by' => 'Создавший',
         'Changed' => 'Изменен',
-        'Changed by' => 'Изменено',
+        'Changed by' => 'Изменивший',
         'Search' => 'Поиск',
         'and' => 'и',
         'between' => 'между',
@@ -450,12 +450,12 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Просмотр статуса',
-        'Bulk' => 'Все',
-        'Lock' => 'Блокировать',
+        'Bulk' => 'Массовое действие',
+        'Lock' => 'Блокировка',
         'Unlock' => 'Разблокировать',
         'History' => 'История',
         'Zoom' => 'Подробно',
-        'Age' => 'Открыта',
+        'Age' => 'Возраст',
         'Bounce' => 'Возвратить',
         'Forward' => 'Переслать',
         'From' => 'Отправитель',
@@ -481,7 +481,7 @@ sub Data {
         'Ticket Type' => 'Тип заявки',
         'Ticket Types' => 'Типы заявки',
         'Compose' => 'Создать',
-        'Pending' => 'Отложить',
+        'Pending' => 'Напоминание',
         'Owner' => 'Владелец',
         'Owner Update' => 'Новый владелец',
         'Responsible' => 'Ответственный',
@@ -525,8 +525,8 @@ sub Data {
         'phone' => 'звонок',
         'sms' => 'SMS',
         'webrequest' => 'веб-заявка',
-        'lock' => 'блокирована',
-        'unlock' => 'разблокирована',
+        'lock' => 'блокирован',
+        'unlock' => 'разблокирован',
         'very low' => 'самый низкий',
         'low' => 'низкий',
         'normal' => 'обычный',
@@ -572,6 +572,7 @@ sub Data {
         'Change the ticket free fields!' => 'Изменить свободные поля заявки!',
         'Link this ticket to an other objects!' => 'Связать заявку с другими объектами!',
         'Change the ticket owner!' => 'Изменить владельца заявки!',
+        'Change the ticket responsible!' => 'Изменить ответственного заявки!',
         'Change the ticket customer!' => 'Изменить клиента заявки!',
         'Add a note to this ticket!' => 'Добавить заметку к заявке!',
         'Merge this ticket!' => 'Объединить заявку!',
@@ -626,7 +627,7 @@ sub Data {
         'Create new Ticket' => 'Создать новую заявку',
         'Customer called' => 'Звонок клиента',
         'phone call' => 'телефонный звонок',
-        'Reminder Reached' => 'Напоминание',
+        'Reminder Reached' => 'Напоминание истекает',
         'Reminder Tickets' => 'Заявки с напоминанием',
         'Escalated Tickets' => 'Эскалированные заявки',
         'New Tickets' => 'Новые заявки',
@@ -1330,14 +1331,14 @@ sub Data {
         # Template: AgentLinkObject
         'Link Object: %s' => 'Связать объект: %s',
         'Close window' => 'Закрыть окно',
-        'go to link delete screen' => '',
+        'go to link delete screen' => 'перейти к удалению связи',
         'Select Target Object' => 'Выберите целевой объект',
         'Link Object' => 'Связать объект',
         'with' => 'с',
         'Select' => 'Выбор',
         'Link Table' => 'Таблица связей',
         'Unlink Object: %s' => 'Отменить привязку объекта: %s',
-        'go to link add screen' => '',
+        'go to link add screen' => 'перейти к добавлению связи',
 
         # Template: AgentNavigationBar
 
@@ -1426,7 +1427,7 @@ sub Data {
         'Add Note to Ticket' => 'Добавить заметку к заявке',
         'Set Pending' => 'Поставить в ожидание',
         'Change Priority of Ticket' => 'Изменить приоритет заявки',
-        'Change Responsible of Ticket' => '',
+        'Change Responsible of Ticket' => 'Изменить ответственного заявки',
         'Cancel & close window' => 'Отменить и закрыть окно',
         'The ticket was locked' => 'Заявка была заблокирована',
         'Undo & close window' => 'Отменить и закрыть окно',
@@ -1546,7 +1547,7 @@ sub Data {
         # Template: AgentTicketOverviewNavBar
         'Max. shown Tickets a page' => 'Заявок на страницу',
         'Change search options' => 'Изменить параметры поиска',
-        'Context Settings' => '',
+        'Context Settings' => 'Параметры контекста',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1597,16 +1598,16 @@ sub Data {
         'Remove' => 'Удалить',
         'Customer User Login' => 'Логин клиента',
         'Created in Queue' => 'Создана в очереди',
-        'Lock state' => '',
+        'Lock state' => 'Состояние блокировки',
         'Watcher' => '',
-        'Article Create Times (before/after)' => '',
-        'Article Create Times (between)' => '',
-        'Ticket Create Times (before/after)' => '',
-        'Ticket Create Times (between)' => 'Время создания заявки (между)',
-        'Ticket Change Times (before/after)' => '',
-        'Ticket Change Times (between)' => 'Время изменения заявки (между)',
-        'Ticket Close Times (before/after)' => '',
-        'Ticket Close Times (between)' => 'Время закрытия заявки (между)',
+        'Article Create Time (before/after)' => 'Время создания сообщения (до/после)',
+        'Article Create Time (between)' => 'Время создания сообщения (между)',
+        'Ticket Create Time (before/after)' => 'Время создания заявки (до/после)',
+        'Ticket Create Time (between)' => 'Время создания заявки (между)',
+        'Ticket Change Time (before/after)' => 'Время изменения заявки (до/после)',
+        'Ticket Change Time (between)' => 'Время изменения заявки (между)',
+        'Ticket Close Time (before/after)' => 'Время закрытия заявки (до/после)',
+        'Ticket Close Time (between)' => 'Время закрытия заявки (между)',
         'Archive Search' => 'Поиск в архиве',
         'Run Search' => 'Выполнить поиск',
 
@@ -1855,8 +1856,8 @@ sub Data {
 
         # Template: LinkObject
         'Object#' => '',
-        'Add links' => '',
-        'Delete links' => '',
+        'Add links' => 'Добавить связи',
+        'Delete links' => 'Удалить связи',
 
         # Template: Login
         'JavaScript Not Available' => '',
@@ -1981,6 +1982,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Прикрепленные файлы <-> Ответы',
+        'Auto Responses <-> Queues' => 'Автоответы <-> Очередь',
         'Queues <-> Auto Responses' => 'Очередь <-> Автоответы',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
@@ -3563,13 +3565,20 @@ sub Data {
         'Ticket selected for bulk action!' => 'Заявка выбрана для массового действия!',
         'Unable to parse Online Repository index document!' => 'Невозможно обработать индексный файл сетевого репозитория!',
         'X-axis' => 'Ось X',
-        'Locked Tickets New' => 'Заблокированные заявки: Новые -',
-        'Locked Tickets Reminder Reached' => 'Заблокированные заявки: Напоминание истекло -',
-        'Locked Tickets Total' => 'Заблокированные заявки: Всего -',
+        'Locked Tickets New' => 'Заблокированные заявки: Новые',
+        'Locked Tickets Reminder Reached' => 'Заблокированные заявки: Напоминание истекло',
+        'Locked Tickets Total' => 'Заблокированные заявки: Всего',
         'ReminderReached' => 'Напоминание истекло',
         'Direction' => 'Направление',
         'Phone Call Outbound' => 'Сделать звонок',
         'Default' => '',
+        'My Responsible' => 'Моя ответственные заявки',
+        'Responsible Tickets New' => 'Ответственные заявки: Новые',
+        'Responsible Tickets Reminder Reached' => 'Ответственные заявки: Напоминание истекло',
+        'Responsible Tickets Total' => 'Ответственные заявки: Всего',
+        'd' => 'дн',
+        'h' => 'ч',
+        'm' => 'мин',
     };
     # $$STOP$$
     return;
