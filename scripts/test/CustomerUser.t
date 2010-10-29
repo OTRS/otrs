@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.17 2010-10-29 05:03:20 en Exp $
+# $Id: CustomerUser.t,v 1.18 2010-10-29 07:25:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,14 +17,19 @@ use Kernel::System::CustomerAuth;
 use Kernel::Config;
 
 # create local objects
-my $ConfigObject       = Kernel::Config->new();
-my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
+my $ConfigObject = Kernel::Config->new();
 
 # add three users
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
+
+my $CustomerUserObject = Kernel::System::CustomerUser->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
@@ -355,7 +360,10 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
         );
-        my $CustomerAuth = Kernel::System::CustomerAuth->new( %{$Self} );
+        my $CustomerAuth = Kernel::System::CustomerAuth->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
 
         for my $Password qw(some_pass someカス someäöü) {
             $Self->{EncodeObject}->Encode( \$Password );
