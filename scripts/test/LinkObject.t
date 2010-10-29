@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.19 2010-10-29 05:03:20 en Exp $
+# $Id: LinkObject.t,v 1.20 2010-10-29 07:58:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,7 +45,7 @@ my $UserObject = Kernel::System::User->new(
 my @UserIDs;
 
 # disable email checks to create new user
-my $CheckEmailAddressesOrg = $ConfigObject->Get('CheckEmailAddresses') || 1;
+$ConfigObject->Get('CheckEmailAddresses') || 1;
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
@@ -65,12 +65,6 @@ for my $Counter ( 1 .. 2 ) {
 
     push @UserIDs, $UserID;
 }
-
-# restore original email check param
-$ConfigObject->Set(
-    Key   => 'CheckEmailAddresses',
-    Value => $CheckEmailAddressesOrg,
-);
 
 # create needed random type names
 my @TypeNames;
