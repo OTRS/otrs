@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.12 2010-10-29 13:25:46 mb Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.13 2010-10-29 13:45:24 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -241,7 +241,7 @@ sub HandleLanguage {
     # add misc words
     print "Misc\n\n";
     $Data .= "\n        # Misc\n";
-    for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
+    for my $Key ( sort keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
 
         # ignore word if already used
         next if $UsedWordsMisc{$Key};
