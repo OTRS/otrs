@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.131 2010-10-26 11:59:39 mb Exp $
+# $Id: nl.pm,v 1.132 2010-10-29 11:47:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2567,7 +2567,7 @@ sub Data {
         'Link queues to auto responses..' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link customers to groups.' => 'Koppel klanten aan groepen.',
         'Link customers to services.' => 'Koppel klanten aan services.',
-        'Link groups to roles.' => 'Koppel groepen aan rollen.',
+        'Link roles to groups.' => 'Koppel rollen aan groepen.',
         'Link auto responses to queues.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "hoofd - sub"-type koppeling.',
@@ -2898,7 +2898,7 @@ sub Data {
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' => '',
         'Start number for statistics counting. Every new stat increments this number.' => '',
         'Statistics' => 'Rapportages',
-        'Status view' => 'Status overzicht',
+        'Status view' => 'Statusoverzicht',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' => '',
@@ -3499,7 +3499,7 @@ sub Data {
         'Phone{CustomerUser}' => 'Telefoon',
         'Makes the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket.' => '',
         'Form' => '',
-        'QueueView' => 'Wachtrijen',
+        'QueueView' => 'Wachtrijoverzicht',
         'Defines the default selection of the free field number 9 (if more than one option is provided).' => '',
         'My Queue' => 'Mijn wachtrij',
         'Job-List' => 'Takenlijst',
