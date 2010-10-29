@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1494 2010-10-29 12:12:19 mg Exp $
+# $Id: CHANGES,v 1.1495 2010-10-29 12:47:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
- - 2010-10-29 Updated Russian translation, thanks to 2010 Eugene Kungurov!
+ - 2010-10-29 Updated Russian translation, thanks to Eugene Kungurov!
  - 2010-10-29 Fixed bug#6184 - Streamline required field error messages.
  - 2010-10-28 Fixed bug#5657 - In Global Ticket Overview, sorting for Prio is missing.
  - 2010-10-28 Fixed bug#6141 - Sysconfig Address Book disable.
