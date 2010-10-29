@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.39 2010-07-02 11:31:34 mg Exp $
+# $Id: AdminEmail.dtl,v 1.40 2010-10-29 12:03:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,10 +62,10 @@ $Include{"RichTextEditor"}
                         <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
                         <div class="Field">
                             <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked" />
-                            <label for="GroupPermissionRO">ro</label>
+                            <label for="GroupPermissionRO">$Text{"ro"}</label>
                             <br/>
                             <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
-                            <label for="GroupPermissionRW">rw</label>
+                            <label for="GroupPermissionRW">$Text{"rw"}</label>
                         </div>
                         <div class="Clear"></div>
 

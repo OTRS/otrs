@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.29 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.30 2010-10-29 12:03:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -149,7 +149,7 @@
                             <div id="HostAddServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            <p class="FieldExplanation">Example: mail.example.com</p>
+                            <p class="FieldExplanation">$Text{"Example: mail.example.com"}</p>
                         </div>
                         <div class="Clear"></div>
 
