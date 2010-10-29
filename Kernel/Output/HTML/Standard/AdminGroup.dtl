@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.24 2010-10-20 07:15:27 cg Exp $
+# $Id: AdminGroup.dtl,v 1.25 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -158,10 +158,10 @@ Core.Agent.Admin.Group = (function (TargetNS) {
                         <div class="Field">
                             <input type="text" name="Name" id="GroupName" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
                             <div id="GroupNameError" class="TooltipErrorMessage">
-                                <p>$Text{"A group should have a name!"}</p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="GroupNameServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The name is required."}</p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>

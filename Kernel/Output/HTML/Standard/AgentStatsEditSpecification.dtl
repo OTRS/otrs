@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.29 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.30 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,7 @@
                         <div class="Value">
                             <input type="text" name="Title" id="Title" class="W50pc Validate_Required" value="$QData{"Title"}"/>
                             <div id="TitleError" class="TooltipErrorMessage">
-                                <p>$Text{"This value is required"}.</p>
+                                <p>$Text{"This field is required."}.</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -73,7 +73,7 @@
                         <div class="Value">
                             <textarea name="Description" id="Description" rows="4" cols="60" class="W50pc Validate_Required">$QData{"Description"}</textarea>
                             <div id="DescriptionError" class="TooltipErrorMessage">
-                                <p>$Text{"This value is required"}.</p>
+                                <p>$Text{"This field is required."}.</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -112,7 +112,7 @@
                                 You can select one or more groups to define access for different agents.
                             </p>
                             <div id="ValueError" class="TooltipErrorMessage">
-                                <p>$Text{"Please select a value"}.</p>
+                                <p>$Text{"This field is required."}.</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -124,7 +124,7 @@
                         <div class="Value">
                             $Data{"SelectFormat"}
                             <div id="FormatError" class="TooltipErrorMessage">
-                                <p>$Text{"Please select a value"}.</p>
+                                <p>$Text{"This field is required."}.</p>
                             </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[

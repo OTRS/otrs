@@ -2,7 +2,7 @@
 # AdminRole.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.dtl,v 1.22 2010-10-20 07:15:27 cg Exp $
+# $Id: AdminRole.dtl,v 1.23 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,10 +105,10 @@
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
                             <div id="NameError" class="TooltipErrorMessage">
-                                <p>$Text{"A role should have a name!"}</p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The name is required."}</p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>

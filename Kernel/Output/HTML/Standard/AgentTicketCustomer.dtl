@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.32 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.33 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,16 +46,16 @@ $Include{"AgentCustomerSearch"}
                             <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
                             <div class="Field">
                                 <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
-                                <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
-                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"The customer is required!"}</p></div>
+                                <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
                             <div class="Clear"></div>
 
                             <label for="CustomerID">$Text{"CustomerID"}:</label>
                             <div class="Field">
                                 <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDInvalid"}"/>
-                                <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
-                                <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"The customer id is required!"}</p></div>
+                                <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>

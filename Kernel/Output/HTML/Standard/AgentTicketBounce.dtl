@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.43 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.44 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,16 +76,16 @@
                 <label for="To">$Text{"To"}:</label>
                 <div class="Field">
                     <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
-                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"You need a To: recipient!"}</p></div>
-                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"You need a To: recipient!"}</p></div>
+                    <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 
                 <label for="Subject">$Text{"Subject"}:</label>
                 <div class="Field">
                     <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}"/>
-                    <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"A message should have a subject!"}</p></div>
-                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a subject!"}</p></div>
+                    <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 
@@ -95,8 +95,8 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
                     <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$Data{"InformationFormat"}</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"A message should have a body!"}</p></div>
+                    <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 

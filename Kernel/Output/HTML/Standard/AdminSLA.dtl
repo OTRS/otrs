@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.34 2010-08-16 21:30:53 en Exp $
+# $Id: AdminSLA.dtl,v 1.35 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,8 +106,8 @@
                         <label for="Name">$Text{"SLA"}:</label>
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
-                            <div id="NameError" class="TooltipErrorMessage"><p>$Text{"A SLA should have a name!"}</p></div>
-                            <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"The SLA name is required."}</p></div>
+                            <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 

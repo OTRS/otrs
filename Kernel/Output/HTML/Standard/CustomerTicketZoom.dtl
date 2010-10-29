@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.97 2010-10-12 15:51:01 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.98 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,10 +142,10 @@
 <!-- dtl:block:RichText-->
                     <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage">
-                        <p>$Text{"A message should have a body!"}</p>
+                        <p>$Text{"This field is required."}</p>
                     </div>
                     <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
-                        <p>$Text{"The text is required."}</p>
+                        <p>$Text{"This field is required."}</p>
                     </div>
                     <fieldset class="DontPrint">
                         <div id="AttachmentHolder">

@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.27 2010-10-27 12:58:50 mg Exp $
+# $Id: AdminCustomerUser.dtl,v 1.28 2010-10-29 11:04:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,7 +154,7 @@
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
-                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
@@ -162,7 +162,7 @@
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             <input type="password" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="" maxlength="60" $QData{"ReadOnlyType"}/>
-                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericPassword -->
@@ -170,7 +170,7 @@
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             $Data{"Option"}
-                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"$Data{"Item"}"} is required.</p></div>
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericOption -->
