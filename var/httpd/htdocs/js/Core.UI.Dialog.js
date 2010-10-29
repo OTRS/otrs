@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.14 2010-10-28 12:20:27 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.15 2010-10-29 12:13:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -419,6 +419,17 @@ Core.UI.Dialog = (function (TargetNS) {
         if (BackupHTML && BackupHTML.length && BackupHTMLSelector) {
             $(BackupHTMLSelector).append(BackupHTML);
         }
+
+        // Repair all existing rich text editors
+        // in Firefox/Linux and IE/Win the editor is not usable anymore after a OTRS dialog was opened
+        // This workaround fixes this, because opening the wysiwyg again reloads the editor.
+        if (typeof CKEDITOR !== 'undefined') {
+            for (var Editor in CKEDITOR.instances) {
+                CKEDITOR.instances[Editor].setMode('source');
+                CKEDITOR.instances[Editor].setMode('wysiwyg');
+            }
+        }
+
     };
 
     return TargetNS;
