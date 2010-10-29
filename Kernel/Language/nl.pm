@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.134 2010-10-29 13:50:06 mb Exp $
+# $Id: nl.pm,v 1.135 2010-10-29 14:04:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -264,18 +264,18 @@ sub Data {
         'Cannot create %s!' => 'Kan %s niet aanmaken.',
         'Customer %s added' => 'Klant %s toegevoegd.',
         'Role added!' => 'Rol toegevoegd.',
-        'Role updated!' => '',
-        'Attachment added!' => '',
-        'Attachment updated!' => '',
-        'Response added!' => '',
-        'Response updated!' => '',
-        'Group updated!' => '',
-        'Queue added!' => '',
-        'Queue updated!' => '',
-        'State added!' => '',
-        'State updated!' => '',
-        'Type added!' => '',
-        'Type updated!' => '',
+        'Role updated!' => 'Rol bijgewerkt.',
+        'Attachment added!' => 'Bijlage toegevoegd.',
+        'Attachment updated!' => 'Bijlage bijgewerkt.',
+        'Response added!' => 'Antwoord toegevoegd.',
+        'Response updated!' => 'Antwoord bijgewerkt',
+        'Group updated!' => 'Groep bijgewerkt.',
+        'Queue added!' => 'Wachtrij toegevoegd.',
+        'Queue updated!' => 'Wachtrij bijgewerkt.',
+        'State added!' => 'Status toegevoegd.',
+        'State updated!' => 'Status bijgewerkt.',
+        'Type added!' => 'Type toegevoegd.',
+        'Type updated!' => 'Type bijgewerkt',
         'Customer updated!' => 'Klant aangepast.',
         'Contract' => 'Contract',
         'Online Customer: %s' => 'Online klanten: %s',
@@ -532,15 +532,15 @@ sub Data {
         'merged' => 'samengevoegd',
         'closed successful' => 'succesvol gesloten',
         'closed unsuccessful' => 'niet succesvol gesloten',
-        'Locked Tickets Total' => '',
-        'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets New' => '',
-        'Responsible Tickets Total' => '',
-        'Responsible Tickets New' => '',
-        'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
+        'Locked Tickets Total' => 'Totaal aantal vergrendelde tickets',
+        'Locked Tickets Reminder Reached' => 'Vergrendelde tickets herinnering bereikt',
+        'Locked Tickets New' => 'Nieuwe vergrendelde tickets',
+        'Responsible Tickets Total' => 'Totaal aantal tickets verantwoordelijk',
+        'Responsible Tickets New' => 'Nieuwe tickets verantwoordelijk',
+        'Responsible Tickets Reminder Reached' => 'Tickets verantwoordelijk herinnering bereikt',
+        'Watched Tickets Total' => 'Gevolgde tickets totaal',
+        'Watched Tickets New' => 'Nieuwe gevolgde tickets',
+        'Watched Tickets Reminder Reached' => 'Gevolgde tickets herinnering bereikt',
         'new' => 'nieuw',
         'open' => 'open',
         'Open' => 'Open',
@@ -942,7 +942,7 @@ sub Data {
         'Delete account' => 'Verwijder account',
         'Fetch mail' => 'Mail ophalen',
         'Add Mail Account' => 'Mail account toevoegen',
-        'Example: mail.example.com' => '',
+        'Example: mail.example.com' => 'Bijvoorbeeld: mail.example.com',
         'Trusted' => 'Vertrouwd',
         'Dispatching' => 'Sortering',
         'Edit Mail Account' => 'Bewerk mail account',
@@ -977,8 +977,8 @@ sub Data {
         'Subject match' => 'Onderwerp',
         'Body match' => 'Bericht tekst',
         'Include attachments to notification' => 'Voeg bijlagen toe aan melding',
-        'Notification article type' => '',
-        'Only for notifications to specified email addresses' => '',
+        'Notification article type' => 'Interactietype voor melding',
+        'Only for notifications to specified email addresses' => 'Alleen voor meldingen aan een specifiek e-mail adres',
         'To get the first 20 character of the subject (of the latest agent article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste gebruikers-interactie te tonen',
         'To get the first 5 lines of the body (of the latest agent article).' => 'Om de eerste vijf regels van de tekst van de nieuwste gebruikers-interactie te tonen',
         'To get the first 20 character of the subject (of the latest customer article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen',
@@ -1152,7 +1152,7 @@ sub Data {
         'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een ticket in deze groep/wachtrij te wijzigen.',
 
         # Template: AdminRoleUser
-        'Manage Agent-Role Relations' => '',
+        'Manage Agent-Role Relations' => 'Beheer Gebruiker-Rol koppelingen',
         'Filter for Agents' => 'Filter op gebruikers',
         'Agents' => 'Gebruikers',
         'Manage Role-Agent Relations' => 'Beheer Rol-Gebruiker koppelingen',
@@ -1498,7 +1498,7 @@ sub Data {
         'Merge to oldest' => 'Voeg samen met oudste',
         'Link together' => 'Koppelen',
         'Link to parent' => 'Koppel aan hoofd item',
-        'Unlock tickets' => '',
+        'Unlock tickets' => 'Ontgrendel tickets',
 
         # Template: AgentTicketClose
 
@@ -1526,8 +1526,8 @@ sub Data {
         # Template: AgentTicketForward
         'Forward ticket: ' => 'Doorsturen:',
         'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
-        'Need a valid email address or don\'t use a local email address' => '',
-        'Need a valid mail address or don\'t use a local email address' => '',
+        'Need a valid email address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid mail address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
 
         # Template: AgentTicketFreeText
 
@@ -1550,7 +1550,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Selecteer alles',
-        'No ticket data found.' => '',
+        'No ticket data found.' => 'Geen tickets gevonden.',
         'First Response Time' => 'Eerste reactie',
         'Service Time' => 'Service tijd',
         'Update Time' => 'Vervolg tijd',
@@ -1681,7 +1681,7 @@ sub Data {
         'Your User Name' => 'Uw gebruikersnaam',
         'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mailadres verzonden.',
         'Create Account' => 'Maak account',
-        'Please fill out this form to recieve login credentials.' => '',
+        'Please fill out this form to recieve login credentials.' => 'Vul dit formulier in om een gebruikersnaam aan te maken.',
         'How we should address you' => 'Hoe moeten we u adresseren?',
         'Your First Name' => 'Uw voornaam',
         'Please supply a first name' => 'Voer uw voornaam in',
