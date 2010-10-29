@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.135 2010-10-29 14:04:59 mb Exp $
+# $Id: nl.pm,v 1.136 2010-10-29 14:14:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1953,7 +1953,7 @@ sub Data {
         'Agent interface notification module to see the number of tickets an agent is responsible for.' => '',
         'Agent interface notification module to see the number of watched tickets.' => '',
         'Agents <-> Groups' => 'Gebruikers <-> Groepen',
-        'Agents <-> Roles' => '',
+        'Agents <-> Roles' => 'Gebruikers <-> Rollen',
         'Allows adding notes in the close ticket screen of the agent interface.' => '',
         'Allows adding notes in the ticket free text screen of the agent interface.' => '',
         'Allows adding notes in the ticket note screen of the agent interface.' => '',
@@ -2566,8 +2566,8 @@ sub Data {
         'Link attachments to responses templates.' => 'Koppel standaard antwoorden aan bijlagen.',
         'Link customers to groups.' => 'Koppel klanten aan groepen.',
         'Link customers to services.' => 'Koppel klanten aan services.',
-        'Link queues to auto responses.' => '',
-        'Link responses to queues.' => '',
+        'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden',
+        'Link responses to queues.' => 'Koppel standaard antwoorden aan wachtrijen',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "hoofd - sub"-type koppeling.',
