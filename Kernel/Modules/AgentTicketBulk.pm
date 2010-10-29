@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.67 2010-10-26 23:00:52 dz Exp $
+# $Id: AgentTicketBulk.pm,v 1.68 2010-10-29 14:12:21 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -440,7 +440,7 @@ sub Run {
                 }
             }
 
-            # Should I unlock tickets at user request?
+            # should I unlock tickets at user request?
             if ( $GetParam{'Unlock'} ) {
                 $Self->{TicketObject}->TicketLockSet(
                     TicketID => $TicketID,
@@ -453,7 +453,7 @@ sub Run {
     }
 
     # redirect
-    if ( $ActionFlag == 1 ) {
+    if ($ActionFlag) {
         return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
     }
 
