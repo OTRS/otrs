@@ -2,7 +2,7 @@
 # Auth.t - Authentication tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.t,v 1.4 2010-10-28 14:14:12 mg Exp $
+# $Id: Auth.t,v 1.5 2010-10-29 13:18:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,10 @@ my $TestUserID;
 my $UserRand1 = 'example-user' . int( rand(1000000) );
 
 # add test user
-my $GlobalUserObject = Kernel::System::User->new( %{$Self}, ConfigObject => $ConfigObject );
+my $GlobalUserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 $TestUserID = $GlobalUserObject->UserAdd(
     UserFirstname => 'Firstname Test1',

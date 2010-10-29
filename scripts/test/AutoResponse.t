@@ -2,7 +2,7 @@
 # AutoResponse.t - AutoResponse tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.t,v 1.7 2010-10-27 11:49:51 mg Exp $
+# $Id: AutoResponse.t,v 1.8 2010-10-29 13:18:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::AutoResponse;
 use Kernel::System::SystemAddress;
 
+# create local objects
 my $AutoResponseObject  = Kernel::System::AutoResponse->new( %{$Self} );
 my $SystemAddressObject = Kernel::System::SystemAddress->new( %{$Self} );
 
@@ -54,9 +56,7 @@ $Self->True(
     'AutoResponseAdd()',
 );
 
-my %AutoResponse = $AutoResponseObject->AutoResponseGet(
-    ID => $AutoResponseID,
-);
+my %AutoResponse = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID );
 
 $Self->Is(
     $AutoResponse{Name} || '',
@@ -110,9 +110,7 @@ $Self->Is(
     'AutoResponseGet() - ValidID',
 );
 
-my %AutoResponseList = $AutoResponseObject->AutoResponseList(
-    Valid => 0,
-);
+my %AutoResponseList = $AutoResponseObject->AutoResponseList( Valid => 0 );
 my $Hit = 0;
 for ( sort keys %AutoResponseList ) {
     if ( $_ eq $AutoResponseID ) {
@@ -143,9 +141,7 @@ $Self->True(
     'AutoResponseUpdate()',
 );
 
-%AutoResponse = $AutoResponseObject->AutoResponseGet(
-    ID => $AutoResponseID,
-);
+%AutoResponse = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID );
 
 $Self->Is(
     $AutoResponse{Name} || '',

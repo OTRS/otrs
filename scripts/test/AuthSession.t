@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.15 2010-10-27 11:47:34 mg Exp $
+# $Id: AuthSession.t,v 1.16 2010-10-29 13:18:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 use utf8;
+
 use Kernel::System::AuthSession;
 
 # use local Config object because it will be modified
@@ -22,7 +23,7 @@ for my $Module (qw(DB FS)) {
 
     $ConfigObject->Set(
         Key   => 'SessionModule',
-        Value => "Kernel::System::AuthSession::$Module"
+        Value => "Kernel::System::AuthSession::$Module",
     );
 
     my $SessionObject = Kernel::System::AuthSession->new(

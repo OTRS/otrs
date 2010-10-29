@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.9 2010-10-29 05:03:20 en Exp $
+# $Id: CheckItem.t,v 1.10 2010-10-29 13:18:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,9 +100,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # check address
-    my $Valid = $CheckItemObject->CheckEmail(
-        Address => $Test->{Email},
-    );
+    my $Valid = $CheckItemObject->CheckEmail( Address => $Test->{Email} );
 
     # execute unit test
     if ( $Test->{Valid} ) {
@@ -343,9 +341,7 @@ for my $Test (@Tests) {
     my $String = $Test->{String};
 
     # start sting preparation
-    my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean(
-        StringRef => \$String,
-    );
+    my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean( StringRef => \$String );
 
     # check result
     $Self->Is(
