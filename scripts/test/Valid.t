@@ -2,7 +2,7 @@
 # Valid.t - valid module tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.t,v 1.2 2010-10-14 13:43:21 en Exp $
+# $Id: Valid.t,v 1.3 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::Valid;
 

@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.23 2010-07-19 19:26:55 martin Exp $
+# $Id: Time.t,v 1.24 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 # set time zone to get correct references
 $ENV{TZ} = 'Europe/Berlin';
@@ -20,45 +21,36 @@ use Kernel::System::Time;
 
 my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-20T10:00:00Z',
-);
+my $SystemTime = $TimeObject->TimeStamp2SystemTime( String => '2005-10-20T10:00:00Z' );
 $Self->Is(
     $SystemTime,
     1129795200,
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-20T10:00:00+00:00',
-);
+$SystemTime = $TimeObject->TimeStamp2SystemTime( String => '2005-10-20T10:00:00+00:00' );
 $Self->Is(
     $SystemTime,
     1129795200,
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $TimeObject->TimeStamp2SystemTime(
-    String => '20-10-2005 10:00:00',
-);
+$SystemTime = $TimeObject->TimeStamp2SystemTime( String => '20-10-2005 10:00:00' );
 $Self->Is(
     $SystemTime,
     1129795200,
     'TimeStamp2SystemTime()',
 );
 
-$SystemTime = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-20 10:00:00',
-);
+$SystemTime = $TimeObject->TimeStamp2SystemTime( String => '2005-10-20 10:00:00' );
 $Self->Is(
     $SystemTime,
     1129795200,
     'TimeStamp2SystemTime()',
 );
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-    SystemTime => $SystemTime,
-);
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) =
+    $TimeObject->SystemTime2Date( SystemTime => $SystemTime );
 $Self->Is(
     "$Year-$Month-$Day $Hour:$Min:$Sec",
     '2005-10-20 10:00:00',
@@ -79,79 +71,31 @@ $Self->Is(
     'Date2SystemTime()',
 );
 
-my $SystemTime2 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-21 10:00:00',
-);
-my $SystemTime3 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-24 10:00:00',
-);
-my $SystemTime4 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-27 10:00:00',
-);
-my $SystemTime5 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-11-03 10:00:00',
-);
-my $SystemTime6 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-12-21 10:00:00',
-);
-my $SystemTime7 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-12-31 10:00:00',
-);
-my $SystemTime8 = $TimeObject->TimeStamp2SystemTime(
-    String => '2003-12-21 10:00:00',
-);
-my $SystemTime9 = $TimeObject->TimeStamp2SystemTime(
-    String => '2003-12-31 10:00:00',
-);
-my $SystemTime10 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-23 10:00:00',
-);
-my $SystemTime11 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-24 10:00:00',
-);
-my $SystemTime12 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-23 10:00:00',
-);
-my $SystemTime13 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-25 13:00:00',
-);
-my $SystemTime14 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-23 10:00:00',
-);
-my $SystemTime15 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-30 13:00:00',
-);
-my $SystemTime16 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-24 11:44:12',
-);
-my $SystemTime17 = $TimeObject->TimeStamp2SystemTime(
-    String => '2005-10-24 16:13:31',
-);
-my $SystemTime18 = $TimeObject->TimeStamp2SystemTime(
-    String => '2006-12-05 22:57:34',
-);
-my $SystemTime19 = $TimeObject->TimeStamp2SystemTime(
-    String => '2006-12-06 10:25:34',
-);
-my $SystemTime20 = $TimeObject->TimeStamp2SystemTime(
-    String => '2006-12-06 07:50:00',
-);
-my $SystemTime21 = $TimeObject->TimeStamp2SystemTime(
-    String => '2006-12-07 08:54:00',
-);
-my $SystemTime22 = $TimeObject->TimeStamp2SystemTime(
-    String => '2007-03-12 11:56:01',
-);
-my $SystemTime23 = $TimeObject->TimeStamp2SystemTime(
-    String => '2007-03-12 13:56:01',
-);
-my $SystemTime24 = $TimeObject->TimeStamp2SystemTime(
-    String => '2010-01-28 22:00:02',
-);
-my $SystemTime25 = $TimeObject->TimeStamp2SystemTime(
-    String => '2010-01-28 22:01:02',
-);
-my $WorkingTime = $TimeObject->WorkingTime(
+my $SystemTime2  = $TimeObject->TimeStamp2SystemTime( String => '2005-10-21 10:00:00' );
+my $SystemTime3  = $TimeObject->TimeStamp2SystemTime( String => '2005-10-24 10:00:00' );
+my $SystemTime4  = $TimeObject->TimeStamp2SystemTime( String => '2005-10-27 10:00:00' );
+my $SystemTime5  = $TimeObject->TimeStamp2SystemTime( String => '2005-11-03 10:00:00' );
+my $SystemTime6  = $TimeObject->TimeStamp2SystemTime( String => '2005-12-21 10:00:00' );
+my $SystemTime7  = $TimeObject->TimeStamp2SystemTime( String => '2005-12-31 10:00:00' );
+my $SystemTime8  = $TimeObject->TimeStamp2SystemTime( String => '2003-12-21 10:00:00' );
+my $SystemTime9  = $TimeObject->TimeStamp2SystemTime( String => '2003-12-31 10:00:00' );
+my $SystemTime10 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-23 10:00:00' );
+my $SystemTime11 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-24 10:00:00' );
+my $SystemTime12 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-23 10:00:00' );
+my $SystemTime13 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-25 13:00:00' );
+my $SystemTime14 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-23 10:00:00' );
+my $SystemTime15 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-30 13:00:00' );
+my $SystemTime16 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-24 11:44:12' );
+my $SystemTime17 = $TimeObject->TimeStamp2SystemTime( String => '2005-10-24 16:13:31' );
+my $SystemTime18 = $TimeObject->TimeStamp2SystemTime( String => '2006-12-05 22:57:34' );
+my $SystemTime19 = $TimeObject->TimeStamp2SystemTime( String => '2006-12-06 10:25:34' );
+my $SystemTime20 = $TimeObject->TimeStamp2SystemTime( String => '2006-12-06 07:50:00' );
+my $SystemTime21 = $TimeObject->TimeStamp2SystemTime( String => '2006-12-07 08:54:00' );
+my $SystemTime22 = $TimeObject->TimeStamp2SystemTime( String => '2007-03-12 11:56:01' );
+my $SystemTime23 = $TimeObject->TimeStamp2SystemTime( String => '2007-03-12 13:56:01' );
+my $SystemTime24 = $TimeObject->TimeStamp2SystemTime( String => '2010-01-28 22:00:02' );
+my $SystemTime25 = $TimeObject->TimeStamp2SystemTime( String => '2010-01-28 22:01:02' );
+my $WorkingTime  = $TimeObject->WorkingTime(
     StartTime => $SystemTime,
     StopTime  => $SystemTime2,
 );
@@ -464,9 +408,7 @@ my @DestinationTime = (
 for my $Test (@DestinationTime) {
 
     # get system time
-    my $SystemTimeDestination = $TimeObject->TimeStamp2SystemTime(
-        String => $Test->{StartTime},
-    );
+    my $SystemTimeDestination = $TimeObject->TimeStamp2SystemTime( String => $Test->{StartTime} );
 
     # check system time
     if ( $Test->{StartTimeSystem} ) {
@@ -493,9 +435,8 @@ for my $Test (@DestinationTime) {
     }
 
     # check time stamp destination time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $DestinationTime,
-    );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) =
+        $TimeObject->SystemTime2Date( SystemTime => $DestinationTime );
     $Self->Is(
         "$Year-$Month-$Day $Hour:$Min:$Sec",
         $Test->{EndTime},

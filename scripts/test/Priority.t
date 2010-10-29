@@ -2,7 +2,7 @@
 # scripts/test/Priority.t - Priority module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.t,v 1.1 2010-10-21 07:43:21 cg Exp $
+# $Id: Priority.t,v 1.2 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 use strict;
 use warnings;
+use utf8;
 
 use Kernel::System::Priority;
 
@@ -48,7 +49,7 @@ my %FirstPriorityList;
 my %CompletePriorityList;
 my %AddedPriorities;
 
-%FirstPriorityList = $PriorityObject->PriorityList( Valid => 0, );
+%FirstPriorityList = $PriorityObject->PriorityList( Valid => 0 );
 
 for my $Test (@Tests) {
 
@@ -146,7 +147,7 @@ for my $Test (@Tests) {
 # list
 
 %CompletePriorityList = ( %FirstPriorityList, %AddedPriorities );
-my %LastPriorityList = $PriorityObject->PriorityList( Valid => 0, );
+my %LastPriorityList = $PriorityObject->PriorityList( Valid => 0 );
 
 $Self->IsDeeply(
     \%CompletePriorityList,

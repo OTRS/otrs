@@ -2,7 +2,7 @@
 # Signature.t - Signature tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.t,v 1.7 2010-06-22 22:00:52 dz Exp $
+# $Id: Signature.t,v 1.8 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,10 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::Signature;
 
-$Self->{SignatureObject} = Kernel::System::Signature->new( %{$Self} );
+my $SignatureObject = Kernel::System::Signature->new( %{$Self} );
 
 # add signature
 my $SignatureNameRand0 = 'example-signature' . int( rand(1000000) );
@@ -29,7 +30,7 @@ Super Support Company Inc. - Waterford Business Park
 Email: hot\@florida.com - Web: http://hot.florida.com/
 --";
 
-my $SignatureID = $Self->{SignatureObject}->SignatureAdd(
+my $SignatureID = $SignatureObject->SignatureAdd(
     Name        => $SignatureNameRand0,
     Text        => $Signature,
     ContentType => 'text/plain; charset=iso-8859-1',
@@ -43,7 +44,7 @@ $Self->True(
     'SignatureAdd()',
 );
 
-my %Signature = $Self->{SignatureObject}->SignatureGet( ID => $SignatureID );
+my %Signature = $SignatureObject->SignatureGet( ID => $SignatureID );
 
 $Self->Is(
     $Signature{Name} || '',
@@ -70,9 +71,7 @@ $Self->Is(
     'SignatureGet() - ValidID',
 );
 
-my %SignatureList = $Self->{SignatureObject}->SignatureList(
-    Valid => 0,
-);
+my %SignatureList = $SignatureObject->SignatureList( Valid => 0 );
 my $Hit = 0;
 for ( sort keys %SignatureList ) {
     if ( $_ eq $SignatureID ) {
@@ -84,7 +83,7 @@ $Self->True(
     'SignatureList()',
 );
 
-my $SignatureUpdate = $Self->{SignatureObject}->SignatureUpdate(
+my $SignatureUpdate = $SignatureObject->SignatureUpdate(
     ID          => $SignatureID,
     Name        => $SignatureNameRand0 . '1',
     Text        => $Signature . '1',
@@ -99,7 +98,7 @@ $Self->True(
     'SignatureUpdate()',
 );
 
-%Signature = $Self->{SignatureObject}->SignatureGet( ID => $SignatureID );
+%Signature = $SignatureObject->SignatureGet( ID => $SignatureID );
 
 $Self->Is(
     $Signature{Name} || '',

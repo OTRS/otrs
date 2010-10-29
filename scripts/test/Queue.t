@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.12 2010-09-27 15:01:18 ub Exp $
+# $Id: Queue.t,v 1.13 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,12 +12,14 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
+
 use Kernel::System::Queue;
 
-$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+my $QueueObject = Kernel::System::Queue->new( %{$Self} );
 
 my $QueueRand = 'Some::Queue' . int( rand(1000000) );
-my $QueueID   = $Self->{QueueObject}->QueueAdd(
+my $QueueID   = $QueueObject->QueueAdd(
     Name                => $QueueRand,
     ValidID             => 1,
     GroupID             => 1,
@@ -39,9 +41,7 @@ $Self->True(
     'QueueAdd()',
 );
 
-my %QueueGet = $Self->{QueueObject}->QueueGet(
-    ID => $QueueID,
-);
+my %QueueGet = $QueueObject->QueueGet( ID => $QueueID );
 
 $Self->True(
     $QueueGet{Name} eq $QueueRand,
@@ -86,14 +86,14 @@ $Self->True(
     'QueueGet() - SolutionNotify',
 );
 
-my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+my $Queue = $QueueObject->QueueLookup( QueueID => $QueueID );
 
 $Self->True(
     $Queue eq $QueueRand,
     'QueueLookup() by ID',
 );
 
-my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+my $QueueIDLookup = $QueueObject->QueueLookup( Queue => $Queue );
 
 $Self->True(
     $QueueID eq $QueueIDLookup,
@@ -102,7 +102,7 @@ $Self->True(
 
 # a real szenario from AdminQueue.pm
 # for more information see 3139
-my $QueueUpdate2 = $Self->{QueueObject}->QueueUpdate(
+my $QueueUpdate2 = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
     Name                => $QueueRand . "2",
     ValidID             => 1,
@@ -131,7 +131,7 @@ $Self->True(
     'QueueUpdate() - a real szenario from AdminQueue.pm',
 );
 
-my $QueueUpdate1 = $Self->{QueueObject}->QueueUpdate(
+my $QueueUpdate1 = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
     Name                => $QueueRand . '1',
     ValidID             => 2,
@@ -157,9 +157,7 @@ $Self->True(
 );
 
 # lookup the queue name for $QueueID
-my $LookupQueueName = $Self->{QueueObject}->QueueLookup(
-    QueueID => $QueueID,
-);
+my $LookupQueueName = $QueueObject->QueueLookup( QueueID => $QueueID );
 
 $Self->Is(
     $LookupQueueName,
@@ -168,9 +166,7 @@ $Self->Is(
 );
 
 # lookup the queue id for $QueueRand . '1'
-my $LookupQueueID = $Self->{QueueObject}->QueueLookup(
-    Queue => $QueueRand . '1',
-);
+my $LookupQueueID = $QueueObject->QueueLookup( Queue => $QueueRand . '1' );
 
 $Self->Is(
     $LookupQueueID,
@@ -179,9 +175,7 @@ $Self->Is(
 );
 
 # lookup the queue id for $QueueRand, this should be undef, because this queue was renamed meanwhile!
-$LookupQueueID = $Self->{QueueObject}->QueueLookup(
-    Queue => $QueueRand,
-);
+$LookupQueueID = $QueueObject->QueueLookup( Queue => $QueueRand );
 
 $Self->Is(
     $LookupQueueID,
@@ -189,9 +183,7 @@ $Self->Is(
     "QueueLookup() - lookup the queue ID for queue name " . $QueueRand,
 );
 
-%QueueGet = $Self->{QueueObject}->QueueGet(
-    ID => $QueueID,
-);
+%QueueGet = $QueueObject->QueueGet( ID => $QueueID );
 
 $Self->True(
     $QueueGet{Name} eq $QueueRand . "1",
@@ -237,14 +229,14 @@ $Self->True(
     'QueueGet() - SolutionNotify',
 );
 
-$Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+$Queue = $QueueObject->QueueLookup( QueueID => $QueueID );
 
 $Self->True(
     $Queue eq $QueueRand . "1",
     'QueueLookup() by ID',
 );
 
-$QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+$QueueIDLookup = $QueueObject->QueueLookup( Queue => $Queue );
 
 $Self->True(
     $QueueID eq $QueueIDLookup,

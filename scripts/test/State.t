@@ -2,7 +2,7 @@
 # State.t - State tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.t,v 1.6 2010-06-22 22:00:52 dz Exp $
+# $Id: State.t,v 1.7 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,16 +12,17 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::State;
 
-$Self->{StateObject} = Kernel::System::State->new( %{$Self} );
+my $StateObject = Kernel::System::State->new( %{$Self} );
 
 # add state
 my $StateNameRand0 = 'example-state' . int( rand(1000000) );
 my $StateNameRand1 = 'example-state' . int( rand(1000000) );
 
-my $StateID = $Self->{StateObject}->StateAdd(
+my $StateID = $StateObject->StateAdd(
     Name    => $StateNameRand0,
     Comment => 'some comment',
     ValidID => 1,
@@ -34,7 +35,7 @@ $Self->True(
     'StateAdd()',
 );
 
-my %State = $Self->{StateObject}->StateGet( ID => $StateID );
+my %State = $StateObject->StateGet( ID => $StateID );
 
 $Self->True(
     $State{Name} eq $StateNameRand0,
@@ -49,7 +50,7 @@ $Self->True(
     'StateGet() - ValidID',
 );
 
-my %StateList = $Self->{StateObject}->StateList(
+my %StateList = $StateObject->StateList(
     UserID => 1,
 );
 my $Hit = 0;
@@ -63,7 +64,7 @@ $Self->True(
     'StateList()',
 );
 
-my $StateUpdate = $Self->{StateObject}->StateUpdate(
+my $StateUpdate = $StateObject->StateUpdate(
     ID      => $StateID,
     Name    => $StateNameRand1,
     Comment => 'some comment 1',
@@ -77,7 +78,7 @@ $Self->True(
     'StateUpdate()',
 );
 
-%State = $Self->{StateObject}->StateGet( ID => $StateID );
+%State = $StateObject->StateGet( ID => $StateID );
 
 $Self->True(
     $State{Name} eq $StateNameRand1,
@@ -92,7 +93,7 @@ $Self->True(
     'StateGet() - ValidID',
 );
 
-my %StateTypeList = $Self->{StateObject}->StateTypeList(
+my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
 );
 my $New  = 0;

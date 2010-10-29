@@ -2,7 +2,7 @@
 # PID.t - PID tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.t,v 1.7 2010-06-22 22:00:52 dz Exp $
+# $Id: PID.t,v 1.8 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,35 +12,30 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::PID;
 
-$Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
+my $PIDObject = Kernel::System::PID->new( %{$Self} );
 
-my $PIDCreate = $Self->{PIDObject}->PIDCreate(
-    Name => 'Test',
-);
+my $PIDCreate = $PIDObject->PIDCreate( Name => 'Test' );
 $Self->True(
     $PIDCreate,
     'PIDCreate()',
 );
 
-my $PIDCreate2 = $Self->{PIDObject}->PIDCreate(
-    Name => 'Test',
-);
+my $PIDCreate2 = $PIDObject->PIDCreate( Name => 'Test' );
 $Self->False(
     $PIDCreate2,
     'PIDCreate2()',
 );
 
-my $PIDGet = $Self->{PIDObject}->PIDGet(
-    Name => 'Test',
-);
+my $PIDGet = $PIDObject->PIDGet( Name => 'Test' );
 $Self->True(
     $PIDGet,
     'PIDGet()',
 );
 
-my $PIDCreateForce = $Self->{PIDObject}->PIDCreate(
+my $PIDCreateForce = $PIDObject->PIDCreate(
     Name  => 'Test',
     Force => 1,
 );
@@ -49,9 +44,7 @@ $Self->True(
     'PIDCreate() - Force',
 );
 
-my $PIDDelete = $Self->{PIDObject}->PIDDelete(
-    Name => 'Test',
-);
+my $PIDDelete = $PIDObject->PIDDelete( Name => 'Test' );
 
 $Self->True(
     $PIDDelete,

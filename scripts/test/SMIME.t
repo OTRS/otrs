@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.12 2010-08-18 07:30:07 ub Exp $
+# $Id: SMIME.t,v 1.13 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,35 +16,38 @@ use vars (qw($Self));
 use Kernel::System::Crypt;
 
 use vars qw($Self);
+use Kernel::Config;
 
-my $HomeDir = $Self->{ConfigObject}->Get('Home');
+# create local objects
+my $ConfigObject = Kernel::Config->new();
+my $HomeDir      = $ConfigObject->Get('Home');
 
 # set config
-$Self->{ConfigObject}->Set( Key => 'SMIME', Value => 1 );
-
-#$Self->{ConfigObject}->Set(
-#    Key => 'SMIME::CertPath', Value => "$HomeDir/var/ssl/certs"
-#);
-#$Self->{ConfigObject}->Set(
-#    Key => 'SMIME::PrivatePath', Value => "$HomeDir/var/ssl/private"
-#);
+$ConfigObject->Set(
+    Key   => 'SMIME',
+    Value => 1,
+);
 
 # check if openssl is located there
-if ( !-e $Self->{ConfigObject}->Get('SMIME::Bin') ) {
+if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {
-        $Self->{ConfigObject}->Set( Key => 'SMIME::Bin', Value => '/opt/local/bin/openssl' );
+        $ConfigObject->Set(
+            Key   => 'SMIME::Bin',
+            Value => '/opt/local/bin/openssl',
+        );
     }
 }
 
 # create crypt object
-$Self->{CryptObject} = Kernel::System::Crypt->new(
+my $CryptObject = Kernel::System::Crypt->new(
     %{$Self},
-    CryptType => 'SMIME',
+    ConfigObject => $ConfigObject,
+    CryptType    => 'SMIME',
 );
 
-if ( !$Self->{CryptObject} ) {
+if ( !$CryptObject ) {
     print STDERR "NOTICE: No SMIME support!\n";
     return;
 }
@@ -145,9 +148,7 @@ if ( $^O =~ m{Win}i ) {
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
-    my @Certs = $Self->{CryptObject}->Search(
-        Search => $Search{$Count},
-    );
+    my @Certs = $CryptObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Certs[0] || '',
         "#$Count Search()",
@@ -155,12 +156,10 @@ for my $Count ( 1 .. 2 ) {
 
     # add certificate ...
     my $CertString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
-    my $Message = $Self->{CryptObject}->CertificateAdd(
-        Certificate => ${$CertString},
-    );
+    my $Message = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
 
     $Self->True(
         $Message || '',
@@ -174,7 +173,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
     );
 
-    @Certs = $Self->{CryptObject}->CertificateSearch(
+    @Certs = $CryptObject->CertificateSearch(
         Search => $Search{$Count},
     );
 
@@ -193,14 +192,14 @@ for my $Count ( 1 .. 2 ) {
 
     # and private key
     my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKey-$Count.asc",
     );
     my $Secret = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
-    $Message = $Self->{CryptObject}->PrivateAdd(
+    $Message = $CryptObject->PrivateAdd(
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
@@ -209,33 +208,27 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PrivateAdd()",
     );
 
-    my @Keys = $Self->{CryptObject}->PrivateSearch(
-        Search => $Search{$Count},
-    );
+    my @Keys = $CryptObject->PrivateSearch( Search => $Search{$Count} );
 
     $Self->True(
         $Keys[0] || '',
         "#$Count PrivateSearch()",
     );
 
-    my $CertificateString = $Self->{CryptObject}->CertificateGet(
-        Hash => $Certs[0]->{Hash},
-    );
+    my $CertificateString = $CryptObject->CertificateGet( Hash => $Certs[0]->{Hash} );
     $Self->True(
         $CertificateString || '',
         "#$Count CertificateGet()",
     );
 
-    my $PrivateKeyString = $Self->{CryptObject}->PrivateGet(
-        Hash => $Keys[0]->{Hash},
-    );
+    my $PrivateKeyString = $CryptObject->PrivateGet( Hash => $Keys[0]->{Hash} );
     $Self->True(
         $PrivateKeyString || '',
         "#$Count PrivateGet()",
     );
 
     # crypt
-    my $Crypted = $Self->{CryptObject}->Crypt(
+    my $Crypted = $CryptObject->Crypt(
         Message => $TestText,
         Hash    => $Certs[0]->{Hash},
     );
@@ -251,7 +244,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    my %Decrypt = $Self->{CryptObject}->Decrypt(
+    my %Decrypt = $CryptObject->Decrypt(
         Message => $Crypted,
         Hash    => $Certs[0]->{Hash},
     );
@@ -266,7 +259,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign
-    my $Sign = $Self->{CryptObject}->Sign(
+    my $Sign = $CryptObject->Sign(
         Message => $TestText,
         Hash    => $Keys[0]->{Hash},
     );
@@ -276,9 +269,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    my %Verify = $Self->{CryptObject}->Verify(
-        Message => $Sign,
-    );
+    my %Verify = $CryptObject->Verify( Message => $Sign );
     $Self->True(
         $Verify{Successful} || '',
         "#$Count Verify()",
@@ -291,7 +282,7 @@ for my $Count ( 1 .. 2 ) {
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{Q}{W}g;
-    %Verify = $Self->{CryptObject}->Verify(
+    %Verify = $CryptObject->Verify(
         Message => $ManipulatedSign,
     );
     $Self->True(
@@ -305,7 +296,7 @@ for my $Count ( 1 .. 2 ) {
    #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
         my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/SMIME/",
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
         );
@@ -313,7 +304,7 @@ for my $Count ( 1 .. 2 ) {
         $Reference =~ s{\n}{\r\n}gsm;
 
         # crypt
-        my $Crypted = $Self->{CryptObject}->Crypt(
+        my $Crypted = $CryptObject->Crypt(
             Message => $Reference,
             Hash    => $Certs[0]->{Hash},
         );
@@ -328,7 +319,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # decrypt
-        my %Decrypt = $Self->{CryptObject}->Decrypt(
+        my %Decrypt = $CryptObject->Decrypt(
             Message => $Crypted,
             Hash    => $Certs[0]->{Hash},
         );
@@ -342,7 +333,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign
-        my $Signed = $Self->{CryptObject}->Sign(
+        my $Signed = $CryptObject->Sign(
             Message => $Reference,
             Hash    => $Keys[0]->{Hash},
         );
@@ -352,9 +343,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        my %Verify = $Self->{CryptObject}->Verify(
-            Message => $Signed,
-        );
+        my %Verify = $CryptObject->Verify( Message => $Signed );
         $Self->True(
             $Verify{Successful} || '',
             "#$Count Verify() .$File",
@@ -368,39 +357,30 @@ for my $Count ( 1 .. 2 ) {
 
 # delete keys
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $Self->{CryptObject}->Search(
+    my @Keys = $CryptObject->Search(
         Search => $Search{$Count},
     );
     $Self->True(
         $Keys[0] || '',
         "#$Count Search()",
     );
-    my $PrivateRemoved = $Self->{CryptObject}->PrivateRemove(
-        Hash => $Keys[0]->{Hash},
-    );
+    my $PrivateRemoved = $CryptObject->PrivateRemove( Hash => $Keys[0]->{Hash} );
     $Self->True(
         $PrivateRemoved || '',
         "#$Count PrivateRemove()",
     );
 
-    my $CertificateRemoved = $Self->{CryptObject}->CertificateRemove(
-        Hash => $Keys[0]->{Hash},
-    );
+    my $CertificateRemoved = $CryptObject->CertificateRemove( Hash => $Keys[0]->{Hash} );
     $Self->True(
         $CertificateRemoved || '',
         "#$Count CertificateRemove()",
     );
 
-    @Keys = $Self->{CryptObject}->Search(
-        Search => $Search{$Count},
-    );
+    @Keys = $CryptObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Keys[0] || '',
         "#$Count Search()",
     );
 }
-
-# reset config
-$Self->{ConfigObject}->Set( Key => 'SMIME', Value => 0 );
 
 1;

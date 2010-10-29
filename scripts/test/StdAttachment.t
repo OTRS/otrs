@@ -2,7 +2,7 @@
 # StdAttachment.t - StdAttachment tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.8 2010-06-22 22:00:52 dz Exp $
+# $Id: StdAttachment.t,v 1.9 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
-
 use utf8;
+
 use Kernel::System::StdAttachment;
 
-$Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new( %{$Self} );
+my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
@@ -35,7 +35,7 @@ for my $File (qw(xls txt doc png pdf)) {
 
     my $MD5 = $Self->{MainObject}->MD5sum( String => \$Content );
 
-    my $Add = $Self->{StdAttachmentObject}->StdAttachmentAdd(
+    my $Add = $StdAttachmentObject->StdAttachmentAdd(
         Name        => 'Some Name 123456798',
         ValidID     => 1,
         Content     => $Content,
@@ -50,9 +50,7 @@ for my $File (qw(xls txt doc png pdf)) {
         "StdAttachmentAdd() - ." . $File,
     );
 
-    my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
-        ID => $Add,
-    );
+    my %Data = $StdAttachmentObject->StdAttachmentGet( ID => $Add );
     my $MD5Add = $Self->{MainObject}->MD5sum( String => \$Data{Content} );
 
     $Self->Is(
@@ -81,25 +79,21 @@ for my $File (qw(xls txt doc png pdf)) {
         "StdAttachmentGet() - Filename ." . $File,
     );
 
-    my $ID = $Self->{StdAttachmentObject}->StdAttachmentLookup(
-        StdAttachment => 'Some Name 123456798',
-    );
+    my $ID = $StdAttachmentObject->StdAttachmentLookup( StdAttachment => 'Some Name 123456798' );
     $Self->Is(
         $ID || '',
         $Add,
         "StdAttachmentLookup() - ID ." . $File,
     );
 
-    my $Name = $Self->{StdAttachmentObject}->StdAttachmentLookup(
-        StdAttachmentID => $ID,
-    );
+    my $Name = $StdAttachmentObject->StdAttachmentLookup( StdAttachmentID => $ID );
     $Self->Is(
         $Name || '',
         $Data{Name} || '',
         "StdAttachmentLookup() - Name ." . $File,
     );
 
-    my $Update = $Self->{StdAttachmentObject}->StdAttachmentUpdate(
+    my $Update = $StdAttachmentObject->StdAttachmentUpdate(
         ID          => $ID,
         Name        => 'Some Name',
         ValidID     => 1,
@@ -114,9 +108,7 @@ for my $File (qw(xls txt doc png pdf)) {
         "StdAttachmentUpdate() - ." . $File,
     );
 
-    %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
-        ID => $ID,
-    );
+    %Data = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
     my $MD5Update = $Self->{MainObject}->MD5sum( String => \$Data{Content} );
 
     $Self->Is(
@@ -145,27 +137,21 @@ for my $File (qw(xls txt doc png pdf)) {
         "StdAttachmentGet() - Filename ." . $File,
     );
 
-    $ID = $Self->{StdAttachmentObject}->StdAttachmentLookup(
-        StdAttachment => 'Some Name',
-    );
+    $ID = $StdAttachmentObject->StdAttachmentLookup( StdAttachment => 'Some Name' );
     $Self->Is(
         $ID || '',
         $Add,
         "StdAttachmentLookup() - ID ." . $File,
     );
 
-    $Name = $Self->{StdAttachmentObject}->StdAttachmentLookup(
-        StdAttachmentID => $ID,
-    );
+    $Name = $StdAttachmentObject->StdAttachmentLookup( StdAttachmentID => $ID );
     $Self->Is(
         $Name || '',
         $Data{Name} || '',
         "StdAttachmentLookup() - Name ." . $File,
     );
 
-    my $Delete = $Self->{StdAttachmentObject}->StdAttachmentDelete(
-        ID => $Add,
-    );
+    my $Delete = $StdAttachmentObject->StdAttachmentDelete( ID => $Add );
     $Self->True(
         $Delete || '',
         "StdAttachmentDelete() - ." . $File,

@@ -2,7 +2,7 @@
 # StandardResponse.t - StandardResponse tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: StandardResponse.t,v 1.2 2010-06-22 22:00:52 dz Exp $
+# $Id: StandardResponse.t,v 1.3 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
-
 use utf8;
+
 use Kernel::System::StandardResponse;
 
-$Self->{StandardResponseObject} = Kernel::System::StandardResponse->new( %{$Self} );
+my $StandardResponseObject = Kernel::System::StandardResponse->new( %{$Self} );
 
 # tests
 my @Tests = (
@@ -58,7 +58,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # add
-    my $ID = $Self->{StandardResponseObject}->StandardResponseAdd(
+    my $ID = $StandardResponseObject->StandardResponseAdd(
         %{ $Test->{Add} },
     );
     $Self->True(
@@ -66,7 +66,7 @@ for my $Test (@Tests) {
         "StandardResponseAdd()",
     );
 
-    my %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+    my %Data = $StandardResponseObject->StandardResponseGet(
         ID => $ID,
     );
     for my $Key ( keys %{ $Test->{AddGet} } ) {
@@ -78,7 +78,7 @@ for my $Test (@Tests) {
     }
 
     # update
-    my $Update = $Self->{StandardResponseObject}->StandardResponseUpdate(
+    my $Update = $StandardResponseObject->StandardResponseUpdate(
         ID => $ID,
         %{ $Test->{Update} },
     );
@@ -86,7 +86,7 @@ for my $Test (@Tests) {
         $ID,
         "StandardResponseUpdate()",
     );
-    %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+    %Data = $StandardResponseObject->StandardResponseGet(
         ID => $ID,
     );
     for my $Key ( keys %{ $Test->{UpdateGet} } ) {
@@ -98,7 +98,7 @@ for my $Test (@Tests) {
     }
 
     # delete
-    my $Delete = $Self->{StandardResponseObject}->StandardResponseDelete(
+    my $Delete = $StandardResponseObject->StandardResponseDelete(
         ID => $ID,
     );
     $Self->True(

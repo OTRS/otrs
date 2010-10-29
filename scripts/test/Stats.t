@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.26 2010-07-16 23:21:01 en Exp $
+# $Id: Stats.t,v 1.27 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::Stats;
 use Kernel::System::Group;
@@ -19,24 +20,30 @@ use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::CSV;
 
-$Self->{UserID}      = 1;
-$Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-$Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
-$Self->{MainObject}  = Kernel::System::Main->new( %{$Self} );
-$Self->{CSVObject}   = Kernel::System::CSV->new( %{$Self} );
-$Self->{StatsObject} = Kernel::System::Stats->new( %{$Self} );
+# create local objects
+my $UserID      = 1;
+my $GroupObject = Kernel::System::Group->new( %{$Self} );
+my $UserObject  = Kernel::System::User->new( %{$Self} );
+my $MainObject  = Kernel::System::Main->new( %{$Self} );
+my $CSVObject   = Kernel::System::CSV->new( %{$Self} );
+my $StatsObject = Kernel::System::Stats->new(
+    %{$Self},
+    MainObject  => $MainObject,
+    CSVObject   => $CSVObject,
+    GroupObject => $GroupObject,
+    UserObject  => $UserObject,
+    UserID      => $UserID,
+);
 
 # try to get an invalid stat
-my $StatInvalid = $Self->{StatsObject}->StatsGet(
-    StatID => 1111,
-);
+my $StatInvalid = $StatsObject->StatsGet( StatID => 1111 );
 
 $Self->False(
     $StatInvalid,
     'StatsGet() try to get a not exitsting stat',
 );
 
-my $Update = $Self->{StatsObject}->StatsUpdate(
+my $Update = $StatsObject->StatsUpdate(
     StatID => '1111',
     Hash   => {
         Title       => 'TestTitle from UnitTest.pl',
@@ -49,8 +56,8 @@ $Self->False(
 );
 
 # check the StatsAddfunction
-my $StatID1 = $Self->{StatsObject}->StatsAdd();
-my $StatID2 = $Self->{StatsObject}->StatsAdd();
+my $StatID1 = $StatsObject->StatsAdd();
+my $StatID2 = $StatsObject->StatsAdd();
 
 # test 1
 $Self->True(
@@ -71,7 +78,7 @@ $Self->True(
 );
 
 # test 4 - check the stats update function
-$Update = $Self->{StatsObject}->StatsUpdate(
+$Update = $StatsObject->StatsUpdate(
     StatID => $StatID1,
     Hash   => {
         Title        => 'TestTitle from UnitTest.pl',
@@ -91,7 +98,7 @@ $Self->True(
     'StatsUpdate() Update StatID1',
 );
 
-$Update = $Self->{StatsObject}->StatsUpdate(
+$Update = $StatsObject->StatsUpdate(
     StatID => ( $StatID2 + 2 ),
     Hash   => {
         Title       => 'TestTitle from UnitTest.pl',
@@ -104,9 +111,7 @@ $Self->False(
 );
 
 # check get function
-my $Stat = $Self->{StatsObject}->StatsGet(
-    StatID => $StatID1,
-);
+my $Stat = $StatsObject->StatsGet( StatID => $StatID1 );
 
 $Self->Is(
     $Stat->{Title},
@@ -115,7 +120,7 @@ $Self->Is(
 );
 
 # check completenesscheck
-my @Notify = $Self->{StatsObject}->CompletenessCheck(
+my @Notify = $StatsObject->CompletenessCheck(
     StatData => $Stat,
     Section  => 'All',
 );
@@ -126,7 +131,7 @@ $Self->Is(
 );
 
 # check StatsList
-my $ArrayRef = $Self->{StatsObject}->GetStatsList(
+my $ArrayRef = $StatsObject->GetStatsList(
     OrderBy   => 'StatID',
     Direction => 'ASC',
 );
@@ -145,7 +150,7 @@ $Self->Is(
 );
 
 # check the available DynamicFiles
-my $DynamicArrayRef = $Self->{StatsObject}->GetDynamicFiles();
+my $DynamicArrayRef = $StatsObject->GetDynamicFiles();
 $Self->True(
     $DynamicArrayRef,
     'GetDynamicFiles() check if dynamic files available',
@@ -153,7 +158,7 @@ $Self->True(
 
 # check the sumbuild function
 my @StatArray = @{
-    $Self->{StatsObject}->SumBuild(
+    $StatsObject->SumBuild(
         Array => [
             ['Title'],
             [ 'SomeText', 'Column1', 'Column2', 'Column3', 'Column4', 'Column5' ],
@@ -175,25 +180,21 @@ $Self->Is(
 );
 
 # export StatID 1
-my $ExportFile = $Self->{StatsObject}->Export( StatID => $StatID1 );
+my $ExportFile = $StatsObject->Export( StatID => $StatID1 );
 $Self->True(
     $ExportFile->{Content},
     'Export() check if Exportfile has a content',
 );
 
 # import the exportet stat
-my $StatID3 = $Self->{StatsObject}->Import(
-    Content => $ExportFile->{Content},
-);
+my $StatID3 = $StatsObject->Import( Content => $ExportFile->{Content} );
 $Self->True(
     $StatID3,
     'Import() is StatID3 true',
 );
 
 # check the imported stat
-my $Stat3 = $Self->{StatsObject}->StatsGet(
-    StatID => $StatID3,
-);
+my $Stat3 = $StatsObject->StatsGet( StatID => $StatID3 );
 $Self->Is(
     $Stat3->{Title},
     'TestTitle from UnitTest.pl',
@@ -202,15 +203,15 @@ $Self->Is(
 
 # check delete stat function
 $Self->True(
-    $Self->{StatsObject}->StatsDelete( StatID => $StatID1 ),
+    $StatsObject->StatsDelete( StatID => $StatID1 ),
     'StatsDelete() delete StatID1',
 );
 $Self->True(
-    $Self->{StatsObject}->StatsDelete( StatID => $StatID2 ),
+    $StatsObject->StatsDelete( StatID => $StatID2 ),
     'StatsDelete() delete StatID2',
 );
 $Self->True(
-    $Self->{StatsObject}->StatsDelete( StatID => $StatID3 ),
+    $StatsObject->StatsDelete( StatID => $StatID3 ),
     'StatsDelete() delete StatID3',
 );
 
@@ -236,11 +237,9 @@ my $ImportContent = join '', @Lines;
 
 close $Filehandle;
 
-$StatID = $Self->{StatsObject}->Import(
-    Content => $ImportContent,
-);
+$StatID = $StatsObject->Import( Content => $ImportContent );
 
-$ExportContent = $Self->{StatsObject}->Export( StatID => $StatID );
+$ExportContent = $StatsObject->Export( StatID => $StatID );
 
 # the following line are because of different spelling 'ISO-8859' or 'iso-8859'
 # but this is no solution for the problem if one string is iso and the other utf!
@@ -261,9 +260,7 @@ $Self->Is(
 # ---
 
 # check the imported stat
-my $Stat4 = $Self->{StatsObject}->StatsGet(
-    StatID => $StatID,
-);
+my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
 
 # get OTRS home
 my $Home = $Self->{ConfigObject}->Get('Home');
@@ -309,7 +306,7 @@ else {
 }
 
 $Self->True(
-    $Self->{StatsObject}->StatsDelete( StatID => $StatID ),
+    $StatsObject->StatsDelete( StatID => $StatID ),
     'StatsDelete() delete import stat',
 );
 
@@ -322,7 +319,7 @@ my $StatsArrayRef = [
     [ 'Sum',                 14, 5, 16, 35 ],
 ];
 
-my $Graph = $Self->{StatsObject}->GenerateGraph(
+my $Graph = $StatsObject->GenerateGraph(
     Array        => $StatsArrayRef,
     GraphSize    => '800x600',
     HeadArrayRef => $HeadArrayRef,
@@ -336,7 +333,7 @@ $Self->True(
 );
 
 # try the clean up function
-my $Result = $Self->{StatsObject}->StatsCleanUp();
+my $Result = $StatsObject->StatsCleanUp();
 $Self->True(
     $Result,
     'StatsCleanUp() - clean up stats',

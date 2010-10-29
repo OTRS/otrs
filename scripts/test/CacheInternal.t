@@ -2,7 +2,7 @@
 # CacheInternal.t - CacheInternal tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.t,v 1.1 2010-10-21 12:51:44 martin Exp $
+# $Id: CacheInternal.t,v 1.2 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,17 @@ use vars (qw($Self));
 
 use Kernel::System::CacheInternal;
 
-my $CacheInternal1 = Kernel::System::CacheInternal->new( %{$Self}, Type => 'UnitTest1', TTL => 60 );
+my $CacheInternal1 = Kernel::System::CacheInternal->new(
+    %{$Self},
+    Type => 'UnitTest1',
+    TTL  => 60,
+);
 
-my $CacheInternal2 = Kernel::System::CacheInternal->new( %{$Self}, Type => 'UnitTest1', TTL => 60 );
+my $CacheInternal2 = Kernel::System::CacheInternal->new(
+    %{$Self},
+    Type => 'UnitTest1',
+    TTL  => 60,
+);
 
 my @Tests = (
     {
@@ -35,9 +43,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Value = $CacheInternal1->Get(
-        Key => $Test->{Key},
-    );
+    my $Value = $CacheInternal1->Get( Key => $Test->{Key} );
 
     $Self->Is(
         undef,
@@ -45,9 +51,7 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 
-    my $Value2 = $CacheInternal2->Get(
-        Key => $Test->{Key},
-    );
+    my $Value2 = $CacheInternal2->Get( Key => $Test->{Key} );
 
     $Self->Is(
         undef,
@@ -60,9 +64,7 @@ for my $Test (@Tests) {
         Value => $Test->{Input},
     );
 
-    $Value = $CacheInternal1->Get(
-        Key => $Test->{Key},
-    );
+    $Value = $CacheInternal1->Get( Key => $Test->{Key} );
 
     $Self->IsDeeply(
         $Test->{Result},
@@ -70,9 +72,7 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 
-    $Value2 = $CacheInternal2->Get(
-        Key => $Test->{Key},
-    );
+    $Value2 = $CacheInternal2->Get( Key => $Test->{Key} );
 
     $Self->IsDeeply(
         $Test->{Result},

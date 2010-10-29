@@ -2,7 +2,7 @@
 # Salutation.t - Salutation tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.t,v 1.7 2010-06-22 22:00:52 dz Exp $
+# $Id: Salutation.t,v 1.8 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
+
 use Kernel::System::Salutation;
 
-$Self->{SalutationObject} = Kernel::System::Salutation->new( %{$Self} );
+my $SalutationObject = Kernel::System::Salutation->new( %{$Self} );
 
 # add salutation
 my $SalutationNameRand0 = 'example-salutation' . int( rand(1000000) );
@@ -24,7 +26,7 @@ Thank you for your request. Your email address in our database
 is \"<OTRS_CUSTOMER_DATA_UserEmail>\".
 ";
 
-my $SalutationID = $Self->{SalutationObject}->SalutationAdd(
+my $SalutationID = $SalutationObject->SalutationAdd(
     Name        => $SalutationNameRand0,
     Text        => $Salutation,
     ContentType => 'text/plain; charset=iso-8859-1',
@@ -38,7 +40,7 @@ $Self->True(
     'SalutationAdd()',
 );
 
-my %Salutation = $Self->{SalutationObject}->SalutationGet( ID => $SalutationID );
+my %Salutation = $SalutationObject->SalutationGet( ID => $SalutationID );
 
 $Self->Is(
     $Salutation{Name} || '',
@@ -65,9 +67,7 @@ $Self->Is(
     'SalutationGet() - ValidID',
 );
 
-my %SalutationList = $Self->{SalutationObject}->SalutationList(
-    Valid => 0,
-);
+my %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
 my $Hit = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
@@ -79,7 +79,7 @@ $Self->True(
     'SalutationList()',
 );
 
-my $SalutationUpdate = $Self->{SalutationObject}->SalutationUpdate(
+my $SalutationUpdate = $SalutationObject->SalutationUpdate(
     ID          => $SalutationID,
     Name        => $SalutationNameRand0 . '1',
     Text        => $Salutation . '1',
@@ -94,7 +94,7 @@ $Self->True(
     'SalutationUpdate()',
 );
 
-%Salutation = $Self->{SalutationObject}->SalutationGet( ID => $SalutationID );
+%Salutation = $SalutationObject->SalutationGet( ID => $SalutationID );
 
 $Self->Is(
     $Salutation{Name} || '',

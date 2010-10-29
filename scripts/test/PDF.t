@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.19 2010-06-22 22:00:51 dz Exp $
+# $Id: PDF.t,v 1.20 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,14 +12,15 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::PDF;
 
-$Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
+my $PDFObject = Kernel::System::PDF->new( %{$Self} );
 die "PDF output inPDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!"
-    if !$Self->{PDFObject};
+    if !$PDFObject;
 
 # create a pdf document
-my $DocumentNew1 = $Self->{PDFObject}->DocumentNew(
+my $DocumentNew1 = $PDFObject->DocumentNew(
     Title     => 'The Title',
     Encode    => 'latin1',
     Testfonts => 1,
@@ -31,7 +32,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew1 = $Self->{PDFObject}->PageBlankNew(
+my $PageBlankNew1 = $PDFObject->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -45,7 +46,7 @@ $Self->True(
     "PageBlankNew1()",
 );
 
-my $PageNew1 = $Self->{PDFObject}->PageNew(
+my $PageNew1 = $PDFObject->PageNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -73,7 +74,7 @@ my @StringWidthReturn = (
 my $C1 = 0;
 while ( chop($StringWidthText) ) {
     my $TestOk = 0;
-    my $Width  = $Self->{PDFObject}->_StringWidth(
+    my $Width  = $PDFObject->_StringWidth(
         Text     => $StringWidthText,
         Font     => 'Testfont1',
         FontSize => 10,
@@ -319,7 +320,7 @@ for ( sort keys %TextCalculateData ) {
     $TextCalculateData{$Test}{Lead}     = $TextCalculateData{$Test}{Lead}     || 0;
     $TextCalculateData{$Test}{Type}     = $TextCalculateData{$Test}{Type}     || 'ReturnLeftOver';
 
-    my %Return = $Self->{PDFObject}->_TextCalculate(
+    my %Return = $PDFObject->_TextCalculate(
         Text     => $TextCalculateData{$Test}{Text},
         Width    => $TextCalculateData{$Test}{Width},
         Height   => $TextCalculateData{$Test}{Height},
@@ -515,7 +516,7 @@ for ( sort keys %TextData ) {
         $TextData{$Test}{Height} = $TextData{$Test}{FontSize};
     }
 
-    my %Return = $Self->{PDFObject}->Text(
+    my %Return = $PDFObject->Text(
         Text     => $TextData{$Test}{Text},
         Width    => $TextData{$Test}{Width},
         Height   => $TextData{$Test}{Height},
@@ -551,7 +552,7 @@ for ( sort keys %TextData ) {
 }
 
 # special Text() tests
-my $PageNew2 = $Self->{PDFObject}->PageNew(
+my $PageNew2 = $PDFObject->PageNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 30,
@@ -700,17 +701,17 @@ for ( sort keys %TextData2 ) {
         $TextData2{$Test}{Width} = 100;
     }
 
-    $Self->{PDFObject}->PositionSet(
+    $PDFObject->PositionSet(
         X => $TextData2{$Test}{Position1X},
         Y => $TextData2{$Test}{Position1Y},
     );
-    $Self->{PDFObject}->PositionSet(
+    $PDFObject->PositionSet(
         Move => 'relativ',
         X    => $TextData2{$Test}{Position2X},
         Y    => $TextData2{$Test}{Position2Y},
     );
 
-    my %Return = $Self->{PDFObject}->Text(
+    my %Return = $PDFObject->Text(
         Text     => $TextData2{$Test}{Text},
         Width    => $TextData2{$Test}{Width},
         Font     => $TextData2{$Test}{Font},
@@ -719,7 +720,7 @@ for ( sort keys %TextData2 ) {
         Lead     => $TextData2{$Test}{Lead},
     );
 
-    my %Position = $Self->{PDFObject}->PositionGet();
+    my %Position = $PDFObject->PositionGet();
 
     if (
         $Return{State} eq $TextData2{$Test}{State}
@@ -1758,7 +1759,7 @@ for ( sort keys %TableCalculate ) {
         $TableCalculateParams{BackgroundColorEven} = $TableCalculate{$Test}{BackgroundColorEven};
     }
 
-    my %Return = $Self->{PDFObject}->_TableCalculate(
+    my %Return = $PDFObject->_TableCalculate(
         %TableCalculateParams,
     );
 
@@ -2378,7 +2379,7 @@ for ( sort keys %TableBlockNextCalculate ) {
     my $Test   = $_;
     my $TestOk = 0;
 
-    my %Return = $Self->{PDFObject}->_TableBlockNextCalculate(
+    my %Return = $PDFObject->_TableBlockNextCalculate(
         CellData   => $TableBlockNextCalculate{$Test}{CellData},
         ColumnData => $TableBlockNextCalculate{$Test}{ColumnData},
     );
@@ -2588,7 +2589,7 @@ for ( sort keys %TableRowCalculate ) {
     $TableRowCalculateParams{PaddingBottom} = $TableRowCalculate{$Test}{PaddingBottom} || 0;
     $TableRowCalculateParams{Border}        = $TableRowCalculate{$Test}{Border} || 0;
 
-    my %Return = $Self->{PDFObject}->_TableRowCalculate(
+    my %Return = $PDFObject->_TableRowCalculate(
         Row => 0,
         %TableRowCalculateParams,
     );
@@ -2671,7 +2672,7 @@ for ( sort keys %TableCellOnCount ) {
     my $Test   = $_;
     my $TestOk = 0;
 
-    my $Return = $Self->{PDFObject}->_TableCellOnCount(
+    my $Return = $PDFObject->_TableCellOnCount(
         CellData => $TableCellOnCount{$Test}{CellData},
     );
 
@@ -2691,10 +2692,10 @@ for ( sort keys %TableCellOnCount ) {
 }
 
 # Charset font test 1 (iso-8859-1)
-$Self->{PDFObject2} = Kernel::System::PDF->new( %{$Self} );
+my $PDFObject2 = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
-my $DocumentNew2 = $Self->{PDFObject2}->DocumentNew(
+my $DocumentNew2 = $PDFObject2->DocumentNew(
     Title     => 'The Title',
     Encode    => 'latin1',
     Testfonts => 1,
@@ -2706,7 +2707,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew2 = $Self->{PDFObject2}->PageBlankNew(
+my $PageBlankNew2 = $PDFObject2->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2741,7 +2742,7 @@ $CharsetTestData1{RequiredWidth}  = 46.87;
 $CharsetTestData1{RequiredHeight} = 10;
 $CharsetTestData1{LeftOver}       = '';
 
-my %ReturnCharsetTestData1 = $Self->{PDFObject2}->Text(
+my %ReturnCharsetTestData1 = $PDFObject2->Text(
     Text     => $CharsetTestData1{Text},
     Width    => $CharsetTestData1{Width},
     Height   => $CharsetTestData1{Height},
@@ -2777,10 +2778,10 @@ $Self->True(
 );
 
 # Charset font test 2 (utf-8)
-$Self->{PDFObject3} = Kernel::System::PDF->new( %{$Self} );
+my $PDFObject3 = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
-my $DocumentNew3 = $Self->{PDFObject3}->DocumentNew(
+my $DocumentNew3 = $PDFObject3->DocumentNew(
     Title     => 'The Title',
     Encode    => 'utf-8',
     Testfonts => 1,
@@ -2792,7 +2793,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew3 = $Self->{PDFObject3}->PageBlankNew(
+my $PageBlankNew3 = $PDFObject3->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2827,7 +2828,7 @@ $CharsetTestData2{RequiredWidth}  = 46.87;
 $CharsetTestData2{RequiredHeight} = 10;
 $CharsetTestData2{LeftOver}       = '';
 
-my %ReturnCharsetTestData2 = $Self->{PDFObject3}->Text(
+my %ReturnCharsetTestData2 = $PDFObject3->Text(
     Text     => $CharsetTestData2{Text},
     Width    => $CharsetTestData2{Width},
     Height   => $CharsetTestData2{Height},
@@ -2863,10 +2864,10 @@ $Self->True(
 );
 
 # Charset font test 3 (utf-8)
-$Self->{PDFObject4} = Kernel::System::PDF->new( %{$Self} );
+my $PDFObject4 = Kernel::System::PDF->new( %{$Self} );
 
 # create a pdf document
-my $DocumentNew4 = $Self->{PDFObject4}->DocumentNew(
+my $DocumentNew4 = $PDFObject4->DocumentNew(
     Title     => 'The Title',
     Encode    => 'utf-8',
     Testfonts => 1,
@@ -2878,7 +2879,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew4 = $Self->{PDFObject4}->PageBlankNew(
+my $PageBlankNew4 = $PDFObject4->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2913,7 +2914,7 @@ $CharsetTestData3{RequiredWidth}  = 88.96;
 $CharsetTestData3{RequiredHeight} = 10;
 $CharsetTestData3{LeftOver}       = '';
 
-my %ReturnCharsetTestData3 = $Self->{PDFObject4}->Text(
+my %ReturnCharsetTestData3 = $PDFObject4->Text(
     Text     => $CharsetTestData3{Text},
     Width    => $CharsetTestData3{Width},
     Height   => $CharsetTestData3{Height},

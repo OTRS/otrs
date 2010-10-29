@@ -2,7 +2,7 @@
 # VirtualFS.t - VirtualFS tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.t,v 1.5 2010-10-18 00:05:50 ub Exp $
+# $Id: VirtualFS.t,v 1.6 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,8 +12,13 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::VirtualFS;
+use Kernel::Config;
+
+# create local object
+my $ConfigObject = Kernel::Config->new();
 
 my @Tests = (
     {
@@ -102,21 +107,22 @@ my @Tests = (
 
 for my $Backend (qw( FS DB )) {
 
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'VirtualFS::Backend',
         Value => 'Kernel::System::VirtualFS::' . $Backend,
     );
 
-    $Self->{VirtualFSObject} = Kernel::System::VirtualFS->new( %{$Self} );
+    my $VirtualFSObject = Kernel::System::VirtualFS->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
 
     for my $Test (@Tests) {
         my $Content = $Self->{MainObject}->FileRead(
-            Location => $Self->{ConfigObject}->Get('Home') . '/' . $Test->{Location},
+            Location => $ConfigObject->Get('Home') . '/' . $Test->{Location},
             Mode     => $Test->{Mode},
         );
-        my $MD5Sum = $Self->{MainObject}->MD5sum(
-            String => ${$Content},
-        );
+        my $MD5Sum = $Self->{MainObject}->MD5sum( String => ${$Content} );
         $Self->Is(
             $MD5Sum || '',
             $Test->{MD5},
@@ -125,7 +131,7 @@ for my $Backend (qw( FS DB )) {
 
         # write
         my %Preferences = %{ $Test->{Preferences} };
-        my $Success     = $Self->{VirtualFSObject}->Write(
+        my $Success     = $VirtualFSObject->Write(
             Filename    => $Test->{Filename},
             Mode        => $Test->{Mode},
             Content     => $Content,
@@ -137,7 +143,7 @@ for my $Backend (qw( FS DB )) {
         );
 
         # read
-        my %File = $Self->{VirtualFSObject}->Read(
+        my %File = $VirtualFSObject->Read(
             Filename => $Test->{Filename},
             Mode     => $Test->{Mode},
         );
@@ -145,9 +151,7 @@ for my $Backend (qw( FS DB )) {
             $File{Content},
             "$Backend Read() - $Test->{Name}",
         );
-        $MD5Sum = $Self->{MainObject}->MD5sum(
-            String => $File{Content},
-        );
+        $MD5Sum = $Self->{MainObject}->MD5sum( String => $File{Content} );
         $Self->Is(
             $MD5Sum || '',
             $Test->{MD5},
@@ -164,9 +168,7 @@ for my $Backend (qw( FS DB )) {
         }
 
         # find
-        my @List = $Self->{VirtualFSObject}->Find(
-            Filename => $Test->{Find},
-        );
+        my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
         my $Hit = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
@@ -179,9 +181,7 @@ for my $Backend (qw( FS DB )) {
         );
 
         # find not
-        @List = $Self->{VirtualFSObject}->Find(
-            Filename => $Test->{FindNot},
-        );
+        @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
         $Hit = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
@@ -194,9 +194,7 @@ for my $Backend (qw( FS DB )) {
         );
 
         # find preferences
-        @List = $Self->{VirtualFSObject}->Find(
-            Preferences => $Test->{FindPreferences},
-        );
+        @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
         $Hit = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
@@ -209,9 +207,7 @@ for my $Backend (qw( FS DB )) {
         );
 
         # find not preferences
-        @List = $Self->{VirtualFSObject}->Find(
-            Preferences => $Test->{FindNotPreferences},
-        );
+        @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
         $Hit = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
@@ -224,10 +220,8 @@ for my $Backend (qw( FS DB )) {
         );
 
         # find filename AND preferences
-        @List = $Self->{VirtualFSObject}->Find(
-            %{ $Test->{FindFilenameAndPreferences} },
-        );
-        $Hit = 0;
+        @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
+        $Hit  = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
                 $Hit = 1;
@@ -241,9 +235,7 @@ for my $Backend (qw( FS DB )) {
 
     # delete
     for my $Test (@Tests) {
-        my $Delete = $Self->{VirtualFSObject}->Delete(
-            Filename => $Test->{Filename},
-        );
+        my $Delete = $VirtualFSObject->Delete( Filename => $Test->{Filename} );
         $Self->True(
             $Delete,
             "$Backend Delete() - $Test->{Name}",

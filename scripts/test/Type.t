@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.13 2010-10-15 08:05:51 martin Exp $
+# $Id: Type.t,v 1.14 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::Type;
 
@@ -32,9 +33,7 @@ $Self->True(
 );
 
 # get the type by using the type id
-my %Type = $TypeObject->TypeGet(
-    ID => $TypeID,
-);
+my %Type = $TypeObject->TypeGet( ID => $TypeID );
 
 $Self->Is(
     $Type{Name} || '',
@@ -48,9 +47,7 @@ $Self->Is(
 );
 
 # get the type by using the type name
-%Type = $TypeObject->TypeGet(
-    Name => $TypeNameRand0,
-);
+%Type = $TypeObject->TypeGet( Name => $TypeNameRand0 );
 
 $Self->Is(
     $Type{Name} || '',
@@ -58,8 +55,7 @@ $Self->Is(
     'TypeGet() - Name (using the type name)',
 );
 
-my %TypeList = $TypeObject->TypeList(
-);
+my %TypeList = $TypeObject->TypeList();
 
 my $Hit = 0;
 for ( sort keys %TypeList ) {
@@ -84,9 +80,7 @@ $Self->True(
     'TypeUpdate()',
 );
 
-%Type = $TypeObject->TypeGet(
-    ID => $TypeID,
-);
+%Type = $TypeObject->TypeGet( ID => $TypeID );
 
 $Self->Is(
     $Type{Name} || '',
@@ -100,9 +94,7 @@ $Self->Is(
     'TypeGet() - ValidID',
 );
 
-my $TypeLookup = $TypeObject->TypeLookup(
-    TypeID => $TypeID,
-);
+my $TypeLookup = $TypeObject->TypeLookup( TypeID => $TypeID );
 
 $Self->Is(
     $TypeLookup || '',
@@ -110,9 +102,7 @@ $Self->Is(
     'TypeLookup() - TypeID',
 );
 
-my $TypeIDLookup = $TypeObject->TypeLookup(
-    Type => $TypeLookup,
-);
+my $TypeIDLookup = $TypeObject->TypeLookup( Type => $TypeLookup );
 
 $Self->Is(
     $TypeIDLookup || '',
@@ -121,13 +111,9 @@ $Self->Is(
 );
 
 # perform 2 different TypeLists to check the caching
-my %TypeListValid = $TypeObject->TypeList(
-    Valid => 1,
-);
+my %TypeListValid = $TypeObject->TypeList( Valid => 1 );
 
-my %TypeListAll = $TypeObject->TypeList(
-    Valid => 0,
-);
+my %TypeListAll = $TypeObject->TypeList( Valid => 0 );
 
 $Hit = 0;
 for ( sort keys %TypeListValid ) {

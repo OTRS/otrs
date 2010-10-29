@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.23 2010-06-22 22:00:52 dz Exp $
+# $Id: PostMaster.t,v 1.24 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,25 +12,31 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::PostMaster;
 use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
+use Kernel::Config;
+
+# create local config object
+my $ConfigObject = Kernel::Config->new();
 
 for my $Module (qw(DB FS)) {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'LoopProtectionModule',
         Value => "Kernel::System::PostMaster::LoopProtection::$Module",
     );
 
-    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
+    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
 
     # get rand sender address
     my $UserRand1 = 'example-user' . int( rand(1000000) ) . '@example.com';
 
-    my $Check = $LoopProtectionObject->Check(
-        To => $UserRand1,
-    );
+    my $Check = $LoopProtectionObject->Check( To => $UserRand1 );
 
     $Self->True(
         $Check || 0,
@@ -38,18 +44,14 @@ for my $Module (qw(DB FS)) {
     );
 
     for ( 1 .. 42 ) {
-        my $SendEmail = $LoopProtectionObject->SendEmail(
-            To => $UserRand1,
-        );
+        my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand1 );
         $Self->True(
             $SendEmail || 0,
             "#$Module - SendEmail() - #$_ ",
         );
     }
 
-    $Check = $LoopProtectionObject->Check(
-        To => $UserRand1,
-    );
+    $Check = $LoopProtectionObject->Check( To => $UserRand1 );
 
     $Self->False(
         $Check || 0,
@@ -59,22 +61,25 @@ for my $Module (qw(DB FS)) {
 
 # use different subject format
 for my $TicketSubjectConfig ( 'Right', 'Left' ) {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'Ticket::SubjectFormat',
         Value => $TicketSubjectConfig,
     );
 
     # use different ticket number generators
     for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
-        my $PostMasterFilter = Kernel::System::PostMaster::Filter->new( %{$Self} );
-        $Self->{ConfigObject}->Set(
+        my $PostMasterFilter = Kernel::System::PostMaster::Filter->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
+        $ConfigObject->Set(
             Key   => 'Ticket::NumberGenerator',
             Value => "Kernel::System::Ticket::Number::$NumberModule",
         );
 
         # use different storage backends
         for my $StorageModule (qw(ArticleStorageDB ArticleStorageFS)) {
-            $Self->{ConfigObject}->Set(
+            $ConfigObject->Set(
                 Key   => 'Ticket::StorageModule',
                 Value => "Kernel::System::Ticket::$StorageModule",
             );
@@ -130,7 +135,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                 # new ticket check
                 my @Content;
-                my $MailFile = $Self->{ConfigObject}->Get('Home')
+                my $MailFile = $ConfigObject->Get('Home')
                     . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
                 open( IN, '<', $MailFile ) || die $!;
                 binmode(IN);
@@ -150,7 +155,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                 my $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
 
                 my @Return = $PostMasterObject->Run();
@@ -165,9 +171,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
 
                 # new/clear ticket object
-                my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-                my %Ticket       = $TicketObject->TicketGet( TicketID => $Return[1] );
-                my @ArticleIDs   = $TicketObject->ArticleIndex(
+                my $TicketObject = Kernel::System::Ticket->new(
+                    %{$Self},
+                    ConfigObject => $ConfigObject,
+                );
+                my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                my @ArticleIDs = $TicketObject->ArticleIndex(
                     TicketID => $Return[1],
                 );
 
@@ -363,7 +372,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
                 $Self->Is(
@@ -377,7 +387,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
 
                 # new/clear ticket object
-                $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+                $TicketObject = Kernel::System::Ticket->new(
+                    %{$Self},
+                    ConfigObject => $ConfigObject,
+                );
                 %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
                 $Self->Is(
                     $Ticket{State} || 0,
@@ -407,7 +420,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
                 $Self->Is(
@@ -426,14 +440,15 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     if ( $Line =~ /^Subject:/ ) {
                         $Line
                             = 'Subject: '
-                            . $Self->{ConfigObject}->Get('Ticket::Hook')
+                            . $ConfigObject->Get('Ticket::Hook')
                             . ": $Ticket{TicketNumber}";
                     }
                     push @Content, $Line;
                 }
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
                 $Self->Is(
@@ -452,14 +467,15 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     if ( $Line =~ /^Subject:/ ) {
                         $Line
                             = 'Subject: '
-                            . $Self->{ConfigObject}->Get('Ticket::Hook')
+                            . $ConfigObject->Get('Ticket::Hook')
                             . ":$Ticket{TicketNumber}";
                     }
                     push @Content, $Line;
                 }
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
                 $Self->Is(
@@ -478,14 +494,15 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     if ( $Line =~ /^Subject:/ ) {
                         $Line
                             = 'Subject: '
-                            . $Self->{ConfigObject}->Get('Ticket::Hook')
+                            . $ConfigObject->Get('Ticket::Hook')
                             . $Ticket{TicketNumber};
                     }
                     push @Content, $Line;
                 }
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email => \@Content,
+                    ConfigObject => $ConfigObject,
+                    Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
                 $Self->Is(
@@ -499,7 +516,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
 
                 # new/clear ticket object
-                $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+                $TicketObject = Kernel::System::Ticket->new(
+                    %{$Self},
+                    ConfigObject => $ConfigObject,
+                );
                 %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
                 $Self->Is(
                     $Ticket{State} || 0,
@@ -527,13 +547,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $Self->{ConfigObject}->Set(
+                $ConfigObject->Set(
                     Key   => 'PostmasterFollowUpStateClosed',
                     Value => 'new'
                 );
                 $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
                     TicketObject => $TicketObject,
+                    ConfigObject => $ConfigObject,
                     Email        => \@Content,
                 );
                 @Return = $PostMasterObject->Run();
@@ -548,7 +569,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
 
                 # new/clear ticket object
-                $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+                $TicketObject = Kernel::System::Ticket->new(
+                    %{$Self},
+                    ConfigObject => $ConfigObject,
+                );
                 %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
                 $Self->Is(
                     $Ticket{State} || 0,
@@ -627,7 +651,10 @@ my @Tests = (
 );
 
 # set filter
-my $PostMasterFilter = Kernel::System::PostMaster::Filter->new( %{$Self} );
+my $PostMasterFilter = Kernel::System::PostMaster::Filter->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 for my $Type (qw(Config DB)) {
     for my $Test (@Tests) {
         if ( $Type eq 'DB' ) {
@@ -638,7 +665,7 @@ for my $Type (qw(Config DB)) {
             );
         }
         else {
-            $Self->{ConfigObject}->Set(
+            $ConfigObject->Set(
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => {
                     %{$Test},
@@ -657,7 +684,8 @@ Some Content in Body
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
         %{$Self},
-        Email => \$Email,
+        ConfigObject => $ConfigObject,
+        Email        => \$Email,
     );
 
     my @Return = $PostMasterObject->Run();
@@ -672,7 +700,10 @@ Some Content in Body
     );
 
     # new/clear ticket object
-    my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
     my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
     for my $Test (@Tests) {
         next if !$Test->{Check};
@@ -701,7 +732,7 @@ Some Content in Body
             $PostMasterFilter->FilterDelete( Name => $Test->{Name} );
         }
         else {
-            $Self->{ConfigObject}->Set(
+            $ConfigObject->Set(
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => undef,
             );

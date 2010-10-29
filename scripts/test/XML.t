@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.30 2010-10-16 09:25:35 bes Exp $
+# $Id: XML.t,v 1.31 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,14 +12,14 @@
 use strict;
 use warnings;
 use vars (qw($Self));
-
 use utf8;
+
 use Kernel::System::XML;
 use Kernel::System::Ticket;
 
-$Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
-$Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
+my $XMLObject    = Kernel::System::XML->new( %{$Self} );
+my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+my $Charset      = $Self->{ConfigObject}->Get('DefaultCharset');
 
 # test XMLParse2XMLHash() with an iso-8859-1 encoded xml
 my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
@@ -27,7 +27,7 @@ my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
       <Name type="long">' . "\x{00FC}" . ' Some Test</Name>
     </Contact>
 ';
-my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $String );
+my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact},
     '#1 XMLParse2XMLHash()',
@@ -54,7 +54,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $Self->Is(
         $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
-        "ü Some Test",
+        "ï¿½ Some Test",
         '#1 XMLParse2XMLHash() (Contact->Name->Content)',
     );
     $Self->True(
@@ -73,7 +73,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
     </Contact>
 ';
 
-@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $String );
+@XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact},
     '#2 XMLParse2XMLHash()',
@@ -127,7 +127,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $Self->Is(
         $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute öäü ÄÜÖ ß',
+        'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
         '#2 XMLParse2XMLHash() (Contact->GermanText)',
     );
     $Self->True(
@@ -168,7 +168,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
     </Contact>
 ';
 
-@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $String );
+@XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact},
     '#3 XMLParse2XMLHash()',
@@ -259,7 +259,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $Self->Is(
         $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute öäü ÄÜÖ ß',
+        'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
         '#3 XMLParse2XMLHash() (Contact->GermanText)',
     );
     $Self->True(
@@ -270,7 +270,7 @@ elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
 
 # enter the @XMLHash into the database, retrieve and delete it
 for my $Key ( 'Some\'Key', '123' ) {
-    my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    my $XMLHashAdd = $XMLObject->XMLHashAdd(
         Type    => 'SomeType',
         Key     => $Key,
         XMLHash => \@XMLHash,
@@ -280,7 +280,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         $Key,
         "#3 ($Key) XMLHashAdd() (Key=$Key)",
     );
-    my @XMLHashGet = $Self->{XMLObject}->XMLHashGet(
+    my @XMLHashGet = $XMLObject->XMLHashGet(
         Type => 'SomeType',
         Key  => $Key,
     );
@@ -315,7 +315,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         no utf8;
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
+            'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
             "#3 ($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
@@ -324,7 +324,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         );
     }
 
-    @XMLHashGet = $Self->{XMLObject}->XMLHashGet(
+    @XMLHashGet = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
         Key   => $Key,
         Cache => 1,
@@ -359,7 +359,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         no utf8;
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
+            'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
             "#3 utf8($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
@@ -368,7 +368,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         );
     }
 
-    @XMLHashGet = $Self->{XMLObject}->XMLHashGet(
+    @XMLHashGet = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
         Key   => $Key,
         Cache => 0,
@@ -399,12 +399,12 @@ for my $Key ( 'Some\'Key', '123' ) {
         no utf8;
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
+            'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
             "#3 ($Key) XMLHashGet() (GermanText)",
         );
     }
 
-    my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
+    my $XMLHashUpdateTrue = $XMLObject->XMLHashUpdate(
         Type    => 'SomeType',
         Key     => $Key,
         XMLHash => \@XMLHash,
@@ -414,7 +414,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         "#3 ($Key) XMLHashUpdate() (admin)",
     );
 
-    @XMLHashGet = $Self->{XMLObject}->XMLHashGet(
+    @XMLHashGet = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
         Key   => $Key,
         Cache => 0,
@@ -449,7 +449,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         no utf8;
         $Self->Is(
             $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
+            'German Umlaute ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½',
             "utf8#3 ($Key) XMLHashGet() (GermanText)",
         );
         $Self->True(
@@ -458,7 +458,7 @@ for my $Key ( 'Some\'Key', '123' ) {
         );
     }
 
-    my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+    my $XMLHashDelete = $XMLObject->XMLHashDelete(
         Type => 'SomeType',
         Key  => $Key,
     );
@@ -472,7 +472,7 @@ for my $Key ( 'Some\'Key', '123' ) {
 my @XMLHashAdd;
 $XMLHashAdd[1]->{Contact}->[1]->{role} = 'admin1';
 $XMLHashAdd[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc. 2';
-my $XMLHashUpdateAdd = $Self->{XMLObject}->XMLHashAdd(
+my $XMLHashUpdateAdd = $XMLObject->XMLHashAdd(
     Type    => 'SomeType',
     Key     => '123',
     XMLHash => \@XMLHashAdd,
@@ -482,7 +482,7 @@ $Self->True(
     '#4 XMLHashAdd() (admin1) # 1',
 );
 
-@XMLHash = $Self->{XMLObject}->XMLHashGet(
+@XMLHash = $XMLObject->XMLHashGet(
     Type => 'SomeType',
     Key  => '123',
 );
@@ -491,7 +491,7 @@ $Self->True(
     '#4 XMLHashGet() (admin1) # 2',
 );
 
-@XMLHash = $Self->{XMLObject}->XMLHashGet(
+@XMLHash = $XMLObject->XMLHashGet(
     Type => 'SomeType',
     Key  => '123',
 );
@@ -503,7 +503,7 @@ $Self->True(
 my @XMLHashUpdate;
 $XMLHashUpdate[1]->{Contact}->[1]->{role} = 'admin';
 $XMLHashUpdate[1]->{Contact}->[1]->{Name}->[1]->{Content} = 'Example Inc.';
-my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
+my $XMLHashUpdateTrue = $XMLObject->XMLHashUpdate(
     Type    => 'SomeType',
     Key     => '123',
     XMLHash => \@XMLHashUpdate,
@@ -513,7 +513,7 @@ $Self->True(
     '#4 XMLHashUpdate() (admin)',
 );
 
-@XMLHash = $Self->{XMLObject}->XMLHashGet(
+@XMLHash = $XMLObject->XMLHashGet(
     Type => 'SomeType',
     Key  => '123',
 );
@@ -522,7 +522,7 @@ $Self->True(
     '#4 XMLHashGet() (admin)',
 );
 
-@XMLHash = $Self->{XMLObject}->XMLHashGet(
+@XMLHash = $XMLObject->XMLHashGet(
     Type  => 'SomeType',
     Key   => '123',
     Cache => 0,
@@ -534,7 +534,7 @@ $Self->True(
 
 # Search for an XMLHash
 {
-    my @Keys = $Self->{XMLObject}->XMLHashSearch(
+    my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
         What => [
             {
@@ -547,7 +547,7 @@ $Self->True(
         "#1 XMLHashSearch() single matching condition",
     );
 
-    @Keys = $Self->{XMLObject}->XMLHashSearch(
+    @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
         What => [
             {
@@ -560,7 +560,7 @@ $Self->True(
         "#1 XMLHashSearch() single non-matching condition",
     );
 
-    @Keys = $Self->{XMLObject}->XMLHashSearch(
+    @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
         What => [
             {
@@ -574,7 +574,7 @@ $Self->True(
         "#1 XMLHashSearch() matching or non-matching condition",
     );
 
-    @Keys = $Self->{XMLObject}->XMLHashSearch(
+    @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
         What => [
             {
@@ -591,35 +591,31 @@ $Self->True(
     );
 }
 
-my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
-@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $XML );
-my $XML2 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
+my $XML = $XMLObject->XMLHash2XML(@XMLHash);
+@XMLHash = $XMLObject->XMLParse2XMLHash( String => $XML );
+my $XML2 = $XMLObject->XMLHash2XML(@XMLHash);
 $Self->True(
     $XML eq $XML2,
     '#4 XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
-my $XML3 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
-@XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $XML );
-my $XML4 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
+my $XML3 = $XMLObject->XMLHash2XML(@XMLHash);
+@XMLHash = $XMLObject->XMLParse2XMLHash( String => $XML );
+my $XML4 = $XMLObject->XMLHash2XML(@XMLHash);
 $Self->True(
     ( $XML2 eq $XML3 && $XML3 eq $XML4 ),
     '#4 XMLHash2XML() -> XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
-my @Keys = $Self->{XMLObject}->XMLHashList(
-    Type => 'SomeType',
-);
+my @Keys = $XMLObject->XMLHashList( Type => 'SomeType' );
 $Self->True(
     ( $Keys[0] == 123 ),
     '#4 XMLHashList() ([0] == 123)',
 );
 
-@Keys = $Self->{XMLObject}->XMLHashList(
-    Type => 'SomeType',
-);
+@Keys = $XMLObject->XMLHashList( Type => 'SomeType' );
 for my $Key (@Keys) {
-    my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
+    my $XMLHashMove = $XMLObject->XMLHashMove(
         OldType => 'SomeType',
         OldKey  => $Key,
         NewType => 'SomeTypeNew',
@@ -631,11 +627,9 @@ for my $Key (@Keys) {
     );
 }
 
-@Keys = $Self->{XMLObject}->XMLHashList(
-    Type => 'SomeTypeNew',
-);
+@Keys = $XMLObject->XMLHashList( Type => 'SomeTypeNew' );
 for my $Key (@Keys) {
-    my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+    my $XMLHashDelete = $XMLObject->XMLHashDelete(
         Type => 'SomeTypeNew',
         Key  => $Key,
     );
@@ -646,7 +640,7 @@ for my $Key (@Keys) {
 }
 
 for my $KeyShould ( 1 .. 12 ) {
-    my $XMLHashAdd = $Self->{XMLObject}->XMLHashAdd(
+    my $XMLHashAdd = $XMLObject->XMLHashAdd(
         Type             => 'SomeType',
         KeyAutoIncrement => 1,
         XMLHash          => \@XMLHash,
@@ -658,11 +652,9 @@ for my $KeyShould ( 1 .. 12 ) {
     );
 }
 
-@Keys = $Self->{XMLObject}->XMLHashList(
-    Type => 'SomeType',
-);
+@Keys = $XMLObject->XMLHashList( Type => 'SomeType' );
 for my $Key (@Keys) {
-    my $XMLHashMove = $Self->{XMLObject}->XMLHashMove(
+    my $XMLHashMove = $XMLObject->XMLHashMove(
         OldType => 'SomeType',
         OldKey  => $Key,
         NewType => 'SomeTypeNew',
@@ -674,11 +666,9 @@ for my $Key (@Keys) {
     );
 }
 
-@Keys = $Self->{XMLObject}->XMLHashList(
-    Type => 'SomeTypeNew',
-);
+@Keys = $XMLObject->XMLHashList( Type => 'SomeTypeNew' );
 for my $Key (@Keys) {
-    my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+    my $XMLHashDelete = $XMLObject->XMLHashDelete(
         Type => 'SomeTypeNew',
         Key  => $Key,
     );
@@ -704,7 +694,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
     close(DATA);
 
     # charset test - use file form the filesystem and parse it
-    @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $String );
+    @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
     $Self->True(
         $#XMLHash == 1
             && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},
@@ -712,7 +702,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
     );
 
     # charset test - use file form the article attachment and parse it
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
+    my $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title',
         Queue        => 'Raw',
         Lock         => 'unlock',
@@ -728,7 +718,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
         'XMLParse2XMLHash() - charset test - create ticket',
     );
 
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $TicketObject->ArticleCreate(
         TicketID    => $TicketID,
         ArticleType => 'note-internal',
         SenderType  => 'agent',
@@ -751,7 +741,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
         'XMLParse2XMLHash() - charset test - create article',
     );
 
-    my $Feedback = $Self->{TicketObject}->ArticleWriteAttachment(
+    my $Feedback = $TicketObject->ArticleWriteAttachment(
         Content     => $String,
         ContentType => 'text/html; charset="iso-8859-15"',
         Filename    => $File,
@@ -763,13 +753,13 @@ if ( open( DATA, "< $Path/$File" ) ) {
         'XMLParse2XMLHash() - charset test - write an article attachment to storage',
     );
 
-    my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+    my %Attachment = $TicketObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => 1,
         UserID    => 1,
     );
 
-    @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $Attachment{Content} );
+    @XMLHash = $XMLObject->XMLParse2XMLHash( String => $Attachment{Content} );
     $Self->True(
         $#XMLHash == 1
             && $XMLHash[1]->{'EISPP-Advisory'}->[1]->{System_Information}->[1]->{information},

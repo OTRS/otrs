@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.11 2010-06-22 22:00:52 dz Exp $
+# $Id: SLA.t,v 1.12 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,22 @@ use Data::Dumper;
 use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::User;
+use Kernel::Config;
 
-$Self->{ServiceObject} = Kernel::System::Service->new( %{$Self} );
-$Self->{SLAObject}     = Kernel::System::SLA->new( %{$Self} );
-$Self->{UserObject}    = Kernel::System::User->new( %{$Self} );
+# create local objects
+my $ConfigObject  = Kernel::Config->new();
+my $ServiceObject = Kernel::System::Service->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $SLAObject = Kernel::System::SLA->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # ------------------------------------------------------------ #
 # make preparations
@@ -34,8 +46,8 @@ my @UserIDs;
 {
 
     # disable email checks to create new user
-    my $CheckEmailAddressesOrg = $Self->{ConfigObject}->Get('CheckEmailAddresses') || 1;
-    $Self->{ConfigObject}->Set(
+    my $CheckEmailAddressesOrg = $ConfigObject->Get('CheckEmailAddresses') || 1;
+    $ConfigObject->Set(
         Key   => 'CheckEmailAddresses',
         Value => 0,
     );
@@ -43,7 +55,7 @@ my @UserIDs;
     for my $Counter ( 1 .. 2 ) {
 
         # create new users for the tests
-        my $UserID = $Self->{UserObject}->UserAdd(
+        my $UserID = $UserObject->UserAdd(
             UserFirstname => 'SLA' . $Counter,
             UserLastname  => 'UnitTest',
             UserLogin     => 'UnitTest-SLA-' . $Counter . int rand 1_000_000,
@@ -56,7 +68,7 @@ my @UserIDs;
     }
 
     # restore original email check param
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'CheckEmailAddresses',
         Value => $CheckEmailAddressesOrg,
     );
@@ -73,7 +85,7 @@ my @ServiceIDs;
 for my $Counter ( 1 .. 3 ) {
 
     # add a service
-    my $ServiceID = $Self->{ServiceObject}->ServiceAdd(
+    my $ServiceID = $ServiceObject->ServiceAdd(
         Name    => 'UnitTest-SLA' . int rand 1_000_000,
         ValidID => 1,
         UserID  => 1,
@@ -83,7 +95,7 @@ for my $Counter ( 1 .. 3 ) {
 }
 
 # get original sla list for later checks
-my %SLAListOriginal = $Self->{SLAObject}->SLAList(
+my %SLAListOriginal = $SLAObject->SLAList(
     Valid  => 0,
     UserID => 1,
 );
@@ -585,9 +597,7 @@ for my $Item ( @{$ItemData} ) {
     if ( $Item->{Add} ) {
 
         # add new sla
-        my $SLAID = $Self->{SLAObject}->SLAAdd(
-            %{ $Item->{Add} },
-        );
+        my $SLAID = $SLAObject->SLAAdd( %{ $Item->{Add} } );
 
         # check if sla was added successfully or not
         if ( $Item->{AddGet} ) {
@@ -600,9 +610,7 @@ for my $Item ( @{$ItemData} ) {
             if ($SLAID) {
 
                 # lookup sla name
-                my $SLAName = $Self->{SLAObject}->SLALookup(
-                    SLAID => $SLAID,
-                );
+                my $SLAName = $SLAObject->SLALookup( SLAID => $SLAID );
 
                 # lookup test
                 $Self->Is(
@@ -612,9 +620,7 @@ for my $Item ( @{$ItemData} ) {
                 );
 
                 # reverse lookup the sla id
-                my $SLAIDNew = $Self->{SLAObject}->SLALookup(
-                    Name => $SLAName || '',
-                );
+                my $SLAIDNew = $SLAObject->SLALookup( Name => $SLAName || '' );
 
                 # reverse lookup test
                 $Self->Is(
@@ -638,7 +644,7 @@ for my $Item ( @{$ItemData} ) {
         }
 
         # get sla data to check the values after creation of the sla
-        my %SLAGet = $Self->{SLAObject}->SLAGet(
+        my %SLAGet = $SLAObject->SLAGet(
             SLAID  => $SLAID,
             UserID => $Item->{Add}->{UserID},
             Cache  => 1,
@@ -681,7 +687,7 @@ for my $Item ( @{$ItemData} ) {
         }
 
         # update the sla
-        my $UpdateSucess = $Self->{SLAObject}->SLAUpdate(
+        my $UpdateSucess = $SLAObject->SLAUpdate(
             %{ $Item->{Update} },
             SLAID => $LastAddedSLAID,
         );
@@ -701,7 +707,7 @@ for my $Item ( @{$ItemData} ) {
         }
 
         # get sla data to check the values after the update
-        my %SLAGet2 = $Self->{SLAObject}->SLAGet(
+        my %SLAGet2 = $SLAObject->SLAGet(
             SLAID  => $LastAddedSLAID,
             UserID => $Item->{Update}->{UserID},
         );
@@ -729,9 +735,7 @@ for my $Item ( @{$ItemData} ) {
         }
 
         # lookup sla name
-        my $SLAName = $Self->{SLAObject}->SLALookup(
-            SLAID => $SLAGet2{SLAID},
-        );
+        my $SLAName = $SLAObject->SLALookup( SLAID => $SLAGet2{SLAID} );
 
         # lookup test
         $Self->Is(
@@ -741,9 +745,7 @@ for my $Item ( @{$ItemData} ) {
         );
 
         # reverse lookup the sla id
-        my $SLAIDNew = $Self->{SLAObject}->SLALookup(
-            Name => $SLAName || '',
-        );
+        my $SLAIDNew = $SLAObject->SLALookup( Name => $SLAName || '' );
 
         # reverse lookup test
         $Self->Is(
@@ -760,7 +762,7 @@ for my $Item ( @{$ItemData} ) {
 # SLAList test 1 (check general functionality)
 # ------------------------------------------------------------ #
 
-my %SLAList1 = $Self->{SLAObject}->SLAList(
+my %SLAList1 = $SLAObject->SLAList(
     Valid  => 0,
     UserID => 1,
 );

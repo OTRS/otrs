@@ -2,7 +2,7 @@
 # User.t - User tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.9 2010-10-27 11:23:48 mg Exp $
+# $Id: User.t,v 1.10 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::User;
 
@@ -43,9 +44,7 @@ $Self->True(
     'UserAdd()',
 );
 
-my %UserData = $UserObject->GetUserData(
-    UserID => $UserID1,
-);
+my %UserData = $UserObject->GetUserData( UserID => $UserID1 );
 
 $Self->Is(
     $UserData{UserFirstname} || '',
@@ -83,9 +82,7 @@ $Self->True(
     'UserUpdate()',
 );
 
-%UserData = $UserObject->GetUserData(
-    UserID => $UserID1,
-);
+%UserData = $UserObject->GetUserData( UserID => $UserID1 );
 
 $Self->Is(
     $UserData{UserFirstname} || '',
@@ -109,9 +106,7 @@ $Self->Is(
 );
 
 # check token support
-my $Token = $UserObject->TokenGenerate(
-    UserID => 1,
-);
+my $Token = $UserObject->TokenGenerate( UserID => 1 );
 $Self->True(
     $Token || 0,
     "TokenGenerate() - $Token",

@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.29 2010-06-22 22:00:51 dz Exp $
+# $Id: Package.t,v 1.30 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,10 +12,13 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use Kernel::System::Package;
 use File::Copy;
 
-$Self->{PackageObject} = Kernel::System::Package->new( %{$Self} );
+# create local objects
+my $PackageObject = Kernel::System::Package->new( %{$Self} );
+
 my $Home = $Self->{ConfigObject}->Get('Home');
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
@@ -70,33 +73,27 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 
 # check if the package is already installed - check by name
-my $PackageIsInstalledByName = $Self->{PackageObject}->PackageIsInstalled(
-    Name => 'Test',
-);
+my $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(
     !$PackageIsInstalledByName,
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
 # check if the package is already installed - check by xml string
-my $PackageIsInstalledByString = $Self->{PackageObject}->PackageIsInstalled(
-    String => $String,
-);
+my $PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
 $Self->True(
     !$PackageIsInstalledByString,
     '#1 PackageIsInstalled() - check if the package is already installed - check by string',
 );
 
-my $RepositoryAdd = $Self->{PackageObject}->RepositoryAdd(
-    String => $String,
-);
+my $RepositoryAdd = $PackageObject->RepositoryAdd( String => $String );
 
 $Self->True(
     $RepositoryAdd,
     '#1 RepositoryAdd()',
 );
 
-my $PackageGet = $Self->{PackageObject}->RepositoryGet(
+my $PackageGet = $PackageObject->RepositoryGet(
     Name    => 'Test',
     Version => '0.0.1',
 );
@@ -106,7 +103,7 @@ $Self->True(
     '#1 RepositoryGet()',
 );
 
-my $PackageRemove = $Self->{PackageObject}->RepositoryRemove(
+my $PackageRemove = $PackageObject->RepositoryRemove(
     Name    => 'Test',
     Version => '0.0.1',
 );
@@ -116,9 +113,7 @@ $Self->True(
     '#1 RepositoryRemove()',
 );
 
-my $PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+my $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     $PackageInstall,
@@ -126,24 +121,20 @@ $Self->True(
 );
 
 # check if the package is already installed - check by name
-$PackageIsInstalledByName = $Self->{PackageObject}->PackageIsInstalled(
-    Name => 'Test',
-);
+$PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(
     $PackageIsInstalledByName,
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
 # check if the package is already installed - check by xml string
-$PackageIsInstalledByString = $Self->{PackageObject}->PackageIsInstalled(
-    String => $String,
-);
+$PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
 $Self->True(
     $PackageIsInstalledByString,
     '#1 PackageIsInstalled() - check if the package is already installed - check by string',
 );
 
-my $DeployCheck = $Self->{PackageObject}->DeployCheck(
+my $DeployCheck = $PackageObject->DeployCheck(
     Name    => 'Test',
     Version => '0.0.1',
 );
@@ -153,38 +144,30 @@ $Self->True(
     '#1 DeployCheck()',
 );
 
-my %Structure = $Self->{PackageObject}->PackageParse(
-    String => $String,
-);
+my %Structure = $PackageObject->PackageParse( String => $String );
 
-my $PackageBuild = $Self->{PackageObject}->PackageBuild(
-    %Structure,
-);
+my $PackageBuild = $PackageObject->PackageBuild(%Structure);
 
 $Self->True(
     $PackageBuild,
     '#1 PackageBuild()',
 );
 
-my $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String,
-);
+my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 
 $Self->True(
     $PackageUninstall,
     '#1 PackageUninstall()',
 );
 
-my $PackageInstall2 = $Self->{PackageObject}->PackageInstall(
-    String => $PackageBuild,
-);
+my $PackageInstall2 = $PackageObject->PackageInstall( String => $PackageBuild );
 
 $Self->True(
     $PackageInstall2,
     '#1 PackageInstall() - 2',
 );
 
-my $DeployCheck2 = $Self->{PackageObject}->DeployCheck(
+my $DeployCheck2 = $PackageObject->DeployCheck(
     Name    => 'Test',
     Version => '0.0.1',
 );
@@ -241,17 +224,13 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 
 # reinstall
-my $PackageReinstall = $Self->{PackageObject}->PackageReinstall(
-    String => $String,
-);
+my $PackageReinstall = $PackageObject->PackageReinstall( String => $String );
 $Self->True(
     !$PackageReinstall,
     '#1 PackageReinstall() - TestFrameworkCheck reinstalled',
 );
 
-my $PackageUninstall2 = $Self->{PackageObject}->PackageUninstall(
-    String => $PackageBuild,
-);
+my $PackageUninstall2 = $PackageObject->PackageUninstall( String => $PackageBuild );
 
 $Self->True(
     $PackageUninstall2,
@@ -282,9 +261,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall || 0,
@@ -315,9 +292,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall || 0,
@@ -347,9 +322,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall || 0,
@@ -380,9 +353,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String1,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String1 );
 $Self->True(
     $PackageInstall || 0,
     '#5 PackageInstall() - 1/3 File already exists in package X.',
@@ -410,9 +381,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String2,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String2 );
 
 $Self->True(
     !$PackageInstall || 0,
@@ -441,9 +410,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String3,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String3 );
 my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
   <Name>Test3</Name>
@@ -468,9 +435,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-my $PackageUpgrade = $Self->{PackageObject}->PackageUpgrade(
-    String => $String3a,
-);
+my $PackageUpgrade = $PackageObject->PackageUpgrade( String => $String3a );
 
 $Self->True(
     !$PackageUpgrade || 0,
@@ -537,9 +502,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-$PackageUpgrade = $Self->{PackageObject}->PackageUpgrade(
-    String => $String3b,
-);
+$PackageUpgrade = $PackageObject->PackageUpgrade( String => $String3b );
 
 $Self->True(
     $PackageUpgrade,
@@ -569,14 +532,12 @@ $Self->True(
 );
 unlink $TmpDir . '/test4';
 
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String3b,
-);
+$PackageUninstall = $PackageObject->PackageUninstall( String => $String3b );
 $Self->True(
     $PackageUninstall,
     '#5 PackageUninstall() - 3/3 File already exists in package X.',
 );
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
+$PackageUninstall = $PackageObject->PackageUninstall(
     String => $String1,
 );
 $Self->True(
@@ -599,9 +560,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <BuildHost>yourhost.example.com</BuildHost>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall,
@@ -623,9 +582,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <BuildHost>yourhost.example.com</BuildHost>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall,
@@ -702,7 +659,7 @@ my @Tests = (
     },
 );
 for my $Test (@Tests) {
-    my $VersionCheck = $Self->{PackageObject}->_CheckVersion(
+    my $VersionCheck = $PackageObject->_CheckVersion(
         Version1 => $Test->{Version1},
         Version2 => $Test->{Version2},
         Type     => $Test->{Type},
@@ -766,18 +723,14 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </DatabaseUninstall>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     $PackageInstall,
     '#9 PackageInstall() - pre',
 );
 
-$Self->{DBObject}->Prepare(
-    SQL => 'SELECT name_b FROM test_package',
-);
+$Self->{DBObject}->Prepare( SQL => 'SELECT name_b FROM test_package' );
 my $Result;
 while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     $Result = $Row[0];
@@ -789,9 +742,7 @@ $Self->Is(
     '#9 SQL check - pre',
 );
 
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String,
-);
+$PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 
 $Self->True(
     $PackageUninstall,
@@ -842,18 +793,14 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </DatabaseUninstall>
 </otrs_package>
 ';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     $PackageInstall,
     '#10 PackageInstall() - post',
 );
 
-$Self->{DBObject}->Prepare(
-    SQL => 'SELECT name_b FROM test_package',
-);
+$Self->{DBObject}->Prepare( SQL => 'SELECT name_b FROM test_package' );
 $Result = '';
 while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     $Result = $Row[0];
@@ -865,9 +812,7 @@ $Self->Is(
     '#10 SQL check - post',
 );
 
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String,
-);
+$PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 
 $Self->True(
     $PackageUninstall,
@@ -916,9 +861,7 @@ if ( !$DeveloperSystem ) {
       </Filelist>
     </otrs_package>
     ';
-    $PackageInstall = $Self->{PackageObject}->PackageInstall(
-        String => $String,
-    );
+    $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
     $Self->True(
         $PackageInstall || 0,
@@ -945,9 +888,7 @@ if ( !$DeveloperSystem ) {
     );
 
     # unistall package
-    $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-        String => $String,
-    );
+    $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
     $Self->True(
         $PackageUninstall,
         '#11 PackageUninstall()',
@@ -964,7 +905,10 @@ if ( !$DeveloperSystem ) {
         -e $RemoveFileFramework || 0,
         '#11 PackageUninstall() - save file bin/otrs.CheckDB.pl exists',
     );
-    move( $RemoveFileFramework . '.orig', $RemoveFileFramework );
+    move(
+        $RemoveFileFramework . '.orig',
+        $RemoveFileFramework
+    );
 }
 
 # check #12 doesn't work on developer systems because there is no ARCHIVE file!
@@ -997,9 +941,7 @@ if ( !$DeveloperSystem ) {
       </Filelist>
     </otrs_package>
     ';
-    $PackageInstall = $Self->{PackageObject}->PackageInstall(
-        String => $String,
-    );
+    $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
     $Self->True(
         $PackageInstall || 0,
@@ -1037,9 +979,7 @@ if ( !$DeveloperSystem ) {
     );
 
     # reinstall
-    my $PackageReinstall = $Self->{PackageObject}->PackageReinstall(
-        String => $String,
-    );
+    my $PackageReinstall = $PackageObject->PackageReinstall( String => $String );
     $Self->True(
         $PackageReinstall || 0,
         '#12 PackageReinstall() - TestFrameworkFileCheck reinstalled',
@@ -1052,9 +992,7 @@ if ( !$DeveloperSystem ) {
     );
 
     # unistall package
-    $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-        String => $String,
-    );
+    $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
     $Self->True(
         $PackageUninstall,
         '#12 PackageUninstall()',
@@ -1069,6 +1007,9 @@ if ( !$DeveloperSystem ) {
         ${$ReadOrig} eq ${$ReadLater},
         '#12 PackageReinstall() - file bin/otrs.CheckDB.pl is still the orig',
     );
-    move( $SaveFileFramework . '.orig', $SaveFileFramework );
+    move(
+        $SaveFileFramework . '.orig',
+        $SaveFileFramework
+    );
 }
 1;

@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.60 2010-06-12 02:55:31 cr Exp $
+# $Id: Ticket.t,v 1.61 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,29 +12,31 @@
 use utf8;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
+use Kernel::Config;
 
-# remember to reset it later
-my $OldTicketHook       = $Self->{ConfigObject}->Get('Ticket::Hook');
-my $OldTicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
-my $OldTicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
+# create local objects
+my $ConfigObject = Kernel::Config->new();
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::Hook',
             Value => $TicketHook,
         );
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectFormat',
             Value => $TicketSubjectConfig,
         );
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::NumberGenerator',
             Value => 'Kernel::System::Ticket::Number::DateChecksum',
         );
 
-        my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+        my $TicketObject = Kernel::System::Ticket->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
 
         # check GetTNByString
         my $Tn = $TicketObject->TicketCreateNumber() || 'NONE!!!';
@@ -60,7 +62,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
 
         # TicketSubjectClean()
         # check Ticket::SubjectRe with "RE"
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectRe',
             Value => 'RE',
         );
@@ -138,7 +140,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         }
 
         # check Ticket::SubjectRe with "Antwort"
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectRe',
             Value => 'Antwort',
         );
@@ -182,7 +184,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         }
 
         # check Ticket::SubjectRe with "Antwort"
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectRe',
             Value => '',
         );
@@ -227,7 +229,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
 
         # TicketSubjectClean()
         # check Ticket::SubjectFwd with "FWD"
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectFwd',
             Value => 'FWD',
         );
@@ -254,7 +256,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         }
 
         # check Ticket::SubjectFwd with "WG"
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::SubjectFwd',
             Value => 'WG',
         );
@@ -280,22 +282,14 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     }
 }
 
-# reset defaults
-$Self->{ConfigObject}->Set(
-    Key   => 'Ticket::SubjectRe',
-    Value => $OldTicketSubjectRe,
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
 );
-$Self->{ConfigObject}->Set(
-    Key   => 'Ticket::SubjectFwd',
-    Value => $OldTicketSubjectFwd,
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
 );
-$Self->{ConfigObject}->Set(
-    Key   => 'Ticket::Hook',
-    Value => $OldTicketHook,
-);
-
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-my $QueueObject  = Kernel::System::Queue->new( %{$Self} );
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
@@ -313,9 +307,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 $Self->Is(
     $Ticket{Title},
     'Some Ticket Title',
@@ -3010,9 +3002,7 @@ $Self->True(
     'ArticleCreate()',
 );
 
-my %Article = $TicketObject->ArticleGet(
-    ArticleID => $ArticleID,
-);
+my %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
     'Some Ticket Title',
@@ -3071,9 +3061,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 16 ) {
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
@@ -3101,9 +3089,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 
 for ( 1 .. 16 ) {
     $Self->Is(
@@ -3132,9 +3118,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 
 for ( 1 .. 16 ) {
     $Self->Is(
@@ -3162,9 +3146,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 16 ) {
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
@@ -3193,9 +3175,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 16 ) {
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
@@ -3243,9 +3223,7 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeTime = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 5 ) {
     $Self->Is(
         $TicketFreeTime{ 'TicketFreeTime' . $_ },
@@ -3253,9 +3231,7 @@ for ( 1 .. 5 ) {
         "TicketGet() (TicketFreeTime$_)",
     );
 }
-my @ArticleFreeTime = $TicketObject->ArticleGet(
-    TicketID => $TicketID,
-);
+my @ArticleFreeTime = $TicketObject->ArticleGet( TicketID => $TicketID );
 for ( 1 .. 5 ) {
     $Self->Is(
         $ArticleFreeTime[0]->{ 'TicketFreeTime' . $_ },
@@ -3283,9 +3259,7 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+%TicketFreeTime = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 5 ) {
     $Self->Is(
         $TicketFreeTime{ 'TicketFreeTime' . $_ },
@@ -3296,7 +3270,7 @@ for ( 1 .. 5 ) {
 
 # article attachment checks
 for my $Backend (qw(DB FS)) {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
@@ -3307,7 +3281,7 @@ for my $Backend (qw(DB FS)) {
         )
     {
         my $Content = '';
-        open( IN, '<', $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/Ticket/$File" )
+        open( IN, '<', $ConfigObject->Get('Home') . "/scripts/test/sample/Ticket/$File" )
             || die $!;
         binmode(IN);
         while (<IN>) {
@@ -4013,9 +3987,7 @@ $Self->False(
     'TicketSearch() (HASH:TicketCloseTimeOlderDate => 60)',
 );
 
-my %Ticket2 = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-);
+my %Ticket2 = $TicketObject->TicketGet( TicketID => $TicketID );
 $Self->Is(
     $Ticket2{Title},
     'Some Title 1234567',
@@ -4042,9 +4014,7 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
-%Article = $TicketObject->ArticleGet(
-    ArticleID => $ArticleID,
-);
+%Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
     'Some Title 1234567',
@@ -4706,7 +4676,7 @@ $Self->True(
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
@@ -5012,9 +4982,7 @@ $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-my %StateList = $StateObject->StateList(
-    UserID => 1,
-);
+my %StateList = $StateObject->StateList( UserID => 1 );
 
 # now check every possible state
 for my $State ( values %StateList ) {
@@ -5241,7 +5209,7 @@ $TicketObject->TicketDelete(
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );

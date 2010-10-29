@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.22 2010-07-07 13:14:52 ub Exp $
+# $Id: Main.t,v 1.23 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,9 +97,7 @@ for my $Test (@Tests) {
 
 # md5sum tests
 my $String = 'abc1234567890';
-my $MD5Sum = $Self->{MainObject}->MD5sum(
-    String => \$String,
-);
+my $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
 $Self->Is(
     $MD5Sum || '',
     '57041f8f7dff9b67e3f97d7facbaf8d3',
@@ -110,9 +108,7 @@ $Self->Is(
 my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
 if ( $Charset eq 'utf-8' ) {
     $String = 'abc1234567890äöüß-カスタマ';
-    $MD5Sum = $Self->{MainObject}->MD5sum(
-        String => \$String,
-    );
+    $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
 
     $Self->Is(
         $MD5Sum || '',
@@ -123,9 +119,7 @@ if ( $Charset eq 'utf-8' ) {
 elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $String = 'bc1234567890\xd6\xc4\xdc\xe4\xfc\xf6';
-    $MD5Sum = $Self->{MainObject}->MD5sum(
-        String => \$String,
-    );
+    $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
 
     $Self->Is(
         $MD5Sum || '',
@@ -218,17 +212,13 @@ for my $Extention (qw(doc pdf png txt xls)) {
         $FileLocation || '',
         "FileWrite() - $FileLocation",
     );
-    my $MD5Sum2 = $Self->{MainObject}->MD5sum(
-        Filename => $FileLocation,
-    );
+    my $MD5Sum2 = $Self->{MainObject}->MD5sum( Filename => $FileLocation );
     $Self->Is(
         $MD5Sum2 || '',
         $MD5Sum  || '',
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
-    my $Success = $Self->{MainObject}->FileDelete(
-        Location => $FileLocation,
-    );
+    my $Success = $Self->{MainObject}->FileDelete( Location => $FileLocation );
     $Self->True(
         $Success || '',
         "FileDelete() - $FileLocation",
@@ -466,7 +456,10 @@ for my $Test (@Tests) {
 # delete needed test directories
 for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     if ( !File::Path::rmtree( [$Directory] ) ) {
-        $Self->True( 0, "DirectoryRead() - delete '$Directory'" );
+        $Self->True(
+            0,
+            "DirectoryRead() - delete '$Directory'",
+        );
     }
 }
 

@@ -2,7 +2,7 @@
 # UnitTest.t - unit tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.t,v 1.7 2010-10-21 11:45:53 martin Exp $
+# $Id: UnitTest.t,v 1.8 2010-10-29 22:16:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::UnitTest;
 
