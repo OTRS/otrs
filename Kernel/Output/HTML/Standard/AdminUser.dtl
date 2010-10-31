@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.25 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminUser.dtl,v 1.26 2010-10-31 21:16:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,7 +100,7 @@
 <!-- dtl:block:OverviewResultSwitchToUser -->
                             <th>$Text{"Login as"}</th>
 <!-- dtl:block:OverviewResultSwitchToUser -->
-                            <th>$Text{"valid"}</th>
+                            <th>$Text{"Valid"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
