@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.30 2010-10-29 12:03:57 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.31 2010-10-31 21:12:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +85,7 @@
                             </td>
                             <td>$QData{"Type"}</td>
                             <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
-                            <td>$QData{"ShownValid"}</td>
+                            <td>$Text{"$Data{"ShownValid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td class="Center">
