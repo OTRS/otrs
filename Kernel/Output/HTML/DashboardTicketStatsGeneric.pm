@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.17 2010-09-07 12:22:34 mg Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.18 2010-11-01 15:41:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -161,17 +161,18 @@ sub Run {
             push @TicketYAxis, $i
         }
     }
+    my $ClosedText  = $Self->{LayoutObject}->{LanguageObject}->Get('Closed');
+    my $CreatedText = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
 
-    #TODO: Translation
     my @ChartData = (
         {
             data  => \@TicketsClosed,
-            label => "Closed",
+            label => $ClosedText,
             color => "#BF8A2F"
         },
         {
             data  => \@TicketsCreated,
-            label => "Created",
+            label => $CreatedText,
             color => "#6F98DF"
         }
     );
