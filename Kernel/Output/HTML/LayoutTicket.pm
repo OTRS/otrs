@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.104 2010-11-01 08:11:04 mb Exp $
+# $Id: LayoutTicket.pm,v 1.105 2010-11-01 08:13:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1297,7 +1297,7 @@ sub TicketMetaItems {
                 $Image = 'meta-new.png';
                 push @Result, {
                     Image      => $Image,
-                    Title      => 'New article!',
+                    Title      => 'Unread article(s) available',
                     Class      => 'UnreadArticles',
                     ClassSpan  => 'UnreadArticles Important',
                     ClassTable => 'UnreadArticles',
@@ -1306,7 +1306,7 @@ sub TicketMetaItems {
             else {
                 push @Result, {
                     Image      => $Image,
-                    Title      => 'New article!',
+                    Title      => 'Unread article(s) available',
                     Class      => 'UnreadArticles',
                     ClassSpan  => 'UnreadArticles Unimportant',
                     ClassTable => 'UnreadArticles',
