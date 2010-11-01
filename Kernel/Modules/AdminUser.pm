@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.74 2010-10-22 09:40:31 mb Exp $
+# $Id: AdminUser.pm,v 1.75 2010-11-01 22:54:08 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +27,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -62,8 +62,8 @@ sub Run {
             Type   => 'rw',
             UserID => $UserData{UserID},
         );
-        for ( keys %GroupData ) {
-            $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+        for my $GroupKey ( keys %GroupData ) {
+            $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
         }
 
         # get groups ro
@@ -72,8 +72,8 @@ sub Run {
             Type   => 'ro',
             UserID => $UserData{UserID},
         );
-        for ( keys %GroupData ) {
-            $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+        for my $GroupKey ( keys %GroupData ) {
+            $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
         }
         my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
             _UserLogin => $UserData{UserLogin},
@@ -143,17 +143,27 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
         my $Note = '';
-        my %GetParam;
-        for (
+        my ( %GetParam, %Errors );
+        for my $Parameter (
             qw(UserID UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
             )
         {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        # update user
-        if ( $Self->{UserObject}->UserUpdate( %GetParam, ChangeUserID => $Self->{UserID} ) ) {
+        for my $Needed (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # update user if no errors occurred
+        if (
+            !%Errors
+            && $Self->{UserObject}->UserUpdate( %GetParam, ChangeUserID => $Self->{UserID} )
+            )
+        {
             my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
             for my $Group ( keys %Preferences ) {
                 next if $Group eq 'Password';
@@ -206,11 +216,11 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' ) . $Note;
             $Self->_Edit(
                 Action => 'Change',
                 Search => $Search,
                 %GetParam,
+                %Errors,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminUser',
@@ -250,19 +260,28 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
         my $Note = '';
-        my %GetParam;
-        for (
+        my ( %GetParam, %Errors );
+        for my $Parameter (
             qw(UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
             )
         {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        # add user
+        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # add user if no errors occurred
         if (
-            my $UserID
-            = $Self->{UserObject}->UserAdd( %GetParam, ChangeUserID => $Self->{UserID} )
+            !%Errors
+            && (
+                my $UserID
+                = $Self->{UserObject}->UserAdd( %GetParam, ChangeUserID => $Self->{UserID} )
+            )
             )
         {
 
@@ -327,11 +346,11 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' ) . $Note;
             $Self->_Edit(
                 Action => 'Add User',
                 Search => $Search,
                 %GetParam,
+                %Errors,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminUser',
@@ -514,10 +533,10 @@ sub _Overview {
 
     # if there are results to show
     if (%List) {
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
             my %UserData = $Self->{UserObject}->GetUserData(
-                UserID        => $_,
+                UserID        => $ListKey,
                 NoOutOfOffice => 1,
             );
             $Self->{LayoutObject}->Block(
