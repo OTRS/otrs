@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.103 2010-10-29 18:41:40 en Exp $
+# $Id: AgentStats.pm,v 1.104 2010-11-01 17:39:04 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1353,22 +1353,18 @@ sub Run {
 
         # check availability of packages
         for my $Module ( 'GD', 'GD::Graph' ) {
-            $GDAvailable = ( !$Self->{MainObject}->Require($Module) ) ? 0 : 1;
+            $GDAvailable = ( $Self->{MainObject}->Require($Module) ) ? 1 : 0;
         }
 
         # if the GD package is not installed, all the graph options will be disabled
         if ( !$GDAvailable ) {
-            my @ResultFormat;
+            my @FormatData = map {
+                Key          => $_,
+                    Value    => $AvailableFormats->{$_},
+                    Disabled => ( ( $_ =~ m/GD/gi ) ? 1 : 0 ),
+            }, keys %{$AvailableFormats};
 
-            # create array of hashes
-            for my $FormatName ( keys %$AvailableFormats ) {
-                my %Format;
-                $Format{Key}      = $FormatName;
-                $Format{Value}    = $AvailableFormats->{$FormatName};
-                $Format{Disabled} = ( $FormatName =~ m/graph/gi ) ? 1 : 0;
-                push @ResultFormat, \%Format;
-            }
-            $AvailableFormats = \@ResultFormat;
+            $AvailableFormats = \@FormatData;
             $Self->{LayoutObject}->Block( Name => 'PackageUnavailableMsg' );
         }
 
