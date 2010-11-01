@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.21 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminSystemAddress.dtl,v 1.22 2010-11-01 23:54:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,21 +100,33 @@
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
-                        <label for="Name">$Text{"Email address"}:</label>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Email address"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Email Validate_Required" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required and needs to be a valid e-mail address."}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required and needs to be a valid e-mail address."}</p>
+                            </div>
                         </div>
 
                         <div class="Clear"></div>
 
-                        <label for="Realname">$Text{"Display name"}:</label>
+                        <label class="Mandatory" for="Realname"><span class="Marker">*</span> $Text{"Display name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc" maxlength="50"/>
+                            <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <div id="RealnameError" class="TooltipErrorMessage">
+                                <p>$Text{"A display name is required!."}</p>
+                            </div>
+                            <div id="RealnameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <p class="FieldExplanation">
                                 $Text{"The display name and email address will be shown on mail you send."}
                             </p>
