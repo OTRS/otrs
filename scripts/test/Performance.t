@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.15 2010-06-22 22:00:52 dz Exp $
+# $Id: Performance.t,v 1.16 2010-11-01 19:05:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,41 +42,16 @@ $Self->True(
 #-----------------------------------#
 #my $StartNew = [gettimeofday];
 
-$Self->{SessionObject} = Kernel::System::AuthSession->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    DBObject     => $Self->{DBObject},
-    MainObject   => $Self->{MainObject},
-    TimeObject   => $Self->{TimeObject},
-);
+# create local objects
+my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
 
-$Self->{ParamObject} = Kernel::System::Web::Request->new(
+my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
-$Self->{QueueObject} = Kernel::System::Queue->new(
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    DBObject     => $Self->{DBObject},
-    MainObject   => $Self->{MainObject},
-    EncodeObject => $Self->{EncodeObject},
-);
-$Self->{GroupObject} = Kernel::System::Group->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
-);
-$Self->{UserObject} = Kernel::System::User->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    TimeObject   => $Self->{TimeObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
-);
+$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+$Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
+$Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
 
 #-----------------------------------------#
 # find the user with the most privileges
@@ -126,9 +101,9 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     TimeObject    => $Self->{TimeObject},
     MainObject    => $Self->{MainObject},
     EncodeObject  => $Self->{EncodeObject},
-    SessionObject => $Self->{SessionObject},
+    SessionObject => $SessionObject,
     DBObject      => $Self->{DBObject},
-    ParamObject   => $Self->{ParamObject},
+    ParamObject   => $ParamObject,
     TicketObject  => $Self->{TicketObject},
     GroupObject   => $Self->{GroupObject},
     QueueObject   => $Self->{QueueObject},
@@ -139,8 +114,12 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     Lang          => 'de',
 );
 
-$Self->{QueueObject}            = Kernel::System::Queue->new( %{$Self} );
-$Self->{AgentTicketQueueObject} = Kernel::Modules::AgentTicketQueue->new( %{$Self} );
+$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+
+my $AgentTicketQueueObject = Kernel::Modules::AgentTicketQueue->new(
+    %{$Self},
+    ParamObject => $ParamObject,
+);
 
 #$DiffTime = tv_interval($StartNew);
 #$Self->True(
