@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.75 2010-11-01 22:54:08 en Exp $
+# $Id: AdminUser.pm,v 1.76 2010-11-02 17:47:25 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,7 +152,7 @@ sub Run {
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        for my $Needed (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
+        for my $Needed (qw(UserID UserFirstname UserLastname UserLogin ValidID)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -269,7 +269,7 @@ sub Run {
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
+        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
