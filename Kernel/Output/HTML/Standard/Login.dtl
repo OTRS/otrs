@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.62 2010-09-23 18:31:49 mb Exp $
+# $Id: Login.dtl,v 1.63 2010-11-02 15:00:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,19 +22,18 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE7 -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$QData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/Core.Header.IE8.css" />
+    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
@@ -62,6 +61,9 @@ $Include{"Copyright"}
 <!-- dtl:block:LoginLogoCSS -->
 
     <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
+
+$Include{"HTMLHeadBlockEvents"}
+
 </head>
 <!-- end header -->
 <body class="$QData{"BodyClass"}">

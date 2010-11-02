@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.19 2010-09-30 11:04:36 mg Exp $
+# $Id: FooterJS.dtl,v 1.20 2010-11-02 15:00:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,55 +18,59 @@
 <!-- dtl:block:ModuleJS -->
 
 <script type="text/javascript">//<![CDATA[
-    "use strict";
-    Core.App.Ready(function () {
-        Core.Config.AddConfig({
-            Baselink: '$Env{"Baselink"}',
-            CGIHandle: '$Env{"CGIHandle"}',
-            Action: '$Env{"Action"}',
-            SessionIDCookie: '$Env{"SessionIDCookie"}',
-            SessionName: '$Config{"SessionName"}',
-            SessionID: '$Env{"SessionID"}',
-            CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
-            Images: '$Config{"Frontend::ImagePath"}',
-            UserLanguage: '$Env{"UserLanguage"}',
-            AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
-            OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
-            HTMLArticleHeightDefault: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightDefault"}" || 0, 10),
-            HTMLArticleHeightMax: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightMax"}" || 0, 10),
-            ValidateServerErrorTitle: '$JSText{"Error"}',
-            ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
-            PopupLeaveParentWindowMsg: '$JSText{"If you now leave this page, all open popup windows will be closed, too!"}',
-            DialogCloseMsg: '$JSText{"Close this dialog"}',
-            PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}',
-            LoadingMsg: '$JSText{"Loading..."}'
-        });
-        Core.Agent.Init();
-    });
-//]]></script>
+"use strict";
+Core.App.Ready(function () {
 
-#
-# Put the datepicker into an own section because it contains HTML comments from the DTL block,
-#   and these must not be in a JavaScript section.
-#
+    Core.Config.AddConfig({
+        Baselink: '$Env{"Baselink"}',
+        CGIHandle: '$Env{"CGIHandle"}',
+        Action: '$Env{"Action"}',
+        SessionIDCookie: '$Env{"SessionIDCookie"}',
+        SessionName: '$Config{"SessionName"}',
+        SessionID: '$Env{"SessionID"}',
+        CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
+        Images: '$Config{"Frontend::ImagePath"}',
+        UserLanguage: '$Env{"UserLanguage"}',
+        AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+        OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
+        HTMLArticleHeightDefault: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightDefault"}" || 0, 10),
+        HTMLArticleHeightMax: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightMax"}" || 0, 10),
+        ValidateServerErrorTitle: '$JSText{"Error"}',
+        ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
+        PopupLeaveParentWindowMsg: '$JSText{"If you now leave this page, all open popup windows will be closed, too!"}',
+        DialogCloseMsg: '$JSText{"Close this dialog"}',
+        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}',
+        LoadingMsg: '$JSText{"Loading..."}'
+    });
+
+    Core.Agent.Init();
+
 $Include{"Datepicker"}
 
 <!-- dtl:block:NewTicketInNewWindow -->
-<script type="text/javascript">//<![CDATA[
-    "use strict";
     $('#nav-Tickets-PhoneTicket a').attr('target', '_blank');
     $('#nav-Tickets-EmailTicket a').attr('target', '_blank');
     $('.PhoneTicket a').attr('target', '_blank');
     $('.EmailTicket a').attr('target', '_blank');
-//]]></script>
 <!-- dtl:block:NewTicketInNewWindow -->
 
+});
+//]]></script>
 
 <script type="text/javascript">//<![CDATA[
-    "use strict";
-    Core.App.Ready(function () {
+"use strict";
+Core.App.Ready(function () {
 
 <!-- dtl:js_on_document_complete_placeholder -->
 
+});
+//]]></script>
+
+# Finally, unblock click events on the page again after all JavaScript was loaded and
+# executed. Put in an own block to make sure it is always run.
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+    Core.App.Ready(function () {
+        Core.App.UnblockEvents();
     });
 //]]></script>
