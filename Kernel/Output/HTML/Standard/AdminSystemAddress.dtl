@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.22 2010-11-01 23:54:29 cg Exp $
+# $Id: AdminSystemAddress.dtl,v 1.23 2010-11-02 08:36:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,7 +122,7 @@
                         <div class="Field">
                             <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc Validate_Required" maxlength="50"/>
                             <div id="RealnameError" class="TooltipErrorMessage">
-                                <p>$Text{"A display name is required!."}</p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="RealnameServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
