@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.316 2010-10-12 15:35:53 cg Exp $
+# $Id: Layout.pm,v 1.317 2010-11-02 16:22:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.316 $) [1];
+$VERSION = qw($Revision: 1.317 $) [1];
 
 =head1 NAME
 
@@ -1359,9 +1359,9 @@ sub Header {
         $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
-    for my $Word (qw(Area Title Value)) {
+    for my $Word (qw(Value Title Area)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= ' :: ' . $Self->{LanguageObject}->Get( $Param{$Word} );
+            $Param{TitleArea} .= $Self->{LanguageObject}->Get( $Param{$Word} ) . ' - ';
         }
     }
 
@@ -1553,7 +1553,7 @@ sub PrintHeader {
     }
     for my $Word (qw(Area Title Value)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$Word} );
+            $Param{TitleArea} .= ' - ' . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
     }
 
@@ -3149,9 +3149,9 @@ sub CustomerHeader {
             = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
-    for my $Word (qw(Area Title Value)) {
+    for my $Word (qw(Value Title Area)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= ' :: ' . $Self->{LanguageObject}->Get( $Param{$Word} );
+            $Param{TitleArea} .= $Self->{LanguageObject}->Get( $Param{$Word} . ' - ' );
         }
     }
 
@@ -4806,6 +4806,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.316 $ $Date: 2010-10-12 15:35:53 $
+$Revision: 1.317 $ $Date: 2010-11-02 16:22:43 $
 
 =cut

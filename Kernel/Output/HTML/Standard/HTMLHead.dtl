@@ -2,7 +2,7 @@
 # HTMLHead.dtl - provides global HTML head snippet
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHead.dtl,v 1.8 2010-11-02 15:00:39 mg Exp $
+# $Id: HTMLHead.dtl,v 1.9 2010-11-02 16:22:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@
     </style>
 <!-- dtl:block:LoginLogoCSS -->
 
-    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
+    <title>$QData{"TitleArea"} $Config{"ProductName"}</title>
 
 $Include{"HTMLHeadBlockEvents"}
 
