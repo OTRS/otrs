@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.48 2010-11-02 11:10:12 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.49 2010-11-02 13:46:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -449,7 +449,8 @@ sub Attributes {
 
         # get data from current agent
         my %UserData = $Self->{UserObject}->GetUserData(
-            UserID => $Param{UserID},
+            UserID        => $Param{UserID},
+            NoOutOfOffice => 1,
         );
 
         # set real name with user name
@@ -941,7 +942,8 @@ sub _Replace {
     $Tag = $Start . 'OTRS_';
     if ( $Param{RecipientID} ) {
         my %Recipient = $Self->{UserObject}->GetUserData(
-            UserID => $Param{RecipientID},
+            UserID        => $Param{RecipientID},
+            NoOutOfOffice => 1,
         );
 
         # html quoting of content
@@ -965,7 +967,8 @@ sub _Replace {
     $Tag = $Start . 'OTRS_OWNER_';
     if ( $Ticket{OwnerID} ) {
         my %Owner = $Self->{UserObject}->GetUserData(
-            UserID => $Ticket{OwnerID},
+            UserID        => $Ticket{OwnerID},
+            NoOutOfOffice => 1,
         );
 
         # html quoting of content
@@ -992,7 +995,8 @@ sub _Replace {
     $Tag = $Start . 'OTRS_RESPONSIBLE_';
     if ( $Ticket{ResponsibleID} ) {
         my %Responsible = $Self->{UserObject}->GetUserData(
-            UserID => $Ticket{ResponsibleID},
+            UserID        => $Ticket{ResponsibleID},
+            NoOutOfOffice => 1,
         );
 
         # html quoting of content
@@ -1016,8 +1020,11 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     $Tag = $Start . 'OTRS_Agent_';
-    my $Tag2 = $Start . 'OTRS_CURRENT_';
-    my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
+    my $Tag2        = $Start . 'OTRS_CURRENT_';
+    my %CurrentUser = $Self->{UserObject}->GetUserData(
+        UserID        => $Param{UserID},
+        NoOutOfOffice => 1,
+    );
 
     # html quoting of content
     if ( $Param{RichText} ) {
@@ -1303,6 +1310,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2010-11-02 11:10:12 $
+$Revision: 1.49 $ $Date: 2010-11-02 13:46:08 $
 
 =cut

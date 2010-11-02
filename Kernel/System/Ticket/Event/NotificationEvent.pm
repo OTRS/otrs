@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.20 2010-11-02 13:39:33 mb Exp $
+# $Id: NotificationEvent.pm,v 1.21 2010-11-02 13:45:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -489,7 +489,10 @@ sub _SendNotification {
     $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # get current user data
-    my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
+    my %CurrentPreferences = $Self->{UserObject}->GetUserData(
+        UserID        => $Param{UserID},
+        NoOutOfOffice => 1,
+    );
     for ( keys %CurrentPreferences ) {
         next if !defined $CurrentPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
@@ -501,7 +504,10 @@ sub _SendNotification {
     $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID        => $Article{OwnerID},
+        NoOutOfOffice => 1,
+    );
     for ( keys %OwnerPreferences ) {
         next if !$OwnerPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -514,7 +520,8 @@ sub _SendNotification {
 
     # get responsible data
     my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
-        UserID => $Article{ResponsibleID},
+        UserID        => $Article{ResponsibleID},
+        NoOutOfOffice => 1,
     );
     for ( keys %ResponsiblePreferences ) {
         next if !$ResponsiblePreferences{$_};
