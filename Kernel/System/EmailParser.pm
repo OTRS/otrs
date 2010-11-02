@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.100 2010-10-27 17:15:30 en Exp $
+# $Id: EmailParser.pm,v 1.101 2010-11-02 18:51:06 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 NAME
 
@@ -284,6 +284,10 @@ sub GetRealname {
     # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
     if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
         $Realname = $1;
+
+        # removes unnecessary blank spaces, if the string has quotes.
+        # This is because of bug 6059
+        $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
         return $Realname;
     }
 
@@ -932,6 +936,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2010-10-27 17:15:30 $
+$Revision: 1.101 $ $Date: 2010-11-02 18:51:06 $
 
 =cut
