@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.47 2010-09-07 08:55:47 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.48 2010-11-02 11:10:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -470,10 +470,10 @@ sub Attributes {
             if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
 
                 # rewrite RealName
-                my $Separator = $Self->{ConfigObject}->Get('Ticket::DefineEmailFromSeparator')
+                my $Separator = ' ' . $Self->{ConfigObject}->Get('Ticket::DefineEmailFromSeparator')
                     || '';
-                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
-                $Address{RealName} .= "$Separator $Address{RealName}";
+                $Address{RealName} = $UserData{UserFirstname} . ' ' . $UserData{UserLastname}
+                    . $Separator . ' ' . $Address{RealName};
             }
         }
 
@@ -1303,6 +1303,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2010-09-07 08:55:47 $
+$Revision: 1.48 $ $Date: 2010-11-02 11:10:12 $
 
 =cut
