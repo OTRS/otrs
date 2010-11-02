@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.23 2010-09-24 07:01:53 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.24 2010-11-02 10:54:35 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -176,6 +176,12 @@ check.
             Core.Config.Get('CGIHandle'),
             Data,
             function (HTML) {
+                // if the waiting dialog was cancelled, do not show the search
+                //  dialog as well
+                if (!$('.Dialog:visible').length) {
+                    return;
+                }
+
                 Core.UI.Dialog.ShowContentDialog(HTML, '', '10px', 'Center', true);
 
                 // hide add template block

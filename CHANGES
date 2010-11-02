@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1502 2010-11-02 10:43:23 mg Exp $
+# $Id: CHANGES,v 1.1503 2010-11-02 10:54:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-02 Fixed bug#6162 - When you close a search before complete load,
+    it will be reopened automatically.
  - 2010-11-02 Fixed bug#6060 - IE7 customer management in a popup breaks ticket creation page.
  - 2010-11-02 Fixed bug#6204 - Autocomplete of customer users shows encoding characters.
  - 2010-11-02 Fixed bug#6201 - Not able to save FreeText fields if TimeInput it set to required.
