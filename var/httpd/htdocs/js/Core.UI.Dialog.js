@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.15 2010-10-29 12:13:31 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.16 2010-11-02 10:01:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -429,6 +429,10 @@ Core.UI.Dialog = (function (TargetNS) {
                 CKEDITOR.instances[Editor].setMode('wysiwyg');
             }
         }
+
+        // Workaround for bug#6060 - In IE7, input elements can't get focus anymore after opening dialog
+        // giving focus automatically solves the problem
+        $('input:text:first').focus().blur();
 
     };
 
