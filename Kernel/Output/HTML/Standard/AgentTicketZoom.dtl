@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.168 2010-11-01 10:07:39 mb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.169 2010-11-02 13:29:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -307,7 +307,7 @@
 <!-- dtl:block:MoveLink -->
 <!-- dtl:block:MoveForm -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsTicketActionPopup" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
+                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsPopup PopupType_TicketAction" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
                     </li>
 <!-- dtl:block:MoveForm -->
                 </ul>

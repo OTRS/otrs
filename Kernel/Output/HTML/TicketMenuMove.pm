@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuMove.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuMove.pm,v 1.1 2010-09-02 11:12:30 martin Exp $
+# $Id: TicketMenuMove.pm,v 1.2 2010-11-02 13:29:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,7 +87,7 @@ sub Run {
         );
     }
     else {
-        $Param{Target} = 'PopUp';
+        $Param{PopupType} = 'TicketAction';
     }
 
     # return item
