@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1500 2010-11-02 10:01:37 mn Exp $
+# $Id: CHANGES,v 1.1501 2010-11-02 10:14:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,27 +10,27 @@
 # --
 
 3.0.0 beta7 2010-??-??
- - 2010-11-02 Fixed bug#6060 - IE7 customer management in a popup brokes ticket creation page.
+ - 2010-11-02 Fixed bug#6060 - IE7 customer management in a popup breaks ticket creation page.
  - 2010-11-01 Fixed bug#6201 - Not able to save FreeText fields if TimeInput it set to required.
  - 2010-11-01 Fixed bug#6137 - Split action does not create a link to the original ticket.
- - 2010-10-29 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choose a customer.
- - 2010-10-29 Fixed bug#5917 - Thirdparty [Firefox]: Search freezes after delete one field from profile.
+ - 2010-10-29 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choosing a customer.
+ - 2010-10-29 Fixed bug#5917 - Thirdparty [Firefox]: Search freezes after deleting one field from profile.
  - 2010-10-29 Fixed bug#5989 - Thirdparty [ckeditor?]: Using address book in reply window breaks the message body text box.
  - 2010-10-29 Updated Russian translation, thanks to Eugene Kungurov!
  - 2010-10-29 Fixed bug#6184 - Streamline required field error messages.
  - 2010-10-28 Fixed bug#5657 - In Global Ticket Overview, sorting for Prio is missing.
  - 2010-10-28 Fixed bug#6141 - Sysconfig Address Book disable.
  - 2010-10-28 Upgraded CKEditor to 3.4.1.
- - 2010-10-27 Fixed bug#6082 - Graph selections do appear even if GD is not installed.
+ - 2010-10-27 Fixed bug#6082 - Graph selections appear even if GD is not installed.
  - 2010-10-27 Fixed bug#6059 - Customer name with quotes is truncated.
  - 2010-10-27 Fixed bug#6094 - Responses in ticket view don't match.
  - 2010-10-27 Fixed bug#6116 - ZoomExpand preference works inverted for articles.
- - 2010-10-27 Fixed bug#6125 - Customer id's with underscores do not work properly.
+ - 2010-10-27 Fixed bug#6125 - Customer IDs with underscores do not work properly.
  - 2010-10-27 Fixed bug#5637 - In Phone Ticket -> Create a new customer via Popup,
-    then it's not possible to take over the recent created customer.
+    it's not possible to take over the recent created customer.
     Only a link to create a new ticket appears.
  - 2010-10-26 Fixed bug#6076 - Bulk unlock does not work correctly.
- - 2010-10-26 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choose a customer.
+ - 2010-10-26 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choosing a customer.
  - 2010-10-26 Fixed bug#6114 - Percentage sign in Customers <-> Services interface when using
     Dutch translation.
  - 2010-10-25 Fixed bug#6160 - ServiceList function breaks if you have service names with
