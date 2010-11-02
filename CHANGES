@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1498 2010-11-01 18:47:44 dz Exp $
+# $Id: CHANGES,v 1.1499 2010-11-02 09:47:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-01 Fixed bug#6201 - Not able to save FreeText fields if TimeInput it set to required.
  - 2010-11-01 Fixed bug#6137 - Split action does not create a link to the original ticket.
  - 2010-10-29 Fixed bug#6163 - In Phone Ticket you can't attach files automatically after choose a customer.
  - 2010-10-29 Fixed bug#5917 - Thirdparty [Firefox]: Search freezes after delete one field from profile.

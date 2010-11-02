@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.20 2010-10-17 13:48:23 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.21 2010-11-02 09:47:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -409,9 +409,11 @@ sub Run {
                 $Error{'ServiceInvalid'} = ' ServerError';
             }
 
-            # check time units
+            # check time units, but only if the current screen has a note
+            #   (accounted time can only be stored if and article is generated)
             if (
-                ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+                $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                && $Self->{Config}->{Note}
                 && !defined $GetParam{TimeUnits}
                 )
             {
