@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.65 2010-10-29 22:25:53 dz Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.66 2010-11-02 08:53:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,10 +53,10 @@
 <!-- dtl:block:OverviewNavBarPageFlag -->
                     <th class="Fixed $QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Name"}"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Name"}"}"></a>
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
-                        <span>$Text{"$Data{"Name"}"}</span>
+                        <span title="$Text{"$Data{"Name"}"}"></span>
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
                     </th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
