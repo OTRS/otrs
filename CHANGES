@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1507 2010-11-02 13:39:33 mb Exp $
+# $Id: CHANGES,v 1.1508 2010-11-02 13:42:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-02 Fixed bug#5830 - Sometimes when replying on ticket getting error
+    "Can't use an undefined value as a SCALAR reference".
  - 2010-11-02 Fixed bug#5296 - Event based notifications do not check for local mail address.
  - 2010-11-02 Fixed bug#1639 - Limit search time to certain amount by default.
  - 2010-11-02 Updated CPAN module JSON to version 2.27.

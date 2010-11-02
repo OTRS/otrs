@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.71 2010-10-17 13:48:23 mb Exp $
+# $Id: AgentTicketMove.pm,v 1.72 2010-11-02 13:42:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -831,7 +831,9 @@ sub Run {
 
         # Module opened in popup
         elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
-            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
+            return $Self->{LayoutObject}->PopupClose(
+                URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
+            );
         }
     }
 
@@ -842,7 +844,9 @@ sub Run {
 
     # Module opened in popup
     elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
-        return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
+        return $Self->{LayoutObject}->PopupClose(
+            URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
+        );
     }
 }
 

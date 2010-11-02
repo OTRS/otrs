@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.47 2010-09-03 13:41:20 mb Exp $
+# $Id: AgentTicketBounce.pm,v 1.48 2010-11-02 13:42:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -422,10 +422,14 @@ $Param{Signature}";
 
         # redirect
         if ( $StateData{TypeName} =~ /^close/i ) {
-            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenOverview} );
+            return $Self->{LayoutObject}->PopupClose(
+                URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
+            );
         }
         else {
-            return $Self->{LayoutObject}->PopupClose( URL => $Self->{LastScreenView} );
+            return $Self->{LayoutObject}->PopupClose(
+                URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' )
+            );
         }
     }
     return $Self->{LayoutObject}->ErrorScreen(
