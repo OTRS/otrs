@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.106 2010-11-01 23:00:21 en Exp $
+# $Id: User.pm,v 1.107 2010-11-02 14:15:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 =head1 NAME
 
@@ -152,18 +152,33 @@ sub GetUserData {
     }
 
     # check if result is cached
-    if ( !$Param{Valid} ) {
+    if ( $Param{Valid} ) {
+        $Param{Valid} = 1;
+    }
+    else {
         $Param{Valid} = 0;
     }
-    else {
-        $Param{Valid} = '1';
+    if ( $Param{NoOutOfOffice} ) {
+        $Param{NoOutOfOffice} = 1;
     }
+    else {
+        $Param{NoOutOfOffice} = 0;
+    }
+
     my $CacheKey;
     if ( $Param{User} ) {
-        $CacheKey = 'GetUserData::User::' . $Param{User} . '::' . $Param{Valid};
+        $CacheKey
+            = 'GetUserData::User::'
+            . $Param{User} . '::'
+            . $Param{Valid} . '..'
+            . $Param{NoOutOfOffice};
     }
     else {
-        $CacheKey = 'GetUserData::UserID::' . $Param{UserID} . '::' . $Param{Valid};
+        $CacheKey
+            = 'GetUserData::UserID::'
+            . $Param{UserID} . '::'
+            . $Param{Valid} . '..'
+            . $Param{NoOutOfOffice};
     }
 
     # check cache
@@ -1088,6 +1103,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2010-11-01 23:00:21 $
+$Revision: 1.107 $ $Date: 2010-11-02 14:15:48 $
 
 =cut
