@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.101 2010-10-12 15:02:40 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.102 2010-11-02 13:20:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1917,7 +1917,6 @@ sub Run {
         );
 
         # show attributes
-        my $AttributeIsUsed = 0;
         for my $Key ( sort keys %GetParam ) {
             next if !$Key;
             next if !defined $GetParam{$Key};
@@ -1949,7 +1948,6 @@ sub Run {
                 }
             }
 
-            $AttributeIsUsed = 1;
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
                 Data => {
@@ -1959,13 +1957,26 @@ sub Run {
         }
 
         # if no attribute is shown, show fulltext search
-        if ( !$AttributeIsUsed ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SearchAJAXShow',
-                Data => {
-                    Attribute => 'Fulltext',
-                },
-            );
+        if ( !$Profile ) {
+            if ( $Self->{Config}->{Default} ) {
+                for my $Key ( sort keys %{ $Self->{Config}->{Default} } ) {
+                    next if !$Self->{Config}->{Default}->{$Key};
+                    $Self->{LayoutObject}->Block(
+                        Name => 'SearchAJAXShow',
+                        Data => {
+                            Attribute => $Key,
+                        },
+                    );
+                }
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SearchAJAXShow',
+                    Data => {
+                        Attribute => 'Fulltext',
+                    },
+                );
+            }
         }
 
         my $Output .= $Self->{LayoutObject}->Output(

@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.24 2010-11-02 10:54:35 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.25 2010-11-02 13:20:38 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -160,9 +160,6 @@ check.
 
         if (!Action) {
             Action = Core.Config.Get('Action');
-        }
-        if (!Profile) {
-            Profile = 'last-search';
         }
         var Data = {
             Action: 'AgentSearch',

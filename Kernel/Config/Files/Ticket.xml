@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.399 2010-10-29 14:13:54 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.400 2010-11-02 13:20:37 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -2305,6 +2305,68 @@
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Fulltext">1</Item>
+                <Item Key="TicketNumber">0</Item>
+                <Item Key="Title">0</Item>
+                <Item Key="From">0</Item>
+                <Item Key="To">0</Item>
+                <Item Key="Cc">0</Item>
+                <Item Key="Subject">0</Item>
+                <Item Key="Body">0</Item>
+                <Item Key="CustomerID">0</Item>
+                <Item Key="CustomerUserLogin">0</Item>
+                <Item Key="StateIDs">0</Item>
+                <Item Key="QueueIDs">0</Item>
+                <Item Key="PriorityIDs">0</Item>
+                <Item Key="OwnerIDs">0</Item>
+                <Item Key="CreatedQueueIDs">0</Item>
+                <Item Key="CreatedUserIDs">0</Item>
+                <Item Key="WatchUserIDs">0</Item>
+                <Item Key="ResponsibleIDs">0</Item>
+                <Item Key="TypeIDs">0</Item>
+                <Item Key="ServiceIDs">0</Item>
+                <Item Key="SLAIDs">0</Item>
+                <Item Key="LockIDs">0</Item>
+                <Item Key="TicketCreateTimePoint">0</Item>
+                <Item Key="TicketCreateTimeSlot">0</Item>
+                <Item Key="TicketChangeTimePoint">0</Item>
+                <Item Key="TicketChangeTimeSlot">0</Item>
+                <Item Key="TicketCloseTimePoint">0</Item>
+                <Item Key="TicketCloseTimeSlot">0</Item>
+                <Item Key="ArticleCreateTimePoint">0</Item>
+                <Item Key="ArticleCreateTimeSlot">0</Item>
+                <Item Key="SearchInArchive">0</Item>
+                <Item Key="TicketFreeTime1">0</Item>
+                <Item Key="TicketFreeTime2">0</Item>
+                <Item Key="TicketFreeTime3">0</Item>
+                <Item Key="TicketFreeTime4">0</Item>
+                <Item Key="TicketFreeTime5">0</Item>
+                <Item Key="TicketFreeTime6">0</Item>
+                <Item Key="TicketFreeText1">0</Item>
+                <Item Key="TicketFreeText2">0</Item>
+                <Item Key="TicketFreeText3">0</Item>
+                <Item Key="TicketFreeText4">0</Item>
+                <Item Key="TicketFreeText5">0</Item>
+                <Item Key="TicketFreeText6">0</Item>
+                <Item Key="TicketFreeText7">0</Item>
+                <Item Key="TicketFreeText8">0</Item>
+                <Item Key="TicketFreeText9">0</Item>
+                <Item Key="TicketFreeText10">0</Item>
+                <Item Key="TicketFreeText11">0</Item>
+                <Item Key="TicketFreeText12">0</Item>
+                <Item Key="TicketFreeText13">0</Item>
+                <Item Key="TicketFreeText14">0</Item>
+                <Item Key="TicketFreeText15">0</Item>
+                <Item Key="TicketFreeText16">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Search###Ticket" Required="0" Valid="1">
@@ -8969,6 +9031,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketFreeFieldDefault</Item>
+                <Item Key="Transaction">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
