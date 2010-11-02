@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1504 2010-11-02 11:12:18 mb Exp $
+# $Id: CHANGES,v 1.1505 2010-11-02 12:42:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-02 Updated CPAN module JSON to version 2.27.
  - 2010-11-02 Fixed bug#6205 - DefineEmailFrom does not use SystemAddress when set to
     Agent Name + FromSeparator + System Address Display Name.
  - 2010-11-02 Fixed bug#6162 - When you close a search before complete load,

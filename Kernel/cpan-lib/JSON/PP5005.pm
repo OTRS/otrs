@@ -5,7 +5,7 @@ use strict;
 
 my @properties;
 
-$JSON::PP5005::VERSION = '1.09';
+$JSON::PP5005::VERSION = '1.10';
 
 BEGIN {
 
@@ -32,11 +32,9 @@ BEGIN {
     *JSON::PP::JSON_PP_decode_unicode    = \&_decode_unicode;
 
     # missing in B module.
-    sub B::SVf_IOK () { 0x00010000; }
-    sub B::SVf_NOK () { 0x00020000; }
-    sub B::SVf_POK () { 0x00040000; }
     sub B::SVp_IOK () { 0x01000000; }
     sub B::SVp_NOK () { 0x02000000; }
+    sub B::SVp_POK () { 0x04000000; }
 
     $INC{'bytes.pm'} = 1; # dummy
 }
@@ -139,7 +137,7 @@ Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2009 by Makamaka Hannyaharamitu
+Copyright 2007-2010 by Makamaka Hannyaharamitu
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
