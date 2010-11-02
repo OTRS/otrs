@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.34 2010-10-29 18:29:47 cg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.35 2010-11-02 09:00:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,36 +12,36 @@
 $Include{"AgentCustomerSearch"}
 
 <!-- dtl:block:Customer -->
-<form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
-    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-    <input type="hidden" name="Subaction" value="Update"/>
-    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-    <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value=""/>
+<div class="LayoutPopup ARIARoleMain">
+    <div class="Header">
+        <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+        <p>
+            <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+        </p>
+    </div>
 
-    <div class="LayoutPopup ARIARoleMain">
-        <div class="Header">
-            <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
-            <p>
-                <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
-            </p>
-        </div>
-
-        <div class="Content">
-            <div class="LayoutFixedSidebar SidebarLast">
-                <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                    <div class="Header">
-                        <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
-                    </div>
-                    <div class="Content">
-                        $Data{"Table"}
-                    </div>
+    <div class="Content">
+        <div class="LayoutFixedSidebar SidebarLast">
+            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
+                <div class="Header">
+                    <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
                 </div>
+                <div class="Content">
+                    $Data{"Table"}
+                </div>
+            </div>
 
-                <div class="ContentColumn">
-                    <div class="Header">
-                        <h2>$Text{"Options"}</h2>
-                    </div>
-                    <div class="Content">
+
+            <div class="ContentColumn">
+                <div class="Header">
+                    <h2>$Text{"Options"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" id="MainForm" method="post" name="compose" class="Validate">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value=""/>
                         <fieldset class="TableLike FixedLabel">
                             <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
                             <div class="Field">
@@ -59,22 +59,27 @@ $Include{"AgentCustomerSearch"}
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
-                    </div>
+                    </form>
                 </div>
-                <div class="Clear"></div>
             </div>
+            <div class="Clear"></div>
         </div>
-        <div class="Footer">
-            <button class="Primary" id="submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-        </div>
-    </div>
-</form>
 
-<div id="CustomerTickets"></div>
+        <div id="CustomerTickets"></div>
+
+    </div>
+    <div class="Footer">
+        <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+    </div>
+</div>
+
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketAction.Init();
+    $('#Submit').bind('click', function (){
+        $('#MainForm').submit();
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Customer -->
