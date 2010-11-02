@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.19 2010-10-20 13:00:14 mb Exp $
+# $Id: NotificationEvent.pm,v 1.20 2010-11-02 13:39:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::NotificationEvent;
+use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -417,8 +418,13 @@ sub _SendNotificationToRecipients {
             }
         }
     }
-
+    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
     for my $Recipient (@Recipients) {
+        next
+            if (
+            $Self->{SystemAddressObject}
+            ->SystemAddressIsLocalAddress( Address => $Recipient->{Email} )
+            );
         $Self->_SendNotification(
             TicketID              => $Param{TicketID},
             UserID                => $Param{UserID},
