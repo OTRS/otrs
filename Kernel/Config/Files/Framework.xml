@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.392 2010-11-01 16:07:03 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.393 2010-11-02 23:51:47 cg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -177,6 +177,28 @@
             <Hash>
                 <Item Key="host1\.example\.com">SomeTheme1</Item>
                 <Item Key="host2\.example\.com">SomeTheme2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::DefaultSelectedSkin::HostBased" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="host1\.example\.com">SomeSkin1</Item>
+                <Item Key="host2\.example\.com">SomeSkin2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Customer::DefaultSelectedSkin::HostBased" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="host1\.example\.com">Someskin1</Item>
+                <Item Key="host2\.example\.com">Someskin2</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5688,7 +5710,7 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Customer::SelectedSkin" Required="1" Valid="1">
+    <ConfigItem Name="Loader::Customer::DefaultSelectedSkin" Required="1" Valid="1">
         <Description Translatable="1">The customer skin's InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>

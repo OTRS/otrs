@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.32 2010-08-24 09:28:30 mg Exp $
+# $Id: LayoutLoader.pm,v 1.33 2010-11-02 23:51:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Kernel::System::Loader;
 
@@ -304,8 +304,9 @@ sub LoaderCreateCustomerCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin') ||
-        'default';
+    my $SkinSelected = $Param{'Skin'}
+        || $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin')
+        || 'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
@@ -680,6 +681,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2010-08-24 09:28:30 $
+$Revision: 1.33 $ $Date: 2010-11-02 23:51:47 $
 
 =cut
