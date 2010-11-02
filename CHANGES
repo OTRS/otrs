@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1511 2010-11-02 15:00:39 mg Exp $
+# $Id: CHANGES,v 1.1512 2010-11-02 15:54:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-02 Fixed bug#6213 - If you use AgentTicketMove in a separate screen,
+    it does not open in a popup.
  - 2010-11-02 Fixed bug#6208 - If ticket zoom is not fully loaded actions will
     open in same window instead of popup.
  - 2010-11-02 Fixed bug#6210 - GetUserData() function caching does not work correctly in all scenarios.
