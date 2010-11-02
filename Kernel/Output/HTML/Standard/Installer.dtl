@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.42 2010-07-07 10:07:13 mg Exp $
+# $Id: Installer.dtl,v 1.43 2010-11-02 15:22:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,27 +38,46 @@
             <div class="Header">
                 <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
             </div>
-            <div class="LayoutGrid ColumnsWithSpacing Content">
+            <div class="LayoutGrid Content">
                 <div class="Size1of2">
-                    <p>OTRS AG</p>
-                    <p>Norsk-Data-Str. 1</p>
-                    <p>61352 Bad Homburg</p>
-                    <p>Germany</p>
-                    <p>Phone: +49 (0) 9421 56818 0</p>
-                    <p>Fax: +49 (0) 9421 56818 18</p>
-                    <p>Web: <a href="http://otrs.com/" target="_blank">http://otrs.com/</a></p>
-                    <p>Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
-                </div>
-                <div class="Size1of2">
+                    <h3>USA</h3>
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
-                    <p>USA</p>
                     <p>Phone: +1 (408) 725 7501</p>
-                    <p>Fax:  +1 (408) 725 8885</p>
-                    <p>Web: <a href="http://otrs.com/" target="_blank">http://otrs.com/</a></p>
-                    <p>Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
+                    <p>Fax: +1 (408) 725 8885</p>
                 </div>
+                <div class="Size1of2">
+                    <h3>GERMANY</h3>
+                    <p>OTRS AG</p>
+                    <p>Norsk-Data-Str. 1</p>
+                    <p>61352 Bad Homburg</p>
+                    <p>Phone: +49 (0) 9421 56818 0</p>
+                    <p>Fax: +49 (0) 9421 56818 18</p>
+                </div>
+            </div>
+            <div class="LayoutGrid Content">
+                <div class="Size1of2">
+                    <h3>MEXICO</h3>
+                    <p>OTRS S.A. de C.V.</p>
+                    <p>Oso 127 - 105</p>
+                    <p>Col. Del Valle</p>
+                    <p>03100 Mexico, D.F.</p>
+                    <p>Phone: +52 55 5524 3171 </p>
+                </div>
+                <div class="Size1of2">
+                    <h3>THE NETHERLANDS</h3>
+                    <p>OTRS B.V.</p>
+                    <p>Schipholweg 103</p>
+                    <p>2316 XC  Leiden</p>
+                    <p>Phone: +31 (0)71 58200 255</p>
+                    <p>Fax: +31 (0)71 58200 254</p>
+                </div>
+            </div>
+            <div class="Clear"></div>
+            <div class="Center LayoutGrid Content">
+                <p>$Text{"Web site"}: <a href="http://otrs.com" target="_blank">http://otrs.com/</a></p>
+                <p>$Text{"Email"}: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
             </div>
             <div class="Clear"></div>
         </div>
