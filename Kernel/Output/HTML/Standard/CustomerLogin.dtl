@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.53 2010-10-29 11:52:36 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.54 2010-11-03 11:53:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,25 +108,17 @@ $Include{"CustomerHeader"}
 <!-- stop login -->
 
 <!-- dtl:js_on_document_complete -->
-<script type="text/javascript">
-    Core.Customer.Login.Init({LastLoginFailed: '$Data{"LoginFailed"}'});
-</script>
-<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Customer.Login.Init({LastLoginFailed: '$Data{"LoginFailed"}'});
 
 <!-- dtl:block:SignupError -->
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">
-    window.location.hash = 'Signup';
-</script>
-<!-- dtl:js_on_document_complete -->
+window.location.hash = 'Signup';
 <!-- dtl:block:SignupError -->
 
 <!-- dtl:block:LostPasswordError -->
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">
-    window.location.hash = 'Reset';
-</script>
-<!-- dtl:js_on_document_complete -->
+window.location.hash = 'Reset';
 <!-- dtl:block:LostPasswordError -->
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 
 $Include{"CustomerFooter"}
