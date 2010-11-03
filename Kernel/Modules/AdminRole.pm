@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.29 2010-05-17 17:24:47 en Exp $
+# $Id: AdminRole.pm,v 1.30 2010-11-03 22:48:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +27,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject GroupObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject GroupObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -72,13 +72,22 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my %GetParam;
-        for (qw(ID Name Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        }
+
+        # check for needed data
+        if ( !$GetParam{Name} ) {
+            $Errors{NameInvalid} = 'ServerError';
         }
 
         # update group
-        if ( $Self->{GroupObject}->RoleUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
+        if (
+            !%Errors
+            && $Self->{GroupObject}->RoleUpdate( %GetParam, UserID => $Self->{UserID} )
+            )
+        {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -93,10 +102,10 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
                 Action => 'Change',
                 %GetParam,
+                %Errors,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminRole',
@@ -112,9 +121,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -138,13 +145,25 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my %GetParam;
-        for (qw(ID Name Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        }
+
+        # check for needed data
+        if ( !$GetParam{Name} ) {
+            $Errors{NameInvalid} = 'ServerError';
         }
 
         # add role
-        if ( my $RoleID = $Self->{GroupObject}->RoleAdd( %GetParam, UserID => $Self->{UserID} ) ) {
+        if (
+            !%Errors
+            && (
+                my $RoleID
+                = $Self->{GroupObject}->RoleAdd( %GetParam, UserID => $Self->{UserID} )
+            )
+            )
+        {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -163,6 +182,7 @@ sub Run {
             $Self->_Edit(
                 Action => 'Add',
                 %GetParam,
+                %Errors,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminRole',
@@ -256,9 +276,9 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $KeyList ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{GroupObject}->RoleGet( ID => $_, );
+            my %Data = $Self->{GroupObject}->RoleGet( ID => $KeyList );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

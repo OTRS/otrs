@@ -2,7 +2,7 @@
 # AdminGroup.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.25 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminGroup.dtl,v 1.26 2010-11-03 22:47:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,7 +147,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" name="GroupUpdate" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" name="GroupUpdate" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -156,7 +156,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
 
                         <label class="Mandatory" for="GroupName"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="GroupName" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <input type="text" name="Name" id="GroupName" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"GroupNameInvalid"}" maxlength="50"/>
                             <div id="GroupNameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
