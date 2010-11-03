@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.102 2010-11-02 13:20:37 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.103 2010-11-03 08:06:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1124,14 +1124,13 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
-        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' );
+        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
 
         my %GetParam = $Self->{SearchProfileObject}->SearchProfileGet(
             Base      => 'TicketSearch',
             Name      => $Profile,
             UserLogin => $Self->{UserLogin},
         );
-
         my @Attributes = (
             {
                 Key   => 'TicketNumber',
@@ -1242,6 +1241,62 @@ sub Run {
                 },
             );
         }
+
+        # get free text config options
+        my %TicketFreeText;
+        for ( 1 .. 16 ) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                Type   => "TicketFreeKey$_",
+                FillUp => 1,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                Type   => "TicketFreeText$_",
+                FillUp => 1,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            NullOption => 1,
+            Ticket     => \%GetParam,
+            Config     => \%TicketFreeText,
+        );
+        for my $Count ( 1 .. 16 ) {
+            next if !$Self->{Config}->{TicketFreeText}->{$Count};
+            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count );
+            next if !$Config;
+            my $Name = '';
+            for my $Key ( sort keys %{$Config} ) {
+                next if !$Config->{$Key};
+                if ($Name) {
+                    $Name .= '/';
+                }
+                $Name .= $Config->{$Key};
+            }
+            next if !$Name;
+            push @Attributes, (
+                {
+                    Key   => 'TicketFreeText' . $Count,
+                    Value => $Name,
+                },
+            );
+        }
+
+        for my $Count ( 1 .. 6 ) {
+            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count );
+            next if !$Config;
+            my $Name = $Config;
+            push @Attributes, (
+                {
+                    Key   => 'TicketFreeTime' . $Count,
+                    Value => $Name,
+                },
+            );
+        }
+
         push @Attributes, (
             {
                 Key   => 'LockIDs',
@@ -1913,7 +1968,7 @@ sub Run {
         # html search mask output
         $Self->{LayoutObject}->Block(
             Name => 'SearchAJAX',
-            Data => { %Param, %GetParam },
+            Data => { %Param, %GetParam, %TicketFreeTextHTML },
         );
 
         # show attributes
