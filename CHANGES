@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1519 2010-11-03 13:32:17 mb Exp $
+# $Id: CHANGES,v 1.1520 2010-11-03 13:50:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-03 Fixed bug#6122 - TicketZoom Scroller Height is calculation is broken.
  - 2010-11-03 Fixed bug#5649 - Changing owner in M and S views opens in same tab instead of popup.
  - 2010-11-03 Fixed bug#6181 - Customer Login box does not work if password is in browser cache.
  - 2010-11-03 Fixed bug#6206 - DefineEmailFrom is not used when creating an email-ticket.
@@ -688,15 +689,15 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.9 (2010/??/??)
- - 2010-10-12 Fixed bug#6087 - Search template name is broken if & or ; is used.
+ - 2010-10-12 Fixed bug#6087 - Search template name is brocken if & or ; is used.
  - 2010-09-30 Fixed bug#6016 - AgentTicketZoom is vunerable to XSS attacks from HTML e-mails.
  - 2010-09-22 Fixed bug#5903 - E-mail notification links don't contain <a href... tags.
- - 2010-09-29 Fixed bug#6030 - Event notifications are fired several times on
+ - 2010-09-29 Fixed bug#6030 - Event notifications get's fired several times on
     event "TicketFreeTextUpdate".
  - 2010-09-14 Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - 2010-09-09 Fixed bug#5462 - Kernel::System::Ticket::TicketEscalationIndexBuild()
     does not invalidate the cache.
- - 2010-08-27 Fixed bug#5667 - Rich Text is not working on iPad. It's not
+ - 2010-08-27 Fixed bug#5667 - Rich Text is not working in ipad. It's not
     possible to add a note or close a ticket.
  - 2010-08-25 Fixed bug#5266 - Ticket Zoom shows wrong html content if there
     is no text but two html attachments in there.

@@ -2,7 +2,7 @@
 // Core.UI.Resizable.js - Resizable
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Resizable.js,v 1.8 2010-10-01 14:25:58 mg Exp $
+// $Id: Core.UI.Resizable.js,v 1.9 2010-11-03 13:50:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
  */
 Core.UI.Resizable = (function (TargetNS) {
 
-    var ScrollerMinHeight = 84,
+    var ScrollerMinHeight = 82,
         HandleHeight = 9,
         TableHeaderHeight = 28;
     /**
@@ -35,7 +35,8 @@ Core.UI.Resizable = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function ($Element, ScrollerHeight, Callback) {
-        var CurrentTableHeight;
+        var CurrentTableHeight,
+            InitScroller = true;
 
         // also catch NaN or undefined values for ScrollerHeight, but pass 0
         //      to Math.max in these cases, otherwise it may cause an exception
@@ -43,30 +44,51 @@ Core.UI.Resizable = (function (TargetNS) {
 
         if (isJQueryObject($Element) && $Element.length) {
             CurrentTableHeight = $Element.find('table').height();
-            if ((CurrentTableHeight + HandleHeight) < ScrollerHeight) {
+
+            // If the scroller is not needed (because only few elements shown in table)
+            // than also do not initialize the scroller event and hide the scroller handle
+
+            // Table is smaller than minheight
+            if ((CurrentTableHeight) <= ScrollerMinHeight) {
+                $Element.find('.Scroller').height(CurrentTableHeight);
+                InitScroller = false;
+            }
+            // Table is bigger than minheight but smaller than the saved scrollerheight
+            // Scroller still should be enabled
+            else if ((CurrentTableHeight) < ScrollerHeight) {
                 $Element.find('.Scroller').height(CurrentTableHeight);
             }
+            // Table is bigger than minheight and saved height of scroller
+            // Scroller still should be enabled
             else {
                 $Element.find('.Scroller').height(ScrollerHeight);
             }
 
-            $Element.resizable({
-                handles: {
-                    s: $Element.find('.Handle a')
-                },
-                minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight,
-                maxHeight: $Element.find('table').height() + HandleHeight + TableHeaderHeight,
-                resize: function (Event, UI) {
-                    var Height, Width;
-                    Height = UI.size.height - TableHeaderHeight - HandleHeight;
-                    Width = UI.size.width;
-                    $Element.find('div.Scroller').height(Height + 'px').width(Width + 'px');
+            if (InitScroller) {
+                $Element.resizable({
+                    handles: {
+                        s: $Element.find('.Handle a')
+                    },
+                    minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight,
+                    maxHeight: $Element.find('table').height() + HandleHeight + TableHeaderHeight,
+                    resize: function (Event, UI) {
+                        var Height, Width;
+                        Height = UI.size.height - TableHeaderHeight - HandleHeight;
+                        Width = UI.size.width;
+                        $Element.find('div.Scroller').height(Height + 'px').width(Width + 'px');
 
-                    if ($.isFunction(Callback)) {
-                        Callback(Event, UI, Height, Width);
+                        if ($.isFunction(Callback)) {
+                            Callback(Event, UI, Height, Width);
+                        }
                     }
-                }
-            });
+                });
+            }
+            else {
+                // No event initialization
+                // Additionally, the scroller handle is hidden
+                $('div.Handle').hide();
+                $Element.find('.Scroller').css('margin-bottom', '1px');
+            }
         }
     };
 
