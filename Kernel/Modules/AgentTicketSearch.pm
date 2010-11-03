@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.103 2010-11-03 08:06:17 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.104 2010-11-03 15:03:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1131,6 +1131,26 @@ sub Run {
             Name      => $Profile,
             UserLogin => $Self->{UserLogin},
         );
+
+        # if no profile is used, set default params of default attributes
+        if ( !$Profile ) {
+            if ( $Self->{Config}->{Defaults} ) {
+                for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
+                    next if !$Self->{Config}->{Defaults}->{$Key};
+
+                    if ( $Key =~ /^(Ticket|Article)(Create|Change|Close)/ ) {
+                        my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
+                        for my $Item (@Items) {
+                            my ( $Key, $Value ) = split /=/, $Item;
+                            $GetParam{$Key} = $Value;
+                        }
+                    }
+                    else {
+                        $GetParam{$Key} = $Self->{Config}->{Defaults}->{$Key};
+                    }
+                }
+            }
+        }
         my @Attributes = (
             {
                 Key   => 'TicketNumber',
@@ -1972,6 +1992,7 @@ sub Run {
         );
 
         # show attributes
+        my %AlreadyShown;
         for my $Key ( sort keys %GetParam ) {
             next if !$Key;
             next if !defined $GetParam{$Key};
@@ -2003,6 +2024,8 @@ sub Run {
                 }
             }
 
+            next if $AlreadyShown{$Key};
+            $AlreadyShown{$Key} = 1;
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
                 Data => {
@@ -2013,9 +2036,10 @@ sub Run {
 
         # if no attribute is shown, show fulltext search
         if ( !$Profile ) {
-            if ( $Self->{Config}->{Default} ) {
-                for my $Key ( sort keys %{ $Self->{Config}->{Default} } ) {
-                    next if !$Self->{Config}->{Default}->{$Key};
+            if ( $Self->{Config}->{Defaults} ) {
+                for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
+                    next if $AlreadyShown{$Key};
+                    $AlreadyShown{$Key} = 1;
                     $Self->{LayoutObject}->Block(
                         Name => 'SearchAJAXShow',
                         Data => {
