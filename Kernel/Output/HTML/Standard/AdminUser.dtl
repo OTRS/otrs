@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.28 2010-11-03 15:59:28 mb Exp $
+# $Id: AdminUser.dtl,v 1.29 2010-11-03 22:52:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -164,7 +164,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="UserFirstname"><span class="Marker">*</span>$Text{"Firstname"}:</label>
+                        <label class="Mandatory" for="UserFirstname"><span class="Marker">*</span> $Text{"Firstname"}:</label>
                         <div class="Field">
                             <input type="text" name="UserFirstname" id="UserFirstname" value="$QData{"UserFirstname"}" class="W50pc Validate_Required $QData{"UserFirstnameInvalid"}" maxlength="100"/>
                             <div id="UserFirstnameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -172,7 +172,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="UserLastname"><span class="Marker">*</span>$Text{"Lastname"}:</label>
+                        <label class="Mandatory" for="UserLastname"><span class="Marker">*</span> $Text{"Lastname"}:</label>
                         <div class="Field">
                             <input type="text" name="UserLastname" id="UserLastname" value="$QData{"UserLastname"}" class="W50pc Validate_Required $QData{"UserLastnameInvalid"}" maxlength="100"/>
                             <div id="UserLastnameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -180,7 +180,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="UserLogin"><span class="Marker">*</span>$Text{"Username"}:</label>
+                        <label class="Mandatory" for="UserLogin"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
                             <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc Validate_Required $QData{"UserLoginInvalid"}" maxlength="100"/>
                             <div id="UserLoginError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -194,7 +194,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="UserEmail"><span class="Marker">*</span>$Text{"Email"}:</label>
+                        <label class="Mandatory" for="UserEmail"><span class="Marker">*</span> $Text{"Email"}:</label>
                         <div class="Field">
                             <input type="text" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc Validate_Email Validate_Required $QData{"UserEmailInvalid"}" maxlength="250"/>
                             <div id="UserEmailError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
