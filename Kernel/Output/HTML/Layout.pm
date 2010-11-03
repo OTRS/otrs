@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.320 2010-11-03 14:37:32 mb Exp $
+# $Id: Layout.pm,v 1.321 2010-11-03 22:54:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.320 $) [1];
+$VERSION = qw($Revision: 1.321 $) [1];
 
 =head1 NAME
 
@@ -939,32 +939,8 @@ sub Login {
         );
     }
 
-    # load skin
-    my $Skin
-        = $Self->{UserSkin}
-        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
-        || 'default';
-
-    # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
-        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
-
-            # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
-
-            # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
-                $Skin = $DefaultSkinHostBased->{$RegExp};
-            }
-        }
-    }
-
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => $Skin );
+    $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
 
     # Add header logo, if configured
@@ -1328,31 +1304,8 @@ sub Header {
         );
     }
 
-    my $Skin
-        = $Self->{UserSkin}
-        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
-        || 'default';
-
-    # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
-        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
-
-            # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
-
-            # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
-                $Skin = $DefaultSkinHostBased->{$RegExp};
-            }
-        }
-    }
-
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => $Skin );
+    $Self->LoaderCreateAgentCSSCalls();
 
     # Add header logo, if configured
     if ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
@@ -3099,29 +3052,8 @@ sub CustomerLogin {
         );
     }
 
-    # load skin
-    my $Skin = $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin') || 'default';
-
-    # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
-        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
-
-            # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
-
-            # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
-                $Skin = $DefaultSkinHostBased->{$RegExp};
-            }
-        }
-    }
-
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateCustomerCSSCalls( Skin => $Skin );
+    $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
 
     # Add header logo, if configured
@@ -3268,29 +3200,8 @@ sub CustomerHeader {
         );
     }
 
-    # load skin
-    my $Skin = $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin') || 'default';
-
-    # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
-        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
-
-            # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
-
-            # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
-                $Skin = $DefaultSkinHostBased->{$RegExp};
-            }
-        }
-    }
-
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateCustomerCSSCalls( Skin => $Skin );
+    $Self->LoaderCreateCustomerCSSCalls();
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
@@ -4891,6 +4802,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.320 $ $Date: 2010-11-03 14:37:32 $
+$Revision: 1.321 $ $Date: 2010-11-03 22:54:12 $
 
 =cut
