@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -89,6 +89,7 @@
     padding: 10px;
     background: #FFF;
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 200px;
 }
 

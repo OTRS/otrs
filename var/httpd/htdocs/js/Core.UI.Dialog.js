@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.16 2010-11-02 10:01:37 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.17 2010-11-03 14:11:58 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,15 @@ Core.UI.Dialog = (function (TargetNS) {
      */
     function AdjustScrollableHeight() {
         // Check window height and adjust the scrollable height of InnerContent
-        var ContentScrollHeight = Math.round(($(window).height() * 0.6) - 50);
+        // Calculation:
+        // Window height
+        // - top margin of dialog twice (for top and bottom)
+        // - some static pixels for Header and Footer of dialog
+        var ContentScrollHeight = 0,
+            WindowHeight = $(window).height(),
+            DialogTopMargin = $('.Dialog:visible').offset().top;
+
+        ContentScrollHeight = WindowHeight - (DialogTopMargin * 2) - 50;
         $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
     }
 
@@ -248,9 +256,6 @@ Core.UI.Dialog = (function (TargetNS) {
         // Add Dialog to page
         $Dialog.appendTo('body');
 
-        // Check window height and adjust the scrollable height of InnerContent
-        AdjustScrollableHeight();
-
         // Set position for Dialog
         if (Params.Type === 'Alert') {
             $Dialog.css({
@@ -276,6 +281,9 @@ Core.UI.Dialog = (function (TargetNS) {
         if (typeof Params.PositionRight !== 'undefined') {
             $Dialog.css('right', Params.PositionRight);
         }
+
+        // Check window height and adjust the scrollable height of InnerContent
+        AdjustScrollableHeight();
 
         // Add event-handling
         $Dialog.draggable({
