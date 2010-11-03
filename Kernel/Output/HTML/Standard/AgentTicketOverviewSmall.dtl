@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.67 2010-11-03 11:44:15 mb Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.68 2010-11-03 13:32:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,7 +161,7 @@
                         <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                     </td>
                     <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}">
+                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
                             <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
                         </a>
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
@@ -222,3 +222,10 @@
 <!-- dtl:js_on_document_complete -->
 </li>
 <!-- dtl:block:DocumentMenuItemMoveForm -->
+
+<!-- dtl:js_on_document_complete -->
+$('a.AsPopup').bind('click', function (Event) {
+Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+return false;
+});
+<!-- dtl:js_on_document_complete -->

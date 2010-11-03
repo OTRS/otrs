@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.46 2010-10-26 17:32:14 dz Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.47 2010-11-03 13:32:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@
                             <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
                         </td>
                         <td>
-                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                         </td>
 #                        <td>
 #<!-- dtl:block:TicketFreeText1 -->
@@ -251,4 +251,11 @@
     });
 //]]></script>
 <!-- dtl:block:DocumentReadyStart -->
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:js_on_document_complete -->
+$('a.AsPopup').bind('click', function (Event) {
+Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+return false;
+});
 <!-- dtl:js_on_document_complete -->

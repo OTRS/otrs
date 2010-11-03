@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1518 2010-11-03 13:02:54 mb Exp $
+# $Id: CHANGES,v 1.1519 2010-11-03 13:32:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-03 Fixed bug#5649 - Changing owner in M and S views opens in same tab instead of popup.
  - 2010-11-03 Fixed bug#6181 - Customer Login box does not work if password is in browser cache.
  - 2010-11-03 Fixed bug#6206 - DefineEmailFrom is not used when creating an email-ticket.
  - 2010-11-03 Fixed bug#6156 - No FreeText Fields in Search.
