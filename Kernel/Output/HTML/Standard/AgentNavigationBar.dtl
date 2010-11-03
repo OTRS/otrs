@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.84 2010-10-05 08:40:25 mg Exp $
+# $Id: AgentNavigationBar.dtl,v 1.85 2010-11-03 14:57:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,6 +72,6 @@
     </li>
 <!-- dtl:block:ItemArea -->
     <li id="nav-search">
-        <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="Search"><span class="SearchIcon">$Text{"Search"}</span></a>
+        <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="$Text{"Search"}"><span class="SearchIcon">$Text{"Search"}</span></a>
     </li>
 </ul>
