@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.Login.js,v 1.2 2010-09-03 11:37:16 mg Exp $
+// $Id: Core.Customer.Login.js,v 1.3 2010-11-03 12:51:53 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,12 @@ Core.Customer.Login = (function (TargetNS) {
             }
          });
 
-         CheckInputs($Inputs);
+         // check labels every 250ms, not all changes can be caught via
+         //     events (e. g. when the user selects a predefined value
+         //     from a browser auto completion list).
+         window.setInterval(function(){
+             CheckInputs($Inputs);
+         }, 250);
 
         // Fill the reset-password input field with the same value the user types in the login screen
         // so that the user doesnt have to type in his user name again if he already did
