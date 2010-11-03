@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.33 2010-11-02 23:51:47 cg Exp $
+# $Id: LayoutLoader.pm,v 1.34 2010-11-03 22:55:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 use Kernel::System::Loader;
 
@@ -49,10 +49,30 @@ sub LoaderCreateAgentCSSCalls {
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
 
+    # force a skin based on host name
+    my $SkinSelectedHostBased = "";
+    my $DefaultSkinHostBased
+        = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
+
+            # do not use empty regexp or skin directories
+            next if !$RegExp;
+            next if $RegExp eq '';
+            next if !$DefaultSkinHostBased->{$RegExp};
+
+            # check if regexp is matching
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
+            }
+        }
+    }
+
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Param{'Skin'}
+    my $SkinSelected = $Self->{ConfigObject}->Get('DefaultSkin')
         || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+        || $SkinSelectedHostBased
         || 'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
@@ -304,9 +324,26 @@ sub LoaderCreateCustomerCSSCalls {
 
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Param{'Skin'}
-        || $Self->{ConfigObject}->Get('Loader::Customer::DefaultSelectedSkin')
+    my $SkinSelected = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin')
         || 'default';
+
+    # force a skin based on host name
+    my $DefaultSkinHostBased
+        = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
+    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
+
+            # do not use empty regexp or skin directories
+            next if !$RegExp;
+            next if $RegExp eq '';
+            next if !$DefaultSkinHostBased->{$RegExp};
+
+            # check if regexp is matching
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                $SkinSelected = $DefaultSkinHostBased->{$RegExp};
+            }
+        }
+    }
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
@@ -681,6 +718,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2010-11-02 23:51:47 $
+$Revision: 1.34 $ $Date: 2010-11-03 22:55:12 $
 
 =cut
