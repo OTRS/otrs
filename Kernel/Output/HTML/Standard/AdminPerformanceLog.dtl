@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.27 2010-10-29 10:59:10 mb Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.28 2010-11-03 09:10:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,12 +105,15 @@
         </div>
     </div>
 
+<!-- dtl:block:Overview -->
     <div class="ContentColumn">
         <div class="WidgetSimple">
-<!-- dtl:block:Overview -->
             <div class="Header">
-                <h2>$Text{"Range"} ($Text{"last"} $QData{"Age"})</h2>
+                <h2>$Text{"Overview"}</h2>
             </div>
+
+<!-- dtl:block:OverviewTable -->
+            <h3 class="Spacing">$Text{"Range"} ($Text{"last"} $QData{"Age"})</h3>
             <div class="Content">
 
                 <table class="DataTable">
@@ -127,7 +130,9 @@
 <!-- dtl:block:OverviewInterface -->
                         <tr>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Minute=$LQData{"Minute"}">$QData{"Interface"}</a>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Minute=$LQData{"Minute"}" title="$QData{"Interface"}">
+                                    $QData{"Interface", "40"}
+                                </a>
                             </td>
                             <td>$QData{"Count"}</td>
                             <td>$QData{"Min"}s</td>
@@ -136,7 +141,13 @@
                         </tr>
 <!-- dtl:block:OverviewRow -->
                         <tr>
-                            <td class="Indent"><em><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Module=$LQData{"Module"};Minute=$LQData{"Minute"}">$QData{"Module"}</a></em></td>
+                            <td class="Indent">
+                                <em>
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Interface=$LQData{"Interface"};Module=$LQData{"Module"};Minute=$LQData{"Minute"}" title="$QData{"Module"}">
+                                    $QData{"Module", "40"}
+                                </a>
+                                </em>
+                            </td>
                             <td><em>$QData{"Count"}</em></td>
                             <td><em>$QData{"Min"}s</em></td>
                             <td><em>$QData{"Max"}s</em></td>
@@ -146,10 +157,15 @@
 <!-- dtl:block:OverviewInterface -->
                     </tbody>
                 </table>
+<!-- dtl:block:OverviewTable -->
             </div>
+        </div>
+    </div>
 <!-- dtl:block:Overview -->
 
 <!-- dtl:block:View -->
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Range"} ($Text{"last"} $QData{"Age"})</h2>
             </div>
@@ -184,8 +200,8 @@
                     </tbody>
                 </table>
             </div>
-<!-- dtl:block:View -->
         </div>
     </div>
+<!-- dtl:block:View -->
     <div class="Clear"></div>
 </div>

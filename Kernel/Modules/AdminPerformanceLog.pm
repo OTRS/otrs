@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.20 2010-05-17 09:05:06 mg Exp $
+# $Id: AdminPerformanceLog.pm,v 1.21 2010-11-03 09:10:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,21 +37,28 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # performance log is enabled
-    if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Enabled',
-            Data => { %Param, },
-        );
-    }
-
-    # performance log is disabled
-    else {
+    # is performance log disabled?
+    if ( !$Self->{ConfigObject}->Get('PerformanceLog') ) {
         $Self->{LayoutObject}->Block(
             Name => 'Disabled',
             Data => { %Param, },
         );
+
+        # create & return output
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPerformanceLog',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Enabled',
+        Data => { %Param, },
+    );
 
     # reset log file
     if ( $Self->{Subaction} eq 'Reset' ) {
@@ -238,6 +245,11 @@ sub Run {
                 $Data = $Self->_DatabaseRead();
             }
         }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+        );
+
         for my $Minute ( 5, 30, 60, 2 * 60, 24 * 60, 2 * 24 * 60 ) {
             my %Count  = ();
             my %Action = ();
@@ -302,7 +314,7 @@ sub Run {
             }
             if (%Sum) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'Overview',
+                    Name => 'OverviewTable',
                     Data => {
                         Age =>
                             $Self->{LayoutObject}->CustomerAge( Age => $Minute * 60, Space => ' ' ),
