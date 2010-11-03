@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.107 2010-11-02 14:15:48 mb Exp $
+# $Id: User.pm,v 1.108 2010-11-03 10:16:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 =head1 NAME
 
@@ -170,14 +170,14 @@ sub GetUserData {
         $CacheKey
             = 'GetUserData::User::'
             . $Param{User} . '::'
-            . $Param{Valid} . '..'
+            . $Param{Valid} . '::'
             . $Param{NoOutOfOffice};
     }
     else {
         $CacheKey
             = 'GetUserData::UserID::'
             . $Param{UserID} . '::'
-            . $Param{Valid} . '..'
+            . $Param{Valid} . '::'
             . $Param{NoOutOfOffice};
     }
 
@@ -402,10 +402,14 @@ sub UserAdd {
 
     # delete cache
     my @CacheKeys = (
-        'GetUserData::User::' . $Param{UserLogin} . '::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::1',
-        'GetUserData::UserID::' . $UserID . '::0',
-        'GetUserData::UserID::' . $UserID . '::1',
+        'GetUserData::User::' . $Param{UserLogin} . '::0::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::0::1',
+        'GetUserData::User::' . $Param{UserLogin} . '::1::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::1::1',
+        'GetUserData::UserID::' . $UserID . '::0::0',
+        'GetUserData::UserID::' . $UserID . '::0::1',
+        'GetUserData::UserID::' . $UserID . '::1::0',
+        'GetUserData::UserID::' . $UserID . '::1::1',
         'UserLookup::Login::' . $UserID,
         'UserLookup::ID::' . $Param{UserLogin},
         'UserList::Short::0',
@@ -494,10 +498,14 @@ sub UserUpdate {
 
     # delete cache
     my @CacheKeys = (
-        'GetUserData::User::' . $Param{UserLogin} . '::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1',
+        'GetUserData::User::' . $Param{UserLogin} . '::0::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::0::1',
+        'GetUserData::User::' . $Param{UserLogin} . '::1::0',
+        'GetUserData::User::' . $Param{UserLogin} . '::1::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::1',
         'UserLookup::Login::' . $Param{UserID},
         'UserLookup::ID::' . $Param{UserLogin},
         'UserList::Short::0',
@@ -951,11 +959,14 @@ sub SetPreferences {
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
     my @CacheKeys = (
-        'GetUserData::User::' . $Login . '::0',
-        'GetUserData::User::' . $Login . '::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::1',
+        'GetUserData::User::' . $Login . '::0::0',
+        'GetUserData::User::' . $Login . '::0::1',
+        'GetUserData::User::' . $Login . '::1::0',
+        'GetUserData::User::' . $Login . '::1::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::1',
         'UserList::Short::0',
         'UserList::Short::1',
         'UserList::Long::0',
@@ -1103,6 +1114,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.107 $ $Date: 2010-11-02 14:15:48 $
+$Revision: 1.108 $ $Date: 2010-11-03 10:16:51 $
 
 =cut
