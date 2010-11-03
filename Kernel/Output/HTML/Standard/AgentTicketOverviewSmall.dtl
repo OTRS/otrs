@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.66 2010-11-02 08:53:35 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.67 2010-11-03 11:44:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@
                     <th class="LastCustomerSubject"><span>$Text{"From"} / $Text{"Subject"}</span></th>
 <!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
 <!-- dtl:block:OverviewNavBarPageTitle -->
-                    <th class="Title">$Text{"From"} / $Text{"Title"}</th>
+                    <th class="Title"><span>$Text{"From"} / $Text{"Title"}</span></th>
 <!-- dtl:block:OverviewNavBarPageTitle -->
 <!-- dtl:block:OverviewNavBarPageState -->
                     <th class="State $QData{"CSS"}">
