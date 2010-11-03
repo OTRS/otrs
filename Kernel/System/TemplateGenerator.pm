@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.49 2010-11-02 13:46:08 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.50 2010-11-03 10:18:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -323,6 +323,82 @@ sub Signature {
     return $SignatureText;
 }
 
+=item Sender()
+
+generate sender address (FROM string) for emails
+
+my $Sender = $TemplateGeneratorObject->Sender(
+        QueueID    => 123,
+        UserID     => 123,
+    );
+
+returns:
+
+    "John Doe at Super Support <support@example.com>"
+
+=cut
+
+sub Sender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw( UserID QueueID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get sender attributes
+    my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Param{QueueID} );
+
+    # check config for agent real name
+    my $UseAgentRealName = $Self->{ConfigObject}->Get('Ticket::DefineEmailFrom');
+    if ( $UseAgentRealName && $UseAgentRealName =~ /^(AgentName|AgentNameSystemAddressName)$/ ) {
+
+        # get data from current agent
+        my %UserData = $Self->{UserObject}->GetUserData(
+            UserID        => $Param{UserID},
+            NoOutOfOffice => 1,
+        );
+
+        # set real name with user name
+        if ( $UseAgentRealName eq 'AgentName' ) {
+
+            # check for user data
+            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
+
+                # rewrite RealName
+                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
+            }
+        }
+
+        # set real name with user name
+        if ( $UseAgentRealName eq 'AgentNameSystemAddressName' ) {
+
+            # check for user data
+            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
+
+                # rewrite RealName
+                my $Separator = ' ' . $Self->{ConfigObject}->Get('Ticket::DefineEmailFromSeparator')
+                    || '';
+                $Address{RealName} = $UserData{UserFirstname} . ' ' . $UserData{UserLastname}
+                    . $Separator . ' ' . $Address{RealName};
+            }
+        }
+
+    }
+
+    # prepare realname quote
+    if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
+        $Address{RealName} =~ s/"/\"/g;
+        $Address{RealName} = '"' . $Address{RealName} . '"';
+    }
+    my $Sender = "$Address{RealName} <$Address{Email}>";
+
+    return $Sender;
+}
+
 =item Response()
 
 generate response
@@ -440,55 +516,11 @@ sub Attributes {
         Action       => $Param{Action} || '',
     );
 
-    # get sender attributes
-    my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
-
-    # check config for agent real name
-    my $UseAgentRealName = $Self->{ConfigObject}->Get('Ticket::DefineEmailFrom');
-    if ( $UseAgentRealName && $UseAgentRealName =~ /^(AgentName|AgentNameSystemAddressName)$/ ) {
-
-        # get data from current agent
-        my %UserData = $Self->{UserObject}->GetUserData(
-            UserID        => $Param{UserID},
-            NoOutOfOffice => 1,
-        );
-
-        # set real name with user name
-        if ( $UseAgentRealName eq 'AgentName' ) {
-
-            # check for user data
-            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
-
-                # rewrite RealName
-                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
-            }
-        }
-
-        # set real name with user name
-        if ( $UseAgentRealName eq 'AgentNameSystemAddressName' ) {
-
-            # check for user data
-            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
-
-                # rewrite RealName
-                my $Separator = ' ' . $Self->{ConfigObject}->Get('Ticket::DefineEmailFromSeparator')
-                    || '';
-                $Address{RealName} = $UserData{UserFirstname} . ' ' . $UserData{UserLastname}
-                    . $Separator . ' ' . $Address{RealName};
-            }
-        }
-
-    }
-
-    # prepare realname quote
-    if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
-        $Address{RealName} =~ s/"/\"/g;
-        $Address{RealName} = '"' . $Address{RealName} . '"';
-    }
-    $Param{Data}->{SenderAddress}  = $Address{Email};
-    $Param{Data}->{SenderRealname} = $Address{RealName};
-    $Param{Data}->{From}           = "$Address{RealName} <$Address{Email}>";
-
+    # get sender address
+    $Param{Data}->{From} = $Self->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Param{UserID},
+    );
     return %{ $Param{Data} };
 }
 
@@ -1310,6 +1342,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2010-11-02 13:46:08 $
+$Revision: 1.50 $ $Date: 2010-11-03 10:18:53 $
 
 =cut

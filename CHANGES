@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1515 2010-11-03 08:06:17 martin Exp $
+# $Id: CHANGES,v 1.1516 2010-11-03 10:18:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-03 Fixed bug#6206 - DefineEmailFrom is not used when creating an email-ticket.
  - 2010-11-03 Fixed bug#6156 - No FreeText Fields in Search.
  - 2010-11-02 Fixed bug#6092 - Skins cannot be selected based on hostname.
  - 2010-11-02 Fixed bug#5054 - Page titles could be more compact and informative.
