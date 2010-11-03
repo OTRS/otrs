@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.76 2010-11-02 17:47:25 en Exp $
+# $Id: AdminUser.pm,v 1.77 2010-11-03 21:58:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +42,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
+
+    #create local object
+    my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
 
     # ------------------------------------------------------------ #
     #  switch to user
@@ -158,6 +162,15 @@ sub Run {
             }
         }
 
+        # check email address
+        if (
+            $GetParam{UserEmail}
+            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            )
+        {
+            $Errors{UserEmailInvalid} = 'ServerError';
+        }
+
         # update user if no errors occurred
         if (
             !%Errors
@@ -273,6 +286,15 @@ sub Run {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
+        }
+
+        # check email address
+        if (
+            $GetParam{UserEmail}
+            && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            )
+        {
+            $Errors{UserEmailInvalid} = 'ServerError';
         }
 
         # add user if no errors occurred

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1522 2010-11-03 16:23:39 mb Exp $
+# $Id: CHANGES,v 1.1523 2010-11-03 21:58:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-03 Fixed bug#4273 - No required fields indication in AdminUser screen.
  - 2010-11-03 Added Serbian translation, thanks to Milorad Jovanović!
  - 2010-11-03 Fixed bug#6073 - Search window does not resize to selected content.
  - 2010-11-03 Fixed bug#6122 - TicketZoom Scroller Height is calculation is broken.
