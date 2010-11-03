@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.129 2010-10-29 11:04:17 mb Exp $
+# $Id: AgentTicketEmail.dtl,v 1.130 2010-11-03 16:07:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,7 @@ $Include{"AgentCustomerSearch"}
                     <label for="Bcc">$Text{"Bcc"}:</label>
                     <div class="Field">
                         <input type="text" name="Bcc" id="Bcc" value="$QData{"Bcc"}" class="W75pc $QData{"BccInvalid"}" />
-                        <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid mail address or don't use a local email address."}</p></div>
+                        <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
 
