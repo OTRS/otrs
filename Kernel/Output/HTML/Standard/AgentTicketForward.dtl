@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.74 2010-10-29 11:04:17 mb Exp $
+# $Id: AgentTicketForward.dtl,v 1.75 2010-11-03 15:59:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,7 @@ $Include{"AgentCustomerSearch"}
                 <div class="Field">
                     <input type="text" name="To" id="CustomerAutoComplete" value="$QData{"To"}" class="W50pc AutocompleteOff Validate_Required $QData{"ToInvalid"}"/>
                     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
-                    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local address!"}</p></div>
+                    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                 </div>
                 <div class="Clear"></div>
 

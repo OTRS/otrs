@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.23 2010-11-02 08:36:37 mg Exp $
+# $Id: AdminSystemAddress.dtl,v 1.24 2010-11-03 15:59:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,10 +109,10 @@
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Email Validate_Required" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required and needs to be a valid e-mail address."}</p>
+                                <p>$Text{"This field is required and needs to be a valid email address."}</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required and needs to be a valid e-mail address."}</p>
+                                <p>$Text{"This field is required and needs to be a valid email address."}</p>
                             </div>
                         </div>
 
