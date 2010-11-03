@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.25 2009-04-17 08:36:44 tr Exp $
+# $Id: UnitTest.pm,v 1.25.2.1 2010-11-03 22:40:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.25.2.1 $) [1];
 
 =head1 NAME
 
@@ -211,6 +211,22 @@ sub Run {
         }
         else {
             $ResultSummary{Vendor} = 'RedHat unknown';
+        }
+    }
+    elsif ( -e '/etc/lsb-release' ) {
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/lsb-release',
+            Result   => 'ARRAY',
+        );
+        if ( $ConfigFile && $ConfigFile->[0] ) {
+            $ConfigFile->[0] =~ s/DISTRIB_ID=//;
+            $ResultSummary{Vendor} = $ConfigFile->[0];
+            $ConfigFile->[1] =~ s/DISTRIB_RELEASE=//;
+            chomp( $ResultSummary{Vendor} );
+            $ResultSummary{Vendor} .= ' ' . $ConfigFile->[1];
+        }
+        else {
+            $ResultSummary{Vendor} = 'ubuntu unknown';
         }
     }
     elsif ( -e '/etc/debian_version' ) {
@@ -546,12 +562,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.25.2.1 $ $Date: 2010-11-03 22:40:39 $
 
 =cut
