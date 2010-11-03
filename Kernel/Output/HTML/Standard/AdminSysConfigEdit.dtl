@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.77 2010-07-20 13:02:52 ub Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.78 2010-11-03 13:22:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -235,7 +235,7 @@
                                 <div class="Array">
 <!-- dtl:block:ConfigElementFrontendModuleRegContentLoader -->
                                     <input type="text" class="Entry" name="$QData{"ElementKey"}#Loader[]" value="$QData{"Content"}" title="$Text{"File to load for this frontend module"}"/>
-                                    <label for="$QData{"ElementKeyID"}LoaderType$Data{"Index"}">$Text{"Type:"}</label>
+                                    <label for="$QData{"ElementKeyID"}LoaderType$Data{"Index"}">$Text{"Type"}:</label>
                                     $Data{"LoaderType"}
                                     <button class="Remove" type="submit" name="$QData{"ElementKey"}#DeleteLoaderElement$Data{"Index"}" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
                                     <br/>
