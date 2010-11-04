@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.134 2010-11-04 11:34:00 ub Exp $
+# $Id: AgentTicketZoom.pm,v 1.135 2010-11-04 11:44:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1080,8 +1080,9 @@ sub _ArticleTree {
             );
         }
 
-# Bugfix for IE7: a table cell should not be empty (because otherwise the cell borders are not shown):
-# we add an empty element here
+        # Bugfix for IE7: a table cell should not be empty
+        # (because otherwise the cell borders are not shown):
+        # we add an empty element here
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'TreeItemNoNewArticle',
@@ -1102,9 +1103,10 @@ sub _ArticleTree {
             }
         }
 
-# show attachment info
-# Bugfix for IE7: a table cell should not be empty (because otherwise the cell borders are not shown):
-# we add an empty element here
+        # show attachment info
+        # Bugfix for IE7: a table cell should not be empty
+        # (because otherwise the cell borders are not shown):
+        # we add an empty element here
         if ( !$Article{Atms} || !%{ $Article{Atms} } ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TreeItemNoAttachment',
