@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.34 2010-11-03 22:55:12 cg Exp $
+# $Id: LayoutLoader.pm,v 1.35 2010-11-04 11:24:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Kernel::System::Loader;
 
@@ -49,8 +49,8 @@ sub LoaderCreateAgentCSSCalls {
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
 
-    # force a skin based on host name
-    my $SkinSelectedHostBased = "";
+    # get host based default skin configuration
+    my $SkinSelectedHostBased;
     my $DefaultSkinHostBased
         = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
@@ -68,11 +68,14 @@ sub LoaderCreateAgentCSSCalls {
         }
     }
 
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
-    my $SkinSelected = $Self->{ConfigObject}->Get('DefaultSkin')
-        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+    # determine skin
+    # 1. use UserSkin setting from Agent preferences, if available
+    # 2. use HostBased skin setting, if available
+    # 3. use default skin from configuration
+
+    my $SkinSelected = $Self->{'UserSkin'}
         || $SkinSelectedHostBased
+        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
         || 'default';
 
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
@@ -303,8 +306,6 @@ sub LoaderCreateAgentJSCalls {
 
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -322,8 +323,6 @@ sub LoaderCreateCustomerCSSCalls {
 
     $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
 
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
     my $SkinSelected = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin')
         || 'default';
 
@@ -718,6 +717,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2010-11-03 22:55:12 $
+$Revision: 1.35 $ $Date: 2010-11-04 11:24:26 $
 
 =cut
