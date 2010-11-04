@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1532 2010-11-04 15:01:13 mg Exp $
+# $Id: CHANGES,v 1.1533 2010-11-04 15:49:55 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-04 Fixed bug#6186 - IE9: Dashboard widget functions broken.
+ - 2010-11-04 Fixed bug#6185 - IE9: JS error in the Dashboard.
  - 2010-11-04 Fixed bug#6231 - Link delete screen redirects to itself if the bulk checkbox is used.
  - 2010-11-04 Fixed bug#6215 - Agents can't have two popups open at the same time.
  - 2010-11-04 Fixed bug#6228 - No difference between prio 1, 2 and 3 in overviews.
