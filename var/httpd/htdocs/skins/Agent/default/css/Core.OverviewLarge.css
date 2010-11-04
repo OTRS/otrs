@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.13 $
+ * @version     $Revision: 1.14 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -151,6 +151,7 @@
 .OverviewLarge .Infos table {
     margin: 0 10px 0 50px;
     table-layout: fixed;
+    width: 75%;
 }
 
 .RTL .OverviewLarge .Infos table {
@@ -212,7 +213,7 @@
 .RTL .OverviewLarge .Preview {
     float: left;
 }
-    
+
 .OverviewLarge .Preview > ul {
     margin: 0 5px 2px;
     background-color: #FFF;
@@ -226,10 +227,10 @@
 }
 
 .OverviewLarge > li:hover .Preview > ul {
-    border-top-color: #FBC54E; 
-    border-left-color: #7B7670; 
+    border-top-color: #FBC54E;
+    border-left-color: #7B7670;
     border-right-color: #EEBF60;
-    border-bottom-color: #F3B739; 
+    border-bottom-color: #F3B739;
 }
 
 .OverviewLarge .Preview li {
@@ -259,17 +260,17 @@
     -webkit-box-shadow: 0 1px 0 #E9E9E9;
     box-shadow: 0 1px 0 #E9E9E9;
 }
-    
+
 .RTL .OverviewLarge .Preview li.Active h3 {
     margin-left: 0;
     margin-right: -1px;
 }
-    
+
 .OverviewLarge li:hover .Preview h3 {
     background-color: #D4D4D4;
     border-color: #B8B8B8;
 }
-        
+
 .OverviewLarge li:hover .Preview li.Active h3 {
     background-color: #EEE;
     border-color: #949494;
@@ -286,27 +287,27 @@
     display: block;
     overflow: hidden;
 }
-    
+
 .OverviewLarge li:hover .Preview h3 a {
     color: #5E584F;
 }
-    
+
 .OverviewLarge .Preview li.Active h3 a {
     color: #000;
 }
-    
+
 .OverviewLarge li:hover .Preview li.Active h3 a {
     color: #0E0E0E;
 }
-    
+
 .OverviewLarge .Preview h3 .Subject {
     color: #0F0F0F;
 }
-    
+
 .OverviewLarge .Preview h3 .Headline {
     float: left;
 }
-    
+
 .RTL .OverviewLarge .Preview h3 .Headline {
     float: right;
 }
