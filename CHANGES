@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1525 2010-11-04 10:03:40 martin Exp $
+# $Id: CHANGES,v 1.1526 2010-11-04 10:30:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-04 Fixed bug#5937 - Large overview data presentation issues.
  - 2010-11-04 Fixed bug#6203 - Rich Text Editor - right click on misspelled words in Firefox does not work as expected.
  - 2010-11-03 Fixed bug#4273 - No required fields indication in AdminUser screen.
  - 2010-11-03 Added Serbian translation, thanks to Milorad Jovanović!

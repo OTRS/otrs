@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.57 2010-10-26 17:32:14 dz Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.58 2010-11-04 10:30:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,15 +110,20 @@
                         </tr>
                         <tr class="Middle">
                             <td>
-                                <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+<!-- dtl:block:CustomerID -->
+                                <label>$Text{"CustomerID"}</label>
+                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
+<!-- dtl:block:CustomerName -->
+                                <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+<!-- dtl:block:CustomerName -->
+<!-- dtl:block:CustomerID -->
                             </td>
-<!-- dtl:block:FirstResponseTime -->
                             <td>
-                                <label>$Text{"First Response Time"}</label>
-
-                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}" class="$QData{"FirstResponseTimeClass"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
-                            </td>
 <!-- dtl:block:FirstResponseTime -->
+                                <label>$Text{"First Response Time"}</label>
+                                <div title="$Text{"Service Time"}: $QData{"FirstResponseTimeWorkingTime"}" class="$QData{"FirstResponseTimeClass"}">$QData{"FirstResponseTimeHuman"} / $TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}</div>
+<!-- dtl:block:FirstResponseTime -->
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -126,22 +131,22 @@
                                 <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
 <!-- dtl:block:Type -->
                             </td>
-<!-- dtl:block:UpdateTime -->
                             <td>
+<!-- dtl:block:UpdateTime -->
                                 <label>$Text{"Update Time"}</label>
-
                                 <div title="$Text{"Service Time"}: $QData{"UpdateTimeWorkingTime"}" class="$QData{"UpdateTimeClass"}">$QData{"UpdateTimeHuman"} / $TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
-                            </td>
 <!-- dtl:block:UpdateTime -->
+                            </td>
                         </tr>
-<!-- dtl:block:SolutionTime -->
                         <tr>
+                            <td></td>
                             <td>
+<!-- dtl:block:SolutionTime -->
                                 <label>$Text{"Solution Time"}</label>
                                 <div title="$Text{"Service Time"}: $QData{"SolutionTimeWorkingTime"}" class="$QData{"SolutionTimeClass"}">$QData{"SolutionTimeHuman"} / $TimeShort{"$QData{"SolutionTimeDestinationDate"}"}</div>
+<!-- dtl:block:SolutionTime -->
                             </td>
                         </tr>
-<!-- dtl:block:SolutionTime -->
                     </tbody>
                 </table>
             </div>

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.40 2010-10-26 17:32:14 dz Exp $
+# $Id: TicketOverviewPreview.pm,v 1.41 2010-11-04 10:30:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -543,6 +543,21 @@ sub _Show {
         if ( $Article{SLA} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
+                Data => { %Param, %Article },
+            );
+        }
+    }
+
+    # CustomerID and CustomerName
+    if ( defined $Article{CustomerID} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerID',
+            Data => { %Param, %Article },
+        );
+
+        if ( defined $Article{CutomerName} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerName',
                 Data => { %Param, %Article },
             );
         }
