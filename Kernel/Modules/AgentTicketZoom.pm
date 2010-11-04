@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.133 2010-11-04 09:02:03 mn Exp $
+# $Id: AgentTicketZoom.pm,v 1.134 2010-11-04 11:34:00 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -377,14 +377,15 @@ sub MaskAgentZoom {
     else {
 
         # find latest not seen article
+        ARTICLE:
         for my $Article (@ArticleBox) {
             my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
                 ArticleID => $Article->{ArticleID},
                 UserID    => $Self->{UserID},
             );
-            next if $ArticleFlag{Seen} || $ArticleFlag{seen};
+            next ARTICLE if $ArticleFlag{Seen} || $ArticleFlag{seen};
             $ArticleID = $Article->{ArticleID};
-            last;
+            last ARTICLE;
         }
 
         # set selected article
@@ -501,6 +502,7 @@ sub MaskAgentZoom {
 
     # show articles items
     $Param{ArticleItems} = '';
+    ARTICLE:
     for my $ArticleTmp (@ArticleBoxShown) {
         my %Article = %$ArticleTmp;
 
@@ -510,7 +512,7 @@ sub MaskAgentZoom {
 
                 # do not show article if it does not match the filter
                 if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
-                    next;
+                    next ARTICLE;
                 }
             }
         }
@@ -538,6 +540,7 @@ sub MaskAgentZoom {
     # run ticket menu modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
         my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') };
+        MENU:
         for my $Menu ( sort keys %Menus ) {
 
             # load module
@@ -545,7 +548,10 @@ sub MaskAgentZoom {
                 return $Self->{LayoutObject}->FatalError();
             }
 
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+            my $Object = $Menus{$Menu}->{Module}->new(
+                %{$Self},
+                TicketID => $Self->{TicketID},
+            );
 
             # run module
             my $Item = $Object->Run(
@@ -554,7 +560,7 @@ sub MaskAgentZoom {
                 ACL    => \%AclAction,
                 Config => $Menus{$Menu},
             );
-            next if !$Item;
+            next MENU if !$Item;
             if ( $Menus{$Menu}->{PopupType} ) {
                 $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
             }
@@ -602,14 +608,6 @@ sub MaskAgentZoom {
             }
         }
     }
-
-    # get linked objects
-    my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-        Object => 'Ticket',
-        Key    => $Self->{TicketID},
-        State  => 'Valid',
-        UserID => $Self->{UserID},
-    );
 
     # ticket type
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
@@ -720,8 +718,9 @@ sub MaskAgentZoom {
     }
 
     # ticket free text
+    FREETEXT:
     for my $Count ( 1 .. 16 ) {
-        next if !$Ticket{ 'TicketFreeText' . $Count };
+        next FREETEXT if !$Ticket{ 'TicketFreeText' . $Count };
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
             Data => { %Ticket, %AclAction },
@@ -771,8 +770,9 @@ sub MaskAgentZoom {
     }
 
     # ticket free time
+    FREETIME:
     for my $Count ( 1 .. 6 ) {
-        next if !$Ticket{ 'TicketFreeTime' . $Count };
+        next FREETIME if !$Ticket{ 'TicketFreeTime' . $Count };
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
             Data => { %Ticket, %AclAction },
@@ -808,6 +808,14 @@ sub MaskAgentZoom {
             Data => \%Param,
         );
     }
+
+    # get linked objects
+    my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
+        Object => 'Ticket',
+        Key    => $Self->{TicketID},
+        State  => 'Valid',
+        UserID => $Self->{UserID},
+    );
 
     # get link table view mode
     my $LinkTableViewMode = $Self->{ConfigObject}->Get('LinkObject::ViewMode');
@@ -882,6 +890,7 @@ sub MaskAgentZoom {
 
     # check if ticket need to be marked as seen
     my $ArticleAllSeen = 1;
+    ARTICLE:
     for my $Article (@ArticleBox) {
         my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
             ArticleID => $Article->{ArticleID},
@@ -891,7 +900,7 @@ sub MaskAgentZoom {
         # last if article was not shown
         if ( !$ArticleFlag{Seen} && !$ArticleFlag{seen} ) {
             $ArticleAllSeen = 0;
-            last;
+            last ARTICLE;
         }
     }
 
@@ -980,6 +989,7 @@ sub _ArticleTree {
     }
 
     # show article tree
+    ARTICLE:
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 
@@ -990,7 +1000,7 @@ sub _ArticleTree {
 
                 # do not show article in tree if it does not match the filter
                 if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
-                    next;
+                    next ARTICLE;
                 }
             }
         }
@@ -1101,7 +1111,7 @@ sub _ArticleTree {
                 Data => {},
             );
 
-            next;
+            next ARTICLE;
         }
 
         # download type
@@ -1115,8 +1125,9 @@ sub _ArticleTree {
         my $ZoomAttachmentDisplayCount
             = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
         my $CountShown = 0;
+        ATTACHMENT:
         for my $Count ( 1 .. ( $ZoomAttachmentDisplayCount + 2 ) ) {
-            next if !$Article{Atms}->{$Count};
+            next ATTACHMENT if !$Article{Atms}->{$Count};
             if ( $CountShown == 0 ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'TreeItemAttachment',
@@ -1147,7 +1158,7 @@ sub _ArticleTree {
             $CountShown++;
 
             # show more info
-            last if ( $CountShown > $ZoomAttachmentDisplayCount );
+            last ATTACHMENT if $CountShown > $ZoomAttachmentDisplayCount;
 
             # show attachment info
             $Self->{LayoutObject}->Block(
@@ -1288,8 +1299,9 @@ sub _ArticleItem {
 
                 # check if reply all is needed
                 my $Recipients = '';
+                KEY:
                 for my $Key (qw(From To Cc)) {
-                    next if !$Article{$Key};
+                    next KEY if !$Article{$Key};
                     if ($Recipients) {
                         $Recipients .= ', ';
                     }
@@ -1302,11 +1314,12 @@ sub _ArticleItem {
                         Mode => 'Standalone',
                     );
                     my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
+                    ADDRESS:
                     for my $Address (@Addresses) {
                         my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                             Address => $EmailParser->GetEmailAddress( Email => $Address ),
                         );
-                        next if $IsLocal;
+                        next ADDRESS if $IsLocal;
                         $RecipientCount++;
                     }
                 }
@@ -1564,8 +1577,9 @@ sub _ArticleItem {
     }
 
     # do some strips && quoting
+    KEY:
     for my $Key (qw(From To Cc)) {
-        next if !$Article{$Key};
+        next KEY if !$Article{$Key};
         $Self->{LayoutObject}->Block(
             Name => 'RowRecipient',
             Data => {
@@ -1575,17 +1589,6 @@ sub _ArticleItem {
             },
         );
     }
-
-    #    for my $Key (qw(Subject)) {
-    #        next if !$Article{$Key};
-    #        $Self->{LayoutObject}->Block(
-    #            Name => 'RowData',
-    #            Data => {
-    #                Key   => $Key,
-    #                Value => $Article{$Key},
-    #            },
-    #        );
-    #    }
 
     # show accounted article time
     if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {
@@ -1602,8 +1605,9 @@ sub _ArticleItem {
     }
 
     # show article free text
+    FREETEXT:
     for my $Count ( 1 .. 3 ) {
-        next if !$Article{"ArticleFreeText$Count"};
+        next FREETEXT if !$Article{"ArticleFreeText$Count"};
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText',
             Data => {
@@ -1622,6 +1626,7 @@ sub _ArticleItem {
         );
 
         my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule');
+        ATTACHMENT:
         for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
             $Self->{LayoutObject}->Block(
@@ -1630,8 +1635,9 @@ sub _ArticleItem {
             );
 
             # run article attachment modules
-            next if ref $Config ne 'HASH';
+            next ATTACHMENT if ref $Config ne 'HASH';
             my %Jobs = %{$Config};
+            JOB:
             for my $Job ( sort keys %Jobs ) {
 
                 # load module
@@ -1652,7 +1658,7 @@ sub _ArticleItem {
                     },
                     Article => \%Article,
                 );
-                next if !%Data;
+                next JOB if !%Data;
                 $Self->{LayoutObject}->Block(
                     Name => $Data{Block} || 'ArticleAttachmentRowLink',
                     Data => {%Data},
