@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.35 2010-11-02 09:00:04 mg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.36 2010-11-04 13:25:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,10 @@ $Include{"AgentCustomerSearch"}
                                 <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
                             <div class="Clear"></div>
+                            <div class="Field SpacingTop">
+<!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
+                                <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -68,18 +72,6 @@ $Include{"AgentCustomerSearch"}
         <div id="CustomerTickets"></div>
 
     </div>
-    <div class="Footer">
-        <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-    </div>
+    <div class="Footer"></div>
 </div>
-
-
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.Init();
-    $('#Submit').bind('click', function (){
-        $('#MainForm').submit();
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <!-- dtl:block:Customer -->
