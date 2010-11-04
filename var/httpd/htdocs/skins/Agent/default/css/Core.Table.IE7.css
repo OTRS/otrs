@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -17,18 +17,17 @@
  * @subsection  Compatibility IE7 for Tables
  */
 
-.FixedHeader table,
 .DataTable {
-    border-collapse: collapse;
-}
-
-#ArticleTableBody table tbody td {
-    position: relative;
+   border-collapse: collapse;
 }
 
 .DataTable thead th,
 .DataTable thead th.Last {
     background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
+}
+
+#ArticleTableBody table tbody tr {
+    position: static !important;
 }
 
 } /* end @media */

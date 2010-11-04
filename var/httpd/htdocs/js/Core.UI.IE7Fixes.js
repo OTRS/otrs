@@ -2,7 +2,7 @@
 // Core.UI.IE7Fixes.js - provides IE7 specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.IE7Fixes.js,v 1.2 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.UI.IE7Fixes.js,v 1.3 2010-11-04 13:45:54 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -74,6 +74,28 @@ Core.UI.IE7Fixes = (function (TargetNS) {
             .bind('readonly', function () {
                 $(this).toggleClass(ReadonlyClass, $(this).attr('readonly'));
             });
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function implements cellspacing="0" for tables in IE7.
+     * @param {String} CellspacingClass The name of the classes which show that a table must have cellspacing attribute.
+     * @return nothing
+     */
+    TargetNS.InitIE7TableCellspacing = function (CellspacingClass) {
+        // Exit function, if browser is not IE7
+        if (!($.browser.msie && $.browser.version === "7.0")) {
+            return;
+        }
+
+        // If hover class is not given, set it to default
+        if (!CellspacingClass) {
+            CellspacingClass = "NoCellspacing";
+        }
+
+        // Define mouse events for adding and removing hover class
+        $('table.' + CellspacingClass).attr('cellspacing', '0');
     };
 
     return TargetNS;

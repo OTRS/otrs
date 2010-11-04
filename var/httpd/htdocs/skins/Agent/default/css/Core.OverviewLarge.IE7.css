@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -16,25 +16,25 @@
 /**
  * @subsection  Compatibility IE7 Large View Overview
  */
- 
+
 #TicketOverviewLarge {
-    margin-top: 50px;
+    margin-top: 67px;
 }
 
 .OverviewLarge .Preview li {
     margin-bottom: -3px;
     zoom: 1;
 }
-    
+
 .OverviewLarge ul.Preview li.Last {
     margin-bottom: 0;
 }
-    
+
 .OverviewLarge > li {
     overflow: hidden;
     position: relative;
 }
-    
+
 .OverviewLarge .Content {
     position: static;
 }

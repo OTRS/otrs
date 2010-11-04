@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.68 2010-11-03 13:32:17 mb Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.69 2010-11-04 13:45:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
 <!-- dtl:block:OverviewTable-->
-        <table id="FixedTable" class="TableSmall">
+        <table id="FixedTable" class="TableSmall NoCellspacing">
 <!-- dtl:block:TableHeader -->
             <thead>
                 <tr>
