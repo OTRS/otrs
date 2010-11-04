@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.Login.js,v 1.3 2010-11-03 12:51:53 mg Exp $
+// $Id: Core.Customer.Login.js,v 1.4 2010-11-04 11:59:28 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,54 +25,24 @@ Core.Customer.Login = (function (TargetNS) {
         return;
     }
 
-
     /**
      * @function
      * @param {DOMObject} $PopulatedInput is a filled out input filled
      * @description
-     *      This function hides the label of the given field if there is value in the field.
-     *      If there is no value in the given field the label is made visible.
+     *      This function hides the label of the given field if there is value in the field
+     *      or the field has focus, otherwise the label is made visible.
      */
     function ToggleLabel(PopulatedInput) {
         var $PopulatedInput = $(PopulatedInput),
             $Label = $PopulatedInput.prev('label');
-        if ($PopulatedInput.val() !== "") {
+
+        if ($PopulatedInput.val() !== "" || $PopulatedInput[0] == document.activeElement) {
             $Label.hide();
         }
         else {
             $Label.show();
         }
     }
-
-    /**
-     * @function
-     * @param {jQueryObject} $Inputs is an object containing input fields
-     * @description
-     *      This function is used initially and hides labels of
-     *      already filled out input fields (auto population of browsers)
-     *      and focuses on the first next 'non-filled-out' input field.
-     */
-    function CheckInputs($Inputs){
-        var LastFilledElement,
-            NavigationFocus = {
-                'User'     : 'Password',
-                'Password' : 'LoginSubmit',
-                'ResetUser': 'ResetSubmit'
-            };
-
-        $.each($Inputs, function(Index, Input) {
-            if($(Input).val()){
-                ToggleLabel(Input);
-                LastFilledElement = this.id;
-            }
-        });
-
-        if ($.inArray(LastFilledElement,NavigationFocus,true)) {
-            $('#'+NavigationFocus[LastFilledElement]).focus();
-            // $Inputs[LastFilledElement].focus();
-        }
-    }
-
 
     /**
      * @function
@@ -127,7 +97,11 @@ Core.Customer.Login = (function (TargetNS) {
          //     events (e. g. when the user selects a predefined value
          //     from a browser auto completion list).
          window.setInterval(function(){
-             CheckInputs($Inputs);
+             $.each($Inputs, function(Index, Input) {
+                 if($(Input).val()){
+                     ToggleLabel(Input);
+                 }
+             });
          }, 250);
 
         // Fill the reset-password input field with the same value the user types in the login screen
