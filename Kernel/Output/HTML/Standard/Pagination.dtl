@@ -2,7 +2,7 @@
 # Pagination.dtl - provides HTML for generic Pagination
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Pagination.dtl,v 1.9 2010-11-04 14:34:21 martin Exp $
+# $Id: Pagination.dtl,v 1.10 2010-11-04 14:45:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
 &nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="#">&lt;&lt;</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#$Data{"IDPrefix"}PageAllForward').unbind().bind('click', function(){
+    $('#$Data{"IDPrefix"}PageAllForward').unbind('click').bind('click', function(){
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
@@ -26,7 +26,7 @@
         });
         return false;
     });
-    $('#$Data{"IDPrefix"}PageOneForward').unbind().bind('click', function(){
+    $('#$Data{"IDPrefix"}PageOneForward').unbind('click').bind('click', function(){
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
@@ -45,7 +45,7 @@
 <a id="$Data{"IDPrefix"}Page$Data{"PageNumber"}" href="#"$Data{"SelectedPage"}>$Data{"PageNumber"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#$Data{"IDPrefix"}Page$Data{"PageNumber"}').unbind().bind('click', function(){
+    $('#$Data{"IDPrefix"}Page$Data{"PageNumber"}').unbind('click').bind('click', function(){
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAll"}', function () {
@@ -66,7 +66,7 @@
 &nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="#">&gt;|</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#$Data{"IDPrefix"}PageAllBack').unbind().bind('click', function(){
+    $('#$Data{"IDPrefix"}PageAllBack').unbind('click').bind('click', function(){
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllBack"}', function () {
@@ -75,7 +75,7 @@
         });
         return false;
     });
-    $('#$Data{"IDPrefix"}PageOneBack').unbind().bind('click', function(){
+    $('#$Data{"IDPrefix"}PageOneBack').unbind('click').bind('click', function(){
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#$Data{"AjaxReplace"}'), '$Data{"BaselinkAllNext"}', function () {
