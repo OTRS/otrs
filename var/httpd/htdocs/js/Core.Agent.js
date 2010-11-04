@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.11 2010-11-04 13:45:54 mn Exp $
+// $Id: Core.Agent.js,v 1.12 2010-11-04 14:59:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -164,34 +164,13 @@ Core.Agent = (function (TargetNS) {
         Core.UI.InitMessageBoxClose();
         Core.UI.ProcessTagAttributeClasses();
         Core.Form.Validate.Init();
+        Core.UI.Popup.Init();
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
         // init IE7 compat code (will only run on IE7)
         Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
         Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
         Core.UI.IE7Fixes.InitIE7TableCellspacing('NoCellspacing');
-
-        // do the popup stuff
-        $(window).bind('beforeunload.Popup', function () {
-            return Core.UI.Popup.CheckPopupsOnUnload();
-        });
-        $(window).bind('unload.Popup', function () {
-            Core.UI.Popup.ClosePopupsOnUnload();
-        });
-        Core.UI.Popup.RegisterPopupEvent();
-
-        // if this window is a popup itself, register another function
-        if (window.opener !== null) {
-            Core.UI.Popup.InitRegisterPopupAtParentWindow();
-            $('.CancelClosePopup').bind('click', function () {
-                window.close();
-            });
-            $('.UndoClosePopup').bind('click', function () {
-                var RedirectURL = $(this).attr('href');
-                window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
-                window.close();
-            });
-        }
     };
 
     /**

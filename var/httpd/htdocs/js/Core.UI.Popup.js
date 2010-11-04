@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.5 2010-09-02 10:49:18 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.6 2010-11-04 14:59:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -199,25 +199,34 @@ Core.UI.Popup = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.OpenPopup = function (URL, Type, Profile) {
-        var PopupObject, PopupProfile, NewWindow;
+        var PopupObject, PopupProfile, NewWindow, WindowName, ConfirmClosePopup = true;
         CheckOpenPopups();
         if (URL) {
             PopupObject = GetPopupObjectByType(Type);
-            if (typeof PopupObject !== 'undefined') {
-                TargetNS.ClosePopup(PopupObject);
-            }
-            PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
-            NewWindow = window.open(URL, Type, PopupProfiles[PopupProfile]);
 
-            // check for popup blockers.
-            // currently, popup windows cannot easily be detected in chrome, because it will
-            //      load the entire content in an invisible window.
-            if (!NewWindow ||  NewWindow.closed || typeof NewWindow.closed === 'undefined') {
-                window.alert(Core.Config.Get('PopupBlockerMsg'));
+            if (typeof PopupObject !== 'undefined') {
+                ConfirmClosePopup = window.confirm(Core.Config.Get('PopupAlreadyOpenMsg'));
+                if (ConfirmClosePopup) {
+                    TargetNS.ClosePopup(PopupObject);
+                }
             }
-            else {
-                OpenPopups[Type] = NewWindow;
-                OpenPopups[Type].WindowType = Type;
+
+            // Only load new popup if the user accepted that the old popup is closed
+            if (ConfirmClosePopup) {
+                PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
+                WindowName = 'OTRSPopup' + Date.parse(new Date());
+                NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile]);
+
+                // check for popup blockers.
+                // currently, popup windows cannot easily be detected in chrome, because it will
+                //      load the entire content in an invisible window.
+                if (!NewWindow ||  NewWindow.closed || typeof NewWindow.closed === 'undefined') {
+                    window.alert(Core.Config.Get('PopupBlockerMsg'));
+                }
+                else {
+                    OpenPopups[Type] = NewWindow;
+                    OpenPopups[Type].WindowType = Type;
+                }
             }
         }
     };
@@ -236,6 +245,35 @@ Core.UI.Popup = (function (TargetNS) {
         if (typeof Popup !== 'undefined') {
             Popup.close();
             CheckOpenPopups();
+        }
+    };
+
+    /**
+     * @function
+     * @description
+     *      The init function.
+     * @return nothing
+     */
+    TargetNS.Init = function () {
+        $(window).bind('beforeunload.Popup', function () {
+            return Core.UI.Popup.CheckPopupsOnUnload();
+        });
+        $(window).bind('unload.Popup', function () {
+            Core.UI.Popup.ClosePopupsOnUnload();
+        });
+        Core.UI.Popup.RegisterPopupEvent();
+
+        // if this window is a popup itself, register another function
+        if (window.opener !== null) {
+            Core.UI.Popup.InitRegisterPopupAtParentWindow();
+            $('.CancelClosePopup').bind('click', function () {
+                window.close();
+            });
+            $('.UndoClosePopup').bind('click', function () {
+                var RedirectURL = $(this).attr('href');
+                window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: RedirectURL });
+                window.close();
+            });
         }
     };
 

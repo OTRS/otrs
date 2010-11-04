@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.20 2010-11-02 15:00:39 mg Exp $
+# $Id: FooterJS.dtl,v 1.21 2010-11-04 14:59:33 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,7 @@ Core.App.Ready(function () {
         PopupLeaveParentWindowMsg: '$JSText{"If you now leave this page, all open popup windows will be closed, too!"}',
         DialogCloseMsg: '$JSText{"Close this dialog"}',
         PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}',
+        PopupAlreadyOpenMsg: '$JSText{"A popup of this screen is already open. Do you want to close it and load this one instead?"}',
         LoadingMsg: '$JSText{"Loading..."}'
     });
 
