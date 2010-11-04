@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.31 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminResponse.dtl,v 1.32 2010-11-04 23:54:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,14 +116,14 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="50"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -136,12 +136,6 @@ $Include{"RichTextEditor"}
                         <label for="RichText">$Text{"Response"}:</label>
                         <div class="RichTextField">
                             <textarea id="RichText" class="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
-                            <div id="RichTextError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <div id="RichTextServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -151,9 +145,15 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.48 2010-05-17 17:10:32 en Exp $
+# $Id: AdminResponse.pm,v 1.49 2010-11-04 23:54:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,9 +30,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
@@ -85,9 +85,9 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        my %GetParam;
-        for (qw(ID Name Comment ValidID Response)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID Response)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
@@ -96,20 +96,49 @@ sub Run {
             $GetParam{ContentType} = 'text/html';
         }
 
-        # update group
-        if (
-            !$Self->{StandardResponseObject}
-            ->StandardResponseUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update group
+            if (
+                !$Self->{StandardResponseObject}
+                ->StandardResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                )
+            {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Change',
+                    %GetParam,
+                    SelectedAttachments => \@NewIDs,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminResponse',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            # update attachments to response
+            $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
+                AttachmentIDsRef => \@NewIDs,
+                ID               => $GetParam{ID},
+                UserID           => $Self->{UserID},
+            );
+
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Change',
-                %GetParam,
-                SelectedAttachments => \@NewIDs,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminResponse',
                 Data         => \%Param,
@@ -118,17 +147,14 @@ sub Run {
             return $Output;
         }
 
-        # update attachments to response
-        $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
-            AttachmentIDsRef => \@NewIDs,
-            ID               => $GetParam{ID},
-            UserID           => $Self->{UserID},
-        );
-
-        $Self->_Overview();
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
+        $Self->_Edit(
+            Action => 'Change',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminResponse',
             Data         => \%Param,
@@ -142,9 +168,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -168,9 +192,9 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-        my %GetParam;
-        for (qw(ID Name Comment ValidID Response)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID Response)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
@@ -179,19 +203,40 @@ sub Run {
             $GetParam{ContentType} = 'text/html';
         }
 
-        # add state
-        my $StandardResponseID
-            = $Self->{StandardResponseObject}
-            ->StandardResponseAdd( %GetParam, UserID => $Self->{UserID} );
-        if ( !$StandardResponseID ) {
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add state
+            my $StandardResponseID
+                = $Self->{StandardResponseObject}
+                ->StandardResponseAdd( %GetParam, UserID => $Self->{UserID} );
+            if ( !$StandardResponseID ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Add',
+                    %GetParam,
+                    SelectedAttachments => \@NewIDs,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminResponse',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Add',
-                %GetParam,
-                SelectedAttachments => \@NewIDs,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminResponse',
                 Data         => \%Param,
@@ -199,10 +244,15 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        $Self->_Overview();
+
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
+        $Self->_Edit(
+            Action => 'Add',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminResponse',
             Data         => \%Param,
@@ -264,6 +314,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Validate_RequiredDropDown' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     my %AttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
@@ -279,7 +330,10 @@ sub _Edit {
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => \%Param,
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
     );
 
     # shows header
