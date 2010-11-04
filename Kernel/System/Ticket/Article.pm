@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.256 2010-09-23 10:26:59 martin Exp $
+# $Id: Article.pm,v 1.257 2010-11-04 17:27:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.256 $) [1];
+$VERSION = qw($Revision: 1.257 $) [1];
 
 =head1 NAME
 
@@ -1759,6 +1759,13 @@ sub ArticleGet {
         for my $Key (qw( From To Cc)) {
             next if !$Part->{$Key};
 
+            # the realname of a queue is its original name and it can have spaces.
+            # this is because of bug 6216
+            if ( $Self->{QueueObject}->QueueGet( Name => $Part->{$Key} ) ) {
+                $Part->{ $Key . 'Realname' } = $Part->{$Key};
+                next;
+            }
+
             # strip out real names
             my $Realname = '';
             for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Part->{$Key} ) ) {
@@ -1772,6 +1779,7 @@ sub ArticleGet {
                 }
                 $Realname .= $Name;
             }
+
             $Part->{ $Key . 'Realname' } = $Realname;
         }
     }
@@ -3253,6 +3261,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.256 $ $Date: 2010-09-23 10:26:59 $
+$Revision: 1.257 $ $Date: 2010-11-04 17:27:43 $
 
 =cut
