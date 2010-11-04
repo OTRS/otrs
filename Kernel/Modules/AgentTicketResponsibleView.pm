@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsibleView.pm,v 1.11 2010-11-04 11:24:55 mb Exp $
+# $Id: AgentTicketResponsibleView.pm,v 1.12 2010-11-04 17:57:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,10 +214,9 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $LinkFilter,
 
-        TitleName => 'My Responsible Tickets',
-        TitleValue =>
-            $Self->{Filter},    # actually it would be nice if we can display the filter NAME here
-        Bulk => 1,
+        TitleName  => 'My Responsible Tickets',
+        TitleValue => $Filters{ $Self->{Filter} }->{Name},
+        Bulk       => 1,
 
         Env      => $Self,
         LinkPage => $LinkPage,
