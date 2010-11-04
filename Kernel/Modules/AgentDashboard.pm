@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.23 2010-10-28 12:36:34 mn Exp $
+# $Id: AgentDashboard.pm,v 1.24 2010-11-04 14:47:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,7 +121,7 @@ sub Run {
         }
 
         # deliver new content page
-        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config );
+        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
         if ( !%ElementReload ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -213,7 +213,7 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config );
+        my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -455,7 +455,7 @@ sub _Element {
     my $CacheUsed = 1;
     if ( !defined $Content ) {
         $CacheUsed = 0;
-        $Content   = $Object->Run();
+        $Content = $Object->Run( AJAX => $Param{AJAX} );
     }
 
     # check if content should be shown

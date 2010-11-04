@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.34 2010-07-05 13:46:56 mg Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.35 2010-11-04 14:48:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -277,13 +277,14 @@ sub Run {
     my $Total    = $Summary->{ $Self->{Filter} } || 0;
     my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';Filter=' . $Self->{Filter} . ';';
     my %PageNav  = $Self->{LayoutObject}->PageNavBar(
-        StartHit    => $Self->{StartHit},
-        PageShown   => $Self->{PageShown},
-        AllHits     => $Total || 1,
-        Action      => 'Action=' . $Self->{LayoutObject}->{Action},
-        Link        => $LinkPage,
-        AJAXReplace => 'Dashboard' . $Self->{Name},
-        IDPrefix    => 'Dashboard' . $Self->{Name},
+        StartHit       => $Self->{StartHit},
+        PageShown      => $Self->{PageShown},
+        AllHits        => $Total || 1,
+        Action         => 'Action=' . $Self->{LayoutObject}->{Action},
+        Link           => $LinkPage,
+        AJAXReplace    => 'Dashboard' . $Self->{Name},
+        IDPrefix       => 'Dashboard' . $Self->{Name},
+        KeepScriptTags => $Param{AJAX},
     );
     $Self->{LayoutObject}->Block(
         Name => 'ContentLargeTicketGenericFilterNavBar',
@@ -357,6 +358,7 @@ sub Run {
             Name => $Self->{Name},
             %{$Summary},
         },
+        KeepScriptTags => $Param{AJAX},
     );
 
     return $Content;

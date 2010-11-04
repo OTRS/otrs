@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.18 2010-07-05 13:46:56 mg Exp $
+# $Id: DashboardUserOnline.pm,v 1.19 2010-11-04 14:48:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,14 +200,15 @@ sub Run {
     my $Total    = $Online->{UserCount}->{ $Self->{Filter} } || 0;
     my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';Filter=' . $Self->{Filter} . ';';
     my %PageNav  = $Self->{LayoutObject}->PageNavBar(
-        StartHit    => $Self->{StartHit},
-        PageShown   => $Self->{PageShown},
-        AllHits     => $Total || 1,
-        Action      => 'Action=' . $Self->{LayoutObject}->{Action},
-        Link        => $LinkPage,
-        WindowSize  => 5,
-        AJAXReplace => 'Dashboard' . $Self->{Name},
-        IDPrefix    => 'Dashboard' . $Self->{Name},
+        StartHit       => $Self->{StartHit},
+        PageShown      => $Self->{PageShown},
+        AllHits        => $Total || 1,
+        Action         => 'Action=' . $Self->{LayoutObject}->{Action},
+        Link           => $LinkPage,
+        WindowSize     => 5,
+        AJAXReplace    => 'Dashboard' . $Self->{Name},
+        IDPrefix       => 'Dashboard' . $Self->{Name},
+        KeepScriptTags => $Param{AJAX},
     );
     $Self->{LayoutObject}->Block(
         Name => 'ContentSmallTicketGenericFilterNavBar',
@@ -253,6 +254,7 @@ sub Run {
             %{ $Self->{Config} },
             Name => $Self->{Name},
         },
+        KeepScriptTags => $Param{AJAX},
     );
 
     return $Content;
