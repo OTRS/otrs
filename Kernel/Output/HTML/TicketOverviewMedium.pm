@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.34 2010-10-26 17:32:14 dz Exp $
+# $Id: TicketOverviewMedium.pm,v 1.35 2010-11-04 13:13:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,8 +151,9 @@ sub Run {
     my $CounterOnSite = 0;
     my @TicketIDsShown;
 
-    my $TicketData = scalar @{ $Param{TicketIDs} };
-    if ($TicketData) {
+    # check if there are tickets to show
+    if ( scalar @{ $Param{TicketIDs} } ) {
+
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
             if (
