@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.28 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminCustomerUser.dtl,v 1.29 2010-11-04 19:34:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -136,7 +136,7 @@
             </div>
 
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose" class="Validate">
+                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -153,16 +153,23 @@
 <!-- dtl:block:PreferencesGenericInput -->
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
-                            <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+                            <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"} $QData{"InvalidField"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:PreferencesGenericServerErrorMsg -->
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:PreferencesGenericServerErrorMsg -->
+<!-- dtl:block:PreferencesUserMailServerErrorMsg -->
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid e-mail address."}</p></div>
+<!-- dtl:block:PreferencesUserMailServerErrorMsg -->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
 <!-- dtl:block:PreferencesGenericPassword -->
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
-                            <input type="password" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc" value="" maxlength="60" $QData{"ReadOnlyType"}/>
+                            <input type="password" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"} $QData{"InvalidField"}" value="" maxlength="60" $QData{"ReadOnlyType"}/>
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericPassword -->
@@ -171,6 +178,7 @@
                         <div class="Field">
                             $Data{"Option"}
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericOption -->
