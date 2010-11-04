@@ -2,7 +2,7 @@
 # AdminQueue.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.20 2010-11-04 21:54:18 en Exp $
+# $Id: AdminQueue.dtl,v 1.21 2010-11-04 23:28:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,6 +124,12 @@
                         <label class="Mandatory" for="GroupID"><span class="Marker">*</span> $Text{"Group"}:</label>
                         <div class="Field">
                             $Data{"GroupOption"}
+                            <div id="GroupIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="GroupIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -192,6 +198,12 @@
                             <p class="FieldExplanation">
                                 $Text{"Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket."}
                             </p>
+                            <div id="FollowUpIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="FollowUpIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -210,6 +222,12 @@
                             <p class="FieldExplanation">
                                 $Text{"Will be the sender address of this queue for email answers."}
                             </p>
+                            <div id="SystemAddressIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="SystemAddressIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -227,6 +245,12 @@
                             <p class="FieldExplanation">
                                 $Text{"The salutation for email answers."}
                             </p>
+                            <div id="SalutationIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="SalutationIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -236,6 +260,12 @@
                             <p class="FieldExplanation">
                                 $Text{"The signature for email answers."}
                             </p>
+                            <div id="SignatureIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="SignatureIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -248,6 +278,12 @@
                         <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
