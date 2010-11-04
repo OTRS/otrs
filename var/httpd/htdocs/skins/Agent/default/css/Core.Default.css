@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.37 $
+ * @version     $Revision: 1.38 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -487,11 +487,11 @@ dd {
 }
 
 .Flag span.PriorityID-1 {
-    background-color:#cdcdcd;
+    background-color:#03c4f0;
 }
 
 .Flag span.PriorityID-2 {
-    background-color:#cdcdcd;
+    background-color:#83bfc8;
 }
 
 .Flag span.PriorityID-3 {
