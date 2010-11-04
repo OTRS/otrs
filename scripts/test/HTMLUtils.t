@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.30 2010-10-29 05:03:20 en Exp $
+# $Id: HTMLUtils.t,v 1.31 2010-11-04 11:48:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -444,6 +444,13 @@ for my $Test (@Tests) {
         Result =>
             'Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a>',
         Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input => 'Some Text with url http://example-domain.com',
+        Result =>
+            'Some Text with url <a href="http://example-domain.com" title="http://example-domain.com">http://example-domain.com</a>',
+        Name   => 'LinkQuote - URL with dash',
         Target => '',
     },
     {
