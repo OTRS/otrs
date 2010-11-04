@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.35 2010-09-06 07:59:12 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.36 2010-11-04 13:10:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
     <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"Locked Tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Locked').live('click', function(){
+    $('#Dashboard$QData{"Name"}Locked').unbind().bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
@@ -29,7 +29,7 @@
     <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"Watched"} ($QData{"Watcher"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Watcher').live('click', function(){
+    $('#Dashboard$QData{"Name"}Watcher').unbind().bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
@@ -45,7 +45,7 @@
     <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"Responsible"} ($QData{"Responsible"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Responsible').live('click', function(){
+    $('#Dashboard$QData{"Name"}Responsible').unbind().bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
@@ -61,7 +61,7 @@
     <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All"} ($QData{"All"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}MyQueues').live('click', function(){
+    $('#Dashboard$QData{"Name"}MyQueues').unbind().bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
@@ -69,7 +69,7 @@
         });
         return false;
     });
-    $('#Dashboard$QData{"Name"}All').live('click', function(){
+    $('#Dashboard$QData{"Name"}All').unbind().bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
