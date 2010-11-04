@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.105 2010-11-01 08:13:39 mb Exp $
+# $Id: LayoutTicket.pm,v 1.106 2010-11-04 11:28:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -408,7 +408,7 @@ sub AgentFreeText {
             $DataParam
                 .= '<div id="TicketFreeText'
                 . $_
-                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+                . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -416,7 +416,7 @@ sub AgentFreeText {
             $DataParam
                 .= '<div id="TicketFreeText'
                 . $_
-                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
         }
 
         # value
@@ -610,7 +610,7 @@ sub TicketArticleFreeText {
             $DataParam
                 .= '<div id="ArticleFreeText'
                 . $_
-                . 'Error" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+                . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -618,7 +618,7 @@ sub TicketArticleFreeText {
             $DataParam
                 .= '<div id="ArticleFreeText'
                 . $_
-                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"Required."}</p></div>';
+                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
         }
 
         # value
