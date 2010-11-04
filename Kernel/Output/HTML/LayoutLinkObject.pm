@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.25 2010-08-31 13:27:02 mg Exp $
+# $Id: LayoutLinkObject.pm,v 1.26 2010-11-04 14:18:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -368,9 +368,8 @@ sub LinkObjectTableCreateComplex {
             );
         }
 
-        # inc $BlockCounter to set correct IDs for Select All Checkboxes
+        # increase BlockCounter to set correct IDs for Select All Checkboxes
         $BlockCounter++;
-
     }
 
     return $LayoutObject->Output(
