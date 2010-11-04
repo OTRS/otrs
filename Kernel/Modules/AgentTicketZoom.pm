@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.132 2010-11-01 18:47:44 dz Exp $
+# $Id: AgentTicketZoom.pm,v 1.133 2010-11-04 09:02:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1070,6 +1070,15 @@ sub _ArticleTree {
             );
         }
 
+# Bugfix for IE7: a table cell should not be empty (because otherwise the cell borders are not shown):
+# we add an empty element here
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TreeItemNoNewArticle',
+                Data => {},
+            );
+        }
+
         # Determine communication direction
         if ( $Article{ArticleType} =~ /-internal$/smx ) {
             $Self->{LayoutObject}->Block( Name => 'TreeItemDirectionInternal' );
@@ -1083,9 +1092,17 @@ sub _ArticleTree {
             }
         }
 
-        # show attachment info
-        next if !$Article{Atms};
-        next if !%{ $Article{Atms} };
+# show attachment info
+# Bugfix for IE7: a table cell should not be empty (because otherwise the cell borders are not shown):
+# we add an empty element here
+        if ( !$Article{Atms} || !%{ $Article{Atms} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TreeItemNoAttachment',
+                Data => {},
+            );
+
+            next;
+        }
 
         # download type
         my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
