@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1535 2010-11-05 08:32:29 mb Exp $
+# $Id: CHANGES,v 1.1536 2010-11-05 09:58:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,9 @@
 
 3.0.0 beta7 2010-??-??
  - 2010-11-05 Fixed bug#6237 - Datepicker starts weeks always on Sunday.
+ - 2010-11-04 Skins can now be selected based on hostname with the configuration
+    settings "Loader::Agent::DefaultSelectedSkin::HostBased" and
+    "Loader::Customer::SelectedSkin::HostBased".
  - 2010-11-04 Fixed bug#6216 - Queue names with spaces not displayed correctly in ticket view.
  - 2010-11-04 Fixed bug#6186 - IE9: Dashboard widget functions broken.
  - 2010-11-04 Fixed bug#6185 - IE9: JS error in the Dashboard.
