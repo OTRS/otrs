@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.136 2010-11-05 18:58:31 dz Exp $
+# $Id: AgentTicketZoom.pm,v 1.137 2010-11-05 22:27:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,12 +30,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
+    for my $Needed (
         qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject SessionObject)
         )
     {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 

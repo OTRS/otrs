@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketNewMessageUpdate.pm,v 1.2 2010-11-05 18:58:32 dz Exp $
+# $Id: TicketNewMessageUpdate.pm,v 1.3 2010-11-05 22:27:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,8 +25,11 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (
+        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)
+        )
+    {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
@@ -36,15 +39,16 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Data Event Config)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Parameter (qw(Data Event Config)) {
+        if ( !$Param{$Parameter} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Parameter!" );
             return;
         }
     }
-    for (qw(TicketID ArticleID)) {
-        if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+    for my $DataParameter (qw(TicketID ArticleID)) {
+        if ( !$Param{Data}->{$DataParameter} ) {
+            $Self->{LogObject}
+                ->Log( Priority => 'error', Message => "Need $DataParameter in Data!" );
             return;
         }
     }
@@ -64,7 +68,7 @@ sub Run {
             TicketID => $Param{Data}->{TicketID},
         );
 
-        # check if ticket need to be marked as seen
+        # check if ticket needs to be marked as seen
         my $ArticleAllSeen = 1;
         ARTICLE:
         for my $Article (@ArticleList) {
@@ -80,7 +84,7 @@ sub Run {
             }
         }
 
-        # mark ticket as seen if all article are shown
+        # mark ticket as seen if all articles have been seen
         if ($ArticleAllSeen) {
             $Self->{TicketObject}->TicketFlagSet(
                 TicketID => $Param{Data}->{TicketID},
