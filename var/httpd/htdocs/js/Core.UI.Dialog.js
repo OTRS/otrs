@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.17 2010-11-03 14:11:58 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.18 2010-11-05 13:20:12 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -129,7 +129,6 @@ Core.UI.Dialog = (function (TargetNS) {
 
     /**
      * @function
-     * @private
      * @param Params Hash with different config options:
      *               Modal: true|false (default: false) Shows a dark background overlay behind the dialog
      *               Type: Alert|Search (default: undefined) Defines a special type of dialog
@@ -151,8 +150,22 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      * @description The main dialog function used for all different types of dialogs.
      */
-    function ShowDialog(Params) {
-        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup,
+    TargetNS.ShowDialog = function(Params) {
+        // If no callback function for the close is given (via the Button definition),
+        // the dialog is just closed
+        // otherwise the defined Close button is triggered
+        // this invokes the callback and the closing of the dialog
+        function HandleClosingAction() {
+            var $CloseButton = $('.Dialog:visible button.Close');
+            if ($CloseButton.length) {
+                $CloseButton.trigger('click');
+            }
+            else {
+                DefaultCloseFunction();
+            }
+        }
+
+        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector,
             DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
         // Close all opened dialogs
@@ -179,12 +192,31 @@ Core.UI.Dialog = (function (TargetNS) {
         // If Param HTML is provided, get the HTML data
         // Data can be a HTML string or an jQuery object with containing HTML data
         if (Params.HTML) {
+            // If the data is a string, this is created dynamically or was delivered via AJAX.
+            // But if the data is a jQueryObject, that means, that the prepared HTML code for the dialog
+            // was originally put as part of the DTL into the HTML page
+            // For compatibility reasons (no double IDs etc.) we have to cut out the dialog HTML and
+            // only use it for the dialog itself.
+            // After the dialog is closed again we have to revert this cut-out, because otherwise we
+            // could not open the dialog again (because the HTML would be missing).
+            // But we cannot use the Dialog HTML to put it back in the page, because this HTML could be changed
+            // in the dialog. So we have to save the data somewhere which was cut out and write it back later.
+            // Be careful: There can be more than one dialog, we have to save the data dependent on the dialog
+
             // Get HTML with JS function innerHTML, because jQuery html() strips out the script blocks
             if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
+                // First get the data structure, ehich is (perhaps) already saved
+                // If the data does not exists Core.Data.Get returns an empty hash
+                DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
                 HTMLBackup = (Params.HTML)[0].innerHTML;
-                Core.Data.Set($('body'), 'DialogCopy', HTMLBackup);
-                Core.Data.Set($('body'), 'DialogCopySelector', Params.HTML.selector);
+                DialogCopySelector = Params.HTML.selector;
+                // Add the new HTML data to the data structure and save it to the document
+                DialogCopy[DialogCopySelector] = HTMLBackup;
+                Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
+                // Additionally, we save the selector as data on the dialog itself for later restoring
+                // Remove the original dialog template content from the page
                 Params.HTML.empty();
+                // and use the variable as string (!!) with the content which was cut out
                 Params.HTML = HTMLBackup;
             }
         }
@@ -256,6 +288,11 @@ Core.UI.Dialog = (function (TargetNS) {
         // Add Dialog to page
         $Dialog.appendTo('body');
 
+        // Now add the selector for the original dialog template content to the dialog, if it exists
+        if (DialogCopySelector && DialogCopySelector.length) {
+            Core.Data.Set($Dialog, 'DialogCopySelector', DialogCopySelector);
+        }
+
         // Set position for Dialog
         if (Params.Type === 'Alert') {
             $Dialog.css({
@@ -326,13 +363,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Add event-handling for Close-Buttons and -Links
         $Dialog.find('.Header a.Close').click(function () {
-            var $CloseButton = $('.Dialog:visible button.Close');
-            if ($CloseButton.length) {
-                $CloseButton.trigger('click');
-            }
-            else {
-                DefaultCloseFunction();
-            }
+            HandleClosingAction();
             return false;
         });
 
@@ -342,7 +373,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 // If target element is removed before this event triggers, the enclosing div.Dialog can't be found anymore
                 // We check, if we can find a parent HTML element to be sure, that the element is not removed
                 if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
-                    TargetNS.CloseDialog($('div.Dialog:visible'));
+                    HandleClosingAction();
                 }
             });
         }
@@ -357,7 +388,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Focus first focusable element
         FocusFirstElement();
-    }
+    };
 
     /**
      * @function
@@ -372,7 +403,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
-        ShowDialog({
+        TargetNS.ShowDialog({
             HTML: HTML,
             Title: Title,
             Modal: Modal,
@@ -394,7 +425,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.ShowAlert = function (Headline, Text, CloseFunction) {
-        ShowDialog({
+        TargetNS.ShowDialog({
             Type: 'Alert',
             Modal: true,
             Headline: Headline,
@@ -411,8 +442,13 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
-        var BackupHTML, BackupHTMLSelector;
-        $(Object).closest('.Dialog:visible').remove();
+        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML;
+        $Dialog = $(Object).closest('.Dialog:visible');
+
+        // Get the original selector for the content template
+        DialogCopySelector = Core.Data.Get($Dialog, 'DialogCopySelector');
+
+        $Dialog.remove();
         $('#Overlay').remove();
         $('body').css({
             'overflow': 'auto',
@@ -422,10 +458,23 @@ Core.UI.Dialog = (function (TargetNS) {
         $(window).unbind('resize.Dialog');
 
         // Revert orignal html
-        BackupHTMLSelector = Core.Data.Get($('body'), 'DialogCopySelector');
-        BackupHTML = Core.Data.Get($('body'), 'DialogCopy');
-        if (BackupHTML && BackupHTML.length && BackupHTMLSelector) {
-            $(BackupHTMLSelector).append(BackupHTML);
+        if (DialogCopySelector.length) {
+            DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
+            // Get saved HTML
+            if (typeof DialogCopy !== 'undefined') {
+                BackupHTML = DialogCopy[DialogCopySelector];
+
+                // If HTML could be restored, write it back into the page
+                if (BackupHTML && BackupHTML.length) {
+                    $(DialogCopySelector).append(BackupHTML);
+                }
+
+                // delete this variable from the object
+                delete DialogCopy[DialogCopySelector];
+            }
+
+            // write the new DialogCopy back
+            Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
         }
 
         // Repair all existing rich text editors
