@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.137 2010-11-05 15:10:57 mb Exp $
+# $Id: nl.pm,v 1.138 2010-11-05 15:32:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -868,17 +868,17 @@ sub Data {
         'No escalation time settings.' => 'Niet op zoeken',
         'Ticket escalation time reached' => 'Escalatiemoment bereikt',
         'Ticket escalation time reached between' => 'Escalatiemoment bereikt tussen',
-        'Escalation - first response time' => 'Escalatie - first reponse tijd',
-        'Ticket first response time reached' => 'Escalatiemoment first response bereikt',
-        'Ticket first response time reached between' => 'Escalatiemoment first response bereikt tussen',
-        'Escalation - update time' => 'Escalatie - update tijd',
-        'Ticket update time reached' => 'Escalatiemoment Update Time bereikt',
-        'Ticket update time reached between' => 'Escalatiemoment update tijd bereikt tussen',
-        'Escalation - solution time' => 'Escalatie - oplostijd',
-        'Ticket solution time reached' => 'Escalatiemoment oplostijd bereikt',
-        'Ticket solution time reached between' => 'Escalatiemoment oplostijd bereikt tussen',
+        'Escalation - first response time' => 'Escalatie - eerste reactietijd',
+        'Ticket first response time reached' => 'Escalatiemoment eerste reactie bereikt',
+        'Ticket first response time reached between' => 'Escalatiemoment eerste reactie bereikt tussen',
+        'Escalation - update time' => 'Escalatie - tijd van bijwerken',
+        'Ticket update time reached' => 'Escalatiemoment - tijd van bijwerken bereikt',
+        'Ticket update time reached between' => 'Escalatiemoment - tijd van bijwerken bereikt tussen',
+        'Escalation - solution time' => 'Escalatie - tijd van oplossen',
+        'Ticket solution time reached' => 'Escalatiemoment - tijd van oplossen bereikt',
+        'Ticket solution time reached between' => 'Escalatiemoment - tijd van oplossen bereikt tussen',
         'Archive search option' => 'Zoek in archief',
-        'Ticket Action' => 'Bewerk Ticket',
+        'Ticket Action' => 'Bewerk ticket',
         'Set new service' => 'Nieuwe service',
         'Set new Service Level Agreement' => 'Nieuwe Service Level Agreement',
         'Set new priority' => 'Nieuwe prioriteit',
@@ -925,7 +925,7 @@ sub Data {
         'Affected Tickets' => 'Gevonden tickets',
 
         # Template: AdminGroup
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'WAARSCHUWING: Als u de naam van de groep \'admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-rechten meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'WAARSCHUWING: Als u de naam van de groep \'admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-permissies meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
         'Group Management' => 'Groepenbeheer',
         'Add group' => 'Groep toevoegen',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte.',
@@ -936,7 +936,7 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Logboek',
-        'Here you will find log information about your system.' => 'Hier is de OTRS log te raadplegen',
+        'Here you will find log information about your system.' => 'Hier is de OTRS log te raadplegen.',
         'Time' => 'Tijd',
 
         # Template: AdminMailAccount
@@ -964,7 +964,7 @@ sub Data {
         'Notification Management' => 'Melding beheer',
         'Filter for Language' => 'Filter op taal',
         'Filter for Notification' => 'Filter op meldingen',
-        'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een gebruiker of een klant',
+        'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een gebruiker of een klant.',
         'Notification' => 'Melding',
         'Edit Notification' => 'Bewerk melding',
         'e. g.' => 'bijv.',
@@ -983,17 +983,17 @@ sub Data {
         'Subject match' => 'Onderwerp',
         'Body match' => 'Bericht tekst',
         'Include attachments to notification' => 'Voeg bijlagen toe aan melding',
-        'Notification article type' => 'Interactietype voor melding',
+        'Notification article type' => 'Interactiesoort voor melding',
         'Only for notifications to specified email addresses' => 'Alleen voor meldingen aan een specifiek e-mail adres',
-        'To get the first 20 character of the subject (of the latest agent article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste gebruikers-interactie te tonen',
-        'To get the first 5 lines of the body (of the latest agent article).' => 'Om de eerste vijf regels van de tekst van de nieuwste gebruikers-interactie te tonen',
-        'To get the first 20 character of the subject (of the latest customer article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen',
-        'To get the first 5 lines of the body (of the latest customer article).' => 'Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen',
+        'To get the first 20 character of the subject (of the latest agent article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste gebruikers-interactie te tonen.',
+        'To get the first 5 lines of the body (of the latest agent article).' => 'Om de eerste vijf regels van de tekst van de nieuwste gebruikers-interactie te tonen.',
+        'To get the first 20 character of the subject (of the latest customer article).' => 'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen.',
+        'To get the first 5 lines of the body (of the latest customer article).' => 'Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen.',
 
         # Template: AdminPGP
         'PGP Management' => 'PGP beheer',
         'Add PGP key' => 'PGP sleutel toevoegen',
-        'In this way you can directly edit the keyring configured in SysConfig.' => 'Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie',
+        'In this way you can directly edit the keyring configured in SysConfig.' => 'Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie.',
         'Introduction to PGP' => 'Introductie tot PGP',
         'Result' => 'Resultaat',
         'Identifier' => 'Identifier',
@@ -1062,7 +1062,7 @@ sub Data {
         'PostMaster Filter Management' => 'E-mail filterbeheer',
         'Add filter' => 'Nieuw filter',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' => 'Om inkomende e-mails te routeren op basis van e-mail headers. Matching op tekst of met behulp van regular expressions.',
-        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Als u alleen wilt filteren op het e-mailadres, gebruik dan EMAILADDRESS:info@example.local in From, To of CC',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Als u alleen wilt filteren op het e-mailadres, gebruik dan EMAILADDRESS:info@example.local in From, To of CC.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' => 'Als u regular expressions gebruikt dan kunt u ook de gevonden waarde tussen haakjes () gebruiken als [***] in de \'Set\' actie.',
         'Delete this filter' => 'Verwijder filter',
         'Add PostMaster Filter' => 'Nieuw e-mail filter',
@@ -1087,11 +1087,11 @@ sub Data {
         'Sub-queue of' => 'Onderdeel van',
         'Unlock timeout' => 'Ontgrendel tijdsoverschrijding',
         '0 = no unlock' => '0 = geen ontgrendeling',
-        'Only business hours are counted.' => 'Alleen openingstijden tellen mee',
+        'Only business hours are counted.' => 'Alleen openingstijden tellen mee.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' => 'Als een ticket vergrendeld is en de gebruiker handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, dan wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
         'Notify by' => 'Melding van',
         '0 = no escalation' => '0 = geen escalatie',
-        'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd..',
+        'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' => 'Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' => 'Als het ticket niet is afgesloten voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
         'Follow up Option' => 'Reactie optie',
@@ -1099,7 +1099,7 @@ sub Data {
         'Ticket lock after a follow up' => 'Ticket wordt vergrendeld na een reactie',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' => 'Als een ticket gesloten is en de klant een reactie stuurt dan wordt het ticket gekoppeld aan de oude eigenaar.',
         'System address' => 'Systeem adres',
-        'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail.',
+        'Will be the sender address of this queue for email answers.' => 'Is het afzenderadres van deze wachtrij voor antwoorden per e-mail.',
         'Default sign key' => 'Standaard sleutel voor ondertekening.',
         'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per e-mail.',
         'The signature for email answers.' => 'De ondertekening voor beantwoording van berichten per e-mail.',
@@ -1110,7 +1110,7 @@ sub Data {
         'Filter for Auto Responses' => 'Filter op automatische antwoorden',
         'Auto Responses' => 'Automatische antwoorden',
         'Change Auto Response Relations for Queue' => 'Bewerk automatische antwoorden voor wachtrij',
-        'settings' => 'Instellingen',
+        'settings' => 'instellingen',
 
         # Template: AdminQueueResponses
         'Manage Response-Queue Relations' => 'Beheer Antwoord - Wachtrij koppelingen',
@@ -1147,15 +1147,15 @@ sub Data {
         'Manage Role-Group Relations' => 'Beheer Rol-Groep koppelingen',
         'Filter for Roles' => 'Filter op rollen',
         'Roles' => 'Rollen',
-        'Select the role:group permissions.' => 'Selecteer de groep-permissies',
+        'Select the role:group permissions.' => 'Selecteer de rol-groep permissies',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => 'Als niets is geselecteerd, heeft deze rol geen permissies op deze groep.',
         'Toggle %s permission for all' => 'Permissies %s aan/uit',
         'move_into' => 'verplaats naar',
-        'Permissions to move tickets into this group/queue.' => 'Rechten om tickets naar deze groep/wachtrij te verplaatsen.',
+        'Permissions to move tickets into this group/queue.' => 'Permissies om tickets naar deze groep/wachtrij te verplaatsen.',
         'create' => 'aanmaken',
-        'Permissions to create tickets in this group/queue.' => 'Rechten om tickets in deze groep/wachtrij aan te maken.',
+        'Permissions to create tickets in this group/queue.' => 'Permissies om tickets in deze groep/wachtrij aan te maken.',
         'priority' => 'prioriteit',
-        'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een ticket in deze groep/wachtrij te wijzigen.',
+        'Permissions to change the ticket priority in this group/queue.' => 'Permissies om de prioriteit van een ticket in deze groep/wachtrij te wijzigen.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Beheer Gebruiker-Rol koppelingen',
@@ -1192,7 +1192,7 @@ sub Data {
         # Template: AdminSecureMode
         'Secure mode needs to be enabled!' => 'Secure Mode is niet actief.',
         'Secure mode will (normally) be set after the initial installation is completed.' => 'Secure Mode wordt normaal gesproken geactiveerd na afronding van de installatie.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' => 'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => 'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' => 'Als Secure Mode nog niet actief is activeer dit via de Systeemconfiguratie omdat de applicatie al draait.',
 
         # Template: AdminSelectBox
@@ -1305,7 +1305,7 @@ sub Data {
         # Template: AdminUser
         'Add agent' => 'Nieuwe gebruiker',
         'Agents will be needed to handle tickets.' => 'Gebruikers zijn nodig om te kunnen werken in het systeem.',
-        'Don\'t forget to add a new agent to groups and/or roles!' => 'Vergeet niet om een gebruiker aan groepen en/of rollen te koppelen.',
+        'Don\'t forget to add a new agent to groups and/or roles!' => 'vergeet niet om een gebruiker aan groepen en/of rollen te koppelen.',
         'Please enter a search term to look for agents.' => 'Typ om te zoeken naar gebruikers',
         'Last login' => 'Laatst ingelogd',
         'Login as' => 'Inloggen als',
@@ -1406,16 +1406,16 @@ sub Data {
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Als u het vinkje bij \'Statisch\' weghaalt, kunnen gebruikers de attributen van het bijbehorende element aanpassen bij het genereren van de rapporten.',
         'Select the restrictions to characterize the stat' => 'Selecteer de zoekrestricties voor dit rapport',
         'Fixed' => 'Statisch',
-        'Please select only one element or turn off the button \'Fixed\'.' => 'Kies een element, of schakel de optie \'Statisch\' uit',
-        'Absolute Period' => 'Absolute Periode',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Kies een element, of schakel de optie \'Statisch\' uit.',
+        'Absolute Period' => 'Absolute periode',
         'Between' => 'Tussen',
-        'Relative Period' => 'Relatieve Data',
+        'Relative Period' => 'Relatieve periode',
         'The last' => 'De laatste',
         'Finish' => 'Voltooien',
 
         # Template: AgentStatsEditSpecification
         'General Specifications' => 'Algemene Instellingen',
-        'Permissions' => 'Rechten',
+        'Permissions' => 'Permissies',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
         'Graph size' => 'Grootte',
         'Sum rows' => 'Toon totaal per rij',
@@ -1543,7 +1543,7 @@ sub Data {
         'Ticket Merge' => 'Ticket samenvoegen',
         'The Ticket was locked' => 'Het ticket is ontgrendeld',
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
-        'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht',
+        'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Verplaats ticket',
@@ -1569,7 +1569,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalatie om',
-        'Locked' => 'Vergrendeld',
+        'Locked' => 'Vergrendeling',
 
         # Template: AgentTicketOwner
 
@@ -1786,7 +1786,7 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'You are logged in as' => 'U bent ingelogd als',
+        'You are logged in as' => 'Ingelogd als',
 
         # Template: HeaderSmall
 
@@ -1795,16 +1795,16 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Welcome to %s' => 'Welkom bij %s',
         'Web site' => 'Website',
-        'Database check successful.' => 'Database check gelukt.',
-        'Mail check successful.' => 'Mail check gelukt.',
+        'Database check successful.' => 'Database controle gelukt.',
+        'Mail check successful.' => 'Mail controle gelukt.',
         'Error in the mail settings. Please correct and try again.' => 'Fout in de mailinstellingen. Corrigeer ze en probeer nog eens.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Configureer uitgaande mail',
         'Outbound mail type' => 'Uitgaande mail type',
-        'Select outbound mail type.' => 'Selecteer type',
+        'Select outbound mail type.' => 'Selecteer mail server type',
         'Outbound mail port' => 'Uitgaande mail poort',
-        'Select outbound mail port.' => 'Kies de TCP poort voor uitgaand verkeer',
+        'Select outbound mail port.' => 'Kies de TCP poort voor uitgaand e-mailverkeer',
         'SMTP host' => 'SMTP host',
         'SMTP host.' => 'SMTP host.',
         'SMTP authentication' => 'SMTP authenticatie',
@@ -1814,12 +1814,12 @@ sub Data {
         'SMTP auth password' => 'SMTP auth password',
         'Password for SMTP auth.' => 'Wachtwoord voor SMTP authenticatie',
         'Configure Inbound Mail' => 'Configureer binnenkomende mail',
-        'Inbound mail type' => 'Ingaande mail type',
-        'Select inbound mail type.' => 'Selecteer type',
-        'Inbound mail host' => 'Ingaande mail host',
+        'Inbound mail type' => 'Ingaande mail server type',
+        'Select inbound mail type.' => 'Selecteer soort mail server',
+        'Inbound mail host' => 'Hostname mailserver voor inkomende mail',
         'Inbound mail host.' => 'Hostnaam mailserver voor inkomende mail',
         'Inbound mail user' => 'User',
-        'User for inbound mail.' => 'Login voor inkomende mail server',
+        'User for inbound mail.' => 'Login voor inkomende mail server.',
         'Inbound mail password' => 'Password',
         'Password for inbound mail.' => 'Wachtwoord voor inkomende mail server',
         'Result of mail configuration check' => 'Resultaat van mailconfiguratie test',
@@ -1893,7 +1893,7 @@ sub Data {
         'Message of the Day' => 'Soep van de Dag',
 
         # Template: NoPermission
-        'Insufficient Rights' => 'Onvoldoende Rechten',
+        'Insufficient Rights' => 'Onvoldoende permissies',
         'Back to the previous page' => 'Terug naar de vorige pagina',
 
         # Template: Notify
@@ -3318,7 +3318,7 @@ sub Data {
         'Pending messages' => 'Wachtende berichten',
         'Pending type' => 'In de wacht: type',
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'U kunt één of meer groepen selecteren om de statistiek voor de gebruikers beschikbaar te maken',
-        'Permissions to change the ticket owner in this group/queue.' => 'Rechten om de eigenaar van het ticket in deze groep / wachtrij te wijzigen.',
+        'Permissions to change the ticket owner in this group/queue.' => 'Permissies om de eigenaar van het ticket in deze groep / wachtrij te wijzigen.',
         'PhoneView' => 'Telefoonscherm',
         'Phone{CustomerUser}' => 'Telefoon',
         'Please contact your admin' => 'Vraag uw systeembeheerder',
