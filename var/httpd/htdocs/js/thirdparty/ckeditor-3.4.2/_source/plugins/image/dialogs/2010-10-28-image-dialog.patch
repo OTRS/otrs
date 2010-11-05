@@ -1,0 +1,80 @@
+? 2010-10-28-image-dialog.patch
+Index: image.js
+===================================================================
+RCS file: /home/cvs/otrs/var/httpd/htdocs/js/thirdparty/ckeditor-3.4.1/_source/plugins/image/dialogs/image.js,v
+retrieving revision 1.1
+diff -u -r1.1 image.js
+--- image.js	28 Oct 2010 08:43:01 -0000	1.1
++++ image.js	28 Oct 2010 08:52:59 -0000
+@@ -798,63 +798,6 @@
+ 											[
+ 												{
+ 													type : 'text',
+-													id : 'txtBorder',
+-													width: '60px',
+-													labelLayout : 'horizontal',
+-													label : editor.lang.image.border,
+-													'default' : '',
+-													onKeyUp : function()
+-													{
+-														updatePreview( this.getDialog() );
+-													},
+-													onChange : function()
+-													{
+-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
+-													},
+-													validate : CKEDITOR.dialog.validate.integer( editor.lang.image.validateBorder ),
+-													setup : function( type, element )
+-													{
+-														if ( type == IMAGE )
+-														{
+-															var value,
+-																borderStyle = element.getStyle( 'border-width' );
+-															borderStyle = borderStyle && borderStyle.match( /^(\d+px)(?: \1 \1 \1)?$/ );
+-															value = borderStyle && parseInt( borderStyle[ 1 ], 10 );
+-															isNaN ( parseInt( value, 10 ) ) && ( value = element.getAttribute( 'border' ) );
+-															this.setValue( value );
+-														}
+-													},
+-													commit : function( type, element, internalCommit )
+-													{
+-														var value = parseInt( this.getValue(), 10 );
+-														if ( type == IMAGE || type == PREVIEW )
+-														{
+-															if ( !isNaN( value ) )
+-															{
+-																element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
+-																element.setStyle( 'border-style', 'solid' );
+-															}
+-															else if ( !value && this.isChanged() )
+-															{
+-																element.removeStyle( 'border-width' );
+-																element.removeStyle( 'border-style' );
+-																element.removeStyle( 'border-color' );
+-															}
+-
+-															if ( !internalCommit && type == IMAGE )
+-																element.removeAttribute( 'border' );
+-														}
+-														else if ( type == CLEANUP )
+-														{
+-															element.removeAttribute( 'border' );
+-															element.removeStyle( 'border-width' );
+-															element.removeStyle( 'border-style' );
+-															element.removeStyle( 'border-color' );
+-														}
+-													}
+-												},
+-												{
+-													type : 'text',
+ 													id : 'txtHSpace',
+ 													width: '60px',
+ 													labelLayout : 'horizontal',
+@@ -1366,7 +1309,6 @@
+ 								commitInternally.call( this,
+ 									[ 'info:cmbFloat', 'info:cmbAlign',
+ 									  'info:txtVSpace', 'info:txtHSpace',
+-									  'info:txtBorder',
+ 									  'info:txtWidth', 'info:txtHeight' ] );
+ 								updatePreview( this );
+ 							},
