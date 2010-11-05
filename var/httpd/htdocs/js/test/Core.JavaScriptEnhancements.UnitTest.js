@@ -2,7 +2,7 @@
 // Core.JavaScriptEnhancements.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.1 2010-07-13 09:46:45 mg Exp $
+// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.2 2010-11-05 10:12:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,14 @@ Core.JavaScriptEnhancements.RunUnitTests = function(){
 
     module('Core.JavaScriptEnhancements');
 
-    test('String.trim()', function(){
-        expect(4);
+    test('isJQueryObject()', function(){
+        expect(6);
 
-        equals(' some string\n    test\r\n\t '.trim(), 'some string\n    test', '');
-        equals('   '.trim(), '');
-        equals(''.trim(), '');
-        equals('Test String'.trim(), 'Test String');
+        equals(isJQueryObject($([])), true, 'empty jQuery object');
+        equals(isJQueryObject($('body')), true, 'simple jQuery object');
+        equals(isJQueryObject({}), false, 'plain object');
+        equals(isJQueryObject(undefined), false, 'undefined');
+        equals(isJQueryObject($([]), $([])), true, 'multiple');
+        equals(isJQueryObject($([]), $([]), {}), false, 'multiple, one plain object');
     });
 };
