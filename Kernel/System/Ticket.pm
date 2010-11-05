@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.471 2010-10-16 09:25:35 bes Exp $
+# $Id: Ticket.pm,v 1.472 2010-11-05 18:58:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.471 $) [1];
+$VERSION = qw($Revision: 1.472 $) [1];
 
 =head1 NAME
 
@@ -7369,9 +7369,16 @@ set ticket flags
 
     my $Success = $TicketObject->TicketFlagSet(
         TicketID => 123,
-        Key      => 'seen',
+        Key      => 'Seen',
         Value    => 1,
-        UserID   => 123,
+        UserID   => 123, # apply to this users
+    );
+
+    my $Success = $TicketObject->TicketFlagSet(
+        TicketID => 123,
+        Key      => 'Seen',
+        Value    => 1,
+        AllUsers      => 1, # apply to all users
     );
 
 Events:
@@ -7383,46 +7390,78 @@ sub TicketFlagSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Key Value UserID)) {
+    for (qw(TicketID Key Value)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my %Flag = $Self->TicketFlagGet(%Param);
+    # optional parameters
+    if ( !$Param{UserID} && !$Param{AllUsers} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        return;
+    }
 
-    # check if set is needed
-    return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
+    # if all users
+    if ( $Param{AllUsers} ) {
 
-    # set flag
-    return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM ticket_flag WHERE '
-            . 'ticket_id = ? AND ticket_key = ? AND create_by = ?',
-        Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
-    );
-    return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO ticket_flag '
-            . ' (ticket_id, ticket_key, ticket_value, create_time, create_by) '
-            . ' VALUES (?, ?, ?, current_timestamp, ?)',
-        Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
-    );
-
-    # delete cache
-    my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-
-    # event
-    $Self->EventHandler(
-        Event => 'TicketFlagSet',
-        Data  => {
+        # check all afected users
+        my @AllTicketFlags = $Self->TicketFlagGet(
             TicketID => $Param{TicketID},
-            Key      => $Param{Key},
-            Value    => $Param{Value},
-            UserID   => $Param{UserID},
-        },
-        UserID => $Param{UserID},
-    );
+            AllUsers => 1,
+        );
+
+        return if !$Self->{DBObject}->Do(
+            SQL => 'UPDATE ticket_flag'
+                . ' SET ticket_value = ?'
+                . ' WHERE ticket_id = ? AND ticket_key = ?',
+            Bind => [ \$Param{Value}, \$Param{TicketID}, \$Param{Key} ],
+        );
+
+        # clean the cache
+        for my $Record (@AllTicketFlags) {
+            my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Record->{UserID};
+
+            # delete cache
+            $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+        }
+    }
+    elsif ( $Param{UserID} ) {
+        my %Flag = $Self->TicketFlagGet(%Param);
+
+        # check if set is needed
+        return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
+
+        # set flag
+        return if !$Self->{DBObject}->Do(
+            SQL => 'DELETE FROM ticket_flag WHERE '
+                . 'ticket_id = ? AND ticket_key = ? AND create_by = ?',
+            Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
+        );
+        return if !$Self->{DBObject}->Do(
+            SQL => 'INSERT INTO ticket_flag '
+                . ' (ticket_id, ticket_key, ticket_value, create_time, create_by) '
+                . ' VALUES (?, ?, ?, current_timestamp, ?)',
+            Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
+        );
+
+        # delete cache
+        my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
+        # event
+        $Self->EventHandler(
+            Event => 'TicketFlagSet',
+            Data  => {
+                TicketID => $Param{TicketID},
+                Key      => $Param{Key},
+                Value    => $Param{Value},
+                UserID   => $Param{UserID},
+            },
+            UserID => $Param{UserID},
+        );
+    }
 
     return 1;
 }
@@ -7433,7 +7472,7 @@ delete ticket flag
 
     my $Success = $TicketObject->TicketFlagDelete(
         TicketID => 123,
-        Key      => 'seen',
+        Key      => 'Seen',
         UserID   => 123,
     );
 
@@ -7483,7 +7522,12 @@ get ticket flags
 
     my %Flags = $TicketObject->TicketFlagGet(
         TicketID => 123,
-        UserID   => 123,
+        UserID   => 123, # to get flags one user
+    );
+
+    my @Flags = $TicketObject->TicketFlagGet(
+        TicketID => 123,
+        AllUsers   => 1, # to get flags all users
     );
 
 =cut
@@ -7492,34 +7536,69 @@ sub TicketFlagGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        return;
+    }
+
+    # check optional
+    if ( !$Param{UserID} && !$Param{AllUsers} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        return;
+    }
+
+    if ( $Param{UserID} ) {
+
+        # check cache
+        my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return %{$Cache} if $Cache;
+
+        my %Flag;
+
+        # sql query
+        return if !$Self->{DBObject}->Prepare(
+            SQL => 'SELECT ticket_key, ticket_value FROM ticket_flag WHERE '
+                . 'ticket_id = ? AND create_by = ?',
+            Bind => [ \$Param{TicketID}, \$Param{UserID} ],
+            Limit => 1500,
+        );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Flag{ $Row[0] } = $Row[1];
         }
+
+        # set cache
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Flag );
+
+        return %Flag;
+
     }
 
-    # check cache
-    my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return %{$Cache} if $Cache;
+    # all users flags from ticket
+    else {
 
-    # sql query
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT ticket_key, ticket_value FROM ticket_flag WHERE '
-            . 'ticket_id = ? AND create_by = ?',
-        Bind => [ \$Param{TicketID}, \$Param{UserID} ],
-        Limit => 1500,
-    );
-    my %Flag;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Flag{ $Row[0] } = $Row[1];
+        # sql query
+        return if !$Self->{DBObject}->Prepare(
+            SQL => 'SELECT ticket_key, ticket_value, create_by FROM ticket_flag WHERE '
+                . 'ticket_id = ?',
+            Bind  => [ \$Param{TicketID} ],
+            Limit => 1500,
+        );
+
+        my @FlagAllUsers;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            push @FlagAllUsers, {
+                Key    => $Row[0],
+                Value  => $Row[1],
+                UserID => $Row[2],
+                }
+        }
+
+        return @FlagAllUsers;
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Flag );
-
-    return %Flag;
+    return;
 }
 
 =item TicketAcl()
@@ -8116,6 +8195,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.471 $ $Date: 2010-10-16 09:25:35 $
+$Revision: 1.472 $ $Date: 2010-11-05 18:58:32 $
 
 =cut

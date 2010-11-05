@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketNewMessageUpdate.pm,v 1.1 2010-10-12 13:59:21 martin Exp $
+# $Id: TicketNewMessageUpdate.pm,v 1.2 2010-11-05 18:58:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
             TicketID => $Param{Data}->{TicketID},
             Key      => 'Seen',
             Value    => 0,
-            UserID   => $Param{UserID},
+            AllUsers => 1,
         );
         return 1;
     }
@@ -63,22 +63,33 @@ sub Run {
         my @ArticleList = $Self->{TicketObject}->ArticleIndex(
             TicketID => $Param{Data}->{TicketID},
         );
-        for my $ArticleID (@ArticleList) {
-            my $ArticleNotSeen;
-            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
-                ArticleID => $Param{Data}->{ArticleID},
-                UserID    => $Param{UserID},
-            );
-            return 1 if !$ArticleFlag{Seen};
 
+        # check if ticket need to be marked as seen
+        my $ArticleAllSeen = 1;
+        ARTICLE:
+        for my $Article (@ArticleList) {
+            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+                ArticleID => $Article,
+                UserID    => $Param{Data}->{UserID},
+            );
+
+            # last if article was not shown
+            if ( !$ArticleFlag{Seen} ) {
+                $ArticleAllSeen = 0;
+                last ARTICLE;
+            }
+        }
+
+        # mark ticket as seen if all article are shown
+        if ($ArticleAllSeen) {
             $Self->{TicketObject}->TicketFlagSet(
                 TicketID => $Param{Data}->{TicketID},
                 Key      => 'Seen',
                 Value    => 1,
-                UserID   => $Param{UserID},
+                UserID   => $Param{Data}->{UserID},
             );
-            return 1;
         }
+
     }
     return;
 }
