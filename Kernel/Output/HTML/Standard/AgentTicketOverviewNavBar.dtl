@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.44 2010-10-13 14:52:05 mg Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.45 2010-11-05 13:33:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
 <!-- dtl:block:ContextSettings -->
                 <ul class="ContextFunctions">
                     <li class="ContextSettings">
-                        <a href="#" id="ShowContextSettingsDialog" title="$Text{"Context Settings"}"><span>$Text{"Context Settings"}</span></a>
+                        <a href="#" id="ShowContextSettingsDialog" title="$Text{"Settings"}"><span>$Text{"Settings"}</span></a>
                     </li>
                 </ul>
 
