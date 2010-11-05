@@ -2,19 +2,19 @@
 # Pagination.dtl - provides HTML for generic Pagination
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Pagination.dtl,v 1.11 2010-11-05 07:13:39 martin Exp $
+# $Id: Pagination.dtl,v 1.12 2010-11-05 08:44:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!-- dtl:block:PageForward -->
-&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="$Data{"BaselinkAllBack"}" title="$Text{"go to beginning"}">|&lt;</a>&nbsp;
-&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="$Data{"BaselinkAllNext"}" title="$Text{"previous 5 pages"}">&lt;&lt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="$Data{"BaselinkAllBack"}" title="$Text{"Go to beginning"}">|&lt;</a>&nbsp;
+&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="$Data{"BaselinkAllNext"}" title="$Text{"Previous 5 pages"}">&lt;&lt;</a>
 <!-- dtl:block:PageForward -->
 <!-- dtl:block:PageForwardAjax -->
-&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="#" title="$Text{"go to beginning"}">|&lt;</a>&nbsp;
-&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="#" title="$Text{"previous 5 pages"}">&lt;&lt;</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllForward" href="#" title="$Text{"Go to beginning"}">|&lt;</a>&nbsp;
+&nbsp;<a id="$Data{"IDPrefix"}PageOneForward" href="#" title="$Text{"Previous 5 pages"}">&lt;&lt;</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"IDPrefix"}PageAllForward').unbind('click').bind('click', function(){
@@ -58,12 +58,12 @@
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:PageAjax -->
 <!-- dtl:block:PageBack -->
-&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="$Data{"BaselinkAllBack"}" title="$Text{"next 5 pages"}">&gt;&gt;</a>&nbsp;
-&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="$Data{"BaselinkAllNext"}" title="$Text{"go to end"}">&gt;|</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="$Data{"BaselinkAllBack"}" title="$Text{"Next 5 pages"}">&gt;&gt;</a>&nbsp;
+&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="$Data{"BaselinkAllNext"}" title="$Text{"Go to end"}">&gt;|</a>
 <!-- dtl:block:PageBack -->
 <!-- dtl:block:PageBackAjax -->
-&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="#" title="$Text{"next 5 pages"}">&gt;&gt;</a>&nbsp;
-&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="#" title="$Text{"go to end"}">&gt;|</a>
+&nbsp;<a id="$Data{"IDPrefix"}PageAllBack" href="#" title="$Text{"Next 5 pages"}">&gt;&gt;</a>&nbsp;
+&nbsp;<a id="$Data{"IDPrefix"}PageOneBack" href="#" title="$Text{"Go to end"}">&gt;|</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"IDPrefix"}PageAllBack').unbind('click').bind('click', function(){

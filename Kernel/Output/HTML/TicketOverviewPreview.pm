@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.42 2010-11-04 12:13:38 ub Exp $
+# $Id: TicketOverviewPreview.pm,v 1.43 2010-11-05 08:44:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,7 +226,7 @@ sub _Show {
         );
     }
 
-    # get last 5 article
+    # get last 5 articles
     my @ArticleBody = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
         UserID   => $Self->{UserID},
