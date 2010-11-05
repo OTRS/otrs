@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.27 2010-10-14 18:47:43 mb Exp $
+# $Id: LinkObject.dtl,v 1.28 2010-11-05 08:27:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,26 +79,28 @@ $Text{"none"}
     </div>
 <!-- dtl:block:TableComplexBlockActionRow -->
     <div class="LightRow Content AutoHeight ">
-        <table class="DataTable">
-            <thead>
-                <tr>
+        <div class="Spacing">
+            <table class="DataTable">
+                <thead>
+                    <tr>
 <!-- dtl:block:TableComplexBlockColumn -->
-                    <th> $Text{"$Data{"Content"}"} </th>
+                        <th> $Text{"$Data{"Content"}"} </th>
 <!-- dtl:block:TableComplexBlockColumn -->
-                </tr>
-            </thead>
-            <tbody>
+                    </tr>
+                </thead>
+                <tbody>
 <!-- dtl:block:TableComplexBlockRow -->
-                <tr>
+                    <tr>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-                    <td>
-                        $Data{"Content"}
-                    </td>
+                        <td>
+                            $Data{"Content"}
+                        </td>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-                </tr>
+                    </tr>
 <!-- dtl:block:TableComplexBlockRow -->
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
 <!-- dtl:block:TableComplexBlockFooterNormal -->
 <!-- dtl:block:TableComplexBlockFooterNormal -->
