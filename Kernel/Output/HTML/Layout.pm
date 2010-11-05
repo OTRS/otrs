@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.323 2010-11-05 07:45:29 mb Exp $
+# $Id: Layout.pm,v 1.324 2010-11-05 07:54:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.323 $) [1];
+$VERSION = qw($Revision: 1.324 $) [1];
 
 =head1 NAME
 
@@ -2890,7 +2890,7 @@ sub BuildDateSelection {
                 : int($h),
                 LanguageTranslation => 0,
                 Class               => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
-                Title               => $Self->{LanguageObject}->Get('Hour'),
+                Title               => $Self->{LanguageObject}->Get('Hours'),
             );
         }
         else {
@@ -2898,7 +2898,7 @@ sub BuildDateSelection {
                 . ( $Validate ? "class=\"Validate_DateHour $Class\" " : "class=\"$Class\" " )
                 . "name=\"${Prefix}Hour\" id=\"${Prefix}Hour\" size=\"2\" maxlength=\"2\" "
                 . "title=\""
-                . $Self->{LanguageObject}->Get('Hour')
+                . $Self->{LanguageObject}->Get('Hours')
                 . "\" value=\""
                 . sprintf(
                 "%02d",
@@ -4803,6 +4803,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.323 $ $Date: 2010-11-05 07:45:29 $
+$Revision: 1.324 $ $Date: 2010-11-05 07:54:05 $
 
 =cut
