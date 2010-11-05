@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1534 2010-11-04 17:27:43 en Exp $
+# $Id: CHANGES,v 1.1535 2010-11-05 08:32:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 beta7 2010-??-??
+ - 2010-11-05 Fixed bug#6237 - Datepicker starts weeks always on Sunday.
  - 2010-11-04 Fixed bug#6216 - Queue names with spaces not displayed correctly in ticket view.
  - 2010-11-04 Fixed bug#6186 - IE9: Dashboard widget functions broken.
  - 2010-11-04 Fixed bug#6185 - IE9: JS error in the Dashboard.
@@ -709,13 +710,12 @@
  - 2010-11-02 Email.ticket: wrong signature is shown.
  - 2010-10-26 Improved German translation, thanks to Stelios Gikas!
  - 2010-10-13 Fixed some Perl "uninitialized value" warnings.
- - 2010-10-12 Fixed bug#6087 - Search template name is brocken if & or ; is used.
+ - 2010-10-12 Fixed bug#6087 - Search template name is broken if & or ; is used.
 
 2.4.9 (2010/10/25)
- - 2010-10-12 Fixed bug#6087 - Search template name is brocken if & or ; is used.
  - 2010-09-30 Fixed bug#6016 - AgentTicketZoom is vunerable to XSS attacks from HTML e-mails.
  - 2010-09-22 Fixed bug#5903 - E-mail notification links don't contain <a href... tags.
- - 2010-09-29 Fixed bug#6030 - Event notifications get's fired several times on
+ - 2010-09-29 Fixed bug#6030 - Event notifications are fired several times on
     event "TicketFreeTextUpdate".
  - 2010-09-14 Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - 2010-09-09 Fixed bug#5462 - Kernel::System::Ticket::TicketEscalationIndexBuild()

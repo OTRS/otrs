@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.5 2010-09-08 12:27:16 mg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.6 2010-11-05 08:32:29 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         else {
             return false;
         }
-
+        
         // Define options hash
         Options = {
             beforeShowDay: function (DateObject) {
@@ -132,7 +132,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             showOn: 'focus',
             prevText: LocalizationData.PrevText,
             nextText: LocalizationData.NextText,
-            firstDay: 0,
+            firstDay: Element.WeekDayStart,
             showMonthAfterYear: 0,
             monthNames: LocalizationData.MonthNames,
             monthNamesShort: LocalizationData.MonthNamesShort,

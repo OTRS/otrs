@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.324 2010-11-05 07:54:05 mb Exp $
+# $Id: Layout.pm,v 1.325 2010-11-05 08:32:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.324 $) [1];
+$VERSION = qw($Revision: 1.325 $) [1];
 
 =head1 NAME
 
@@ -2943,6 +2943,9 @@ sub BuildDateSelection {
         }
     }
 
+    # Get first day of the week
+    my $WeekDayStart = $Self->{ConfigObject}->Get('CalendarWeekDayStart') || 1;
+
     # Datepicker
     $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
         Core.UI.Datepicker.Init({
@@ -2951,7 +2954,8 @@ sub BuildDateSelection {
             Year: $(\'#' . $Prefix . 'Year\'),
             Hour: $(\'#' . $Prefix . 'Hour\'),
             Minute: $(\'#' . $Prefix . 'Minute\'),
-            DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . '
+            DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
+            WeekDayStart: ' . $WeekDayStart . ',
         });
     //]]></script>
     <!--dtl:js_on_document_complete-->';
@@ -4803,6 +4807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.324 $ $Date: 2010-11-05 07:54:05 $
+$Revision: 1.325 $ $Date: 2010-11-05 08:32:29 $
 
 =cut
