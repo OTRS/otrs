@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.29 2010-11-04 19:34:53 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.30 2010-11-05 14:50:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,7 +159,7 @@
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!-- dtl:block:PreferencesGenericServerErrorMsg -->
 <!-- dtl:block:PreferencesUserMailServerErrorMsg -->
-                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid e-mail address."}</p></div>
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
 <!-- dtl:block:PreferencesUserMailServerErrorMsg -->
                         </div>
                         <div class="Clear"></div>
