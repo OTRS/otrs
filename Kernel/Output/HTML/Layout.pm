@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.325 2010-11-05 08:32:29 mb Exp $
+# $Id: Layout.pm,v 1.326 2010-11-05 10:38:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.325 $) [1];
+$VERSION = qw($Revision: 1.326 $) [1];
 
 =head1 NAME
 
@@ -2429,7 +2429,7 @@ sub PageNavBar {
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
-                    Name => 'PageBackAjax',
+                    Name => 'PageForwardAjax',
                     Data => {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
@@ -2440,7 +2440,7 @@ sub PageNavBar {
             }
             else {
                 $Self->Block(
-                    Name => 'PageBack',
+                    Name => 'PageForward',
                     Data => {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
@@ -2461,7 +2461,7 @@ sub PageNavBar {
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
-                    Name => 'PageForwardAjax',
+                    Name => 'PageBackAjax',
                     Data => {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
@@ -2472,7 +2472,7 @@ sub PageNavBar {
             }
             else {
                 $Self->Block(
-                    Name => 'PageForward',
+                    Name => 'PageBack',
                     Data => {
                         BaselinkAllBack => $BaselinkAllBack,
                         BaselinkAllNext => $BaselinkAllNext,
@@ -4807,6 +4807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.325 $ $Date: 2010-11-05 08:32:29 $
+$Revision: 1.326 $ $Date: 2010-11-05 10:38:03 $
 
 =cut
