@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.69 2010-11-04 13:45:54 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.70 2010-11-05 17:38:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -206,7 +206,7 @@
 <!-- dtl:block:DocumentMenuItem -->
 <!-- dtl:block:DocumentMenuItemMoveForm -->
 <li class="$QData{"Class"}">
-    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="get">
+    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="AgentTicketMove"/>
         <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>

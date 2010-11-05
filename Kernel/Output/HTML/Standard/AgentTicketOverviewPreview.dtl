@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.58 2010-11-04 10:30:47 mn Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.59 2010-11-05 17:38:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@
                                 <ul class="Actions">
 <!-- dtl:block:ArticlePreviewActionRowItem -->
                                     <li class="$QData{"Class"}">
-                                        <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
+                                        <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="post" id="$QData{"FormID"}">
                                             <input type="hidden" name="Action" value="$QData{"Action"}"/>
                                             <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
                                             <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>

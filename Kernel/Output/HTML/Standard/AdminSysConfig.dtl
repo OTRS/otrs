@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.38 2010-10-14 18:37:54 mb Exp $
+# $Id: AdminSysConfig.dtl,v 1.39 2010-11-05 17:38:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
 
 <!-- dtl:block:SearchBox -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="get" class="SearchBox">
+                        <form action="$Env{"CGIHandle"}" method="post" class="SearchBox">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>

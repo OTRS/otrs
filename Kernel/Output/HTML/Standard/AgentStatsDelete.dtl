@@ -2,7 +2,7 @@
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.15 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentStatsDelete.dtl,v 1.16 2010-11-05 17:38:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Delete"/>
                     <input type="hidden" name="Status" value="Action"/>

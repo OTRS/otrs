@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.26 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminPriority.dtl,v 1.27 2010-11-05 17:38:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,7 +97,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="get" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}" />
                     <input type="hidden" name="Subaction" value="PrioritySave" />
                     <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}" />
