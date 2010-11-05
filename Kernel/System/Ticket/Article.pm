@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.258 2010-11-04 18:37:24 en Exp $
+# $Id: Article.pm,v 1.259 2010-11-05 19:31:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.258 $) [1];
+$VERSION = qw($Revision: 1.259 $) [1];
 
 =head1 NAME
 
@@ -1759,6 +1759,12 @@ sub ArticleGet {
         for my $Key (qw( From To Cc)) {
             next if !$Part->{$Key};
 
+            # check if it's a queue
+            if ( $Part->{$Key} !~ /@/ ) {
+                $Part->{ $Key . 'Realname' } = $Part->{$Key};
+                next;
+            }
+
             # strip out real names
             my $Realname = '';
             for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Part->{$Key} ) ) {
@@ -1768,7 +1774,7 @@ sub ArticleGet {
                 }
                 next if !$Name;
                 if ($Realname) {
-                    $Realname .= ( $Part->{$Key} =~ /,/ ) ? ', ' : ' ';
+                    $Realname .= ', ';
                 }
                 $Realname .= $Name;
             }
@@ -3254,6 +3260,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.258 $ $Date: 2010-11-04 18:37:24 $
+$Revision: 1.259 $ $Date: 2010-11-05 19:31:58 $
 
 =cut
