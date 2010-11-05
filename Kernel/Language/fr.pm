@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.133 2010-10-29 13:49:08 mb Exp $
+# $Id: fr.pm,v 1.134 2010-11-05 15:10:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-10-29 15:43:40
+    # Last translation file sync: 2010-11-05 15:50:58
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -64,9 +64,11 @@ sub Data {
         'hour' => 'heure',
         'hours' => 'heures',
         'hour(s)' => 'heure(s)',
+        'Hours' => 'Heures',
         'minute' => 'minute',
         'minutes' => 'minutes',
         'minute(s)' => 'minute(s)',
+        'Minutes' => '',
         'month' => 'mois',
         'months' => 'mois',
         'month(s)' => 'mois',
@@ -587,6 +589,8 @@ sub Data {
         'Overview of all open Tickets' => 'Vue de tous les Tickets',
         'Locked Tickets' => 'Tickets verrouillés',
         'My Locked Tickets' => 'Mes tickets vérrouillés',
+        'My Watched Tickets' => '',
+        'My Responsible Tickets' => '',
         'Watched Tickets' => 'Tickets surveillés',
         'Watched' => 'Surveillé',
         'Watch' => '',
@@ -619,6 +623,7 @@ sub Data {
         'There are more escalated tickets!' => 'Il y a d\'autres tickets en escalade !',
         'Plain Format' => '',
         'Reply All' => '',
+        'Direction' => '',
         'New ticket notification' => 'Notification de nouveau ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
         'Send new ticket notifications' => '',
@@ -764,6 +769,7 @@ sub Data {
         'Last Login' => 'Dernière connexion',
         'Add Customer' => 'Ajouter client',
         'Edit Customer' => 'Editer client',
+        'This field is required and needs to be a valid email address.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gérer les relations Client-Group',
@@ -1033,6 +1039,7 @@ sub Data {
         'Disable it here!' => 'Désactivez là ici !',
         'Logfile too large!' => 'Fichier de log trop grand !',
         'The logfile is too large, you need to reset it' => 'Le fichier de log est trop grand, vous devez le réinitialiser',
+        'Overview' => 'Aperçu',
         'Range' => 'Plage',
         'Interface' => 'Interface',
         'Requests' => 'Requêtes',
@@ -1094,7 +1101,6 @@ sub Data {
         'Manage Queue-Auto Response Relations' => 'Gérer les Relations de Réponse Queue-Auto',
         'Filter for Queues' => 'Filtre pour les Queues',
         'Filter for Auto Responses' => 'Filtre pour Réponses Automatiques',
-        'Overview' => 'Aperçu',
         'Auto Responses' => 'Réponses automatiques',
         'Change Auto Response Relations for Queue' => 'Modifier les Relations de Réponse Automatique pour la Queue',
         'settings' => 'Paramètres',
@@ -1259,7 +1265,6 @@ sub Data {
         'New group ro' => 'Nouveau groupe ro',
         'Loader' => 'Chargeur',
         'File to load for this frontend module' => 'Fichier à charger pour ce module "frontend"',
-        'Type:' => 'Type:',
         'New Loader File' => 'Nouveau Fichier de Chargeur',
         'NavBarName' => 'Nom de la barre de navigation',
         'NavBar' => 'Barre de navigation',
@@ -1404,6 +1409,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'General Specifications' => 'Spécifications Générales',
         'Permissions' => 'Permissions',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
         'Graph size' => 'Taille du graphique',
         'Sum rows' => 'Ligne de somme',
         'Sum columns' => 'Colonnes de somme',
@@ -1511,16 +1517,13 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Créer un nouveau Ticket Email',
         'From queue' => 'De la Queue',
-        'Need a valid mail address or don\'t use a local email address.' => 'Une adresse email valide est nécessaire ou n\'utilisez pas d\'adresse email locale.',
         'Get all' => 'Tout prendre',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: ' => '',
-        'Need a valid email address or don\'t use a local address!' => 'Une adresse email valide est nécessaire ou n\'utilisez pas d\'adresse email locale!',
         'Need a valid email address or don\'t use a local email address' => 'Une adresse email valide est nécessaire ou n\'utilisez pas d\'adresse email locale',
-        'Need a valid mail address or don\'t use a local email address' => 'Une adresse mail valide est nécessaire ou n\'utilisez pas d\'adresse email locale',
 
         # Template: AgentTicketFreeText
 
@@ -1553,7 +1556,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Changer les options de recherche',
-        'Context Settings' => '',
         'Max. shown Tickets a page' => 'Nombre maximum de Tickets per page',
 
         # Template: AgentTicketOverviewPreview
@@ -1601,6 +1603,12 @@ sub Data {
         'Fulltext' => 'Texte Complet',
         'Remove' => 'Supprimer',
         'Customer User Login' => 'Nom de connexion du client',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Créé dans la file',
         'Lock state' => 'Etat verrouillé',
         'Watcher' => 'Surveillance',
@@ -1762,10 +1770,13 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => 'Si vous quittez cette page maintenant, toutes les fenêtres popup seront closes également!',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
+
+        # Template: HTMLHeadBlockEvents
 
         # Template: Header
         'You are logged in as' => 'Vous êtes connecté en',
@@ -1776,6 +1787,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript non disponible',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Pour utiliser OTRS, vous devez activer le JavaScript dans votre navigateur.',
         'Welcome to %s' => 'Bienvenue dans %s',
+        'Web site' => '',
         'Database check successful.' => 'Contrôle de base de donnée effectué avec succès.',
         'Mail check successful.' => 'Contrôle de mail effectué avec succès.',
         'Error in the mail settings. Please correct and try again.' => 'Erreur dans la configuration email. Merci de corriger et de réessayer.',
@@ -1880,6 +1892,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => '',
+        'Show previous pages' => '',
+        'Show page %s' => '',
+        'Show next pages' => '',
+        'Show last page' => '',
 
         # Template: PrintFooter
         'URL' => 'URL',
@@ -2036,6 +2053,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => 'ID de ticket par défaut utilisé par le système dans l\'interface agent.',
         'Default ticket ID used by the system in the customer interface.' => 'ID de ticket par défaut utilisé par le système dans l\'interface client.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => 'Défini un élément client qui génère un icone LinkedIn à la fin du bloc d\'information client.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => 'Défini un élément client qui génère un icone XING à la fin du bloc d\'information client.',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => 'Défini un élément client qui génère un icone Google à la fin du bloc d\'information client.',
@@ -2164,6 +2182,7 @@ sub Data {
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' => '',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' => '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' => '',
+        'Defines the default shown ticket search attribute for ticket search screen.' => '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' => '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' => '',
         'Defines the default spell checker dictionary.' => '',
@@ -2553,6 +2572,8 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',
@@ -3224,7 +3245,6 @@ sub Data {
         'Here you can insert a description of the stat.' => 'Vous pouvez insérer ici une description des statistiques.',
         'Here you can select the dynamic object you want to use.' => 'Ici vous pouvez sélectionner l\'objet dynamique que vous voulez utiliser',
         'Home' => 'Accueil',
-        'Hours' => 'Heures',
         'How we should adress you' => 'Comment doit-on vous contacter',
         'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => 'Si le mode sécurisé n\'est pas activé, activer le via le SysConfig car votre application est déjà en train de tourner.',
         'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Si un nouveau fichier encodé est disponible, cet attribut sera visible et vous pourrez le sélectionner',
@@ -3277,6 +3297,9 @@ sub Data {
         'Multiple selection of the output format.' => 'Selection multiple du format de sortie',
         'MyTickets' => 'Mes tickets',
         'Name is required!' => 'Un nom est requis!',
+        'Need a valid email address or don\'t use a local address!' => 'Une adresse email valide est nécessaire ou n\'utilisez pas d\'adresse email locale!',
+        'Need a valid mail address or don\'t use a local email address' => 'Une adresse mail valide est nécessaire ou n\'utilisez pas d\'adresse email locale',
+        'Need a valid mail address or don\'t use a local email address.' => 'Une adresse email valide est nécessaire ou n\'utilisez pas d\'adresse email locale.',
         'Need valid email address or don\'t use local address' => 'Une adresse memail valide est requise ou bien n\'utilisez pas d\'adresse locale',
         'New Agent' => 'Nouveau Technicien',
         'New Customer' => 'Nouveau Client',
@@ -3500,6 +3523,7 @@ sub Data {
         'Tomorrow' => 'Demain',
         'Top of Page' => 'Haut de page',
         'Total hits' => 'Nombre de résultats trouvés',
+        'Type:' => 'Type:',
         'U' => 'A-Z',
         'Unable to parse Online Repository index document!' => 'Impossible d\'analyser l\'index du dépôt en ligne !',
         'Uniq' => 'Unique',

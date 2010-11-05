@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.1 2010-11-03 16:23:40 mb Exp $
+# $Id: sr_Cyrl.pm,v 1.2 2010-11-05 15:12:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-03 17:17:08
+    # Last translation file sync: 2010-11-05 15:51:06
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-5', ];
@@ -58,9 +58,11 @@ sub Data {
         'hour' => 'сат',
         'hours' => 'сати',
         'hour(s)' => 'сат(и)',
+        'Hours' => '',
         'minute' => 'минут',
         'minutes' => 'минути',
         'minute(s)' => 'минут(и)',
+        'Minutes' => '',
         'month' => 'месец',
         'months' => 'месеци',
         'month(s)' => 'месец(и)',
@@ -581,6 +583,8 @@ sub Data {
         'Overview of all open Tickets' => 'Преглед свих отворених тикета',
         'Locked Tickets' => 'Закључани тикети',
         'My Locked Tickets' => 'Моји закључани тикети',
+        'My Watched Tickets' => '',
+        'My Responsible Tickets' => '',
         'Watched Tickets' => 'Посматрани тикети',
         'Watched' => 'Посматрано',
         'Watch' => 'Посматрај',
@@ -759,6 +763,7 @@ sub Data {
         'Last Login' => 'Последња пријава',
         'Add Customer' => 'Додај корисника',
         'Edit Customer' => 'Уреди корисника',
+        'This field is required and needs to be a valid email address.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Управљање релацијама Корисник-Група',
@@ -1276,7 +1281,6 @@ sub Data {
         'Display name' => '',
         'Add System Email Address' => '',
         'Edit System Email Address' => '',
-        'This field is required and needs to be a valid email address.' => '',
         'The display name and email address will be shown on mail you send.' => '',
 
         # Template: AdminType
@@ -1546,7 +1550,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Промени опције претраге',
-        'Context Settings' => '',
         'Max. shown Tickets a page' => 'Макс број тикета по страни',
 
         # Template: AgentTicketOverviewPreview
@@ -1594,12 +1597,12 @@ sub Data {
         'Fulltext' => 'Текст',
         'Remove' => 'Уклони',
         'Customer User Login' => 'Пријава корисника',
-        'Termin1' => '',
-        'Termin2' => '',
-        'Termin3' => '',
-        'Termin4' => '',
-        'Termin5' => '',
-        'Termin6' => '',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Отворено у реду',
         'Lock state' => 'Стаус закљичавања',
         'Watcher' => 'Праћење',
@@ -1761,6 +1764,7 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => 'Ако напустите ову страницу, сви отворени прозори ће бити затворени!',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
@@ -1882,6 +1886,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => '',
+        'Show previous pages' => '',
+        'Show page %s' => '',
+        'Show next pages' => '',
+        'Show last page' => '',
 
         # Template: PrintFooter
         'URL' => '"URL"',
@@ -2038,6 +2047,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => '',

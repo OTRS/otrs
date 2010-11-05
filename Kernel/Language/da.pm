@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2010 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Jesper Ulrik Rønnov <jeron[at]faaborgmidtfyn.dk>
 # --
-# $Id: da.pm,v 1.73 2010-10-29 13:47:18 mb Exp $
+# $Id: da.pm,v 1.74 2010-11-05 15:10:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-10-29 15:43:34
+    # Last translation file sync: 2010-11-05 15:50:52
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -60,9 +60,11 @@ sub Data {
         'hour' => 'time',
         'hours' => 'timer',
         'hour(s)' => 'time(r)',
+        'Hours' => '',
         'minute' => 'minut',
         'minutes' => 'minutter',
         'minute(s)' => 'minut(ter)',
+        'Minutes' => '',
         'month' => 'måned',
         'months' => 'måneder',
         'month(s)' => 'måned(er)',
@@ -583,6 +585,8 @@ sub Data {
         'Overview of all open Tickets' => 'Oversigt over alle åbne sager',
         'Locked Tickets' => 'Låste sager',
         'My Locked Tickets' => 'Mine låste sager',
+        'My Watched Tickets' => '',
+        'My Responsible Tickets' => '',
         'Watched Tickets' => 'Overvågede sager',
         'Watched' => 'Overvåget',
         'Watch' => '',
@@ -615,6 +619,7 @@ sub Data {
         'There are more escalated tickets!' => 'Der er ikke flere eskalerede sager!',
         'Plain Format' => '',
         'Reply All' => '',
+        'Direction' => '',
         'New ticket notification' => 'Besked om ny sag',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send mig en besked, hvis der er en ny sag i "Mine køer".',
         'Send new ticket notifications' => '',
@@ -760,6 +765,7 @@ sub Data {
         'Last Login' => 'Sidste login',
         'Add Customer' => 'Tilføj kunde',
         'Edit Customer' => 'Rediger kunde',
+        'This field is required and needs to be a valid email address.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Administrer Kunde-Gruppe relationer',
@@ -1029,6 +1035,7 @@ sub Data {
         'Disable it here!' => 'Deaktiver det her!',
         'Logfile too large!' => 'Logfil er for stor',
         'The logfile is too large, you need to reset it' => 'Logfiler er for stor, du skal nulstille den',
+        'Overview' => 'Oversigt',
         'Range' => 'Område',
         'Interface' => 'Interface',
         'Requests' => 'Forespørgsel',
@@ -1090,7 +1097,6 @@ sub Data {
         'Manage Queue-Auto Response Relations' => '',
         'Filter for Queues' => '',
         'Filter for Auto Responses' => '',
-        'Overview' => 'Oversigt',
         'Auto Responses' => 'Autosvar',
         'Change Auto Response Relations for Queue' => '',
         'settings' => 'indstillinger',
@@ -1255,7 +1261,6 @@ sub Data {
         'New group ro' => '',
         'Loader' => '',
         'File to load for this frontend module' => '',
-        'Type:' => '',
         'New Loader File' => '',
         'NavBarName' => 'NavBarNavn',
         'NavBar' => 'NavBar',
@@ -1400,6 +1405,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'General Specifications' => '',
         'Permissions' => 'Rettigeheder',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
         'Graph size' => '',
         'Sum rows' => 'Antal rækker',
         'Sum columns' => 'Antal Kollonner',
@@ -1507,16 +1513,13 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Need a valid mail address or don\'t use a local email address.' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: ' => '',
-        'Need a valid email address or don\'t use a local address!' => '',
         'Need a valid email address or don\'t use a local email address' => '',
-        'Need a valid mail address or don\'t use a local email address' => '',
 
         # Template: AgentTicketFreeText
 
@@ -1549,7 +1552,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Skift søgemuligheder',
-        'Context Settings' => '',
         'Max. shown Tickets a page' => '',
 
         # Template: AgentTicketOverviewPreview
@@ -1597,6 +1599,12 @@ sub Data {
         'Fulltext' => 'Fritekst',
         'Remove' => '',
         'Customer User Login' => 'Kundebrugers login',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Oprettet i kø',
         'Lock state' => '',
         'Watcher' => '',
@@ -1758,10 +1766,13 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => '',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
+
+        # Template: HTMLHeadBlockEvents
 
         # Template: Header
         'You are logged in as' => '',
@@ -1772,6 +1783,7 @@ sub Data {
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Welcome to %s' => 'Velkommen til %s',
+        'Web site' => '',
         'Database check successful.' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -1876,6 +1888,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => '',
+        'Show previous pages' => '',
+        'Show page %s' => '',
+        'Show next pages' => '',
+        'Show last page' => '',
 
         # Template: PrintFooter
         'URL' => 'URL',
@@ -2032,6 +2049,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => '',
@@ -2160,6 +2178,7 @@ sub Data {
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' => '',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' => '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' => '',
+        'Defines the default shown ticket search attribute for ticket search screen.' => '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' => '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' => '',
         'Defines the default spell checker dictionary.' => '',
@@ -2549,6 +2568,8 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',

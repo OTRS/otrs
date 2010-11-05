@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.136 2010-10-29 14:14:54 mb Exp $
+# $Id: nl.pm,v 1.137 2010-11-05 15:10:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-10-29 15:43:43
+    # Last translation file sync: 2010-11-05 15:51:02
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -71,9 +71,11 @@ sub Data {
         'hour' => 'uur',
         'hours' => 'uur',
         'hour(s)' => 'uur',
+        'Hours' => 'Uren',
         'minute' => 'minuut',
         'minutes' => 'minuten',
         'minute(s)' => 'minuten',
+        'Minutes' => 'Minuten',
         'month' => 'maand',
         'months' => 'maanden',
         'month(s)' => 'maand(en)',
@@ -250,11 +252,11 @@ sub Data {
         'Time Zone' => 'Tijdzone',
         'Pending till' => 'In de wacht tot',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'Werk niet met deze gebruiker (User# 1 - systeemaccount). Maak nieuwe gebruikers aan!',
-        'Dispatching by email To: field.' => 'Sorteren op e-mailadres ',
-        'Dispatching by selected Queue.' => 'Sorteren op geselecteerde wachtrij',
+        'Dispatching by email To: field.' => 'Toewijzen gebaseerd op e-mailadres.',
+        'Dispatching by selected Queue.' => 'Sorteren op geselecteerde wachtrij.',
         'No entry found!' => 'Niets gevonden.',
         'Session has timed out. Please log in again.' => 'Uw sessie is verlopen. Meldt u opnieuw aan.',
-        'No Permission!' => 'Geen toegang! Onvoldoende rechten.',
+        'No Permission!' => 'Geen toegang! Onvoldoende permissies.',
         'To: (%s) replaced with database email!' => 'Aan: e-mail adres (%s) vervangen.',
         'Cc: (%s) added database email!' => 'Cc: e-mail adres (%s) toegevoegd.',
         '(Click here to add)' => '(Klik hier om toe te voegen)',
@@ -525,7 +527,7 @@ sub Data {
         'This message was written in a character set other than your own.' => 'Dit bericht is geschreven in een andere karakterset dan degene die u nu heeft ingesteld.',
         'If it is not displayed correctly,' => 'Als dit niet juist wordt weergegeven,',
         'This is a' => 'Dit is een',
-        'to open it in a new window.' => 'om deze in een nieuw venster te openen',
+        'to open it in a new window.' => 'om deze in een nieuw venster te openen.',
         'This is a HTML email. Click here to show it.' => 'Dit is een HTML e-mail. Klik hier om deze te tonen.',
         'Free Fields' => 'Vrije invulvelden',
         'Merge' => 'Samenvoegen',
@@ -594,6 +596,8 @@ sub Data {
         'Overview of all open Tickets' => 'Laat alle open tickets zien',
         'Locked Tickets' => 'Vergrendelde tickets',
         'My Locked Tickets' => 'Mijn vergrendelde tickets',
+        'My Watched Tickets' => 'Mijn gevolgde tickets',
+        'My Responsible Tickets' => 'Mijn verantwoordelijke tickets',
         'Watched Tickets' => 'Gevolgde tickets',
         'Watched' => 'Gevolgd',
         'Watch' => 'Volg',
@@ -626,16 +630,17 @@ sub Data {
         'There are more escalated tickets!' => 'Er zijn geen geëscaleerde tickets meer.',
         'Plain Format' => 'Broncode',
         'Reply All' => 'Allen beantwoorden',
+        'Direction' => 'Richting',
         'New ticket notification' => 'Melding bij een nieuw ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw ticket in \'Mijn wachtrijen\' komt.',
-        'Send new ticket notifications' => 'Stuur een melding bij nieuwe tickets',
-        'Ticket follow up notification' => 'Stuur een melding bij nieuwe reacties',
-        'Ticket lock timeout notification' => 'Stuur mij een melding van tijdsoverschrijding van een vergrendeld ticket',
-        'Send me a notification if a ticket is unlocked by the system.' => 'Stuur mij een melding van een bericht als een ticket wordt ontgrendeld door het systeem',
-        'Send ticket lock timeout notifications' => 'Stuur een melding bij het automatisch ontgrendelen van een ticket',
-        'Ticket move notification' => 'Stuur een melding als een ticket wordt verplaatst',
-        'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een melding als een ticket wordt verplaatst in een van mijn wachtrijen',
-        'Send ticket move notifications' => 'Stuur een melding bij het verplaatsen van een ticket',
+        'Send new ticket notifications' => 'Melding bij nieuwe tickets',
+        'Ticket follow up notification' => 'Melding bij nieuwe reacties',
+        'Ticket lock timeout notification' => 'Melding bij tijdsoverschrijding van een vergrendeld ticket',
+        'Send me a notification if a ticket is unlocked by the system.' => 'Melding bij ontgrendeling van een ticket door het systeem',
+        'Send ticket lock timeout notifications' => 'Melding bij het automatisch ontgrendelen van een ticket',
+        'Ticket move notification' => 'Melding bij verplaatsen van een ticket',
+        'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur een melding als een ticket wordt verplaatst in een van mijn wachtrijen',
+        'Send ticket move notifications' => 'Melding bij het verplaatsen van een ticket',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
         'Custom Queue' => 'Aangepaste wachtrij.',
         'QueueView refresh time' => 'Verversingstijd wachtrij',
@@ -644,8 +649,8 @@ sub Data {
         'Screen after new ticket' => 'Toon dit scherm na het aanmaken van een nieuw ticket',
         'Show this screen after I created a new ticket' => 'Toon dit scherm',
         'Closed Tickets' => 'Afgesloten tickets',
-        'Show closed tickets.' => 'Toon gesloten tickets',
-        'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm',
+        'Show closed tickets.' => 'Toon gesloten tickets.',
+        'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm.',
         'Ticket Overview "Small" Limit' => 'Ticket overzicht (klein) limiet',
         'Ticket limit per page for Ticket Overview "Small"' => 'Getoonde tickets per pagina (klein)',
         'Ticket Overview "Medium" Limit' => 'Ticket overzicht (middel) limiet',
@@ -741,9 +746,9 @@ sub Data {
         'Auto response from' => 'Automatisch antwoord van',
         'Reference' => 'Referentie',
         'You can use the following tags' => 'U kunt de volgende tags gebruiken',
-        'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp',
-        'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht',
-        'To get the realname of the sender (if given).' => 'Voor de echte naam van de afzender (indien beschikbaar)',
+        'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp.',
+        'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht.',
+        'To get the realname of the sender (if given).' => 'Voor de echte naam van de afzender (indien beschikbaar).',
         'To get the article attribute' => 'Voor de attributen van de interactie',
         ' e. g.' => ' bijv.',
         'Options of the current customer user data' => 'Attributen van de huidige klant',
@@ -756,9 +761,9 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Beheer bedrijven',
-        'Wildcards are allowed.' => 'Wildcards zijn toegestaan',
+        'Wildcards are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer company' => 'Nieuw bedrijf',
-        'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven',
+        'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven.',
         'Add Customer Company' => 'Bedrijf Toevoegen',
 
         # Template: AdminCustomerUser
@@ -767,10 +772,11 @@ sub Data {
         'Select' => 'Selecteer',
         'Hint' => 'Opmerking',
         'Customer will be needed to have a customer history and to login via customer panel.' => 'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
-        'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten',
+        'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Last Login' => 'Laatst ingelogd',
         'Add Customer' => 'Klant toevoegen',
         'Edit Customer' => 'Klant bewerken',
+        'This field is required and needs to be a valid email address.' => 'Dit veld is verplicht en moet een geldig e-mailadres zijn.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
@@ -778,12 +784,12 @@ sub Data {
         'This feature is disabled!' => 'Deze functie is geactiveerd.',
         'Just use this feature if you want to define group permissions for customers.' => 'Gebuik deze mogelijkheid alleen als u groep-permissies voor klanten wilt gebruiken.',
         'Enable it here!' => 'Inschakelen',
-        'Search for customers (wildcards are allowed).' => 'Typ om te zoeken naar klanten (wildcards toegestaan)',
+        'Search for customers (wildcards are allowed).' => 'Typ om te zoeken naar klanten (wildcards toegestaan).',
         'Edit Customer Default Groups' => 'Bewerk standaard groepen voor klanten',
         'These groups are automatically assigned to all customers.' => 'Deze groepen worden toegewezen aan alle klanten.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filter op groepen',
-        'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep',
+        'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' => 'Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien).',
         'Search Result:' => 'Zoekresultaat:',
         'Customers' => 'Klanten',
@@ -814,7 +820,7 @@ sub Data {
         'Your message was sent to' => 'Uw bericht is verstuurd aan',
         'Send message to users' => 'Stuur bericht aan gebruikers',
         'Send message to group members' => 'Stuur bericht aan gebruikers met groep',
-        'Group members need to have permission' => 'Leden van de groep moeten rechten hebben',
+        'Group members need to have permission' => 'Leden van de groep moeten permissies hebben',
         'Send message to role members' => 'Stuur bericht naar gebruikers met rol',
         'Also send to customers in groups' => 'Stuur ook naar klanten in deze groepen',
         'Please enter subject.' => 'Vul een onderwerp in.',
@@ -836,7 +842,7 @@ sub Data {
         'Schedule days' => 'dagen',
         'Currently this generic agent job will not run automatically.' => 'Deze taak zal niet automatisch draaien.',
         'To enable automatic execution select at least one value from minutes, hours and days!' => 'Om automatisch uit te voeren selecteer ten minste één waarde bij minuten, uren en dagen.',
-        'Toggle this widget' => 'Klap dit widget in/uit',
+        'Toggle this widget' => 'Klap in/uit',
         'Ticket Filter' => 'Ticket filter',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
         '(e. g. 234321)' => '(bijvoorbeeld 234321)',
@@ -845,20 +851,20 @@ sub Data {
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*")',
         'Agent' => 'Gebruiker',
         'Ticket lock' => 'Vergrendeling',
-        'TicketFreeFields' => 'Vrije invulvelden van het ticket',
-        'Create times' => 'Aanmaak tijdstip',
+        'TicketFreeFields' => 'Vrije invulvelden',
+        'Create times' => 'Tijdstip van aanmaken',
         'No create time settings.' => 'Alle',
         'Ticket created' => 'Ticket aangemaakt',
         'Ticket created between' => 'Ticket aangemaakt tussen',
-        'Close times' => 'Sluit-tijdstip',
+        'Close times' => 'Tijdstip van sluiten',
         'No close time settings.' => 'Alle',
         'Ticket closed' => 'Ticket gesloten',
         'Ticket closed between' => 'Ticket gesloten tussen',
-        'Pending times' => 'Wacht-op tijdstip',
+        'Pending times' => 'Tijdstip van wachten',
         'No pending time settings.' => 'Niet op zoeken',
         'Ticket pending time reached' => 'Ticket wachtend tot tijd bereikt',
         'Ticket pending time reached between' => 'Ticket wachtend tot tijd tussen',
-        'Escalation times' => 'Escalatie tijdstip',
+        'Escalation times' => 'Tijdstip van escalatie',
         'No escalation time settings.' => 'Niet op zoeken',
         'Ticket escalation time reached' => 'Escalatiemoment bereikt',
         'Ticket escalation time reached between' => 'Escalatiemoment bereikt tussen',
@@ -1040,6 +1046,7 @@ sub Data {
         'Disable it here!' => 'Uitschakelen',
         'Logfile too large!' => 'Logbestand te groot.',
         'The logfile is too large, you need to reset it' => 'Het logbestand is te groot, u moet het resetten',
+        'Overview' => 'Overzicht',
         'Range' => 'Bereik',
         'Interface' => 'Interface',
         'Requests' => 'Verzoeken',
@@ -1101,7 +1108,6 @@ sub Data {
         'Manage Queue-Auto Response Relations' => 'Beheer Wachtrij - Automatische antwoorden koppelingen',
         'Filter for Queues' => 'Filter op wachtrijen',
         'Filter for Auto Responses' => 'Filter op automatische antwoorden',
-        'Overview' => 'Overzicht',
         'Auto Responses' => 'Automatische antwoorden',
         'Change Auto Response Relations for Queue' => 'Bewerk automatische antwoorden voor wachtrij',
         'settings' => 'Instellingen',
@@ -1266,7 +1272,6 @@ sub Data {
         'New group ro' => 'Nieuwe alleen-lezen groep',
         'Loader' => 'Loader',
         'File to load for this frontend module' => 'Bestand om te laden voor deze frontend module',
-        'Type:' => 'Type:',
         'New Loader File' => 'Nieuw bestand voor Loader',
         'NavBarName' => 'Titel navigatiebalk',
         'NavBar' => 'Navigatiebalk',
@@ -1411,6 +1416,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'General Specifications' => 'Algemene Instellingen',
         'Permissions' => 'Rechten',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
         'Graph size' => 'Grootte',
         'Sum rows' => 'Toon totaal per rij',
         'Sum columns' => 'Toon totaal per kolom',
@@ -1518,16 +1524,13 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
         'From queue' => 'In wachtrij',
-        'Need a valid mail address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Get all' => 'Gebruik alle',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: ' => 'Doorsturen:',
-        'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need a valid email address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
-        'Need a valid mail address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
 
         # Template: AgentTicketFreeText
 
@@ -1560,7 +1563,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Verander zoekopties',
-        'Context Settings' => 'Context',
         'Max. shown Tickets a page' => 'Max. aantal tickets per pagina',
 
         # Template: AgentTicketOverviewPreview
@@ -1608,6 +1610,12 @@ sub Data {
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
         'Customer User Login' => 'Klant login',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
         'Watcher' => 'Volger',
@@ -1644,8 +1652,8 @@ sub Data {
         'Unread articles' => 'Ongelezen interacties',
         'No.' => 'Nr.',
         'Unread Article!' => 'Ongelezen interactie.',
-        'Incoming message' => 'Binnenkomende bericht',
-        'Outgoing message' => 'Uitgaande bericht',
+        'Incoming message' => 'Binnenkomend bericht',
+        'Outgoing message' => 'Uitgaand bericht',
         'Internal message' => 'Intern bericht',
         'Resize' => 'Grootte wijzigen',
 
@@ -1769,10 +1777,13 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => 'Als u deze pagina verlaat worden alle openstaande popup-vensters ook gesloten.',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
+
+        # Template: HTMLHeadBlockEvents
 
         # Template: Header
         'You are logged in as' => 'U bent ingelogd als',
@@ -1783,6 +1794,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript is niet beschikbaar',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Welcome to %s' => 'Welkom bij %s',
+        'Web site' => 'Website',
         'Database check successful.' => 'Database check gelukt.',
         'Mail check successful.' => 'Mail check gelukt.',
         'Error in the mail settings. Please correct and try again.' => 'Fout in de mailinstellingen. Corrigeer ze en probeer nog eens.',
@@ -1887,6 +1899,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => 'Toon eerste pagina',
+        'Show previous pages' => 'Toon vorige pagina\'s',
+        'Show page %s' => 'Toon pagina %s',
+        'Show next pages' => 'Toon volgende pagina\'s',
+        'Show last page' => 'Toon laatste pagina',
 
         # Template: PrintFooter
         'URL' => 'URL',
@@ -2043,6 +2060,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => '',
@@ -2171,6 +2189,7 @@ sub Data {
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' => '',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' => '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' => '',
+        'Defines the default shown ticket search attribute for ticket search screen.' => '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' => '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' => '',
         'Defines the default spell checker dictionary.' => '',
@@ -2560,6 +2579,8 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Taal',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
@@ -3091,6 +3112,7 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Configuratie opties (bijvoorbeeld <OTRS_CONFIG_HttpType>)',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Configuratie-gegevens (bijvoorbeeld <OTRS_CONFIG_HttpType>).',
         'Contact customer' => 'Neem contact op',
+        'Context Settings' => 'Context',
         'Country{CustomerUser}' => 'Land',
         'Create New Template' => 'Maak nieuwe template',
         'Create Times' => 'Zoek op aanmaakdatum',
@@ -3224,6 +3246,9 @@ sub Data {
         'MyTickets' => 'Mijn tickets',
         'Name is required!' => 'Naam is verplicht.',
         'Name is required.' => 'De naam is verplicht.',
+        'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid mail address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
+        'Need a valid mail address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need valid email address or don\'t use local address' => 'Het e-mailadres is ongeldig',
         'New Agent' => 'Nieuwe gebruiker',
         'New Customer' => 'Nieuwe klant',
@@ -3431,6 +3456,7 @@ sub Data {
         'Tomorrow' => 'Morgen',
         'Top of Page' => 'Bovenkant pagina',
         'Total hits' => 'Totaal gevonden',
+        'Type:' => 'Type:',
         'U' => 'U',
         'Unable to parse Online Repository index document!' => 'Kan Online Repository index niet lezen.',
         'Uniq' => 'Uniek',

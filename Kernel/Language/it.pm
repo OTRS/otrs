@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.100 2010-10-29 13:49:08 mb Exp $
+# $Id: it.pm,v 1.101 2010-11-05 15:10:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-10-29 15:43:41
+    # Last translation file sync: 2010-11-05 15:51:00
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -63,9 +63,11 @@ sub Data {
         'hour' => 'ora',
         'hours' => 'ore',
         'hour(s)' => 'ora(e)',
+        'Hours' => 'Ore',
         'minute' => 'minuto',
         'minutes' => 'minuti',
         'minute(s)' => 'minuto(i)',
+        'Minutes' => 'Minuti',
         'month' => 'mese',
         'months' => 'mesi',
         'month(s)' => 'mese(i)',
@@ -586,6 +588,8 @@ sub Data {
         'Overview of all open Tickets' => 'Vista globale di tutte le richieste aperte',
         'Locked Tickets' => 'Richieste in gestione',
         'My Locked Tickets' => '',
+        'My Watched Tickets' => '',
+        'My Responsible Tickets' => '',
         'Watched Tickets' => 'Tickets Visionati',
         'Watched' => 'Visionati',
         'Watch' => '',
@@ -618,6 +622,7 @@ sub Data {
         'There are more escalated tickets!' => 'Ci sono più tickets in gestione!',
         'Plain Format' => '',
         'Reply All' => '',
+        'Direction' => '',
         'New ticket notification' => 'Notifica nuova richiesta',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Mandami una notifica se viene inserita una nuova richiesta in una coda della lista "Le mie Code"',
         'Send new ticket notifications' => '',
@@ -763,6 +768,7 @@ sub Data {
         'Last Login' => '',
         'Add Customer' => '',
         'Edit Customer' => '',
+        'This field is required and needs to be a valid email address.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
@@ -1032,6 +1038,7 @@ sub Data {
         'Disable it here!' => 'Disabilita funzione qui',
         'Logfile too large!' => 'Log File troppo grande ',
         'The logfile is too large, you need to reset it' => '',
+        'Overview' => 'Sommario',
         'Range' => 'intervallo',
         'Interface' => 'interfaccia',
         'Requests' => 'Richiesta',
@@ -1093,7 +1100,6 @@ sub Data {
         'Manage Queue-Auto Response Relations' => '',
         'Filter for Queues' => '',
         'Filter for Auto Responses' => '',
-        'Overview' => 'Sommario',
         'Auto Responses' => 'Risposte Automatiche',
         'Change Auto Response Relations for Queue' => '',
         'settings' => 'Configura',
@@ -1258,7 +1264,6 @@ sub Data {
         'New group ro' => '',
         'Loader' => '',
         'File to load for this frontend module' => '',
-        'Type:' => '',
         'New Loader File' => '',
         'NavBarName' => '',
         'NavBar' => '',
@@ -1403,6 +1408,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'General Specifications' => '',
         'Permissions' => ' Permessi',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
         'Graph size' => '',
         'Sum rows' => 'Somma le righe',
         'Sum columns' => 'somma le colonne',
@@ -1510,16 +1516,13 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Need a valid mail address or don\'t use a local email address.' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: ' => '',
-        'Need a valid email address or don\'t use a local address!' => '',
         'Need a valid email address or don\'t use a local email address' => '',
-        'Need a valid mail address or don\'t use a local email address' => '',
 
         # Template: AgentTicketFreeText
 
@@ -1552,7 +1555,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Modifica le opzioni di ricerca',
-        'Context Settings' => '',
         'Max. shown Tickets a page' => '',
 
         # Template: AgentTicketOverviewPreview
@@ -1600,6 +1602,12 @@ sub Data {
         'Fulltext' => 'Testo libero',
         'Remove' => '',
         'Customer User Login' => 'Identificativo di Accesso del Cliente',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Creata nella Coda',
         'Lock state' => '',
         'Watcher' => '',
@@ -1761,10 +1769,13 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => '',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
+
+        # Template: HTMLHeadBlockEvents
 
         # Template: Header
         'You are logged in as' => '',
@@ -1775,6 +1786,7 @@ sub Data {
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Welcome to %s' => 'Benvenuto in %s',
+        'Web site' => '',
         'Database check successful.' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -1879,6 +1891,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => '',
+        'Show previous pages' => '',
+        'Show page %s' => '',
+        'Show next pages' => '',
+        'Show last page' => '',
 
         # Template: PrintFooter
         'URL' => '',
@@ -2035,6 +2052,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => '',
@@ -2163,6 +2181,7 @@ sub Data {
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' => '',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' => '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' => '',
+        'Defines the default shown ticket search attribute for ticket search screen.' => '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' => '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' => '',
         'Defines the default spell checker dictionary.' => '',
@@ -2552,6 +2571,8 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',
@@ -3131,7 +3152,6 @@ sub Data {
         'Here you can insert a description of the stat.' => 'Qui descrivi la tipologia di stat.',
         'Here you can select the dynamic object you want to use.' => 'Seleziona i Dynamic-Object che vuoi usare ',
         'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Qui puoi definire i valori della serie .E\' posibile definire attributi agli elementi.Ogni attributo e\' rappresentato singolarmente . Se manca la selezione tutti gli attributi di questo elemento verranno utilizzati nel generare le stat.Un nuovo attributo viene aggiunto alla precedente configurazione .',
-        'Hours' => 'Ore',
         'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => 'Se la Modalita Sicura non e\' settata ,si deve configurare via SysConfig l\' applicativo e\' gia\' attivo .',
         'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Se i file precompilati sono presenti questo possibilita viene mostrata e si puo selezionare ',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Se una richiesta è chiusa e il cliente invia una risposta, la richiesta viene assegnata al vecchio operatore.',
@@ -3168,7 +3188,6 @@ sub Data {
         'Match' => 'Corrispondenza',
         'Message for new Owner' => 'Messaggio per l\'operatore',
         'Message sent to' => 'Messaggio inviato a',
-        'Minutes' => 'Minuti',
         'Misc' => 'Varie',
         'Modified' => 'Modificato',
         'Modules' => 'Moduli',

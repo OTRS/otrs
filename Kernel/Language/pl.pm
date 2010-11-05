@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.97 2010-10-29 13:47:18 mb Exp $
+# $Id: pl.pm,v 1.98 2010-11-05 15:10:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-10-29 15:43:44
+    # Last translation file sync: 2010-11-05 15:51:03
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -59,9 +59,11 @@ sub Data {
         'hour' => 'godzina',
         'hours' => 'godz.',
         'hour(s)' => 'godz.',
+        'Hours' => '',
         'minute' => 'minuta',
         'minutes' => 'minut',
         'minute(s)' => 'minuta(minut)',
+        'Minutes' => '',
         'month' => 'miesi±c',
         'months' => 'miesiêcy',
         'month(s)' => 'miesi±c(-cy)',
@@ -582,6 +584,8 @@ sub Data {
         'Overview of all open Tickets' => 'Przegl±d otwartych zg³oszeñ',
         'Locked Tickets' => 'Zablokowane Zg³oszenia',
         'My Locked Tickets' => 'Moje Zablokowane Zg³oszenia',
+        'My Watched Tickets' => '',
+        'My Responsible Tickets' => '',
         'Watched Tickets' => 'Obserwowane zg³oszenia',
         'Watched' => 'Obserwowane',
         'Watch' => '',
@@ -614,6 +618,7 @@ sub Data {
         'There are more escalated tickets!' => 'Wiêcej przeterminowanych zg³oszeñ!',
         'Plain Format' => '',
         'Reply All' => '',
+        'Direction' => '',
         'New ticket notification' => 'Powiadomienie o nowym zg³oszeniu',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Powiadom o nowym zg³oszeniu w moich kolejkach.',
         'Send new ticket notifications' => 'Wysy³aj powiadomienia o nowych zg³oszeniach',
@@ -759,6 +764,7 @@ sub Data {
         'Last Login' => 'Ostatnie logowanie',
         'Add Customer' => 'Dodaj Klienta',
         'Edit Customer' => 'Edytuj Klienta',
+        'This field is required and needs to be a valid email address.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Zarz±dzaj relacjami Klient-Grupa',
@@ -1028,6 +1034,7 @@ sub Data {
         'Disable it here!' => 'Wy³±cz tutaj!',
         'Logfile too large!' => 'Plik log jest za du¿y!',
         'The logfile is too large, you need to reset it' => '',
+        'Overview' => 'Podsumowanie',
         'Range' => 'Zakres',
         'Interface' => 'Interfejs',
         'Requests' => '¯±dania',
@@ -1089,7 +1096,6 @@ sub Data {
         'Manage Queue-Auto Response Relations' => '',
         'Filter for Queues' => 'Filtrowanie kolejek',
         'Filter for Auto Responses' => 'Filtrowanie automatycznych odpowiedzi',
-        'Overview' => 'Podsumowanie',
         'Auto Responses' => 'Automatyczna odpowied¼',
         'Change Auto Response Relations for Queue' => '',
         'settings' => 'ustawienia',
@@ -1254,7 +1260,6 @@ sub Data {
         'New group ro' => 'Nowa grupa ro',
         'Loader' => '',
         'File to load for this frontend module' => 'Plik do za³adowania dla tego modu³u',
-        'Type:' => 'Typ:',
         'New Loader File' => '',
         'NavBarName' => 'Nazwa paska nawigacyjnego',
         'NavBar' => 'Pasek nawigacyjny',
@@ -1399,6 +1404,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'General Specifications' => '',
         'Permissions' => 'Prawa',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
         'Graph size' => '',
         'Sum rows' => 'Suma wierszy',
         'Sum columns' => 'Suma kolumn',
@@ -1506,16 +1512,13 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Utwórz nowe zg³oszenie email',
         'From queue' => 'Do kolejki',
-        'Need a valid mail address or don\'t use a local email address.' => '',
         'Get all' => 'Pobierz wszystkich',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: ' => '',
-        'Need a valid email address or don\'t use a local address!' => 'Musisz podaæ poprawny adres email. Nie mo¿na u¿ywaæ lokalnych adresów.',
         'Need a valid email address or don\'t use a local email address' => '',
-        'Need a valid mail address or don\'t use a local email address' => '',
 
         # Template: AgentTicketFreeText
 
@@ -1548,7 +1551,6 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Zmieñ kryteria wyszukiwania',
-        'Context Settings' => '',
         'Max. shown Tickets a page' => 'Maksymalna ilo¶æ zg³oszeñ na stronie',
 
         # Template: AgentTicketOverviewPreview
@@ -1596,6 +1598,12 @@ sub Data {
         'Fulltext' => 'Pe³notekstowe',
         'Remove' => 'Usuñ',
         'Customer User Login' => 'Login Klienta',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Utworzono w kolejce',
         'Lock state' => 'Stan blokady',
         'Watcher' => 'Obserwuj±cy',
@@ -1757,10 +1765,13 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => '',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
+
+        # Template: HTMLHeadBlockEvents
 
         # Template: Header
         'You are logged in as' => 'Jesteœ¶ zalogowany jako',
@@ -1771,6 +1782,7 @@ sub Data {
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Welcome to %s' => 'Witamy w %s',
+        'Web site' => '',
         'Database check successful.' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -1875,6 +1887,11 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
+        'Show first page' => '',
+        'Show previous pages' => '',
+        'Show page %s' => '',
+        'Show next pages' => '',
+        'Show last page' => '',
 
         # Template: PrintFooter
         'URL' => 'URL',
@@ -2031,6 +2048,7 @@ sub Data {
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
+        'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' => '',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' => '',
@@ -2159,6 +2177,7 @@ sub Data {
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' => '',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' => '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' => '',
+        'Defines the default shown ticket search attribute for ticket search screen.' => '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' => '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' => '',
         'Defines the default spell checker dictionary.' => '',
@@ -2548,6 +2567,8 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Jêzyk interfejsu',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => 'Zarz±dzanie relacjami Agenci <-> Grupy',
         'Link agents to roles.' => 'Zarz±dzanie relacjami Agenci <-> Role',
@@ -3183,6 +3204,7 @@ sub Data {
         'Multiple selection of the output format.' => 'Wielokrotny wybór formatu wyjsciowego.',
         'MyTickets' => 'Moje zg³oszenia',
         'Name is required!' => 'Nazwa jest wymagana!',
+        'Need a valid email address or don\'t use a local address!' => 'Musisz podaæ poprawny adres email. Nie mo¿na u¿ywaæ lokalnych adresów.',
         'New Agent' => 'Nowy agent',
         'New Customer' => 'Nowy klient',
         'New Group' => 'Nowa grupa',
@@ -3373,6 +3395,7 @@ sub Data {
         'Tomorrow' => 'Jutro',
         'Top of Page' => 'Góra strony',
         'Total hits' => 'Wszystkich trafieñ',
+        'Type:' => 'Typ:',
         'U' => 'G',
         'Unable to parse Online Repository index document!' => 'Niedostêpne repozytorium on-line',
         'Uniq' => 'Unikalne',
