@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.25 2010-11-02 13:20:38 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.26 2010-11-08 12:44:14 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -159,12 +159,14 @@ check.
     TargetNS.OpenSearchDialog = function (Action, Profile) {
 
         if (!Action) {
-            Action = Core.Config.Get('Action');
+            Action = 'AgentSearch';
         }
+        var Referrer = Core.Config.Get('Action');
         var Data = {
-            Action: 'AgentSearch',
-            Referrer: Action,
-            Profile: Profile
+            Action: Action,
+            Referrer: Referrer,
+            Profile: Profile,
+            Subaction: 'AJAX'
         };
 
         ShowWaitingDialog();
