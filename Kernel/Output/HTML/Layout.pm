@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.326 2010-11-05 10:38:03 martin Exp $
+# $Id: Layout.pm,v 1.327 2010-11-08 11:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.326 $) [1];
+$VERSION = qw($Revision: 1.327 $) [1];
 
 =head1 NAME
 
@@ -2629,7 +2629,7 @@ sub NavigationBar {
             Data => {
                 %$Item,
                 AccessKeyReference => $Item->{AccessKey} ? " ($Item->{AccessKey})" : '',
-                }
+            },
         );
 
         # show sub menu
@@ -4807,6 +4807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.326 $ $Date: 2010-11-05 10:38:03 $
+$Revision: 1.327 $ $Date: 2010-11-08 11:21:25 $
 
 =cut

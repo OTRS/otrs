@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.106 2010-11-04 11:28:11 mb Exp $
+# $Id: LayoutTicket.pm,v 1.107 2010-11-08 11:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1267,7 +1267,7 @@ sub TicketMetaItems {
             UserID   => $Self->{UserID},
         );
 
-        # show if now message is in there
+        # show if new message is in there
         if ( $TicketFlag{Seen} ) {
             push @Result, undef;
         }
