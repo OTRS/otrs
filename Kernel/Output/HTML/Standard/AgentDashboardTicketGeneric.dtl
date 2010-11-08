@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.37 2010-11-04 14:45:31 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.38 2010-11-08 13:25:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,7 +91,7 @@
 <table class="DataTable">
     <tbody>
 <!-- dtl:block:ContentLargeTicketGenericRow -->
-        <tr>
+        <tr class="MasterAction">
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
             <td class="$QData{"ClassTable"} Flags" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
@@ -102,7 +102,7 @@
             </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
             <td class="W10pc">
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock">$Data{"TicketNumber"}</a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock MasterActionLink">$Data{"TicketNumber"}</a>
             </td>
             <td class="W50pc">
                 <div title="$QData{"Title"}">$QData{"Title","70"}</div>
@@ -119,3 +119,11 @@
 <!-- dtl:block:ContentLargeTicketGenericNone -->
     </tbody>
 </table>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    window.location = $(this).find('.MasterActionLink').attr('href');
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
