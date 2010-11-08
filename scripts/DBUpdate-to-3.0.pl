@@ -3,7 +3,7 @@
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.0.pl,v 1.1 2010-07-13 13:29:48 mg Exp $
+# $Id: DBUpdate-to-3.0.pl,v 1.2 2010-11-08 15:34:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -67,11 +67,15 @@ $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{StateObject}     = Kernel::System::State->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
-$CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
 
-# start migration process
+# start migration process 1/2
+RebuildConfig();
+
+$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
+$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+
+# start migration process 2/2
 MigrateThemes();
 PermissionTableCleanup();
 RemovePendingTime();
@@ -79,6 +83,28 @@ RemovePendingTime();
 print "\nMigration of the system completed!\n";
 
 exit 0;
+
+=item RebuildConfig()
+
+migrate all themes from the database to SysConfig
+
+    RebuildConfig();
+
+=cut
+
+sub RebuildConfig {
+
+    print "NOTICE: Rebuild Config...\n";
+
+    if ( !$CommonObject{SysConfigObject}->WriteDefault() ) {
+        die "ERROR: Can't write default config files!";
+    }
+
+    $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+
+    return 1;
+}
 
 =item MigrateThemes()
 
@@ -99,14 +125,14 @@ sub MigrateThemes {
             What  => 'theme, valid_id',
             Table => 'theme',
             )
-    ) || die "Error reading themes from database. Migration halted.\n";
+    ) || die "ERROR: reading themes from database. Migration halted.\n";
 
     my $Update = $CommonObject{SysConfigObject}->ConfigItemUpdate(
         Key   => 'Frontend::Themes',
         Value => \%Themes,
         Valid => 1,
 
-    ) || die "Can't write SysConfig. Migration halted. $!\n";
+    ) || die "ERROR: Can't write SysConfig. Migration halted. $!\n";
 
     return 1;
 }
@@ -156,7 +182,7 @@ Set Pending Time to NULL if the ticket does not have a pending-type state.
 
 sub RemovePendingTime {
 
-    print "NOTICE: Setting pending time to null...\n";
+    print "NOTICE: Setting pending time to null...";
 
     # read pending state types from config
     my $PendingReminderStateType =
@@ -170,13 +196,14 @@ sub RemovePendingTime {
         Result => 'ID',
     );
 
-    return 1 if !@PendingStateIDs;
+    if ( !@PendingStateIDs ) {
+        print "done (no pendig states found)!\n";
+        return 1;
+    }
 
     # update ticket table via DB driver.
     my $Success = $CommonObject{DBObject}->Do(
-        SQL => "UPDATE ticket"
-            . " SET until_time = 0"
-            . " WHERE until_time > 0"
+        SQL => "UPDATE ticket SET until_time = 0 WHERE until_time > 0"
             . " AND ticket_state_id NOT IN (${\(join ', ', sort @PendingStateIDs)})",
     );
 
