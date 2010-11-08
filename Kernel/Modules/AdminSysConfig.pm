@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.108 2010-11-08 11:17:56 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.109 2010-11-08 11:25:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -451,7 +451,7 @@ sub Run {
 
                 # NavBar get Params
                 my %NavBarParams;
-                for (qw(Description Name Image Link LinkOption Type Prio Block NavBar AccessKey)) {
+                for (qw(Description Name Link LinkOption Type Prio Block NavBar AccessKey)) {
                     my @Param = $Self->{ParamObject}->GetArray(
                         Param => $ElementKey . '#NavBar#' . $_ . '[]'
                     );
@@ -512,7 +512,7 @@ sub Run {
                         }
                     }
                     for (
-                        qw(Description Name Image Link LinkOption Type Prio Block NavBar AccessKey)
+                        qw(Description Name Link LinkOption Type Prio Block NavBar AccessKey)
                         )
                     {
                         if ( defined $NavBarParams{$_}->[$Index] ) {
@@ -1354,7 +1354,7 @@ sub ListConfigItem {
         for my $Index ( 1 .. $#{ $FrontendModuleReg->{NavBar} } ) {
             my %Data = ();
             for my $Key (
-                qw(Description Name Image Link LinkOption Type Prio Block NavBar AccessKey)
+                qw(Description Name Link LinkOption Type Prio Block NavBar AccessKey)
                 )
             {
                 $Data{ 'Key' . $Key }     = $Key;
