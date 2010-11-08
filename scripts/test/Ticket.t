@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.61 2010-10-29 22:16:59 en Exp $
+# $Id: Ticket.t,v 1.62 2010-11-08 17:47:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,14 @@ use utf8;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::Config;
+use Kernel::System::User;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
+my $UserObject   = Kernel::System::User->new(
+    ConfigObject => $ConfigObject,
+    %{$Self},
+);
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -360,6 +365,48 @@ $Self->Is(
 );
 
 # ticket flag tests
+
+# array to save the ID of 2 new users
+my @UserIDList;
+
+# create 2 new users
+for ( my $Iteration = 0; $Iteration < 2; $Iteration++ ) {
+    my $random_number = rand(1000);
+
+    my $UserID = $UserObject->UserAdd(
+        UserFirstname => "MyExampleUserName$random_number",
+        UserLastname  => "MyExampleUserLastName$random_number",
+        UserLogin     => "example$random_number",
+        UserEmail     => "myuser$random_number\@mydomain.com",
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+    push( @UserIDList, $UserID );
+}
+
+# create a new ticket
+my $NewTicket = $TicketObject->TicketCreate(
+    Title        => 'My ticket created by Agent A',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'open',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => $UserIDList[0],
+    UserID       => $UserIDList[0],
+);
+
+# check 'Seen' flag of the new ticket with another agent
+my %TicketFlag = $TicketObject->TicketFlagGet(
+    TicketID => $NewTicket,
+    UserID   => $UserIDList[1],
+);
+$Self->False(
+    $TicketFlag{seen},
+    'Check seen flag with a secondary agent.',
+);
+
 my @Tests = (
     {
         Name   => 'seen flag',
@@ -5331,6 +5378,21 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     $Self->True(
         $Delete,
         'TicketDelete()',
+    );
+}
+
+# set created users to invalid
+for my $UserIdentifier (@UserIDList) {
+    my $random_number = rand(1000);
+
+    $UserObject->UserUpdate(
+        UserID        => $UserIdentifier,
+        UserFirstname => "MyExampleUserName$random_number",
+        UserLastname  => "MyExampleUserLastName$random_number",
+        UserLogin     => "example$random_number",
+        UserEmail     => "myuser$random_number\@mydomain.com",
+        ValidID       => 2,
+        ChangeUserID  => 1,
     );
 }
 
