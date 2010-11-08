@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1539 2010-11-06 09:07:46 martin Exp $
+# $Id: CHANGES,v 1.1540 2010-11-08 09:15:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.0 rc1 2010-11-08
+ - 2010-11-05 Fixed bug#5930 - Optimisation in
+    Kernel::Modules::CustomerTicketOverView->ShowTicketStatus.
 
 3.0.0 beta7 2010-11-08
  - 2010-11-05 Fixed bug#6151 - No visual notification when generated article in ticket views.
