@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.30 2010-11-05 14:50:31 mb Exp $
+# $Id: AdminCustomerUser.dtl,v 1.31 2010-11-08 19:35:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -158,9 +158,15 @@
 <!-- dtl:block:PreferencesGenericServerErrorMsg -->
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!-- dtl:block:PreferencesGenericServerErrorMsg -->
-<!-- dtl:block:PreferencesUserMailServerErrorMsg -->
-                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
-<!-- dtl:block:PreferencesUserMailServerErrorMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidConfigMsg -->
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This email address is not allowed due to the system configuration."}</p></div>
+<!-- dtl:block:PreferencesUserEmailInvalidConfigMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidMXMsg -->
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This email address failed MX check."}</p></div>
+<!-- dtl:block:PreferencesUserEmailInvalidMXMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidSyntaxMsg -->
+                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"The syntax of this email address is incorrect."}</p></div>
+<!-- dtl:block:PreferencesUserEmailInvalidSyntaxMsg -->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->

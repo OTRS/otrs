@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.37 2010-06-17 21:39:40 cr Exp $
+# $Id: CheckItem.pm,v 1.38 2010-11-08 19:35:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -91,6 +91,20 @@ sub CheckError {
     return $Self->{Error};
 }
 
+=item CheckErrorType()
+
+get the error's type of check item back
+
+    my $ErrorType = $CheckItemObject->CheckErrorType();
+
+=cut
+
+sub CheckErrorType {
+    my $Self = shift;
+
+    return $Self->{ErrorType};
+}
+
 =item CheckEmail()
 
 returns true if check was successful, if it's false, get the error message
@@ -128,6 +142,7 @@ sub CheckEmail {
         )
     {
         $Error = "Invalid syntax";
+        $Self->{ErrorType} = 'InvalidSyntax';
     }
 
     # email address syntax check
@@ -135,6 +150,7 @@ sub CheckEmail {
     # nor may two or more consecutive periods appear
     if ( $Param{Address} =~ /(\.\.)|(\.@)/ ) {
         $Error = "Invalid syntax";
+        $Self->{ErrorType} = 'InvalidSyntax';
     }
 
     # mx check
@@ -192,6 +208,7 @@ sub CheckEmail {
                 }
                 else {
                     $Error = "no mail exchanger (mx) found!";
+                    $Self->{ErrorType} = 'InvalidMX';
                 }
             }
         }
@@ -209,7 +226,8 @@ sub CheckEmail {
         # check special stuff
         my $RegExp = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
         if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
-            $Self->{Error} = "invalid $Param{Address} (config)!";
+            $Self->{Error}     = "invalid $Param{Address} (config)!";
+            $Self->{ErrorType} = 'InvalidConfig';
             return;
         }
         return 1;
@@ -326,6 +344,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.38 $ $Date: 2010-11-08 19:35:26 $
 
 =cut

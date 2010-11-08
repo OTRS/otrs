@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.82 2010-11-04 23:09:49 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.83 2010-11-08 19:35:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,6 +163,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
         }
 
         # if no errors occurred
@@ -300,6 +301,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
         }
 
         # if no errors occurred
@@ -754,9 +756,11 @@ sub _Edit {
             );
 
             # add the correct server error msg
-            if ( $Block eq 'Input' && $Entry->[0] eq 'UserEmail' ) {
+            if ( $Block eq 'Input' && $Param{UserEmail} && $Entry->[0] eq 'UserEmail' ) {
+
+                # display server error msg according with the occurred email error type
                 $Self->{LayoutObject}->Block(
-                    Name => "PreferencesUserMailServerErrorMsg",
+                    Name => 'PreferencesUserEmail' . $Param{Errors}->{ErrorType} . 'Msg',
                     Data => { Name => $Entry->[0] },
                 );
             }
