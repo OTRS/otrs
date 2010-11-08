@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.79 2010-11-08 09:21:22 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.80 2010-11-08 11:18:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -294,6 +294,10 @@
 
                                         <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Link">$Text{"Link"}:</label>
                                         <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_Link" name="$QData{"ElementKey"}#Link[]" value="$QData{"ContentLink"}"/>
+                                        <div class="Clear"></div>
+
+                                        <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_LinkOption">$Text{"LinkOption"}:</label>
+                                        <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_LinkOption" name="$QData{"ElementKey"}#LinkOption[]" value="$QData{"ContentLinkOption"}"/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="$QData{"ElementKeyID"}_$Data{"Index"}_Type">$Text{"Type"}:</label>

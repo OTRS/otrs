@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.398 2010-11-05 10:11:15 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.399 2010-11-08 11:17:55 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3859,6 +3859,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1"></Description>
                     <Name Translatable="1">Dashboard</Name>
                     <Link>Action=AgentDashboard</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Dashboard</NavBar>
                     <Type>Menu</Type>
                     <Description Translatable="1"></Description>
@@ -4002,6 +4003,7 @@ via the Preferences button after logging in.
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Admin</Name>
                     <Link>Action=Admin</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Admin</NavBar>
                     <AccessKey>a</AccessKey>
                     <Prio>10000</Prio>
@@ -4105,6 +4107,7 @@ via the Preferences button after logging in.
                 <NavBar>
                     <Name Translatable="1">Customers</Name>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
                     <Description Translatable="1"></Description>
                     <Type>Menu</Type>
@@ -4140,6 +4143,7 @@ via the Preferences button after logging in.
                 <NavBar>
                     <Name Translatable="1">Companies</Name>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Companies</NavBar>
                     <Description Translatable="1"></Description>
                     <Type>Menu</Type>
@@ -4612,6 +4616,7 @@ via the Preferences button after logging in.
                 <NavBar>
                     <Name Translatable="1">Statistics</Name>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Stats</NavBar>
                     <Type>Menu</Type>
                     <Description Translatable="1"></Description>
@@ -4624,6 +4629,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1">Overview</Description>
                     <Name Translatable="1">Overview</Name>
                     <Link>Action=AgentStats;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Stats</NavBar>
                     <Prio>100</Prio>
                     <Type></Type>
@@ -4635,6 +4641,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1">New</Description>
                     <Name Translatable="1">New</Name>
                     <Link>Action=AgentStats;Subaction=Add</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Stats</NavBar>
                     <Prio>200</Prio>
                     <Type></Type>
@@ -4646,6 +4653,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1">Import</Description>
                     <Name Translatable="1">Import</Name>
                     <Link>Action=AgentStats;Subaction=Import</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Stats</NavBar>
                     <Prio>300</Prio>
                     <Type></Type>

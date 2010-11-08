@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.402 2010-11-03 15:55:56 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.403 2010-11-08 11:17:55 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7764,6 +7764,7 @@ $QData{"Body"}
                     <Description Translatable="1">Overview of all open Tickets</Description>
                     <Name Translatable="1">Queue view</Name>
                     <Link>Action=AgentTicketQueue</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -7776,6 +7777,7 @@ $QData{"Body"}
                     <Block>ItemArea</Block>
                     <Name Translatable="1">Tickets</Name>
                     <Link>Action=AgentTicketQueue</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
                     <AccessKey>t</AccessKey>
                     <Prio>200</Prio>
@@ -7868,6 +7870,7 @@ $QData{"Body"}
                     <Description Translatable="1">Search Ticket</Description>
                     <Name Translatable="1">Search</Name>
                     <Link>Action=AgentTicketSearch</Link>
+                    <LinkOption>onclick="Core.Agent.Search.OpenSearchDialog(); return false;"</LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -7950,6 +7953,7 @@ $QData{"Body"}
                     <Description Translatable="1">Overview of all open Tickets.</Description>
                     <Name Translatable="1">Status view</Name>
                     <Link>Action=AgentTicketStatusView</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -7972,6 +7976,7 @@ $QData{"Body"}
                     <Description Translatable="1">Overview Escalated Tickets</Description>
                     <Name Translatable="1">Escalation view</Name>
                     <Link>Action=AgentTicketEscalationView</Link>
+                    <LinkOption></LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -8681,6 +8686,7 @@ $QData{"Body"}
                     <Type></Type>
                     <NavBar></NavBar>
                     <Link>Action=CustomerTicketOverView;Subaction=MyTickets</Link>
+                    <LinkOption></LinkOption>
                     <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
@@ -8691,6 +8697,7 @@ $QData{"Body"}
                     <Type></Type>
                     <NavBar></NavBar>
                     <Link>Action=CustomerTicketOverView;Subaction=CompanyTickets</Link>
+                    <LinkOption></LinkOption>
                     <AccessKey>c</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>
@@ -8713,6 +8720,7 @@ $QData{"Body"}
                     <Type></Type>
                     <NavBar></NavBar>
                     <Link>Action=CustomerTicketMessage</Link>
+                    <LinkOption></LinkOption>
                     <AccessKey>n</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
@@ -8787,6 +8795,7 @@ $QData{"Body"}
                     <Type></Type>
                     <NavBar></NavBar>
                     <Link>Action=CustomerTicketSearch</Link>
+                    <LinkOption></LinkOption>
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>

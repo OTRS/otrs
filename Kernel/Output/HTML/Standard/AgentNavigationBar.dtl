@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.85 2010-11-03 14:57:38 mg Exp $
+# $Id: AgentNavigationBar.dtl,v 1.86 2010-11-08 11:17:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,46 +23,6 @@
                         <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:ItemAreaSubItem -->
-#                    <li id="nav-$QData{"Name"}-4" class="HasSubNavigation ARIAHasPopup"><a href="">Vierter Eintrag<span></span></a>
-<!-- dtl:block:ItemAreaSub1 -->
-                    <div class="Right">
-                        <div class="ShadowTop"></div>
-                        <div class="Shadow">
-                            <ul id="nav-$QData{"Name"}-4-container">
-                                <li id="nav-$QData{"Name"}-4-1"><a href="">Erster Eintrag</a></li>
-                                <li id="nav-$QData{"Name"}-4-2"><a href="">Zweiter Eintrag</a></li>
-                                <li id="nav-$QData{"Name"}-4-3"><a href="">Dritter Eintrag</a></li>
-                                <li id="nav-$QData{"Name"}-4-4"><a href="">Vierter Eintrag</a></li>
-                                <li id="nav-$QData{"Name"}-4-5" class="HasSubNavigation ARIAHasPopup"><a href="">F�nfter Eintrag<span></span></a>
-<!-- dtl:block:ItemAreaSub2 -->
-                                    <div class="Left">
-                                        <div class="ShadowTop"></div>
-                                        <div class="Shadow">
-                                            <ul id="nav-$QData{"Name"}-4-5-container">
-                                                <li id="nav-$QData{"Name"}-4-5-1"><a href="">Erster Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-2"><a href="">Zweiter Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-3"><a href="">Dritter Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-4"><a href="">Vierter Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-5"><a href="">F�nfter Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-6"><a href="">Sechster Eintrag</a></li>
-                                                <li id="nav-$QData{"Name"}-4-5-7"><a href="">Siebter Eintrag</a></li>
-                                            </ul>
-                                            <div class="Footer"></div>
-                                        </div>
-                                        <div class="ShadowBottom"></div>
-                                    </div>
-<!-- dtl:block:ItemAreaSub2 -->
-                                </li>
-                                <li id="nav-$QData{"Name"}-4-6"><a href="">Sechster Eintrag</a></li>
-                            </ul>
-                            <div class="Footer"></div>
-                        </div>
-                        <div class="ShadowBottom"></div>
-                    </div>
-<!-- dtl:block:ItemAreaSub1 -->
-#                    </li>
-#                    <li id="nav-$QData{"Name"}-5"><a href="">F�nfter Eintrag</a></li>
-#                    <li id="nav-$QData{"Name"}-6"><a href="">Sechster Eintrag</a></li>
                 </ul>
                 <div class="Footer"></div>
             </div>
