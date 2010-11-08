@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1544 2010-11-08 15:34:19 martin Exp $
+# $Id: CHANGES,v 1.1545 2010-11-08 22:16:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.0 rc1 2010-11-08
+ - 2010-11-08 Fixed bug#6225 - User creation gives confusing error message when email address is incorrect.
+ - 2010-11-08 Fixed bug#6227 - Customer User creation gives confusing error message when email address is
+     not validated.
  - 2010-11-08 Fixed bug#6241 - Need Ticket::ViewableStateType in Kernel/Config.pm.
  - 2010-11-08 Fixed bug#6240 - Agent Dashboard - ticket opens only when clicking on the number.
  - 2010-11-08 Fixed bug#5935 - TicketSearch Button - sense and non-sense.
