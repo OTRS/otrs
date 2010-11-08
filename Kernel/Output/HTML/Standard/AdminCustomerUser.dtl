@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.31 2010-11-08 19:35:26 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.32 2010-11-08 21:35:24 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,19 +154,24 @@
                         <label class="$QData{"RequiredLabelClass"}" for="$QData{"Name"}"><span class="Marker">$QData{"RequiredLabelCharacter"}</span> $Text{"$Data{"Item"}"}:</label>
                         <div class="Field">
                             <input type="text" id="$QData{"Name"}" name="$QData{"Name"}" class="W50pc $QData{"RequiredClass"} $QData{"InvalidField"}" value="$QData{"Value"}" $QData{"ReadOnlyType"}/>
+<!-- dtl:block:PreferencesGenericErrorMsg -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:PreferencesGenericErrorMsg -->
+<!-- dtl:block:PreferencesUserEmailErrorMsg -->
+                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
+<!-- dtl:block:PreferencesUserEmailErrorMsg -->
 <!-- dtl:block:PreferencesGenericServerErrorMsg -->
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!-- dtl:block:PreferencesGenericServerErrorMsg -->
-<!-- dtl:block:PreferencesUserEmailInvalidConfigMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidConfigServerErrorMsg -->
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This email address is not allowed due to the system configuration."}</p></div>
-<!-- dtl:block:PreferencesUserEmailInvalidConfigMsg -->
-<!-- dtl:block:PreferencesUserEmailInvalidMXMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidConfigServerErrorMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidMXServerErrorMsg -->
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"This email address failed MX check."}</p></div>
-<!-- dtl:block:PreferencesUserEmailInvalidMXMsg -->
-<!-- dtl:block:PreferencesUserEmailInvalidSyntaxMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidMXServerErrorMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidSyntaxServerErrorMsg -->
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$Text{"The syntax of this email address is incorrect."}</p></div>
-<!-- dtl:block:PreferencesUserEmailInvalidSyntaxMsg -->
+<!-- dtl:block:PreferencesUserEmailInvalidSyntaxServerErrorMsg -->
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:PreferencesGenericInput -->
