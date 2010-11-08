@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.29 2010-11-03 22:52:42 en Exp $
+# $Id: AdminUser.dtl,v 1.30 2010-11-08 22:12:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -198,7 +198,18 @@
                         <div class="Field">
                             <input type="text" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc Validate_Email Validate_Required $QData{"UserEmailInvalid"}" maxlength="250"/>
                             <div id="UserEmailError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
-                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
+<!-- dtl:block:UserEmailServerErrorMsg -->
+                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:UserEmailServerErrorMsg -->
+<!-- dtl:block:UserEmailInvalidConfigServerErrorMsg -->
+                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This email address is not allowed due to the system configuration."}</p></div>
+<!-- dtl:block:UserEmailInvalidConfigServerErrorMsg -->
+<!-- dtl:block:UserEmailInvalidMXServerErrorMsg -->
+                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This email address failed MX check."}</p></div>
+<!-- dtl:block:UserEmailInvalidMXServerErrorMsg -->
+<!-- dtl:block:UserEmailInvalidSyntaxServerErrorMsg -->
+                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"The syntax of this email address is incorrect."}</p></div>
+<!-- dtl:block:UserEmailInvalidSyntaxServerErrorMsg -->
                         </div>
                         <div class="Clear"></div>
 

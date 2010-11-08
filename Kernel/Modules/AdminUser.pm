@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.77 2010-11-03 21:58:04 en Exp $
+# $Id: AdminUser.pm,v 1.78 2010-11-08 22:12:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,6 +169,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
         }
 
         # update user if no errors occurred
@@ -230,8 +231,9 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Self->_Edit(
-                Action => 'Change',
-                Search => $Search,
+                Action    => 'Change',
+                Search    => $Search,
+                ErrorType => $Errors{ErrorType} || '',
                 %GetParam,
                 %Errors,
             );
@@ -295,6 +297,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
         }
 
         # add user if no errors occurred
@@ -369,8 +372,9 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Self->_Edit(
-                Action => 'Add User',
-                Search => $Search,
+                Action    => 'Add',
+                Search    => $Search,
+                ErrorType => $Errors{ErrorType} || '',
                 %GetParam,
                 %Errors,
             );
@@ -430,6 +434,22 @@ sub _Edit {
     }
     else {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+
+    # add the correct server error msg
+    if ( $Param{UserEmail} && $Param{ErrorType} ) {
+
+        # display server error msg according with the occurred email error type
+        $Self->{LayoutObject}->Block(
+            Name => 'UserEmail' . $Param{ErrorType} . 'ServerErrorMsg',
+            Data => {},
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => "UserEmailServerErrorMsg",
+            Data => {},
+        );
     }
 
     my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };
