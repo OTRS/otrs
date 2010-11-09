@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.18 2010-11-08 13:58:27 ub Exp $
+// $Id: Core.Form.Validate.js,v 1.19 2010-11-09 07:52:30 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -166,7 +166,8 @@ Core.Form.Validate = (function (TargetNS) {
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
     $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
     $.validator.addMethod("Validate_RequiredDropdown", function (Value, Element) {
-        return ($(Element).find('option:selected').text().length && $(Element).find('option:selected').text() !== '-');
+        var Text = $(Element).find('option:selected').text();
+        return (Text.length && Text !== '-');
     }, "");
 
     $.validator.addMethod("Validate_RequiredRichText", function (Value, Element) {
