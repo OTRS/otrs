@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.13 2010-10-28 12:18:44 mg Exp $
+// $Id: Core.UI.js,v 1.14 2010-11-09 10:33:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ Core.UI = (function (TargetNS) {
         // set the thead-width to the tbody-width (it's not the same because of the scrollbar in the tbody)
         $THead.width($TBody.outerWidth() + 'px');
         // initial adjustion of the tablehead elements
-        TargetNS.AdjustTableHead($THead, $TBody);
+        TargetNS.AdjustTableHead($THead, $TBody, 0);
     };
 
     /**
@@ -51,7 +51,7 @@ Core.UI = (function (TargetNS) {
      * @param {jQueryObject} $TBody the tbody
      * @return nothing
      */
-    TargetNS.AdjustTableHead = function ($THead, $TBody) {
+    TargetNS.AdjustTableHead = function ($THead, $TBody, LoopProtectionCounter) {
         var $THeadElements = $THead.find('tr th'),
             THeadElementWidth,
             $TBodyElements = $TBody.find('tr:first td'),
@@ -64,6 +64,8 @@ Core.UI = (function (TargetNS) {
         if (!$TBodyElements.length) {
             return;
         }
+
+        LoopProtectionCounter = LoopProtectionCounter || 0;
 
         /**
          * @function
@@ -106,7 +108,9 @@ Core.UI = (function (TargetNS) {
                     $TBodyElements.eq(I).width(Adjustments[I] + 'px');
                 }
             }
-            TargetNS.AdjustTableHead($THead, $TBody);
+            if (LoopProtectionCounter < 5) {
+                TargetNS.AdjustTableHead($THead, $TBody, LoopProtectionCounter + 1);
+            }
         }
     };
 
@@ -119,22 +123,22 @@ Core.UI = (function (TargetNS) {
      */
     TargetNS.StaticTableControl = function ($Control) {
         var Offset = $Control.offset().top,
-            Height = $Control.height();
+            Height = $Control.height(),
+            ScrollTimeout;
 
         $(window).scroll(function (event) {
-            var y = $(this).scrollTop(),
-                Height = $Control.height();
+            window.clearTimeout(ScrollTimeout);
+            ScrollTimeout = window.setTimeout(function () {
+                var y = $(this).scrollTop(),
+                    Height = $Control.height();
 
-            // TODO: Cache the class and css changes
-
-            if (y >= Offset) {
-                $Control.addClass('Fixed');
-                $Control.nextAll('.Overview:first').css('margin-top', Height);
-            }
-            else {
-                $Control.removeClass('Fixed');
-                $Control.nextAll('.Overview:first').css('margin-top', 0);
-            }
+                if (y >= Offset) {
+                    $Control.addClass('Fixed');
+                }
+                else {
+                    $Control.removeClass('Fixed');
+                }
+            }, 500);
         });
     };
 

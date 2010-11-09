@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.26 2010-11-04 09:02:03 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.27 2010-11-09 10:33:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,8 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains the special module functions for TicketZoom.
  */
 Core.Agent.TicketZoom = (function (TargetNS) {
-    var CheckURLHashTimeout;
+    var CheckURLHashTimeout,
+        InitialArticleID;
 
     /**
      * @function
@@ -103,8 +104,15 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             Core.UI.InitWidgetActionToggle();
 
             // Add hash to the URL to provide direct URLs and history back/forward functionality
-            location.hash = '#' + ArticleID;
-            TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
+            // If new ArticleID is again the InitialArticleID than remove hash from URL
+            if (ArticleID === InitialArticleID) {
+                location.hash = '';
+                TargetNS.ActiveURLHash = ArticleID;
+            }
+            else {
+                location.hash = '#' + ArticleID;
+                TargetNS.ActiveURLHash = ArticleID;
+            }
 
             //Remove Loading class
             $('#ArticleItems .WidgetBox').removeClass('Loading');
@@ -122,20 +130,25 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      'back' in the browser, for example.
      */
     TargetNS.CheckURLHash = function () {
+        var URLHash = location.hash.replace(/#/, '');
+
+        // if URLHash is empty, that means we are watching the initial article,
+        // save this information in URLHash as if it would have been in the URL
+        if (URLHash === '') {
+            URLHash = InitialArticleID;
+        }
 
         // if not defined yet
         if (typeof TargetNS.ActiveURLHash === 'undefined') {
-            TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
+            TargetNS.ActiveURLHash = InitialArticleID;
         }
-
         // if defined and saved value is different to latest value (= user has used history back or forward)
-        else if (TargetNS.ActiveURLHash !== location.hash.replace(/#/, '')) {
-            TargetNS.ActiveURLHash = location.hash.replace(/#/, '');
+        else if (TargetNS.ActiveURLHash !== URLHash) {
+            TargetNS.ActiveURLHash = URLHash;
 
             // if article ID is found in article list (= article id is valid)
             var $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
             if ($ArticleElement.length) {
-
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
 
@@ -167,8 +180,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ResizeTimeoutWindow;
 
         Core.UI.Resizable.Init($('#ArticleTableBody'), Options.ArticleTableHeight, function (Event, UI, Height, Width) {
-
-            // remember new hight for next reload
+            // remember new height for next reload
             window.clearTimeout(ResizeTimeoutScroller);
             ResizeTimeoutScroller = window.setTimeout(function () {
                 Core.Agent.PreferencesUpdate('UserTicketZoomArticleTableHeight', Height);
@@ -179,7 +191,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $(window).bind('resize', function () {
             window.clearTimeout(ResizeTimeoutWindow);
             ResizeTimeoutWindow = window.setTimeout(function () {
-                Core.UI.AdjustTableHead($THead, $TBody);
+                Core.UI.AdjustTableHead($THead, $TBody, 0);
             }, 500);
         });
 
@@ -210,26 +222,27 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         if (!ZoomExpand) {
             URLHash = location.hash.replace(/#/, '');
 
-            // if article ID is found in article list (= article id is valid)
-            $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + URLHash + ']');
-            if ($ArticleElement.length) {
-
-                // Add active state to new row
-                $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
-
-                // Load content of new article
-                LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), URLHash);
-            }
-
             // if URL hash is empty, set it initially to the active article for working browser history
-            else if (URLHash === '') {
-                location.hash = '#' + $('#FixedTable tr.Active input.ArticleID').val();
+            if (URLHash === '') {
+                InitialArticleID = $('#FixedTable tr.Active input.ArticleID').val();
+                //location.hash = '#' + $('#FixedTable tr.Active input.ArticleID').val();
+            }
+            else {
+                // if article ID is found in article list (= article id is valid)
+                $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + URLHash + ']');
+                if ($ArticleElement.length) {
+
+                    // Add active state to new row
+                    $ArticleElement.closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
+
+                    // Load content of new article
+                    LoadArticle($ArticleElement.closest('td').find('input.ArticleInfo').val(), URLHash);
+                }
             }
         }
 
         // loading new articles
         $('#FixedTable tbody tr').bind('click', function (Event) {
-
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
 
