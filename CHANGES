@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1545 2010-11-08 22:16:51 en Exp $
+# $Id: CHANGES,v 1.1546 2010-11-09 10:39:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 rc1 2010-11-08
+ - 2010-11-09 Fixed bug#6071 - Ticket Zoom - back button does not work as expected.
+ - 2010-11-09 Fixed bug#5788 - IE Browser Error "Out of memory at line: 35".
  - 2010-11-08 Fixed bug#6225 - User creation gives confusing error message when email address is incorrect.
  - 2010-11-08 Fixed bug#6227 - Customer User creation gives confusing error message when email address is
      not validated.
