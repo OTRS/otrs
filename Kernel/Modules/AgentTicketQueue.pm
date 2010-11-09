@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.75 2010-09-01 12:19:15 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.76 2010-11-09 13:14:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,6 +53,7 @@ sub new {
     # get params
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' )  || 0;
     $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Unlocked';
     $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || '';
 
     return $Self;
@@ -117,69 +118,108 @@ sub Run {
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
 
+    # viewable locks
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
+
+    # viewable states
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'ID',
+    );
+
+    # get permissions
+    my $Permission = 'rw';
+    if ( $Self->{Config}->{ViewAllPossibleTickets} ) {
+        $Permission = 'ro';
+    }
+
+    # sort on default by using both (Priority, Age) else use only one sort argument
+    my %Sort;
+    if ( !$SortDefault ) {
+        %Sort = (
+            SortBy  => $SortBy,
+            OrderBy => $OrderBy,
+        );
+    }
+    else {
+        %Sort = (
+            SortBy  => [ 'Priority', $SortBy ],
+            OrderBy => [ 'Down',     $OrderBy ],
+        );
+    }
+
     # get custom queues
-    my @ViewableQueueIDs = ();
+    my @ViewableQueueIDs;
     if ( !$Self->{QueueID} ) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Self->{UserID}, );
     }
     else {
         @ViewableQueueIDs = ( $Self->{QueueID} );
     }
+    my %Filters = (
+        All => {
+            Name   => 'All tickets',
+            Prio   => 1000,
+            Search => {
+                StateIDs => \@ViewableStateIDs,
+                QueueIDs => \@ViewableQueueIDs,
+                %Sort,
+                Permission => $Permission,
+                UserID     => $Self->{UserID},
+                Result     => 'ARRAY',
+            },
+        },
+        Unlocked => {
+            Name   => 'Tickets available',
+            Prio   => 1001,
+            Search => {
+                LockIDs  => \@ViewableLockIDs,
+                StateIDs => \@ViewableStateIDs,
+                QueueIDs => \@ViewableQueueIDs,
+                %Sort,
+                Permission => $Permission,
+                UserID     => $Self->{UserID},
+                Result     => 'ARRAY',
+            },
+        },
+    );
+
+    # check if filter is valid
+    if ( !$Filters{ $Self->{Filter} } ) {
+        $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
+    }
 
     # get data (viewable tickets...)
-    my @ViewableTickets = ();
-    if (@ViewableQueueIDs) {
+    # search all tickets
+    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Filter} }->{Search} },
+        Limit => $Self->{Start} + 50,
+    );
 
-        # viewable states
-        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type   => 'Viewable',
-            Result => 'ID',
+    my %NavBarFilter;
+    for my $Filter ( keys %Filters ) {
+        my $Count = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{$Filter}->{Search} },
+            Result => 'COUNT',
         );
 
-        # viewable locks
-        my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
-
-        # get permissions
-        my $Permission = 'rw';
-        if ( $Self->{Config}->{ViewAllPossibleTickets} ) {
-            $Permission = 'ro';
-        }
-
-        # sort on default by using both (Priority, Age) else use only one sort argument
-        my %Sort;
-        if ( !$SortDefault ) {
-            %Sort = (
-                SortBy  => $SortBy,
-                OrderBy => $OrderBy,
-            );
-        }
-        else {
-            %Sort = (
-                SortBy  => [ 'Priority', $SortBy ],
-                OrderBy => [ 'Down',     $OrderBy ],
-            );
-        }
-
-        # search all tickets
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-
-            StateIDs => \@ViewableStateIDs,
-            LockIDs  => \@ViewableLockIDs,
-            QueueIDs => \@ViewableQueueIDs,
-            %Sort,
-            Permission => $Permission,
-            UserID     => $Self->{UserID},
-            Result     => 'ARRAY',
-            Limit      => $Self->{Start} + 50,
-        );
+        $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
+            Count  => $Count,
+            Filter => $Filter,
+            %{ $Filters{$Filter} },
+        };
     }
 
     my $LinkSort = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
         . ';';
     my $LinkPage = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
+        . ';Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
@@ -193,18 +233,27 @@ sub Run {
     # show ticket's
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->TicketListShow(
+
+            Filter     => $Self->{Filter},
+            Filters    => \%NavBarFilter,
+            FilterLink => $LinkFilter,
+
             DataInTheMiddle => $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketQueue',
                 Data         => \%NavBar,
             ),
-            TicketIDs  => \@ViewableTickets,
-            Total      => $NavBar{Total},
-            Env        => $Self,
-            NavBar     => \%NavBar,
+
+            TicketIDs => \@ViewableTickets,
+            Total     => $NavBar{Total},
+
+            NavBar => \%NavBar,
+            View   => $Self->{View},
+
             Bulk       => 1,
-            View       => $Self->{View},
             TitleName  => 'QueueView',
             TitleValue => $NavBar{SelectedQueue},
+
+            Env        => $Self,
             LinkPage   => $LinkPage,
             LinkSort   => $LinkSort,
             LinkFilter => $LinkFilter,
