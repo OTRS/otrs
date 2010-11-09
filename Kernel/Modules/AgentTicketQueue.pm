@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.77 2010-11-09 15:11:06 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.78 2010-11-09 15:23:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,7 +167,6 @@ sub Run {
                 %Sort,
                 Permission => $Permission,
                 UserID     => $Self->{UserID},
-                Result     => 'ARRAY',
             },
         },
         Unlocked => {
@@ -180,7 +179,6 @@ sub Run {
                 %Sort,
                 Permission => $Permission,
                 UserID     => $Self->{UserID},
-                Result     => 'ARRAY',
             },
         },
     );
@@ -196,10 +194,12 @@ sub Run {
     if (@ViewableQueueIDs) {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Filter} }->{Search} },
-            Limit => $Self->{Start} + 50,
+            Limit  => $Self->{Start} + 50,
+            Result => 'ARRAY',
         );
     }
 
+    my $CountTotal = 0;
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
         my $Count = 0;
@@ -208,6 +208,10 @@ sub Run {
                 %{ $Filters{$Filter}->{Search} },
                 Result => 'COUNT',
             );
+        }
+
+        if ( $Filter eq $Self->{Filter} ) {
+            $CountTotal = $Count;
         }
 
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
@@ -251,7 +255,7 @@ sub Run {
             ),
 
             TicketIDs => \@ViewableTickets,
-            Total     => $NavBar{Total},
+            Total     => $CountTotal,
 
             NavBar => \%NavBar,
             View   => $Self->{View},
