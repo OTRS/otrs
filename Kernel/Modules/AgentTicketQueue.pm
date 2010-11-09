@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.76 2010-11-09 13:14:16 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.77 2010-11-09 15:11:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,6 +156,7 @@ sub Run {
     else {
         @ViewableQueueIDs = ( $Self->{QueueID} );
     }
+
     my %Filters = (
         All => {
             Name   => 'All tickets',
@@ -191,17 +192,23 @@ sub Run {
 
     # get data (viewable tickets...)
     # search all tickets
-    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-        %{ $Filters{ $Self->{Filter} }->{Search} },
-        Limit => $Self->{Start} + 50,
-    );
+    my @ViewableTickets;
+    if (@ViewableQueueIDs) {
+        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Self->{Filter} }->{Search} },
+            Limit => $Self->{Start} + 50,
+        );
+    }
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
-        my $Count = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{$Filter}->{Search} },
-            Result => 'COUNT',
-        );
+        my $Count = 0;
+        if (@ViewableQueueIDs) {
+            $Count = $Self->{TicketObject}->TicketSearch(
+                %{ $Filters{$Filter}->{Search} },
+                Result => 'COUNT',
+            );
+        }
 
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,
@@ -228,7 +235,7 @@ sub Run {
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';';
 
-    my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
+    my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
 
     # show ticket's
     $Self->{LayoutObject}->Print(
@@ -275,6 +282,7 @@ sub BuildQueueView {
         UserID        => $Self->{UserID},
         QueueID       => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
+        Filter        => $Param{Filter},
     );
 
     # build output ...
