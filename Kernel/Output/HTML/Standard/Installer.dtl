@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.44 2010-11-03 10:52:23 mb Exp $
+# $Id: Installer.dtl,v 1.45 2010-11-09 15:25:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,28 @@
 
 <!-- dtl:block:Intro -->
     <div class="Center">
-        <img border="0" src="$Config{"Frontend::ImagePath"}installer-start.png" alt="" />
+        <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+            <li class="First">
+                <span>
+                    <a href="#">$Text{"Step 1"}<span>$Text{"Accept the license"}</span></a>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a href="#">$Text{"Step 2"}<span>$Text{"Database Settings"}</span></a>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a href="#">$Text{"Step 3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
+                </span>
+            </li>
+            <li class="Last">
+                <span>
+                    <a href="#">$Text{"Step 4"}<span>$Text{"Finish"}</span></a>
+                </span>
+            </li>
+        </ul>
     </div>
     <div class="W33pc SpacingTop SpacingBottom CenterBox">
         <div class="WidgetSimple SpacingTop" id="WebInstallerBox">

@@ -2,7 +2,7 @@
 # InstallerDBResult.dtl - provides the status of the new DB for the Installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBResult.dtl,v 1.8 2010-10-29 12:06:23 mb Exp $
+# $Id: InstallerDBResult.dtl,v 1.9 2010-11-09 15:25:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,28 @@
 
 <!-- dtl:block:DatabaseResult -->
 <div class="Center">
-    <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="" />
+    <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+        <li class="Highlighted NoLink First">
+            <span>
+                <a href="#">$Text{"Step 1"}<span>$Text{"Accept the license"}</span></a>
+            </span>
+        </li>
+        <li class="Highlighted Active NoLink">
+            <span>
+                <a href="#">$Text{"Step 2"}<span>$Text{"Database Settings"}</span></a>
+            </span>
+        </li>
+        <li>
+            <span>
+                <a href="#">$Text{"Step 3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
+            </span>
+        </li>
+        <li class="Last">
+            <span>
+                <a href="#">$Text{"Step 4"}<span>$Text{"Finish"}</span></a>
+            </span>
+        </li>
+    </ul>
 </div>
 
 <div class="W50pc SpacingTop SpacingBottom CenterBox">

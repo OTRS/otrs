@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.16 2010-09-20 23:00:59 cg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.17 2010-11-09 15:25:35 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,28 @@
 
 <!-- dtl:block:ConfigureMail-->
 <div class="Center">
-    <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="" />
+    <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+        <li class="Highlighted NoLink First">
+            <span>
+                <a href="#">$Text{"Step 1"}<span>$Text{"Accept the license"}</span></a>
+            </span>
+        </li>
+        <li class="Highlighted NoLink">
+            <span>
+                <a href="#">$Text{"Step 2"}<span>$Text{"Database Settings"}</span></a>
+            </span>
+        </li>
+        <li class="Highlighted Active NoLink">
+            <span>
+                <a href="#">$Text{"Step 3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
+            </span>
+        </li>
+        <li class="Last">
+            <span>
+                <a href="#">$Text{"Step 4"}<span>$Text{"Finish"}</span></a>
+            </span>
+        </li>
+    </ul>
 </div>
 
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
