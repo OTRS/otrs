@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.25 2010-10-13 15:28:58 mb Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.26 2010-11-09 14:42:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,28 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}</h1>
     <div class="Center">
-        <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="$Text{"Step %s of %s", "3", "4"}" />
+        <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+            <li class="Highlighted NoLink First">
+                <span>
+                    <a href="#">$Text{"Step 1"}<span>$Text{"General Specifications"}</span></a>
+                </span>
+            </li>
+            <li class="Highlighted NoLink">
+                <span>
+                    <a href="#">$Text{"Step 2"}<span>$Text{"Select the element that will be used at the X-axis"}</span></a>
+                </span>
+            </li>
+            <li class="Highlighted Active NoLink">
+                <span>
+                    <a href="#">$Text{"Step 3"}<span>$Text{"Select the elements for the value series"}</span></a>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a href="#">$Text{"Step 4"}<span>$Text{"Select the restrictions to characterize the stat"}</span></a>
+                </span>
+            </li>
+        </ul>
     </div>
 
     <div class="SidebarColumn">

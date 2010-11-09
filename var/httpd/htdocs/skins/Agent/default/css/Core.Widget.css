@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.27 $
+ * @version     $Revision: 1.28 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -490,6 +490,215 @@ ul.Tablelike li.Header + li {
     background: #EEE url(../img/dnd_placeholder_bg.png);
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+/**
+ * @subsection      ProgressBar
+ */
+#ProgressBar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    overflow: hidden;
+    width: 950px;
+}
+
+.ProgressBarElements1 li {
+    width: 950px;
+}
+
+.ProgressBarElements2 li {
+    width: 474px;
+}
+
+.ProgressBarElements3 li {
+    width: 316px;
+}
+
+.ProgressBarElements4 li {
+    width: 237px;
+}
+
+.ProgressBarElements5 li {
+    width: 189px;
+}
+
+.ProgressBarElements6 li {
+    width: 158px;
+}
+
+.ProgressBarElements7 li {
+    width: 135px;
+}
+
+/* Because of the minimum screen resolution of 1024px more than 7 elements are not possible at the moment */
+
+#ProgressBar li {
+    float: left;
+    list-style: none;
+    border-style: solid;
+    border-width: 1px 0;
+    border-color: #CCC;
+    background-color: #EEE;
+    background: -moz-linear-gradient(top, #FFF, #EEE);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#EEE));
+    background: linear-gradient(top, #FFF, #EEE);
+}
+
+#ProgressBar li > span {
+    display: block;
+    background-image: url(../img/ProgressBarArrow.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+#ProgressBar li a {
+    padding: 12px 7px 13px 12px;
+    color: #484848;
+    text-decoration: none;
+    font: 13px/18px Helvetica Neue, sans-serif;
+    text-shadow: 1px solid #FCFCFC;
+    display: block;
+    height: 42px;
+    border-style: solid;
+    border-width: 1px 0;
+    border-color: #F4F4F4;
+    background: url(../img/ProgressBarIsolator.png) no-repeat left 6px;
+    cursor: default;
+    text-align: left;
+}
+
+#ProgressBar li span a span {
+    color: #ABABAB;
+    font-size: 11px;
+    line-height: 12px;
+    text-shadow: inherit;
+    display: block;
+}
+
+#ProgressBar li:first-child, #ProgressBar li.First {
+    border-left-width: 1px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+
+#ProgressBar li:first-child a, #ProgressBar li.First a {
+    border-left-width: 1px;
+    padding-left: 14px;
+    background: none;
+    -moz-border-radius: 4px 0 0 3px;
+    -webkit-border-radius: 4px 0 0 3px;
+    border-radius: 4px 0 0 3px;
+}
+
+#ProgressBar li:last-child, #ProgressBar li.Last {
+    border-right-width: 1px;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+#ProgressBar li:last-child a, #ProgressBar li.Last a {
+    border-right-width: 1px;
+    padding-right: 14px;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+#ProgressBar .Highlighted {
+    background-color: #fbb42c;
+    background: -moz-linear-gradient(top, #ffdea3, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffdea3), color-stop(0.2, #fbb42c), color-stop(0.5, #f6af1d), color-stop(0.5, #f3970d), color-stop(0.9, #e87f07), to(#dd6a05));
+    background: linear-gradient(top, #ffdea3, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05);
+    border-top-color: #9b6937;
+    border-bottom-color: #996634;
+}
+
+#ProgressBar li.Highlighted:first-child {
+    border-left-color: #9b6937;
+}
+
+#ProgressBar li.Highlighted > span {
+    background-image: url(../img/ProgressBarArrowActive.png);
+}
+
+#ProgressBar .Highlighted a {
+    color: #562900;
+    text-shadow: 0 1px 0 #FCD891;
+    border-top-color: #ffeec8;
+    border-bottom-color: #eaa350;
+    cursor: pointer;
+}
+
+#ProgressBar .Highlighted.NoLink a {
+    cursor: default;
+}
+
+#ProgressBar li:first-child.Highlighted a {
+    border-left-color: #f2bf5c;
+}
+
+#ProgressBar .Highlighted span a span {
+    color: #a14f00;
+    text-shadow: 0 1px 0 #f5b04e;
+}
+
+#ProgressBar .Active {
+    border-right: 1px solid #9b6937;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+    position: relative;
+    z-index: 2;
+}
+
+#ProgressBar li:first-child.Active {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#ProgressBar .Active a {
+    border-right: 1px solid #f2bf5c;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+#ProgressBar li:first-child.Active a {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#ProgressBar .Active + li {
+    margin-left: -2px;
+    padding-left: 1px;
+}
+
+#ProgressBar .Active + .Active {
+    z-index: 1;
+}
+
+#ProgressBar .Active + li a {
+    background: none;
+}
+
+#ProgressBar .Visited {
+    background-color: #DDD;
+    background: -moz-linear-gradient(top, #EEE, #DDD);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#EEE), to(#FFF));
+    background: linear-gradient(top, #EEE, #DDD);
+}
+
+#ProgressBar .Visited.Active {
+    border-right-color: #CCC;
+}
+
+#ProgressBar .Visited.Active a {
+    border-right-color: #EEE;
 }
 
 } /* end @media */
