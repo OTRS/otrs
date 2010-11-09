@@ -2,7 +2,7 @@
 // Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Data.js,v 1.2 2010-10-12 15:46:58 ep Exp $
+// $Id: Core.Data.js,v 1.3 2010-11-09 09:35:39 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,7 @@ Core.Data = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function compare 2 JSONObjects
+     *      This function compares 2 JSONObjects
      * @param {ObjectA} ObjectOne JSONObject The object which should be compared
      * @param {ObjectB} ObjectTwo JSONObject The object which should be compared
      * @return {Boolean} True or False Value
@@ -112,8 +112,8 @@ Core.Data = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function create a copy of an Object
-     * @param {Object}  Data The object which should be compied
+     *      This function creates a copy of an object
+     * @param {Object}  Data The object which should be copied
      * @return {Object} The new object
      */
     TargetNS.CopyObject = function (Data) {

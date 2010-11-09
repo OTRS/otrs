@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.19 2010-11-09 07:52:30 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.20 2010-11-09 09:38:34 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -142,9 +142,9 @@ Core.Form.Validate = (function (TargetNS) {
     /**
      * @function
      * @private
-     * @param {Object} Form The form object that should be submit
+     * @param {Object} Form The form object that should be submitted
      * @return nothing
-     * @description This function performs the submit action for a form, allowing only be sent once a time.
+     * @description This function performs the submit action for a form, allowing only be sent once
      */
     function OnSubmit(Form) {
         $(Form).removeClass('ClientError').removeClass('LabelError');
@@ -512,8 +512,8 @@ Core.Form.Validate = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function is used to disable all the element from a Form object.
-     * @param {Object} Form The form object that should be submit
+     *      This function is used to disable all the elements of a Form object.
+     * @param {Object} Form The form object that should be submitted
      * @return nothing
      */
     TargetNS.DisableValidation = function ($Form) {
@@ -530,8 +530,8 @@ Core.Form.Validate = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function is used to disable all the element from a Form object.
-     * @param {Object} Form The form object that should be submit
+     *      This function is used to enable all the elements of a Form object.
+     * @param {Object} Form The form object that should be submitted
      * @return nothing
      */
     TargetNS.EnableValidation = function ($Form) {
