@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.18 2010-11-05 13:20:12 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.19 2010-11-09 11:50:12 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -165,6 +165,38 @@ Core.UI.Dialog = (function (TargetNS) {
             }
         }
 
+        // Calculates the correct position of the dialog, given by the Position
+        // Type can be 'top' or 'bottom'
+        function CalculateDialogPosition(Position, Type) {
+            var ScrollTop = $(window).scrollTop(),
+                WindowHeight = $(window).height();
+
+            Type = Type || 'top';
+
+            // position is in percent
+            if (Position.match(/%/)) {
+                Position = parseInt(Position.replace(/%/, ''), 10);
+                if (Type === 'top') {
+                    Position = parseInt(WindowHeight * (Position / 100), 10) + ScrollTop;
+                }
+                else if (Type == 'bottom') {
+                    Position = WindowHeight + ScrollTop - parseInt(WindowHeight * (Position / 100), 10);
+                }
+            }
+            // handle as px
+            else {
+                Position = parseInt(Position.replace(/px/, ''), 10);
+                if (Type === 'top') {
+                    Position = Position + ScrollTop;
+                }
+                else if (Type === 'bottom') {
+                    Position = WindowHeight + ScrollTop - Position;
+                }
+            }
+
+            return (Position + 'px');
+        }
+
         var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector,
             DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
@@ -177,7 +209,8 @@ Core.UI.Dialog = (function (TargetNS) {
         if (Params.Modal) {
             $('<div id="Overlay" tabindex="-1">').appendTo('body');
             $('body').css({
-                'position': 'relative'
+                'position': 'relative',
+                'overflow': 'hidden'
             });
             $('#Overlay').height($(document).height()).css('top', 0);
         }
@@ -302,7 +335,7 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         if (typeof Params.PositionTop !== 'undefined') {
-            $Dialog.css('top', Params.PositionTop);
+            $Dialog.css('top', CalculateDialogPosition(Params.PositionTop, 'top'));
         }
         if (typeof Params.PositionLeft !== 'undefined') {
             if (Params.PositionLeft === 'Center') {
@@ -313,7 +346,7 @@ Core.UI.Dialog = (function (TargetNS) {
             }
         }
         if (typeof Params.PositionBottom !== 'undefined') {
-            $Dialog.css('bottom', Params.PositionBottom);
+            $Dialog.css('bottom', CalculateDialogPosition(Params.PositionBottom, 'bottom'));
         }
         if (typeof Params.PositionRight !== 'undefined') {
             $Dialog.css('right', Params.PositionRight);
@@ -324,7 +357,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Add event-handling
         $Dialog.draggable({
-            containment: Params.Modal ? 'window' : 'body',
+            containment: 'body',
             handle: '.Header'
         });
 
