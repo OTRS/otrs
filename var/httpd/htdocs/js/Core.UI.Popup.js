@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.6 2010-11-04 14:59:33 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.7 2010-11-09 07:58:44 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -214,7 +214,14 @@ Core.UI.Popup = (function (TargetNS) {
             // Only load new popup if the user accepted that the old popup is closed
             if (ConfirmClosePopup) {
                 PopupProfile = PopupProfiles[Profile] ? Profile : PopupDefaultProfile;
-                WindowName = 'OTRSPopup' + Date.parse(new Date());
+                /*
+                 * Special treatment for the window name. At least in some browsers, window names
+                 *  are global, so only one popup window with a particular name may exist across
+                 *  all browser tabs. To avoid conflicts with that, we use 'randomized' names
+                 *  by including the current time in the name string. This name is not needed
+                 *  for anything as we keep track of the popup windows on our own.
+                 */
+                WindowName = 'OTRSPopup' + Date.now();
                 NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile]);
 
                 // check for popup blockers.
