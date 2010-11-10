@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.78 2010-08-31 17:11:07 cg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.79 2010-11-10 13:45:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -619,50 +619,50 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey1">$Text{"Param 1 key"}:</label>
+                            <label for="NewParamKey1">$Text{"Param %s key", "1"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey1" id="NewParamKey1" value="$QData{"NewParamKey1"}" class="W20pc"/>
-                                <label for="NewParamValue1">$Text{" Param 1 value"}:</label>
+                                <label for="NewParamValue1"> $Text{"Param %s value", "1"}:</label>
                                 <input type="text" name="NewParamValue1" id="NewParamValue1" value="$QData{"NewParamValue1"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey2">$Text{"Param 2 key"}:</label>
+                            <label for="NewParamKey2">$Text{"Param %s key", "2"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey2" id="NewParamKey2" value="$QData{"NewParamKey2"}" class="W20pc"/>
-                                <label for="NewParamValue2">$Text{" Param 2 value"}:</label>
+                                <label for="NewParamValue2"> $Text{"Param %s value", "2"}:</label>
                                 <input type="text" name="NewParamValue2" id="NewParamValue2" value="$QData{"NewParamValue2"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey3">$Text{"Param 3 key"}:</label>
+                            <label for="NewParamKey3">$Text{"Param %s key", "3"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey3" id="NewParamKey3" value="$QData{"NewParamKey3"}" class="W20pc"/>
-                                <label for="NewParamValue3">$Text{" Param 3 value"}:</label>
+                                <label for="NewParamValue3">$Text{"Param %s value", "3"}:</label>
                                 <input type="text" name="NewParamValue3" id="NewParamValue3" value="$QData{"NewParamValue3"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey4">$Text{"Param 4 key"}:</label>
+                            <label for="NewParamKey4">$Text{"Param %s key", "4"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey4" id="NewParamKey4" value="$QData{"NewParamKey4"}" class="W20pc"/>
-                                <label for="NewParamValue4">$Text{" Param 4 value"}:</label>
+                                <label for="NewParamValue4"> $Text{"Param %s value", "4"}:</label>
                                 <input type="text" name="NewParamValue4" id="NewParamValue4" value="$QData{"NewParamValue4"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey5">$Text{"Param 5 key"}:</label>
+                            <label for="NewParamKey5">$Text{"Param %s key", "5"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey5" id="NewParamKey5" value="$QData{"NewParamKey5"}" class="W20pc"/>
-                                <label for="NewParamValue5">$Text{" Param 5 value"}:</label>
+                                <label for="NewParamValue5"> $Text{"Param %s value", "5"}:</label>
                                 <input type="text" name="NewParamValue5" id="NewParamValue5" value="$QData{"NewParamValue5"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="NewParamKey6">$Text{"Param 6 key"}:</label>
+                            <label for="NewParamKey6">$Text{"Param %s key", "6"}:</label>
                             <div class="Field">
                                 <input type="text" name="NewParamKey6" id="NewParamKey6" value="$QData{"NewParamKey6"}" class="W20pc"/>
-                                <label for="NewParamValue6">$Text{" Param 6 value"}:</label>
+                                <label for="NewParamValue6"> $Text{"Param %s value", "6"}:</label>
                                 <input type="text" name="NewParamValue6" id="NewParamValue6" value="$QData{"NewParamValue6"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
