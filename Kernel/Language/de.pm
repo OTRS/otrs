@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.242 2010-11-05 15:10:54 mb Exp $
+# $Id: de.pm,v 1.243 2010-11-10 12:44:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.242 $) [1];
+$VERSION = qw($Revision: 1.243 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-05 15:50:53
+    # Last translation file sync: 2010-11-10 13:43:05
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -567,6 +567,7 @@ sub Data {
         'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
         'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
         'New Article' => 'Neuer Artikel',
+        'Unread article(s) available' => '',
         'Remove from list of watched tickets' => '',
         'Add to list of watched tickets' => '',
         'Email-Ticket' => 'E-Mail-Ticket',
@@ -764,6 +765,9 @@ sub Data {
         'Add Customer' => 'Kunden hinzufügen',
         'Edit Customer' => 'Kunden bearbeiten',
         'This field is required and needs to be a valid email address.' => '',
+        'This email address is not allowed due to the system configuration.' => '',
+        'This email address failed MX check.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Kunden-Gruppen-Zuordnung Verwaltung',
@@ -782,7 +786,8 @@ sub Data {
         'Customers' => 'Kunden',
         'Groups' => 'Gruppen',
         'No matches found.' => 'Keine Treffer gefunden.',
-        'Change %s Relations for' => '',
+        'Change Group Relations for Customer' => '',
+        'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => '',
         'Toggle %s permission for %s' => '',
         'Customer Default Groups:' => 'Standard-Kundengruppe:',
@@ -796,7 +801,8 @@ sub Data {
         'Manage Customer-Services Relations' => '',
         'Edit default services' => '',
         'Filter for Services' => '',
-        'Allocate %s to' => '',
+        'Allocate Services to Customer' => '',
+        'Allocate Customers to Service' => '',
         'Toggle active state for all' => '',
         'Active' => 'Aktiv',
         'Toggle active state for %s' => '',
@@ -1104,6 +1110,8 @@ sub Data {
         'Filter' => 'Filter',
         'Filter for Responses' => '',
         'Responses' => 'Antworten',
+        'Change Queue Relations for Response' => '',
+        'Change Response Relations for Queue' => '',
 
         # Template: AdminResponse
         'Manage Responses' => '',
@@ -1118,7 +1126,9 @@ sub Data {
 
         # Template: AdminResponseAttachment
         'Manage Responses <-> Attachments Relations' => '',
-        'Change %s Relations for %s' => '',
+        'Filter for Attachments' => '',
+        'Change Response Relations for Attachment' => '',
+        'Change Attachment Relations for Response' => '',
         'Toggle active for all' => '',
         'Link %s to selected %s' => '',
 
@@ -1136,6 +1146,8 @@ sub Data {
         'Roles' => 'Rollen',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => '',
+        'Change Role Relations for Group' => '',
+        'Change Group Relations for Role' => '',
         'Toggle %s permission for all' => '',
         'move_into' => 'Verschieben in',
         'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
@@ -1149,6 +1161,8 @@ sub Data {
         'Filter for Agents' => '',
         'Agents' => 'Agenten',
         'Manage Role-Agent Relations' => '',
+        'Change Role Relations for Agent' => '',
+        'Change Agent Relations for Role' => '',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA Verwaltung',
@@ -1262,7 +1276,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NavBarName',
         'NavBar' => 'NavBar',
-        'Image' => 'Image',
+        'LinkOption' => '',
         'Block' => 'Block',
         'AccessKey' => 'AccessKey',
         'Add NavBar entry' => '',
@@ -1306,6 +1320,8 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '',
+        'Change Group Relations for Agent' => '',
+        'Change Agent Relations for Group' => '',
         'note' => '',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'Besitzer',
@@ -1388,10 +1404,13 @@ sub Data {
         'Do you really want to delete this stat?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s of %s' => 'Schritt %s von %s',
+        'Step %s' => '',
+        'General Specifications' => '',
+        'Select the element that will be used at the X-axis' => '',
+        'Select the elements for the value series' => 'Auswahl der Elemente für die Wertereihen',
+        'Select the restrictions to characterize the stat' => '',
         'Here you can make restrictions to your stat.' => 'Dieses Formular wird dazu verwendet die Einschränkungen für die Statistik zu definieren.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Wenn Sie den Haken in der "Fixiert" Checkbox entfernen, kann der Agent der die Statistik erstellt, die Attribute des entsprechenden Elements verändern.',
-        'Select the restrictions to characterize the stat' => '',
         'Fixed' => 'Fixiert',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Bitte wählen Sie nur ein Attribut aus oder entfernen Sie das Häkchen der Checkbox \'Fixiert\'!',
         'Absolute Period' => '',
@@ -1401,7 +1420,6 @@ sub Data {
         'Finish' => 'Abschließen',
 
         # Template: AgentStatsEditSpecification
-        'General Specifications' => '',
         'Permissions' => 'Rechtevergabe',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
         'Graph size' => '',
@@ -1413,14 +1431,12 @@ sub Data {
 
         # Template: AgentStatsEditValueSeries
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the elements for the value series' => 'Auswahl der Elemente für die Wertereihen',
         'Scale' => 'Skalierung',
         'minimal' => 'minimal',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Bitte bedenken Sie, dass die Zeitskalierung für die Wertereihen größer sein muss als für die X-Achse (z. B. X-Achse => Monat; Wertereihe => Jahr).',
 
         # Template: AgentStatsEditXaxis
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the element that will be used at the X-axis' => '',
         'maximal period' => 'maximaler Zeitraum',
         'minimal scale' => 'minimale Skalierung',
 
@@ -1780,6 +1796,8 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren.',
+        'Database Settings' => '',
+        'General Specifications and Mail Settings' => '',
         'Welcome to %s' => 'Willkommen zu %s',
         'Web site' => '',
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
@@ -2038,7 +2056,7 @@ sub Data {
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
         'Data used to export the search result in CSV format.' => '',
-        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".' => '',
+        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
@@ -2975,7 +2993,9 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Sprache des Kundenkontakts',
 
-        # Misc
+        #
+        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
+        #
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
         '(Email of the system admin)' => '(E-Mail des System-Administrators)',
@@ -3191,6 +3211,7 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ist RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
         'If you use a graph as output format you have to select at least one graph size.' => 'Wenn Sie als Ausgabeformat eine Graphik ausgewählt haben, müssen Sie hier die Graphikgröße auswählen.',
         'If you want to install OTRS on other database systems, please refer to the file README.database.' => 'Wenn Sie OTRS mit einer anderen Datenbank benutzen wollen, so lesen Sie bitte die Anleitung in der Datei README.database.',
+        'Image' => 'Image',
         'Important' => 'Wichtig',
         'Imported' => 'Importiert',
         'Imported by' => 'Importiert von',
@@ -3388,6 +3409,7 @@ sub Data {
         'State Type' => 'Status-Typ',
         'Static-File' => 'Statische Datei',
         'Stats-Area' => 'Statistik-Bereich',
+        'Step %s of %s' => 'Schritt %s von %s',
         'Street{CustomerUser}' => 'Strasse',
         'Sub-Queue of' => 'Unterqueue von',
         'Sub-Service of' => 'Unterservice von',
