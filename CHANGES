@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1554 2010-11-10 15:37:52 martin Exp $
+# $Id: CHANGES,v 1.1555 2010-11-10 18:26:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.0 rc1 2010-11-08
+ - 2010-11-10 Fixed bug#6257 - Watched Tickets ToolBarModule does not have a shortcut defined
+    - leads to display issues.
  - 2010-11-10 Fixed bug#6254 - Reloading article in ticket zoom corrupts encoding.
  - 2010-11-10 Fixed bug#6111: i18n - Admin Link relation edit screens translation issues.
  - 2010-11-10 Fixed bug#6061: Field size harmonization.
