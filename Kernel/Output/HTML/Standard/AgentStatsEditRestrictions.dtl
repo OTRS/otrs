@@ -2,7 +2,7 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.24 2010-11-09 14:42:23 mn Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.25 2010-11-10 12:42:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,22 +15,22 @@
         <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
             <li class="Highlighted NoLink First">
                 <span>
-                    <a href="#">$Text{"Step 1"}<span>$Text{"General Specifications"}</span></a>
+                    <a href="#">$Text{"Step %s", "1"}<span>$Text{"General Specifications"}</span></a>
                 </span>
             </li>
             <li class="Highlighted NoLink">
                 <span>
-                    <a href="#">$Text{"Step 2"}<span>$Text{"Select the element that will be used at the X-axis"}</span></a>
+                    <a href="#">$Text{"Step %s", "2"}<span>$Text{"Select the element that will be used at the X-axis"}</span></a>
                 </span>
             </li>
             <li class="Highlighted NoLink">
                 <span>
-                    <a href="#">$Text{"Step 3"}<span>$Text{"Select the elements for the value series"}</span></a>
+                    <a href="#">$Text{"Step %s", "3"}<span>$Text{"Select the elements for the value series"}</span></a>
                 </span>
             </li>
             <li class="Highlighted Active NoLink Last">
                 <span>
-                    <a href="#">$Text{"Step 4"}<span>$Text{"Select the restrictions to characterize the stat"}</span></a>
+                    <a href="#">$Text{"Step %s", "4"}<span>$Text{"Select the restrictions to characterize the stat"}</span></a>
                 </span>
             </li>
         </ul>
