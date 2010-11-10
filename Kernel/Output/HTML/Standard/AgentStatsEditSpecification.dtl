@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.33 2010-11-10 12:42:42 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.34 2010-11-10 17:19:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,7 +146,8 @@
                             $Data{"SelectFormat"}
 <!-- dtl:block:PackageUnavailableMsg -->
                             <p class="FieldExplanation">
-                                $Text{"Some result formats are disabled because at least one needed package is not installed. Please contact your administrator."}
+                                $Text{"Some result formats are disabled because at least one needed package is not installed."}
+                                $Text{"Please contact your administrator."}
                             </p>
 <!-- dtl:block:PackageUnavailableMsg -->
                             <div id="FormatError" class="TooltipErrorMessage">

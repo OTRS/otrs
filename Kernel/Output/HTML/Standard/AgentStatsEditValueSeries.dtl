@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.27 2010-11-10 12:42:42 mg Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.28 2010-11-10 17:19:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,11 @@
             </div>
             <div class="Content">
                 <p>
-                    $Text{"Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don't select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration."}
+                    $Text{"Here you can define the value series."}
+                    $Text{"You have the possibility to select one or two elements."}
+                    $Text{"Then you can select the attributes of elements."}
+                    $Text{"Each attribute will be shown as single value series."}
+                    $Text{"If you don't select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration."}
                 </p>
                 <p>
                     $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element."}
