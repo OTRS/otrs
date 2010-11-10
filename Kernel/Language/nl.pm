@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.139 2010-11-05 15:53:54 mb Exp $
+# $Id: nl.pm,v 1.140 2010-11-10 09:11:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-05 15:51:02
+    # Last translation file sync: 2010-11-10 10:02:22
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -580,6 +580,7 @@ sub Data {
         'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
         'Show closed Tickets' => 'Gesloten tickets wel tonen',
         'New Article' => 'Nieuwe interactie',
+        'Unread article(s) available' => 'Ongelezen interactie(s) aanwezig',
         'Remove from list of watched tickets' => 'Verwijder van lijst met gevolgde tickets',
         'Add to list of watched tickets' => 'Voeg toe aan lijst met gevolgde tickets',
         'Email-Ticket' => 'E-mail ticket',
@@ -777,6 +778,9 @@ sub Data {
         'Add Customer' => 'Klant toevoegen',
         'Edit Customer' => 'Klant bewerken',
         'This field is required and needs to be a valid email address.' => 'Dit veld is verplicht en moet een geldig e-mailadres zijn.',
+        'This email address is not allowed due to the system configuration.' => '',
+        'This email address failed MX check.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
@@ -904,17 +908,17 @@ sub Data {
         'Warning: All affected tickets will be removed from the database and cannot be restored!' => 'Waarschuwing: alle geselecteerde tickets worden verwijderd uit de database en kunnen niet terug worden geplaatst.',
         'Execute Custom Module' => 'Voer Module Uit',
         'Param 1 key' => 'Parameter 1 sleutel',
-        'Param 1 value' => 'Parameter 1 waarde',
+        ' Param 1 value' => '',
         'Param 2 key' => 'Parameter 2 sleutel',
-        'Param 2 value' => 'Parameter 2 waarde',
+        ' Param 2 value' => '',
         'Param 3 key' => 'Parameter 3 sleutel',
-        'Param 3 value' => 'Parameter 3 waarde',
+        ' Param 3 value' => '',
         'Param 4 key' => 'Parameter 4 sleutel',
-        'Param 4 value' => 'Parameter 4 waarde',
+        ' Param 4 value' => '',
         'Param 5 key' => 'Parameter 5 sleutel',
-        'Param 5 value' => 'Parameter 5 waarde',
+        ' Param 5 value' => '',
         'Param 6 key' => 'Parameter 6 sleutel',
-        'Param 6 value' => 'Parameter 6 waarde',
+        ' Param 6 value' => '',
         'Save Changes' => 'Wijzigingen opslaan',
         'Save' => 'Opslaan',
         'Results' => 'Resultaten',
@@ -1275,7 +1279,7 @@ sub Data {
         'New Loader File' => 'Nieuw bestand voor Loader',
         'NavBarName' => 'Titel navigatiebalk',
         'NavBar' => 'Navigatiebalk',
-        'Image' => 'Afbeelding',
+        'LinkOption' => '',
         'Block' => 'Blok',
         'AccessKey' => 'Sneltoetskoppeling',
         'Add NavBar entry' => 'Navigatiebalk item toevoegen',
@@ -1401,10 +1405,16 @@ sub Data {
         'Do you really want to delete this stat?' => 'Wilt u dit rapport echt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s of %s' => 'Stap %s van %s',
+        'Step 1' => 'Stap 1',
+        'General Specifications' => 'Algemene Instellingen',
+        'Step 2' => 'Stap 2',
+        'Select the element that will be used at the X-axis' => 'Selecteer het element wat gebruikt wordt op de X-as',
+        'Step 3' => 'Stap 3',
+        'Select the elements for the value series' => 'Selecteer de elementen voor de Y-as',
+        'Step 4' => 'Stap 4',
+        'Select the restrictions to characterize the stat' => 'Selecteer de zoekrestricties voor dit rapport',
         'Here you can make restrictions to your stat.' => 'Hier kunt u beperkingen voor dit rapport opgeven.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Als u het vinkje bij \'Statisch\' weghaalt, kunnen gebruikers de attributen van het bijbehorende element aanpassen bij het genereren van de rapporten.',
-        'Select the restrictions to characterize the stat' => 'Selecteer de zoekrestricties voor dit rapport',
         'Fixed' => 'Statisch',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Kies een element, of schakel de optie \'Statisch\' uit.',
         'Absolute Period' => 'Absolute periode',
@@ -1414,7 +1424,6 @@ sub Data {
         'Finish' => 'Voltooien',
 
         # Template: AgentStatsEditSpecification
-        'General Specifications' => 'Algemene Instellingen',
         'Permissions' => 'Permissies',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
         'Graph size' => 'Grootte',
@@ -1426,14 +1435,12 @@ sub Data {
 
         # Template: AgentStatsEditValueSeries
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
-        'Select the elements for the value series' => 'Selecteer de elementen voor de Y-as',
         'Scale' => 'Schaal',
         'minimal' => 'minimaal',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Let er op dat de schaal voor de Y-as groter moet zijn dan die voor de X-as (bijvooreeld X-as = maand, Y-as = jaar).',
 
         # Template: AgentStatsEditXaxis
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button. Als u geen selectie maakt worden alle attributen van het element getoond bij het aanmaken van het rapport.',
-        'Select the element that will be used at the X-axis' => 'Selecteer het element wat gebruikt wordt op de X-as',
         'maximal period' => 'maximale periode',
         'minimal scale' => 'minimale schaal',
 
@@ -1793,6 +1800,9 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => 'JavaScript is niet beschikbaar',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
+        'Accept the license' => 'Accepteer de licentie',
+        'Database Settings' => 'Database configuratie',
+        'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
         'Welcome to %s' => 'Welkom bij %s',
         'Web site' => 'Website',
         'Database check successful.' => 'Database controle gelukt.',
@@ -2021,7 +2031,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
-        'Company Tickets' => 'Bedrijf Tickets',
+        'Company Tickets' => 'Tickets van groep',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' => '',
@@ -2051,7 +2061,7 @@ sub Data {
         'Customers <-> Groups' => 'Klanten <-> Groepen',
         'Customers <-> Services' => 'Klanten <-> Services',
         'Data used to export the search result in CSV format.' => '',
-        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".' => '',
+        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
@@ -2640,7 +2650,7 @@ sub Data {
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => '',
-        'My Tickets' => 'Mijn Tickets',
+        'My Tickets' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
         'New email ticket' => 'Nieuw e-mail ticket',
         'New phone ticket' => 'Nieuw telefoon ticket',
@@ -3208,6 +3218,7 @@ sub Data {
         'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
         'If you want to account time, please provide Subject and Text!' => 'Als u tijd wilt registreren voor dit ticket, vul dan ook de velden Onderwerp en Tekst.',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de X-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
+        'Image' => 'Afbeelding',
         'Important' => 'Belangrijk',
         'In this form you can select the basic specifications.' => 'Hier kunt u de algemene eigenschappen opgeven.',
         'Information about the Stat' => 'Informatie over deze statistieken',
@@ -3305,11 +3316,17 @@ sub Data {
         'POP3S' => 'POP3S',
         'Package' => 'Pakket',
         'Param 1' => 'Parameter 1',
+        'Param 1 value' => 'Parameter 1 waarde',
         'Param 2' => 'Parameter 2',
+        'Param 2 value' => 'Parameter 2 waarde',
         'Param 3' => 'Parameter 3',
+        'Param 3 value' => 'Parameter 3 waarde',
         'Param 4' => 'Parameter 4',
+        'Param 4 value' => 'Parameter 4 waarde',
         'Param 5' => 'Parameter 5',
+        'Param 5 value' => 'Parameter 5 waarde',
         'Param 6' => 'Parameter 6',
+        'Param 6 value' => 'Parameter 6 waarde',
         'Parent-Object' => 'Hoofd item',
         'Password is already in use! Please use an other password!' => 'Wachtwoord wordt al gebruikt. Kies een ander wachtwoord.',
         'Password is already used! Please use an other password!' => 'Wachtwoord is al in gebruik. Kies een ander wachtwoord.',
@@ -3388,6 +3405,7 @@ sub Data {
         'State Type' => 'Status Type',
         'Static-File' => '\'Hardcoded\' bestand',
         'Stats-Area' => 'Statistieken',
+        'Step %s of %s' => 'Stap %s van %s',
         'Street{CustomerUser}' => 'Straat',
         'Sub-Queue of' => 'Subwachtrij van',
         'Sub-Service of' => 'Service is onderdeel van',
