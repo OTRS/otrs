@@ -1,0 +1,14 @@
+# --
+# cron/cache - delete expired cache
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# --
+# $Id: cache.dist,v 1.1 2010-11-10 12:40:40 mb Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+# delete expired cache weekly (Sunday mornings)
+20 0 * * 0  $HOME/bin/otrs.CacheDelete.pl --expired >> /dev/null
+30 0 * * 0  $HOME/bin/otrs.LoaderCache.pl -o delete >> /dev/null
