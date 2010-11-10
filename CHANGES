@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1550 2010-11-09 22:25:30 mh Exp $
+# $Id: CHANGES,v 1.1551 2010-11-10 09:55:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.0 rc1 2010-11-08
+ - 2010-11-10 Updated zh_CN translation, thanks to Never Min!
  - 2010-11-09 Updated CPAN module CGI to version 3.50.
  - 2010-11-09 Fixed bug#6251 - Admin Group Interface produces an error log entry.
  - 2010-11-09 Fixed bug#5043 - All Tickets / Locked Tickets View in QueueView missing.
