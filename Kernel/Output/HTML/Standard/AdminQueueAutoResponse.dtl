@@ -102,7 +102,7 @@
 <!-- dtl:block:Selection -->
             <div class="Header">
                 <h2>
-                    $Text{"Change Auto Response Relations for Queue", "$Data{"NeType"}"}
+                    $Text{"Change Auto Response Relations for Queue"}
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;QueueID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
             </div>

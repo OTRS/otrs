@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.30 2010-06-21 21:39:22 dz Exp $
+# $Id: AdminRoleGroup.pm,v 1.31 2010-11-10 11:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -205,8 +205,10 @@ sub _Change {
             NeType     => $NeType,
         },
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+    $Self->{LayoutObject}->Block( Name => "ChangeHeader$NeType" );
 
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
         next if !$Type;

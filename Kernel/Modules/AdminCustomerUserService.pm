@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.23 2010-10-01 20:52:56 en Exp $
+# $Id: AdminCustomerUserService.pm,v 1.24 2010-11-10 11:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -370,13 +370,15 @@ sub _Change {
             ActionHome      => 'Admin' . $Type,
             Type            => $Type,
             NeType          => $NeType,
-            VisibleType     => $VisibleType{ $Type, },
-            VisibleNeType   => $VisibleType{ $NeType, },
+            VisibleType     => $VisibleType{$Type},
+            VisibleNeType   => $VisibleType{$NeType},
             SubactionHeader => $Subaction{$Type},
             IDHeaderStrg    => $IDStrg{$Type},
             %Param,
         },
     );
+
+    $Self->{LayoutObject}->Block( Name => "AllocateItemHeader$VisibleType{$NeType}" );
 
     if ( $NeType eq 'CustomerUser' ) {
 

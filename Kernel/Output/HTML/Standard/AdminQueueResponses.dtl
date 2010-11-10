@@ -111,8 +111,12 @@
 <!-- dtl:block:Change -->
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for", "$QData{"VisibleNeType"}"}
-                    $Text{"$Data{"VisibleType"}"}
+<!-- dtl:block:ChangeHeaderQueue -->
+                    $Text{"Change Queue Relations for Response"}
+<!-- dtl:block:ChangeHeaderQueue -->
+<!-- dtl:block:ChangeHeaderResponse -->
+                    $Text{"Change Response Relations for Queue"}
+<!-- dtl:block:ChangeHeaderResponse -->
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;$LQData{"Queue"}ID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
             </div>

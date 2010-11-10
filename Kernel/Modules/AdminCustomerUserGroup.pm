@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.36 2010-05-11 19:02:26 cr Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.37 2010-11-10 11:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -381,6 +381,11 @@ sub _Change {
             VisibleType   => $VisibleType{$Type},
         },
     );
+
+    $Self->{LayoutObject}->Block(
+        Name => "ChangeHeading$VisibleType{$NeType}",
+    );
+
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
         next if !$Type;
         my $Mark = $Type eq 'rw' ? "Highlight" : '';

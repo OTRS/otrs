@@ -2,7 +2,7 @@
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.29 2010-10-17 14:47:42 mb Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.30 2010-11-10 11:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,8 +167,12 @@
 <!-- dtl:block:Change -->
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for", "$Data{"VisibleNeType"}"}
-                    $Text{"$Data{"VisibleType"}"}
+<!-- dtl:block:ChangeHeadingGroup -->
+                    $Text{"Change Group Relations for Customer"}
+<!-- dtl:block:ChangeHeadingGroup -->
+<!-- dtl:block:ChangeHeadingCustomer -->
+                    $Text{"Change Customer Relations for Group"}
+<!-- dtl:block:ChangeHeadingCustomer -->
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
             </div>

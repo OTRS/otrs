@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.38 2010-05-12 18:32:10 dz Exp $
+# $Id: AdminResponseAttachment.pm,v 1.39 2010-11-10 11:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,7 +185,7 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Attachment' ? 'Response' : 'Attachment';
 
-    my %VisibleType = ( Response => 'Standard Response', Attachment => 'StandardAttachment', );
+    my %VisibleType = ( Response => 'Response', Attachment => 'Attachment', );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
@@ -201,6 +201,8 @@ sub _Change {
             VisibleNeType => $VisibleType{$NeType},
         },
     );
+
+    $Self->{LayoutObject}->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
 
     $Self->{LayoutObject}->Block(
         Name => 'ChangeHeader',
@@ -240,6 +242,8 @@ sub _Overview {
         Name => 'Overview',
         Data => {},
     );
+
+    $Self->{LayoutObject}->Block( Name => 'Filters' );
 
     # no actions in action list
     #    $Self->{LayoutObject}->Block( Name => 'ActionList' );

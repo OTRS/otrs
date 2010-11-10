@@ -96,7 +96,12 @@
 
             <div class="Header">
                 <h2>
-                    $Text{"Change %s Relations for %s", "$QData{"VisibleNeType"}", "$QData{"VisibleType"}"}
+<!-- dtl:block:ChangeHeaderGroup -->
+                    $Text{"Change Group Relations for Agent"}
+<!-- dtl:block:ChangeHeaderGroup -->
+<!-- dtl:block:ChangeHeaderAgent -->
+                    $Text{"Change Agent Relations for Group"}
+<!-- dtl:block:ChangeHeaderAgent -->
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
             </div>
