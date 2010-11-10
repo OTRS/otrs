@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.61 2010-11-04 18:00:09 mb Exp $
+# $Id: AAATicket.dtl,v 1.62 2010-11-10 09:12:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@ $Text{"No such Ticket Number "%s"! Can't link it!"}
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
 $Text{"New Article"}
-$Texte"Unread article(s) available"}
+$Text{"Unread article(s) available"}
 
 $Text{"Remove from list of watched tickets"}
 $Text{"Add to list of watched tickets"}
