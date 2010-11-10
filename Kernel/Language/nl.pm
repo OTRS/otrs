@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.140 2010-11-10 09:11:30 mb Exp $
+# $Id: nl.pm,v 1.141 2010-11-10 16:20:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-10 10:02:22
+    # Last translation file sync: 2010-11-10 14:56:52
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -799,7 +799,8 @@ sub Data {
         'Customers' => 'Klanten',
         'Groups' => 'Groepen',
         'No matches found.' => 'Niets gevonden.',
-        'Change %s Relations for' => 'Bewerk gekoppelde %s voor',
+        'Change Group Relations for Customer' => 'Bewerk gekoppelde groepen voor klant',
+        'Change Customer Relations for Group' => 'Bewerk gekoppelde klanten voor groep',
         'Toggle %s Permission for all' => '%s permissies aan/uit',
         'Toggle %s permission for %s' => '%s permissies aan/uit voor %s',
         'Customer Default Groups:' => 'Standaard groepen',
@@ -813,7 +814,8 @@ sub Data {
         'Manage Customer-Services Relations' => 'Beheer Klant - Service koppelingen',
         'Edit default services' => 'Beheer standaard services',
         'Filter for Services' => 'Filter op services',
-        'Allocate %s to' => 'Wijs %s toe aan',
+        'Allocate Services to Customer' => 'Koppel services aan klant',
+        'Allocate Customers to Service' => 'Koppel klanten aan service',
         'Toggle active state for all' => 'Alles actief aan/uit',
         'Active' => 'Actief',
         'Toggle active state for %s' => 'Actief aan/uit voor %s',
@@ -906,19 +908,9 @@ sub Data {
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. ARG[1] is het nieuwe ticketid.',
         'Delete tickets' => 'Verwijder tickets.',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' => 'Waarschuwing: alle geselecteerde tickets worden verwijderd uit de database en kunnen niet terug worden geplaatst.',
-        'Execute Custom Module' => 'Voer Module Uit',
-        'Param 1 key' => 'Parameter 1 sleutel',
-        ' Param 1 value' => '',
-        'Param 2 key' => 'Parameter 2 sleutel',
-        ' Param 2 value' => '',
-        'Param 3 key' => 'Parameter 3 sleutel',
-        ' Param 3 value' => '',
-        'Param 4 key' => 'Parameter 4 sleutel',
-        ' Param 4 value' => '',
-        'Param 5 key' => 'Parameter 5 sleutel',
-        ' Param 5 value' => '',
-        'Param 6 key' => 'Parameter 6 sleutel',
-        ' Param 6 value' => '',
+        'Execute Custom Module' => 'Start externe module',
+        'Param %s key' => 'Parameter %s sleutel',
+        'Param %s value' => 'Parameter %s waarde',
         'Save Changes' => 'Wijzigingen opslaan',
         'Save' => 'Opslaan',
         'Results' => 'Resultaten',
@@ -1121,6 +1113,8 @@ sub Data {
         'Filter' => 'Filter',
         'Filter for Responses' => 'Filter op antwoorden',
         'Responses' => 'Standaard antwoorden',
+        'Change Queue Relations for Response' => 'Bewerk gekoppelde wachtrijen voor antwoord',
+        'Change Response Relations for Queue' => 'Bewerk gekoppelde antwoorden voor wachtrij',
 
         # Template: AdminResponse
         'Manage Responses' => 'Beheer Antwoorden',
@@ -1135,7 +1129,9 @@ sub Data {
 
         # Template: AdminResponseAttachment
         'Manage Responses <-> Attachments Relations' => 'Beheer Antwoorden <-> Bijlagen',
-        'Change %s Relations for %s' => 'Bewerk %s koppelingen voor %s',
+        'Filter for Attachments' => 'Filter op bijlagen',
+        'Change Response Relations for Attachment' => 'Bewerk gekoppelde antwoorden voor attachment',
+        'Change Attachment Relations for Response' => 'Bewerk gekoppelde attachments voor antwoord',
         'Toggle active for all' => 'Actief aan/uit voor alles',
         'Link %s to selected %s' => 'Koppel %s aan %s',
 
@@ -1153,6 +1149,8 @@ sub Data {
         'Roles' => 'Rollen',
         'Select the role:group permissions.' => 'Selecteer de rol-groep permissies.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => 'Als niets is geselecteerd, heeft deze rol geen permissies op deze groep.',
+        'Change Role Relations for Group' => 'Bewerk gekoppelde rollen voor groep',
+        'Change Group Relations for Role' => 'Bewerk gekoppelde groepen voor rol',
         'Toggle %s permission for all' => 'Permissies %s aan/uit',
         'move_into' => 'verplaats naar',
         'Permissions to move tickets into this group/queue.' => 'Permissies om tickets naar deze groep/wachtrij te verplaatsen.',
@@ -1166,6 +1164,8 @@ sub Data {
         'Filter for Agents' => 'Filter op gebruikers',
         'Agents' => 'Gebruikers',
         'Manage Role-Agent Relations' => 'Beheer Rol-Gebruiker koppelingen',
+        'Change Role Relations for Agent' => 'Bewerk gekoppelde rollen voor gebruiker',
+        'Change Agent Relations for Role' => 'Bewerk gekoppelde gebruikers voor rol',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA beheer',
@@ -1322,7 +1322,9 @@ sub Data {
         'End' => 'Einde',
 
         # Template: AdminUserGroup
-        'Manage Agent-Group Relations' => 'Beheer Agent-Groep koppelingen',
+        'Manage Agent-Group Relations' => 'Beheer Gebruiker-Groep koppelingen',
+        'Change Group Relations for Agent' => 'Bewerk gekoppelde groepen voor gebruiker',
+        'Change Agent Relations for Group' => 'Bewerk gekoppelde gebruikers voor groep',
         'note' => 'notitie',
         'Permissions to add notes to tickets in this group/queue.' => 'Permissies om notities aan tickets in de wachtrijen behorende bij deze groep toe te voegen.',
         'owner' => 'eigenaar',
@@ -1405,13 +1407,10 @@ sub Data {
         'Do you really want to delete this stat?' => 'Wilt u dit rapport echt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
-        'Step 1' => 'Stap 1',
+        'Step %s' => 'Stap %s',
         'General Specifications' => 'Algemene Instellingen',
-        'Step 2' => 'Stap 2',
         'Select the element that will be used at the X-axis' => 'Selecteer het element wat gebruikt wordt op de X-as',
-        'Step 3' => 'Stap 3',
         'Select the elements for the value series' => 'Selecteer de elementen voor de Y-as',
-        'Step 4' => 'Stap 4',
         'Select the restrictions to characterize the stat' => 'Selecteer de zoekrestricties voor dit rapport',
         'Here you can make restrictions to your stat.' => 'Hier kunt u beperkingen voor dit rapport opgeven.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Als u het vinkje bij \'Statisch\' weghaalt, kunnen gebruikers de attributen van het bijbehorende element aanpassen bij het genereren van de rapporten.',
@@ -1784,7 +1783,7 @@ sub Data {
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' => 'Als u deze pagina verlaat worden alle openstaande popup-vensters ook gesloten.',
-        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => 'Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?',
 
         # Template: FooterSmall
 
@@ -1800,7 +1799,6 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => 'JavaScript is niet beschikbaar',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
-        'Accept the license' => 'Accepteer de licentie',
         'Database Settings' => 'Database configuratie',
         'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
         'Welcome to %s' => 'Welkom bij %s',
@@ -1948,7 +1946,7 @@ sub Data {
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' => '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' => '',
         'Activates time accounting.' => '',
-        'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' => '',
+        'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' => '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' => '',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
@@ -2065,8 +2063,8 @@ sub Data {
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
+        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for interface.' => 'Standaard kleuren voor OTRS schermen.',
-        'Default skin for otrs 3.0 interface.' => '',
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
@@ -2552,7 +2550,7 @@ sub Data {
         'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' => '',
-        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.' => '',
+        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.' => '',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' => '',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' => '',
         'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' => '',
@@ -2717,7 +2715,7 @@ sub Data {
         'Roles <-> Groups' => 'Rollen <-> Groepen',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => 'S/MIME Certificaten Uploaden',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
         'Search Ticket' => 'Zoek Ticket',
         'Search backend default router.' => '',
         'Search backend router.' => '',
@@ -2998,7 +2996,9 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Uw taal',
 
-        # Misc
+        #
+        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
+        #
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets worden bewerkt! Weet u zeker dat u deze actie wilt uitvoeren?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controleerd MX-records voor e-mailadressen)',
@@ -3027,6 +3027,7 @@ sub Data {
         'A web mail client' => 'Webmail gebruiker',
         'About OTRS' => 'Over OTRS',
         'Absolut Period' => 'Absolute data',
+        'Accept the license' => 'Accepteer de licentie',
         'Add Customer User' => 'Klanten toevoegen',
         'Add System Address' => 'Systeem e-mailadres toevoegen',
         'Add User' => 'Nieuwe gebruiker toevoegen',
@@ -3066,6 +3067,7 @@ sub Data {
         'All tickets' => 'Alle tickets',
         'All tickets where the reminder date has reached!' => 'Alle tickets waar het herinnermoment is bereikt.',
         'All tickets which are escalated!' => 'Alle geëscaleerde tickets',
+        'Allocate %s to' => 'Wijs %s toe aan',
         'Allocate CustomerUser to service' => 'Koppel klanten aan service',
         'Allocate services to CustomerUser' => 'Koppel services aan klant',
         'An' => 'een',
@@ -3093,6 +3095,8 @@ sub Data {
         'Can\'t update password, needs at least 2 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 letters noodzakelijk.',
         'Can\'t update password, your new passwords do not match! Please try again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
         'Category Tree' => 'Categorie-boom',
+        'Change %s Relations for' => 'Bewerk gekoppelde %s voor',
+        'Change %s Relations for %s' => 'Bewerk %s koppelingen voor %s',
         'Change %s settings' => 'Wijzig instellingen voor %s',
         'Change Times' => 'Zoek op wijzigingen',
         'Change free text of ticket' => 'Verander de vrije tekstvelden van een ticket.',
@@ -3217,7 +3221,7 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Bij gebruik van RegExp kunt u ook de gematchte waarde tussen haken () gebruiken als variabele met naam [***].',
         'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
         'If you want to account time, please provide Subject and Text!' => 'Als u tijd wilt registreren voor dit ticket, vul dan ook de velden Onderwerp en Tekst.',
-        'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de X-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
+        'If your account is trusted, the already existing x-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de X-OTRS headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Image' => 'Afbeelding',
         'Important' => 'Belangrijk',
         'In this form you can select the basic specifications.' => 'Hier kunt u de algemene eigenschappen opgeven.',
@@ -3316,16 +3320,22 @@ sub Data {
         'POP3S' => 'POP3S',
         'Package' => 'Pakket',
         'Param 1' => 'Parameter 1',
+        'Param 1 key' => 'Parameter 1 sleutel',
         'Param 1 value' => 'Parameter 1 waarde',
         'Param 2' => 'Parameter 2',
+        'Param 2 key' => 'Parameter 2 sleutel',
         'Param 2 value' => 'Parameter 2 waarde',
         'Param 3' => 'Parameter 3',
+        'Param 3 key' => 'Parameter 3 sleutel',
         'Param 3 value' => 'Parameter 3 waarde',
         'Param 4' => 'Parameter 4',
+        'Param 4 key' => 'Parameter 4 sleutel',
         'Param 4 value' => 'Parameter 4 waarde',
         'Param 5' => 'Parameter 5',
+        'Param 5 key' => 'Parameter 5 sleutel',
         'Param 5 value' => 'Parameter 5 waarde',
         'Param 6' => 'Parameter 6',
+        'Param 6 key' => 'Parameter 6 sleutel',
         'Param 6 value' => 'Parameter 6 waarde',
         'Parent-Object' => 'Hoofd item',
         'Password is already in use! Please use an other password!' => 'Wachtwoord wordt al gebruikt. Kies een ander wachtwoord.',
@@ -3406,6 +3416,10 @@ sub Data {
         'Static-File' => '\'Hardcoded\' bestand',
         'Stats-Area' => 'Statistieken',
         'Step %s of %s' => 'Stap %s van %s',
+        'Step 1' => 'Stap 1',
+        'Step 2' => 'Stap 2',
+        'Step 3' => 'Stap 3',
+        'Step 4' => 'Stap 4',
         'Street{CustomerUser}' => 'Straat',
         'Sub-Queue of' => 'Subwachtrij van',
         'Sub-Service of' => 'Service is onderdeel van',
