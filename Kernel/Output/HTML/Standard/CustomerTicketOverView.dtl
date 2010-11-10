@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.18 2010-09-23 11:23:45 mb Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.19 2010-11-10 17:42:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,11 @@
     <div class="ActionRow">
         <ul class="Filter Tabs">
 <!-- dtl:block:FilterHeader -->
-            <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a></li>
+            <li class="$QData{"ClassLI"}">
+                <a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$LQData{"Filter"};SortBy=$LQData{"SortBy"};Order=$LQData{"OrderBy"};">
+                    $Text{"$Data{"Name"}"} ($QData{"Count"})
+                </a>
+            </li>
 <!-- dtl:block:FilterHeader -->
             <li class="Clear"></li>
         </ul>
@@ -34,10 +38,17 @@
             </thead>
             <tbody>
 <!-- dtl:block:Record -->
-                <tr title="$Data{"TicketNumber"}">
+                <tr title="$QData{"TicketNumber"}">
                     <td class="Status">$Quote{"$Text{"$Data{"State"}"}","18"}</td>
-                    <td class="Ticket"><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$Data{"TicketID"}">$Data{"TicketNumber"}</a></td>
-                    <td class="Title"><div><h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$Data{"TicketID"}">$QData{"Subject","60"}</a></h2>&nbsp;-&nbsp; $QData{"Body","200"}</div></td>
+                    <td class="Ticket">
+                        <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"}">$QData{"TicketNumber"}</a>
+                    </td>
+                    <td class="Title">
+                        <div>
+                            <h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"}">$QData{"Subject","60"}</a></h2>
+                            &nbsp;-&nbsp; $QData{"Body","200"}
+                        </div>
+                    </td>
                     <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"Age","20"}</td>
                 </tr>
 <!-- dtl:block:Record -->
@@ -48,7 +59,10 @@
     <div id="BottomActionRow" class="ActionRow BigButtons">
         <ul class="Tabs Filter">
 <!-- dtl:block:FilterFooterItem -->
-            <li class="$QData{"ClassLI"}"><a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$QData{"Filter"};SortBy=$QData{"SortBy"};Order=$QData{"OrderBy"};">$Text{"$Data{"Name"}"} ($QData{"Count"})</a>
+            <li class="$QData{"ClassLI"}">
+                <a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$LQData{"Filter"};SortBy=$LQData{"SortBy"};Order=$LQData{"OrderBy"};">
+                    $Text{"$Data{"Name"}"} ($QData{"Count"})
+                </a>
 <!-- dtl:block:FilterFooterItem -->
                 <li class="Clear"></li>
             </ul>
@@ -68,7 +82,12 @@
 <!-- dtl:block:Empty -->
         <div class="Placeholder">
             <h2>$Text{"You have not created a ticket yet."}</h2>
-            <p>$Text{"You as the customer have the ability to let us support staff people jump around as you wish because it's all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called 'ticket'. Please command us."}</p>
+            <p>
+                $Text{"You as the customer have the ability to let us support staff people jump around as you wish because it's all about you."}
+                $Text{"We stop eating if you wish us to do."}
+                $Text{"Your way to communicate with us is this thing called 'ticket'."}
+                $Text{"Please command us."}
+            </p>
             <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first Ticket"}</a>
         </div>
 
