@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.24 $
+ * @version     $Revision: 1.25 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -354,6 +354,18 @@ iframe.Signature {
     margin: 2px;
     background: url("../img/loader.gif") no-repeat right center;
     vertical-align: bottom;
+}
+
+/**
+ * @subsection freetext fields
+ */
+
+input[type=text].TicketFreeText, input[type=text].ArticleFreeText {
+    width: 75%;
+}
+
+input[type=text].TicketFreeKey, input[type=text].ArticleFreeKey {
+    width: 50%;
 }
 
 
