@@ -1440,7 +1440,7 @@ CKEDITOR.plugins.add( 'dialogui' );
                                 '" /><input type="hidden" name="FormID" value="',
                                 CKEDITOR.config.formID,
                                 '"/><input type="hidden" name="CKEditorFuncNum" value="',
-                                CKEDITOR.instances.RichText._.filebrowserFn,
+                                _.dialog._.editor._.filebrowserFn,
                                 '" /><input type="file" name="',
 								CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
 								'" size="',
