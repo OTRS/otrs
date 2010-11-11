@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2010-09-22 14:23:02
+--  driver: mssql, generated: 2010-11-11 12:24:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -36,13 +36,13 @@ INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by,
 -- ----------------------------------------------------------
 INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('admin', 'Group of all admins.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('admin', 'Group of all administrators.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
 INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('stats', 'Group for stats access.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('stats', 'Group for statistics access.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table group_user
 -- ----------------------------------------------------------
@@ -222,13 +222,13 @@ INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time
 -- ----------------------------------------------------------
 INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 'Post master queue.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 'Postmaster queue.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
 INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Raw', 1, 1, 1, 1, 1, 1, 0, 'All default incoming ticket.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 'All default incoming tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
@@ -282,7 +282,7 @@ INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, 
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto reply', 'Auto replay which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reply', 'Auto reply which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
@@ -294,7 +294,7 @@ INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto follow up', 'Auto follow up is sent out after a added follow up has been received for a ticket (in case queue follow up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto follow up', 'Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
@@ -306,13 +306,13 @@ INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time
 -- ----------------------------------------------------------
 INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('auto remove', 'Auto remove will be sent out after a customer removed th request by it self.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto remove', 'Auto remove will be sent out after a customer removed the request.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your email. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asapHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquiry.It could contain something like:Thanks for your email. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human ASAPHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
@@ -324,13 +324,13 @@ INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, chars
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up emailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up emailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human ASAP.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
 INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your email will be answered by a human ASAP.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'utf-8', 'text/plain', '', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_type
 -- ----------------------------------------------------------

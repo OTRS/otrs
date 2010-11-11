@@ -53,7 +53,7 @@
     <Insert Table="groups">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">admin</Data>
-        <Data Key="comments" Type="Quote">Group of all admins.</Data>
+        <Data Key="comments" Type="Quote">Group of all administrators.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -63,7 +63,7 @@
     <Insert Table="groups">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">stats</Data>
-        <Data Key="comments" Type="Quote">Group for stats access.</Data>
+        <Data Key="comments" Type="Quote">Group for statistics access.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -395,7 +395,7 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="comments" Type="Quote">Post master queue.</Data>
+        <Data Key="comments" Type="Quote">Postmaster queue.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -412,7 +412,7 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="comments" Type="Quote">All default incoming ticket.</Data>
+        <Data Key="comments" Type="Quote">All default incoming tickets.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -513,7 +513,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">auto reply</Data>
-        <Data Key="comments" Type="Quote">Auto replay which will be sent out after a new ticket has been created.</Data>
+        <Data Key="comments" Type="Quote">Auto reply which will be sent out after a new ticket has been created.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -533,7 +533,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">auto follow up</Data>
-        <Data Key="comments" Type="Quote">Auto follow up is sent out after a added follow up has been received for a ticket (in case queue follow up option is "possible").</Data>
+        <Data Key="comments" Type="Quote">Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -553,7 +553,7 @@ Your Ticket-Team
     <Insert Table="auto_response_type">
         <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">auto remove</Data>
-        <Data Key="comments" Type="Quote">Auto remove will be sent out after a customer removed th request by it self.</Data>
+        <Data Key="comments" Type="Quote">Auto remove will be sent out after a customer removed the request.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -566,7 +566,7 @@ Your Ticket-Team
         <Data Key="type_id">1</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default reply (after new ticket has been created)</Data>
-        <Data Key="text0" Type="Quote">This is a demo text which is send to every inquery.
+        <Data Key="text0" Type="Quote">This is a demo text which is send to every inquiry.
 It could contain something like:
 
 Thanks for your email. A new ticket has been created.
@@ -574,7 +574,7 @@ Thanks for your email. A new ticket has been created.
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your email will be answered by a human asap
+Your email will be answered by a human ASAP
 
 Have fun with OTRS! :-)
 
@@ -623,7 +623,7 @@ Your OTRS Team
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your email will be answered by a human asap.
+Your email will be answered by a human ASAP.
 
 Have fun with OTRS!
 
@@ -651,7 +651,7 @@ Your OTRS Team
 You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 
-Your email will be answered by a human asap.
+Your email will be answered by a human ASAP.
 
 Have fun with OTRS!
 
