@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.107 2010-11-08 11:21:25 martin Exp $
+# $Id: LayoutTicket.pm,v 1.108 2010-11-11 13:13:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -757,7 +757,7 @@ sub ArticleQuote {
         # check for html body
         my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
             TicketID                   => $Param{TicketID},
-            StripPlainBodyAsAttachment => 1,
+            StripPlainBodyAsAttachment => 3,
             UserID                     => $Self->{UserID},
         );
 
@@ -800,7 +800,8 @@ sub ArticleQuote {
 
             # display inline images if exists
             my %Attachments = %{ $ArticleTmp->{Atms} };
-            my $SessionID   = '';
+
+            my $SessionID = '';
             if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
                 $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
             }
@@ -819,12 +820,11 @@ sub ArticleQuote {
 
                 # find attachment to include
                 my $ContentID = $1;
-
                 ATMCOUNT:
                 for my $AttachmentID ( keys %Attachments ) {
 
                     # remember not included real attachments
-                    if ( $Attachments{$AttachmentID}->{ContentID} !~ /^<$ContentID>$/i ) {
+                    if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         push @NotInlineAttachments, $AttachmentID;
                         next ATMCOUNT;
                     }

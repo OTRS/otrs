@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.259 2010-11-05 19:31:58 en Exp $
+# $Id: Article.pm,v 1.260 2010-11-11 13:13:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.259 $) [1];
+$VERSION = qw($Revision: 1.260 $) [1];
 
 =head1 NAME
 
@@ -3107,7 +3107,7 @@ get article attachment index as hash
     );
 
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
-attachment / body and html body as attachment
+attachment (not include text body, html body as attachment and inline attachments)
 
     my %Index = $TicketObject->ArticleAttachmentIndex(
         ArticleID                  => 123,
@@ -3117,13 +3117,23 @@ attachment / body and html body as attachment
     );
 
 or with "StripPlainBodyAsAttachment => 2" feature to not include first
-attachment / body as attachment (html body will be shown as attachment)
+attachment (not include text body as attachment)
 
     my %Index = $TicketObject->ArticleAttachmentIndex(
         ArticleID                  => 123,
         UserID                     => 123,
         Article                    => \%Article,
         StripPlainBodyAsAttachment => 2,
+    );
+
+or with "StripPlainBodyAsAttachment => 3" feature to not include first
+attachment (not include text body and html body as attachment)
+
+    my %Index = $TicketObject->ArticleAttachmentIndex(
+        ArticleID                  => 123,
+        UserID                     => 123,
+        Article                    => \%Article,
+        StripPlainBodyAsAttachment => 3,
     );
 
 =cut
@@ -3186,8 +3196,12 @@ sub ArticleAttachmentIndex {
         if ($AttachmentIDHTML) {
             delete $Attachments{$AttachmentIDPlain};
 
-            # only strip html body attachment by "1"
-            if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
+            # only strip html body attachment by "1" or "3"
+            if (
+                $Param{StripPlainBodyAsAttachment} eq 1
+                || $Param{StripPlainBodyAsAttachment} eq 3
+                )
+            {
                 delete $Attachments{$AttachmentIDHTML};
             }
             $Param{Article}->{AttachmentIDOfHTMLBody} = $AttachmentIDHTML;
@@ -3260,6 +3274,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.259 $ $Date: 2010-11-05 19:31:58 $
+$Revision: 1.260 $ $Date: 2010-11-11 13:13:46 $
 
 =cut
