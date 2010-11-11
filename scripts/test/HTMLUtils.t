@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.31 2010-11-04 11:48:27 mb Exp $
+# $Id: HTMLUtils.t,v 1.32 2010-11-11 08:18:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -526,6 +526,14 @@ for my $Test (@Tests) {
         Name      => 'LinkQuote - simple',
         Target    => '',
         TargetAdd => 1,
+    },
+    {
+        Input =>
+            'Some text with a full url http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631',
+        Result =>
+            'Some text with a full url <a href="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631" title="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631">http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631</a>',
+        Name   => 'LinkQuote – full url',
+        Target => '',
     },
     {
         Input => '<html>www.heise.de</html>',
