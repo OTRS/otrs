@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.27 2010-11-09 10:33:37 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.28 2010-11-11 09:18:05 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -130,7 +130,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      'back' in the browser, for example.
      */
     TargetNS.CheckURLHash = function () {
-        var URLHash = location.hash.replace(/#/, '');
+        var URLHash = location.hash.replace(/#/, ''),
+            $ArticleElement;
 
         // if URLHash is empty, that means we are watching the initial article,
         // save this information in URLHash as if it would have been in the URL
@@ -147,7 +148,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             TargetNS.ActiveURLHash = URLHash;
 
             // if article ID is found in article list (= article id is valid)
-            var $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
+            $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
             if ($ArticleElement.length) {
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
