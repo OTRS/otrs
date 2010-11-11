@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.1 2010-11-11 08:40:51 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.2 2010-11-11 08:52:43 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -353,7 +353,7 @@ sub RandomSubject {
         'What is the real questions?',
         'Do not get out of your house!',
         'Some other smart subject!',
-        'Why do I be here?',
+        'Why am I here?',
         'No problem, everything is ok!',
         'Good morning!',
         'Hello again!',
