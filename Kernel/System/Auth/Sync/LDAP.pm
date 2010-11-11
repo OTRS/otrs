@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.9 2010-03-25 14:42:45 martin Exp $
+# $Id: LDAP.pm,v 1.10 2010-11-11 09:24:45 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::Auth::Sync::LDAP;
 
 use strict;
 use warnings;
+
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -342,7 +343,7 @@ sub Sync {
                 Message  => "User: '$Param{User}' sync ldap groups $GroupDN to groups!",
             );
 
-            # search if we're allowed to
+            # search if we are allowed to
             my $Filter = '';
             if ( $Self->{UserAttr} eq 'DN' ) {
                 $Filter = "($Self->{AccessAttr}=$UserDNQuote)";
@@ -477,11 +478,11 @@ sub Sync {
             }
             else {
 
-                # sync groups permissions
+                # sync roles permissions
                 my %SRoles = %{ $UserSyncRolesDefinition->{$GroupDN} };
                 for my $SRole ( sort keys %SRoles ) {
 
-                    # get group id
+                    # get role id
                     my $RoleID = '';
                     my %Roles  = $Self->{GroupObject}->RoleList();
                     for my $RID ( keys %Roles ) {
@@ -682,6 +683,7 @@ sub Sync {
 
     # take down session
     $LDAP->unbind;
+
     return $Param{User};
 }
 
