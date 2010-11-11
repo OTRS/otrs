@@ -2,7 +2,7 @@
 # HTMLHeadBlockEvents.dtl - provides event blocking code
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHeadBlockEvents.dtl,v 1.2 2010-11-09 12:52:58 mg Exp $
+# $Id: HTMLHeadBlockEvents.dtl,v 1.3 2010-11-11 08:57:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 <script type="text/javascript">//<![CDATA[
+"use strict";
+
 var Core = Core || {};
 Core.App = Core.App || {};
 
@@ -40,7 +42,7 @@ Core.App.BlockEvents = function() {
     else {
         document.attachEvent('onclick', IgnoreEvent);
     }
-}
+};
 
 /**
  * @function
@@ -56,7 +58,7 @@ Core.App.UnblockEvents = function() {
     else {
         document.detachEvent('onclick', IgnoreEvent);
     }
-}
+};
 
 // Now block all click events on the page to make sure that
 // an agent does not click before all JavaScript was loaded,
