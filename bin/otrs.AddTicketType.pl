@@ -3,7 +3,7 @@
 # bin/otrs.AddTicketType.pl - add new Ticket Types
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddTicketType.pl,v 1.1 2010-10-21 15:28:18 jb Exp $
+# $Id: otrs.AddTicketType.pl,v 1.2 2010-11-11 16:27:18 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -44,7 +44,7 @@ use Getopt::Std;
 getopts( 'n:h', \%opts );
 
 if ( $opts{h} ) {
-    print STDERR "Usage: bin/otrs.addTicketType -n <Type>\n";
+    print STDERR "Usage: $FindBin::Script -n <Type>\n";
     exit;
 }
 
