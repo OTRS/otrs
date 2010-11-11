@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.14 2010-11-09 10:33:37 mn Exp $
+// $Id: Core.UI.js,v 1.15 2010-11-11 09:48:55 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -186,7 +186,7 @@ Core.UI = (function (TargetNS) {
                 }
 
                 if (Animate && Core.Config.Get('AnimationEnabled')) {
-                    $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("slow", function () {
+                    $WidgetElement.addClass('AnimationRunning').find('.Content').slideToggle("fast", function () {
                         ToggleWidget();
                         $WidgetElement.removeClass('AnimationRunning');
                     });
