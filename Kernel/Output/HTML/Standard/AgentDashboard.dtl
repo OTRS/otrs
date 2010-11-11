@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.56 2010-10-14 18:48:55 mb Exp $
+# $Id: AgentDashboard.dtl,v 1.57 2010-11-11 09:48:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,9 @@
                         <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
                     </div>
 <!-- dtl:js_on_document_complete -->
-                    Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+<script type="text/javascript">//<![CDATA[
+Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+//]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
                     <div class="WidgetAction Close">
@@ -98,8 +100,8 @@
                             <button id="Dashboard$QData{"Name"}_cancel" class="button DontPrint" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}', $('#Dashboard$QData{"NameForm"}_setting_form'));
-    Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}', $('#Dashboard$QData{"NameForm"}_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 //]]></script>
 <!--dtl:js_on_document_complete-->
                         </fieldset>
@@ -126,7 +128,9 @@
                         <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
                     </div>
 <!-- dtl:js_on_document_complete -->
-                    Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+<script type="text/javascript">//<![CDATA[
+Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+//]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargePreferences -->
                     <div class="WidgetAction Close">
@@ -171,8 +175,8 @@
                             <button id="Dashboard$QData{"Name"}_cancel" class="button DontPrint" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));
-    Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Dashboard$QData{"Name"}-setting'), $('#Dashboard$QData{"Name"}'));
 //]]></script>
 <!--dtl:js_on_document_complete-->
                         </fieldset>
