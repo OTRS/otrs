@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.20 2010-11-11 08:09:30 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.21 2010-11-11 09:04:13 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -179,7 +179,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 if (Type === 'top') {
                     Position = parseInt(WindowHeight * (Position / 100), 10) + ScrollTop;
                 }
-                else if (Type == 'bottom') {
+                else if (Type === 'bottom') {
                     Position = WindowHeight + ScrollTop - parseInt(WindowHeight * (Position / 100), 10);
                 }
             }
@@ -475,7 +475,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
-        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML;
+        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;
         $Dialog = $(Object).closest('.Dialog:visible');
 
         // Get the original selector for the content template
@@ -514,9 +514,11 @@ Core.UI.Dialog = (function (TargetNS) {
         // in Firefox/Linux and IE/Win the editor is not usable anymore after a OTRS dialog was opened
         // This workaround fixes this, because opening the wysiwyg again reloads the editor.
         if (typeof CKEDITOR !== 'undefined') {
-            for (var Editor in CKEDITOR.instances) {
-                CKEDITOR.instances[Editor].setMode('source');
-                CKEDITOR.instances[Editor].setMode('wysiwyg');
+            for (Editor in CKEDITOR.instances) {
+                if (typeof CKEDITOR.instances[Editor].setMode === 'function') {
+                    CKEDITOR.instances[Editor].setMode('source');
+                    CKEDITOR.instances[Editor].setMode('wysiwyg');
+                }
             }
         }
 
