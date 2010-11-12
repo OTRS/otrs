@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.329 2010-11-11 09:18:05 mg Exp $
+# $Id: Layout.pm,v 1.330 2010-11-12 08:28:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.329 $) [1];
+$VERSION = qw($Revision: 1.330 $) [1];
 
 =head1 NAME
 
@@ -2221,20 +2221,21 @@ sub ReturnValue {
 returns browser output to display/download a attachment
 
     $HTML = $LayoutObject->Attachment(
-        Type        => 'inline', # inline|attachment
-        Filename    => 'FileName.png',
+        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
+        Filename    => 'FileName.png',  # optional
         ContentType => 'image/png',
         Content     => $Content,
     );
 
-    or
+    or for AJAX html snipps
 
     $HTML = $LayoutObject->Attachment(
-        Type        => 'inline', # inline|attachment
-        Filename    => 'FileName.png',
-        ContentType => 'image/png',
+        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
+        Filename    => 'FileName.html', # optional
+        ContentType => 'text/html',
+        Charset     => 'utf-8',         # optional
         Content     => $Content,
-        NoCache     => 1,
+        NoCache     => 1,               # optional
     );
 
 =cut
@@ -4812,6 +4813,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.329 $ $Date: 2010-11-11 09:18:05 $
+$Revision: 1.330 $ $Date: 2010-11-12 08:28:40 $
 
 =cut
