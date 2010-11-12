@@ -1,8 +1,8 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.38 2009-11-04 12:27:57 mn Exp $
+# $Id: README,v 1.39 2010-11-12 12:02:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ What is OTRS?
 
   Feature list:
 
-   Web-Interface:
+   Web Interface:
     - Agent web interface for viewing and working on all customer requests
     - Admin web interface for changing system configuration
     - Customer web interface for viewing and sending information to the agents
@@ -38,7 +38,7 @@ What is OTRS?
     - Knowledge Base module (FAQ) via additional package
     - easy and logical to use
 
-   Email-Interface:
+   Email Interface:
     - dispatching of incoming email via email address or email headers
     - autoresponders for customers by incoming e-mails (per queue)
     - email-notification to the agent by new tickets, follow ups or lock timeouts
