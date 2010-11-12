@@ -2,14 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1557 2010-11-11 13:13:46 martin Exp $
+# $Id: CHANGES,v 1.1558 2010-11-12 09:01:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.0 rc1 2010-11-08
+3.0.1 2010-11-15
+ - 2010-11-12 Fixed bug#6266 - Order of TicketOverview columns in CPanel.
  - 2010-11-11 Fixed bug#5984 - Attachment is lost when replying / forwarding /
     splitting articles.
  - 2010-11-11 Fixed bug#6222 - Links are not displayed completely in HTML articles.
