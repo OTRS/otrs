@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1561 2010-11-12 11:17:14 mb Exp $
+# $Id: CHANGES,v 1.1562 2010-11-12 11:38:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@
      not validated.
  - 2010-11-08 Fixed bug#6241 - Need Ticket::ViewableStateType in Kernel/Config.pm.
  - 2010-11-08 Fixed bug#6240 - Agent Dashboard - ticket opens only when clicking on the number.
- - 2010-11-08 Fixed bug#5935 - TicketSearch Button - sense and non-sense.
+ - 2010-11-08 Fixed bug#5935 - TicketSearch Button - various improvements.
  - 2010-11-05 Fixed bug#6113 - SysConfig - add a shortcut to "Change" button.
  - 2010-11-05 Fixed bug#5930 - Optimisation in
     Kernel::Modules::CustomerTicketOverView->ShowTicketStatus.
