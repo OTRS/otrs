@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.28 2010-11-11 09:04:13 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.29 2010-11-12 11:34:29 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -264,6 +264,12 @@ check.
 
                     // hide add template block
                     $('#SearchProfileAddBlock').hide();
+
+                    // hide save changes in template block
+                    $('#SaveProfile').parent().hide().prev().hide().prev().hide();
+
+                    // set SaveProfile to 1
+                    $('#SaveProfile').attr('checked', true);
 
                     $('#SearchProfileDelete').show();
 
