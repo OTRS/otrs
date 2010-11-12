@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.248 2010-11-12 14:13:43 mg Exp $
+# $Id: de.pm,v 1.249 2010-11-12 14:47:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.248 $) [1];
+$VERSION = qw($Revision: 1.249 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:35
+    # Last translation file sync: 2010-11-12 15:28:04
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -1600,12 +1600,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Such-Vorlage',
+        'Search template' => 'Suchvorlage',
         'Create New' => 'Neue anlegen',
         'Create Template' => 'Vorlage anlegen',
         'Save changes in template' => 'Änderungen in der Vorlage speichern',
         'Add another attribute' => 'Ein weiteres Attribut hinzufügen',
-        'Result Form' => 'Ergebnis-Ansicht',
+        'Output' => 'Ausgabe',
         'Fulltext' => 'Volltext',
         'Remove' => 'Entfernen',
         'Customer User Login' => 'Anmeldung Kundenkontakt',
@@ -1719,6 +1719,7 @@ sub Data {
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
+        'Search-Template' => 'Such-Vorlage',
         'e. g. 10*5155 or 105658*' => 'z. B. 10*5155 oder 105658*',
         'Customer ID' => 'Kunden-ID',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Volltextsuche in Tickets (z. B. "Max*" oder "Muster*")',
@@ -3356,6 +3357,7 @@ sub Data {
         'Response Management' => 'Antworten-Verwaltung',
         'Responses <-> Attachments Management' => 'Antwort <-> Anlagen-Verwaltung',
         'Responses <-> Queue Management' => 'Antworten <-> Queue-Verwaltung',
+        'Result Form' => 'Ergebnis-Ansicht',
         'Return to the compose screen' => 'Zurück zum Verfassen-Fenster',
         'Role' => 'Rolle',
         'Roles <-> Agents' => 'Rollen <-> Agenten',
