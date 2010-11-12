@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.20 2010-11-09 09:38:34 mb Exp $
+// $Id: Core.Form.Validate.js,v 1.21 2010-11-12 09:37:49 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -408,7 +408,8 @@ Core.Form.Validate = (function (TargetNS) {
     TargetNS.Init = function () {
         var i = 0,
             FormSelector,
-            $ServerErrors;
+            $ServerErrors,
+            ServerErrorDialogCloseFunction;
 
         if (Options.FormClass) {
             FormSelector = 'form.' + Options.FormClass;
@@ -431,11 +432,20 @@ Core.Form.Validate = (function (TargetNS) {
          * Show an alert message and initialize the tooltips.
          */
         $ServerErrors = $('input, textarea, select').filter('.' + Options.ServerErrorClass);
+
         if ($ServerErrors.length) {
             $ServerErrors.each(function () {
                 HighlightError(this, 'ServerError');
             });
-            Core.UI.Dialog.ShowAlert(Core.Config.Get('ValidateServerErrorTitle'), Core.Config.Get('ValidateServerErrorMsg'));
+
+            // When the dialog closes, focus the first element which had a server error
+            //  so that a tooltip will be shown to the user.
+            ServerErrorDialogCloseFunction = function() {
+                Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                $ServerErrors.eq(0).focus();
+            };
+
+            Core.UI.Dialog.ShowAlert(Core.Config.Get('ValidateServerErrorTitle'), Core.Config.Get('ValidateServerErrorMsg'), ServerErrorDialogCloseFunction);
         }
     };
 
