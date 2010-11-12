@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.85 2010-10-26 13:52:25 mb Exp $
+# $Id: Installer.pm,v 1.86 2010-11-12 11:14:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,13 +150,12 @@ sub Run {
 
     # do database settings
     elsif ( $Self->{Subaction} eq 'Start' ) {
-        if ( $Self->ReConfigure() ) {
+        if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
             my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Error' );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '
                     . 'Kernel/Config.pm writable for the webserver user! '
-                    . $Self->ReConfigure(),
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -844,9 +843,6 @@ sub ReConfigure {
     print $Out $Config;
     close $Out;
 
-    if ( $ENV{MOD_PERL} =~ /mod_perl/ ) {
-        ModPerl::Util::unload_package('Kernel::Config');
-    }
     return;
 }
 
