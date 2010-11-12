@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.29 2010-11-12 11:34:29 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.30 2010-11-12 13:42:53 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -156,7 +156,7 @@ check.
      *      This function open the search dialog after clicking on "search" button in nav bar.
      */
 
-    TargetNS.OpenSearchDialog = function (Action, Profile) {
+    TargetNS.OpenSearchDialog = function (Action, Profile, EmptySearch) {
 
         var Referrer = Core.Config.Get('Action'),
             Data;
@@ -169,6 +169,7 @@ check.
             Action: Action,
             Referrer: Referrer,
             Profile: Profile,
+            EmptySearch: EmptySearch,
             Subaction: 'AJAX'
         };
 
@@ -228,7 +229,9 @@ check.
                 // load profile
                 $('#SearchProfile').bind('change', function () {
                     var Profile = $('#SearchProfile').val();
-                    TargetNS.OpenSearchDialog(Action, Profile);
+                    var EmptySearch = $('#EmptySearch').val();
+                    var Action = $('#SearchAction').val();
+                    TargetNS.OpenSearchDialog(Action, Profile, EmptySearch);
                     return false;
                 });
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.107 2010-11-12 11:34:29 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.108 2010-11-12 13:42:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1125,7 +1125,10 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
         my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
-
+        my $EmptySearch = $Self->{ParamObject}->GetParam( Param => 'EmptySearch' );
+        if ( !$Profile ) {
+            $EmptySearch = 1;
+        }
         my %GetParam = $Self->{SearchProfileObject}->SearchProfileGet(
             Base      => 'TicketSearch',
             Name      => $Profile,
@@ -1486,7 +1489,12 @@ sub Run {
             UserLogin => $Self->{UserLogin},
         );
         delete $Profiles{''};
-        $Profiles{'last-search'} = '-';
+        if ($EmptySearch) {
+            $Profiles{''} = '-';
+        }
+        else {
+            $Profiles{'last-search'} = '-';
+        }
         $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%Profiles,
             Name       => 'Profile',
@@ -1990,7 +1998,7 @@ sub Run {
         # html search mask output
         $Self->{LayoutObject}->Block(
             Name => 'SearchAJAX',
-            Data => { %Param, %GetParam, %TicketFreeTextHTML },
+            Data => { %Param, %GetParam, %TicketFreeTextHTML, EmptySearch => $EmptySearch },
         );
 
         if ( $Self->{Profile} ne '' && $Self->{Profile} ne 'last-search' ) {
