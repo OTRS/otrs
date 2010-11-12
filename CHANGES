@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1559 2010-11-12 09:37:49 mg Exp $
+# $Id: CHANGES,v 1.1560 2010-11-12 10:34:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.1 2010-11-15
+ - 2010-11-12 Fixed bug#6271 - In IE8 customer name dones not come up when
+    you create new Tickets and enter customer name.
  - 2010-11-12 Fixed bug#6225 - User creation gives confusing error message when
     email address is incorrect.
  - 2010-11-12 Fixed bug#6266 - Order of TicketOverview columns in CPanel.
