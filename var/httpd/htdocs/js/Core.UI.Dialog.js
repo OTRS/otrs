@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.22 2010-11-12 09:37:49 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.23 2010-11-12 15:11:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -172,6 +172,9 @@ Core.UI.Dialog = (function (TargetNS) {
                 WindowHeight = $(window).height();
 
             Type = Type || 'top';
+            // convert Position to a string so that numbers can be passed too
+            //  (later string operations are executed on that object)
+            Position = Position.toString();
 
             // position is in percent
             if (Position.match(/%/)) {
