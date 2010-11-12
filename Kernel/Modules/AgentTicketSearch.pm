@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.104 2010-11-03 15:03:12 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.105 2010-11-12 10:26:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1165,8 +1165,9 @@ sub Run {
                 Value => 'Title',
             },
             {
-                Key   => '',
-                Value => '-',
+                Key      => '',
+                Value    => '-',
+                Disabled => 1,
             },
             {
                 Key   => 'From',
@@ -1189,8 +1190,9 @@ sub Run {
                 Value => 'Body',
             },
             {
-                Key   => '',
-                Value => '-',
+                Key      => '',
+                Value    => '-',
+                Disabled => 1,
             },
             {
                 Key   => 'CustomerID',
@@ -2065,6 +2067,7 @@ sub Run {
         return $Self->{LayoutObject}->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
+            Charset     => $Self->{LayoutObject}->{UserCharset},
             Content     => $Output,
             Type        => 'inline'
         );
