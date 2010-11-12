@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.8 2010-02-26 18:36:20 martin Exp $
+# $Id: PictureUpload.pm,v 1.9 2010-11-12 17:38:52 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,8 +52,8 @@ sub Run {
 ";
 
     # get params
-    my $FormID          = $Self->{ParamObject}->GetParam( Param => 'FormID' );
-    my $CKEditorFuncNum = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' );
+    my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+    my $CKEditorFuncNum = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' ) || 0;
 
     # return if no form id exists
     if ( !$FormID ) {
