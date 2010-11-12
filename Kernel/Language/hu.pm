@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.86 2010-11-12 14:07:57 mb Exp $
+# $Id: hu.pm,v 1.87 2010-11-12 14:53:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1604,12 +1604,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Keresõ sablon',
+        'Search template' => 'Keresõ sablon',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Eredmény ûrlap',
+        'Output' => 'Eredmény ûrlap',
         'Fulltext' => 'Teljes szöveg',
         'Remove' => '',
         'Customer User Login' => 'Ügyfél felhasználó belépés',

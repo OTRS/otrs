@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.108 2010-11-12 14:07:21 mb Exp $
+# $Id: bg.pm,v 1.109 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1601,12 +1601,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Шаблон',
+        'Search template' => 'Шаблон',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Формат на резултата',
+        'Output' => 'Формат на резултата',
         'Fulltext' => 'Пълнотекстово',
         'Remove' => '',
         'Customer User Login' => 'Логин на клиент-потребител',

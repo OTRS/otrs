@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.69 2010-11-12 14:08:40 mb Exp $
+# $Id: sk_SK.pm,v 1.70 2010-11-12 14:56:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1600,12 +1600,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => '',
+        'Search template' => '',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => '',
+        'Output' => '',
         'Fulltext' => 'Keyword',
         'Remove' => '',
         'Customer User Login' => '',
@@ -3260,7 +3260,7 @@ sub Data {
         'Vykonanie' => 'All incoming emails with one account will be dispatched in the selected queue!',
         'Vytvori» funkciu a da» ju do skupiny. Potom prida» funkciu u¾ívateµom.' => 'It\'s useful for a lot of users and groups.',
         'Vytvori» odpoveï na po¾iadavku.' => 'Attach',
-        'Vytvori» v rade.' => 'Result Form',
+        'Vytvori» v rade.' => 'Output',
         'Vytvori» úèet' => 'Welcome %s',
         'V¹etky po¾iadavky' => 'Queues',
         'V¹etky prichádzajúce e-maily s jedným úètom budú vybavené vo vybranom rade.' => 'If your account is trusted =>  the already existing x-otrs header at arrival time (for priority =>  ...) will be used! PostMaster filter will be used anyway.',
@@ -3367,7 +3367,7 @@ sub Data {
         'pripoji» k' => 'Your email with ticket number <OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."',
         'pripomienkovaè' => 'Sort by',
         'pripomienková správa' => 'Reminder',
-        'profil' => 'Search-Template',
+        'profil' => 'Search template',
         'relácia' => 'kill session',
         'relácie' => 'Uniq',
         'riadenie balíka' => 'Uninstall',

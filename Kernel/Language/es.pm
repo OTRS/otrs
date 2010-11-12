@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.116 2010-11-12 14:07:21 mb Exp $
+# $Id: es.pm,v 1.117 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1604,12 +1604,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Buscar-Modelo',
+        'Search template' => 'Buscar-Modelo',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Modelo de Resultados',
+        'Output' => 'Modelo de Resultados',
         'Fulltext' => 'Texto Completo',
         'Remove' => '',
         'Customer User Login' => 'Identificador del cliente',

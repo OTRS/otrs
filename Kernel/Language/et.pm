@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.41 2010-11-12 14:07:21 mb Exp $
+# $Id: et.pm,v 1.42 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1599,12 +1599,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Otsingumall',
+        'Search template' => 'Otsingumall',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Tulemuste formaat',
+        'Output' => 'Tulemuste formaat',
         'Fulltext' => 'Täistekst',
         'Remove' => '',
         'Customer User Login' => 'Kliendi kasutajanimi',

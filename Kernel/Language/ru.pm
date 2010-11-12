@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # --
-# $Id: ru.pm,v 1.106 2010-11-12 14:08:40 mb Exp $
+# $Id: ru.pm,v 1.107 2010-11-12 14:56:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1606,12 +1606,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Шаблон поиска',
+        'Search template' => 'Шаблон поиска',
         'Create New' => 'Создать новый',
         'Create Template' => 'Создать шаблон',
         'Save changes in template' => '',
         'Add another attribute' => 'Добавить атрибут поиска',
-        'Result Form' => 'Вывод результатов',
+        'Output' => 'Вывод результатов',
         'Fulltext' => 'Полнотекстовый',
         'Remove' => 'Удалить',
         'Customer User Login' => 'Логин клиента',

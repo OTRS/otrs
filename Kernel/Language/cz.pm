@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cz.pm,v 1.96 2010-11-12 14:07:21 mb Exp $
+# $Id: cz.pm,v 1.97 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1604,12 +1604,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Forma vyhledávání',
+        'Search template' => 'Forma vyhledávání',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Forma výsledku',
+        'Output' => 'Forma výsledku',
         'Fulltext' => '',
         'Remove' => '',
         'Customer User Login' => 'Pøihlá¹ení klienta',

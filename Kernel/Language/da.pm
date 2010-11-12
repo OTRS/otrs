@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2010 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Jesper Ulrik Rønnov <jeron[at]faaborgmidtfyn.dk>
 # --
-# $Id: da.pm,v 1.75 2010-11-12 14:07:21 mb Exp $
+# $Id: da.pm,v 1.76 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1602,12 +1602,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Søge-skabelon',
+        'Search template' => 'Søge-skabelon',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Resultatformular',
+        'Output' => 'Resultatformular',
         'Fulltext' => 'Fritekst',
         'Remove' => '',
         'Customer User Login' => 'Kundebrugers login',

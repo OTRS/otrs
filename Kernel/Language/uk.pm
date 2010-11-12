@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.11 2010-11-12 14:08:40 mb Exp $
+# $Id: uk.pm,v 1.12 2010-11-12 14:56:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1600,12 +1600,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Шаблон пошуку',
+        'Search template' => 'Шаблон пошуку',
         'Create New' => 'Створити новий',
         'Create Template' => 'Створити шаблон',
         'Save changes in template' => '',
         'Add another attribute' => 'Додати ще атрибут',
-        'Result Form' => 'Вивід результатів',
+        'Output' => 'Вивід результатів',
         'Fulltext' => 'Повнотекстовий',
         'Remove' => 'Вилучити',
         'Customer User Login' => 'Логін клієнта',

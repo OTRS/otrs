@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.135 2010-11-12 14:07:57 mb Exp $
+# $Id: fr.pm,v 1.136 2010-11-12 14:53:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1606,12 +1606,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Profil de recherche',
+        'Search template' => 'Profil de recherche',
         'Create New' => 'Créer nouveau',
         'Create Template' => 'Créer Template',
         'Save changes in template' => '',
         'Add another attribute' => 'Ajouter un autre attribut',
-        'Result Form' => 'Format du résultat',
+        'Output' => 'Format du résultat',
         'Fulltext' => 'Texte Complet',
         'Remove' => 'Supprimer',
         'Customer User Login' => 'Nom de connexion du client',

@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.142 2010-11-12 14:07:57 mb Exp $
+# $Id: nl.pm,v 1.143 2010-11-12 14:53:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1613,12 +1613,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Template',
+        'Search template' => 'Template',
         'Create New' => 'Nieuw',
         'Create Template' => 'Maak template',
         'Save changes in template' => 'Sla wijzigingen op in template',
         'Add another attribute' => 'Voeg attribuut toe',
-        'Result Form' => 'Uitvoeren naar',
+        'Output' => 'Uitvoeren naar',
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
         'Customer User Login' => 'Klant login',

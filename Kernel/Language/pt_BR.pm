@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.103 2010-11-12 14:08:40 mb Exp $
+# $Id: pt_BR.pm,v 1.104 2010-11-12 14:56:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1602,12 +1602,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Modelo de Busca',
+        'Search template' => 'Modelo de Busca',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Resultado',
+        'Output' => 'Resultado',
         'Fulltext' => 'Texto Completo',
         'Remove' => '',
         'Customer User Login' => 'Login Usuário Cliente',

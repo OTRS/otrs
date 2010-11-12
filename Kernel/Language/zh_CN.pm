@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.83 2010-11-12 14:08:56 mb Exp $
+# $Id: zh_CN.pm,v 1.84 2010-11-12 14:57:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1604,12 +1604,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => '搜索模板',
+        'Search template' => '搜索模板',
         'Create New' => '创建',
         'Create Template' => '创建模板',
         'Save changes in template' => '',
         'Add another attribute' => '增加另一个搜索条件',
-        'Result Form' => '搜索结果显示为',
+        'Output' => '搜索结果显示为',
         'Fulltext' => '全文',
         'Remove' => '删除',
         'Customer User Login' => '客户用户登录信息',

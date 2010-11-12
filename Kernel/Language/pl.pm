@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.99 2010-11-12 14:07:57 mb Exp $
+# $Id: pl.pm,v 1.100 2010-11-12 14:53:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1601,12 +1601,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Szablon wyszukiwania',
+        'Search template' => 'Szablon wyszukiwania',
         'Create New' => 'Stwórz nowy',
         'Create Template' => 'Stwórz szablon',
         'Save changes in template' => '',
         'Add another attribute' => 'Dodaj kryterium wyszukiwania',
-        'Result Form' => 'Formularz wyników',
+        'Output' => 'Formularz wyników',
         'Fulltext' => 'Pe³notekstowe',
         'Remove' => 'Usuñ',
         'Customer User Login' => 'Login Klienta',

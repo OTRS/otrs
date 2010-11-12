@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.19 2010-11-12 14:07:57 mb Exp $
+# $Id: lv.pm,v 1.20 2010-11-12 14:53:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1599,12 +1599,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Meklēšanas sagatave',
+        'Search template' => 'Meklēšanas sagatave',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Rezultātu forma',
+        'Output' => 'Rezultātu forma',
         'Fulltext' => 'Pilnais teksts',
         'Remove' => '',
         'Customer User Login' => 'Klienta pieteikšanās sistēmā',

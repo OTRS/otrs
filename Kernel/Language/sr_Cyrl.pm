@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.3 2010-11-12 14:08:40 mb Exp $
+# $Id: sr_Cyrl.pm,v 1.4 2010-11-12 14:56:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1600,12 +1600,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Шаблон претраге',
+        'Search template' => 'Шаблон претраге',
         'Create New' => 'Направи нов',
         'Create Template' => 'Направи шаблон',
         'Save changes in template' => '',
         'Add another attribute' => 'Додај још један атрибут',
-        'Result Form' => 'Преглед резултата',
+        'Output' => 'Преглед резултата',
         'Fulltext' => 'Текст',
         'Remove' => 'Уклони',
         'Customer User Login' => 'Пријава корисника',

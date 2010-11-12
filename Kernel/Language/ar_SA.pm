@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.51 2010-11-12 14:07:21 mb Exp $
+# $Id: ar_SA.pm,v 1.52 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1602,12 +1602,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => '',
+        'Search template' => '',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'äãæĞÌ ÇáäÊíÌÉ',
+        'Output' => 'äãæĞÌ ÇáäÊíÌÉ',
         'Fulltext' => 'ßÇãá ÇáäÕ',
         'Remove' => '',
         'Customer User Login' => 'ÅÓã ÇáÏÎæá ÇáÎÇÕ ÈÇáÚãíá',

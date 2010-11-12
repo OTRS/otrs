@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.70 2010-11-12 14:07:21 mb Exp $
+# $Id: el.pm,v 1.71 2010-11-12 14:51:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1610,12 +1610,12 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search-Template' => 'Αναζήτηση Template',
+        'Search template' => 'Αναζήτηση Template',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
-        'Result Form' => 'Αποτελέσματα',
+        'Output' => 'Αποτελέσματα',
         'Fulltext' => 'Ολο το κείμενο',
         'Remove' => '',
         'Customer User Login' => 'Σύνδεση Χρήστη Πελάτη',
