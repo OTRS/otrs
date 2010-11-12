@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.2 2010-11-11 08:52:43 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.3 2010-11-12 08:22:56 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -162,40 +162,49 @@ foreach ( 1 .. $Opts{'t'} ) {
         # OTRS 2.0 comapt.
         CreateUserID => $UserIDs[ int( rand( $Opts{u} ) ) ],
     );
-    my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
-        TicketID       => $TicketID,
-        ArticleType    => 'note-external',
-        SenderType     => 'customer',
-        From           => RandomAddress(),
-        To             => RandomAddress(),
-        Cc             => RandomAddress(),
-        Subject        => RandomSubject(),
-        Body           => RandomBody(),
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'NewTicket',
-        HistoryComment => 'Some free text!',
-        UserID         => $UserIDs[ int( rand( $Opts{u} ) ) ],
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
-    );
+
     if ($TicketID) {
-        print "NOTICE: Ticket with ID '$TicketID/$ArticleID' created.\n";
+
+        print "NOTICE: Ticket with ID '$TicketID' created.\n";
+
+        foreach ( 1 .. 10 ) {
+            my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
+                TicketID       => $TicketID,
+                ArticleType    => 'note-external',
+                SenderType     => 'customer',
+                From           => RandomAddress(),
+                To             => RandomAddress(),
+                Cc             => RandomAddress(),
+                Subject        => RandomSubject(),
+                Body           => RandomBody(),
+                ContentType    => 'text/plain; charset=ISO-8859-15',
+                HistoryType    => 'NewTicket',
+                HistoryComment => 'Some free text!',
+                UserID         => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                NoAgentNotify => 1,    # if you don't want to send agent notifications
+            );
+
+            print "NOTICE: New Article '$ArticleID' created for Ticket '$TicketID'.\n";
+        }
+
+        foreach my $Count ( 1 .. 2 ) {
+            my %FreeText = RandomFreeText($Count);
+            if (%FreeText) {
+                $CommonObject{TicketObject}->TicketFreeTextSet(
+                    TicketID => $TicketID,
+                    Key      => $FreeText{Key},
+                    Value    => $FreeText{Value},
+                    Counter  => $Count,
+                    UserID   => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                );
+
+                print
+                    "NOTICE: Ticket with ID '$TicketID' updated free text $Count $FreeText{Key}:$FreeText{Value}.\n";
+            }
+        }
+
         push( @TicketIDs, $TicketID );
     }
-    foreach my $Count ( 1 .. 2 ) {
-        my %FreeText = RandomFreeText($Count);
-        if (%FreeText) {
-            $CommonObject{TicketObject}->TicketFreeTextSet(
-                TicketID => $TicketID,
-                Key      => $FreeText{Key},
-                Value    => $FreeText{Value},
-                Counter  => $Count,
-                UserID   => $UserIDs[ int( rand( $Opts{u} ) ) ],
-            );
-            print
-                "NOTICE: Ticket with ID '$TicketID' updated free text $Count $FreeText{Key}:$FreeText{Value}.\n";
-        }
-    }
-
 }
 
 # update tickets
