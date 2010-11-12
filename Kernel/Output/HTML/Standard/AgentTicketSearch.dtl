@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.51 2010-11-12 13:42:53 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.52 2010-11-12 14:16:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@
         <input type="hidden" name="EmptySearch" value="$QData{"EmptySearch"}" id="EmptySearch"/>
         <fieldset class="TableLike">
             <div class="Clear"></div>
-            <label>$Text{"Search-Template"}</label>
+            <label>$Text{"Search-Template"}:</label>
             <div class="Field">
                 $Data{"ProfilesStrg"}
 
@@ -31,7 +31,7 @@
             </div>
 <!-- dtl:block:SearchAJAXStoreInTemplate -->
             <div class="Clear"></div>
-            <label>$Text{"Save changes in template"}</label>
+            <label>$Text{"Save changes in template"}:</label>
             <div class="Field">
                 <input type="checkbox" name="SaveProfile" id="SaveProfile" value="1"/>
             </div>
@@ -40,7 +40,7 @@
         <fieldset class="TableLike" id="SearchInsert"></fieldset>
         <fieldset class="TableLike">
             <div class="Clear"></div>
-            <label>$Text{"Add another attribute"}</label>
+            <label>$Text{"Add another attribute"}:</label>
             <div class="Field">
                 $Data{"AttributesStrg"}
                 <button type="button" class="Add" value="Add" title="Add entry">$Text{"Add"}</button>
@@ -56,331 +56,331 @@
 
     <fieldset class="TableLike Hidden" id="SearchAttributesHidden">
         <div class="Clear"></div>
-        <label for="Fulltext">$Text{"Fulltext"}</label>
+        <label for="Fulltext">$Text{"Fulltext"}:</label>
         <div class="Field">
             <input type="text" name="Fulltext" value="$QData{"Fulltext"}" class="W50pc" />
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketNumber">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</label>
+        <label for="TicketNumber">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}:</label>
         <div class="Field">
             <input type="text" name="TicketNumber" value="$QData{"TicketNumber"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Title">$Text{"Title"}</label>
+        <label for="Title">$Text{"Title"}:</label>
         <div class="Field">
             <input type="text" name="Title" value="$QData{"Title"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerID">$Text{"CustomerID"} $Text{"(e. g. 234321)"}</label>
+        <label for="CustomerID">$Text{"CustomerID"} $Text{"(e. g. 234321)"}:</label>
         <div class="Field">
             <input type="text" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerUserLogin">$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</label>
+        <label for="CustomerUserLogin">$Text{"Customer User Login"} $Text{"(e. g. U5150)"}:</label>
         <div class="Field">
             <input type="text" name="CustomerUserLogin" value="$QData{"CustomerUserLogin"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TypeIDs">$Text{"Type"}</label>
+        <label for="TypeIDs">$Text{"Type"}:</label>
         <div class="Field">
             $Data{"TypesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="From">$Text{"From"}</label>
+        <label for="From">$Text{"From"}:</label>
         <div class="Field">
             <input type="text" name="From" value="$QData{"From"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="To">$Text{"To"}</label>
+        <label for="To">$Text{"To"}:</label>
         <div class="Field">
             <input type="text" name="To" value="$QData{"To"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Cc">$Text{"Cc"}</label>
+        <label for="Cc">$Text{"Cc"}:</label>
         <div class="Field">
             <input type="text" name="Cc" value="$QData{"Cc"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Subject">$Text{"Subject"}</label>
+        <label for="Subject">$Text{"Subject"}:</label>
         <div class="Field">
             <input type="text" name="Subject" value="$QData{"Subject"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="Body">$Text{"Text"}</label>
+        <label for="Body">$Text{"Text"}:</label>
         <div class="Field">
             <input type="text" name="Body" value="$QData{"Body"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText1">$Data{"TicketFreeKeyField1"}</label>
+        <label for="TicketFreeText1">$Data{"TicketFreeKeyField1"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField1"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText2">$Data{"TicketFreeKeyField2"}</label>
+        <label for="TicketFreeText2">$Data{"TicketFreeKeyField2"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField2"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText3">$Data{"TicketFreeKeyField3"}</label>
+        <label for="TicketFreeText3">$Data{"TicketFreeKeyField3"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField3"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText4">$Data{"TicketFreeKeyField4"}</label>
+        <label for="TicketFreeText4">$Data{"TicketFreeKeyField4"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField4"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText5">$Data{"TicketFreeKeyField5"}</label>
+        <label for="TicketFreeText5">$Data{"TicketFreeKeyField5"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField5"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText6">$Data{"TicketFreeKeyField6"}</label>
+        <label for="TicketFreeText6">$Data{"TicketFreeKeyField6"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField6"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText7">$Data{"TicketFreeKeyField7"}</label>
+        <label for="TicketFreeText7">$Data{"TicketFreeKeyField7"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField7"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText8">$Data{"TicketFreeKeyField8"}</label>
+        <label for="TicketFreeText8">$Data{"TicketFreeKeyField8"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField8"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText9">$Data{"TicketFreeKeyField9"}</label>
+        <label for="TicketFreeText9">$Data{"TicketFreeKeyField9"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField9"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText10">$Data{"TicketFreeKeyField10"}</label>
+        <label for="TicketFreeText10">$Data{"TicketFreeKeyField10"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField10"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText11">$Data{"TicketFreeKeyField11"}</label>
+        <label for="TicketFreeText11">$Data{"TicketFreeKeyField11"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField11"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText12">$Data{"TicketFreeKeyField12"}</label>
+        <label for="TicketFreeText12">$Data{"TicketFreeKeyField12"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField12"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText13">$Data{"TicketFreeKeyField13"}</label>
+        <label for="TicketFreeText13">$Data{"TicketFreeKeyField13"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField13"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText14">$Data{"TicketFreeKeyField14"}</label>
+        <label for="TicketFreeText14">$Data{"TicketFreeKeyField14"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField14"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText15">$Data{"TicketFreeKeyField15"}</label>
+        <label for="TicketFreeText15">$Data{"TicketFreeKeyField15"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField15"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeText16">$Data{"TicketFreeKeyField16"}</label>
+        <label for="TicketFreeText16">$Data{"TicketFreeKeyField16"}:</label>
         <div class="Field">
             $Data{"TicketFreeTextField16"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime1">$Text{"$Config{"TicketFreeTimeKey1"}"}</label>
+        <label for="TicketFreeTime1">$Text{"$Config{"TicketFreeTimeKey1"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}/>
             $Text{"Between"} $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime2">$Text{"$Config{"TicketFreeTimeKey2"}"}</label>
+        <label for="TicketFreeTime2">$Text{"$Config{"TicketFreeTimeKey2"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime2" value="checked" $QData{"TicketFreeTime2"}/>
             $Text{"Between"} $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime3">$Text{"$Config{"TicketFreeTimeKey3"}"}</label>
+        <label for="TicketFreeTime3">$Text{"$Config{"TicketFreeTimeKey3"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime3" value="checked" $QData{"TicketFreeTime3"}/>
             $Text{"Between"} $Data{"TicketFreeTime3Start"} $Text{"and"} $Data{"TicketFreeTime3Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime4">$Text{"$Config{"TicketFreeTimeKey4"}"}</label>
+        <label for="TicketFreeTime4">$Text{"$Config{"TicketFreeTimeKey4"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime4" value="checked" $QData{"TicketFreeTime4"}/>
             $Text{"Between"} $Data{"TicketFreeTime4Start"} $Text{"and"} $Data{"TicketFreeTime4Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime5">$Text{"$Config{"TicketFreeTimeKey5"}"}</label>
+        <label for="TicketFreeTime5">$Text{"$Config{"TicketFreeTimeKey5"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime5" value="checked" $QData{"TicketFreeTime5"}/>
             $Text{"Between"} $Data{"TicketFreeTime5Start"} $Text{"and"} $Data{"TicketFreeTime5Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime6">$Text{"$Config{"TicketFreeTimeKey6"}"}</label>
+        <label for="TicketFreeTime6">$Text{"$Config{"TicketFreeTimeKey6"}"}:</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime6" value="checked" $QData{"TicketFreeTime6"}/>
             $Text{"Between"} $Data{"TicketFreeTime6Start"} $Text{"and"} $Data{"TicketFreeTime6Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="ServiceIDs">$Text{"Service"}</label>
+        <label for="ServiceIDs">$Text{"Service"}:</label>
         <div class="Field">
             $Data{"ServicesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="SLAIDs">$Text{"Service Level Agreement"}</label>
+        <label for="SLAIDs">$Text{"Service Level Agreement"}:</label>
         <div class="Field">
             $Data{"SLAsStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="PriorityIDs">$Text{"Priority"}</label>
+        <label for="PriorityIDs">$Text{"Priority"}:</label>
         <div class="Field">
             $Data{"PrioritiesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="StateIDs">$Text{"State"}</label>
+        <label for="StateIDs">$Text{"State"}:</label>
         <div class="Field">
             $Data{"StatesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="QueueIDs">$Text{"Queue"}</label>
+        <label for="QueueIDs">$Text{"Queue"}:</label>
         <div class="Field">
             $Data{"QueuesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="OwnerIDs">$Text{"Agent"}/$Text{"Owner"}</label>
+        <label for="OwnerIDs">$Text{"Agent"}/$Text{"Owner"}:</label>
         <div class="Field">
             $Data{"UserStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
-        <label for="ResponsibleIDs">$Text{"Agent"}/$Text{"Responsible"}</label>
+        <label for="ResponsibleIDs">$Text{"Agent"}/$Text{"Responsible"}:</label>
         <div class="Field">
             $Data{"UserStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CreatedQueueIDs">$Text{"Created in Queue"}</label>
+        <label for="CreatedQueueIDs">$Text{"Created in Queue"}:</label>
         <div class="Field">
             $Data{"CreatedQueuesStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="CreatedUserIDs">$Text{"Created by"} $Text{"Agent"}/$Text{"Owner"}</label>
+        <label for="CreatedUserIDs">$Text{"Created by"} $Text{"Agent"}/$Text{"Owner"}:</label>
         <div class="Field">
             $Data{"CreatedUserStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="LockIDs">$Text{"Lock state"}</label>
+        <label for="LockIDs">$Text{"Lock state"}:</label>
         <div class="Field">
             $Data{"LocksStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="WatchUserIDs">$Text{"Watcher"}</label>
+        <label for="WatchUserIDs">$Text{"Watcher"}:</label>
         <div class="Field">
             $Data{"SelectStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="ArticleCreateTimePoint">$Text{"Article Create Time (before/after)"}</label>
+        <label for="ArticleCreateTimePoint">$Text{"Article Create Time (before/after)"}:</label>
         <div class="Field">
             <input type="hidden" name="ArticleTimeSearchType" value="TimePoint" $Data{"ArticleTimeSearchType::TimePoint"}/>
             $Data{"ArticleCreateTimePointStart"} $Data{"ArticleCreateTimePoint"} $Data{"ArticleCreateTimePointFormat"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="ArticleCreateTimeSlot">$Text{"Article Create Time (between)"}</label>
+        <label for="ArticleCreateTimeSlot">$Text{"Article Create Time (between)"}:</label>
         <div class="Field">
             <input type="hidden" name="ArticleTimeSearchType" value="TimeSlot" $Data{"ArticleTimeSearchType::TimeSlot"}/>
             $Data{"ArticleCreateTimeStart"} $Text{"and"} $Data{"ArticleCreateTimeStop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketCreateTimePoint">$Text{"Ticket Create Time (before/after)"}</label>
+        <label for="TicketCreateTimePoint">$Text{"Ticket Create Time (before/after)"}:</label>
         <div class="Field">
             <input type="hidden" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}/>
             $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketCreateTimeSlot">$Text{"Ticket Create Time (between)"}</label>
+        <label for="TicketCreateTimeSlot">$Text{"Ticket Create Time (between)"}:</label>
         <div class="Field">
             <input type="hidden" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
             $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketChangeTimePoint">$Text{"Ticket Change Time (before/after)"}</label>
+        <label for="TicketChangeTimePoint">$Text{"Ticket Change Time (before/after)"}:</label>
         <div class="Field">
             <input type="hidden" name="ChangeTimeSearchType" value="TimePoint" $Data{"ChangeTimeSearchType::TimePoint"}/>
             $Data{"TicketChangeTimePointStart"} $Data{"TicketChangeTimePoint"} $Data{"TicketChangeTimePointFormat"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketChangeTimeSlot">$Text{"Ticket Change Time (between)"}</label>
+        <label for="TicketChangeTimeSlot">$Text{"Ticket Change Time (between)"}:</label>
         <div class="Field">
             <input type="hidden" name="ChangeTimeSearchType" value="TimeSlot" $Data{"ChangeTimeSearchType::TimeSlot"}/>
             $Data{"TicketChangeTimeStart"} $Text{"and"} $Data{"TicketChangeTimeStop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketCloseTimePoint">$Text{"Ticket Close Time (before/after)"}</label>
+        <label for="TicketCloseTimePoint">$Text{"Ticket Close Time (before/after)"}:</label>
         <div class="Field">
             <input type="hidden" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
             $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
-        <label for="TicketCloseTimeSlot">$Text{"Ticket Close Time (between)"}</label>
+        <label for="TicketCloseTimeSlot">$Text{"Ticket Close Time (between)"}:</label>
         <div class="Field">
             <input type="hidden" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
             $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="SearchInArchive">$Text{"Archive Search"}</label>
+        <label for="SearchInArchive">$Text{"Archive Search"}:</label>
         <div class="Field">
             $Text{"Archive search option"} $Data{"SearchInArchiveStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
