@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.98 2010-11-05 15:10:57 mb Exp $
+# $Id: pl.pm,v 1.99 2010-11-12 14:07:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-05 15:51:03
+    # Last translation file sync: 2010-11-12 14:48:47
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -568,6 +568,7 @@ sub Data {
         'Don\'t show closed Tickets' => 'Nie pokazuj zamkniêtych zg³oszeñ',
         'Show closed Tickets' => 'Poka¿ zamkniête zg³oszenia',
         'New Article' => 'Nowy artyku³',
+        'Unread article(s) available' => '',
         'Remove from list of watched tickets' => '',
         'Add to list of watched tickets' => '',
         'Email-Ticket' => 'Zg³oszenie e-mail',
@@ -765,6 +766,9 @@ sub Data {
         'Add Customer' => 'Dodaj Klienta',
         'Edit Customer' => 'Edytuj Klienta',
         'This field is required and needs to be a valid email address.' => '',
+        'This email address is not allowed due to the system configuration.' => '',
+        'This email address failed MX check.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Zarz±dzaj relacjami Klient-Grupa',
@@ -783,7 +787,8 @@ sub Data {
         'Customers' => 'Klienci',
         'Groups' => 'Grupy',
         'No matches found.' => '',
-        'Change %s Relations for' => '',
+        'Change Group Relations for Customer' => '',
+        'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => '',
         'Toggle %s permission for %s' => '',
         'Customer Default Groups:' => 'Domy¶lne grupy klientów',
@@ -797,7 +802,8 @@ sub Data {
         'Manage Customer-Services Relations' => 'Zarz±dzaj relacjami Klient-Poziom Serwisu',
         'Edit default services' => 'Edytuj domy¶ln± us³ugê',
         'Filter for Services' => 'Filtruj us³ugi',
-        'Allocate %s to' => '',
+        'Allocate Services to Customer' => '',
+        'Allocate Customers to Service' => '',
         'Toggle active state for all' => '',
         'Active' => 'Aktywne',
         'Toggle active state for %s' => '',
@@ -891,18 +897,8 @@ sub Data {
         'Delete tickets' => 'Usuñ zg³oszenia',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' => '',
         'Execute Custom Module' => '',
-        'Param 1 key' => '',
-        ' Param 1 value' => '',
-        'Param 2 key' => '',
-        ' Param 2 value' => '',
-        'Param 3 key' => '',
-        ' Param 3 value' => '',
-        'Param 4 key' => '',
-        ' Param 4 value' => '',
-        'Param 5 key' => '',
-        ' Param 5 value' => '',
-        'Param 6 key' => '',
-        ' Param 6 value' => '',
+        'Param %s key' => '',
+        'Param %s value' => '',
         'Save Changes' => '',
         'Save' => 'Zapisz',
         'Results' => 'Wyniki',
@@ -1105,6 +1101,8 @@ sub Data {
         'Filter' => 'Filtr',
         'Filter for Responses' => '',
         'Responses' => 'Odpowiedzi',
+        'Change Queue Relations for Response' => '',
+        'Change Response Relations for Queue' => '',
 
         # Template: AdminResponse
         'Manage Responses' => 'Zarz±dzaj odpowiedziami',
@@ -1119,7 +1117,9 @@ sub Data {
 
         # Template: AdminResponseAttachment
         'Manage Responses <-> Attachments Relations' => '',
-        'Change %s Relations for %s' => '',
+        'Filter for Attachments' => '',
+        'Change Response Relations for Attachment' => '',
+        'Change Attachment Relations for Response' => '',
         'Toggle active for all' => '',
         'Link %s to selected %s' => '',
 
@@ -1137,6 +1137,8 @@ sub Data {
         'Roles' => 'Role',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => '',
+        'Change Role Relations for Group' => '',
+        'Change Group Relations for Role' => '',
         'Toggle %s permission for all' => '',
         'move_into' => 'przenie¶ do',
         'Permissions to move tickets into this group/queue.' => 'Uprawnienia do przesuwania zg³oszeñ do tej grupy/kolejki',
@@ -1150,6 +1152,8 @@ sub Data {
         'Filter for Agents' => 'Filtrowanie agentów',
         'Agents' => 'Agenci',
         'Manage Role-Agent Relations' => 'Zarz±dzaj relacjami Rola<->Agent',
+        'Change Role Relations for Agent' => '',
+        'Change Agent Relations for Role' => '',
 
         # Template: AdminSLA
         'SLA Management' => 'Konfiguracja SLA',
@@ -1263,7 +1267,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'Nazwa paska nawigacyjnego',
         'NavBar' => 'Pasek nawigacyjny',
-        'Image' => 'Obraz',
+        'LinkOption' => '',
         'Block' => 'Blok',
         'AccessKey' => 'Klawisz skrótu',
         'Add NavBar entry' => 'Dodaj pozycjê paska nawigacyjnego',
@@ -1307,6 +1311,8 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '',
+        'Change Group Relations for Agent' => '',
+        'Change Agent Relations for Group' => '',
         'note' => '',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'w³a¶ciciel',
@@ -1389,10 +1395,13 @@ sub Data {
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s of %s' => '',
+        'Step %s' => '',
+        'General Specifications' => '',
+        'Select the element that will be used at the X-axis' => '',
+        'Select the elements for the value series' => 'Wybierz elementy dla serii danych',
+        'Select the restrictions to characterize the stat' => '',
         'Here you can make restrictions to your stat.' => 'Tu mo¿esz na³o¿yæ ograniczenia na swój raport.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Je¿eli usuniesz znacznik  w polu "Fixed", agent bêdzie móg³ zmieniæ atrybuty powiazanego elementu.',
-        'Select the restrictions to characterize the stat' => '',
         'Fixed' => 'Sta³y',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Wybierz jeden element lub odznacz przycisk \'Sta³y\'',
         'Absolute Period' => '',
@@ -1402,9 +1411,9 @@ sub Data {
         'Finish' => 'Koniec',
 
         # Template: AgentStatsEditSpecification
-        'General Specifications' => '',
         'Permissions' => 'Prawa',
-        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
+        'Some result formats are disabled because at least one needed package is not installed.' => '',
+        'Please contact your administrator.' => '',
         'Graph size' => '',
         'Sum rows' => 'Suma wierszy',
         'Sum columns' => 'Suma kolumn',
@@ -1413,15 +1422,17 @@ sub Data {
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the elements for the value series' => 'Wybierz elementy dla serii danych',
+        'Here you can define the value series.' => '',
+        'You have the possibility to select one or two elements.' => '',
+        'Then you can select the attributes of elements.' => '',
+        'Each attribute will be shown as single value series.' => '',
+        'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
         'Scale' => 'Skala',
         'minimal' => 'minimum',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Pamiêtaj ¿e skala warto¶ci moze byæ wiêksza od skali osi X (np. o¶ X => Miesi±ce, Warto¶ci => Rok).',
 
         # Template: AgentStatsEditXaxis
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the element that will be used at the X-axis' => '',
+        'Here you can define the x-axis. You can select one element via the radio button.' => '',
         'maximal period' => 'maksymalny przedzia³',
         'minimal scale' => 'minimalna skala',
 
@@ -1593,6 +1604,7 @@ sub Data {
         'Search-Template' => 'Szablon wyszukiwania',
         'Create New' => 'Stwórz nowy',
         'Create Template' => 'Stwórz szablon',
+        'Save changes in template' => '',
         'Add another attribute' => 'Dodaj kryterium wyszukiwania',
         'Result Form' => 'Formularz wyników',
         'Fulltext' => 'Pe³notekstowe',
@@ -1698,7 +1710,10 @@ sub Data {
 
         # Template: CustomerTicketOverView
         'You have not created a ticket yet.' => '',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => '',
+        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
+        'We stop eating if you wish us to do.' => '',
+        'Your way to communicate with us is this thing called \'ticket\'.' => '',
+        'Please command us.' => '',
         'Create your first Ticket' => 'Utwórz pierwsze zg³oszenie',
 
         # Template: CustomerTicketPrint
@@ -1781,6 +1796,8 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
+        'Database Settings' => '',
+        'General Specifications and Mail Settings' => '',
         'Welcome to %s' => 'Witamy w %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -1926,7 +1943,7 @@ sub Data {
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' => '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' => '',
         'Activates time accounting.' => '',
-        'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' => '',
+        'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' => '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' => '',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
@@ -2039,12 +2056,12 @@ sub Data {
         'Customers <-> Groups' => 'Klienci <-> Grupy',
         'Customers <-> Services' => 'Klienci <-> Us³ugi',
         'Data used to export the search result in CSV format.' => '',
-        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".' => '',
+        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
+        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for interface.' => '',
-        'Default skin for otrs 3.0 interface.' => '',
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
@@ -2530,7 +2547,7 @@ sub Data {
         'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' => '',
-        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.' => '',
+        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.' => '',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' => '',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' => '',
         'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' => '',
@@ -2695,7 +2712,7 @@ sub Data {
         'Roles <-> Groups' => 'Role <-> Grupy',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
         'Search Ticket' => 'Szukaj zg³oszenia',
         'Search backend default router.' => '',
         'Search backend router.' => '',
@@ -2976,7 +2993,9 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Wybierz swój jêzyk',
 
-        # Misc
+        #
+        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
+        #
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s zg³oszeñ dotyczy! Chcesz wykonaæ zadanie?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Sprawd¼ rekord MX uzytego adresu e-mailprzy tworzeniu odpowiedzi. Nie u¿ywaj sprawdzania rekordu MX je¿eli twoja maszyna z OTRS jest na ³aczu z dynamicznym IP $!)',
@@ -3170,6 +3189,7 @@ sub Data {
         'If you need the sum of every row select yes' => 'Je¿eli chcesz sumowaæ wiersze wybierz tak.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Je¿eli u¿ywasz wzorców regularnych (RegExp), mo¿esz tak¿e u¿yæ dopasowanych warto¶ci w () jako [***] w \'Set\'.',
         'If you use a graph as output format you have to select at least one graph size.' => 'Je¿eli u¿ywasz wykresu jako formaty wyjsciowego musisz okresliæ jego rozmiar.',
+        'Image' => 'Obraz',
         'Important' => 'Wa¿ne',
         'In this form you can select the basic specifications.' => 'W tym formularzu mo¿esz wybraæ podstawowe parametry.',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'W ten sposób mo¿na edytowaæ pêk kluczy skofigurowany w Kernel/Config.pm',

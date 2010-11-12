@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.246 2010-11-11 10:46:42 mg Exp $
+# $Id: de.pm,v 1.247 2010-11-12 14:07:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.246 $) [1];
+$VERSION = qw($Revision: 1.247 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-10 18:37:09
+    # Last translation file sync: 2010-11-12 14:48:35
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -1603,6 +1603,7 @@ sub Data {
         'Search-Template' => 'Such-Vorlage',
         'Create New' => 'Neue anlegen',
         'Create Template' => 'Vorlage anlegen',
+        'Save changes in template' => '',
         'Add another attribute' => 'Ein weiteres Attribut hinzufügen',
         'Result Form' => 'Ergebnis-Ansicht',
         'Fulltext' => 'Volltext',
@@ -1941,7 +1942,7 @@ sub Data {
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' => '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' => '',
         'Activates time accounting.' => '',
-        'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' => '',
+        'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' => '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' => '',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
@@ -2058,8 +2059,8 @@ sub Data {
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
+        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for interface.' => '',
-        'Default skin for otrs 3.0 interface.' => '',
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
@@ -2545,7 +2546,7 @@ sub Data {
         'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' => '',
-        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.' => '',
+        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.' => '',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' => '',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' => '',
         'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' => '',
@@ -2710,7 +2711,7 @@ sub Data {
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
         'Search Ticket' => 'Ticketsuche',
         'Search backend default router.' => '',
         'Search backend router.' => '',

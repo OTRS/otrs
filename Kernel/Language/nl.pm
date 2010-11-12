@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.141 2010-11-10 16:20:59 mb Exp $
+# $Id: nl.pm,v 1.142 2010-11-12 14:07:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-10 14:56:52
+    # Last translation file sync: 2010-11-12 14:48:46
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -1424,7 +1424,8 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Permissies',
-        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
+        'Some result formats are disabled because at least one needed package is not installed.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
+        'Please contact your administrator.' => '',
         'Graph size' => 'Grootte',
         'Sum rows' => 'Toon totaal per rij',
         'Sum columns' => 'Toon totaal per kolom',
@@ -1433,13 +1434,17 @@ sub Data {
         'If set to invalid end users can not generate the stat.' => 'Als deze op ongeldig staat, kan het rapport niet gebruikt worden.',
 
         # Template: AgentStatsEditValueSeries
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
+        'Here you can define the value series.' => 'Hier kunt u de waarden voor de Y-as kiezen.',
+        'You have the possibility to select one or two elements.' => 'U kunt één of twee elementen kiezen.',
+        'Then you can select the attributes of elements.' => 'Vervolgens kunt u de getoonde attributen van de elementen kiezen.',
+        'Each attribute will be shown as single value series.' => 'Ieder attribuut wordt getoond als een eigen waarde.',
+        'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
         'Scale' => 'Schaal',
         'minimal' => 'minimaal',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Let er op dat de schaal voor de Y-as groter moet zijn dan die voor de X-as (bijvooreeld X-as = maand, Y-as = jaar).',
 
         # Template: AgentStatsEditXaxis
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button. Als u geen selectie maakt worden alle attributen van het element getoond bij het aanmaken van het rapport.',
+        'Here you can define the x-axis. You can select one element via the radio button.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button.',
         'maximal period' => 'maximale periode',
         'minimal scale' => 'minimale schaal',
 
@@ -1611,6 +1616,7 @@ sub Data {
         'Search-Template' => 'Template',
         'Create New' => 'Nieuw',
         'Create Template' => 'Maak template',
+        'Save changes in template' => 'Sla wijzigingen op in template',
         'Add another attribute' => 'Voeg attribuut toe',
         'Result Form' => 'Uitvoeren naar',
         'Fulltext' => 'Volledig',
@@ -1716,7 +1722,10 @@ sub Data {
 
         # Template: CustomerTicketOverView
         'You have not created a ticket yet.' => 'U hebt nog geen tickets aangemaakt.',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => 'U als onze klant heeft de mogelijkheid om alles van ons gedaan te krijgen, het gaat immers om u. De sleutel hiertoe is het aanmaken van wat we een \'ticket\' noemen. Maak er s.vp.p eentje aan.',
+        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => 'U als onze klant heeft de mogelijkheid om alles van ons gedaan te krijgen, ',
+        'We stop eating if you wish us to do.' => 'het gaat immers om u.',
+        'Your way to communicate with us is this thing called \'ticket\'.' => 'De sleutel hiertoe is het aanmaken van wat we een \'ticket\' noemen.',
+        'Please command us.' => 'Maak er s.v.p. eentje aan.',
         'Create your first Ticket' => 'Maak uw eerste ticket aan',
 
         # Template: CustomerTicketPrint
@@ -3203,7 +3212,9 @@ sub Data {
         'HTML' => 'HTML',
         'Hash' => 'Hash',
         'Have a lot of fun!' => 'Veel plezier!',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de Y-as definiëren. U heeft de mogelijkheid om één of twee elementen te selecteren. Daarna kunt u de attributen kiezen. Als u geen attribuut selecteerd zullen alle attributen gebruikt worden.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button. Als u geen selectie maakt worden alle attributen van het element getoond bij het aanmaken van het rapport.',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de waarden voor de X-as definiëren. U kunt een element kiezen via de radiobutton. Daarna kunt u twee of meer attributen van dit element kiezen. Als u géén selectie maakt worden alle attributen van dit element gebruikt in de rapportage.',
         'Here you can insert a description of the stat.' => 'Hier kunt u een beschrijving van deze statistieken toevoegen.',
         'Here you can select the dynamic object you want to use.' => 'Selecteer de metriek die u wilt gebruiken.',
@@ -3407,6 +3418,7 @@ sub Data {
         'Set customer user and customer id of a ticket' => 'Wijs de klant en klantID aan een ticket toe',
         'Show' => 'Toon',
         'Solution' => 'Oplossing',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
         'Sorry, feature not active!' => 'Deze functie is niet actief.',
         'Sort by' => 'Sorteer op',
         'Source' => 'Bron',
@@ -3513,6 +3525,7 @@ sub Data {
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Met de invoer- en selectievelden is het rapport aanpasbaar. Welke elementen precies aan te passen zijn verschilt per rapportage.',
         'Yes means, send no agent and customer notifications on changes.' => 'Bij \'Ja\' worden er geen meldingen gestuurd naar eigenaar en klant bij wijzigingen.',
         'Yes, save it with name' => 'Ja, sla op met naam',
+        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => 'U als onze klant heeft de mogelijkheid om alles van ons gedaan te krijgen, het gaat immers om u. De sleutel hiertoe is het aanmaken van wat we een \'ticket\' noemen. Maak er s.vp.p eentje aan.',
         'You got new message!' => 'U heeft een nieuw bericht.',
         'You have to select two or more attributes from the select field!' => 'Kies twee of meer attributen.',
         'You need a To: recipient!' => 'U hebt een adres nodig bij Aan:',

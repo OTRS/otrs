@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2010 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Jesper Ulrik Rønnov <jeron[at]faaborgmidtfyn.dk>
 # --
-# $Id: da.pm,v 1.74 2010-11-05 15:10:54 mb Exp $
+# $Id: da.pm,v 1.75 2010-11-12 14:07:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-05 15:50:52
+    # Last translation file sync: 2010-11-12 14:48:34
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -569,6 +569,7 @@ sub Data {
         'Don\'t show closed Tickets' => 'Vis ikke lukkede sag',
         'Show closed Tickets' => 'Vis lukkede sag',
         'New Article' => 'Ny artikkel',
+        'Unread article(s) available' => '',
         'Remove from list of watched tickets' => '',
         'Add to list of watched tickets' => '',
         'Email-Ticket' => 'E-mail-sag',
@@ -766,6 +767,9 @@ sub Data {
         'Add Customer' => 'Tilføj kunde',
         'Edit Customer' => 'Rediger kunde',
         'This field is required and needs to be a valid email address.' => '',
+        'This email address is not allowed due to the system configuration.' => '',
+        'This email address failed MX check.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Administrer Kunde-Gruppe relationer',
@@ -784,7 +788,8 @@ sub Data {
         'Customers' => '',
         'Groups' => 'Grupper',
         'No matches found.' => 'Ingen resultater fundet',
-        'Change %s Relations for' => 'Skift %s relationer for',
+        'Change Group Relations for Customer' => '',
+        'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => 'Skift %s rettigheder for alle',
         'Toggle %s permission for %s' => 'Skift %s rettigheder for %s',
         'Customer Default Groups:' => 'Kunde standard grupper:',
@@ -798,7 +803,8 @@ sub Data {
         'Manage Customer-Services Relations' => 'Administrer Kunde-Service relationer',
         'Edit default services' => 'Rediger standard services',
         'Filter for Services' => 'Filer for services',
-        'Allocate %s to' => 'Tildel %s til',
+        'Allocate Services to Customer' => '',
+        'Allocate Customers to Service' => '',
         'Toggle active state for all' => 'Skift aktiv stadie for alle',
         'Active' => 'Aktiv',
         'Toggle active state for %s' => 'Skift aktiv stadie for %s',
@@ -892,18 +898,8 @@ sub Data {
         'Delete tickets' => 'Slet sager',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' => 'Advarsel: Alle berørte sager vil blive fjernet fra databasen, og kan ikke genskabes!',
         'Execute Custom Module' => 'Eksekver brugerdefineret modul',
-        'Param 1 key' => 'Parameter 1 nøgle',
-        ' Param 1 value' => 'Parameter 1 værdi',
-        'Param 2 key' => 'Paramater 2 nøgle',
-        ' Param 2 value' => 'Parameter 2 værdi',
-        'Param 3 key' => 'Parameter 3 nøgle',
-        ' Param 3 value' => 'Parameter 3 værdi',
-        'Param 4 key' => 'Parameter 4 nøgle',
-        ' Param 4 value' => 'Parameter 4 værdi',
-        'Param 5 key' => 'Parameter 5 nøgle',
-        ' Param 5 value' => 'Parameter 5 værdi',
-        'Param 6 key' => 'Parameter 6 nøgle',
-        ' Param 6 value' => 'Parameter 6 værdi',
+        'Param %s key' => '',
+        'Param %s value' => '',
         'Save Changes' => '',
         'Save' => 'Gem',
         'Results' => 'Resultater',
@@ -1106,6 +1102,8 @@ sub Data {
         'Filter' => 'Filter',
         'Filter for Responses' => '',
         'Responses' => 'Svar',
+        'Change Queue Relations for Response' => '',
+        'Change Response Relations for Queue' => '',
 
         # Template: AdminResponse
         'Manage Responses' => '',
@@ -1120,7 +1118,9 @@ sub Data {
 
         # Template: AdminResponseAttachment
         'Manage Responses <-> Attachments Relations' => '',
-        'Change %s Relations for %s' => '',
+        'Filter for Attachments' => '',
+        'Change Response Relations for Attachment' => '',
+        'Change Attachment Relations for Response' => '',
         'Toggle active for all' => '',
         'Link %s to selected %s' => '',
 
@@ -1138,6 +1138,8 @@ sub Data {
         'Roles' => 'Roller',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => '',
+        'Change Role Relations for Group' => '',
+        'Change Group Relations for Role' => '',
         'Toggle %s permission for all' => '',
         'move_into' => 'flyt_til',
         'Permissions to move tickets into this group/queue.' => 'Tilladelser til at flytte sager ind i denne gruppe/kø.',
@@ -1151,6 +1153,8 @@ sub Data {
         'Filter for Agents' => '',
         'Agents' => '',
         'Manage Role-Agent Relations' => '',
+        'Change Role Relations for Agent' => '',
+        'Change Agent Relations for Role' => '',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA Administration',
@@ -1264,7 +1268,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NavBarNavn',
         'NavBar' => 'NavBar',
-        'Image' => 'Billede',
+        'LinkOption' => '',
         'Block' => 'Blok',
         'AccessKey' => 'AdgangsNøgle',
         'Add NavBar entry' => '',
@@ -1308,6 +1312,8 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '',
+        'Change Group Relations for Agent' => '',
+        'Change Agent Relations for Group' => '',
         'note' => '',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'konsulent',
@@ -1390,10 +1396,13 @@ sub Data {
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s of %s' => '',
+        'Step %s' => '',
+        'General Specifications' => '',
+        'Select the element that will be used at the X-axis' => '',
+        'Select the elements for the value series' => 'Vælg elementerne for værdi serien',
+        'Select the restrictions to characterize the stat' => '',
         'Here you can make restrictions to your stat.' => 'Her kan du begrænse din stat',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Vis du fjerner markeringen i boksen "Fast", kan agenten ændrer attributterne ved det valgte element.',
-        'Select the restrictions to characterize the stat' => '',
         'Fixed' => 'Fast',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Vælg venligst kun et Element, eller fravælg knappen \'Fast\'',
         'Absolute Period' => '',
@@ -1403,9 +1412,9 @@ sub Data {
         'Finish' => 'Færdig',
 
         # Template: AgentStatsEditSpecification
-        'General Specifications' => '',
         'Permissions' => 'Rettigeheder',
-        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => '',
+        'Some result formats are disabled because at least one needed package is not installed.' => '',
+        'Please contact your administrator.' => '',
         'Graph size' => '',
         'Sum rows' => 'Antal rækker',
         'Sum columns' => 'Antal Kollonner',
@@ -1414,15 +1423,17 @@ sub Data {
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the elements for the value series' => 'Vælg elementerne for værdi serien',
+        'Here you can define the value series.' => '',
+        'You have the possibility to select one or two elements.' => '',
+        'Then you can select the attributes of elements.' => '',
+        'Each attribute will be shown as single value series.' => '',
+        'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
         'Scale' => 'Skala',
         'minimal' => 'minimum',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Husk venligst at skalen for værdi serien, skal være større end den skala for X-Aksen (f.eks. X-Akse => Month, VærdiSerie => År).',
 
         # Template: AgentStatsEditXaxis
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
-        'Select the element that will be used at the X-axis' => '',
+        'Here you can define the x-axis. You can select one element via the radio button.' => '',
         'maximal period' => 'maksimal periode',
         'minimal scale' => 'minimal skala',
 
@@ -1594,6 +1605,7 @@ sub Data {
         'Search-Template' => 'Søge-skabelon',
         'Create New' => '',
         'Create Template' => '',
+        'Save changes in template' => '',
         'Add another attribute' => '',
         'Result Form' => 'Resultatformular',
         'Fulltext' => 'Fritekst',
@@ -1699,7 +1711,10 @@ sub Data {
 
         # Template: CustomerTicketOverView
         'You have not created a ticket yet.' => '',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => '',
+        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
+        'We stop eating if you wish us to do.' => '',
+        'Your way to communicate with us is this thing called \'ticket\'.' => '',
+        'Please command us.' => '',
         'Create your first Ticket' => '',
 
         # Template: CustomerTicketPrint
@@ -1782,6 +1797,8 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
+        'Database Settings' => '',
+        'General Specifications and Mail Settings' => '',
         'Welcome to %s' => 'Velkommen til %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -1927,7 +1944,7 @@ sub Data {
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' => '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' => '',
         'Activates time accounting.' => '',
-        'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' => '',
+        'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' => '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' => '',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
@@ -2040,12 +2057,12 @@ sub Data {
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
         'Data used to export the search result in CSV format.' => '',
-        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".' => '',
+        'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
+        'Default skin for OTRS 3.0 interface.' => '',
         'Default skin for interface.' => '',
-        'Default skin for otrs 3.0 interface.' => '',
         'Default ticket ID used by the system in the agent interface.' => '',
         'Default ticket ID used by the system in the customer interface.' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' => '',
@@ -2531,7 +2548,7 @@ sub Data {
         'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' => '',
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' => '',
-        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.' => '',
+        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.' => '',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' => '',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' => '',
         'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' => '',
@@ -2696,7 +2713,7 @@ sub Data {
         'Roles <-> Groups' => 'Roller <-> Grupper',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the otrs user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
         'Search Ticket' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
@@ -2977,8 +2994,16 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => '',
 
-        # Misc
+        #
+        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
+        #
         ' (minutes)' => ' (minutter)',
+        ' Param 1 value' => 'Parameter 1 værdi',
+        ' Param 2 value' => 'Parameter 2 værdi',
+        ' Param 3 value' => 'Parameter 3 værdi',
+        ' Param 4 value' => 'Parameter 4 værdi',
+        ' Param 5 value' => 'Parameter 5 værdi',
+        ' Param 6 value' => 'Parameter 6 værdi',
         '%s Tickets affected! Do you really want to use this job?' => '%s sager bliver berørt! Ønsker du stadig at køre dette job.',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Kontrollerer MX-records af anvendte e-mailadresser ved at udforme et svar. Anvend ikke KontrollerMXRecord, hvis OTRS-maskinen befinder sig bag en opkaldslinje $!)',
         '(Email of the system admin)' => '(Systemadministrators e-mail)',
@@ -3042,6 +3067,7 @@ sub Data {
         'All tickets' => 'Alle sager',
         'All tickets where the reminder date has reached!' => 'Alle sager som har nået en påmindelse',
         'All tickets which are escalated!' => 'Alle sager som er eskaleret',
+        'Allocate %s to' => 'Tildel %s til',
         'Allocate CustomerUser to service' => 'Vælg kunde bruger til service',
         'Allocate services to CustomerUser' => 'Vælg services til kunde bruger',
         'Answer' => 'Svar',
@@ -3064,6 +3090,7 @@ sub Data {
         'Can\'t update password, needs at least 2 characters!' => 'Kan ikke opdatere adgangskode, mindst 2 tegn mangler!',
         'Can\'t update password, your new passwords do not match! Please try again!' => 'Kan ikke opdatere adgangskode, adgangskoderne er ikke ens! Prøv igen!',
         'Category Tree' => 'Kategoritræ',
+        'Change %s Relations for' => 'Skift %s relationer for',
         'Change %s settings' => 'Skift %s indstillinger',
         'Change Times' => 'Skift tider',
         'Change free text of ticket' => 'Skift sagens fritekst',
@@ -3178,6 +3205,7 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Anvender du RegExp, kan du også bruge den matchede værdi i () som [***] i \'Set\'.',
         'If you use a graph as output format you have to select at least one graph size.' => 'iHvis du bruger en graf som output format skal du vælge mindst en graf størrelse',
         'If you want to account time, please provide Subject and Text!' => 'Hvis du ønsker at tælle tid, så indsæt Emne og Tekst',
+        'Image' => 'Billede',
         'Important' => 'Vigtigt',
         'In this form you can select the basic specifications.' => 'I denne formular kan du vælge de grundlæggende specifikationer.',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
@@ -3266,11 +3294,17 @@ sub Data {
         'Package' => 'Pakke',
         'Package not correctly deployed, you need to deploy it again!' => 'Pakken blev ikke korrekt installeret, den skal installeres igen!',
         'Param 1' => 'Param 1',
+        'Param 1 key' => 'Parameter 1 nøgle',
         'Param 2' => 'Param 2',
+        'Param 2 key' => 'Paramater 2 nøgle',
         'Param 3' => 'Param 3',
+        'Param 3 key' => 'Parameter 3 nøgle',
         'Param 4' => 'Param 4',
+        'Param 4 key' => 'Parameter 4 nøgle',
         'Param 5' => 'Param 5',
+        'Param 5 key' => 'Parameter 5 nøgle',
         'Param 6' => 'Param 6',
+        'Param 6 key' => 'Parameter 6 nøgle',
         'Parent-Object' => 'Forældre-Objekt',
         'Password is already in use! Please use an other password!' => 'Adgangskoden er allerede i brug! Brug venligst en anden adgangskode!',
         'Password is already used! Please use an other password!' => 'Adgangskoden er allerede brugt! Brug venligst en anden adgangskode!',
