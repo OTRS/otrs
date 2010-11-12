@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.247 2010-11-12 14:07:21 mb Exp $
+# $Id: de.pm,v 1.248 2010-11-12 14:13:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.247 $) [1];
+$VERSION = qw($Revision: 1.248 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1603,7 +1603,7 @@ sub Data {
         'Search-Template' => 'Such-Vorlage',
         'Create New' => 'Neue anlegen',
         'Create Template' => 'Vorlage anlegen',
-        'Save changes in template' => '',
+        'Save changes in template' => 'Änderungen in der Vorlage speichern',
         'Add another attribute' => 'Ein weiteres Attribut hinzufügen',
         'Result Form' => 'Ergebnis-Ansicht',
         'Fulltext' => 'Volltext',
