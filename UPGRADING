@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.39 2010-07-15 13:58:26 mg Exp $
+# $Id: UPGRADING,v 1.40 2010-11-12 12:04:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,6 @@ to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...).
     shell> /etc/init.d/cron stop
     shell> /etc/init.d/postfix stop
     shell> /etc/init.d/apache stop
-    shell> /etc/init.d/mysql stop
 
 
 2) Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
@@ -79,7 +78,10 @@ to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...).
 
    If the tarball is used, execute:
 
-     shell> bin/otrs.SetPermissions.pl!
+     shell> cd /opt/otrs/
+     shell> bin/otrs.SetPermissions.pl
+
+   with the permissions needed for your system setup.
 
 
 8) Apply the database changes (part 1/2):
@@ -125,7 +127,6 @@ to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...).
 
     e. g. (depends on used services):
 
-    shell> /etc/init.d/mysql start
     shell> /etc/init.d/apache start
     shell> /etc/init.d/postfix start
     shell> /etc/init.d/cron start
@@ -144,11 +145,15 @@ to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...).
 
     If you experience problems with the new charset, add this line to Kernel/Config.pm:
 
-    $Self->{'DefaultCharset'} = 'iso-8859-1';
+    $Self->{'DefaultCharset'} = 'iso-8859-1'; # use your previous charset setting here
 
     In General, using "utf-8" is the recommended mode of running OTRS, and switching from
-    "iso-8859-1" should work well.
+    other charsets should work well.
 
+    Please note: We recommend to change existing non-UTF-8 installations of OTRS to UTF-8
+    with the upgrade to 3.0. All other encodings are now deprecated.
+
+    OTRS 3.1 will only allow UTF-8 as internal charset.
 
 14) Well done!
     ----------
