@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.108 2010-11-11 13:13:46 martin Exp $
+# $Id: LayoutTicket.pm,v 1.109 2010-11-12 14:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -813,6 +813,7 @@ sub ArticleQuote {
                 . ';ContentID=';
 
             # search inline documents in body and add it to upload cache
+            my %AttachmentAlreadyUsed;
             $Body =~ s{
                 "cid:(.*?)"
             }
@@ -821,11 +822,13 @@ sub ArticleQuote {
                 # find attachment to include
                 my $ContentID = $1;
                 ATMCOUNT:
-                for my $AttachmentID ( keys %Attachments ) {
+                for my $AttachmentID ( sort keys %Attachments ) {
+                    next if $AttachmentAlreadyUsed{$AttachmentID};
 
                     # remember not included real attachments
                     if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         push @NotInlineAttachments, $AttachmentID;
+                        $AttachmentAlreadyUsed{$AttachmentID} = 1;
                         next ATMCOUNT;
                     }
 
@@ -856,7 +859,7 @@ sub ArticleQuote {
                         $ContentID = $AttachmentLink . $Attachment->{ContentID};
                         last CONTENTIDRETURN;
                     }
-                    last ATMCOUNT;
+                    $AttachmentAlreadyUsed{$AttachmentID} = 1;
                 }
 
                 # return link
