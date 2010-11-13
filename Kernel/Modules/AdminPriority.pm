@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.11 2010-05-17 18:01:34 en Exp $
+# $Id: AdminPriority.pm,v 1.12 2010-11-13 00:51:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(ConfigObject ParamObject LogObject LayoutObject)) {
-        if ( !$Self->{$Object} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Object!" );
+    for my $Needed (qw(ConfigObject ParamObject LogObject LayoutObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
@@ -43,194 +43,313 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
-    # priority edit
+    # change
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'PriorityEdit' ) {
-        my %PriorityData;
-        $PriorityData{Action} = 'Add';
-        $PriorityData{Header} = 'Add Priority';
-
-        # get params
-        $PriorityData{PriorityID} = $Self->{ParamObject}->GetParam( Param => "PriorityID" );
-        if ( $PriorityData{PriorityID} ne 'NEW' ) {
-
-            # get priority
-            %PriorityData = $Self->{PriorityObject}->PriorityGet(
-                PriorityID => $PriorityData{PriorityID},
-                UserID     => $Self->{UserID},
-            );
-            $PriorityData{PriorityID} = $PriorityData{ID};
-            $PriorityData{Action}     = 'Change';
-            $PriorityData{Header}     = 'Edit Priority';
-        }
-
-        # output overview
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
+    if ( $Self->{Subaction} eq 'Change' ) {
+        my %GetParam = ();
+        $GetParam{PriorityID} = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
+        my %PriorityData = $Self->{PriorityObject}->PriorityGet(
+            PriorityID => $GetParam{PriorityID},
+            UserID     => $Self->{UserID},
         );
-
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-
-        # get valid list
-        my %ValidList        = $Self->{ValidObject}->ValidList();
-        my %ValidListReverse = reverse %ValidList;
-
-        $PriorityData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ValidList,
-            Name       => 'ValidID',
-            SelectedID => $PriorityData{ValidID} || $ValidListReverse{valid},
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewUpdate',
-            Data => \%Param,
-        );
-
-        # output service edit
-        $Self->{LayoutObject}->Block(
-            Name => 'PriorityEdit',
-            Data => {
-                %Param,
-                %PriorityData,
-            },
-        );
-
-        # shows header
-        if ( $PriorityData{Action} eq 'Change' ) {
-            $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
-        }
-        else {
-            $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
-        }
-
-        # output header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-
-        # generate output
+        $Self->_Edit(
+            Action => 'Change',
+            %PriorityData,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPriority',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
-
         return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # priority save
+    # change action
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'PrioritySave' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my %PriorityData;
+        my ( %GetParam, %Errors );
 
         # get params
-        for my $FormParam (qw(PriorityID Name ValidID)) {
-            $PriorityData{$FormParam} = $Self->{ParamObject}->GetParam( Param => $FormParam ) || '';
-        }
-        $PriorityData{ID} = $PriorityData{PriorityID};
-
-        # save to database
-        my $Success;
-        if ( $PriorityData{PriorityID} eq 'NEW' ) {
-            $Success = $Self->{PriorityObject}->PriorityAdd(
-                %PriorityData,
-                UserID => $Self->{UserID},
-            );
-        }
-        else {
-            $Success = $Self->{PriorityObject}->PriorityUpdate(
-                %PriorityData,
-                UserID => $Self->{UserID},
-            );
+        for my $Parameter (qw(PriorityID Name ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
-        return $Self->{LayoutObject}->ErrorScreen() if !$Success;
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
-    }
-
-    # ------------------------------------------------------------ #
-    # overview
-    # ------------------------------------------------------------ #
-    else {
-
-        # output overview
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
-        );
-
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
-
-        # output overview result
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewList',
-            Data => {
-                %Param,
-            },
-        );
-
-        # get priority list
-        my %PriorityList = $Self->{PriorityObject}->PriorityList(
-            Valid  => 0,
-            UserID => $Self->{UserID},
-        );
-
-        # if there are any priorities defined, they are shown
-        if (%PriorityList) {
-
-            # get valid list
-            my %ValidList = $Self->{ValidObject}->ValidList();
-
-            for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
-
-                # get priority data
-                my %PriorityData = $Self->{PriorityObject}->PriorityGet(
-                    PriorityID => $PriorityID,
-                    UserID     => $Self->{UserID},
-                );
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'OverviewListRow',
-                    Data => {
-                        %PriorityData,
-                        PriorityID => $PriorityID,
-                        Valid      => $ValidList{ $PriorityData{ValidID} },
-                    },
-                );
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
         }
 
-        # otherwise a no data found msg is displayed
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {},
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update priority
+            my $Update = $Self->{PriorityObject}->PriorityUpdate(
+                %GetParam,
+                UserID => $Self->{UserID}
             );
+
+            if ( !$Update ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Edit',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminPriority',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            $Self->_Overview();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority updated!' );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPriority',
+                Data         => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
 
-        # output header and navbar
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-
-        # start template output
+        $Self->_Edit(
+            Action => 'Change',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPriority',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
-
         return $Output;
     }
+
+    # ------------------------------------------------------------ #
+    # add
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Add' ) {
+        my %GetParam = ();
+        $GetParam{PriorityID} = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Add',
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPriority',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # add action
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my ( %GetParam, %Errors );
+
+        # get params
+        for my $Parameter (qw(PriorityID Name ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        }
+
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            my $NewPriority = $Self->{PriorityObject}->PriorityAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
+            );
+
+            if ( !$NewPriority ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Add',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminPriority',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            $Self->_Overview();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority added!' );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPriority',
+                Data         => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
+        # someting has gone wrong
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Add',
+            Errors => \%Errors,
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPriority',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # ------------------------------------------------------------
+    # overview
+    # ------------------------------------------------------------
+    else {
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPriority',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+}
+
+sub _Edit {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+    # get valid list
+    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
+    $Param{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data       => \%ValidList,
+        Name       => 'ValidID',
+        SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
+    );
+
+    # shows header
+    if ( $Param{Action} eq 'Change' ) {
+        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+
+    return 1;
+}
+
+sub _Overview {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = '';
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+        Data => \%Param,
+    );
+
+    # get priority list
+    my %PriorityList = $Self->{PriorityObject}->PriorityList(
+        Valid  => 0,
+        UserID => $Self->{UserID},
+    );
+
+    # if there are any priorities defined, they are shown
+    if (%PriorityList) {
+
+        # get valid list
+        my %ValidList = $Self->{ValidObject}->ValidList();
+
+        for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
+
+            # get priority data
+            my %PriorityData = $Self->{PriorityObject}->PriorityGet(
+                PriorityID => $PriorityID,
+                UserID     => $Self->{UserID},
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    %PriorityData,
+                    PriorityID => $PriorityID,
+                    Valid      => $ValidList{ $PriorityData{ValidID} },
+                },
+            );
+        }
+    }
+
+    # otherwise a no data found msg is displayed
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoDataFoundMsg',
+            Data => {},
+        );
+    }
+    return 1;
 }
 
 1;

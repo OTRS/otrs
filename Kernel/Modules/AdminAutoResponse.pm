@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.43 2010-05-17 17:16:37 en Exp $
+# $Id: AdminAutoResponse.pm,v 1.44 2010-11-13 00:51:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,9 +30,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
@@ -75,9 +75,9 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my %GetParam;
-        for (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
@@ -89,18 +89,41 @@ sub Run {
         # get charset
         $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
 
-        # update group
-        if (
-            !$Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
+        # check needed data
+        for my $Needed (qw(Name ValidID AddressID TypeID Subject)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update group
+            if (
+                !$Self->{AutoResponseObject}
+                ->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                )
+            {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Change',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminAutoResponse',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Change',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminAutoResponse',
                 Data         => \%Param,
@@ -109,10 +132,14 @@ sub Run {
             return $Output;
         }
 
-        $Self->_Overview();
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
+        $Self->_Edit(
+            Action => 'Change',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
@@ -126,9 +153,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -151,9 +176,9 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my %GetParam;
-        for (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
@@ -165,17 +190,40 @@ sub Run {
         # get charset
         $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
 
-        # add state
-        my $AutoResponseID
-            = $Self->{AutoResponseObject}->AutoResponseAdd( %GetParam, UserID => $Self->{UserID} );
-        if ( !$AutoResponseID ) {
+        # check needed data
+        for my $Needed (qw(Name ValidID AddressID TypeID Subject)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add state
+            my $AutoResponseID = $Self->{AutoResponseObject}->AutoResponseAdd(
+                %GetParam,
+                UserID => $Self->{UserID}
+            );
+            if ( !$AutoResponseID ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Add',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminAutoResponse',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Add',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminAutoResponse',
                 Data         => \%Param,
@@ -183,10 +231,15 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        $Self->_Overview();
+
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
+        $Self->_Edit(
+            Action => 'Add',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
@@ -248,6 +301,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{AutoResponseOption} = $Self->{LayoutObject}->BuildSelection(
@@ -262,17 +316,22 @@ sub _Edit {
         Data       => { $Self->{AutoResponseObject}->AutoResponseTypeList(), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
+        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name => 'AddressID',
         SelectedID => $Param{AddressID},
+        Class => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => \%Param,
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
     );
 
     # shows header

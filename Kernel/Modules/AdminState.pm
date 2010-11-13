@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.37 2010-07-28 08:30:36 ub Exp $
+# $Id: AdminState.pm,v 1.38 2010-11-13 00:51:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -70,26 +70,49 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my %GetParam;
-        for (qw(ID Name TypeID Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name TypeID Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
-        # update the state data
-        my $UpdateSuccess = $Self->{StateObject}->StateUpdate(
-            %GetParam,
-            UserID => $Self->{UserID},
-        );
+        # check needed data
+        for my $Needed (qw(Name ValidID TypeID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
 
-        # update not successful, show the edit screen again
-        if ( !$UpdateSuccess ) {
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update the state data
+            my $UpdateSuccess = $Self->{StateObject}->StateUpdate(
+                %GetParam,
+                UserID => $Self->{UserID},
+            );
+
+            # update not successful, show the edit screen again
+            if ( !$UpdateSuccess ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Change',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminState',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            # update was successful
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Change',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'State updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminState',
                 Data         => \%Param,
@@ -98,11 +121,14 @@ sub Run {
             return $Output;
         }
 
-        # update was successful
-        $Self->_Overview();
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'State updated!' );
+        $Self->_Edit(
+            Action => 'Change',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminState',
             Data         => \%Param,
@@ -116,9 +142,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -141,21 +165,45 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my %GetParam;
-        for (qw(ID TypeID Name Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID TypeID Name Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
-        # add state
-        my $StateID = $Self->{StateObject}->StateAdd( %GetParam, UserID => $Self->{UserID} );
-        if ( !$StateID ) {
+        # check needed data
+        for my $Needed (qw(Name ValidID TypeID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add state
+            my $StateID = $Self->{StateObject}->StateAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
+            );
+            if ( !$StateID ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Add',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminState',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Add',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'State added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminState',
                 Data         => \%Param,
@@ -163,10 +211,15 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        $Self->_Overview();
+
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'State added!' );
+        $Self->_Edit(
+            Action => 'Add',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminState',
             Data         => \%Param,
@@ -211,15 +264,20 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},
+        Class => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => \%Param,
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
     );
 
     # shows header
@@ -258,9 +316,9 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{StateObject}->StateGet( ID => $_, );
+            my %Data = $Self->{StateObject}->StateGet( ID => $ListKey );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

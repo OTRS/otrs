@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.27 2010-11-05 17:38:16 ub Exp $
+# $Id: AdminPriority.dtl,v 1.28 2010-11-13 00:51:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
 
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=NEW" class="CallForAction Plus">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus">
                             <span>$Text{"Add priority"}</span>
                         </a>
                     </li>
@@ -44,7 +44,7 @@
     <div class="ContentColumn">
         <div class="WidgetSimple">
 
-<!-- dtl:block:OverviewList -->
+<!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -67,10 +67,10 @@
                             </td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
-<!-- dtl:block:OverviewListRow -->
+<!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=PriorityEdit;PriorityID=$LQData{"PriorityID"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;PriorityID=$LQData{"PriorityID"}">
                                     $QData{"Name"}
                                 </a>
                             </td>
@@ -80,13 +80,13 @@
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
-<!-- dtl:block:OverviewListRow -->
+<!-- dtl:block:OverviewResultRow -->
                     </tbody>
                 </table>
             </div>
-<!-- dtl:block:OverviewList -->
+<!-- dtl:block:OverviewResult -->
 
-<!-- dtl:block:PriorityEdit -->
+<!-- dtl:block:OverviewUpdate -->
             <div class="Header">
 <!-- dtl:block:HeaderAdd -->
                 <h2>$Text{"Add Priority"}</h2>
@@ -99,12 +99,12 @@
 
                 <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}" />
-                    <input type="hidden" name="Subaction" value="PrioritySave" />
+                    <input type="hidden" name="Subaction" value="$LQData{"Action"}Action" />
                     <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}" />
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -114,9 +114,15 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOptionStrg"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -129,7 +135,7 @@
                     </fieldset>
                 </form>
             </div>
-<!-- dtl:block:PriorityEdit -->
+<!-- dtl:block:OverviewUpdate -->
         </div>
     </div>
     <div class="Clear"></div>

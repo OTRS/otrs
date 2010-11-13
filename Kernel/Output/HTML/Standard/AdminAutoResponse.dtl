@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.26 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminAutoResponse.dtl,v 1.27 2010-11-13 00:51:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,7 +97,7 @@ $Include{"RichTextEditor"}
 
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -105,7 +105,7 @@ $Include{"RichTextEditor"}
 
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="250"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="250"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -117,7 +117,7 @@ $Include{"RichTextEditor"}
 
                         <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required" maxlength="250"/>
+                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}" maxlength="250"/>
                             <div id="SubjectError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -133,21 +133,39 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="TypeID">$Text{"Type"}:</label>
+                        <label class="Mandatory" for="TypeID"><span class="Marker">*</span> $Text{"Type"}:</label>
                         <div class="Field">
                             $Data{"TypeOption"}
+                            <div id="TypeIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="TypeIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="AddressID">$Text{"Auto response from"}:</label>
+                        <label class="Mandatory" for="AddressID"><span class="Marker">*</span> $Text{"Auto response from"}:</label>
                         <div class="Field">
                             $Data{"SystemAddressOption"}
+                            <div id="AddressIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="AddressIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

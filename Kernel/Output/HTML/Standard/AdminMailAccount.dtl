@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.31 2010-10-31 21:12:33 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.32 2010-11-13 00:51:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,19 +106,25 @@
                 <h2>$Text{"Add Mail Account"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="AddAction"/>
                     <fieldset class="TableLike">
-                        <label for="TypeAdd">$Text{"Type"}:</label>
+                        <label class="Mandatory" for="TypeAdd"><span class="Marker">*</span> $Text{"Type"}:</label>
                         <div class="Field">
                             $Data{"TypeOptionAdd"}
+                            <div id="TypeAddError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="TypeAddServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label class="Mandatory" for="LoginAdd"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc Validate_Required" name="Login" id="LoginAdd" value="" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"LoginAddInvalid"}" name="Login" id="LoginAdd" value="" maxlength="200"/>
                             <div id="LoginAddError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -130,7 +136,7 @@
 
                         <label class="Mandatory" for="PasswordAdd"><span class="Marker">*</span> $Text{"Password"}:</label>
                         <div class="Field">
-                            <input type="password" class="W50pc Validate_Required" name="Password" id="PasswordAdd" value="" maxlength="200"/>
+                            <input type="password" class="W50pc Validate_Required $QData{"PasswordAddInvalid"}" name="Password" id="PasswordAdd" value="" maxlength="200"/>
                             <div id="PasswordAddError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -142,7 +148,7 @@
 
                         <label class="Mandatory" for="HostAdd"><span class="Marker">*</span> $Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc Validate_Required" name="Host" id="HostAdd" value="" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"HostAddInvalid"}" name="Host" id="HostAdd" value="" maxlength="200"/>
                             <div id="HostAddError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -171,9 +177,15 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -199,20 +211,26 @@
                 <h2>$Text{"Edit Mail Account"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
-                        <label for="Type">$Text{"Type"}:</label>
+                        <label class="Mandatory" for="Type"><span class="Marker">*</span> $Text{"Type"}:</label>
                         <div class="Field">
                             $Data{"TypeOption"}
+                            <div id="TypeError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="TypeServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label class="Mandatory" for="LoginEdit"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc Validate_Required" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"LoginEditInvalid"}" name="Login" id="LoginEdit" value="$QData{"Login"}" maxlength="200"/>
                             <div id="LoginEditError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -224,7 +242,7 @@
 
                         <label class="Mandatory" for="PasswordEdit"><span class="Marker">*</span> $Text{"Password"}:</label>
                         <div class="Field">
-                            <input type="password" class="W50pc Validate_Required" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
+                            <input type="password" class="W50pc Validate_Required $QData{"PasswordEditInvalid"}" name="Password" id="PasswordEdit" value="$QData{"Password"}" maxlength="200"/>
                             <div id="PasswordEditError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -236,7 +254,7 @@
 
                         <label class="Mandatory" for="HostEdit"><span class="Marker">*</span> $Text{"Host"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc Validate_Required" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"HostEditInvalid"}" name="Host" id="HostEdit" value="$QData{"Host"}" maxlength="200"/>
                             <div id="HostEditError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -246,27 +264,51 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Trusted">$Text{"Trusted"}:</label>
+                        <label class="Mandatory" for="Trusted"><span class="Marker">*</span> $Text{"Trusted"}:</label>
                         <div class="Field">
                             $Data{"TrustedOption"}
+                            <div id="TrustedError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="TrustedServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="DispatchingBy">$Text{"Dispatching"}:</label>
+                        <label class="Mandatory" for="DispatchingBy"><span class="Marker">*</span> $Text{"Dispatching"}:</label>
                         <div class="Field">
                             $Data{"DispatchingOption"}
+                            <div id="DispatchingByError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="DispatchingByServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="QueueID">$Text{"Queue"}:</label>
+                        <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
                         <div class="Field">
                             $Data{"QueueOption"}
+                            <div id="QueueIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="QueueIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

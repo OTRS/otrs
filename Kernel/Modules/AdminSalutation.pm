@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.48 2010-05-17 17:45:35 en Exp $
+# $Id: AdminSalutation.pm,v 1.49 2010-11-13 00:51:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,9 +29,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{SalutationObject} = Kernel::System::Salutation->new(%Param);
@@ -73,9 +73,9 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my %GetParam;
-        for (qw(ID Name Text Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Text Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get content type
@@ -84,20 +84,42 @@ sub Run {
             $ContentType = 'text/html';
         }
 
-        # update
-        my $Update = $Self->{SalutationObject}->SalutationUpdate(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID},
-        );
-        if ( !$Update ) {
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update salutation
+            my $Update = $Self->{SalutationObject}->SalutationUpdate(
+                %GetParam,
+                ContentType => $ContentType,
+                UserID      => $Self->{UserID},
+            );
+            if ( !$Update ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Change',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminSalutation',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Change',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSalutation',
                 Data         => \%Param,
@@ -106,10 +128,14 @@ sub Run {
             return $Output;
         }
 
-        $Self->_Overview();
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
+        $Self->_Edit(
+            Action => 'Change',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSalutation',
             Data         => \%Param,
@@ -123,9 +149,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -149,9 +173,9 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my %GetParam;
-        for (qw(ID Name Text Comment ValidID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        my ( %GetParam, %Errors );
+        for my $Parameter (qw(ID Name Text Comment ValidID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         # get content type
@@ -160,21 +184,43 @@ sub Run {
             $ContentType = 'text/html';
         }
 
-        # add
-        my $AddressID = $Self->{SalutationObject}->SalutationAdd(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID},
-        );
+        # check needed data
+        for my $Needed (qw(Name ValidID)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
 
-        if ( !$AddressID ) {
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add salutation
+            my $AddressID = $Self->{SalutationObject}->SalutationAdd(
+                %GetParam,
+                ContentType => $ContentType,
+                UserID      => $Self->{UserID},
+            );
+
+            if ( !$AddressID ) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+                $Self->_Edit(
+                    Action => 'Add',
+                    %GetParam,
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminSalutation',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+
+            $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Add',
-                %GetParam,
-            );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSalutation',
                 Data         => \%Param,
@@ -183,10 +229,14 @@ sub Run {
             return $Output;
         }
 
-        $Self->_Overview();
+        # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
+        $Self->_Edit(
+            Action => 'Add',
+            Errors => \%Errors,
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSalutation',
             Data         => \%Param,
@@ -260,10 +310,14 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
+        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => \%Param,
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
     );
 
     # shows header
@@ -303,9 +357,9 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{SalutationObject}->SalutationGet( ID => $_, );
+            my %Data = $Self->{SalutationObject}->SalutationGet( ID => $ListKey );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {
