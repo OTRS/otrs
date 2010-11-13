@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.30 2010-11-05 17:38:16 ub Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.31 2010-11-13 18:14:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
             <fieldset>
                 <h2>$Text{"Profile"}</h2>
                 <div>
-                    <label for="Profile">$Text{"Search-Template"}</label>
+                    <label for="Profile">$Text{"Search template"}</label>
                     $Data{"ProfilesStrg"}
                 </div>
             </fieldset>
