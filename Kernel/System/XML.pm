@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.104 2010-07-19 06:38:01 ub Exp $
+# $Id: XML.pm,v 1.105 2010-11-15 09:57:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ sub new {
 
 =item XMLHashAdd()
 
-add a XMLHash to storage
+add an XMLHash to storage
 
     my $Key = $XMLObject->XMLHashAdd(
         Type    => 'SomeType',
@@ -170,7 +170,7 @@ sub XMLHashAdd {
 
 =item XMLHashUpdate()
 
-update an XMLHash part to storage
+update an XMLHash to storage
 
     $XMLHash[1]->{Name}->[1]->{Content} = 'Some Name';
 
@@ -197,7 +197,7 @@ sub XMLHashUpdate {
 
 =item XMLHashGet()
 
-get a XMLHash from database
+get an XMLHash from the database
 
     my @XMLHash = $XMLObject->XMLHashGet(
         Type => 'SomeType',
@@ -275,7 +275,7 @@ sub XMLHashGet {
 
 =item XMLHashDelete()
 
-delete a XMLHash from database
+delete an XMLHash from the database
 
     $XMLObject->XMLHashDelete(
         Type => 'SomeType',
@@ -310,7 +310,7 @@ sub XMLHashDelete {
 
 =item XMLHashMove()
 
-move a XMLHash from one type or/and key to another
+move an XMLHash from one type or/and key to another
 
     $XMLObject->XMLHashMove(
         OldType => 'SomeType',
@@ -359,7 +359,7 @@ sub XMLHashMove {
 
 =item XMLHashSearch()
 
-Search a xml hash from database.
+Search an XMLHash in the database.
 
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
@@ -472,7 +472,7 @@ sub XMLHashSearch {
 
 =item XMLHashList()
 
-a list of xml hash's in database
+generate a list of XMLHashes in the database
 
     my @Keys = $XMLObject->XMLHashList(
         Type => 'SomeType',
@@ -503,7 +503,7 @@ sub XMLHashList {
 
 =item XMLHash2XML()
 
-generate a xml string from a XMLHash
+generate an XML string from an XMLHash
 
     my $XMLString = $XMLObject->XMLHash2XML(@XMLHash);
 
@@ -523,7 +523,7 @@ sub XMLHash2XML {
 
 =item XMLParse2XMLHash()
 
-parse a xml file and return a XMLHash structur
+parse an XML file and return an XMLHash structure
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $FileString );
 
@@ -532,7 +532,7 @@ parse a xml file and return a XMLHash structur
     <Contact role="admin" type="organization">
         <Name type="long">Example Inc.</Name>
         <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
-        <Email type="secundary">sales@example.com</Email>
+        <Email type="secondary">sales@example.com</Email>
         <Telephone country="germany">+49-999-99999</Telephone>
     </Contact>
 
@@ -566,7 +566,7 @@ parse a xml file and return a XMLHash structur
                             ],
                         },
                         {
-                            type => 'secundary',
+                            type => 'secondary',
                             Content => 'sales@exampe.com',
                         },
                     ],
@@ -593,7 +593,7 @@ parse a xml file and return a XMLHash structur
     $XMLHash[1]{Contact}[1]{Email}[1]{Domain}[1]{TagKey} = "[1]{'Contact'}[1]{'Email'}[1]{'Domain'}[1]";
     $XMLHash[1]{Contact}[1]{Email}[1]{Domain}[1]{Content} = "1234.com";
     $XMLHash[1]{Contact}[1]{Email}[2]{TagKey} = "[1]{'Contact'}[1]{'Email'}[2]";
-    $XMLHash[1]{Contact}[1]{Email}[2]{type} = "secundary";
+    $XMLHash[1]{Contact}[1]{Email}[2]{type} = "secondary";
     $XMLHash[1]{Contact}[1]{Email}[2]{Content} = "sales\@exampe.com";
 
 =cut
@@ -612,7 +612,7 @@ sub XMLParse2XMLHash {
 =item XMLHash2D()
 
 returns a simple hash with tag keys as keys and the values of C<XMLHash> as values.
-As a sideeffect the data structure C<XMLHash> is enriched with tag keys.
+As a side effect the data structure C<XMLHash> is enriched with tag keys.
 
     my %Hash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
 
@@ -656,7 +656,7 @@ sub XMLHash2D {
 
 =item XMLStructure2XMLHash()
 
-get a @XMLHash from a @XMLStructure with current TagKey param
+get an @XMLHash from a @XMLStructure with current TagKey param
 
     my @XMLHash = $XMLObject->XMLStructure2XMLHash( XMLStructure => \@XMLStructure );
 
@@ -689,7 +689,7 @@ sub XMLStructure2XMLHash {
 
 =item XMLParse()
 
-parse a xml file
+parse an XML file
 
     my @XMLStructure = $XMLObject->XMLParse( String => $FileString );
 
@@ -1495,6 +1495,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2010-07-19 06:38:01 $
+$Revision: 1.105 $ $Date: 2010-11-15 09:57:50 $
 
 =cut
