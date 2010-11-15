@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.143 2010-11-12 14:53:09 mb Exp $
+# $Id: nl.pm,v 1.144 2010-11-15 13:13:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:46
+    # Last translation file sync: 2010-11-15 14:12:42
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -413,6 +413,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Rapportage',
+        'Sum' => 'Totaal',
         'Please fill out the required fields!' => 'Vul de verplichte velden in.',
         'Please select a file!' => 'Selecteer een bestand.',
         'Please select an object!' => 'Selecteer een object.',
@@ -778,9 +779,9 @@ sub Data {
         'Add Customer' => 'Klant toevoegen',
         'Edit Customer' => 'Klant bewerken',
         'This field is required and needs to be a valid email address.' => 'Dit veld is verplicht en moet een geldig e-mailadres zijn.',
-        'This email address is not allowed due to the system configuration.' => '',
-        'This email address failed MX check.' => '',
-        'The syntax of this email address is incorrect.' => '',
+        'This email address is not allowed due to the system configuration.' => 'Dit e-mailadres is niet toegestaan.',
+        'This email address failed MX check.' => 'Dit e-mailadres klopt niet.',
+        'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
@@ -1279,7 +1280,7 @@ sub Data {
         'New Loader File' => 'Nieuw bestand voor Loader',
         'NavBarName' => 'Titel navigatiebalk',
         'NavBar' => 'Navigatiebalk',
-        'LinkOption' => '',
+        'LinkOption' => 'Link',
         'Block' => 'Blok',
         'AccessKey' => 'Sneltoetskoppeling',
         'Add NavBar entry' => 'Navigatiebalk item toevoegen',
@@ -1424,9 +1425,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Permissies',
+        'You can select one or more groups to define access for different agents.' => 'U kunt één of meerdere groepen definiëren die deze rapportage kunnen gebruiken.',
         'Some result formats are disabled because at least one needed package is not installed.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
         'Please contact your administrator.' => '',
         'Graph size' => 'Grootte',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
         'Sum rows' => 'Toon totaal per rij',
         'Sum columns' => 'Toon totaal per kolom',
         'Use cache' => 'Gebruik buffer',
@@ -3230,7 +3233,6 @@ sub Data {
         'If you need the sum of every column select yes.' => 'Selecteer \'ja\' als u totalen per kolom wilt.',
         'If you need the sum of every row select yes' => 'Selecteer \'ja\' als u totalen per rij wilt',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Bij gebruik van RegExp kunt u ook de gematchte waarde tussen haken () gebruiken als variabele met naam [***].',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
         'If you want to account time, please provide Subject and Text!' => 'Als u tijd wilt registreren voor dit ticket, vul dan ook de velden Onderwerp en Tekst.',
         'If your account is trusted, the already existing x-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de X-OTRS headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Image' => 'Afbeelding',
@@ -3424,7 +3426,7 @@ sub Data {
         'Source' => 'Bron',
         'Spell Check' => 'Spellingscontrole',
         'Split' => 'Splitsen',
-        'State Type' => 'Status Type',
+        'State Type' => 'Status type',
         'Static-File' => '\'Hardcoded\' bestand',
         'Stats-Area' => 'Statistieken',
         'Step %s of %s' => 'Stap %s van %s',
