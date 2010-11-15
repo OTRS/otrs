@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.109 2010-11-12 14:23:13 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.110 2010-11-15 11:40:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -946,10 +946,10 @@ sub Run {
                     $CounterRow++;
                 }
 
-                # output 'No Result', if no content was given
+                # output 'No ticket data found', if no content was given
                 if ( !$CellData->[0]->[0] ) {
                     $CellData->[0]->[0]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('No ticket data found.');
                 }
 
                 # page params
