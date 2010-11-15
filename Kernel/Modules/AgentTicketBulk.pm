@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.69 2010-11-02 13:42:43 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.70 2010-11-15 09:42:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,7 +90,7 @@ sub Run {
         }
 
         # get time stamp based on user time zone
-        %Time = $Self->{LayoutObject}->TransfromDateSelection(
+        %Time = $Self->{LayoutObject}->TransformDateSelection(
             Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
             Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
             Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),

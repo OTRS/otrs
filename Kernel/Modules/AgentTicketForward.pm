@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.87 2010-11-02 13:42:43 mg Exp $
+# $Id: AgentTicketForward.pm,v 1.88 2010-11-15 09:42:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -360,7 +360,7 @@ sub Form {
 
         if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
             (
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Second' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
@@ -534,7 +534,7 @@ sub SendEmail {
         && defined $GetParam{Minute}
         )
     {
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
             %GetParam,
         );
     }
@@ -547,7 +547,7 @@ sub SendEmail {
         next if !defined $GetParam{ $Prefix . 'Day' };
         next if !defined $GetParam{ $Prefix . 'Hour' };
         next if !defined $GetParam{ $Prefix . 'Minute' };
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
             %GetParam,
             Prefix => $Prefix
         );

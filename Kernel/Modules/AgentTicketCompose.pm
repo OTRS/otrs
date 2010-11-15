@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.112 2010-11-02 13:42:43 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.113 2010-11-15 09:42:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,7 +209,7 @@ sub Run {
         && defined $GetParam{Minute}
         )
     {
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
             %GetParam,
         );
     }
@@ -222,7 +222,7 @@ sub Run {
         next if !defined $GetParam{ $Prefix . 'Day' };
         next if !defined $GetParam{ $Prefix . 'Hour' };
         next if !defined $GetParam{ $Prefix . 'Minute' };
-        %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
             %GetParam,
             Prefix => $Prefix
         );
@@ -1044,7 +1044,7 @@ $QData{"Signature"}
 
             if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
                 (
-                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Second' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
