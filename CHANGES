@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1562 2010-11-12 11:38:14 mg Exp $
+# $Id: CHANGES,v 1.1563 2010-11-15 20:32:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.2 2010-??-??
+  - 2010-11-15 Fixed bug#6290 - Generic Agent Weekdays are not correctly sorted.
 
 3.0.1 2010-11-15
  - 2010-11-12 Fixed bug#6268 - Error in web installer when setting up RPM on CentOS.
