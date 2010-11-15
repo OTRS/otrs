@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.34 2010-11-10 17:19:39 mg Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.35 2010-11-15 12:40:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -130,7 +130,7 @@
                         <div class="Value">
                             $Data{"SelectPermission"}
                             <p class="FieldExplanation">
-                                You can select one or more groups to define access for different agents.
+                                $Text{"You can select one or more groups to define access for different agents."}
                             </p>
                             <div id="ValueError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}.</p>
@@ -169,7 +169,7 @@
                         <div class="Value">
                             $Data{"SelectGraphSize"}
                             <p class="FieldExplanation">
-                                If you use a graph as output format you have to select at least one graph size.
+                                $Text{"If you use a graph as output format you have to select at least one graph size."}
                             </p>
                         </div>
                         <div class="Clear"></div>
