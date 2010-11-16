@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.332 2010-11-15 09:37:32 mb Exp $
+# $Id: Layout.pm,v 1.333 2010-11-16 09:20:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.332 $) [1];
+$VERSION = qw($Revision: 1.333 $) [1];
 
 =head1 NAME
 
@@ -3095,13 +3095,6 @@ sub CustomerLogin {
         );
     }
 
-    # Banner
-    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
-        $Self->Block(
-            Name => 'Banner'
-        );
-    }
-
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
 
@@ -4823,6 +4816,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.332 $ $Date: 2010-11-15 09:37:32 $
+$Revision: 1.333 $ $Date: 2010-11-16 09:20:13 $
 
 =cut
