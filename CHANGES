@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1567 2010-11-16 10:52:50 mb Exp $
+# $Id: CHANGES,v 1.1568 2010-11-16 12:03:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.2 2010-??-??
+3.0.2 2010-11-17
  - 2010-11-15 Fixed bug#6278 - Public and Customer frontends disclose version information.
  - 2010-11-15 Fixed bug#6297 - [IE8] can't open popups.
  - 2010-11-15 Fixed bug#6290 - Generic Agent Weekdays are not correctly sorted.
