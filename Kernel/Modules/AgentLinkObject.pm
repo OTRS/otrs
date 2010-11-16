@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.57 2010-11-16 18:04:58 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.58 2010-11-16 18:13:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +110,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'LinkDelete' ) {
 
-        # output header and navbar
+        # output header
         my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
 
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitDelete' ) ) {
