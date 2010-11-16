@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.333 2010-11-16 09:20:13 mg Exp $
+# $Id: Layout.pm,v 1.334 2010-11-16 11:04:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.333 $) [1];
+$VERSION = qw($Revision: 1.334 $) [1];
 
 =head1 NAME
 
@@ -2701,7 +2701,7 @@ sub NavigationBar {
     return $Output;
 }
 
-sub TransformDateSelection {
+sub TransfromDateSelection {
     my ( $Self, %Param ) = @_;
 
     # get key prefix
@@ -2719,7 +2719,7 @@ sub TransformDateSelection {
         );
         $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 3600 );
         (
-            $Param{ $Prefix . 'Second' },
+            $Param{ $Prefix . 'Secunde' },
             $Param{ $Prefix . 'Minute' },
             $Param{ $Prefix . 'Hour' },
             $Param{ $Prefix . 'Day' },
@@ -2727,9 +2727,6 @@ sub TransformDateSelection {
             $Param{ $Prefix . 'Year' }
         ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
     }
-
-    # backwards compatibility to 2.x.
-    $Param{ $Prefix . 'Secunde' } = $Param{ $Prefix . 'Second' };
 
     # reset prefix
     $Param{Prefix} = '';
@@ -4799,13 +4796,6 @@ sub _RemoveScriptTags {
 
 =back
 
-# COMPAT: to OTRS 1.x and 2.x (can be removed later)
-
-sub TransfromDateSelection {
-    my $Self = shift;
-    return $Self->TransformDateSelection(@_);
-}
-
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTRS project (L<http://otrs.org/>).
@@ -4816,6 +4806,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.333 $ $Date: 2010-11-16 09:20:13 $
+$Revision: 1.334 $ $Date: 2010-11-16 11:04:09 $
 
 =cut
