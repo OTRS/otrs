@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.js,v 1.15 2010-11-11 09:48:55 mg Exp $
+// $Id: Core.UI.js,v 1.16 2010-11-16 09:03:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -138,7 +138,7 @@ Core.UI = (function (TargetNS) {
                 else {
                     $Control.removeClass('Fixed');
                 }
-            }, 500);
+            }, 10); // use a low value to get a responsive UI
         });
     };
 
