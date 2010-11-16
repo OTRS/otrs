@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.64 2010-11-03 12:56:51 mb Exp $
+# $Id: Login.dtl,v 1.65 2010-11-16 13:27:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,7 +142,7 @@ $Include{"HTMLHeadBlockEvents"}
                                     -->
 
                                     <div class="Field SpacingTopSmall">
-                                        <button type="submit" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
+                                        <button type="submit" id="LoginButton" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
                                     </div>
                                     <div class="Clear"></div>
                                 </fieldset>
