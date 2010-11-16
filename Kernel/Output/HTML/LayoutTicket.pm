@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.109 2010-11-12 14:18:16 martin Exp $
+# $Id: LayoutTicket.pm,v 1.110 2010-11-16 23:27:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -409,6 +409,20 @@ sub AgentFreeText {
                 .= '<div id="TicketFreeText'
                 . $_
                 . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
+
+            # for TicketFreeKeyFields
+            $Data{"TicketFreeKeyField$_"} =
+                '<label class="Mandatory"><span class="Marker">*</span> '
+                . $Data{"TicketFreeKeyField$_"}
+                . '</label>';
+        }
+        else {
+
+            # for TicketFreeKeyFields
+            $Data{"TicketFreeKeyField$_"} =
+                '<label>'
+                . $Data{"TicketFreeKeyField$_"}
+                . '</label>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -611,6 +625,20 @@ sub TicketArticleFreeText {
                 .= '<div id="ArticleFreeText'
                 . $_
                 . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
+
+            # for ArticleFreeKeyField
+            $Data{"ArticleFreeKeyField$_"} =
+                '<label class="Mandatory"><span class="Marker">*</span> '
+                . $Data{"ArticleFreeKeyField$_"}
+                . '</label>';
+        }
+        else {
+
+            # for ArticleFreeKeyField
+            $Data{"ArticleFreeKeyField$_"} =
+                '<label>'
+                . $Data{"ArticleFreeKeyField$_"}
+                . '</label>';
         }
 
         if ( $Config{"Error"}->{$_} ) {

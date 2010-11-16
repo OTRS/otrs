@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.36 2010-10-29 11:04:17 mb Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.37 2010-11-16 23:27:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -287,7 +287,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Priority -->
 
 <!-- dtl:block:TicketFreeText -->
-                <label>$Data{"TicketFreeKeyField"} :</label>
+                $Data{"TicketFreeKeyField"}
                 <div class="Field">
                     $Data{"TicketFreeTextField"}
                 </div>
@@ -336,7 +336,7 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:ArticleFreeText -->
-                <label>$Data{"ArticleFreeKeyField"} :</label>
+                $Data{"ArticleFreeKeyField"}
                 <div class="Field">
                     $Data{"ArticleFreeTextField"}
                 </div>

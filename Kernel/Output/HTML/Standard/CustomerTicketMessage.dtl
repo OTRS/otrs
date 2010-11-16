@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.53 2010-10-29 11:04:17 mb Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.54 2010-11-16 23:27:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,7 +150,7 @@ $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:Priority -->
 <!-- dtl:block:FreeText -->
                 <div>
-                    <label>$Data{"TicketFreeKeyField"}</label>
+                    $Data{"TicketFreeKeyField"}
                     $Data{"TicketFreeTextField"}
                     <div id="TicketFreeText$Data{"Count"}UsedError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"ServerError"}"><p>$Text{"This field is required."}</p></div>
                     <div class="Clear"></div>
