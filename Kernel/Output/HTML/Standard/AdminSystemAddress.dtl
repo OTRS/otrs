@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.24 2010-11-03 15:59:28 mb Exp $
+# $Id: AdminSystemAddress.dtl,v 1.25 2010-11-16 23:12:22 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,19 +100,30 @@
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Email address"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Email Validate_Required" maxlength="200"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Email Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required and needs to be a valid email address."}</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required and needs to be a valid email address."}</p>
+<!-- dtl:block:RequiredFieldServerErrorMsg -->
+                                <p>$Text{"This field is required."}</p>
+<!-- dtl:block:RequiredFieldServerErrorMsg -->
+<!-- dtl:block:EmailInvalidConfigServerErrorMsg -->
+                                <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:EmailInvalidConfigServerErrorMsg -->
+<!-- dtl:block:EmailInvalidMXServerErrorMsg -->
+                                <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:EmailInvalidMXServerErrorMsg -->
+<!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
+                                <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
                             </div>
                         </div>
 
@@ -120,7 +131,7 @@
 
                         <label class="Mandatory" for="Realname"><span class="Marker">*</span> $Text{"Display name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc Validate_Required" maxlength="50"/>
+                            <input type="text" name="Realname" id="Realname" value="$QData{"Realname"}" class="W50pc Validate_Required $QData{"RealnameInvalid"}" maxlength="50"/>
                             <div id="RealnameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -133,15 +144,27 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="QueueID">$Text{"Queue"}:</label>
+                        <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
                         <div class="Field">
                             $Data{"QueueOption"}
+                            <div id="QueueIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="QueueIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
