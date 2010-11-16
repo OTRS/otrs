@@ -2,7 +2,7 @@
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.18 2010-11-10 12:35:58 mg Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.19 2010-11-16 16:56:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,7 +148,7 @@
 
                     <label for="InboundPassword">$Text{"Inbound mail password"}:</label>
                     <div class="Field">
-                        <input type="text" id="InboundPassword" name="InboundPassword" value="$QData{"InboundPassword"}" class="W33pc"/>
+                        <input type="password" id="InboundPassword" name="InboundPassword" value="$QData{"InboundPassword"}" class="W33pc"/>
                         <p class="FieldExplanation">
                             $Text{"Password for inbound mail."}
                         </p>
