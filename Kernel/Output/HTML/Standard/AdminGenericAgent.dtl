@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.79 2010-11-10 13:45:33 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.80 2010-11-16 15:31:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -523,6 +523,13 @@
                             <div class="Clear"></div>
 <!-- dtl:block:NewTicketFreeFieldElement -->
 <!-- dtl:block:NewTicketFreeField -->
+<!-- dtl:block:NewArchiveFlag -->
+                            <label for="NewArchiveFlag">$Text{"Archive selected tickets"}:</label>
+                            <div class="Field">
+                                $Data{"NewArchiveFlagStrg"}
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:NewArchiveFlag -->
                         </fieldset>
                     </div>
                 </div>
@@ -558,13 +565,6 @@
                                 <input type="text" name="NewNoteTimeUnits" id="NewNoteTimeUnits" value="$QData{"NewNoteTimeUnits"}" class="W20pc"/>
                             </div>
                             <div class="Clear"></div>
-<!-- dtl:block:NewArchiveFlag -->
-                            <label for="NewArchiveFlag">$Text{"Archive selected tickets"}:</label>
-                            <div class="Field">
-                                $Data{"NewArchiveFlagStrg"}
-                            </div>
-                            <div class="Clear"></div>
-<!-- dtl:block:NewArchiveFlag -->
                         </fieldset>
                     </div>
                 </div>
