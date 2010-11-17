@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.10 2010-11-04 09:03:40 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.11 2010-11-17 17:20:26 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -149,7 +149,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         Data = CKEDITOR.instances[EditorID].getData();
-        StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+\s?\/?>/g, '');
+        StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+
+        console.log('Stripped Content', StrippedContent);
+
         if (StrippedContent.length === 0) {
             $EditorArea.val('');
         }
