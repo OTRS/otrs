@@ -2,7 +2,7 @@
 # 000-login.t - frontend tests for login
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-login.t,v 1.3 2010-11-17 12:28:45 mg Exp $
+# $Id: 000-login.t,v 1.4 2010-11-17 13:09:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,9 @@ my $sel = Kernel::System::UnitTest::Selenium->new(
 my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
 $sel->open_ok("${ScriptAlias}index.pl?Action=Logout");
+
+# prevent version information disclosure
+$Self->False( $sel->is_text_present("Powered"), 'No version information disclosure' );
 
 $sel->is_editable_ok("User");
 $sel->type_ok( "User", "root\@localhost" );
