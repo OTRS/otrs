@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.41 2010-10-11 15:36:31 martin Exp $
+# $Id: SMIME.pm,v 1.42 2010-11-17 07:46:22 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -309,8 +309,16 @@ sub Verify {
         print $FHSig $Param{Sign};
         close $FHSig;
     }
+
+    # Skip new warning which breaks the function about self signed certificates
+    # on openssl 1.0
+    my $VerifyOption = '';
+    if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
+        $VerifyOption = '-noverify';
+    }
+
     my $Options
-        = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+        = "smime -verify $VerifyOption -in $SignedFile -out $VerifiedFile -signer $SignerFile "
         . " -CApath $Self->{CertPath} $SigFile $SignedFile";
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
     for my $LogLine (@LogLines) {
@@ -955,6 +963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-10-11 15:36:31 $
+$Revision: 1.42 $ $Date: 2010-11-17 07:46:22 $
 
 =cut
