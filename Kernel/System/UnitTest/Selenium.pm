@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.2 2010-11-17 11:27:03 mg Exp $
+# $Id: Selenium.pm,v 1.3 2010-11-17 12:28:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,7 +113,6 @@ sub AUTOLOAD {
 
         # make a subroutine for ok() around the selenium command
         $sub = sub {
-            print STDERR "start ok";
             my ( $Self, $arg1, $arg2, $Name ) = @_;
             if ( $Self->{default_names} and !defined $Name ) {
                 $Name = $cmd;
@@ -175,6 +174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2010-11-17 11:27:03 $
+$Revision: 1.3 $ $Date: 2010-11-17 12:28:19 $
 
 =cut
