@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.31 2010-08-20 12:45:54 mg Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.32 2010-11-17 16:33:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
     <div class="ActionRow">
         <ul class="Tabs">
             <li>
-                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LoadProfile;$QData{"Link"}">
+                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LoadProfile;$LQData{"Link"}">
                     &larr; $Text{"Change search options"}
                 </a>
             </li>
@@ -38,12 +38,12 @@
             <thead>
                 <tr>
                     <th class="Status">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
                             $Text{"State"}
                         </a>
                     </th>
                     <th class="Ticket">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
                             $Config{"Ticket::Hook"}
                         </a>
                     </th>
@@ -51,7 +51,7 @@
                         $Text{"Subject"}
                     </th>
                     <th class="Age">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=Age;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=Age;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
                             $Text{"Age"}
                         </a>
                     </th>
@@ -73,7 +73,7 @@
     <div id="BottomActionRow" class="ActionRow BigButtons">
         <ul class="Tabs">
             <li>
-                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LoadProfile;$QData{"Link"}">
+                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=LoadProfile;$LQData{"Link"}">
                     &larr; $Text{"Change search options"}
                 </a>
             </li>
