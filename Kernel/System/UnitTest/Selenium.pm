@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.3 2010-11-17 12:28:19 mg Exp $
+# $Id: Selenium.pm,v 1.4 2010-11-17 13:09:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,11 +63,16 @@ my %no_locator = map { $_ => 1 }
     title body_text all_buttons all_links all_fields);
 
 sub AUTOLOAD {
+    my $Self = $_[0];
+
     my $Name = $AUTOLOAD;
+
+    if ( $Self->{Verbose} ) {
+        print STDERR "Called AUTOLOAD for $AUTOLOAD...\n";
+    }
 
     $Name =~ s/.*:://;
     return if $Name eq 'DESTROY';
-    my $Self = $_[0];
 
     my $sub;
     if ( $Name =~ /(\w+)_(is|isnt|like|unlike)$/i ) {
@@ -83,7 +88,7 @@ sub AUTOLOAD {
                 #
                 # diag
                 #
-                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])"
+                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])\n"
                     if $Self->{Verbose};
                 $Name = "$getter, '$str'"
                     if $Self->{default_names} and !defined $Name;
@@ -98,7 +103,7 @@ sub AUTOLOAD {
                 #
                 # diag
                 #
-                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])"
+                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])\n"
                     if $Self->{Verbose};
                 $Name = "$getter, $locator, '$str'"
                     if $Self->{default_names} and !defined $Name;
@@ -123,7 +128,7 @@ sub AUTOLOAD {
             #
             # diag
             #
-            print STDERR "Test::WWW::Selenium running $cmd (@_[1..$#_])"
+            print STDERR "Test::WWW::Selenium running $cmd (@_[1..$#_])\n"
                 if $Self->{Verbose};
 
             my $rc = '';
@@ -174,6 +179,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-11-17 12:28:19 $
+$Revision: 1.4 $ $Date: 2010-11-17 13:09:25 $
 
 =cut
