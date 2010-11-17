@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.1 2010-11-16 13:32:29 mg Exp $
+# $Id: Selenium.pm,v 1.2 2010-11-17 11:27:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,19 +24,24 @@ Kernel::System::UnitTest::Selenium - run frontend tests
 =cut
 
 sub new {
-    my ( $Class, %Params ) = @_;
+    my ( $Class, %Param ) = @_;
 
-    $Params{host}        ||= 'localhost';
-    $Params{port}        ||= '4444';
-    $Params{browser}     ||= '*chrome';
-    $Params{browser_url} ||= 'http://127.0.0.1/';
+    # check needed objects
+    if ( !$Param{UnitTestObject} ) {
+        die "Got no UnitTestObject!";
+    }
 
-    my $default_names = defined $Params{default_names}
+    $Param{host}        ||= 'localhost';
+    $Param{port}        ||= '4444';
+    $Param{browser}     ||= '*chrome';
+    $Param{browser_url} ||= 'http://127.0.0.1/';
+
+    my $default_names = defined $Param{default_names}
         ?
-        delete $Params{default_names}
+        delete $Param{default_names}
         : 1;
 
-    my $Self = $Class->SUPER::new(%Params);
+    my $Self = $Class->SUPER::new(%Param);
     $Self->{default_names} = $default_names;
     $Self->start;
     return $Self;
@@ -59,6 +64,7 @@ my %no_locator = map { $_ => 1 }
 
 sub AUTOLOAD {
     my $Name = $AUTOLOAD;
+
     $Name =~ s/.*:://;
     return if $Name eq 'DESTROY';
     my $Self = $_[0];
@@ -78,11 +84,11 @@ sub AUTOLOAD {
                 # diag
                 #
                 print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])"
-                    if $Self->{verbose};
+                    if $Self->{Verbose};
                 $Name = "$getter, '$str'"
                     if $Self->{default_names} and !defined $Name;
                 no strict 'refs';
-                return $Self->{UnitTest}->$comparator( $Self->$getter, $str, $Name );
+                return $Self->{UnitTestObject}->$comparator( $Self->$getter, $str, $Name );
             };
         }
         else {
@@ -93,11 +99,12 @@ sub AUTOLOAD {
                 # diag
                 #
                 print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])"
-                    if $Self->{verbose};
+                    if $Self->{Verbose};
                 $Name = "$getter, $locator, '$str'"
                     if $Self->{default_names} and !defined $Name;
                 no strict 'refs';
-                return $Self->{UnitTest}->$comparator( $Self->$getter($locator), $str, $Name );
+                return $Self->{UnitTestObject}
+                    ->$comparator( $Self->$getter($locator), $str, $Name );
             };
         }
     }
@@ -118,7 +125,7 @@ sub AUTOLOAD {
             # diag
             #
             print STDERR "Test::WWW::Selenium running $cmd (@_[1..$#_])"
-                if $Self->{verbose};
+                if $Self->{Verbose};
 
             my $rc = '';
             eval { $rc = $Self->$cmd( $arg1, $arg2 ) };
@@ -129,7 +136,7 @@ sub AUTOLOAD {
             #
             print STDERR ($@) if $@;
 
-            return $Self->{UnitTest}->True( $rc, $Name );
+            return $Self->{UnitTestObject}->True( $rc, $Name );
         };
     }
 
@@ -168,6 +175,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-11-16 13:32:29 $
+$Revision: 1.2 $ $Date: 2010-11-17 11:27:03 $
 
 =cut
