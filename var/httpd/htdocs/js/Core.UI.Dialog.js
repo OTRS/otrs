@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.23 2010-11-12 15:11:29 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.24 2010-11-17 11:53:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,9 +46,10 @@ Core.UI.Dialog = (function (TargetNS) {
         // - some static pixels for Header and Footer of dialog
         var ContentScrollHeight = 0,
             WindowHeight = $(window).height(),
+            WindowScrollTop = $(window).scrollTop(),
             DialogTopMargin = $('.Dialog:visible').offset().top;
 
-        ContentScrollHeight = WindowHeight - (DialogTopMargin * 2) - 100;
+        ContentScrollHeight = WindowHeight - ((DialogTopMargin - WindowScrollTop) * 2) - 100;
         $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
     }
 
