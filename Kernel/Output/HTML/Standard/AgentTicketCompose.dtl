@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.78 2010-11-17 17:48:15 mg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.79 2010-11-17 21:32:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@ $Include{"RichTextEditor"}
 #                   <div class="Clear"></div>
 #<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
-                    <label for="TicketFreeTime$Data{"Count"}Used">$Data{"TicketFreeTimeKey"}:</label>
+                    $Data{"TicketFreeTimeKey"}
                     <div class="Field">
                         $Data{"TicketFreeTime"}
                         <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>

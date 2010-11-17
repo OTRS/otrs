@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.66 2010-11-16 11:04:09 mb Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.67 2010-11-17 21:32:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -292,7 +292,7 @@ sub Run {
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
             }
             if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
-                $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
             }
         }
         my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime );
@@ -983,7 +983,7 @@ sub _MaskPhone {
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime',
             Data => {
-                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTimeKey => $Param{ 'TicketFreeTimeKey' . $Count },
                 TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
                 Count             => $Count,
             },

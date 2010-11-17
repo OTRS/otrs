@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.76 2010-11-17 17:48:15 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.77 2010-11-17 21:32:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -669,7 +669,7 @@ sub _MaskNew {
         $Self->{LayoutObject}->Block(
             Name => 'FreeTime',
             Data => {
-                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                TicketFreeTimeKey => $Param{ 'TicketFreeTimeKey' . $Count },
                 TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
                 Count             => $Count,
             },
@@ -701,18 +701,18 @@ sub _MaskNew {
         );
     }
 
-    # java script check for required free time fields by form submit
-    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTimeCheckJs',
-            Data => {
-                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-            },
-        );
-    }
+   #    # java script check for required free time fields by form submit
+   #    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+   #        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
+   #        $Self->{LayoutObject}->Block(
+   #            Name => 'TicketFreeTimeCheckJs',
+   #            Data => {
+   #                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+   #                TicketFreeTimeField => 'TicketFreeTime' . $Key,
+   #                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
+   #            },
+   #        );
+   #    }
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
