@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.73 2010-11-17 10:05:43 ub Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.74 2010-11-17 10:09:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,6 @@
 <!-- dtl:block:DocumentActionRowItem -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
-
-<!-- dtl:block:DocumentSortOrderBar -->
-# do nothing
-<!-- dtl:block:DocumentSortOrderBar -->
 
 <!-- dtl:block:DocumentContent -->
 <!-- dtl:js_on_document_complete -->
