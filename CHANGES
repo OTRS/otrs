@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1574 2010-11-17 16:33:18 en Exp $
+# $Id: CHANGES,v 1.1575 2010-11-17 16:58:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-17 Fixed bug#6317 - No Pagination String in Customer Search Results.
  - 2010-11-17 Fixed bug#6309 - Sortby columns performs a full ticket search on customer ticket search results.
  - 2010-11-16 Fixed bug#6316 - CustomerLogo not working.
  - 2010-11-16 Fixed bug#5797 - SMIME functionality does not work with OpenSSL 1.0.0.
