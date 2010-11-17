@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.57 2010-11-17 16:58:00 en Exp $
+# $Id: CustomerTicketSearch.pm,v 1.58 2010-11-17 17:03:40 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -725,7 +725,7 @@ sub Run {
         );
 
         # show footer filter - show only if more the one page is available
-        if ( $PageNav{TotalHits} > $Self->{SearchPageShown} ) {
+        if ( $PageNav{TotalHits} && ( $PageNav{TotalHits} > $Self->{SearchPageShown} ) ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Pagination',
                 Data => {

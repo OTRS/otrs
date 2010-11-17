@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1575 2010-11-17 16:58:00 en Exp $
+# $Id: CHANGES,v 1.1576 2010-11-17 17:03:40 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-17 Fixed bug#6318 - Error in error log due to comparison with a value that sometimes does not exist on Customer Search.
  - 2010-11-17 Fixed bug#6317 - No Pagination String in Customer Search Results.
  - 2010-11-17 Fixed bug#6309 - Sortby columns performs a full ticket search on customer ticket search results.
  - 2010-11-16 Fixed bug#6316 - CustomerLogo not working.
