@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.69 2010-11-04 23:28:09 en Exp $
+# $Id: AdminQueue.pm,v 1.70 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -399,7 +399,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_RequiredDropdown ' . $Param{Errors}->{'ValidIDInvalid'} || '',
+        Class      => 'Validate_Required ' . $Param{Errors}->{'ValidIDInvalid'} || '',
     );
 
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
@@ -413,7 +413,7 @@ sub _Edit {
         LanguageTranslation => 0,
         Name                => 'GroupID',
         SelectedID          => $Param{GroupID},
-        Class => 'Validate_RequiredDropdown ' . $Param{Errors}->{'GroupIDInvalid'} || '',
+        Class               => 'Validate_Required ' . $Param{Errors}->{'GroupIDInvalid'} || '',
     );
 
     my $ParentQueue = '';
@@ -489,7 +489,7 @@ sub _Edit {
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
-        Class => 'Validate_RequiredDropdown ' . $Param{Errors}->{'SignatureIDInvalid'} || '',
+        Class => 'Validate_Required ' . $Param{Errors}->{'SignatureIDInvalid'} || '',
     );
     $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -502,7 +502,7 @@ sub _Edit {
         Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
         Max        => 200,
-        Class => 'Validate_RequiredDropdown ' . $Param{Errors}->{'SystemAddressIDInvalid'} || '',
+        Class      => 'Validate_Required ' . $Param{Errors}->{'SystemAddressIDInvalid'} || '',
     );
 
     my %DefaultSignKeyList = ();
@@ -522,7 +522,7 @@ sub _Edit {
         Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
-        Class => 'Validate_RequiredDropdown ' . $Param{Errors}->{'SalutationIDInvalid'} || '',
+        Class => 'Validate_Required ' . $Param{Errors}->{'SalutationIDInvalid'} || '',
     );
     $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -536,7 +536,7 @@ sub _Edit {
         SelectedID => $Param{FollowUpID}
             || $Self->{ConfigObject}->Get('AdminDefaultFollowUpID')
             || 1,
-        Class => 'Validate_RequiredDropdown ' . $Param{Errors}->{'FollowUpIDInvalid'} || '',
+        Class => 'Validate_Required ' . $Param{Errors}->{'FollowUpIDInvalid'} || '',
     );
     my %Calendar = ( '' => '-' );
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.84 2010-11-08 21:35:24 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.85 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -665,7 +665,7 @@ sub _Edit {
 
             # Change the validation class
             if ( $Param{RequiredClass} ) {
-                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+                $Param{RequiredClass} = 'Validate_Required';
             }
 
             # get the data of the current selection
@@ -691,7 +691,7 @@ sub _Edit {
 
             # Change the validation class
             if ( $Param{RequiredClass} ) {
-                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+                $Param{RequiredClass} = 'Validate_Required';
             }
 
             # build ValidID string
@@ -726,7 +726,7 @@ sub _Edit {
 
             # Change the validation class
             if ( $Param{RequiredClass} ) {
-                $Param{RequiredClass} = 'Validate_RequiredDropdown';
+                $Param{RequiredClass} = 'Validate_Required';
             }
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%CompanyList,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.38 2010-11-13 00:51:39 en Exp $
+# $Id: AdminState.pm,v 1.39 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -264,13 +264,13 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
         Name => 'TypeID',
         SelectedID => $Param{TypeID},
-        Class => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.152 2010-11-16 11:04:09 mb Exp $
+# $Id: AgentTicketEmail.pm,v 1.153 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1540,11 +1540,11 @@ sub _MaskEmailNew {
 
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{FromStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data     => \%NewTo,
-            Multiple => 0,
-            Size     => 0,
-            Class => 'Validate_RequiredDropdown' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
-            Name  => 'Dest',
+            Data           => \%NewTo,
+            Multiple       => 0,
+            Size           => 0,
+            Class          => 'Validate_Required' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
+            Name           => 'Dest',
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
         );
@@ -1552,7 +1552,7 @@ sub _MaskEmailNew {
     else {
         $Param{FromStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => \%NewTo,
-            Class      => 'Validate_RequiredDropdown' . $Param{Errors}->{DestinationInvalid} || ' ',
+            Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid} || ' ',
             Name       => 'Dest',
             SelectedID => $Param{FromSelected},
         );
@@ -1582,7 +1582,7 @@ sub _MaskEmailNew {
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => $Param{Types},
             Name         => 'TypeID',
-            Class        => 'Validate_RequiredDropdown' . ( $Param{Errors}->{TypeInvalid} || ' ' ),
+            Class        => 'Validate_Required' . ( $Param{Errors}->{TypeInvalid} || ' ' ),
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',

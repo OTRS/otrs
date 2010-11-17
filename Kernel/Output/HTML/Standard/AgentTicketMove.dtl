@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.68 2010-11-16 23:27:25 cg Exp $
+# $Id: AgentTicketMove.dtl,v 1.69 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,7 +98,7 @@
 
                     <label for="Subject">$Text{"Subject"}:</label>
                     <div class="Field">
-                        <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
+                        <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_DependingRequiredAND Validate_Depending_Body $Data{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
@@ -119,7 +119,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
                     <div class="RichTextField">
-                        <textarea id="Body" class="RichText Validate_RequiredRichText $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                        <textarea id="Body" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                         <div id="BodyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         <div id="BodyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>

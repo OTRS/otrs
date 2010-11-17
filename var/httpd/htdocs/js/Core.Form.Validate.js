@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.21 2010-11-12 09:37:49 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.22 2010-11-17 17:48:15 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,10 @@ Core.Form.Validate = (function (TargetNS) {
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.Form', 'Core.Form')) {
+        return;
+    }
+
+    if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.UI.RichTextEditor', 'Core.UI.RichTextEditor')) {
         return;
     }
 
@@ -159,24 +163,44 @@ Core.Form.Validate = (function (TargetNS) {
         }
     }
 
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description
+     *      Validator method for checking if a value is present for
+     *      different types of elements.
+     */
+    function ValiatorMethodRequired(Value, Element) {
+        var Text,
+            $Element = $(Element);
+
+        // special treatment of <select> elements in OTRS
+        if (Element.nodeName.toLowerCase() === 'select') {
+            Text = $(Element).find('option:selected').text();
+            return (Text.length && Text !== '-');
+        }
+
+        // for rich text areas, update the linked field for the validation first
+        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+            Core.UI.RichTextEditor.UpdateLinkedField($Element);
+            Value = $Element.val();
+        }
+
+        // checkable inputs
+        if ($Element.filter('input:checkbox, input:radio').length) {
+            return $Element.filter(':checked').length > 0;
+        }
+
+        return $.trim(Value).length > 0;
+    }
+
     /*
      * Definitions of all OTRS specific rules and rule methods
      */
-    $.validator.addMethod("Validate_Required", $.validator.methods.required, "");
+    $.validator.addMethod("Validate_Required", ValiatorMethodRequired, "");
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
     $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
-    $.validator.addMethod("Validate_RequiredDropdown", function (Value, Element) {
-        var Text = $(Element).find('option:selected').text();
-        return (Text.length && Text !== '-');
-    }, "");
-
-    $.validator.addMethod("Validate_RequiredRichText", function (Value, Element) {
-        var $Element = $(Element);
-        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            Core.UI.RichTextEditor.UpdateLinkedField($Element);
-        }
-        return ($Element.val().length > 0);
-    }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
@@ -286,12 +310,13 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_Email: true
     });
 
+    // Backwards compatibility: these methods are deprecated, do not use them!
+    // They will be removed in OTRS 3.1.
     $.validator.addClassRules("Validate_RequiredDropdown", {
-        Validate_RequiredDropdown: true
+        Validate_Required: true
     });
-
     $.validator.addClassRules("Validate_RequiredRichText", {
-        Validate_RequiredRichText: true
+        Validate_Required: true
     });
 
     $.validator.addClassRules("Validate_DateYear", {
@@ -322,81 +347,69 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_Equal: true
     });
 
+    function GetDependentElements(Element) {
+        var Classes = $(Element).attr('class'),
+        DependentElementIDs = [],
+        RegEx,
+        DependingClassPrefix = 'Validate_Depending_';
+
+        RegEx = new RegExp(DependingClassPrefix);
+        $.each(Classes.split(' '), function (Index, Value) {
+            if (RegEx.test(Value)) {
+                DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
+            }
+        });
+        return DependentElementIDs;
+    }
+
     /*
      * Adds a generic "depending required" rule:
      * The element needs a list of IDs in the class attribute. This element is required, if one of the given IDs is a element, which contains content itself (logical AND).
      */
-    $.validator.addClassRules("Validate_DependingRequiredAND", {
-        Validate_Required: {
-            depends: function (Element) {
-                function GetDependentElements(Element) {
-                    var Classes = $(Element).attr('class'),
-                        DependentElementIDs = [],
-                        RegEx,
-                        DependingClassPrefix = 'Validate_Depending_';
-                    RegEx = new RegExp(DependingClassPrefix);
-                    $.each(Classes.split(' '), function (Index, Value) {
-                        if (RegEx.test(Value)) {
-                            DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
-                        }
-                    });
-                    return DependentElementIDs;
-                }
+    $.validator.addMethod("Validate_DependingRequiredAND", function (Value, Element) {
+        var I,
+            DependentElementIDs = [],
+            $DependentElement;
 
-                var I,
-                    ApplyRule = 0,
-                    DependentElementIDs = [];
+        DependentElementIDs = GetDependentElements(Element);
 
-                DependentElementIDs = GetDependentElements(Element);
-                if (DependentElementIDs.length) {
-                    for (I = 0; I < DependentElementIDs.length; I++) {
-                        if ($('#' + $.trim(DependentElementIDs[I])).val().length) {
-                            ApplyRule++;
-                            break;
-                        }
-                    }
-                    return ApplyRule;
-                }
+        for (I = 0; I < DependentElementIDs.length; I++) {
+            $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
+            if (ValiatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+                return ValiatorMethodRequired(Value, Element);
             }
         }
+        return true;
+    }, "");
+
+
+    $.validator.addClassRules("Validate_DependingRequiredAND", {
+        Validate_DependingRequiredAND: true
     });
 
     /*
      * Adds another generic "depending required" rule:
      * The element needs a list of IDs in the class attribute. One of the elements (this one or the ones given by ID) is required (logical OR).
      */
-    $.validator.addClassRules("Validate_DependingRequiredOR", {
-        Validate_Required: {
-            depends: function (Element) {
-                function GetDependentElements(Element) {
-                    var Classes = $(Element).attr('class'),
-                        DependentElementIDs = [],
-                        RegEx,
-                        DependingClassPrefix = 'Validate_Depending_';
-                    RegEx = new RegExp(DependingClassPrefix);
-                    $.each(Classes.split(' '), function (Index, Value) {
-                        if (RegEx.test(Value)) {
-                            DependentElementIDs.push(Value.replace(DependingClassPrefix, ''));
-                        }
-                    });
-                    return DependentElementIDs;
-                }
+    $.validator.addMethod("Validate_DependingRequiredOR", function (Value, Element) {
+        var I,
+        DependentElementIDs = [],
+        $DependentElement;
 
-                var I,
-                    ApplyRule = 1,
-                    DependentElementIDs = [];
+        DependentElementIDs = GetDependentElements(Element);
 
-                DependentElementIDs = GetDependentElements(Element);
-                if (DependentElementIDs.length) {
-                    for (I = 0; I < DependentElementIDs.length; I++) {
-                        if ($('#' + $.trim(DependentElementIDs[I])).val().length) {
-                            ApplyRule = 0;
-                        }
-                    }
-                    return ApplyRule;
-                }
+        for (I = 0; I < DependentElementIDs.length; I++) {
+            $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
+            if (ValiatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+                return true;
             }
         }
+        return ValiatorMethodRequired(Value, Element);
+    }, "");
+
+
+    $.validator.addClassRules("Validate_DependingRequiredOR", {
+        Validate_DependingRequiredAND: true
     });
 
     /**

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.19 2010-11-16 23:08:52 en Exp $
+# $Id: AdminMailAccount.pm,v 1.20 2010-11-17 17:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -364,14 +364,14 @@ sub _MaskUpdateMailAccount {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{TypeOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'Type',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
-        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
@@ -388,7 +388,7 @@ sub _MaskUpdateMailAccount {
         },
         Name       => 'DispatchingBy',
         SelectedID => $Param{DispatchingBy},
-        Class => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
     );
 
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
@@ -396,7 +396,7 @@ sub _MaskUpdateMailAccount {
         Name => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -432,14 +432,14 @@ sub _MaskAddMailAccount {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'TypeAdd',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
-        Class      => 'Validate_RequiredDropdown ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
