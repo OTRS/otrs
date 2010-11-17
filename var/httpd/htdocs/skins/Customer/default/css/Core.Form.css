@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -140,8 +140,7 @@ textarea:focus {
 
 input[type=text].TicketFreeKey,
 input[type=text].ArticleFreeKey {
-    margin: -5px 5px 0 5px;
-    width: 90%;
+    width: 80%;
 }
 
 input.DateSelection {
