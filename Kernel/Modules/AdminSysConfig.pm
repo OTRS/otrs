@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.110 2010-11-16 16:49:47 en Exp $
+# $Id: AdminSysConfig.pm,v 1.111 2010-11-17 13:40:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -818,7 +818,12 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Search' ) {
 
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchBox',
+            Data => {
+                ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
+                }
+        );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();
@@ -886,7 +891,12 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'SelectGroup' ) {
 
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchBox',
+            Data => {
+                ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
+                }
+        );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();
@@ -949,7 +959,13 @@ sub Run {
         }
 
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'SearchBox' );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchBox',
+            Data => {
+                ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
+                }
+
+        );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();

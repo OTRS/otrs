@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.40 2010-11-16 16:49:47 en Exp $
+# $Id: AdminSysConfig.dtl,v 1.41 2010-11-17 13:40:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,8 +43,8 @@
 
 <!-- dtl:block:ConfigGroups -->
                     <li>
-                        <a title="$Text{"$Data{"SysConfigGroup"}"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SelectGroup;DontWriteDefault=1;SysConfigGroup=$Data{"SysConfigGroup"}" class="CallForAction">
-                            <span>$Text{"$Data{"SysConfigGroupData"}"}</span>
+                        <a title="$Text{"Go to group %s", "$Data{"SysConfigGroupData"}"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SelectGroup;DontWriteDefault=1;SysConfigGroup=$Data{"SysConfigGroup"}" class="CallForAction">
+                            <span>$Text{"Group %s", "$Data{"SysConfigGroup"}"}</span>
                         </a>
                     </li>
 <!-- dtl:block:ConfigGroups -->
