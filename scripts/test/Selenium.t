@@ -2,7 +2,7 @@
 # Selenium.t - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.t,v 1.1 2010-11-16 13:32:55 mg Exp $
+# $Id: Selenium.t,v 1.2 2010-11-17 11:27:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,10 +31,9 @@ if ( $Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
         if ( !$ConfigFile ) {
             die "$! ($File)";
         }
-        else {
-            if ( !eval ${$ConfigFile} ) {
-                die "$@ ($File)";
-            }
+
+        if ( !eval ${$ConfigFile} ) {
+            warn "$@ ($File)";
         }
     }
 }
