@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.72 2010-11-09 10:33:37 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.73 2010-11-17 10:05:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,6 @@
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
                     </th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
-#                        <th class="UnreadArticles Fixed"><a class="UnreadArticles" href="#"><span class="UnreadArticles"></span></a></th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                     <th class="TicketNumber $QData{"CSS"}">
                         <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
