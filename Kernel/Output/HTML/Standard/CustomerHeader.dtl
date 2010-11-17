@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.51 2010-11-02 16:22:43 mb Exp $
+# $Id: CustomerHeader.dtl,v 1.52 2010-11-17 13:26:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ $Include{"Copyright"}
 <!-- dtl:block:HeaderLogoCSS -->
     <style type="text/css">
         #Header #Logo {
-            background-image: $LQData{"URL"};
+            background-image: $QData{"URL"};
             top: $QData{"StyleTop"};
             right: $QData{"StyleRight"};
             width: $QData{"StyleWidth"};
