@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.100 2010-11-12 14:53:09 mb Exp $
+# $Id: pl.pm,v 1.101 2010-11-18 15:20:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1789,7 +1789,7 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'You are logged in as' => 'Jesteœ¶ zalogowany jako',
+        'You are logged in as' => 'Jeste¶ zalogowany jako',
 
         # Template: HeaderSmall
 
