@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1578 2010-11-18 11:14:05 mg Exp $
+# $Id: CHANGES,v 1.1579 2010-11-18 12:54:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-18 Fixed bug#6324 - If you use Sessions in URLs and not in cookies,
+    responding to tickets logs you out.
  - 2010-11-17 Upgraded jQuery to 1.4.4 because of a number of regressions in 1.4.3.
  - 2010-11-17 Fixed bug#6232 - FreeText fields requiredness is not indicated.
  - 2010-11-17 Fixed bug#6318 - Error in error log due to comparison with a value that sometimes does not exist on Customer Search.
