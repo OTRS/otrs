@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.8 2010-11-16 08:40:31 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.9 2010-11-18 11:02:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -221,7 +221,7 @@ Core.UI.Popup = (function (TargetNS) {
                  *  by including the current time in the name string. This name is not needed
                  *  for anything as we keep track of the popup windows on our own.
                  */
-                WindowName = 'OTRSPopup' + Date.parse(new Date);
+                WindowName = 'OTRSPopup' + Date.parse(new Date());
                 NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile]);
 
                 // check for popup blockers.
