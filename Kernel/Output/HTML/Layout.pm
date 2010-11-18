@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.335 2010-11-16 15:49:26 mg Exp $
+# $Id: Layout.pm,v 1.336 2010-11-18 13:47:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.335 $) [1];
+$VERSION = qw($Revision: 1.336 $) [1];
 
 =head1 NAME
 
@@ -670,7 +670,7 @@ sub Output {
                 $AHref.$Target.$End.$RealEnd;
             }
             else {
-                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
+                $AHref.$Target.';'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
             }
         }iegxs;
 
@@ -3791,7 +3791,7 @@ sub RichTextDocumentServe {
     # build base url for inline images
     my $SessionID = '';
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
 
     # replace inline images in content with runtime url to images
@@ -4806,6 +4806,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.335 $ $Date: 2010-11-16 15:49:26 $
+$Revision: 1.336 $ $Date: 2010-11-18 13:47:39 $
 
 =cut

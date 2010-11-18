@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutPopup.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutPopup.pm,v 1.3 2010-11-18 12:54:50 martin Exp $
+# $Id: LayoutPopup.pm,v 1.4 2010-11-18 13:47:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -60,7 +60,7 @@ sub PopupClose {
 
     # add session if if no cookies enabled
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $Param{URL} .= '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        $Param{URL} .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
 
     # Generate the call Header() and Footer(
@@ -100,6 +100,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-11-18 12:54:50 $
+$Revision: 1.4 $ $Date: 2010-11-18 13:47:39 $
 
 =cut
