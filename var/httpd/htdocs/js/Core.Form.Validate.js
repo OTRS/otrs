@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.22 2010-11-17 17:48:15 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.23 2010-11-18 11:05:19 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -171,7 +171,7 @@ Core.Form.Validate = (function (TargetNS) {
      *      Validator method for checking if a value is present for
      *      different types of elements.
      */
-    function ValiatorMethodRequired(Value, Element) {
+    function ValidatorMethodRequired(Value, Element) {
         var Text,
             $Element = $(Element);
 
@@ -198,7 +198,7 @@ Core.Form.Validate = (function (TargetNS) {
     /*
      * Definitions of all OTRS specific rules and rule methods
      */
-    $.validator.addMethod("Validate_Required", ValiatorMethodRequired, "");
+    $.validator.addMethod("Validate_Required", ValidatorMethodRequired, "");
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
     $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
 
@@ -375,8 +375,8 @@ Core.Form.Validate = (function (TargetNS) {
 
         for (I = 0; I < DependentElementIDs.length; I++) {
             $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
-            if (ValiatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
-                return ValiatorMethodRequired(Value, Element);
+            if (ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+                return ValidatorMethodRequired(Value, Element);
             }
         }
         return true;
@@ -400,11 +400,11 @@ Core.Form.Validate = (function (TargetNS) {
 
         for (I = 0; I < DependentElementIDs.length; I++) {
             $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
-            if (ValiatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+            if (ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
                 return true;
             }
         }
-        return ValiatorMethodRequired(Value, Element);
+        return ValidatorMethodRequired(Value, Element);
     }, "");
 
 
