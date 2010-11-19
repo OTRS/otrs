@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.21 2010-11-19 08:09:45 mg Exp $
+# $Id: AdminMailAccount.pm,v 1.22 2010-11-19 11:08:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -444,8 +444,8 @@ sub _MaskAddMailAccount {
 
     $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name       => 'Trusted' || 0,
-        SelectedID => $Param{Trusted},
+        Name       => 'Trusted',
+        SelectedID => $Param{Trusted} || 0,
     );
 
     $Param{DispatchingOption} = $Self->{LayoutObject}->BuildSelection(
