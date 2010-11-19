@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.54 2010-11-19 23:21:54 cg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.55 2010-11-19 23:25:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
     </form>
 
 
-    <fieldset class="TableLike " id="SearchAttributesHidden">
+    <fieldset class="TableLike Hidden" id="SearchAttributesHidden">
         <div class="Clear"></div>
         <label for="Fulltext">$Text{"Fulltext"}:</label>
         <div class="Field">
