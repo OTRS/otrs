@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.20 2010-11-12 09:01:27 mg Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.21 2010-11-19 22:08:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
                             &nbsp;-&nbsp; $QData{"Body","200"}
                         </div>
                     </td>
-                    <td class="Status" title="$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</td>
+                    <td class="Status" title="$Text{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</td>
                     <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"Age","20"}</td>
                 </tr>
 <!-- dtl:block:Record -->
