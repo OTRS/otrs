@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.33 2010-05-21 21:44:35 dz Exp $
+# $Id: AdminSMIME.pm,v 1.34 2010-11-19 21:58:06 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +27,12 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -86,11 +89,7 @@ sub Run {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
+                    Data => { %{$Key} },
                 );
             }
         }
@@ -117,29 +116,14 @@ sub Run {
     # show add certificate form
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ShowAddCertificate' ) {
-
-        my ( $Self, %Param ) = @_;
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionList',
+        $Self->_MaskAdd(
+            Type => 'Certificate',
+            %Param,
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionOverview',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewAddCertificate',
-        );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIME',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # add certivicate
+    # add certificate
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddCertificate' ) {
 
@@ -151,82 +135,86 @@ sub Run {
             Key       => 'SMIMESearch',
             Value     => '',
         );
+
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
-            Source => 'String',
+            Param  => 'FileUpload',
+            Source => 'string',
         );
+
+        my %Errors;
+
+        # check needed data
         if ( !%UploadStuff ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need Certificate!', );
+            $Errors{FileUploadInvalid} = 'ServerError';
         }
-        my $Message = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
-        if ( !$Message ) {
-            $Message = $Self->{LogObject}->GetLogEntry(
-                Type => 'Error',
-                What => 'Message',
-            );
-        }
-        my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        if (@List) {
-            for my $Key (@List) {
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add certificate
+            my $NewCertificate
+                = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
+
+            if ($NewCertificate) {
+                my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
+                if (@List) {
+                    for my $Key (@List) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Row',
+                            Data => { %{$Key} },
+                        );
+                    }
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'NoDataFoundMsg',
+                        Data => {},
+                    );
+                }
                 $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
+                    Name => 'ActionList',
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ActionAdd',
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ActionSearch',
+                );
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => $NewCertificate );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminSMIME',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Errors{Message} = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
                 );
             }
         }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {},
-            );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionList',
+
+        # someting has gone wrong
+        return $Self->_MaskAdd(
+            Type => 'Certificate',
+            %Param,
+            %Errors,
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionAdd',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionSearch',
-        );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIME',
-            Data         => \%Param,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
     # show add private form
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ShowAddPrivate' ) {
-
-        my ( $Self, %Param ) = @_;
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionList',
+        return $Self->_MaskAdd(
+            Type => 'Private',
+            %Param,
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionOverview',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewAddPrivate',
-        );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIME',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -237,57 +225,75 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $Secret = $Self->{ParamObject}->GetParam( Param => 'Secret' ) || '';
+        my ( %GetParam, %Errors );
+
+        $GetParam{Secret} = $Self->{ParamObject}->GetParam( Param => 'Secret' ) || '';
+
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'SMIMESearch',
             Value     => '',
         );
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
-            Source => 'String',
+            Param  => 'FileUpload',
+            Source => 'string',
         );
+
+        # check needed data
         if ( !%UploadStuff ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need Private Key!', );
+            $Errors{FileUploadInvalid} = 'ServerError';
         }
-        my $Message = $Self->{CryptObject}->PrivateAdd(
-            Private => $UploadStuff{Content},
-            Secret  => $Secret,
-        );
-        if ( !$Message ) {
-            $Message = $Self->{LogObject}->GetLogEntry(
-                Type => 'Error',
-                What => 'Message',
+
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add private key
+            my $NewPrivate = $Self->{CryptObject}->PrivateAdd(
+                Private => $UploadStuff{Content},
+                Secret  => $GetParam{Secret},
             );
-        }
-        my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        if (@List) {
-            for my $Key (@List) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
+
+            if ($NewPrivate) {
+                my @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
+                if (@List) {
+                    for my $Key (@List) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Row',
+                            Data => { %{$Key} },
+                        );
+                    }
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'NoDataFoundMsg',
+                        Data => {},
+                    );
+                }
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => $NewPrivate );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminSMIME',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Errors{Message} = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
                 );
             }
         }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {},
-            );
-        }
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSMIME',
-            Data         => \%Param,
+
+        # someting has gone wrong
+        return $Self->_MaskAdd(
+            Type => 'Private',
+            %Param,
+            %Errors,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -338,43 +344,10 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # search key
+    # overview
     # ------------------------------------------------------------ #
     else {
-        my @List = ();
-        if ( $Self->{CryptObject} ) {
-            @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewResult',
-        );
-        if (@List) {
-            for my $Key (@List) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
-                );
-            }
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {},
-            );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionList',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionAdd',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionSearch',
-        );
+        $Self->_Overview();
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
@@ -422,6 +395,73 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+}
+
+sub _MaskAdd {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+
+    # show the right dtl block
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewAdd' . $Param{Type},
+        Data => \%Param,
+    );
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Param{Message}
+        ? $Self->{LayoutObject}->Notify(
+        Priority => 'Error',
+        Info     => $Param{Message},
+        )
+        : '';
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSMIME',
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
+}
+
+sub _Overview {
+    my ( $Self, %Param ) = @_;
+
+    my @List = ();
+    if ( $Self->{CryptObject} ) {
+        @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewResult',
+    );
+    if (@List) {
+        for my $Key (@List) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => { %{$Key} },
+            );
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoDataFoundMsg',
+            Data => {},
+        );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionSearch',
+    );
+    return 1;
 }
 
 1;
