@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.35 2010-11-04 11:24:26 mg Exp $
+# $Id: LayoutLoader.pm,v 1.36 2010-11-19 18:23:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 use Kernel::System::Loader;
 
@@ -54,12 +54,12 @@ sub LoaderCreateAgentCSSCalls {
     my $DefaultSkinHostBased
         = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
             # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
+            next REGEXP if !$RegExp;
+            next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
             if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
@@ -330,12 +330,12 @@ sub LoaderCreateCustomerCSSCalls {
     my $DefaultSkinHostBased
         = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
             # do not use empty regexp or skin directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultSkinHostBased->{$RegExp};
+            next REGEXP if !$RegExp;
+            next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
             if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
@@ -717,6 +717,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2010-11-04 11:24:26 $
+$Revision: 1.36 $ $Date: 2010-11-19 18:23:46 $
 
 =cut
