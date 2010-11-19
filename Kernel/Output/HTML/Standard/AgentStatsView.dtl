@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view stat screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.27 2010-10-21 08:14:35 en Exp $
+# $Id: AgentStatsView.dtl,v 1.28 2010-11-19 21:52:10 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,8 +247,9 @@
         var Format = $('#Format').val(),
             PDFUsable = $('#PDFUsable').val() === 1;
         if (Format === 'Print' && !PDFUsable) {
-            Core.UI.Popup.OpenPopup('about:blank', 'Statistic', 'Default');
-            $('#StartStatistic').closest('form').attr('target', 'Statistic');
+            var URL = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;StatID=$QData{"StatID"};Format=' + $('#Format').val();
+            Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
+            return false;
         }
     });
 //]]></script>
