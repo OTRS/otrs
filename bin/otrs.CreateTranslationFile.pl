@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.15 2010-11-19 08:51:26 mn Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.16 2010-11-19 10:54:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -42,14 +42,33 @@ use Kernel::System::DB;
 use Kernel::Language;
 use Kernel::System::SysConfig;
 
-# print head
-print <<"EOF";
-otrs.CreateTranslationFile <Revision $VERSION> - update translation files
+sub PrintUsage {
+    print <<"EOF";
+
+otrs.CreateTranslationFile.pl <Revision $VERSION> - update translation files
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
-Usage: otrs.CreateTranslationFile -l <Language> -m <module_directory>
+Translating OTRS
+================
+
+  Make sure that you have a clean system with a current configuration. No modules
+  may be installed or linked into the system!
+
+    otrs.CreateTranslationFile -l <Language>
+    otrs.CreateTranslationFile -l all
+
+Translating Extension Modules
+=============================
+
+  Make sure that you have a clean system with a current configuration. The module
+  that needs to be translated has to be installed or linked into the system, but
+  only this one!
+
+    otrs.CreateTranslationFile -l <Language> -m <module_directory>
+    otrs.CreateTranslationFile -l all -m <module_directory>
 
 EOF
+}
 
 # common objects
 my %CommonObject = ();
@@ -74,19 +93,23 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
     Getopt::Std::getopt( 'lm', \%Opts );
 
     # check params
-    if ( !$Opts{l} ) {
+    if ( $Opts{l} && $Opts{l} eq 'all' ) {
         my %DefaultUsedLanguages = %{ $CommonObject{ConfigObject}->Get('DefaultUsedLanguages') };
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files
         @Languages = grep { $_ !~ / \A en.* /smx } @Languages;
     }
-    else {
+    elsif ( $Opts{l} ) {
         push @Languages, $Opts{l};
         if ( !-f "$Home/Kernel/Language/$Languages[0].pm" ) {
             print "ERROR: No core translation file: $Languages[0]!\n";
             exit 1;
         }
+    }
+    else {
+        PrintUsage();
+        exit 0;
     }
 
     print "Starting...\n\n";
@@ -224,7 +247,7 @@ sub HandleLanguage {
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        $Data .= "        '$Key' => '$Translation',\n";
+                        $Data .= "    \$Self->{Translation}->{'$Key'} => '$Translation';\n";
                     }
                 }
             }
@@ -318,22 +341,18 @@ sub HandleLanguage {
 
     # translating a module
     if ($IsSubTranslation) {
-        $NewOut = '';
-        $NewOut .= "\n";
-        $NewOut .= "package Kernel::Language::${Language}_$Module;\n";
-        $NewOut .= "\n";
-        $NewOut .= "use strict;\n";
-        $NewOut .= "\n";
-        $NewOut .= "\n";
-        $NewOut .= "sub Data {\n";
-        $NewOut .= "    my \$Self = shift;\n";
-        $NewOut .= "\n";
-        $NewOut .= "    \$Self->{Translation} = { %{\$Self->{Translation}},\n";
-        $NewOut .= $Data;
-        $NewOut .= "\n";
-        $NewOut .= "    };\n";
-        $NewOut .= "}\n";
-        $NewOut .= "1;\n";
+        $NewOut = <<"EOF";
+package Kernel::Language::${Language}_$Module;
+
+use strict;
+
+sub Data {
+    my \$Self = shift;
+
+$Data;
+
+1;
+EOF
     }
 
     # translating the core
@@ -351,34 +370,44 @@ sub HandleLanguage {
                     SystemTime => $CommonObject{TimeObject}->SystemTime(),
                     );
 
-                $NewOut
-                    .= "    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec\n\n";
-                $NewOut .= "    # possible charsets\n" . "    \$Self->{Charset} = [";
+                $NewOut .= <<"EOF";
+    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec
+
+    # possible charsets
+EOF
+                $NewOut .= "    \$Self->{Charset} = [";
                 for ( $LanguageCoreObject->GetPossibleCharsets() ) {
                     $NewOut .= "'$_', ";
                 }
-                $NewOut
-                    .= "];\n"
-                    . "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Year;)\n"
-                    . "    \$Self->{DateFormat}          = '$LanguageCoreObject->{DateFormat}';\n"
-                    . "    \$Self->{DateFormatLong}      = '$LanguageCoreObject->{DateFormatLong}';\n"
-                    . "    \$Self->{DateFormatShort}     = '$LanguageCoreObject->{DateFormatShort}';\n"
-                    . "    \$Self->{DateInputFormat}     = '$LanguageCoreObject->{DateInputFormat}';\n"
-                    . "    \$Self->{DateInputFormatLong} = '$LanguageCoreObject->{DateInputFormatLong}';\n\n"
-                    . "    # csv separator\n"
-                    . "    \$Self->{Separator} = '$LanguageCoreObject->{Separator}';\n\n";
+                $NewOut .= "];\n";
+                $NewOut .= <<"EOF";
+    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Year;)
+    \$Self->{DateFormat}          = '$LanguageCoreObject->{DateFormat}';
+    \$Self->{DateFormatLong}      = '$LanguageCoreObject->{DateFormatLong}';
+    \$Self->{DateFormatShort}     = '$LanguageCoreObject->{DateFormatShort}';
+    \$Self->{DateInputFormat}     = '$LanguageCoreObject->{DateInputFormat}';
+    \$Self->{DateInputFormatLong} = '$LanguageCoreObject->{DateInputFormatLong}';
+
+    # csv separator
+    \$Self->{Separator} = '$LanguageCoreObject->{Separator}';
+
+EOF
 
                 if ( $LanguageCoreObject->{TextDirection} ) {
-                    $NewOut .= "    # TextDirection rtl or ltr\n";
-                    $NewOut
-                        .= "    \$Self->{TextDirection} = '$LanguageCoreObject->{TextDirection}';\n\n";
+                    $NewOut .= <<"EOF";
+    # TextDirection rtl or ltr\n";
+    \$Self->{TextDirection} = '$LanguageCoreObject->{TextDirection}';
 
+EOF
                 }
-                $NewOut .= "    \$Self->{Translation} = {";
-                $NewOut .= $Data;
+                $NewOut .= <<"EOF";
+    \$Self->{Translation} = {
+$Data
+EOF
             }
             if ( $_ =~ /\$\$STOP\$\$/ ) {
-                $NewOut .= "    };\n" . $_;
+                $NewOut .= "    };\n";
+                $NewOut .= "$_";
                 $MetaData{DataPrinted} = 0;
             }
         }
