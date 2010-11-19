@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.22 2010-11-19 11:08:41 mb Exp $
+# $Id: AdminMailAccount.pm,v 1.23 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,14 +131,11 @@ sub Run {
                 Type   => $GetParam{'TypeAdd'},
                 UserID => $Self->{UserID},
             );
-            if ( !$ID ) {
+            if ($ID) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_MaskAddMailAccount(
-                    Action => 'AddNew',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
@@ -146,21 +143,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminMailAccount',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_MaskAddMailAccount(
             Action => 'AddNew',
             Errors => \%Errors,
@@ -226,14 +214,11 @@ sub Run {
                 %GetParam,
                 UserID => $Self->{UserID},
             );
-            if ( !$Update ) {
+            if ($Update) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_MaskUpdateMailAccount(
-                    Action => 'Update',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
@@ -241,22 +226,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminMailAccount',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_MaskUpdateMailAccount(
             Action => 'Update',
             Errors => \%Errors,

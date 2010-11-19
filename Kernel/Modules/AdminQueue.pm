@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.71 2010-11-19 08:09:45 mg Exp $
+# $Id: AdminQueue.pm,v 1.72 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,57 +155,64 @@ sub Run {
 
         # if no errors occurred
         if ( !%Errors ) {
-            if ( !$Self->{QueueObject}->QueueUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
 
-            # update preferences
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
-            my %Preferences = ();
-            if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
-                %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
-            }
-
-            for my $Item ( sort keys %Preferences ) {
-                my $Module = $Preferences{$Item}->{Module}
-                    || 'Kernel::Output::HTML::QueuePreferencesGeneric';
-
-                # load module
-                if ( !$Self->{MainObject}->Require($Module) ) {
-                    return $Self->{LayoutObject}->FatalError();
-                }
-                my $Object = $Module->new(
-                    %{$Self},
-                    ConfigItem => $Preferences{$Item},
-                    Debug      => $Self->{Debug},
-                );
-                my @Params = $Object->Param( QueueData => \%QueueData );
-                if (@Params) {
-                    my %GetParam = ();
-                    for my $ParamItem (@Params) {
-                        my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                        $GetParam{ $ParamItem->{Name} } = \@Array;
-                    }
-                    if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
-                        $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                    }
-                }
-            }
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminQueue',
-                Data         => \%Param,
+            # update queue
+            my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
+                %GetParam,
+                UserID => $Self->{UserID}
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            if ($QueueUpdate) {
+
+                # update preferences
+                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
+                my %Preferences = ();
+                if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
+                    %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
+                }
+
+                for my $Item ( sort keys %Preferences ) {
+                    my $Module = $Preferences{$Item}->{Module}
+                        || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+
+                    # load module
+                    if ( !$Self->{MainObject}->Require($Module) ) {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
+                    my $Object = $Module->new(
+                        %{$Self},
+                        ConfigItem => $Preferences{$Item},
+                        Debug      => $Self->{Debug},
+                    );
+                    my @Params = $Object->Param( QueueData => \%QueueData );
+                    if (@Params) {
+                        my %GetParam = ();
+                        for my $ParamItem (@Params) {
+                            my @Array
+                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            $GetParam{ $ParamItem->{Name} } = \@Array;
+                        }
+                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                        }
+                    }
+                }
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue updated!' );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminQueue',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
         }
 
         # something has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -289,14 +296,44 @@ sub Run {
 
             # create new queue
             my $Id = $Self->{QueueObject}->QueueAdd( %GetParam, UserID => $Self->{UserID} );
-            if ( !$Id ) {
+            if ($Id) {
+
+                # update preferences
+                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
+                my %Preferences = ();
+                if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
+                    %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
+                }
+                for my $Item ( keys %Preferences ) {
+                    my $Module = $Preferences{$Item}->{Module}
+                        || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+
+                    # load module
+                    if ( !$Self->{MainObject}->Require($Module) ) {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
+                    my $Object = $Module->new(
+                        %{$Self},
+                        ConfigItem => $Preferences{$Item},
+                        Debug      => $Self->{Debug},
+                    );
+                    my @Params = $Object->Param( QueueData => \%QueueData );
+                    if (@Params) {
+                        my %GetParam = ();
+                        for my $ParamItem (@Params) {
+                            my @Array
+                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            $GetParam{ $ParamItem->{Name} } = \@Array;
+                        }
+                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                        }
+                    }
+                }
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Add',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminQueue',
                     Data         => \%Param,
@@ -304,53 +341,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            # update preferences
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
-            my %Preferences = ();
-            if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
-                %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
-            }
-            for my $Item ( keys %Preferences ) {
-                my $Module = $Preferences{$Item}->{Module}
-                    || 'Kernel::Output::HTML::QueuePreferencesGeneric';
-
-                # load module
-                if ( !$Self->{MainObject}->Require($Module) ) {
-                    return $Self->{LayoutObject}->FatalError();
-                }
-                my $Object = $Module->new(
-                    %{$Self},
-                    ConfigItem => $Preferences{$Item},
-                    Debug      => $Self->{Debug},
-                );
-                my @Params = $Object->Param( QueueData => \%QueueData );
-                if (@Params) {
-                    my %GetParam = ();
-                    for my $ParamItem (@Params) {
-                        my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                        $GetParam{ $ParamItem->{Name} } = \@Array;
-                    }
-                    if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
-                        $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                    }
-                }
-            }
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminQueue',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # something has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
@@ -399,7 +395,7 @@ sub _Edit {
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
-        Class      => 'Validate_Required ' . $Param{Errors}->{'ValidIDInvalid'} || '',
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
@@ -413,7 +409,7 @@ sub _Edit {
         LanguageTranslation => 0,
         Name                => 'GroupID',
         SelectedID          => $Param{GroupID},
-        Class               => 'Validate_Required ' . $Param{Errors}->{'GroupIDInvalid'} || '',
+        Class               => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
     );
 
     my $ParentQueue = '';
@@ -489,7 +485,7 @@ sub _Edit {
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
-        Class => 'Validate_Required ' . $Param{Errors}->{'SignatureIDInvalid'} || '',
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
     $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -502,7 +498,7 @@ sub _Edit {
         Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
         Max        => 200,
-        Class      => 'Validate_Required ' . $Param{Errors}->{'SystemAddressIDInvalid'} || '',
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
@@ -522,7 +518,7 @@ sub _Edit {
         Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
-        Class => 'Validate_Required ' . $Param{Errors}->{'SalutationIDInvalid'} || '',
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
     $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -536,7 +532,7 @@ sub _Edit {
         SelectedID => $Param{FollowUpID}
             || $Self->{ConfigObject}->Get('AdminDefaultFollowUpID')
             || 1,
-        Class => 'Validate_Required ' . $Param{Errors}->{'FollowUpIDInvalid'} || '',
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'FollowUpIDInvalid'} || '' ),
     );
     my %Calendar = ( '' => '-' );
 

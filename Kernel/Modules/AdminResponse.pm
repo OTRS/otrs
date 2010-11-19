@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.51 2010-11-17 17:48:15 mg Exp $
+# $Id: AdminResponse.pm,v 1.52 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,18 +108,22 @@ sub Run {
 
             # update group
             if (
-                !$Self->{StandardResponseObject}
+                $Self->{StandardResponseObject}
                 ->StandardResponseUpdate( %GetParam, UserID => $Self->{UserID} )
                 )
             {
+
+                # update attachments to response
+                $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
+                    AttachmentIDsRef => \@NewIDs,
+                    ID               => $GetParam{ID},
+                    UserID           => $Self->{UserID},
+                );
+
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Change',
-                    %GetParam,
-                    SelectedAttachments => \@NewIDs,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminResponse',
                     Data         => \%Param,
@@ -127,32 +131,16 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            # update attachments to response
-            $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
-                AttachmentIDsRef => \@NewIDs,
-                ID               => $GetParam{ID},
-                UserID           => $Self->{UserID},
-            );
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminResponse',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
-            Action => 'Change',
-            Errors => \%Errors,
+            Action              => 'Change',
+            Errors              => \%Errors,
+            SelectedAttachments => \@NewIDs,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -213,19 +201,15 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            # add state
+            # add response
             my $StandardResponseID
                 = $Self->{StandardResponseObject}
                 ->StandardResponseAdd( %GetParam, UserID => $Self->{UserID} );
-            if ( !$StandardResponseID ) {
+            if ($StandardResponseID) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Add',
-                    %GetParam,
-                    SelectedAttachments => \@NewIDs,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminResponse',
                     Data         => \%Param,
@@ -233,24 +217,16 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminResponse',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
-            Action => 'Add',
-            Errors => \%Errors,
+            Action              => 'Add',
+            Errors              => \%Errors,
+            SelectedAttachments => \@NewIDs,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(

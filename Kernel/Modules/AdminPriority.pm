@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.13 2010-11-17 17:48:15 mg Exp $
+# $Id: AdminPriority.pm,v 1.14 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,14 +98,11 @@ sub Run {
                 UserID => $Self->{UserID}
             );
 
-            if ( !$Update ) {
+            if ($Update) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Edit',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminPriority',
                     Data         => \%Param,
@@ -113,22 +110,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPriority',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -192,14 +179,11 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            if ( !$NewPriority ) {
+            if ($NewPriority) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Add',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminPriority',
                     Data         => \%Param,
@@ -207,22 +191,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Priority added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPriority',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

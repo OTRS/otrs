@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.85 2010-11-17 17:48:15 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.86 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,7 +163,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
-            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
         }
 
         # if no errors occurred
@@ -230,6 +230,9 @@ sub Run {
                     }
                     return $Output;
                 }
+            }
+            else {
+                $Note .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             }
         }
 
@@ -301,7 +304,7 @@ sub Run {
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
-            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
+            $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
         }
 
         # if no errors occurred
@@ -428,6 +431,9 @@ sub Run {
                     }
                     return $Output;
                 }
+            }
+            else {
+                $Note .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             }
         }
 
@@ -733,8 +739,8 @@ sub _Edit {
                 Name       => $Entry->[0],
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] },
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
-                    || '',
+                Class      => $Param{RequiredClass} . ' '
+                    . ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
             );
         }
         else {
@@ -779,7 +785,7 @@ sub _Edit {
 
                 # display server error msg according with the occurred email error type
                 $Self->{LayoutObject}->Block(
-                    Name => 'PreferencesUserEmail' . $Param{Errors}->{ErrorType} . 'ServerErrorMsg',
+                    Name => 'PreferencesUserEmail' . ( $Param{Errors}->{ErrorType} || '' ),
                     Data => { Name => $Entry->[0] },
                 );
             }

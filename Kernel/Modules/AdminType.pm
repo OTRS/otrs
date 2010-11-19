@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminType.pm - to add/update/delete ticket types
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminType.pm,v 1.19 2010-11-17 17:48:15 mg Exp $
+# $Id: AdminType.pm,v 1.20 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,14 +91,11 @@ sub Run {
                 %GetParam,
                 UserID => $Self->{UserID}
             );
-            if ( !$Update ) {
+            if ($Update) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Edit',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Type updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminType',
                     Data         => \%Param,
@@ -106,22 +103,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Type updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminType',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -184,14 +171,11 @@ sub Run {
                 %GetParam,
                 UserID => $Self->{UserID}
             );
-            if ( !$NewType ) {
+            if ($NewType) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Add',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Type added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminType',
                     Data         => \%Param,
@@ -199,22 +183,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Type added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminType',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,

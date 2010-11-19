@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.30 2010-11-03 22:48:00 en Exp $
+# $Id: AdminRole.pm,v 1.31 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,38 +82,55 @@ sub Run {
             $Errors{NameInvalid} = 'ServerError';
         }
 
-        # update group
-        if (
-            !%Errors
-            && $Self->{GroupObject}->RoleUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Role updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRole',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Self->_Edit(
-                Action => 'Change',
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update group
+            my $RoleUpdate = $Self->{GroupObject}->RoleUpdate(
                 %GetParam,
-                %Errors,
+                UserID => $Self->{UserID}
             );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRole',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+
+            if ($RoleUpdate) {
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Role updated!' );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminRole',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Note = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
+                );
+            }
         }
+
+        # something went wrong
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Note
+            ? $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => $Note,
+            )
+            : '';
+        $Self->_Edit(
+            Action => 'Change',
+            %GetParam,
+            %Errors,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminRole',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -155,42 +172,53 @@ sub Run {
             $Errors{NameInvalid} = 'ServerError';
         }
 
-        # add role
-        if (
-            !%Errors
-            && (
-                my $RoleID
-                = $Self->{GroupObject}->RoleAdd( %GetParam, UserID => $Self->{UserID} )
-            )
-            )
-        {
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Role added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRole',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-            $Self->_Edit(
-                Action => 'Add',
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # add role
+            my $RoleID = $Self->{GroupObject}->RoleAdd(
                 %GetParam,
-                %Errors,
+                UserID => $Self->{UserID}
             );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminRole',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+
+            if ($RoleID) {
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Role added!' );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminRole',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Note = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
+                );
+            }
         }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Note
+            ? $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => $Note,
+            )
+            : '';
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->_Edit(
+            Action => 'Add',
+            %GetParam,
+            %Errors,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminRole',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.34 2010-08-19 16:12:23 en Exp $
+# $Id: AdminSLA.pm,v 1.35 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,91 +87,107 @@ sub Run {
             $Error{'NameInvalid'} = 'ServerError';
         }
 
-        # if there were any errors, it shows a server error
-        if (%Error) {
+        # if no errors occurred
+        if ( !%Error ) {
 
-            # header
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+            # get service ids
+            my @ServiceIDs = $Self->{ParamObject}->GetArray( Param => 'ServiceIDs' );
+            $GetParam{ServiceIDs} = \@ServiceIDs;
 
-            # html output
-            $Output .= $Self->_MaskNew(
-                %Param,
-                %GetParam,
-                %Error,
-            );
-
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-
-        }
-
-        # get service ids
-        my @ServiceIDs = $Self->{ParamObject}->GetArray( Param => 'ServiceIDs' );
-        $GetParam{ServiceIDs} = \@ServiceIDs;
-
-        # save to database
-        if ( !$GetParam{SLAID} ) {
-
-            # add a new sla
-            $GetParam{SLAID} = $Self->{SLAObject}->SLAAdd(
-                %GetParam,
-                UserID => $Self->{UserID},
-            );
+            # save to database
             if ( !$GetParam{SLAID} ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
-        }
-        else {
 
-            # update the sla
-            my $Success = $Self->{SLAObject}->SLAUpdate(
-                %GetParam,
-                UserID => $Self->{UserID},
-            );
-            if ( !$Success ) {
-                return $Self->{LayoutObject}->ErrorScreen();
+                # add a new sla
+                $GetParam{SLAID} = $Self->{SLAObject}->SLAAdd(
+                    %GetParam,
+                    UserID => $Self->{UserID},
+                );
+                if ( !$GetParam{SLAID} ) {
+                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                        Type => 'Error',
+                        What => 'Message',
+                    );
+                }
             }
+            else {
+
+                # update the sla
+                my $Success = $Self->{SLAObject}->SLAUpdate(
+                    %GetParam,
+                    UserID => $Self->{UserID},
+                );
+                if ( !$Success ) {
+                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                        Type => 'Error',
+                        What => 'Message',
+                    );
+                }
+            }
+
+            if ( !%Error ) {
+
+                # update preferences
+                my %SLAData = $Self->{SLAObject}->SLAGet(
+                    SLAID  => $GetParam{SLAID},
+                    UserID => $Self->{UserID},
+                );
+                my %Preferences = ();
+                if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
+                    %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
+                }
+                for my $Item ( sort keys %Preferences ) {
+                    my $Module = $Preferences{$Item}->{Module}
+                        || 'Kernel::Output::HTML::SLAPreferencesGeneric';
+
+                    # load module
+                    if ( !$Self->{MainObject}->Require($Module) ) {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
+
+                    my $Object = $Module->new(
+                        %{$Self},
+                        ConfigItem => $Preferences{$Item},
+                        Debug      => $Self->{Debug},
+                    );
+                    my $Note;
+                    my @Params = $Object->Param( SLAData => \%SLAData );
+                    if (@Params) {
+                        my %GetParam = ();
+                        for my $ParamItem (@Params) {
+                            my @Array
+                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            $GetParam{ $ParamItem->{Name} } = \@Array;
+                        }
+                        if ( !$Object->Run( GetParam => \%GetParam, SLAData => \%SLAData ) ) {
+                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                        }
+                    }
+                }
+
+                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+            }
+
         }
 
-        # update preferences
-        my %SLAData = $Self->{SLAObject}->SLAGet(
-            SLAID  => $GetParam{SLAID},
-            UserID => $Self->{UserID},
+        # header
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Error{Message}
+            ? $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => $Error{Message},
+            )
+            : '';
+
+        # html output
+        $Output .= $Self->_MaskNew(
+            %Param,
+            %GetParam,
+            %Error,
         );
-        my %Preferences = ();
-        if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
-            %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
-        }
-        for my $Item ( sort keys %Preferences ) {
-            my $Module = $Preferences{$Item}->{Module}
-                || 'Kernel::Output::HTML::SLAPreferencesGeneric';
 
-            # load module
-            if ( !$Self->{MainObject}->Require($Module) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-
-            my $Object = $Module->new(
-                %{$Self},
-                ConfigItem => $Preferences{$Item},
-                Debug      => $Self->{Debug},
-            );
-            my $Note;
-            my @Params = $Object->Param( SLAData => \%SLAData );
-            if (@Params) {
-                my %GetParam = ();
-                for my $ParamItem (@Params) {
-                    my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                    $GetParam{ $ParamItem->{Name} } = \@Array;
-                }
-                if ( !$Object->Run( GetParam => \%GetParam, SLAData => \%SLAData ) ) {
-                    $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                }
-            }
-        }
-
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #

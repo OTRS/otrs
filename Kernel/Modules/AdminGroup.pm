@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.46 2010-11-09 18:55:02 en Exp $
+# $Id: AdminGroup.pm,v 1.47 2010-11-19 22:28:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,37 +82,56 @@ sub Run {
             $Errors{GroupNameInvalid} = 'ServerError';
         }
 
-        # update group
-        if (
-            %Errors
-            || !$Self->{GroupObject}->GroupUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Self->_Edit(
-                Action => 'Change',
+        # if no errors occurred
+        if ( !%Errors ) {
+
+            # update group
+            my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
                 %GetParam,
-                %Errors,
+                UserID => $Self->{UserID}
             );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGroup',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+
+            if ($GroupUpdate) {
+                $Self->_Overview();
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AdminGroup',
+                    Data         => \%Param,
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Note = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
+                );
+            }
         }
 
-        $Self->_Overview();
+        # something went wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
+        $Output .= $Note
+            ? $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => $Note,
+            )
+            : '';
+        $Self->_Edit(
+            Action => 'Change',
+            %GetParam,
+            %Errors,
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
+
     }
 
     # ------------------------------------------------------------ #
@@ -157,47 +176,63 @@ sub Run {
             $Errors{GroupNameInvalid} = 'ServerError';
         }
 
-        # add user if no errors occurred
+        # if no errors occurred
         if ( !%Errors ) {
+
+            # add group
             $GroupID = $Self->{GroupObject}->GroupAdd(
                 %GetParam,
                 UserID => $Self->{UserID}
             );
+
+            if ($GroupID) {
+
+                # redirect
+                if (
+                    !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
+                    && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
+                    )
+                {
+                    return $Self->{LayoutObject}->Redirect(
+                        OP => "Action=AdminRoleGroup;Subaction=Group;ID=$GroupID",
+                    );
+                }
+                if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
+                    return $Self->{LayoutObject}->Redirect(
+                        OP => "Action=AdminUserGroup;Subaction=Group;ID=$GroupID",
+                    );
+                }
+                return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
+            }
+            else {
+                $Note = $Self->{LogObject}->GetLogEntry(
+                    Type => 'Error',
+                    What => 'Message',
+                );
+            }
         }
 
-        # check if there were any errors
-        if ( %Errors || !$GroupID ) {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Self->_Edit(
-                Action => 'Add',
-                %GetParam,
-                %Errors,
-            );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGroup',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # redirect
-        if (
-            !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
-            && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
+        # something went wrong
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Note
+            ? $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => $Note,
             )
-        {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminRoleGroup;Subaction=Group;ID=$GroupID",
-            );
-        }
-        if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminUserGroup;Subaction=Group;ID=$GroupID",
-            );
-        }
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
+            : '';
+        $Self->_Edit(
+            Action => 'Add',
+            %GetParam,
+            %Errors,
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGroup',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+
     }
 
     # ------------------------------------------------------------
