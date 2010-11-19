@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1580 2010-11-18 15:20:47 mg Exp $
+# $Id: CHANGES,v 1.1581 2010-11-19 08:09:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-19 Fixed bug#6337 - Generic Agent has "Delete Ticket" as Default set -> risk of ticket loss!
  - 2010-11-18 Fixed bug#6330 - Bad character in Poslish translation.
  - 2010-11-18 Fixed bug#6324 - If you use Sessions in URLs and not in cookies,
     responding to tickets logs you out.
