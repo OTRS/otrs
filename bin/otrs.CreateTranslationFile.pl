@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.14 2010-11-10 12:44:22 mg Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.15 2010-11-19 08:51:26 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -47,7 +47,7 @@ print <<"EOF";
 otrs.CreateTranslationFile <Revision $VERSION> - update translation files
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
-Usage: otrs.CreateTranslationFile -l <Language> -t <dtl_files_or_directory>
+Usage: otrs.CreateTranslationFile -l <Language> -m <module_directory>
 
 EOF
 
@@ -71,7 +71,7 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
     my %Opts;
 
     # get opts
-    Getopt::Std::getopt( 'olst', \%Opts );
+    Getopt::Std::getopt( 'lm', \%Opts );
 
     # check params
     if ( !$Opts{l} ) {
@@ -84,7 +84,7 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
     else {
         push @Languages, $Opts{l};
         if ( !-f "$Home/Kernel/Language/$Languages[0].pm" ) {
-            print "ERROR: Not translation file: $Languages[0]!\n";
+            print "ERROR: No core translation file: $Languages[0]!\n";
             exit 1;
         }
     }
@@ -94,7 +94,7 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
     for my $Language (@Languages) {
         HandleLanguage(
             Language => $Language,
-            Template => $Opts{t},
+            Module   => $Opts{m},
         );
     }
 
@@ -104,41 +104,58 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
 sub HandleLanguage {
     my %Params = @_;
 
-    my $Language     = $Params{Language};
-    my $TemplateName = $Params{Template};
+    my $Language = $Params{Language};
+    my $Module   = $Params{Module};
 
-    my $LanguageFile = "$Home/Kernel/Language/$Language.pm";
+    my $ModuleDirectory = $Module;
+    my $LanguageFile;
     my $TargetFile;
     my $IsSubTranslation;
+    my $DefaultTheme = $CommonObject{ConfigObject}->Get('DefaultTheme');
 
-    if ( !$TemplateName ) {
-        $TemplateName = $CommonObject{ConfigObject}->Get('DefaultTheme');
+    if ( !$Module ) {
+        $LanguageFile = "$Home/Kernel/Language/$Language.pm";
         $TargetFile   = "$Home/Kernel/Language/$Language.pm";
     }
     else {
         $IsSubTranslation = 1;
 
-        $TemplateName =~ s/^.*\/(.+?)(\.dtl|)$/$1/;
-        $TemplateName =~ s/\*//g;
-        $TargetFile = "$Home/Kernel/Language/${Language}_$TemplateName.pm";
+        # extract module name from module path
+        $Module =~ s/^.*\/(.+)\/?$/$1/;
+
+        # save module directory in target file
+        $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
     }
 
-    print
-        "Processing language $Language template files from $TemplateName, writing output to $TargetFile\n";
+    if ($IsSubTranslation) {
+        print
+            "Processing language $Language template files from $Module, writing output to $TargetFile\n";
+    }
+    else {
+        print "Processing language $Language template files, writing output to $TargetFile\n";
+    }
 
-    # common objects
-    $CommonObject{LanguageObject} = Kernel::Language->new(
+    # Language file, which only contains the OTRS core translations
+    my $LanguageCoreObject = Kernel::Language->new(
         %CommonObject,
         UserLanguage    => $Language,
         TranslationFile => 1,
+    );
+
+    # Language file, which contains all translations
+    my $LanguageObject = Kernel::Language->new(
+        %CommonObject,
+        UserLanguage => $Language,
     );
 
     # open .dtl files and write new translation file
     my $Data = '';
     my %UsedWords;
     my %UsedWordsMisc;
-
-    my $Directory = "$Home/Kernel/Output/HTML/$TemplateName";
+    my $Directory
+        = $IsSubTranslation
+        ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
+        : "$Home/Kernel/Output/HTML/$DefaultTheme";
 
     my @List = $CommonObject{MainObject}->DirectoryRead(
         Directory => $Directory,
@@ -191,20 +208,42 @@ sub HandleLanguage {
                 $Word = $1;
             }
 
-            # ignore word if already used
-            if ( $Word && !exists $UsedWords{$Word} ) {
+            # if we translate a module, we must handle also that possibly
+            # there is already a translation in the core files
+            if ($IsSubTranslation) {
+                # ignore word if already used
+                if ( $Word && !exists $UsedWords{$Word} && !exists $LanguageCoreObject->{Translation}->{$Word} ) {
 
-                # remove it from misc list
-                $UsedWordsMisc{$Word} = 1;
+                    # remove it from misc list
+                    $UsedWordsMisc{$Word} = 1;
 
-                # lookup for existing translation
-                $UsedWords{$Word} = $CommonObject{LanguageObject}->{Translation}->{$Word};
-                my $Translation = $UsedWords{$Word} || '';
-                $Translation =~ s/'/\\'/g;
-                my $Key = $Word;
-                $Key =~ s/'/\\'/g;
-                if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                    $Data .= "        '$Key' => '$Translation',\n";
+                    # lookup for existing translation
+                    $UsedWords{$Word} = $LanguageObject->{Translation}->{$Word};
+                    my $Translation = $UsedWords{$Word} || '';
+                    $Translation =~ s/'/\\'/g;
+                    my $Key = $Word;
+                    $Key =~ s/'/\\'/g;
+                    if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+                        $Data .= "        '$Key' => '$Translation',\n";
+                    }
+                }
+            }
+            else {
+                # ignore word if already used
+                if ( $Word && !exists $UsedWords{$Word} ) {
+
+                    # remove it from misc list
+                    $UsedWordsMisc{$Word} = 1;
+
+                    # lookup for existing translation
+                    $UsedWords{$Word} = $LanguageCoreObject->{Translation}->{$Word};
+                    my $Translation = $UsedWords{$Word} || '';
+                    $Translation =~ s/'/\\'/g;
+                    my $Key = $Word;
+                    $Key =~ s/'/\\'/g;
+                    if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+                        $Data .= "        '$Key' => '$Translation',\n";
+                    }
                 }
             }
             '';
@@ -219,17 +258,23 @@ sub HandleLanguage {
     print "SysConfig ";
     $Data .= "\n        # SysConfig\n";
     my @Strings = $CommonObject{SysConfigObject}->ConfigItemTranslatableStrings();
+
     for my $String ( sort @Strings ) {
         next if !$String;
 
+        # skip if we translate a module and the word already exists in the core translation
+        next if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
+
         # ignore word if already used
-        next if defined $UsedWords{$String};
+        next if exists $UsedWords{$String};
 
         # remove it from misc list
         $UsedWordsMisc{$String} = 1;
 
         # lookup for existing translation
-        $UsedWords{$String} = $CommonObject{LanguageObject}->{Translation}->{$String};
+        $UsedWords{$String}
+            = ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
+            ->{$String};
 
         my $Translation = $UsedWords{$String} || '';
         $Translation =~ s/'/\\'/g;
@@ -244,12 +289,15 @@ sub HandleLanguage {
     $Data .= "        #\n";
     $Data .= "        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!\n";
     $Data .= "        #\n";
-    for my $Key ( sort keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
+    for my $Key ( sort keys %{ $LanguageObject->{Translation} } ) {
+
+        # ignore words from the core if we are translating a module
+        next if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$Key};
 
         # ignore word if already used
         next if $UsedWordsMisc{$Key};
 
-        my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
+        my $Translation = $LanguageObject->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
         $Key         =~ s/'/\\'/g;
 
@@ -267,55 +315,12 @@ sub HandleLanguage {
     # open old translation file
     my %MetaData;
     my $NewOut = '';
-    open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n";
-    while (<$In>) {
-        if ( !$MetaData{DataPrinted} ) {
-            $NewOut .= $_;
-        }
-        if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
-            $MetaData{DataPrinted} = 1;
 
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $CommonObject{TimeObject}->SystemTime2Date(
-                SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                );
-
-            $NewOut .= "    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec\n\n";
-            $NewOut .= "    # possible charsets\n" . "    \$Self->{Charset} = [";
-            for ( $CommonObject{LanguageObject}->GetPossibleCharsets() ) {
-                $NewOut .= "'$_', ";
-            }
-            $NewOut
-                .= "];\n"
-                . "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Year;)\n"
-                . "    \$Self->{DateFormat}          = '$CommonObject{LanguageObject}->{DateFormat}';\n"
-                . "    \$Self->{DateFormatLong}      = '$CommonObject{LanguageObject}->{DateFormatLong}';\n"
-                . "    \$Self->{DateFormatShort}     = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
-                . "    \$Self->{DateInputFormat}     = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
-                . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n"
-                . "    # csv separator\n"
-                . "    \$Self->{Separator} = '$CommonObject{LanguageObject}->{Separator}';\n\n";
-
-            if ( $CommonObject{LanguageObject}->{TextDirection} ) {
-                $NewOut .= "    # TextDirection rtl or ltr\n";
-                $NewOut
-                    .= "    \$Self->{TextDirection} = '$CommonObject{LanguageObject}->{TextDirection}';\n\n";
-
-            }
-            $NewOut .= "    \$Self->{Translation} = {";
-            $NewOut .= $Data;
-        }
-        if ( $_ =~ /\$\$STOP\$\$/ ) {
-            $NewOut .= "    };\n" . $_;
-            $MetaData{DataPrinted} = 0;
-        }
-    }
-    close $In;
-
+    # translating a module
     if ($IsSubTranslation) {
         $NewOut = '';
         $NewOut .= "\n";
-        $NewOut .= "package Kernel::Language::${Language}_$TemplateName;\n";
+        $NewOut .= "package Kernel::Language::${Language}_$Module;\n";
         $NewOut .= "\n";
         $NewOut .= "use strict;\n";
         $NewOut .= "\n";
@@ -329,6 +334,55 @@ sub HandleLanguage {
         $NewOut .= "    };\n";
         $NewOut .= "}\n";
         $NewOut .= "1;\n";
+    }
+
+    # translating the core
+    else {
+        open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n";
+        while (<$In>) {
+            if ( !$MetaData{DataPrinted} ) {
+                $NewOut .= $_;
+            }
+            if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
+                $MetaData{DataPrinted} = 1;
+
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
+                    = $CommonObject{TimeObject}->SystemTime2Date(
+                    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+                    );
+
+                $NewOut
+                    .= "    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec\n\n";
+                $NewOut .= "    # possible charsets\n" . "    \$Self->{Charset} = [";
+                for ( $LanguageCoreObject->GetPossibleCharsets() ) {
+                    $NewOut .= "'$_', ";
+                }
+                $NewOut
+                    .= "];\n"
+                    . "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Year;)\n"
+                    . "    \$Self->{DateFormat}          = '$LanguageCoreObject->{DateFormat}';\n"
+                    . "    \$Self->{DateFormatLong}      = '$LanguageCoreObject->{DateFormatLong}';\n"
+                    . "    \$Self->{DateFormatShort}     = '$LanguageCoreObject->{DateFormatShort}';\n"
+                    . "    \$Self->{DateInputFormat}     = '$LanguageCoreObject->{DateInputFormat}';\n"
+                    . "    \$Self->{DateInputFormatLong} = '$LanguageCoreObject->{DateInputFormatLong}';\n\n"
+                    . "    # csv separator\n"
+                    . "    \$Self->{Separator} = '$LanguageCoreObject->{Separator}';\n\n";
+
+                if ( $LanguageCoreObject->{TextDirection} ) {
+                    $NewOut .= "    # TextDirection rtl or ltr\n";
+                    $NewOut
+                        .= "    \$Self->{TextDirection} = '$LanguageCoreObject->{TextDirection}';\n\n";
+
+                }
+                $NewOut .= "    \$Self->{Translation} = {";
+                $NewOut .= $Data;
+            }
+            if ( $_ =~ /\$\$STOP\$\$/ ) {
+                $NewOut .= "    };\n" . $_;
+                $MetaData{DataPrinted} = 0;
+            }
+        }
+        close $In;
     }
 
     if ( -e $TargetFile ) {
