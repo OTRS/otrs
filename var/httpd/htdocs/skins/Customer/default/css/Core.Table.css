@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -87,6 +87,7 @@ table.Overview {
 .Overview tbody td {
     padding: 6px 8px 3px;
     white-space: nowrap;
+    border: 0px solid;
 }
 .Overview tbody a {
     color: #444;
