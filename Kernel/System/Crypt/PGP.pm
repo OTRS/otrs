@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.38 2010-09-21 13:15:16 mb Exp $
+# $Id: PGP.pm,v 1.39 2010-11-19 20:48:09 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -660,14 +660,26 @@ sub _ParseGPGKeyList {
                 push( @Result, {%Key} );
                 %Key = ();
             }
-            $InKey     = 1;
+            $InKey = 1;
             $Key{Type} = $Type;
-            $Key{Bit}  = $Fields[2];
-            $Key{Key} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
-                                                        # in order to be compatible with
-                                                        # previous parser
+
+            # is the key expired, revoked or good?
+            if ( $Fields[1] eq 'e' ) {
+                $Key{Status} = 'expired';
+            }
+            elsif ( $Fields[1] eq 'r' ) {
+                $Key{Status} = 'revoked';
+            }
+            else {
+                $Key{Status} = 'good';
+            }
+
+            $Key{Bit}              = $Fields[2];
+            $Key{Key}              = substr( $Fields[4], -8, 8 );  # only use last 8 chars of key-ID
+                                                                   # in order to be compatible with
+                                                                   # previous parser
             $Key{Created}          = $Fields[5];
-            $Key{Expires}          = $Fields[6];
+            $Key{Expires}          = $Fields[6] || 'never';
             $Key{Identifier}       = $Fields[9];
             $Key{IdentifierMaster} = $Fields[9];
         }
@@ -763,6 +775,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-09-21 13:15:16 $
+$Revision: 1.39 $ $Date: 2010-11-19 20:48:09 $
 
 =cut

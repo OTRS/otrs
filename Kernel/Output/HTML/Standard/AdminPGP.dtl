@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.17 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminPGP.dtl,v 1.18 2010-11-19 20:48:08 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,7 @@
                     <thead>
                         <tr>
                             <th>$Text{"Type"}</th>
+                            <th>$Text{"Status"}</th>
                             <th>$Text{"Identifier"}</th>
                             <th>$Text{"Bit"}</th>
                             <th>$Text{"Key"}</th>
@@ -93,7 +94,7 @@
                     <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan="8">
+                            <td colspan="9">
                                 $Text{"No data found."}
                             </td>
                         </tr>
@@ -101,6 +102,7 @@
 <!-- dtl:block:Row -->
                         <tr>
                             <td>$QData{"Type"}</td>
+                            <td>$QData{"Status"}</td>
                             <td>$QData{"Identifier","80"}</td>
                             <td>$QData{"Bit"}</td>
                             <td>
