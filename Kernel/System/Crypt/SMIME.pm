@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.42 2010-11-17 07:46:22 dz Exp $
+# $Id: SMIME.pm,v 1.43 2010-11-20 20:50:46 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -277,7 +277,8 @@ sub Sign {
 verify a message with signature and returns a hash (Successful, Message, SignerCertificate)
 
     my %Data = $CryptObject->Verify(
-        Message => $Message,
+        Message     => $Message,
+        Certificate => $PathtoCert, # send path to the cert, when unsing self signed certificates
     );
 
 =cut
@@ -310,17 +311,19 @@ sub Verify {
         close $FHSig;
     }
 
-    # Skip new warning which breaks the function about self signed certificates
-    # on openssl 1.0
-    my $VerifyOption = '';
-    if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
-        $VerifyOption = '-noverify';
+    # path to the cert, when self signed certs
+    # specially for openssl 1.0
+    my $CertificateOption = '';
+    if ( $Param{Certificate} ) {
+        $CertificateOption = "-CAfile $Param{Certificate}";
     }
 
     my $Options
-        = "smime -verify $VerifyOption -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . " -CApath $Self->{CertPath} $SigFile $SignedFile";
+        = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+        . "-CApath $Self->{CertPath} $CertificateOption $SigFile $SignedFile";
+
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
+
     for my $LogLine (@LogLines) {
         $MessageLong .= $LogLine;
         if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
@@ -339,12 +342,24 @@ sub Verify {
     # return message
     if ( $Message =~ /Verification successful/i ) {
         %Return = (
-            SignatureFound => 1,
-            Successful     => 1,
-
-            #            Message => $1,
+            SignatureFound    => 1,
+            Successful        => 1,
             Message           => 'OpenSSL: ' . $Message,
             MessageLong       => 'OpenSSL: ' . $MessageLong,
+            SignerCertificate => $$SignerCertRef,
+            Content           => $$SignedContentRef,
+        );
+    }
+    elsif ( $Message =~ /self signed certificate/i ) {
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message =>
+                'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
+                . $Message,
+            MessageLong =>
+                'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
+                . $MessageLong,
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,
         );
@@ -963,6 +978,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2010-11-17 07:46:22 $
+$Revision: 1.43 $ $Date: 2010-11-20 20:50:46 $
 
 =cut
