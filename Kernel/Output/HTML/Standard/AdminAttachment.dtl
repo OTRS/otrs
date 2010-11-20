@@ -2,7 +2,7 @@
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.20 2010-11-13 00:51:38 en Exp $
+# $Id: AdminAttachment.dtl,v 1.21 2010-11-20 00:03:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,17 +118,17 @@
                         <div class="Clear"></div>
 
 <!-- dtl:block:ContenLabelAdd -->
-                        <label class="Mandatory" for="file_upload"><span class="Marker">*</span> $Text{"Attachment"}:</label>
+                        <label class="Mandatory" for="FileUpload"><span class="Marker">*</span> $Text{"Attachment"}:</label>
 <!-- dtl:block:ContenLabelAdd -->
 <!-- dtl:block:ContenLabelEdit -->
-                        <label for="file_upload">$Text{"Attachment"}:</label>
+                        <label for="FileUpload">$Text{"Attachment"}:</label>
 <!-- dtl:block:ContenLabelEdit -->
                         <div class="Field">
-                            <input name="file_upload" id="file_upload" type="file" class="W50pc $QData{"ValidateContent"} $QData{"file_uploadInvalid"}"/>
-                            <div id="file_uploadError" class="TooltipErrorMessage">
+                            <input name="FileUpload" id="FileUpload" type="file" class="W50pc $QData{"ValidateContent"} $QData{"FileUploadInvalid"}"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            <div id="file_uploadServerError" class="TooltipErrorMessage">
+                            <div id="FileUploadServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
                         </div>

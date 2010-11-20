@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.37 2010-11-17 17:48:15 mg Exp $
+# $Id: AdminAttachment.pm,v 1.38 2010-11-20 00:03:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,7 @@ sub Run {
 
         # get attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'string',
         );
 
@@ -99,14 +99,11 @@ sub Run {
                 %UploadStuff,
                 UserID => $Self->{UserID},
             );
-            if ( !$Update ) {
+            if ($Update) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Change',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,
@@ -114,22 +111,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAttachment',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -179,13 +166,13 @@ sub Run {
 
         # get attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'string',
         );
 
         # check needed data
         if ( !%UploadStuff ) {
-            $Errors{file_uploadInvalid} = 'ServerError';
+            $Errors{FileUploadInvalid} = 'ServerError';
         }
         for my $Needed (qw(Name ValidID)) {
             if ( !$GetParam{$Needed} ) {
@@ -202,14 +189,11 @@ sub Run {
                 %UploadStuff,
                 UserID => $Self->{UserID},
             );
-            if ( !$StdAttachmentID ) {
+            if ($StdAttachmentID) {
+                $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
-                $Self->_Edit(
-                    Action => 'Add',
-                    %GetParam,
-                );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment added!' );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,
@@ -217,21 +201,12 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminAttachment',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # someting has gone wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
