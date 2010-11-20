@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.18 2010-11-19 20:48:08 dz Exp $
+# $Id: AdminPGP.dtl,v 1.19 2010-11-20 00:03:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -128,15 +128,23 @@
                 <h2>$Text{"Add PGP Key"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="AddKey"/>
                     <fieldset class="TableLike">
+                        <label class="Mandatory" for="FileUpload"><span class="Marker">*</span> $Text{"PGP key"}:</label>
                         <div class="Field">
-                            <input type="file" name="file_upload" id="file_upload" />
+                            <input name="FileUpload" id="FileUpload" type="file" class="W50pc Validate_Required $QData{"FileUploadInvalid"}"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
-                        <div class="Field">
+
+                        <div class="Field SpacingTop">
                             <button class="Primary" type="submit">$Text{"Add"}</button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>

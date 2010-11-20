@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.30 2010-05-05 19:19:37 dz Exp $
+# $Id: AdminPGP.pm,v 1.31 2010-11-20 00:03:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,11 +83,7 @@ sub Run {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
+                    Data => { %{$Key} },
                 );
             }
         }
@@ -138,6 +134,8 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddKey' ) {
 
+        my %Errors;
+
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
@@ -147,50 +145,63 @@ sub Run {
             Value     => '',
         );
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'String',
         );
         if ( !%UploadStuff ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need Key!', );
-        }
-        my $Message = $Self->{CryptObject}->KeyAdd( Key => $UploadStuff{Content} );
-        if ( !$Message ) {
-            $Message = $Self->{LogObject}->GetLogEntry(
-                Type => 'Error',
-                What => 'Message',
-            );
+            $Errors{FileUploadInvalid} = 'ServerError';
         }
 
-        $Self->{LayoutObject}->Block( Name => 'Overview' );
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
-        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+        # if no errors occurred
+        if ( !%Errors ) {
 
-        my @List = $Self->{CryptObject}->KeySearch( Search => '' );
-        if (@List) {
-            for my $Key (@List) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        StartFont => '<font color ="red">',
-                        StopFont  => '</font>',
-                        %{$Key},
-                    },
-                );
+            # add pgp key
+            my $KeyAdd = $Self->{CryptObject}->KeyAdd( Key => $UploadStuff{Content} );
+
+            if ($KeyAdd) {
+                $Self->{LayoutObject}->Block( Name => 'Overview' );
+                $Self->{LayoutObject}->Block( Name => 'ActionList' );
+                $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
+                $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+                $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+
+                my @List = $Self->{CryptObject}->KeySearch( Search => '' );
+                if (@List) {
+                    for my $Key (@List) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Row',
+                            Data => { %{$Key} },
+                        );
+                    }
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'NoDataFoundMsg',
+                        Data => {},
+                    );
+                }
+
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Output .= $Self->{LayoutObject}->Notify( Info => $KeyAdd );
+
+                $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP' );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
             }
         }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {},
-            );
-        }
 
+        # something went wrong
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-
+        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'ActionList' );
+        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+        $Self->{LayoutObject}->Block(
+            Name => 'AddKey',
+            Data => \%Errors,
+        );
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP' );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.51 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.52 2010-11-20 00:03:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="OldName" value="$QData{"Name"}"/>
                     <fieldset class="TableLike">
-                        <label for="EditName">$Text{"Filter name"}:</label>
+                        <label class="Mandatory" for="EditName"><span class="Marker">*</span> $Text{"Filter name"}:</label>
                         <div class="Field">
                             <input type="text" class="W50pc Validate_Required $QData{"NameServerError"}" name="Name" id="EditName" value="$QData{"Name"}"/>
                             <div id="EditNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -113,9 +113,11 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="StopAfterMatch">$Text{"Stop after match"}:</label>
+                        <label class="Mandatory" for="StopAfterMatch"><span class="Marker">*</span> $Text{"Stop after match"}:</label>
                         <div class="Field">
                             $Data{"StopAfterMatch"}
+                            <div id="StopAfterMatchError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="StopAfterMatchServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -124,36 +126,56 @@
                         <label for="MatchHeader1">$Text{"Header"} 1:</label>
                         <div class="Field">
                             $Data{"MatchHeader1"}
+                            <div id="MatchHeader1ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="MatchValue1">$Text{"Value"} 1:</label>
-                            <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidMatch1"}"}</span>
+                            <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc $QData{"MatchValue1Invalid"}" maxlength="100"/>
+                            <div id="MatchValue1ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="MatchHeader2">$Text{"Header"} 2:</label>
                         <div class="Field">
                             $Data{"MatchHeader2"}
+                            <div id="MatchHeader2ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="MatchValue2">$Text{"Value"} 2:</label>
-                            <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidMatch2"}"}</span>
+                            <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc $QData{"MatchValue2Invalid"}" maxlength="100"/>
+                            <div id="MatchValue2ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="MatchHeader3">$Text{"Header"} 3:</label>
                         <div class="Field">
                             $Data{"MatchHeader3"}
+                            <div id="MatchHeader3ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="MatchValue3">$Text{"Value"} 3:</label>
-                            <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidMatch3"}"}</span>
+                            <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc $QData{"MatchValue3Invalid"}" maxlength="100"/>
+                            <div id="MatchValue3ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="MatchHeader4">$Text{"Header"} 4:</label>
                         <div class="Field">
                             $Data{"MatchHeader4"}
+                            <div id="MatchHeader4ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="MatchValue4">$Text{"Value"} 4:</label>
-                            <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidMatch4"}"}</span>
+                            <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
+                            <div id="MatchValue1ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -162,36 +184,56 @@
                         <label for="SetHeader1">$Text{"Header"} 1:</label>
                         <div class="Field">
                             $Data{"SetHeader1"}
+                            <div id="SetHeader1ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="SetValue1">$Text{"Value"} 1:</label>
-                            <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidSet1"}"}</span>
+                            <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc $QData{"SetValue1Invalid"}" maxlength="100"/>
+                            <div id="SetValue1ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="SetHeader2">$Text{"Header"} 2:</label>
                         <div class="Field">
                             $Data{"SetHeader2"}
+                            <div id="SetHeader2ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="SetValue2">$Text{"Value"} 2:</label>
-                            <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidSet2"}"}</span>
+                            <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc $QData{"SetValue2Invalid"}" maxlength="100"/>
+                            <div id="SetValue2ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="SetHeader3">$Text{"Header"} 3:</label>
                         <div class="Field">
                             $Data{"SetHeader3"}
+                            <div id="SetHeader3ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="SetValue3">$Text{"Value"} 3:</label>
-                            <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidSet3"}"}</span>
+                            <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc $QData{"SetValue3Invalid"}" maxlength="100"/>
+                            <div id="SetValue3ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="SetHeader4">$Text{"Header"} 4:</label>
                         <div class="Field">
                             $Data{"SetHeader4"}
+                            <div id="SetHeader4ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <label for="SetValue4">$Text{"Value"} 4:</label>
-                            <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc" maxlength="100"/>
-                            <span class="Error">$Text{"$Data{"InvalidSet4"}"}</span>
+                            <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc $QData{"SetValue4Invalid"}" maxlength="100"/>
+                            <div id="SetValue4ServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -215,7 +257,7 @@
 
                         <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
                         <div class="Field">
-                            <select name="MatchHeaderExample" id="MatchHeaderExample">
+                            <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc">
                                 <option selected="selected" value="To">To</option>
                             </select>
                             <label for="MatchValueExample">$Text{"Value"} 1:</label>
@@ -227,7 +269,7 @@
 
                         <label for="SetHeaderExample">$Text{"Header"} 1:</label>
                         <div class="Field">
-                            <select name="SetHeaderExample" id="SetHeaderExample">
+                            <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc">
                                 <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
                             </select>
                             <label for="SetValueExample">$Text{"Value"} 1:</label>

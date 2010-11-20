@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.33 2010-11-19 09:31:51 mb Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.34 2010-11-20 00:03:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,9 +27,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -45,11 +45,14 @@ sub Run {
     my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' );
     my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
     my %GetParam = ();
-    for ( 1 .. 12 ) {
-        $GetParam{"MatchHeader$_"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$_" );
-        $GetParam{"MatchValue$_"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$_" );
-        $GetParam{"SetHeader$_"}   = $Self->{ParamObject}->GetParam( Param => "SetHeader$_" );
-        $GetParam{"SetValue$_"}    = $Self->{ParamObject}->GetParam( Param => "SetValue$_" );
+    for my $Number ( 1 .. 12 ) {
+        $GetParam{"MatchHeader$Number"}
+            = $Self->{ParamObject}->GetParam( Param => "MatchHeader$Number" );
+        $GetParam{"MatchValue$Number"}
+            = $Self->{ParamObject}->GetParam( Param => "MatchValue$Number" );
+        $GetParam{"SetHeader$Number"}
+            = $Self->{ParamObject}->GetParam( Param => "SetHeader$Number" );
+        $GetParam{"SetValue$Number"} = $Self->{ParamObject}->GetParam( Param => "SetValue$Number" );
     }
 
     # ------------------------------------------------------------ #
@@ -93,30 +96,35 @@ sub Run {
 
         my %Match = ();
         my %Set   = ();
-        for ( 1 .. 12 ) {
-            if ( $GetParam{"MatchHeader$_"} && $GetParam{"MatchValue$_"} ) {
-                $Match{ $GetParam{"MatchHeader$_"} } = $GetParam{"MatchValue$_"};
+        for my $Number ( 1 .. 12 ) {
+            if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
+                $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
             }
-            if ( $GetParam{"SetHeader$_"} && $GetParam{"SetValue$_"} ) {
-                $Set{ $GetParam{"SetHeader$_"} } = $GetParam{"SetValue$_"};
+            if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {
+                $Set{ $GetParam{"SetHeader$Number"} } = $GetParam{"SetValue$Number"};
             }
         }
-        my %Invalid = ();
+        my %Errors = ();
         if (%Match) {
             my $InvalidCount = 0;
-            for ( sort keys %Match ) {
+            for my $MatchKey ( sort keys %Match ) {
                 $InvalidCount++;
-                my $I = $Match{$_};
-                if ( !eval { $I =~ /(.|$Match{$_})/i } ) {
-                    $Invalid{ 'InvalidMatch' . $InvalidCount } = 'invalid';
+                my $I = $Match{$MatchKey};
+                if ( !eval { $I =~ /(.|$Match{$MatchKey})/i } ) {
+                    $Errors{"MatchHeader$InvalidCount"} = 'ServerError';
+                    $Errors{"MatchValue$InvalidCount"}  = 'ServerError';
+                    $Errors{"SetHeader$InvalidCount"}   = 'ServerError';
+                    $Errors{"SetValue$InvalidCount"}    = 'ServerError';
                 }
             }
         }
         if ( !%Set ) {
-            $Invalid{'InvalidSet1'} = 'invalid';
+            $Errors{SetHeader1Invalid} = 'ServerError';
+            $Errors{SetValue1Invalid}  = 'ServerError';
         }
         if ( !%Match ) {
-            $Invalid{'InvalidMatch1'} = 'invalid';
+            $Errors{MatchHeader1Invalid} = 'ServerError';
+            $Errors{MatchValue1Invalid}  = 'ServerError';
         }
 
         # Name validation
@@ -125,11 +133,11 @@ sub Run {
             $NameServerError = 'ServerError';
         }
 
-        if ( %Invalid || $NameServerError ) {
+        if ( %Errors || $NameServerError ) {
             return $Self->_MaskUpdate(
                 Name => $Name,
                 Data => {
-                    %Invalid,
+                    %Errors,
                     Name            => $Name,
                     Set             => \%Set,
                     Match           => \%Match,
@@ -197,21 +205,21 @@ sub _MaskUpdate {
     my %Data    = %{ $Param{Data} };
     my $Counter = 0;
     if ( $Data{Match} ) {
-        for ( sort keys %{ $Data{Match} } ) {
-            if ( $_ && $Data{Match}->{$_} ) {
+        for my $MatchKey ( sort keys %{ $Data{Match} } ) {
+            if ( $MatchKey && $Data{Match}->{$MatchKey} ) {
                 $Counter++;
-                $Data{"MatchValue$Counter"}  = $Data{Match}->{$_};
-                $Data{"MatchHeader$Counter"} = $_;
+                $Data{"MatchValue$Counter"}  = $Data{Match}->{$MatchKey};
+                $Data{"MatchHeader$Counter"} = $MatchKey;
             }
         }
     }
     $Counter = 0;
     if ( $Data{Set} ) {
-        for ( sort keys %{ $Data{Set} } ) {
-            if ( $_ && $Data{Set}->{$_} ) {
+        for my $SetKey ( sort keys %{ $Data{Set} } ) {
+            if ( $SetKey && $Data{Set}->{$SetKey} ) {
                 $Counter++;
-                $Data{"SetValue$Counter"}  = $Data{Set}->{$_};
-                $Data{"SetHeader$Counter"} = $_;
+                $Data{"SetValue$Counter"}  = $Data{Set}->{$SetKey};
+                $Data{"SetHeader$Counter"} = $SetKey;
             }
         }
     }
@@ -225,34 +233,36 @@ sub _MaskUpdate {
 
     # all headers
     my %Header = ();
-    for ( @{ $Self->{ConfigObject}->Get('PostmasterX-Header') } ) {
-        $Header{$_} = $_;
+    for my $ConfigHeader ( @{ $Self->{ConfigObject}->Get('PostmasterX-Header') } ) {
+        $Header{$ConfigHeader} = $ConfigHeader;
     }
     $Header{''} = '-';
     $Header{Body} = 'Body';
 
     # otrs header
     my %SetHeader = ();
-    for ( keys %Header ) {
-        if ( $_ =~ /^x-otrs/i ) {
-            $SetHeader{$_} = $_;
+    for my $HeaderKey ( keys %Header ) {
+        if ( $HeaderKey =~ /^x-otrs/i ) {
+            $SetHeader{$HeaderKey} = $HeaderKey;
         }
     }
     $SetHeader{''} = '-';
 
     # build strings
-    for ( 1 .. 12 ) {
-        $Data{"MatchHeader$_"} = $Self->{LayoutObject}->BuildSelection(
+    for my $Number ( 1 .. 12 ) {
+        $Data{"MatchHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
             Data                => \%Header,
-            Name                => "MatchHeader$_",
-            SelectedID          => $Data{"MatchHeader$_"},
+            Name                => "MatchHeader$Number",
+            SelectedID          => $Data{"MatchHeader$Number"},
+            Class               => $Data{ 'MatchHeader' . $Number . 'Invalid' } || '',
             LanguageTranslation => 0,
             HTMLQuote           => 1,
         );
-        $Data{"SetHeader$_"} = $Self->{LayoutObject}->BuildSelection(
+        $Data{"SetHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
             Data                => \%SetHeader,
-            Name                => "SetHeader$_",
-            SelectedID          => $Data{"SetHeader$_"},
+            Name                => "SetHeader$Number",
+            SelectedID          => $Data{"SetHeader$Number"},
+            Class               => $Data{ 'SetHeader' . $Number . 'Invalid' } || '',
             LanguageTranslation => 0,
             HTMLQuote           => 1,
         );
@@ -261,6 +271,7 @@ sub _MaskUpdate {
         Data => { 0 => 'No', 1 => 'Yes' },
         Name => 'StopAfterMatch',
         SelectedID => $Data{StopAfterMatch} || 0,
+        Class => 'Validate_RequiredDropdown',
         LanguageTranslation => 1,
         HTMLQuote           => 1,
     );
