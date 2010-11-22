@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.16 2010-10-29 05:03:20 en Exp $
+# $Id: Crypt.t,v 1.17 2010-11-22 21:15:16 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@ my $CryptObject = Kernel::System::Crypt->new(
 );
 
 if ( !$CryptObject ) {
-    print STDERR "NOTICE: No PGP support!\n";
+    print STDERR 'NOTICE: No PGP support!\n';
     return;
 }
 
@@ -67,7 +67,7 @@ my %Check = (
         Key              => '38677C3B',
         KeyPrivate       => '04A17B7A',
         Created          => '2007-08-21',
-        Expires          => '',
+        Expires          => 'never',
         Fingerprint      => '4124 DFBD CF52 D129 AB3E  3C44 1404 FBCB 3867 7C3B',
         FingerprintShort => '4124DFBDCF52D129AB3E3C441404FBCB38677C3B',
     },
@@ -84,7 +84,7 @@ my %Check = (
     },
 );
 
-my $TestText = 'hello1234567890öäüß';
+my $TestText = 'hello1234567890ï¿½ï¿½ï¿½ï¿½';
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $CryptObject->KeySearch(
@@ -395,6 +395,64 @@ for my $Count ( 1 .. 2 ) {
     $Self->Is(
         $Decrypt{Data}, $UTF8Text,
         "#$Count Decrypt() - Data",
+    );
+}
+
+# check for expired and revoked PGP keys
+{
+
+    # expired key
+    my $Search = 'testingexpired@example.com';
+
+    # get expired key
+    my $KeyString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Filename  => 'PGPPublicKey-Expired.asc',
+    );
+
+    # add the key to the keyring
+    $CryptObject->KeyAdd( Key => ${$KeyString} );
+
+    # search for expired key and wait for expired status
+    my @Keys = $CryptObject->KeySearch(
+        Search => $Search,
+    );
+
+    $Self->Is(
+        $Keys[0]->{Status}, 'expired',
+        'Check for expired pgp key',
+    );
+
+    # revoked key
+
+    $Search = 'testingkey@test.com';
+
+    # get key
+    $KeyString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Filename  => 'PGPPublicKey-ToRevoke.asc',
+    );
+
+    # add the key to the keyring
+    $CryptObject->KeyAdd( Key => ${$KeyString} );
+
+    # get key
+    $KeyString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
+        Filename  => 'PGPPublicKey-RevokeCert.asc',
+    );
+
+    # add the key to the keyring
+    $CryptObject->KeyAdd( Key => ${$KeyString} );
+
+    # search for revoked key and wait for revoked status
+    @Keys = $CryptObject->KeySearch(
+        Search => $Search,
+    );
+
+    $Self->Is(
+        $Keys[0]->{Status}, 'revoked',
+        'Check for revoked pgp key',
     );
 }
 
