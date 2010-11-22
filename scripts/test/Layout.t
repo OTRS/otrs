@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.45 2010-10-29 05:03:20 en Exp $
+# $Id: Layout.t,v 1.46 2010-11-22 11:32:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -728,7 +728,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;&SessionID=123">',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
             }
     },
     {
@@ -746,7 +746,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;&SessionID=123">',
+                '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
             }
     },
     {
@@ -764,7 +764,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;&SessionID=123\">",
+                "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;;SessionID=123\">",
             }
     },
     {
@@ -782,7 +782,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;&SessionID=123">',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
             }
     },
     {
@@ -800,7 +800,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;&SessionID=123" />',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123" />',
             }
     },
     {
@@ -818,7 +818,7 @@ for my $Test (@Tests) {
         },
         Result => {
             Content =>
-                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;&SessionID=123\' />',
+                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
             }
     },
 );
