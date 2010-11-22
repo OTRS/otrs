@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.12 2010-11-17 17:26:25 mg Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.13 2010-11-22 14:02:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -87,14 +87,42 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
         });
         if (CheckFormID().length) {
-            CKEDITOR.config.action = 'PictureUpload';
+            CKEDITOR.config.action = (Core.Config.Get('RichText.PictureUploadAction').length) ? Core.Config.Get('RichText.PictureUploadAction') : 'PictureUpload';
             CKEDITOR.config.formID = CheckFormID().val();
         }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
 
+        // Hack for updating the textarea with the RTE content (bug#5857)
+        // Rename the original function to another name, than overwrite the original one
+        CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
+        CKEDITOR.instances[EditorID].updateElement = function() {
+            // Additional function that should be called if an element is updated
+            function StripContent() {
+                var Element = this.element,
+                    Data = this.getData(),
+                    StrippedContent = '';
+
+                if (this.config.htmlEncodeOutput)
+                    Data = CKEDITOR.tools.htmlEncode(Data);
+
+                StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+                Data = (StrippedContent.length) ? Data : '';
+
+                if (Element.is('textarea'))
+                    Element.setValue(Data);
+                else
+                    Element.setHtml(Data);
+            }
+
+            // First call the original function
+            CKEDITOR.instances[EditorID].updateElementOriginal();
+            // Now call the new additional function on the same object
+            StripContent.apply(CKEDITOR.instances[EditorID]);
+        };
+
         // Needed for clientside validation of RTE
         CKEDITOR.instances[EditorID].on('blur', function () {
-            TargetNS.UpdateLinkedField($EditorArea);
+            CKEDITOR.instances[EditorID].updateElement();
             Core.Form.Validate.ValidateElement($EditorArea);
         });
 

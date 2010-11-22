@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.23 2010-11-18 11:05:19 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.24 2010-11-22 14:02:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -183,7 +183,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         // for rich text areas, update the linked field for the validation first
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            Core.UI.RichTextEditor.UpdateLinkedField($Element);
+            CKEDITOR.instances[$Element.attr('id')].updateElement();
             Value = $Element.val();
         }
 
