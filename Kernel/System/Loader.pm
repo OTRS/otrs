@@ -2,7 +2,7 @@
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.16 2010-08-10 09:16:20 mg Exp $
+# $Id: Loader.pm,v 1.17 2010-11-22 12:23:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -443,7 +443,9 @@ sub CacheDelete {
             Filter    => '*',
         );
 
+        FOLDER:
         for my $Folder (@List) {
+            next FOLDER if ( !-d $Folder );
             my @CacheFolder = $Self->{MainObject}->DirectoryRead(
                 Directory => $Folder,
                 Filter    => 'css-cache',
@@ -457,22 +459,23 @@ sub CacheDelete {
     # now go through the cache folders and delete all .js and .css files
     my @FileTypes = ( "*.js", "*.css" );
     my $TotalCounter = 0;
+    FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {
-        if ( -d $FolderToDelete ) {
-            my @FilesList = $Self->{MainObject}->DirectoryRead(
-                Directory => $FolderToDelete,
-                Filter    => \@FileTypes,
-            );
-            for my $File (@FilesList) {
-                if ( $Self->{MainObject}->FileDelete( Location => $File ) ) {
-                    push @Result, $File;
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "Can't remove: $File"
-                    );
-                }
+        next FOLDERTODELETE if ( !-d $FolderToDelete );
+
+        my @FilesList = $Self->{MainObject}->DirectoryRead(
+            Directory => $FolderToDelete,
+            Filter    => \@FileTypes,
+        );
+        for my $File (@FilesList) {
+            if ( $Self->{MainObject}->FileDelete( Location => $File ) ) {
+                push @Result, $File;
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't remove: $File"
+                );
             }
         }
     }
@@ -499,6 +502,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2010-08-10 09:16:20 $
+$Revision: 1.17 $ $Date: 2010-11-22 12:23:29 $
 
 =cut

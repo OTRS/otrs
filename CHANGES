@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1587 2010-11-22 12:15:35 mg Exp $
+# $Id: CHANGES,v 1.1588 2010-11-22 12:23:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-22 Fixed bug#6355 - $HOME/bin/otrs.LoaderCache.pl cron job unhappy with
+    files in var/httpd/htdocs/skins/Customer/.
  - 2010-11-22 Fixed bug#6352 - var/cron/cache schedules nonexistent $HOME/bin/otrs.CacheDelete.pl.
  - 2010-11-22 Fixed bug#6350 - Sort order in "Auto Responses <-> Queues".
  - 2010-11-19 Fixed bug#6288 - Generating a stat that outputs to PDF or CSV opens an empty popup.
