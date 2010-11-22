@@ -3,7 +3,7 @@
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.0.pl,v 1.2 2010-11-08 15:34:19 martin Exp $
+# $Id: DBUpdate-to-3.0.pl,v 1.3 2010-11-22 15:46:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,11 +31,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
-use Kernel::System::CheckItem;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Encode;
@@ -43,7 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::State;
 use Kernel::System::SysConfig;
-use Kernel::System::User;
 
 # get options
 my %Opts;
@@ -56,78 +54,87 @@ if ( $Opts{h} ) {
 
 print "Start migration of the system...\n\n";
 
-# instantiate needed objects (1/2)
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-DBUpdate-to-3.0',
-    %CommonObject,
-);
-$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
+# create common objects
+my $CommonObject = _CommonObjectsBase();
 
 # start migration process 1/2
-RebuildConfig();
+RebuildConfig($CommonObject);
 
-$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
-$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+# create common objects with new default config
+$CommonObject = _CommonObjectsBase();
 
 # start migration process 2/2
-MigrateThemes();
-PermissionTableCleanup();
-RemovePendingTime();
+MigrateThemes($CommonObject);
+PermissionTableCleanup($CommonObject);
+RemovePendingTime($CommonObject);
 
 print "\nMigration of the system completed!\n";
 
 exit 0;
 
-=item RebuildConfig()
+sub _CommonObjectsBase {
+    my %CommonObject;
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-DBUpdate-to-3.0',
+        %CommonObject,
+    );
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+    return \%CommonObject;
+}
+
+=item RebuildConfig($CommonObject)
 
 migrate all themes from the database to SysConfig
 
-    RebuildConfig();
+    RebuildConfig($CommonObject);
 
 =cut
 
 sub RebuildConfig {
+    my $CommonObject = shift;
 
     print "NOTICE: Rebuild Config...\n";
 
-    if ( !$CommonObject{SysConfigObject}->WriteDefault() ) {
+    # write now default config options
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+    if ( !$SysConfigObject->WriteDefault() ) {
         die "ERROR: Can't write default config files!";
     }
 
-    $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+    # reload config object
+    $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
 
     return 1;
 }
 
-=item MigrateThemes()
+=item MigrateThemes($CommonObject)
 
 migrate all themes from the database to SysConfig
 
-    MigrateThemes();
+    MigrateThemes($CommonObject);
 
 =cut
 
 sub MigrateThemes {
+    my $CommonObject = shift;
 
     print "NOTICE: Migrating themes...\n";
 
     (
         my %Themes
             =
-            $CommonObject{DBObject}->GetTableData(
+            $CommonObject->{DBObject}->GetTableData(
             What  => 'theme, valid_id',
             Table => 'theme',
             )
     ) || die "ERROR: reading themes from database. Migration halted.\n";
 
-    my $Update = $CommonObject{SysConfigObject}->ConfigItemUpdate(
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+    my $Update          = $SysConfigObject->ConfigItemUpdate(
         Key   => 'Frontend::Themes',
         Value => \%Themes,
         Valid => 1,
@@ -137,19 +144,20 @@ sub MigrateThemes {
     return 1;
 }
 
-=item PermissionTableCleanup()
+=item PermissionTableCleanup($CommonObject)
 
 remove all not necessary values from permission table
 
-    PermissionTableCleanup();
+    PermissionTableCleanup($CommonObject);
 
 =cut
 
 sub PermissionTableCleanup {
+    my $CommonObject = shift;
 
-    print "NOTICE: Permission table cleanup ...";
+    print "NOTICE: Permission table cleanup...";
 
-    my $Success = $CommonObject{DBObject}->Do(
+    my $Success = $CommonObject->{DBObject}->Do(
         SQL => 'DELETE FROM group_user WHERE permission_value = \'0\'',
     );
 
@@ -158,7 +166,7 @@ sub PermissionTableCleanup {
         return;
     }
 
-    $Success = $CommonObject{DBObject}->Do(
+    $Success = $CommonObject->{DBObject}->Do(
         SQL => 'DELETE FROM group_customer_user WHERE permission_value = \'0\'',
     );
 
@@ -172,26 +180,30 @@ sub PermissionTableCleanup {
     return 1;
 }
 
-=item RemovePendingTime()
+=item RemovePendingTime($CommonObject)
 
 Set Pending Time to NULL if the ticket does not have a pending-type state.
 
-    RemovePendingTime();
+    RemovePendingTime($CommonObject);
 
 =cut
 
 sub RemovePendingTime {
+    my $CommonObject = shift;
 
     print "NOTICE: Setting pending time to null...";
 
     # read pending state types from config
     my $PendingReminderStateType =
-        $CommonObject{ConfigObject}->Get('Ticket::PendingReminderStateType:') || 'pending reminder';
+        $CommonObject->{ConfigObject}->Get('Ticket::PendingReminderStateType:')
+        || 'pending reminder';
     my $PendingAutoStateType =
-        $CommonObject{ConfigObject}->Get('Ticket::PendingAutoStateType:') || 'pending auto';
+        $CommonObject->{ConfigObject}->Get('Ticket::PendingAutoStateType:') || 'pending auto';
 
     # read states
-    my @PendingStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+    my $StateObject = Kernel::System::State->new( %{$CommonObject} );
+
+    my @PendingStateIDs = $StateObject->StateGetStatesByType(
         StateType => [ $PendingReminderStateType, $PendingAutoStateType ],
         Result => 'ID',
     );
@@ -202,7 +214,7 @@ sub RemovePendingTime {
     }
 
     # update ticket table via DB driver.
-    my $Success = $CommonObject{DBObject}->Do(
+    my $Success = $CommonObject->{DBObject}->Do(
         SQL => "UPDATE ticket SET until_time = 0 WHERE until_time > 0"
             . " AND ticket_state_id NOT IN (${\(join ', ', sort @PendingStateIDs)})",
     );
