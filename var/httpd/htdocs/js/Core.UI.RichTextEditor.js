@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.13 2010-11-22 14:02:37 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.14 2010-11-22 15:09:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -96,28 +96,22 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // Rename the original function to another name, than overwrite the original one
         CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
         CKEDITOR.instances[EditorID].updateElement = function() {
-            // Additional function that should be called if an element is updated
-            function StripContent() {
-                var Element = this.element,
-                    Data = this.getData(),
-                    StrippedContent = '';
-
-                if (this.config.htmlEncodeOutput)
-                    Data = CKEDITOR.tools.htmlEncode(Data);
-
-                StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
-                Data = (StrippedContent.length) ? Data : '';
-
-                if (Element.is('textarea'))
-                    Element.setValue(Data);
-                else
-                    Element.setHtml(Data);
-            }
+            var Data;
 
             // First call the original function
             CKEDITOR.instances[EditorID].updateElementOriginal();
-            // Now call the new additional function on the same object
-            StripContent.apply(CKEDITOR.instances[EditorID]);
+
+            // Now check if there is actually any non-whitespace content in the
+            //  textarea field. If not, set it to an empty value to make sure
+            //  the server side validation works correctly and there is no trash
+            //  like '<br/>' stored in the DB.
+            Data = this.element.getValue(); // get textarea content
+
+            // remove tags and whitespace for checking
+            Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+            if (!Data.length) {
+                this.element.setValue(''); // reset textarea
+            }
         };
 
         // Needed for clientside validation of RTE
