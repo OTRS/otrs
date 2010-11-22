@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.36 2010-11-19 18:23:46 ub Exp $
+# $Id: LayoutLoader.pm,v 1.37 2010-11-22 16:31:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 use Kernel::System::Loader;
 
@@ -428,7 +428,9 @@ sub LoaderCreateCustomerCSSCalls {
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
     my $FrontendModuleRegistration
-        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction} || {};
+        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
+        || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}
+        || {};
 
     {
         my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS} || [];
@@ -540,7 +542,10 @@ sub LoaderCreateCustomerJSCalls {
 
         my $AppJSList
             = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
-            ->{JavaScript} || [];
+            ->{JavaScript}
+            || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
+            ->{JavaScript}
+            || [];
 
         my @FileList = @{$AppJSList};
 
@@ -717,6 +722,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2010-11-19 18:23:46 $
+$Revision: 1.37 $ $Date: 2010-11-22 16:31:52 $
 
 =cut
