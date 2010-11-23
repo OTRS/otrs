@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.31 2010-11-18 11:04:33 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.32 2010-11-23 15:12:06 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -190,8 +190,20 @@ check.
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
 
+                // hide save changes in template block
+                $('#SaveProfile').parent().hide().prev().hide().prev().hide();
+
+                // search profile is selected
                 if ($('#SearchProfile').val() && $('#SearchProfile').val() !== 'last-search') {
+
+                    // show delete button
                     $('#SearchProfileDelete').show();
+
+                    // show save changes in template block
+                    $('#SaveProfile').parent().show().prev().show().prev().show();
+
+                    // set SaveProfile to 0
+                    $('#SaveProfile').attr('checked', false);
                 }
 
                 // register add of attribute
@@ -245,7 +257,7 @@ check.
 
                 // add new profile
                 $('#SearchProfileAddAction').bind('click', function () {
-                    var Name, $Element1, $Element2;
+                    var Name, $Element1;
 
                     // get name
                     Name = $('#SearchProfileAddName').val();
@@ -254,14 +266,11 @@ check.
                     }
 
                     // add name to profile selection
-                    $Element1 = $('#SearchProfileList').children().first().clone();
+                    $Element1 = $('#SearchProfile').children().first().clone();
                     $Element1.text(Name);
-                    $('#SearchProfileList').append($Element1);
-                    $Element2 = $('#SearchProfile').children().first().clone();
-                    $Element2.text(Name);
-                    $Element2.attr('value', Name);
-                    $Element2.attr('selected', 'selected');
-                    $('#SearchProfile').append($Element2);
+                    $Element1.attr('value', Name);
+                    $Element1.attr('selected', 'selected');
+                    $('#SearchProfile').append($Element1);
 
                     // set input box to empty
                     $('#SearchProfileAddName').val('');

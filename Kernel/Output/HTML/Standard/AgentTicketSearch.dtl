@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.55 2010-11-19 23:25:20 cg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.56 2010-11-23 15:12:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,11 @@
                     <button type="button" title="$Text{"Create Template"}" id="SearchProfileAddAction">$Text{"Add"}</button>
                 </div>
             </div>
-<!-- dtl:block:SearchAJAXStoreInTemplate -->
             <div class="Clear"></div>
             <label>$Text{"Save changes in template"}:</label>
             <div class="Field">
                 <input type="checkbox" name="SaveProfile" id="SaveProfile" value="1"/>
             </div>
-<!-- dtl:block:SearchAJAXStoreInTemplate -->
         </fieldset>
         <fieldset class="TableLike" id="SearchInsert"></fieldset>
         <fieldset class="TableLike">

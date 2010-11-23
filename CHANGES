@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1593 2010-11-23 14:59:03 mg Exp $
+# $Id: CHANGES,v 1.1594 2010-11-23 15:12:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-23 Fixed Bug#6308 - Ticket search templates are not saved in agent interface.
  - 2010-11-23 Fixed Bug#6359 - Documentation fixes.
  - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
  - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
