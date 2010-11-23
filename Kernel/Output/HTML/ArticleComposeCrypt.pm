@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.17.2.1 2009-12-23 22:28:09 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.17.2.2 2010-11-23 22:34:30 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17.2.1 $) [1];
+$VERSION = qw($Revision: 1.17.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,14 +133,24 @@ sub Data {
                 if ( $DataRef->{Expires} ) {
                     $Expires = "[$DataRef->{Expires}]";
                 }
-                $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                    = "PGP-Detached: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+
+                my $Status = '';
+                $Status = '[' . $DataRef->{Status} . ']';
+                if ( $DataRef->{Status} eq 'expired' ) {
+                    $Status = '[WARNING: EXPIRED KEY]';
+                }
+                elsif ( $DataRef->{Status} eq 'revoked' ) {
+                    $Status = '[WARNING: REVOKED KEY]';
+                }
 
                 # disable inline pgp if rich text is enabled
                 if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
                     $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                        = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                        = "PGP-Inline: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 }
+
+                $KeyList{"PGP::Detached::$DataRef->{Key}"}
+                    = "PGP-Detached: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
             }
         }
 

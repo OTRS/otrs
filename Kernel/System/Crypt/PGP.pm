@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32 2009-06-04 14:49:48 ub Exp $
+# $Id: PGP.pm,v 1.32.2.1 2010-11-23 22:34:30 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.32.2.1 $) [1];
 
 =head1 NAME
 
@@ -466,12 +466,24 @@ sub _ParseGPGKeyList {
                 push( @Result, {%Key} );
                 %Key = ();
             }
-            $InKey     = 1;
-            $Key{Type} = $Type;
-            $Key{Bit}  = $Fields[2];
-            $Key{Key} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
-                                                        # in order to be compatible with
-                                                        # previous parser
+            $InKey = 1;
+
+            # is the key expired, revoked or good?
+            if ( $Fields[1] eq 'e' ) {
+                $Key{Status} = 'expired';
+            }
+            elsif ( $Fields[1] eq 'r' ) {
+                $Key{Status} = 'revoked';
+            }
+            else {
+                $Key{Status} = 'good';
+            }
+
+            $Key{Type}             = $Type;
+            $Key{Bit}              = $Fields[2];
+            $Key{Key}              = substr( $Fields[4], -8, 8 );  # only use last 8 chars of key-ID
+                                                                   # in order to be compatible with
+                                                                   # previous parser
             $Key{Created}          = $Fields[5];
             $Key{Expires}          = $Fields[6];
             $Key{Identifier}       = $Fields[9];
@@ -743,12 +755,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-06-04 14:49:48 $
+$Revision: 1.32.2.1 $ $Date: 2010-11-23 22:34:30 $
 
 =cut
