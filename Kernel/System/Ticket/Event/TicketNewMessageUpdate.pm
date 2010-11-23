@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketNewMessageUpdate.pm,v 1.3 2010-11-05 22:27:09 en Exp $
+# $Id: TicketNewMessageUpdate.pm,v 1.4 2010-11-23 22:32:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,6 +60,14 @@ sub Run {
             Key      => 'Seen',
             Value    => 0,
             AllUsers => 1,
+        );
+
+        # set the seen flag to 1 for the agent who created the article
+        $Self->{TicketObject}->ArticleFlagSet(
+            ArticleID => $Param{Data}->{ArticleID},
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Param{UserID},
         );
         return 1;
     }
