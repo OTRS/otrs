@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.31 2010-11-20 00:03:37 en Exp $
+# $Id: AdminPGP.pm,v 1.32 2010-11-23 17:49:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,6 +40,23 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # ------------------------------------------------------------ #
+    # check if feature is active
+    # ------------------------------------------------------------ #
+    if ( !$Self->{ConfigObject}->Get('PGP') ) {
+
+        my $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        $Self->{LayoutObject}->Block( Name => 'Overview' );
+        $Self->{LayoutObject}->Block( Name => 'Disabled' );
+
+        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP' );
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
+    }
 
     $Param{Search} = $Self->{ParamObject}->GetParam( Param => 'Search' );
     if ( !defined( $Param{Search} ) ) {
@@ -64,6 +81,7 @@ sub Run {
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
         $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
         $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $Self->{LayoutObject}->Block( Name => 'Hint' );
         $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
@@ -270,6 +288,7 @@ sub Run {
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
         $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
         $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $Self->{LayoutObject}->Block( Name => 'Hint' );
         $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         my @List = ();
@@ -292,15 +311,7 @@ sub Run {
         }
         my $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ( !$Self->{CryptObject} ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data     => '$Text{"Please activate %s first!", "PGP"}',
-                Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::PGP',
-            );
-        }
-        if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
+        if ( $Self->{CryptObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',

@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.19 2010-11-20 00:03:38 en Exp $
+# $Id: AdminPGP.dtl,v 1.20 2010-11-23 17:49:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,33 @@
     <h1>$Text{"PGP Management"}</h1>
 
     <div class="SidebarColumn">
+<!-- dtl:block:Disabled -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Notice"}</h2>
+            </div>
+            <div class="Content ActionList">
+                <form action="$Env{"CGIHandle"}" method="post">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Crypt::PGP"/>
+                    <h3>$Text{"This feature is disabled!"}</h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            $Text{"Use this feature if you want to work with PGP keys."}
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction" type="submit" value="$Text{"Enable it here!"}">
+                                <span>$Text{"Enable it here!"}</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+<!-- dtl:block:Disabled -->
 
 <!-- dtl:block:ActionList-->
         <div class="WidgetSimple">
@@ -44,11 +71,12 @@
                     </li>
 <!-- dtl:block:ActionAdd -->
 
-<!-- dtl:block:ActionList -->
                 </ul>
             </div>
         </div>
+<!-- dtl:block:ActionList -->
 
+<!-- dtl:block:Hint -->
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Hint"}</h2>
@@ -65,7 +93,7 @@
                 </p>
             </div>
         </div>
-
+<!-- dtl:block:Hint -->
     </div>
 
     <div class="ContentColumn">

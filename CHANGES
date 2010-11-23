@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1595 2010-11-23 16:31:43 mn Exp $
+# $Id: CHANGES,v 1.1596 2010-11-23 17:49:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-23 Fixed bug#6362 - Software error adding new PGP key.
  - 2010-11-23 Fixed bug#6273 - IE7: Alert dialog display problems.
  - 2010-11-23 Fixed bug#6260 - RichTextEditor Action for Inline-Image Upload is hardcoded.
  - 2010-11-23 Fixed bug#6371 - Opening the customer ticket zoom shows a bowser error message.
