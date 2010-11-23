@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.31 2010-11-13 18:14:40 mb Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.32 2010-11-23 09:28:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
             </div>
         </form>
 
-        <form action="$Env{"CGIHandle"}" method="get" name="compose">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
             <input type="hidden" name="Subaction" value="Search"/>
             <fieldset>
