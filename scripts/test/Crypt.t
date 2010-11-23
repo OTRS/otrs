@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.18 2010-11-23 08:12:51 mg Exp $
+# $Id: Crypt.t,v 1.19 2010-11-23 19:28:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@ my %Check = (
     },
 );
 
-my $TestText = 'hello1234567890ï¿½ï¿½ï¿½ï¿½';
+my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $CryptObject->KeySearch(
