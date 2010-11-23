@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.12 2010-11-11 13:27:24 martin Exp $
+# $Id: otrs.CheckModules.pl,v 1.13 2010-11-23 14:59:02 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -78,7 +78,7 @@ my @NeededModules = (
     {
         Module   => 'GD',
         Required => 0,
-        Comment  => 'for stats',
+        Comment  => 'Required for stats',
         Depends  => [
             {
                 Module   => 'GD::Text',
@@ -162,6 +162,25 @@ my @NeededModules = (
         Module   => 'MIME::Tools',
         Version  => '5.427',
         Required => 1,
+    },
+    {
+        Module   => 'ModPerl::Util',
+        Required => 0,
+        Comment  => 'Improves Performance on Apache webservers dramatically.',
+        Depends  => [
+            {
+                Module   => 'Apache::DBI',
+                Required => 0,
+                Comment =>
+                    'Improves performance on Apache webservers with mod_perl by establishing persistent database connections.'
+            },
+            {
+                Module   => 'Apache2::Reload',
+                Required => 0,
+                Comment =>
+                    'Should be installed on mod_perl based installations to automatically reload changed Perl files and configuration data.'
+            },
+        ],
     },
     {
         Module       => 'Net::DNS',
