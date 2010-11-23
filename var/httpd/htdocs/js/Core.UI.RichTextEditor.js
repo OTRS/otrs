@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.14 2010-11-22 15:09:01 mg Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.15 2010-11-23 12:40:08 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
         });
         if (CheckFormID().length) {
-            CKEDITOR.config.action = (Core.Config.Get('RichText.PictureUploadAction').length) ? Core.Config.Get('RichText.PictureUploadAction') : 'PictureUpload';
+            CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction') || 'PictureUpload';
             CKEDITOR.config.formID = CheckFormID().val();
         }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
