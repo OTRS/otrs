@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.58 2010-11-17 17:03:40 en Exp $
+# $Id: CustomerTicketSearch.pm,v 1.59 2010-11-23 09:26:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -953,14 +953,16 @@ sub MaskForm {
     );
     $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Prefix   => 'TicketCreateTimeStart',
-        Format   => 'DateInputFormat',
-        DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        Prefix                     => 'TicketCreateTimeStart',
+        TicketCreateTimeStartClass => 'DateSelection',
+        Format                     => 'DateInputFormat',
+        DiffTime                   => -( ( 60 * 60 * 24 ) * 30 ),
     );
     $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Prefix => 'TicketCreateTimeStop',
-        Format => 'DateInputFormat',
+        Prefix                    => 'TicketCreateTimeStop',
+        TicketCreateTimeStopClass => 'DateSelection',
+        Format                    => 'DateInputFormat',
     );
 
     for ( 1 .. 6 ) {
