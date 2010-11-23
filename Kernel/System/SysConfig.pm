@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.25 2010-10-21 09:17:57 martin Exp $
+# $Id: SysConfig.pm,v 1.26 2010-11-23 10:27:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -309,12 +309,17 @@ sub Upload {
 
 =item CreateConfig()
 
-submit config settings to application. This function will write
+Submit config settings to application. This function will write
 the internal state of the current SysConfig object to disk, saving
 all changes that were made by the users to Kernel/Config/Files/ZZZAuto.pm.
 Only values which differ from the default configuration are stored in this file.
 
     $SysConfigObject->CreateConfig();
+
+if you want to create an empty file, for example on initial creation, you can
+use the EmptyFile param.
+
+    $SysConfigObject->CreateConfig( EmptyFile => 1 );
 
 =cut
 
@@ -337,56 +342,58 @@ sub CreateConfig {
     }
 
     # read all config files and only save the changed config options
-    for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
-            my %Config = $Self->ConfigItemGet(
-                Name => $ConfigItem->{Name}
-            );
-            my %ConfigDefault = $Self->ConfigItemGet(
-                Name    => $ConfigItem->{Name},
-                Default => 1,
-            );
-            $UsedKeys{ $ConfigItem->{Name} } = 1;
+    if ( !$Param{EmptyFile} ) {
+        for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
+            if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
+                my %Config = $Self->ConfigItemGet(
+                    Name => $ConfigItem->{Name}
+                );
+                my %ConfigDefault = $Self->ConfigItemGet(
+                    Name    => $ConfigItem->{Name},
+                    Default => 1,
+                );
+                $UsedKeys{ $ConfigItem->{Name} } = 1;
 
-            my $Name = $Config{Name};
-            $Name =~ s/\\/\\\\/g;
-            $Name =~ s/'/\'/g;
-            $Name =~ s/###/'}->{'/g;
+                my $Name = $Config{Name};
+                $Name =~ s/\\/\\\\/g;
+                $Name =~ s/'/\'/g;
+                $Name =~ s/###/'}->{'/g;
 
-            if ( $Config{Valid} ) {
-                my $C = $Self->_XML2Perl( Data => \%Config );
-                my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
-                my ( $A1, $A2 );
-                eval "\$A1 = $C";
-                eval "\$A2 = $D";
+                if ( $Config{Valid} ) {
+                    my $C = $Self->_XML2Perl( Data => \%Config );
+                    my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
+                    my ( $A1, $A2 );
+                    eval "\$A1 = $C";
+                    eval "\$A2 = $D";
 
-                if ( !defined $A1 && !defined $A2 ) {
+                    if ( !defined $A1 && !defined $A2 ) {
 
-                    # do nothing
+                        # do nothing
+                    }
+                    elsif (
+                        ( defined $A1 && !defined $A2 )
+                        || ( !defined $A1 && defined $A2 )
+                        || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
+                        || ( $Config{Valid} && !$ConfigDefault{Valid} )
+                        )
+                    {
+                        $File .= "\$Self->{'$Name'} = $C";
+                    }
+                    else {
+
+                        # do nothing
+                    }
                 }
                 elsif (
-                    ( defined $A1 && !defined $A2 )
-                    || ( !defined $A1 && defined $A2 )
-                    || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
-                    || ( $Config{Valid} && !$ConfigDefault{Valid} )
+                    !$Config{Valid}
+                    && (
+                        $ConfigDefault{Valid}
+                        || eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' )
+                    )
                     )
                 {
-                    $File .= "\$Self->{'$Name'} = $C";
+                    $File .= "delete \$Self->{'$Name'};\n";
                 }
-                else {
-
-                    # do nothing
-                }
-            }
-            elsif (
-                !$Config{Valid}
-                && (
-                    $ConfigDefault{Valid}
-                    || eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' )
-                )
-                )
-            {
-                $File .= "delete \$Self->{'$Name'};\n";
             }
         }
     }
@@ -447,7 +454,7 @@ sub ConfigItemUpdate {
     }
 
     # check if we need to create config file
-    if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" && !$Self->CreateConfig() ) {
+    if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" && !$Self->CreateConfig( EmptyFile => 1 ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't create empty $Home/Kernel/Config/Files/ZZZAuto.pm!",
@@ -2241,6 +2248,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2010-10-21 09:17:57 $
+$Revision: 1.26 $ $Date: 2010-11-23 10:27:15 $
 
 =cut
