@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.71 2010-11-16 11:04:09 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.72 2010-11-23 22:56:02 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -399,16 +399,13 @@ sub Run {
                 }
             }
 
-            # link with
+            # link all tickets to a parent
+            if ( $GetParam{'LinkTogetherParent'} ) {
+                my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
+                    TicketNumber => $GetParam{'LinkTogetherParent'},
+                );
 
-            # link togehter
-            if ( $GetParam{'LinkTogether'} ) {
-
-                # link parent
-                if ( $GetParam{'LinkTogetherParent'} ) {
-                    my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
-                        TicketNumber => $GetParam{'LinkTogetherParent'},
-                    );
+                for my $TicketIDPartner (@TicketIDs) {
                     if ( $MainTicketID ne $TicketID ) {
                         $Self->{LinkObject}->LinkAdd(
                             SourceObject => 'Ticket',
@@ -421,21 +418,21 @@ sub Run {
                         );
                     }
                 }
+            }
 
-                # link normal
-                else {
-                    for my $TicketIDPartner (@TicketIDs) {
-                        if ( $TicketID ne $TicketIDPartner ) {
-                            $Self->{LinkObject}->LinkAdd(
-                                SourceObject => 'Ticket',
-                                SourceKey    => $TicketID,
-                                TargetObject => 'Ticket',
-                                TargetKey    => $TicketIDPartner,
-                                Type         => 'Normal',
-                                State        => 'Valid',
-                                UserID       => $Self->{UserID},
-                            );
-                        }
+            # link togehter
+            if ( $GetParam{'LinkTogether'} ) {
+                for my $TicketIDPartner (@TicketIDs) {
+                    if ( $TicketID ne $TicketIDPartner ) {
+                        $Self->{LinkObject}->LinkAdd(
+                            SourceObject => 'Ticket',
+                            SourceKey    => $TicketID,
+                            TargetObject => 'Ticket',
+                            TargetKey    => $TicketIDPartner,
+                            Type         => 'Normal',
+                            State        => 'Valid',
+                            UserID       => $Self->{UserID},
+                        );
                     }
                 }
             }
