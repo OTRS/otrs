@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,6 +20,11 @@
     float: left;
     width: 100%;
     position: absolute;
+}
+
+.Dialog > .Content {
+    clear: both;
+    padding-top: 25px;
 }
 
 .Dialog > .Content > .ContentFooter {

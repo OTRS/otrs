@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.24 2010-11-17 11:53:46 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.25 2010-11-23 13:02:18 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -133,7 +133,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param Params Hash with different config options:
      *               Modal: true|false (default: false) Shows a dark background overlay behind the dialog
      *               Type: Alert|Search (default: undefined) Defines a special type of dialog
-     *               Title: string (default: undefnied) Defines the title of the dialog window
+     *               Title: string (default: undefined) Defines the title of the dialog window
      *               Headline: string (default: undefined) Defines a special headline within the dialog window
      *               Text: string (default: undefined) The text which is outputtet in the dialog window
      *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML
@@ -466,7 +466,7 @@ Core.UI.Dialog = (function (TargetNS) {
         TargetNS.ShowDialog({
             Type: 'Alert',
             Modal: true,
-            Headline: Headline,
+            Title: Headline,
             Text: Text,
             OnClose: CloseFunction
         });
