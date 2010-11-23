@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1591 2010-11-23 10:27:15 martin Exp $
+# $Id: CHANGES,v 1.1592 2010-11-23 14:01:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,10 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
  - 2010-11-23 Fixed Bug#6346 - Upgrading script 2.4 -> 3.0 may cause corruption of
     the configuration files (ZZZAuto.pm and ZZZAAuto.pm).
- - 2010-11-22 Fixed Bug#6357 - Customer search URL contains ampersands (&) instead of semicolons (;).
+ - 2010-11-23 Fixed Bug#6357 - Customer search URL contains ampersands (&) instead of semicolons (;).
  - 2010-11-22 Fixed Bug#6358 - No custom CSS or JS is loaded from public module registration settings.
  - 2010-11-22 Fixed bug#6355 - $HOME/bin/otrs.LoaderCache.pl cron job unhappy with
     files in var/httpd/htdocs/skins/Customer/.

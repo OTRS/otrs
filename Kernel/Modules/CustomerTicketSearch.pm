@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.59 2010-11-23 09:26:27 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.60 2010-11-23 14:01:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -712,6 +712,11 @@ sub Run {
             }
         }
 
+        my $Link = 'Profile=' . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} ) . ';';
+        $Link .= 'SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} ) . ';';
+        $Link .= 'Order=' . $Self->{LayoutObject}->LinkEncode( $Self->{Order} ) . ';';
+        $Link .= 'TakeLastSearch=1;';
+
         # build search navigation bar
         my %PageNav = $Self->{LayoutObject}->PageNavBar(
             Limit     => $Self->{SearchLimit},
@@ -719,9 +724,8 @@ sub Run {
             PageShown => $Self->{SearchPageShown},
             AllHits   => $Counter,
             Action    => "Action=CustomerTicketSearch;Subaction=Search",
-            Link =>
-                "Profile=$Self->{Profile};SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1;",
-            IDPrefix => "CustomerTicketSearch",
+            Link      => $Link,
+            IDPrefix  => "CustomerTicketSearch",
         );
 
         # show footer filter - show only if more the one page is available
