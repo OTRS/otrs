@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.32 2010-11-23 09:28:41 mg Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.33 2010-11-23 18:46:28 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,18 +66,22 @@
                     <label for="Body">$Text{"Text"}</label>
                     <input title="$Text{"Text"}" type="text" id="Body" name="Body" value="$QData{"Body"}" size="20" />
                 </div>
-            </fieldset>
 <!-- dtl:block:FreeText -->
-            <fieldset>
-                <h2>$Config{"Ticket::Hook"}</h2>
-<!-- dtl:block:FreeTextItem -->
                 <div>
-                    <label for="TicketNumber">$Data{"TicketFreeKeyField"}</label>
+                    $Data{"TicketFreeKeyField"}
                     $Data{"TicketFreeTextField"}
                 </div>
-<!-- dtl:block:FreeTextItem -->
-            </fieldset>
+                <div class="Clear"></div>
 <!-- dtl:block:FreeText -->
+<!-- dtl:block:FreeTime -->
+                <div>
+                    $Data{"TicketFreeTimeKey"}
+                    <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
+                    $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"} $Data{"TicketFreeTime"}
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:FreeTime -->
+            </fieldset>
             <fieldset class="Columns">
                 <div class="Column">
                     <h2><label for="PriorityIDs">$Text{"Priority"}:</label></h2>
