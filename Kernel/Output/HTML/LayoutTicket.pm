@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.111 2010-11-17 21:32:53 cg Exp $
+# $Id: LayoutTicket.pm,v 1.112 2010-11-23 17:29:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -414,7 +414,7 @@ sub AgentFreeText {
             $Data{"TicketFreeKeyField$_"} =
                 '<label class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"TicketFreeKeyField$_"}
-                . '</label>';
+                . ':</label>';
         }
         else {
 
@@ -422,7 +422,7 @@ sub AgentFreeText {
             $Data{"TicketFreeKeyField$_"} =
                 '<label>'
                 . $Data{"TicketFreeKeyField$_"}
-                . '</label>';
+                . ':</label>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -529,13 +529,13 @@ sub AgentFreeDate {
                 '<label class="Mandatory" for="TicketFreeTime' . $Count . 'Used">'
                 . '<span class="Marker">*</span> '
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '</label>';
+                . ':</label>';
         }
         else {
             $Data{ 'TicketFreeTimeKey' . $Count } =
                 '<label for="TicketFreeTime' . $Count . 'Used">'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '</label>';
+                . ':</label>';
         }
     }
     return %Data;
@@ -643,7 +643,7 @@ sub TicketArticleFreeText {
             $Data{"ArticleFreeKeyField$_"} =
                 '<label class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"ArticleFreeKeyField$_"}
-                . '</label>';
+                . ':</label>';
         }
         else {
 
@@ -651,7 +651,7 @@ sub TicketArticleFreeText {
             $Data{"ArticleFreeKeyField$_"} =
                 '<label>'
                 . $Data{"ArticleFreeKeyField$_"}
-                . '</label>';
+                . ':</label>';
         }
 
         if ( $Config{"Error"}->{$_} ) {
@@ -751,13 +751,13 @@ sub CustomerFreeDate {
                 '<label class="Mandatory" for="TicketFreeTime' . $Count . 'Used">'
                 . '<span class="Marker">*</span> '
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '</label>';
+                . ':</label>';
         }
         else {
             $Data{ 'TicketFreeTimeKey' . $Count } =
                 '<label for="TicketFreeTime' . $Count . 'Used">'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '</label>';
+                . ':</label>';
         }
     }
     return %Data;
