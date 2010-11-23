@@ -3,7 +3,7 @@
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.0.pl,v 1.3 2010-11-22 15:46:31 martin Exp $
+# $Id: DBUpdate-to-3.0.pl,v 1.4 2010-11-23 09:00:44 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,9 +31,9 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
-use Getopt::Std;
+use Getopt::Std qw();
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Time;
@@ -43,34 +43,58 @@ use Kernel::System::Main;
 use Kernel::System::State;
 use Kernel::System::SysConfig;
 
-# get options
-my %Opts;
-getopt( 'h', \%Opts );
-if ( $Opts{h} ) {
-    print "DBUpdate-to-3.0.pl <Revision $VERSION> - Database migration script\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-    exit 1;
+{
+
+    # get options
+    my %Opts;
+    Getopt::Std::getopt( 'h', \%Opts );
+
+    if ( exists $Opts{h} ) {
+        print <<"EOF";
+
+DBUpdate-to-3.0.pl <Revision $VERSION> - Database migration script for upgrading OTRS 2.4 to 3.0
+Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+
+EOF
+        exit 1;
+    }
+
+    print "\nMigration started...\n\n";
+
+    # create common objects
+    my $CommonObject = _CommonObjectsBase();
+
+    # start migration process 1/2
+    print "Step 1 of 4: Refresh configuration cache... ";
+    RebuildConfig($CommonObject);
+    print "done.\n\n";
+
+    # create common objects with new default config
+    $CommonObject = _CommonObjectsBase();
+
+    # start migration process 2/2
+    print "Step 2 of 4: Migrating theme configuration... ";
+    MigrateThemes($CommonObject);
+    print "done.\n\n";
+
+    # create common objects with new default config
+    $CommonObject = _CommonObjectsBase();
+
+    print "Step 3 of 4: Cleaning up the permission table... ";
+    PermissionTableCleanup($CommonObject);
+    print "done.\n\n";
+
+    # create common objects with new default config
+    $CommonObject = _CommonObjectsBase();
+
+    print "Step 4 of 4: Cleanup pending time of tickets without pending state-type... ";
+    RemovePendingTime($CommonObject);
+    print "done.\n\n";
+
+    print "Migration completed!\n";
+
+    exit 0;
 }
-
-print "Start migration of the system...\n\n";
-
-# create common objects
-my $CommonObject = _CommonObjectsBase();
-
-# start migration process 1/2
-RebuildConfig($CommonObject);
-
-# create common objects with new default config
-$CommonObject = _CommonObjectsBase();
-
-# start migration process 2/2
-MigrateThemes($CommonObject);
-PermissionTableCleanup($CommonObject);
-RemovePendingTime($CommonObject);
-
-print "\nMigration of the system completed!\n";
-
-exit 0;
 
 sub _CommonObjectsBase {
     my %CommonObject;
@@ -88,7 +112,8 @@ sub _CommonObjectsBase {
 
 =item RebuildConfig($CommonObject)
 
-migrate all themes from the database to SysConfig
+refreshes the configuration to make sure that a ZZZAAuto.pm is present
+after the upgrade.
 
     RebuildConfig($CommonObject);
 
@@ -96,8 +121,6 @@ migrate all themes from the database to SysConfig
 
 sub RebuildConfig {
     my $CommonObject = shift;
-
-    print "NOTICE: Rebuild Config...\n";
 
     # write now default config options
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
@@ -113,7 +136,8 @@ sub RebuildConfig {
 
 =item MigrateThemes($CommonObject)
 
-migrate all themes from the database to SysConfig
+migrate the theme configuration from the database to SysConfig. The themes table
+will be dropped later in the *post.sql file.
 
     MigrateThemes($CommonObject);
 
@@ -122,16 +146,14 @@ migrate all themes from the database to SysConfig
 sub MigrateThemes {
     my $CommonObject = shift;
 
-    print "NOTICE: Migrating themes...\n";
+    my %Themes = $CommonObject->{DBObject}->GetTableData(
+        What  => 'theme, valid_id',
+        Table => 'theme',
+    );
 
-    (
-        my %Themes
-            =
-            $CommonObject->{DBObject}->GetTableData(
-            What  => 'theme, valid_id',
-            Table => 'theme',
-            )
-    ) || die "ERROR: reading themes from database. Migration halted.\n";
+    if ( !%Themes ) {
+        die "ERROR: reading themes from database. Migration halted.\n";
+    }
 
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
     my $Update          = $SysConfigObject->ConfigItemUpdate(
@@ -146,7 +168,7 @@ sub MigrateThemes {
 
 =item PermissionTableCleanup($CommonObject)
 
-remove all not necessary values from permission table
+removes all not necessary values from permission table.
 
     PermissionTableCleanup($CommonObject);
 
@@ -155,15 +177,12 @@ remove all not necessary values from permission table
 sub PermissionTableCleanup {
     my $CommonObject = shift;
 
-    print "NOTICE: Permission table cleanup...";
-
     my $Success = $CommonObject->{DBObject}->Do(
         SQL => 'DELETE FROM group_user WHERE permission_value = \'0\'',
     );
 
     if ( !$Success ) {
-        print "failed!\n";
-        return;
+        die "Database command failed!";
     }
 
     $Success = $CommonObject->{DBObject}->Do(
@@ -171,18 +190,15 @@ sub PermissionTableCleanup {
     );
 
     if ( !$Success ) {
-        print "failed!\n";
-        return;
+        die "Database command failed!";
     }
-
-    print "done!\n";
 
     return 1;
 }
 
 =item RemovePendingTime($CommonObject)
 
-Set Pending Time to NULL if the ticket does not have a pending-type state.
+sets tending time to zero if the ticket does not have a pending-type state.
 
     RemovePendingTime($CommonObject);
 
@@ -190,8 +206,6 @@ Set Pending Time to NULL if the ticket does not have a pending-type state.
 
 sub RemovePendingTime {
     my $CommonObject = shift;
-
-    print "NOTICE: Setting pending time to null...";
 
     # read pending state types from config
     my $PendingReminderStateType =
@@ -209,7 +223,6 @@ sub RemovePendingTime {
     );
 
     if ( !@PendingStateIDs ) {
-        print "done (no pendig states found)!\n";
         return 1;
     }
 
@@ -218,8 +231,6 @@ sub RemovePendingTime {
         SQL => "UPDATE ticket SET until_time = 0 WHERE until_time > 0"
             . " AND ticket_state_id NOT IN (${\(join ', ', sort @PendingStateIDs)})",
     );
-
-    print "done!\n";
 
     return 1;
 }
