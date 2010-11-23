@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.17 2010-11-22 21:15:16 dz Exp $
+# $Id: Crypt.t,v 1.18 2010-11-23 08:12:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@ my $CryptObject = Kernel::System::Crypt->new(
 );
 
 if ( !$CryptObject ) {
-    print STDERR 'NOTICE: No PGP support!\n';
+    print STDERR "NOTICE: No PGP support!\n";
     return;
 }
 
