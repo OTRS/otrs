@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.24 2010-10-29 11:04:17 mb Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.25 2010-11-23 17:59:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,13 +129,13 @@
                             $Text{"$Data{"Item"}"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $Data{"InvalidField"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p><strong>$Text{"This field is required."}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"This field is required."}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                         </div>
@@ -150,10 +150,10 @@
                             $Data{"Option"}
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p><strong>$Text{"This field is required."}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p><strong>$Text{"This field is required."}</strong></p>
+                                <p>$Text{"This field is required."}</p>
                             </div>
 <!-- dtl:block:PreferencesGenericOptionRequired -->
                         </div>
