@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1594 2010-11-23 15:12:06 martin Exp $
+# $Id: CHANGES,v 1.1595 2010-11-23 16:31:43 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,11 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-23 Fixed bug#6273 - IE7: Alert dialog display problems.
+ - 2010-11-23 Fixed bug#6260 - RichTextEditor Action for Inline-Image Upload is hardcoded.
+ - 2010-11-23 Fixed bug#6371 - Opening the customer ticket zoom shows a bowser error message.
  - 2010-11-23 Fixed Bug#6308 - Ticket search templates are not saved in agent interface.
  - 2010-11-23 Fixed Bug#6359 - Documentation fixes.
- - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
  - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
  - 2010-11-23 Fixed Bug#6346 - Upgrading script 2.4 -> 3.0 may cause corruption of
     the configuration files (ZZZAuto.pm and ZZZAAuto.pm).
