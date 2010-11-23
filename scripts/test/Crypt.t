@@ -2,7 +2,7 @@
 # Crypt.t - Crypt tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.19 2010-11-23 19:28:02 ub Exp $
+# $Id: Crypt.t,v 1.20 2010-11-23 19:36:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -393,7 +393,8 @@ for my $Count ( 1 .. 2 ) {
     # we need to decode it into utf8:
     utf8::decode( $Decrypt{Data} );
     $Self->Is(
-        $Decrypt{Data}, $UTF8Text,
+        $Decrypt{Data},
+        $UTF8Text,
         "#$Count Decrypt() - Data",
     );
 }
@@ -419,7 +420,8 @@ for my $Count ( 1 .. 2 ) {
     );
 
     $Self->Is(
-        $Keys[0]->{Status}, 'expired',
+        $Keys[0]->{Status},
+        'expired',
         'Check for expired pgp key',
     );
 
@@ -451,7 +453,8 @@ for my $Count ( 1 .. 2 ) {
     );
 
     $Self->Is(
-        $Keys[0]->{Status}, 'revoked',
+        $Keys[0]->{Status},
+        'revoked',
         'Check for revoked pgp key',
     );
 }
