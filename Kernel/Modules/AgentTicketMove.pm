@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.76 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketMove.pm,v 1.77 2010-11-23 12:31:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -391,10 +391,17 @@ sub Run {
 
     # check for errors
     if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
-        for my $Keys (qw( DestQueueID Subject Body )) {
-            if ( $GetParam{$Keys} eq '' ) {
-                $Error{ $Keys . 'Invalid' } = 'ServerError';
-            }
+        if ( $GetParam{DestQueueID} eq '' ) {
+            $Error{'DestQueueIDInvalid'} = 'ServerError';
+        }
+
+        # Body and Subject must both be filled in or both be empty
+        if ( $GetParam{Subject} eq '' && $GetParam{Body} ne '' ) {
+            $Error{'SubjectInvalid'} = 'ServerError';
+        }
+
+        if ( $GetParam{Subject} ne '' && $GetParam{Body} eq '' ) {
+            $Error{'BodyInvalid'} = 'ServerError';
         }
 
         # check time units
