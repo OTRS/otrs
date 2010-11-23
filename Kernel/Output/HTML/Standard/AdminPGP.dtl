@@ -2,7 +2,7 @@
 # AdminPGP.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.20 2010-11-23 17:49:42 dz Exp $
+# $Id: AdminPGP.dtl,v 1.21 2010-11-23 23:18:35 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,10 +96,9 @@
 <!-- dtl:block:Hint -->
     </div>
 
+<!-- dtl:block:OverviewResult -->
     <div class="ContentColumn">
         <div class="WidgetSimple">
-
-<!-- dtl:block:OverviewResult -->
             <div class="Header">
                 <h2>$Text{"Result"}</h2>
             </div>
@@ -149,9 +148,13 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:AddKey -->
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Add PGP Key"}</h2>
             </div>
@@ -180,10 +183,10 @@
                     </fieldset>
                 </form>
             </div>
-<!-- dtl:block:AddKey -->
-
         </div>
     </div>
+<!-- dtl:block:AddKey -->
+
     <div class="Clear"></div>
 </div>
 <!-- dtl:block:Overview-->
