@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.96 2010-09-23 08:44:35 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.97 2010-11-23 00:10:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -44,6 +44,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Source = $Self->{UserRepository} || '';
+    my %Errors;
 
     # ------------------------------------------------------------ #
     # check mod perl version and Apache::Reload
@@ -209,10 +210,15 @@ sub Run {
             Name => 'Package',
             Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
         );
-        for (qw(DownloadLocal Rebuild Reinstall)) {
+        for my $PackageAction (qw(DownloadLocal Rebuild Reinstall)) {
             $Self->{LayoutObject}->Block(
-                Name => 'Package' . $_,
-                Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
+                Name => 'Package' . $PackageAction,
+                Data => {
+                    %Param,
+                    %Frontend,
+                    Name    => $Name,
+                    Version => $Version,
+                },
             );
         }
 
@@ -959,7 +965,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'InstallUpload' ) {
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param  => 'FileUpload',
             Source => 'string',
         );
 
@@ -983,25 +989,27 @@ sub Run {
                 FormID => $FormID,
             );
             if ( !@AttachmentData || ( $AttachmentData[0] && !%{ $AttachmentData[0] } ) ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => 'Need File/Package!' );
+                $Errors{FileUploadInvalid} = 'ServerError';
             }
             else {
                 %UploadStuff = %{ $AttachmentData[0] };
             }
         }
-        my $Feedback
-            = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
+        if ( !%Errors ) {
+            my $Feedback
+                = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
 
-        if ($Feedback) {
-            return $Self->_UpgradeHandling(
+            if ($Feedback) {
+                return $Self->_UpgradeHandling(
+                    Package => $UploadStuff{Content},
+                    FormID  => $FormID,
+                );
+            }
+            return $Self->_InstallHandling(
                 Package => $UploadStuff{Content},
                 FormID  => $FormID,
             );
         }
-        return $Self->_InstallHandling(
-            Package => $UploadStuff{Content},
-            FormID  => $FormID,
-        );
     }
 
     # ------------------------------------------------------------ #
@@ -1033,165 +1041,151 @@ sub Run {
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
-    else {
-        my %Frontend;
-        my %NeedReinstall;
-        my %List;
-        my $OutputNotify = '';
-        if ( $Self->{ConfigObject}->Get('Package::RepositoryList') ) {
-            %List = %{ $Self->{ConfigObject}->Get('Package::RepositoryList') };
-        }
-        my %RepositoryRoot;
-        if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
-            %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
-        }
-        $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
-            Data => { %List, %RepositoryRoot, },
-            Name => 'Source',
-            Max  => 40,
-            SelectedID => $Source,
+    my %Frontend;
+    my %NeedReinstall;
+    my %List;
+    my $OutputNotify = '';
+    if ( $Self->{ConfigObject}->Get('Package::RepositoryList') ) {
+        %List = %{ $Self->{ConfigObject}->Get('Package::RepositoryList') };
+    }
+    my %RepositoryRoot;
+    if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
+        %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
+    }
+    $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
+        Data => { %List, %RepositoryRoot, },
+        Name => 'Source',
+        Max  => 40,
+        SelectedID => $Source,
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => { %Param, %Frontend, },
+    );
+    if ($Source) {
+        my @List = $Self->{PackageObject}->PackageOnlineList(
+            URL  => $Source,
+            Lang => $Self->{LayoutObject}->{UserLanguage},
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => { %Param, %Frontend, },
-        );
-        if ($Source) {
-            my @List = $Self->{PackageObject}->PackageOnlineList(
-                URL  => $Source,
-                Lang => $Self->{LayoutObject}->{UserLanguage},
-            );
-            if ( !@List ) {
-                $OutputNotify .= $Self->{LayoutObject}->Notify( Priority => 'Error', );
-                if ( !$OutputNotify ) {
-                    $OutputNotify .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Info',
-                        Info => 'No packages, or no new packages, found in selected repository.',
-                    );
-                }
-                $Self->{LayoutObject}->Block(
-                    Name => 'NoDataFoundMsg',
-                    Data => {},
+        if ( !@List ) {
+            $OutputNotify .= $Self->{LayoutObject}->Notify( Priority => 'Error', );
+            if ( !$OutputNotify ) {
+                $OutputNotify .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Info',
+                    Info     => 'No packages, or no new packages, found in selected repository.',
                 );
-
             }
-
-            for my $Data (@List) {
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'ShowRemotePackage',
-                    Data => {
-                        %{$Data},
-                        Source => $Source,
-                    },
-                );
-
-                # show documentation link
-                my %DocFile = $Self->_DocumentationGet( Filelist => $Data->{Filelist} );
-                if (%DocFile) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ShowRemotePackageDocumentation',
-                        Data => {
-                            %{$Data},
-                            Source => $Source,
-                            %DocFile,
-                        },
-                    );
-                }
-
-                if ( $Data->{Upgrade} ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ShowRemotePackageUpgrade',
-                        Data => { %{$Data}, Source => $Source, },
-                    );
-                }
-                elsif ( !$Data->{Installed} ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ShowRemotePackageInstall',
-                        Data => { %{$Data}, Source => $Source, },
-                    );
-                }
-            }
-        }
-
-        # if there are no remote packages to show, a msg is displayed
-        else {
             $Self->{LayoutObject}->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
+
         }
 
-        # if there are no local packages to show, a msg is displayed
-        if ( !$Self->{PackageObject}->RepositoryList() ) {
+        for my $Data (@List) {
+
             $Self->{LayoutObject}->Block(
-                Name => 'NoDataFoundMsg2',
-                Data => {},
+                Name => 'ShowRemotePackage',
+                Data => {
+                    %{$Data},
+                    Source => $Source,
+                },
+            );
+
+            # show documentation link
+            my %DocFile = $Self->_DocumentationGet( Filelist => $Data->{Filelist} );
+            if (%DocFile) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowRemotePackageDocumentation',
+                    Data => {
+                        %{$Data},
+                        Source => $Source,
+                        %DocFile,
+                    },
+                );
+            }
+
+            if ( $Data->{Upgrade} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowRemotePackageUpgrade',
+                    Data => { %{$Data}, Source => $Source, },
+                );
+            }
+            elsif ( !$Data->{Installed} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowRemotePackageInstall',
+                    Data => { %{$Data}, Source => $Source, },
+                );
+            }
+        }
+    }
+
+    # if there are no remote packages to show, a msg is displayed
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoDataFoundMsg',
+            Data => {},
+        );
+    }
+
+    # if there are no local packages to show, a msg is displayed
+    if ( !$Self->{PackageObject}->RepositoryList() ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoDataFoundMsg2',
+            Data => {},
+        );
+    }
+
+    for my $Package ( $Self->{PackageObject}->RepositoryList() ) {
+
+        my %Data = $Self->_MessageGet( Info => $Package->{Description} );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ShowLocalPackage',
+            Data => {
+                %{$Package},
+                %Data,
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+                Vendor  => $Package->{Vendor}->{Content},
+                URL     => $Package->{URL}->{Content},
+            },
+        );
+
+        # show documentation link
+        my %DocFile = $Self->_DocumentationGet( Filelist => $Package->{Filelist} );
+        if (%DocFile) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ShowLocalPackageDocumentation',
+                Data => {
+                    Name    => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content},
+                    %DocFile,
+                },
             );
         }
 
-        for my $Package ( $Self->{PackageObject}->RepositoryList() ) {
-
-            my %Data = $Self->_MessageGet( Info => $Package->{Description} );
-
+        if ( $Package->{Status} eq 'installed' ) {
             $Self->{LayoutObject}->Block(
-                Name => 'ShowLocalPackage',
+                Name => 'ShowLocalPackageUninstall',
                 Data => {
                     %{$Package},
-                    %Data,
                     Name    => $Package->{Name}->{Content},
                     Version => $Package->{Version}->{Content},
                     Vendor  => $Package->{Vendor}->{Content},
                     URL     => $Package->{URL}->{Content},
                 },
             );
-
-            # show documentation link
-            my %DocFile = $Self->_DocumentationGet( Filelist => $Package->{Filelist} );
-            if (%DocFile) {
+            if (
+                !$Self->{PackageObject}->DeployCheck(
+                    Name    => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content}
+                )
+                )
+            {
+                $NeedReinstall{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
                 $Self->{LayoutObject}->Block(
-                    Name => 'ShowLocalPackageDocumentation',
-                    Data => {
-                        Name    => $Package->{Name}->{Content},
-                        Version => $Package->{Version}->{Content},
-                        %DocFile,
-                    },
-                );
-            }
-
-            if ( $Package->{Status} eq 'installed' ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ShowLocalPackageUninstall',
-                    Data => {
-                        %{$Package},
-                        Name    => $Package->{Name}->{Content},
-                        Version => $Package->{Version}->{Content},
-                        Vendor  => $Package->{Vendor}->{Content},
-                        URL     => $Package->{URL}->{Content},
-                    },
-                );
-                if (
-                    !$Self->{PackageObject}->DeployCheck(
-                        Name    => $Package->{Name}->{Content},
-                        Version => $Package->{Version}->{Content}
-                    )
-                    )
-                {
-                    $NeedReinstall{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ShowLocalPackageReinstall',
-                        Data => {
-                            %{$Package},
-                            Name    => $Package->{Name}->{Content},
-                            Version => $Package->{Version}->{Content},
-                            Vendor  => $Package->{Vendor}->{Content},
-                            URL     => $Package->{URL}->{Content},
-                        },
-                    );
-                }
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ShowLocalPackageInstall',
+                    Name => 'ShowLocalPackageReinstall',
                     Data => {
                         %{$Package},
                         Name    => $Package->{Name}->{Content},
@@ -1202,35 +1196,50 @@ sub Run {
                 );
             }
         }
-
-        # show file upload
-        if ( $Self->{ConfigObject}->Get('Package::FileUpload') ) {
+        else {
             $Self->{LayoutObject}->Block(
-                Name => 'OverviewFileUpload',
-                Data => { FormID => $Self->{UploadCacheObject}->FormIDCreate(), }
+                Name => 'ShowLocalPackageInstall',
+                Data => {
+                    %{$Package},
+                    Name    => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content},
+                    Vendor  => $Package->{Vendor}->{Content},
+                    URL     => $Package->{URL}->{Content},
+                },
             );
         }
-
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $OutputNotify;
-        for ( sort keys %NeedReinstall ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data     => "$_ $NeedReinstall{$_}"
-                    . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
-                Link => '$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name='
-                    . $_
-                    . ';Version='
-                    . $NeedReinstall{$_},
-            );
-        }
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminPackageManager',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
+
+    # show file upload
+    if ( $Self->{ConfigObject}->Get('Package::FileUpload') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewFileUpload',
+            Data => {
+                FormID => $Self->{UploadCacheObject}->FormIDCreate(),
+                %Errors,
+            },
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $OutputNotify;
+    for my $ReinstallKey ( sort keys %NeedReinstall ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey}"
+                . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
+            Link => '$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name='
+                . $ReinstallKey
+                . ';Version='
+                . $NeedReinstall{$ReinstallKey},
+        );
+    }
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminPackageManager',
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 sub _MessageGet {

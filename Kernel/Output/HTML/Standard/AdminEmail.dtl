@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.40 2010-10-29 12:03:19 mb Exp $
+# $Id: AdminEmail.dtl,v 1.41 2010-11-23 00:10:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,9 +41,15 @@ $Include{"RichTextEditor"}
                     <input type="hidden" name="Subaction" value="Send"/>
 
                     <fieldset class="TableLike">
-                        <label for="From">$Text{"From"}:</label>
+                        <label class="Mandatory" for="From"><span class="Marker">*</span> $Text{"From"}:</label>
                         <div class="Field">
-                            <input type="text" name="From" id="From" value="$Config{"AdminEmail"}" class="W75pc" />
+                            <input type="text" name="From" id="From" value="$Config{"AdminEmail"}" class="W75pc Validate_Required $QData{"FromInvalid"}"/>
+                            <div id="FromError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="FromServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -61,7 +67,7 @@ $Include{"RichTextEditor"}
 
                         <label for="GroupPermissionRO">$Text{"Group members need to have permission"}:</label>
                         <div class="Field">
-                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked" />
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked"/>
                             <label for="GroupPermissionRO">$Text{"ro"}</label>
                             <br/>
                             <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
@@ -85,24 +91,30 @@ $Include{"RichTextEditor"}
                         <div class="Clear"></div>
 <!-- dtl:block:CustomerUserGroups -->
 
-                        <label for="Subject" class="Mandatory">
-                            <span class="Marker">*</span>
-                            $Text{"Subject"}:
-                        </label>
+                        <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" class="W75pc Validate_Required" value="$QData{"Subject"}" />
+                            <input type="text" name="Subject" id="Subject" class="W75pc Validate_Required $QData{"SubjectInvalid"}" value="$QData{"Subject"}" />
                             <div id="SubjectError" class="TooltipErrorMessage">
-                                <p>$Text{"Please enter subject."}</p>
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
 
-                        <label for="RichText">$Text{"Body"}:</label>
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Body"}:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" class="RichText" name="Body" rows="16" class="W100pc">$QData{"Body"}</textarea>
+                            <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"RichTextInvalid"}" value="$QData{"Subject"}" name="Body" rows="16" class="W100pc">$QData{"Body"}</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
 
-                        <div class="Field">
-                            <button class="button" id="submitRichText" type="submit" value="$Text{"Send"}">$Text{"Send"}</button>
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="submitRichText" type="submit" value="$Text{"Send"}">$Text{"Send"}</button>
                         </div>
                         <div class="Clear"></div>
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.32 2010-07-02 12:09:33 mg Exp $
+# $Id: AdminNotification.pm,v 1.33 2010-11-23 00:10:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,9 +28,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -45,8 +45,9 @@ sub Run {
 
     my @Params = (qw(Name Type Charset Language Subject Body UserID));
     my %GetParam;
-    for (@Params) {
-        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+    my $Note = '';
+    for my $Parameter (@Params) {
+        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
     }
     if ( !$GetParam{Language} && $GetParam{Name} ) {
         if ( $GetParam{Name} =~ /^(.+?)(::.*)/ ) {
@@ -67,7 +68,11 @@ sub Run {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
         my $Output       = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification, );
+        $Output .= $Self->_MaskNotificationForm(
+            %GetParam,
+            %Param,
+            %Notification,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -76,31 +81,57 @@ sub Run {
     # update action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+        my %Errors;
+        my $Update;
 
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        my $Update = $Self->{NotificationObject}->NotificationUpdate(
-            %GetParam,
-            ContentType => $ContentType,
-            UserID      => $Self->{UserID},
-        );
-        if ( !$Update ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+        # check for needed data
+        for my $Needed (qw(Subject Body)) {
+            if ( !$GetParam{$Needed} ) {
+                $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
+
+        if ( !%Errors ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
+
+            $Update = $Self->{NotificationObject}->NotificationUpdate(
+                %GetParam,
+                ContentType => $ContentType,
+                UserID      => $Self->{UserID},
+            );
+            if ($Update) {
+                $Note = $Self->{LayoutObject}->Notify( Info => 'Notification updated!' );
+            }
+        }
+
+        if ( %Errors || !$Update ) {
+            my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
+            my $Output       = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->_MaskNotificationForm(
+                %GetParam,
+                %Param,
+                %Notification,
+                %Errors,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
 
     # ------------------------------------------------------------ #
     # else ! print form
     # ------------------------------------------------------------ #
-    else {
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_MaskNotificationForm();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Note;
+    $Self->{Action}    = 'AdminNotification';
+    $Self->{Subaction} = '';
+    $Output .= $Self->_MaskNotificationForm();
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 sub _MaskNotificationForm {
@@ -156,13 +187,13 @@ sub _MaskNotificationForm {
         my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
 
         for my $Language ( sort { lc($a) cmp lc($b) } keys %Languages ) {
-            for (@Types) {
+            for my $NotificationType (@Types) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         Language => $Languages{$Language},
-                        Type     => $_,
-                        Name     => $Language . '::' . $_
+                        Type     => $NotificationType,
+                        Name     => $Language . '::' . $NotificationType,
                     },
                 );
             }

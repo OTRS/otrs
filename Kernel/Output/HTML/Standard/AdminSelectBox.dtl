@@ -2,7 +2,7 @@
 # AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.6 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminSelectBox.dtl,v 1.7 2010-11-23 00:10:36 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,24 +32,38 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Select"/>
                     <fieldset class="TableLike FixedLabelSmall">
 
-                        <label for="SQL">$Text{"SQL"}:</label>
+                        <label class="Mandatory" for="SQL"><span class="Marker">*</span> $Text{"SQL"}:</label>
                         <div class="Field">
-                            <textarea name="SQL" id="SQL" rows="3" class="W100pc">$QData{"SQL"}</textarea>
+                            <textarea name="SQL" id="SQL" rows="3" class="W100pc Validate_Required $QData{"SQLInvalid"}">$QData{"SQL"}</textarea>
+                            <div id="SQLError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="SQLServerError" class="TooltipErrorMessage">
+                                <p>
+<!-- dtl:block:FieldRequiredServerError -->
+                                    $Text{"This field is required."}
+<!-- dtl:block:FieldRequiredServerError -->
+<!-- dtl:block:SQLSyntaxServerError -->
+                                    $Text{"The syntax of your SQL query has a mistake. Please check it."}
+<!-- dtl:block:SQLSyntaxServerError -->
+<!-- dtl:block:BindParamServerError -->
+                                    $Text{"There is at least one parameter missing for the binding. Please check it."}
+<!-- dtl:block:BindParamServerError -->
+                                </p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SQL">$Text{"Limit"}:</label>
+                        <label for="Max">$Text{"Limit"}:</label>
                         <div class="Field">
-                            <input type="text" name="Max" value="$QData{"Max"}" class="W50px" />
+                            <input type="text" name="Max" id="Max" value="$QData{"Max"}" class="W50px" />
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="SQL">$Text{"Result format"}:</label>
+                        <label for="ResultFormat">$Text{"Result format"}:</label>
                         <div class="Field">
                             $Data{"ResultFormatStrg"}
                         </div>

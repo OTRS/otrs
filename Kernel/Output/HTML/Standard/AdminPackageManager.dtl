@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.73 2010-10-25 08:37:47 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.74 2010-11-23 00:10:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,11 +197,13 @@
                     <ul class="ActionList">
 <!-- dtl:block:OverviewFileUpload -->
                         <li>
-                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                 <input type="hidden" name="Subaction" value="InstallUpload"/>
                                 <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
-                                <input name="file_upload" type="file" size="18" class="Fixed W100pc"/>
+                                <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
+                                <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <button class="CallForAction" type="submit" value="$Text{"Install"}">
                                     <span>$Text{"Install Package"}</span>
                                 </button>

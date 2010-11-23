@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.22 2010-10-13 15:28:58 mb Exp $
+# $Id: AdminNotification.dtl,v 1.23 2010-11-23 00:10:36 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@ $Include{"RichTextEditor"}
                 <h2>$Text{"Edit Notification"}</h2>
             </div>
             <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -133,15 +133,15 @@ $Include{"RichTextEditor"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Subject">$Text{"Subject"}:</label>
+                        <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc" maxlength="120"/>
+                            <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $QData{"SubjectInvalid"}" maxlength="120"/>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RichText">$Text{"Text"}:</label>
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Text"}:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" class="RichText" rows="12" cols="75" name="Body">$QData{"Body"}</textarea>
+                            <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"RichTextInvalid"}" rows="12" cols="75" name="Body">$QData{"Body"}</textarea>
                         </div>
                         <div class="Clear"></div>
                         <div class="Field">

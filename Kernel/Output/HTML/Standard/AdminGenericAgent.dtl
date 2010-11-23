@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.81 2010-11-16 15:50:55 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.82 2010-11-23 00:10:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@
 
 
 <!-- dtl:block:Edit -->
-        <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" class="Validate PreventMultipleSubmits">
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Job Settings"}</h2>
@@ -101,13 +101,14 @@
                     <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}"/>
                     <input type="hidden" name="OldProfile" value="$QData{"Profile"}"/>
                     <fieldset class="TableLike">
-                        <label for="ProfileEdit" class="Mandatory">
-                            <span class="Marker">*</span> $Text{"Job name"}:
-                        </label>
+                        <label for="Profile" class="Mandatory"><span class="Marker">*</span> $Text{"Job name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Profile" id="ProfileEdit" class="Validate_Required W50pc" value="$QData{"Profile"}" />
-                            <div class="TooltipErrorMessage" id="ProfileEditError">
-                                <p>$Text{"Please provide a name."}</p>
+                            <input type="text" name="Profile" id="Profile" class="Validate_Required W50pc $QData{"ProfileInvalid"}" value="$QData{"Profile"}" />
+                            <div id="ProfileError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ProfileServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
