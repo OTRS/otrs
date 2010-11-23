@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.260 2010-11-11 13:13:46 martin Exp $
+# $Id: Article.pm,v 1.261 2010-11-23 22:28:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.260 $) [1];
+$VERSION = qw($Revision: 1.261 $) [1];
 
 =head1 NAME
 
@@ -2824,7 +2824,7 @@ set article flags
 
     my $Success = $TicketObject->ArticleFlagSet(
         ArticleID => 123,
-        Key       => 'seen',
+        Key       => 'Seen',
         Value     => 1,
         UserID    => 123,
     );
@@ -3274,6 +3274,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.260 $ $Date: 2010-11-11 13:13:46 $
+$Revision: 1.261 $ $Date: 2010-11-23 22:28:44 $
 
 =cut
