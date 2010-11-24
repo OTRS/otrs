@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.101 2010-11-17 17:48:15 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.102 2010-11-24 19:42:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
                 <span title="$Text{"$Data{"StateTypeGeneric"}"}" id="Flag" class="$QData{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
-                $QData{"Title","40"}
+                $QData{"Title","65"}
                 <span class="TicketHook">$QData{"TicketNumber"}</span>
             </h2>
             <ul id="Metadata">
@@ -93,7 +93,7 @@
                             </div>
 <!-- dtl:block:ArticleRow -->
                             <div>
-                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","100"}</span>
+                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","150"}</span>
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleAttachment -->

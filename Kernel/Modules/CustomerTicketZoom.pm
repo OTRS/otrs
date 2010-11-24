@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.71 2010-08-30 19:01:45 en Exp $
+# $Id: CustomerTicketZoom.pm,v 1.72 2010-11-24 19:42:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -538,10 +538,6 @@ sub _Mask {
             Space => ' ',
         );
 
-        $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
-            TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
-        );
         $LastSenderType = $Article{SenderType};
 
         $Self->{LayoutObject}->Block(
