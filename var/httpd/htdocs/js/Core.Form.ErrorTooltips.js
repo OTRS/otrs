@@ -2,7 +2,7 @@
 // Core.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.3 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.4 2010-11-24 10:32:47 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -24,17 +24,17 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
 
     var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip',
         TooltipOffsetTop = 20,
-        TooltipOffsetLeft = 0,
+        TooltipOffsetLeft = 20,
         TongueClass = 'TongueLeft',
         $TooltipContent = $('<div class="Content" role="tooltip"></div>'),
         $Tooltip,
         Offset;
-        
+
     /**
      * @function
      * @private
      * @param {jQueryObject} $Element jquery object
-     * @param {String} TooltipContent The string content that will be show in tooltip 
+     * @param {String} TooltipContent The string content that will be show in tooltip
      * @return nothing
      *      This function shows the tooltip for an element with a certain content
      */
@@ -69,7 +69,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
             .css('top', Offset.top + TooltipOffsetTop)
             .show();
     }
-    
+
     /**
      * @function
      * @private
@@ -113,18 +113,18 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
     };
-        
+
     /**
      * @function
      * @private
      * @return nothing
      *      This function shows the tooltip for a rich text editor
      */
-    
+
     function ShowRTETooltip(Event) {
         ShowTooltip($('#cke_contents_' + Event.listenerData.ElementID), Event.listenerData.Message);
     }
-        
+
     /**
      * @function
      * @private
@@ -138,11 +138,11 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function inicialized the necessary stuff for a tooltip in a rich text editor 
+     *      This function inicialized the necessary stuff for a tooltip in a rich text editor
      * @param {jQueryObject} $Element
      *      The RTE element for whom the tooltips are inicialized.
      * @param {String} Message
-     *      The string content that will be show in tooltip 
+     *      The string content that will be show in tooltip
      * @return nothing
      */
     TargetNS.InitRTETooltip = function ($Element, Message) {
@@ -154,7 +154,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function inicialized the necessary stuff for a tooltip in a rich text editor 
+     *      This function inicialized the necessary stuff for a tooltip in a rich text editor
      * @param {jQueryObject} $Element
      *      The RTE element for whom the tooltips are removed.
      * @return nothing
