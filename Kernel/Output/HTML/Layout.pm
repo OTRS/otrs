@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.336 2010-11-18 13:47:39 martin Exp $
+# $Id: Layout.pm,v 1.337 2010-11-24 13:19:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.336 $) [1];
+$VERSION = qw($Revision: 1.337 $) [1];
 
 =head1 NAME
 
@@ -3204,11 +3204,15 @@ sub CustomerHeader {
         );
     }
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files
+    # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
 
     # create & return output
-    $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => "CustomerHeader$Type",
+        Data         => \%Param,
+    );
 
     # remove the version tag from the header if configured
     $Self->_DisableBannerCheck( OutputRef => \$Output );
@@ -3222,14 +3226,15 @@ sub CustomerFooter {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files
+    # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerJSCalls();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
         my $VacationDays     = $Self->DatepickerGetVacationDays();
         my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays
+            Data => $VacationDays,
         );
 
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
@@ -3246,7 +3251,7 @@ sub CustomerFooter {
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
-            Name => 'Banner'
+            Name => 'Banner',
         );
     }
 
@@ -4806,6 +4811,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.336 $ $Date: 2010-11-18 13:47:39 $
+$Revision: 1.337 $ $Date: 2010-11-24 13:19:47 $
 
 =cut
