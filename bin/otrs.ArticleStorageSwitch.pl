@@ -3,7 +3,7 @@
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.10 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.11 2010-11-24 12:01:32 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -104,6 +104,7 @@ for my $TicketID (@TicketIDs) {
         # read source attachments
         my %Index = $TicketObjectSource->ArticleAttachmentIndex(
             ArticleID     => $ArticleID,
+            UserID        => 1,
             OnlyMyBackend => 1,
         );
 
@@ -171,6 +172,7 @@ for my $TicketID (@TicketIDs) {
         # verify destination attachments
         %Index = $TicketObjectDestination->ArticleAttachmentIndex(
             ArticleID     => $ArticleID,
+            UserID        => 1,
             OnlyMyBackend => 1,
         );
         for my $FileID ( keys %Index ) {

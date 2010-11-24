@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1600 2010-11-24 10:32:47 mg Exp $
+# $Id: CHANGES,v 1.1601 2010-11-24 12:01:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Fixed bug#6382 - ArticleStorageSwitch not working.
  - 2010-11-24 Fixed bug#6378 - The error messages are displayed incorrectly in the action list.
  - 2010-11-23 Fixed bug#6360 - Bulk-Actin link all to ticket number doesn't link anything.
  - 2010-11-23 Fixed bug#6286 - Adding a phone call outbound does indicate an unread article.
