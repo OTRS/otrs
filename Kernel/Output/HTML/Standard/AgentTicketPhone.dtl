@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.121 2010-11-22 17:03:19 en Exp $
+# $Id: AgentTicketPhone.dtl,v 1.122 2010-11-24 18:54:05 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,18 @@ $Include{"AgentCustomerSearch"}
                             <p>$Text{"This field is required."}</p>
                         </div>
                         <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage">
+<!-- dtl:block:GenericServerErrorMsg -->
                             <p>$Text{"This field is required."}</p>
+<!-- dtl:block:GenericServerErrorMsg -->
+<!-- dtl:block:EmailInvalidConfigServerErrorMsg -->
+                            <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:EmailInvalidConfigServerErrorMsg -->
+<!-- dtl:block:EmailInvalidMXServerErrorMsg -->
+                            <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:EmailInvalidMXServerErrorMsg -->
+<!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
+                            <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
                         </div>
                     </div>
                     <div class="Clear"></div>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.171 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.172 2010-11-24 18:54:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -516,7 +516,7 @@ sub Run {
         if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
                 if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = ' ServerError';
+                    $Error{DateInvalid} = ' ServerError';
                 }
             }
             if (
@@ -525,7 +525,7 @@ sub Run {
                 )
             {
                 if ( $IsUpload == 0 ) {
-                    $Error{'DateInvalid'} = ' ServerError';
+                    $Error{DateInvalid} = ' ServerError';
                 }
             }
         }
@@ -636,8 +636,8 @@ sub Run {
                 $Param{CustomerUserListLastUser} = $KeyCustomerUser;
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
-                $GetParam{From} = $Param{CustomerUserListLast};
-                $Error{'ExpandCustomerName'} = 1;
+                $GetParam{From}            = $Param{CustomerUserListLast};
+                $Error{ExpandCustomerName} = 1;
                 my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $Param{CustomerUserListLastUser},
                 );
@@ -712,11 +712,11 @@ sub Run {
             }
         }
 
-        #        my $ErrorDestination;
         # check email address
         for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                $Error{'FromInvalid'} = ' ServerError';
+                $Error{ErrorType}   = $Self->{CheckItemObject}->CheckErrorType() . 'ServerErrorMsg';
+                $Error{FromInvalid} = ' ServerError';
             }
         }
 
@@ -1522,6 +1522,14 @@ sub _MaskPhoneNew {
             $Param{$KeyError}
                 = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
+    }
+
+    # display server error msg according with the occurred email (from) error type
+    if ( $Param{Errors} && $Param{Errors}->{ErrorType} ) {
+        $Self->{LayoutObject}->Block( Name => 'Email' . $Param{Errors}->{ErrorType} );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'GenericServerErrorMsg' );
     }
 
     # build type string
