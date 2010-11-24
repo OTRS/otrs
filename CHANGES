@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1609 2010-11-24 22:18:49 dz Exp $
+# $Id: CHANGES,v 1.1610 2010-11-24 22:55:30 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Fixed bug#6379 - No Ajax Update fro Crypt and Sign fields when you set the customer on Email Compose.
  - 2010-11-24 Fixed bug#6395 - Broken use of PGP Sign on AgentTicketEmail screen.
  - 2010-11-24 Fixed bug#6388 - In the Medium view, the title of the ticket is truncated after 25 characters.
  - 2010-11-24 Fixed bug#6389 - Customer TicketZoom - Ticket Title is truncated after 25 characters.
