@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1607 2010-11-24 19:42:13 en Exp $
+# $Id: CHANGES,v 1.1608 2010-11-24 21:39:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Fixed bug#6388 - In the Medium view, the title of the ticket is truncated after 25 characters.
  - 2010-11-24 Fixed bug#6389 - Customer TicketZoom - Ticket Title is truncated after 25 characters.
  - 2010-11-24 Fixed bug#6370 - New customer form submission - errors are silently dropped.
  - 2010-11-24 Fixed bug#6264 - CKEditor Image upload does not show a correct behavior in case a FormID is missing.
