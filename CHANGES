@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1602 2010-11-24 13:01:03 mn Exp $
+# $Id: CHANGES,v 1.1603 2010-11-24 13:30:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,18 +10,19 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Added new Japanese translation, thanks to Kaz Kamimura Thomas!
  - 2010-11-24 Fixed bug#6187 - IE9: article height incorrectly calculated.
  - 2010-11-24 Fixed bug#6188 - IE9: article table resize handle has no effect.
  - 2010-11-24 Fixed bug#6189 - IE9: ticket overview table headers behave incorrectly.
- - 2010-11-24 Fixed bug#6382 - ArticleStorageSwitch not working.
+ - 2010-11-24 Fixed bug#6382 - otrs.ArticleStorageSwitch.pl script not working.
  - 2010-11-24 Fixed bug#6378 - The error messages are displayed incorrectly in the action list.
- - 2010-11-23 Fixed bug#6360 - Bulk-Actin link all to ticket number doesn't link anything.
+ - 2010-11-23 Fixed bug#6360 - Bulk Action link all to ticket number doesn't link anything.
  - 2010-11-23 Fixed bug#6286 - Adding a phone call outbound does indicate an unread article.
  - 2010-11-23 Fixed bug#6283 - FreeText field search is not possible in Customer Interface.
  - 2010-11-23 Fixed bug#6362 - Software error adding new PGP key.
  - 2010-11-23 Fixed bug#6273 - IE7: Alert dialog display problems.
- - 2010-11-23 Fixed bug#6260 - RichTextEditor Action for Inline-Image Upload is hardcoded.
- - 2010-11-23 Fixed bug#6371 - Opening the customer ticket zoom shows a bowser error message.
+ - 2010-11-23 Fixed bug#6260 - RichTextEditor Action for Inline-Image Upload is hard coded.
+ - 2010-11-23 Fixed bug#6371 - Opening the customer ticket zoom shows a browser error message.
  - 2010-11-23 Fixed Bug#6308 - Ticket search templates are not saved in agent interface.
  - 2010-11-23 Fixed Bug#6359 - Documentation fixes.
  - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
@@ -33,23 +34,23 @@
     files in var/httpd/htdocs/skins/Customer/.
  - 2010-11-22 Fixed bug#6352 - var/cron/cache schedules nonexistent $HOME/bin/otrs.CacheDelete.pl.
  - 2010-11-22 Fixed bug#6350 - Sort order in "Auto Responses <-> Queues".
- - 2010-11-19 Fixed bug#6288 - Generating a stat that outputs to PDF or CSV opens an empty popup.
+ - 2010-11-19 Fixed bug#6288 - Generating a stat that outputs to PDF or CSV opens an empty pop-up.
  - 2010-11-19 Fixed bug#6300 - Revoked GPG-Keys are not shown as revoked.
  - 2010-11-19 Fixed bug#6343 - CSS problem in the result list of ticket customer search.
  - 2010-11-19 Fixed bug#6327 - More problems when using Session instead of Cookie.
  - 2010-11-19 Fixed bug#6337 - Generic Agent has "Delete Ticket" as Default set -> risk of ticket loss!
- - 2010-11-18 Fixed bug#6330 - Bad character in Poslish translation.
+ - 2010-11-18 Fixed bug#6330 - Bad character in Polish translation.
  - 2010-11-18 Fixed bug#6324 - If you use Sessions in URLs and not in cookies,
     responding to tickets logs you out.
  - 2010-11-17 Upgraded jQuery to 1.4.4 because of a number of regressions in 1.4.3.
  - 2010-11-17 Fixed bug#6232 - FreeText fields requiredness is not indicated.
  - 2010-11-17 Fixed bug#6318 - Error in error log due to comparison with a value that sometimes does not exist on Customer Search.
  - 2010-11-17 Fixed bug#6317 - No Pagination String in Customer Search Results.
- - 2010-11-17 Fixed bug#6309 - Sortby columns performs a full ticket search on customer ticket search results.
+ - 2010-11-17 Fixed bug#6309 - SortBy columns performs a full ticket search on customer ticket search results.
  - 2010-11-16 Fixed bug#6316 - CustomerLogo not working.
  - 2010-11-16 Fixed bug#5797 - SMIME functionality does not work with OpenSSL 1.0.0.
  - 2010-11-16 Fixed bug#6302 - Inbound mail password displayed in clear text during install.
- - 2010-11-16 Fixed bug#6261 - Remove dropdown from SysConfig start screen.
+ - 2010-11-16 Fixed bug#6261 - Remove drop down from SysConfig start screen.
  - 2010-11-16 Fixed bug#6294 - GenericAgent - Time Selection is not in columns.
 
 3.0.2 2010-11-17
