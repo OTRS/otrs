@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.9 2010-11-12 17:38:52 ub Exp $
+# $Id: PictureUpload.pm,v 1.10 2010-11-24 16:22:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,14 +42,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Charset = $Self->{LayoutObject}->{UserCharset};
-    my $Output  = "Content-Type: text/html; charset=$Charset;\n\n";
-    $Output .= "
-<script type=\"text/javascript\">
-(function(){var d=document.domain;while (true){try{var A=window.parent.document.domain;break;}catch(e
-) {};d=d.replace(/.*?(?:\.|\$)/,'');if (d.length==0) break;try{document.domain=d;}catch (e){break;}}}
-)();
-
-";
 
     # get params
     my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -57,8 +49,18 @@ sub Run {
 
     # return if no form id exists
     if ( !$FormID ) {
-        $Output .= "window.parent.OnUploadCompleted(404,\"\",\"\",\"\") ;</script>";
-        return $Output;
+        $Self->{LayoutObject}->Block(
+            Name => 'ErrorNoFormID',
+            Data => {
+                CKEditorFuncNum => $CKEditorFuncNum,
+            },
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Charset,
+            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # deliver file form for display inline content
@@ -87,16 +89,34 @@ sub Run {
 
     # return error if no file is there
     if ( !%File ) {
-        $Output
-            .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, ''); </script>";
-        return $Output;
+        $Self->{LayoutObject}->Block(
+            Name => 'ErrorNoFileFound',
+            Data => {
+                CKEditorFuncNum => $CKEditorFuncNum,
+            },
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Charset,
+            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # return error if file is not possible to show inline
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
-        $Output
-            .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, ''); </script>";
-        return $Output;
+        $Self->{LayoutObject}->Block(
+            Name => 'ErrorNoImageFile',
+            Data => {
+                CKEditorFuncNum => $CKEditorFuncNum,
+            },
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Charset,
+            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # check if name already exists
@@ -152,9 +172,20 @@ sub Run {
     }
     my $URL = $Self->{LayoutObject}->{Baselink}
         . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
-    $Output
-        .= "window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$URL'); </script>";
-    return $Output;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Success',
+        Data => {
+            CKEditorFuncNum => $CKEditorFuncNum,
+            URL             => $URL,
+        },
+    );
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'text/html; charset=' . $Charset,
+        Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 1;

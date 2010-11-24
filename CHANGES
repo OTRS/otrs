@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1604 2010-11-24 13:41:31 martin Exp $
+# $Id: CHANGES,v 1.1605 2010-11-24 16:22:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Fixed bug#6264 - CKEditor Image upload does not show a correct behavior in case a FormID is missing.
  - 2010-11-24 Fixed bug#6353 - GenericAgent throws error when ArticleFS storage used.
  - 2010-11-24 Added new Japanese translation, thanks to Kaz Kamimura Thomas!
  - 2010-11-24 Fixed bug#6187 - IE9: article height incorrectly calculated.
