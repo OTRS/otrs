@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1601 2010-11-24 12:01:32 mb Exp $
+# $Id: CHANGES,v 1.1602 2010-11-24 13:01:03 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-24 Fixed bug#6187 - IE9: article height incorrectly calculated.
+ - 2010-11-24 Fixed bug#6188 - IE9: article table resize handle has no effect.
+ - 2010-11-24 Fixed bug#6189 - IE9: ticket overview table headers behave incorrectly.
  - 2010-11-24 Fixed bug#6382 - ArticleStorageSwitch not working.
  - 2010-11-24 Fixed bug#6378 - The error messages are displayed incorrectly in the action list.
  - 2010-11-23 Fixed bug#6360 - Bulk-Actin link all to ticket number doesn't link anything.
