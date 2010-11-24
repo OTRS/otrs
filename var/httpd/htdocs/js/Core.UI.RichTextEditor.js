@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.15 2010-11-23 12:40:08 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.16 2010-11-24 11:05:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,9 +68,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             customConfig: '', // avoid loading external config files
             defaultLanguage: Core.Config.Get('UserLanguage'),
             language: Core.Config.Get('UserLanguage'),
-            width: Core.Config.Get('RichText.Width') || 620,
-            resize_minWidth: Core.Config.Get('RichText.Width') || 620,
-            height: Core.Config.Get('RichText.Height') || 320,
+            width: Core.Config.Get('RichText.Width', 620),
+            resize_minWidth: Core.Config.Get('RichText.Width', 620),
+            height: Core.Config.Get('RichText.Height', 320),
             // disable builtin spellchecker.net pluging "scayt"
             removePlugins : 'elementspath,scayt,menubutton,contextmenu',
             skin: 'default',
@@ -78,7 +78,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
-            contentsLangDirection: Core.Config.Get('RichText.TextDir') ? Core.Config.Get('RichText.TextDir') : 'ltr',
+            contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
             disableNativeSpellChecker: false,
             toolbar_Full: Core.Config.Get('RichText.ToolbarFull'),
             toolbar_Simple: Core.Config.Get('RichText.ToolbarSimple'),
@@ -87,7 +87,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
         });
         if (CheckFormID().length) {
-            CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction') || 'PictureUpload';
+            CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');
             CKEDITOR.config.formID = CheckFormID().val();
         }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');

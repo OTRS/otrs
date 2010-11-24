@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.js,v 1.2 2010-08-17 12:13:56 mg Exp $
+// $Id: Core.Config.js,v 1.3 2010-11-24 11:05:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,9 +60,10 @@ Core.Config = (function (TargetNS) {
      * @function
      *      Gets a single option value
      * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
+     * @param {Object} DefaultValue (Optional) If nothing is saved in the config, return this default value
      * @return {Object} The value of the option. Can be every kind of javascript variable type. Returns undefined if setting could not be found.
      */
-    TargetNS.Get = function (Key) {
+    TargetNS.Get = function (Key, DefaultValue) {
         var Keys = Key.split('.'),
             KeyToken,
             ConfigLevel = Config,
@@ -70,12 +71,16 @@ Core.Config = (function (TargetNS) {
 
         for (KeyToken in Keys) {
             if (Keys.hasOwnProperty(KeyToken)) {
+                // if namespace does not exists in config object, there is nothing to search for or to return
                 if (typeof ConfigLevel !== 'object') {
-                    return undefined;
+                    // If DefaultValue is not set, this also returns undefined
+                    return DefaultValue;
                 }
+                // if we are in the last step of the namespace return the saved value. If nothing is saved return the default value
                 if (Keys.length === Count + 1) {
-                    return ConfigLevel[ConfigPrefix + Keys[KeyToken]];
+                    return ConfigLevel[ConfigPrefix + Keys[KeyToken]] || DefaultValue;
                 }
+                // otherwise go one level deeper and try again
                 else {
                     ConfigLevel = ConfigLevel[ConfigPrefix + Keys[KeyToken]];
                 }
