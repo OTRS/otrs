@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.261 2010-11-23 22:28:44 en Exp $
+# $Id: Article.pm,v 1.262 2010-11-25 13:52:47 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.261 $) [1];
+$VERSION = qw($Revision: 1.262 $) [1];
 
 =head1 NAME
 
@@ -1689,7 +1689,7 @@ sub ArticleGet {
     $Ticket{StateType} = $StateData{TypeName};
     $Ticket{State}     = $StateData{Name};
 
-    # get esclation attributes
+    # get escalation attributes
     my %Escalation = $Self->TicketEscalationDateCalculation(
         Ticket => \%Ticket,
         UserID => $Param{UserID} || 1,
@@ -3274,6 +3274,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.261 $ $Date: 2010-11-23 22:28:44 $
+$Revision: 1.262 $ $Date: 2010-11-25 13:52:47 $
 
 =cut

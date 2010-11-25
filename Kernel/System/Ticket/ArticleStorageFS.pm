@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.74 2010-07-13 08:54:25 mg Exp $
+# $Id: ArticleStorageFS.pm,v 1.75 2010-11-25 13:52:47 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -140,7 +140,7 @@ sub ArticleDeletePlain {
         }
     }
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
     # delete plain from db
@@ -184,7 +184,7 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
     # delete attachments from db
@@ -371,7 +371,7 @@ sub ArticlePlain {
         return ${$Data};
     }
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
     # can't open article, try database
@@ -507,7 +507,7 @@ sub ArticleAttachmentIndexRaw {
     # return if index exists
     return %Index if %Index;
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
 
     # try database (if there is no index in fs)
@@ -657,7 +657,7 @@ sub ArticleAttachment {
         }
     }
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
     # try database, if no content is found

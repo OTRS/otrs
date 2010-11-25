@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.6 2010-08-09 07:58:55 ub Exp $
+# $Id: EventHandler.pm,v 1.7 2010-11-25 13:52:47 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -269,7 +269,7 @@ sub DESTROY {
 sub EventHandlerTransaction {
     my ( $Self, %Param ) = @_;
 
-    # remember, we are on destory mode, do not execute new events
+    # remember, we are in destroy mode, do not execute new events
     $Self->{EventHandlerTransaction} = 1;
 
     # execute events on end of transaction
@@ -308,6 +308,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-08-09 07:58:55 $
+$Revision: 1.7 $ $Date: 2010-11-25 13:52:47 $
 
 =cut

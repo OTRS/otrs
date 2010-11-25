@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.35 2010-11-04 14:48:13 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.36 2010-11-25 13:52:47 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,7 +208,7 @@ sub Run {
         Key  => $Self->{CacheKey} . '-Summary',
     );
 
-    # if no cache ot new list result, do count lookup
+    # if no cache or new list result, do count lookup
     if ( !$Summary || !$CacheUsed ) {
         for my $Type ( sort keys %TicketSearchSummary ) {
             next if !$TicketSearchSummary{$Type};

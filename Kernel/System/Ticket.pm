@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.474 2010-11-06 12:14:47 ub Exp $
+# $Id: Ticket.pm,v 1.475 2010-11-25 13:52:47 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.474 $) [1];
+$VERSION = qw($Revision: 1.475 $) [1];
 
 =head1 NAME
 
@@ -2225,7 +2225,7 @@ sub TicketEscalationDateCalculation {
     my %Data;
     for my $Key ( keys %Map ) {
 
-        # next is not escalation for this type is given
+        # next if no escalation time for this type is given
         next if !$Ticket{$Key};
 
         # get time before or over escalation (escalation_destination_unixtime - now)
@@ -2240,7 +2240,7 @@ sub TicketEscalationDateCalculation {
                 Calendar  => $Escalation{Calendar},
             );
 
-            # set notification if notfy % is reached
+            # set notification if notify % is reached
             if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
                 my $Reached
                     = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
@@ -2270,7 +2270,7 @@ sub TicketEscalationDateCalculation {
         $Data{ $Map{$Key} . 'TimeWorkingTime' }     = $WorkingTime;
         $Data{ $Map{$Key} . 'Time' }                = $TimeTillEscalation;
 
-        # set global escalation attributes (aet the escalation which is the first in time)
+        # set global escalation attributes (set the escalation which is the first in time)
         if (
             !$Data{EscalationDestinationTime}
             || $Data{EscalationDestinationTime} > $Ticket{$Key}
@@ -4632,7 +4632,7 @@ sub TicketSearch {
         }
     }
 
-    # get articles created older/newer than x minutes
+    # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
         ArticleCreateTime => 'art.create_time',
     );
@@ -4664,7 +4664,7 @@ sub TicketSearch {
             $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
         }
 
-        # get articles created newer than xxxx-xx-xx xx:xx date
+        # get articles created older than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'OlderDate' } ) {
             if (
                 $Param{ $Key . 'OlderDate' }
@@ -4699,7 +4699,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets created/escalated older than x minutes
+    # get tickets created/escalated older/newer than x minutes
     my %TicketTime = (
         TicketCreateTime             => 'st.create_time_unix',
         TicketEscalationTime         => 'st.escalation_time',
@@ -4709,7 +4709,7 @@ sub TicketSearch {
     );
     for my $Key ( keys %TicketTime ) {
 
-        # get tickets created older than x minutes
+        # get tickets created or escalated older than x minutes
         if ( defined $Param{ $Key . 'OlderMinutes' } ) {
 
             $Param{ $Key . 'OlderMinutes' } ||= 0;
@@ -4725,7 +4725,7 @@ sub TicketSearch {
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
-        # get tickets created newer than x minutes
+        # get tickets created or escalated newer than x minutes
         if ( defined $Param{ $Key . 'NewerMinutes' } ) {
 
             $Param{ $Key . 'NewerMinutes' } ||= 0;
@@ -4742,8 +4742,10 @@ sub TicketSearch {
         }
     }
 
-    # get tickets created/escalated older than xxxx-xx-xx xx:xx date
+    # get tickets created/escalated older/newer than xxxx-xx-xx xx:xx date
     for my $Key ( keys %TicketTime ) {
+
+        # get tickets created/escalated older than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'OlderDate' } ) {
 
             # check time format
@@ -4769,7 +4771,7 @@ sub TicketSearch {
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
-        # get tickets created newer than xxxx-xx-xx xx:xx date
+        # get tickets created/escalated newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
             if (
                 $Param{ $Key . 'NewerDate' }
@@ -8177,6 +8179,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.474 $ $Date: 2010-11-06 12:14:47 $
+$Revision: 1.475 $ $Date: 2010-11-25 13:52:47 $
 
 =cut
