@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Ticket/Event/TicketEscalationIndex.pm - update article search index
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/System/Ticket/Event/TicketEscalationIndex.pm - update escalation index
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketEscalationIndex.pm,v 1.4 2009-09-16 08:59:37 martin Exp $
+# $Id: TicketEscalationIndex.pm,v 1.5 2010-11-25 08:57:22 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
