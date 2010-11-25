@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.109 2010-11-25 11:09:01 mg Exp $
+# $Id: User.pm,v 1.110 2010-11-25 15:50:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 =head1 NAME
 
@@ -558,7 +558,7 @@ sub UserSearch {
     }
 
     # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->GetDatabaseFunction('LikeEscapeString');
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
 
     # build SQL string 1/2
     my $SQL    = "SELECT $Self->{UserTableUserID} ";
@@ -1117,6 +1117,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.109 $ $Date: 2010-11-25 11:09:01 $
+$Revision: 1.110 $ $Date: 2010-11-25 15:50:51 $
 
 =cut
