@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.39 2010-11-25 13:26:04 mg Exp $
+# $Id: CheckItem.pm,v 1.40 2010-11-25 13:46:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -140,9 +140,24 @@ sub CheckEmail {
         $Param{Address}
         !~ m{
             ^
-            ([a-zA-Z0-9_]+([a-zA-Z0-9_+\.&%-/]*[a-zA-Z0-9_'\.-]+)?
+            [a-zA-Z0-9_#]+
+            (?:
+                [a-zA-Z0-9_+\.&%-/=]*
+                [a-zA-Z0-9_'\.-]+
+            )?
             @
-            ([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+]))
+            (?:
+                (?:
+                    [a-zA-Z0-9]+
+                    ([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?
+                    \.+
+                    [a-zA-Z]{2,8}
+                )
+                |
+                (?:
+                    \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
+                )
+            )
             $
         }x
         )
@@ -350,6 +365,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2010-11-25 13:26:04 $
+$Revision: 1.40 $ $Date: 2010-11-25 13:46:27 $
 
 =cut

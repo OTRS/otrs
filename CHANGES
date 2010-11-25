@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1612 2010-11-25 13:26:04 mg Exp $
+# $Id: CHANGES,v 1.1613 2010-11-25 13:46:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-25 Fixed bug#2638 - Broken email syntax detection.
  - 2010-11-25 Fixed bug#6392 - Email addresses containing special but allowed
     characters are not accepted in customer administration.
  - 2010-11-25 Fixed bug#6367 - My Queues Selection Box doesn't display well on lower resolutions.
