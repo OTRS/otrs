@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.144 2010-11-15 13:13:11 mb Exp $
+# $Id: nl.pm,v 1.145 2010-11-25 13:52:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-15 14:12:42
+    # Last translation file sync: 2010-11-25 14:51:38
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -49,6 +49,7 @@ sub Data {
     $Self->{Separator} = ';';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'Ja',
         'No' => 'Nee',
@@ -324,7 +325,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => 'Dit e-mailadres bestaat al. Log in of reset uw wachtwoord.',
         'New account created. Sent login information to %s. Please check your email.' => 'Nieuw account aangemaakt. Login informatie gestuurd aan %s. Controleer uw e-mail.',
         'Please press Back and try again.' => 'Druk op Terug en probeer opnieuw.',
-        'Sent password reset instructions to %s. Please check your email.' => 'Wachtwoord reset instructies zijn verstuurd aan %s. Controleer uw e-mail.',
+        'Sent password reset instructions. Please check your email.' => 'Wachtwoord reset instructies zijn verstuurd. Controleer uw e-mail.',
         'Sent new password to %s. Please check your email.' => 'Nieuw wachtwoord gestuurd aan %s. Controleer uw e-mail.',
         'Upcoming Events' => 'Aankomende gebeurtenissen',
         'Event' => 'Gebeurtenis',
@@ -629,10 +630,13 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'Ticket %s: vervolg tijd zal voorbij zijn binnen %s.',
         'Ticket %s: solution time is over (%s)!' => 'Ticket %s: oplossing tijd is voorbij (%s).',
         'Ticket %s: solution time will be over in %s!' => 'Ticket %s: oplossing tijd zal voorbij zijn binnen %s.',
-        'There are more escalated tickets!' => 'Er zijn geen geëscaleerde tickets meer.',
+        'There are more escalated tickets!' => 'Er zijn nog meer geëscaleerde tickets.',
         'Plain Format' => 'Broncode',
         'Reply All' => 'Allen beantwoorden',
         'Direction' => 'Richting',
+        'Agent (All with write permissions)' => 'Gebruikers (met schrijfrechten)',
+        'Agent (Owner)' => 'Gebruiker (eigenaar)',
+        'Agent (Responsible)' => 'Agent (verantwoordelijke)',
         'New ticket notification' => 'Melding bij een nieuw ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw ticket in \'Mijn wachtrijen\' komt.',
         'Send new ticket notifications' => 'Melding bij nieuwe tickets',
@@ -830,7 +834,6 @@ sub Data {
         'Group members need to have permission' => 'Leden van de groep moeten permissies hebben',
         'Send message to role members' => 'Stuur bericht naar gebruikers met rol',
         'Also send to customers in groups' => 'Stuur ook naar klanten in deze groepen',
-        'Please enter subject.' => 'Vul een onderwerp in.',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
 
@@ -843,12 +846,11 @@ sub Data {
         'Run this task' => 'Voer deze taak',
         'Job Settings' => 'Taak instellingen',
         'Job name' => 'Naam',
-        'Please provide a name.' => 'Vul een naam in.',
+        'Currently this generic agent job will not run automatically.' => 'Deze taak zal niet automatisch draaien.',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Om automatisch uit te voeren selecteer ten minste ïïn waarde bij minuten, uren en dagen.',
         'Schedule minutes' => 'minuten',
         'Schedule hours' => 'uren',
         'Schedule days' => 'dagen',
-        'Currently this generic agent job will not run automatically.' => 'Deze taak zal niet automatisch draaien.',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Om automatisch uit te voeren selecteer ten minste één waarde bij minuten, uren en dagen.',
         'Toggle this widget' => 'Klap in/uit',
         'Ticket Filter' => 'Ticket filter',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
@@ -899,10 +901,10 @@ sub Data {
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
         'New TicketFreeFields' => 'Nieuwe vrije velden',
+        'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
         ' (work units)' => ' (in minuten)',
-        'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur gebruiker/klant een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -989,6 +991,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'PGP beheer',
+        'Use this feature if you want to work with PGP keys.' => 'Gebruik deze feature als u e-mail wilt versleutelen met PGP.',
         'Add PGP key' => 'PGP sleutel toevoegen',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie.',
         'Introduction to PGP' => 'Introductie tot PGP',
@@ -1000,6 +1003,7 @@ sub Data {
         'Expires' => 'Verloopt',
         'Delete this key' => 'Verwijder deze sleutel',
         'Add PGP Key' => 'PGP sleutel toevoegen',
+        'PGP key' => 'PGP sleutel',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakketbeheer',
@@ -1176,15 +1180,15 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME beheer',
-        'Add private key' => 'Privé sleutel toevoegen',
         'Add certificate' => 'Nieuw certificaat',
-        'In this way you can directly edit the certification and private keys in file system.' => 'Hier kunt u de certificaten en privé sleutels van OTRS beheren.',
+        'Add private key' => 'Private sleutel toevoegen',
+        'In this way you can directly edit the certification and private keys in file system.' => 'Hier kunt u de certificaten en private sleutels van OTRS beheren.',
         'See also' => 'Zie voor meer informatie',
         'Hash/Fingerprint' => 'Hash',
         'Create/Expires' => 'Verloopt',
         'Delete this certificate' => 'Verwijder certificaat',
         'Add Certificate' => 'Nieuw certificaat',
-        'Add Private Key' => 'Nieuwe privé sleutel',
+        'Add Private Key' => 'Nieuwe private sleutel',
         'Secret' => 'Geheim',
 
         # Template: AdminSalutation
@@ -1203,6 +1207,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'SQL console',
         'Here you can enter SQL to send it directly to the application database.' => 'Hier kunt u SQL statements invoeren die direct door de database worden uitgevoerd.',
+        'The syntax of your SQL query has a mistake. Please check it.' => 'De syntax van uw SQL query bevat een fout.',
+        'There is at least one parameter missing for the binding. Please check it.' => 'Er mist tenminste een parameter.',
         'Result format' => 'Uitvoeren naar',
         'Run Query' => 'Uitvoeren',
 
@@ -1244,9 +1250,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Systeemconfiguratie',
         'Navigate by searching in %s settings' => 'Zoek in %s configuratie',
-        'Select Group' => 'Kies groep',
-        'Navigate by selecting config groups' => 'Navigeer door groepen te kiezen',
-        'Select group' => 'Selecteer groep',
+        'Go to group %s' => 'Toon groep %s',
+        'Group %s' => 'Groep %s',
         'Download all system config changes' => 'Download alle aanpassingen in de systeemconfiguratie',
         'Export settings' => 'Exporteer configuratie',
         'Load SysConfig settings from file' => 'Laad configuratie uit bestand',
@@ -1427,7 +1432,7 @@ sub Data {
         'Permissions' => 'Permissies',
         'You can select one or more groups to define access for different agents.' => 'U kunt één of meerdere groepen definiëren die deze rapportage kunnen gebruiken.',
         'Some result formats are disabled because at least one needed package is not installed.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
-        'Please contact your administrator.' => '',
+        'Please contact your administrator.' => 'Neem contact op met uw beheerder.',
         'Graph size' => 'Grootte',
         'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
         'Sum rows' => 'Toon totaal per rij',
@@ -1599,7 +1604,7 @@ sub Data {
         'Phone call' => 'Telefoongesprek',
 
         # Template: AgentTicketPlain
-        'Email Text Plain View' => 'E-mail bericht zonder opmaak',
+        'Email Text Plain View' => 'E-mailbericht zonder opmaak',
         'Plain' => 'Zonder opmaak',
         'Download this email' => 'Download deze e-mail',
 
@@ -1925,6 +1930,11 @@ sub Data {
         'Show next pages' => 'Toon volgende pagina\'s',
         'Show last page' => 'Toon laatste pagina',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => 'Geen bestand gevonden.',
+        'The file is not an image that can be shown inline!' => 'Dit bestand kan niet inline worden weergegeven.',
+
         # Template: PrintFooter
         'URL' => 'URL',
 
@@ -2037,6 +2047,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => 'Wachtwoord wijzigen',
+        'Change queue!' => 'Verander wachtrij.',
+        'Change the ticket responsible!' => 'Wijzig de verantwoordelijke van het ticket.',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2550,7 +2562,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2610,6 +2622,7 @@ sub Data {
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link responses to queues.' => 'Koppel standaard antwoorden aan wachtrijen.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
+        'Link this ticket to other objects!' => 'Koppel dit ticket aan andere objecten.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "hoofd - sub"-type koppeling.',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2734,7 +2747,7 @@ sub Data {
         'Select your frontend Theme.' => 'Kies uw thema',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => '',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Stuur mij een melding als een reactie op een ticket binnenkomt en ik de eigenaar van het ticket ben, of het ticket ontgrendeld is en in ïïn van \'Mijn wachtrijen\' staat.',
         'Send notifications to users.' => 'Stuur berichten aan gebruikers.',
         'Send ticket follow up notifications' => 'Stuur meldingen bij reacties op een ticket',
         'Sender type for new tickets from the customer inteface.' => '',
@@ -2845,6 +2858,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3274,6 +3288,7 @@ sub Data {
         'MyTickets' => 'Mijn tickets',
         'Name is required!' => 'Naam is verplicht.',
         'Name is required.' => 'De naam is verplicht.',
+        'Navigate by selecting config groups' => 'Navigeer door groepen te kiezen',
         'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need a valid mail address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need a valid mail address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
@@ -3362,6 +3377,8 @@ sub Data {
         'PhoneView' => 'Telefoonscherm',
         'Phone{CustomerUser}' => 'Telefoon',
         'Please contact your admin' => 'Vraag uw systeembeheerder',
+        'Please enter subject.' => 'Vul een onderwerp in.',
+        'Please provide a name.' => 'Vul een naam in.',
         'Please select a value' => 'Selecteer een waarde',
         'PostMaster Filter' => 'E-mail filters',
         'PostMaster Mail Account' => 'E-mail account',
@@ -3396,7 +3413,9 @@ sub Data {
         'Secure Mode need to be enabled!' => 'Secure Mode moet geactiveerd zijn.',
         'Select Box' => 'SQL select query',
         'Select Box Result' => 'Resultaat',
+        'Select Group' => 'Kies groep',
         'Select Source (for add)' => 'Selecteer bron (voor toevoegen)',
+        'Select group' => 'Selecteer groep',
         'Select the customeruser:service relations.' => 'Selecteer de klant:service koppelingen.',
         'Select the element, which will be used at the X-axis' => 'Selecteer het element dat gebruikt zal worden voor de X-as',
         'Select the restrictions to characterise the stat' => 'Selecteer over welke data gerapporteerd moet worden',
@@ -3415,6 +3434,7 @@ sub Data {
         'Send me a notification of an watched ticket like an owner of an ticket.' => 'Stuur mij meldingen van gevolgde tickets alsof ik de eigenaar ben.',
         'Send no notifications' => 'Stuur geen meldingen',
         'Sent new password to: %s' => 'Nieuw wachtwoord verstuurd naar %s',
+        'Sent password reset instructions to %s. Please check your email.' => 'Wachtwoord reset instructies zijn verstuurd aan %s. Controleer uw e-mail.',
         'Sent password token to: %s' => 'Wachtwoord verstuurd naar %s',
         'Sessions' => 'Sessies',
         'Set customer user and customer id of a ticket' => 'Wijs de klant en klantID aan een ticket toe',
@@ -3564,6 +3584,7 @@ sub Data {
         'up' => 'naar boven',
         'utf8' => 'utf8',
         'x' => 'x',
+
     };
     # $$STOP$$
     return;
