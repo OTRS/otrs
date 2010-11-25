@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.41.2.1 2009-09-23 08:01:57 mg Exp $
+# $Id: InterfaceCustomer.pm,v 1.41.2.2 2010-11-25 10:17:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.41.2.1 $) [1];
+$VERSION = qw($Revision: 1.41.2.2 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -426,10 +426,14 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User );
         if ( !$UserData{UserID} ) {
+
+            # Security: pretend that password reset instructions were actually sent to
+            #   make sure that users cannot find out valid usernames by
+            #   just trying and checking the result message.
             $Self->{LayoutObject}->Print(
                 Output => \$Self->{LayoutObject}->CustomerLogin(
                     Title   => 'Login',
-                    Message => 'There is no account with that login name.',
+                    Message => 'Sent password reset instructions. Please check your email.',
                 ),
             );
         }
@@ -465,7 +469,7 @@ sub Run {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->CustomerLogin(
                             Title   => 'Login',
-                            Message => "Sent password token to: \%s\", \"$UserData{UserEmail}",
+                            Message => 'Sent password reset instructions. Please check your email.',
                             %Param,
                         ),
                     );
@@ -913,12 +917,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.41.2.1 $ $Date: 2009-09-23 08:01:57 $
+$Revision: 1.41.2.2 $ $Date: 2010-11-25 10:17:49 $
 
 =cut
