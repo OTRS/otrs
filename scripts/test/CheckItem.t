@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.10 2010-10-29 13:18:42 en Exp $
+# $Id: CheckItem.t,v 1.11 2010-11-25 13:13:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::CheckItem;
 use Kernel::Config;
@@ -46,7 +47,7 @@ my @Tests = (
         Valid => 0,
     },
     {
-        Email => 'ä@somehost.com',
+        Email => 'Ã¤@somehost.com',
         Valid => 0,
     },
     {
