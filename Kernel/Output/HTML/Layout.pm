@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.337 2010-11-24 13:19:47 ub Exp $
+# $Id: Layout.pm,v 1.338 2010-11-25 10:44:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.337 $) [1];
+$VERSION = qw($Revision: 1.338 $) [1];
 
 =head1 NAME
 
@@ -1956,6 +1956,7 @@ build a html option element based on given data
         Max            => 100,               # (optional) default 100 max size of the shown value
         HTMLQuote      => 0,                 # (optional) default 1 (0|1) disable html quote
         Title          => 'Tooltip Text',    # (optional) string will be shown as Tooltip on mouseover
+        OptionTitle    => 1,                 # (optional) default 0 (0|1) show title attribute (the option value) on every option element
     );
 
     my $HashRef = {
@@ -2046,6 +2047,7 @@ sub BuildSelection {
     my $String = $Self->_BuildSelectionOutput(
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
+        OptionTitle  => $Param{OptionTitle},
     );
     return $String;
 }
@@ -4729,7 +4731,14 @@ sub _BuildSelectionOutput {
             elsif ( $Row->{Disabled} ) {
                 $SelectedDisabled = ' disabled="disabled"';
             }
-            $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
+            my $OptionTitle = '';
+            if ( $Param{OptionTitle} ) {
+                my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Value,
+                );
+                $OptionTitle = ' title="' . $HTMLValue . '"';
+            }
+            $String .= "  <option value=\"$Key\"$SelectedDisabled$OptionTitle>$Value</option>\n";
         }
         $String .= '</select>';
     }
@@ -4811,6 +4820,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.337 $ $Date: 2010-11-24 13:19:47 $
+$Revision: 1.338 $ $Date: 2010-11-25 10:44:22 $
 
 =cut

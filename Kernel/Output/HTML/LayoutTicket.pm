@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.112 2010-11-23 17:29:41 cg Exp $
+# $Id: LayoutTicket.pm,v 1.113 2010-11-25 10:44:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -179,8 +179,9 @@ sub AgentQueueListOption {
     my $Selected   = defined( $Param{Selected} )   ? $Param{Selected}      : '';
     my $Class      = defined( $Param{Class} )      ? $Param{Class}         : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $Multiple = $Param{Multiple} ? 'multiple = "multiple"' : '';
-    my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
+    my $Multiple       = $Param{Multiple}                  ? 'multiple = "multiple"' : '';
+    my $OptionTitle    = defined( $Param{OptionTitle} )    ? $Param{OptionTitle}     : 0;
+    my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit}  : '';
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit();\"";
     }
@@ -278,9 +279,18 @@ sub AgentQueueListOption {
                 # useful for ACLs and complex permission settings
                 for my $Index ( 0 .. ( scalar @Queue - 2 ) ) {
                     if ( !$DisabledQueueAlreadyUsed{ $Queue[$Index] } ) {
-                        my $DSpace = '&nbsp;&nbsp;' x $Index;
+                        my $DSpace               = '&nbsp;&nbsp;' x $Index;
+                        my $OptionTitleHTMLValue = '';
+                        if ($OptionTitle) {
+                            my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
+                                String => $Queue[$Index],
+                            );
+                            $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
+                        }
                         $Param{MoveQueuesStrg}
-                            .= '<option value="-" disabled="disabled">'
+                            .= '<option value="-" disabled="disabled"'
+                            . $OptionTitleHTMLValue
+                            . '>'
                             . $DSpace
                             . $Queue[$Index]
                             . "</option>\n";
@@ -290,7 +300,14 @@ sub AgentQueueListOption {
             }
 
             # create selectable elements
-            my $String = $Space . $Queue[-1];
+            my $String               = $Space . $Queue[-1];
+            my $OptionTitleHTMLValue = '';
+            if ($OptionTitle) {
+                my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Queue[-1],
+                );
+                $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
+            }
             if (
                 $SelectedID  eq $_
                 || $Selected eq $Param{Data}->{$_}
@@ -298,10 +315,19 @@ sub AgentQueueListOption {
                 )
             {
                 $Param{MoveQueuesStrg}
-                    .= '<option selected="selected" value="' . $_ . '">' . $String . "</option>\n";
+                    .= '<option selected="selected" value="'
+                    . $_ . '"'
+                    . $OptionTitleHTMLValue . '>'
+                    . $String
+                    . "</option>\n";
             }
             else {
-                $Param{MoveQueuesStrg} .= '<option value="' . $_ . '">' . $String . "</option>\n";
+                $Param{MoveQueuesStrg}
+                    .= '<option value="'
+                    . $_ . '"'
+                    . $OptionTitleHTMLValue . '>'
+                    . $String
+                    . "</option>\n";
             }
         }
     }

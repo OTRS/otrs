@@ -2,7 +2,7 @@
 # AgentPreferences.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.dtl,v 1.6 2010-07-02 11:31:34 mg Exp $
+# $Id: AgentPreferences.dtl,v 1.7 2010-11-25 10:44:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
                             <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
-                            <div class="Field">
+                            <div class="FloatingField">
                                 $Data{"Option"}
 <!-- dtl:block:OptionSingleBlock -->
                                 <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>

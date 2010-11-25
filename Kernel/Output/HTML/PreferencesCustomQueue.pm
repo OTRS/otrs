@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.14 2009-08-18 20:03:51 martin Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.15 2010-11-25 10:44:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,6 +70,7 @@ sub Param {
                 Multiple            => 1,
                 LanguageTranslation => 0,
                 OnChangeSubmit      => 0,
+                OptionTitle         => 1,
             ),
             Name => 'QueueID',
         },

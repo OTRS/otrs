@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.25 $
+ * @version     $Revision: 1.26 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -265,15 +265,17 @@ fieldset.TableLike > .Field > input {
 /**
  * @note    The RichText field needs to float, otherwise it breaks
  *          in small screens.
+ *          Additionally we have a generic FloatingField class,
+ *          RichTextField is for backwards compatibility.
  */
-fieldset.TableLike > .RichTextField {
+fieldset.TableLike > .RichTextField, fieldset.TableLike > .FloatingField {
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 0;
     float: left;
 }
 
-.RTL fieldset.TableLike > .RichTextField {
+.RTL fieldset.TableLike > .RichTextField, .RTL fieldset.TableLike > .FloatingField {
     padding-left: 0;
     padding-right: 10px;
     float: right;
