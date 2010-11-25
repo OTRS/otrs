@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS.pm - all virtual fs functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: VirtualFS.pm,v 1.9 2010-10-18 00:05:50 ub Exp $
+# $Id: VirtualFS.pm,v 1.10 2010-11-25 11:19:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -384,6 +384,9 @@ sub Find {
         return;
     }
 
+    # get like escape string needed for some databases (e.g. oracle)
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+
     # prepare file name search
     my $SQLResult = 'vfs.filename';
     my $SQLTable  = 'virtual_fs vfs ';
@@ -393,7 +396,7 @@ sub Find {
         my $Like = $Param{Filename};
         $Like =~ s/\*/%/g;
         $Like = $Self->{DBObject}->Quote( $Like, 'Like' );
-        $SQLWhere .= "vfs.filename LIKE '$Like'";
+        $SQLWhere .= "vfs.filename LIKE '$Like' $LikeEscapeString";
     }
 
     # prepare preferences search
@@ -416,7 +419,7 @@ sub Find {
             if ( $Value =~ /(\*|\%)/ ) {
                 $Value =~ s/\*/%/g;
                 $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
-                $SQL .= "vfsp.preferences_value LIKE '$Value'";
+                $SQL .= "vfsp.preferences_value LIKE '$Value' $LikeEscapeString";
             }
             else {
                 $SQL .= 'vfsp.preferences_value = ?';
@@ -520,6 +523,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2010-10-18 00:05:50 $
+$Revision: 1.10 $ $Date: 2010-11-25 11:19:50 $
 
 =cut
