@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.138 2010-11-10 15:37:53 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.139 2010-11-25 21:30:12 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1699,6 +1699,13 @@ sub _ArticleItem {
                     Name => 'ArticleOption',
                     Data => $DataRef,
                 );
+
+                for my $Warning ( @{ $DataRef->{Warnings} } ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleOption',
+                        Data => $Warning,
+                    );
+                }
             }
 
             # filter option
