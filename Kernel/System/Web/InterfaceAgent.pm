@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.57 2010-09-21 12:44:38 mb Exp $
+# $Id: InterfaceAgent.pm,v 1.58 2010-11-25 10:09:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -459,11 +459,13 @@ sub Run {
         my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
         if ( !$UserData{UserID} ) {
 
-            # show normal login
+            # Security: pretend that password reset instructions were actually sent to
+            #   make sure that users cannot find out valid usernames by
+            #   just trying and checking the result message.
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => 'There is no account with that login name.',
+                    Message => 'Sent password reset instructions. Please check your email.',
                     %Param,
                 ),
             );
@@ -504,9 +506,8 @@ sub Run {
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title => 'Login',
-                    Message =>
-                        "Sent password reset instructions to \%s. Please check your email.\", \"$UserData{UserEmail}",
+                    Title   => 'Login',
+                    Message => 'Sent password reset instructions. Please check your email.',
                     %Param,
                 ),
             );
@@ -907,6 +908,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2010-09-21 12:44:38 $
+$Revision: 1.58 $ $Date: 2010-11-25 10:09:47 $
 
 =cut

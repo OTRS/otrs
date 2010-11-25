@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.55 2010-09-21 12:44:38 mb Exp $
+# $Id: InterfaceCustomer.pm,v 1.56 2010-11-25 10:09:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -453,11 +453,14 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User );
         if ( !$UserData{UserID} ) {
-            $LayoutObject->Block( Name => 'LostPasswordError' );
+
+            # Security: pretend that password reset instructions were actually sent to
+            #   make sure that users cannot find out valid usernames by
+            #   just trying and checking the result message.
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => 'There is no account with that user name.',
+                    Message => 'Sent password reset instructions. Please check your email.',
                 ),
             );
             return;
@@ -497,9 +500,8 @@ sub Run {
             }
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Login',
-                    Message =>
-                        "Sent password reset instructions to \%s. Please check your email.\", \"$UserData{UserEmail}",
+                    Title   => 'Login',
+                    Message => 'Sent password reset instructions. Please check your email.',
                     %Param,
                 ),
             );
@@ -1025,6 +1027,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2010-09-21 12:44:38 $
+$Revision: 1.56 $ $Date: 2010-11-25 10:09:47 $
 
 =cut
