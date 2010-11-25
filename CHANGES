@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1611 2010-11-25 10:44:23 mn Exp $
+# $Id: CHANGES,v 1.1612 2010-11-25 13:26:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-25 Fixed bug#6392 - Email addresses containing special but allowed
+    characters are not accepted in customer administration.
  - 2010-11-25 Fixed bug#6367 - My Queues Selection Box doesn't display well on lower resolutions.
  - 2010-11-24 Fixed bug#6379 - No Ajax Update fro Crypt and Sign fields when you set the customer on Email Compose.
  - 2010-11-24 Fixed bug#6395 - Broken use of PGP Sign on AgentTicketEmail screen.

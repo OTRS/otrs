@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.38 2010-11-08 19:35:26 en Exp $
+# $Id: CheckItem.pm,v 1.39 2010-11-25 13:26:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -138,7 +138,13 @@ sub CheckEmail {
     # email address syntax check
     if (
         $Param{Address}
-        !~ /^(()|([a-zA-Z0-9_]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_'\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/
+        !~ m{
+            ^
+            ([a-zA-Z0-9_]+([a-zA-Z0-9_+\.&%-/]*[a-zA-Z0-9_'\.-]+)?
+            @
+            ([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+]))
+            $
+        }x
         )
     {
         $Error = "Invalid syntax";
@@ -344,6 +350,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2010-11-08 19:35:26 $
+$Revision: 1.39 $ $Date: 2010-11-25 13:26:04 $
 
 =cut
