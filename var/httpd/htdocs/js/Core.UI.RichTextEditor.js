@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.16 2010-11-24 11:05:24 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.17 2010-11-25 23:21:41 ub Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -107,10 +107,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             //  like '<br/>' stored in the DB.
             Data = this.element.getValue(); // get textarea content
 
-            // remove tags and whitespace for checking
-            Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
-            if (!Data.length) {
-                this.element.setValue(''); // reset textarea
+            // only if data contains no image tag,
+            // this is important for inline images, we don't want to remove them!
+            if ( !Data.match(/<img/) ) {
+
+                // remove tags and whitespace for checking
+                Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+                if (!Data.length) {
+                    this.element.setValue(''); // reset textarea
+                }
             }
         };
 
