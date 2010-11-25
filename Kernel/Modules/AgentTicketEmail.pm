@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.156 2010-11-24 22:18:49 dz Exp $
+# $Id: AgentTicketEmail.pm,v 1.157 2010-11-25 18:12:23 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.156 $) [1];
+$VERSION = qw($Revision: 1.157 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -432,6 +432,33 @@ sub Run {
         # If is an action about attachments
         my $IsUpload = 0;
 
+        # attachment delete
+        for my $Count ( 1 .. 32 ) {
+            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            next if !$Delete;
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCacheObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $Count,
+            );
+            $IsUpload = 1;
+        }
+
+        # attachment upload
+        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+            $IsUpload                = 1;
+            %Error                   = ();
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => 'FileUpload',
+                Source => 'string',
+            );
+            $Self->{UploadCacheObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+
         # get free text config options
         my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
@@ -515,33 +542,6 @@ sub Run {
             Config  => \%ArticleFreeText,
             Article => \%GetParam,
         );
-
-        # attachment delete
-        for my $Count ( 1 .. 32 ) {
-            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-            next if !$Delete;
-            $Error{AttachmentDelete} = 1;
-            $Self->{UploadCacheObject}->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-            $IsUpload = 1;
-        }
-
-        # attachment upload
-        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload                = 1;
-            %Error                   = ();
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'FileUpload',
-                Source => 'string',
-            );
-            $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID => $Self->{FormID},
-                %UploadStuff,
-            );
-        }
 
         # get all attachments meta data
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
