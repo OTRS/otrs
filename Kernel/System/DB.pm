@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.126 2010-11-25 11:09:01 mg Exp $
+# $Id: DB.pm,v 1.127 2010-11-25 11:18:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 =head1 NAME
 
@@ -949,7 +949,7 @@ sub QueryCondition {
     my $SearchPrefix = $Param{SearchPrefix} || '';
     my $SearchSuffix = $Param{SearchSuffix} || '';
 
-    # remove leading/tailing spaces
+    # remove leading/trailing spaces
     $Param{Value} =~ s/^\s+//g;
     $Param{Value} =~ s/\s+$//g;
 
@@ -996,7 +996,7 @@ sub QueryCondition {
     # replace '%!' by '!%' (done if * is added by search frontend)
     $Param{Value} =~ s/\%!/!%/g;
 
-    # remove leading/tailing conditions
+    # remove leading/trailing conditions
     $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
     $Param{Value} =~ s/^\((&&|\|\|)/(/g;
 
@@ -1270,6 +1270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.126 $ $Date: 2010-11-25 11:09:01 $
+$Revision: 1.127 $ $Date: 2010-11-25 11:18:14 $
 
 =cut

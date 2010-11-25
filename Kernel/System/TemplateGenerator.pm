@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.50 2010-11-03 10:18:53 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.51 2010-11-25 11:18:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -1175,7 +1175,7 @@ sub _Replace {
                 # html quoting of content
                 if ( $Param{RichText} && $NewOldBody ) {
 
-                    # remove tailing new lines
+                    # remove trailing new lines
                     for ( 1 .. 10 ) {
                         $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
                     }
@@ -1225,7 +1225,7 @@ sub _Replace {
             # html quoting of content
             if ( $Param{RichText} && $NewOldBody ) {
 
-                # remove tailing new lines
+                # remove trailing new lines
                 for ( 1 .. 10 ) {
                     $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
                 }
@@ -1282,7 +1282,7 @@ sub _Replace {
             # remove email addresses
             $From =~ s/&lt;.*&gt;|<.*>|\(.*\)|\"|&quot;|;|,//g;
 
-            # remove leading/tailing spaces
+            # remove leading/trailing spaces
             $From =~ s/^\s+//g;
             $From =~ s/\s+$//g;
         }
@@ -1342,6 +1342,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2010-11-03 10:18:53 $
+$Revision: 1.51 $ $Date: 2010-11-25 11:18:14 $
 
 =cut
