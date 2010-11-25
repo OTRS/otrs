@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.14 2010-09-06 10:31:09 mg Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.15 2010-11-25 21:59:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,13 @@
     <tr>
         <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"} / $QData{"Title"}</td>
     </tr>
+    <tr>
+        <td align="right"><small>$Text{"Ticket Print"}</small></td>
+    </tr>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
     <tr>
         <td class="contentkey">
-            $Text{"Ticket-Info"}:
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                 <tr>
                     <td width="50%" valign="top">
@@ -85,6 +87,11 @@
                 </tr>
 
 # use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
+<!-- dtl:block:TicketFreeTextHeader -->
+                <tr>
+                    <td colspan="4"><b><i>TicketFreeText</i></b></td>
+                </tr>
+<!-- dtl:block:TicketFreeTextHeader -->
 <!-- dtl:block:TicketFreeText -->
                 <tr>
                     <td class="contentkey">$QData{"TicketFreeKey","20"}:</td>
@@ -109,8 +116,21 @@
 #          </td>
 #        </tr>
 #<!-- dtl:block:TicketFreeText2 -->
+            </table>
+            <table border="0" cellspacing="3" cellpadding="0" width="100%">
+                <tr>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                </tr>
 
 # use this if you want to show TicketFreeTime1-6
+<!-- dtl:block:TicketFreeTimeHeader -->
+                <tr>
+                    <td colspan="4"><b><i>TicketFreeTime</i></b></td>
+                </tr>
+<!-- dtl:block:TicketFreeTimeHeader -->
 <!-- dtl:block:TicketFreeTime -->
                 <tr>
                     <td class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>

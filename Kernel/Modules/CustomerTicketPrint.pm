@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.35 2010-09-06 10:31:09 mg Exp $
+# $Id: CustomerTicketPrint.pm,v 1.36 2010-11-25 21:59:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,18 +29,21 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
+    for my $Needed (
         qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject MainObject)
         )
     {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{UserObject}         = Kernel::System::User->new(%Param);
     $Self->{PDFObject}          = Kernel::System::PDF->new(%Param);
+
+    # get the configuration to check for printable objects
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketZoom");
 
     return $Self;
 }
@@ -269,9 +272,9 @@ sub _PDFOutputTicketInfos {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -393,9 +396,9 @@ sub _PDFOutputTicketFreeText {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -407,15 +410,15 @@ sub _PDFOutputTicketFreeText {
     my $Row = 0;
 
     # generate table
-    for ( 1 .. 16 ) {
-        if ( $Ticket{"TicketFreeText$_"} ne "" ) {
-            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$_"} . ':';
-            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$_"};
+    for my $Number ( 1 .. 16 ) {
+        next if !$Ticket{"TicketFreeText$Number"};
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeText' . $Number };
+        $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$Number"} . ':';
+        $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+        $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$Number"};
 
-            $Row++;
-            $Output = 1;
-        }
+        $Row++;
+        $Output = 1;
     }
     $TableParam{ColumnData}[0]{Width} = 80;
     $TableParam{ColumnData}[1]{Width} = 431;
@@ -479,9 +482,9 @@ sub _PDFOutputTicketFreeTime {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData TicketData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData TicketData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -493,21 +496,22 @@ sub _PDFOutputTicketFreeTime {
     my $Row = 0;
 
     # generate table
-    for ( 1 .. 6 ) {
-        if ( $Ticket{"TicketFreeTime$_"} ) {
-            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $_ ) || '';
-            my $TicketFreeTime = $Ticket{"TicketFreeTime$_"};
+    for my $Number ( 1 .. 6 ) {
+        next if !$Ticket{"TicketFreeTime$Number"};
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeTime' . $Number };
 
-            $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
-            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
-                Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
-                Data => { TicketFreeTime => $TicketFreeTime, },
-            );
+        my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Number ) || '';
+        my $TicketFreeTime = $Ticket{"TicketFreeTime$Number"};
 
-            $Row++;
-            $Output = 1;
-        }
+        $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
+        $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+        $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
+            Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
+            Data => { TicketFreeTime => $TicketFreeTime, },
+        );
+
+        $Row++;
+        $Output = 1;
     }
     $TableParam{ColumnData}[0]{Width} = 80;
     $TableParam{ColumnData}[1]{Width} = 431;
@@ -571,9 +575,9 @@ sub _PDFOutputCustomerInfos {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData CustomerData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData CustomerData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -663,9 +667,9 @@ sub _PDFOutputArticles {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData ArticleData)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(PageData ArticleData)) {
+        if ( !defined( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -731,12 +735,12 @@ sub _PDFOutputArticles {
             Y    => 2,
         );
 
-        for (qw(From To Cc Subject)) {
-            if ( $Article{$_} ) {
+        for my $Parameter (qw(From To Cc Subject)) {
+            if ( $Article{$Parameter} ) {
                 $TableParam1{CellData}[$Row][0]{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get($_) . ':';
+                    = $Self->{LayoutObject}->{LanguageObject}->Get($Parameter) . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{$_};
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{$Parameter};
                 $Row++;
             }
         }
@@ -751,12 +755,12 @@ sub _PDFOutputArticles {
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
         $TableParam1{CellData}[$Row][1]{Content} .= ' ' . $Article{SenderType};
         $Row++;
-        for ( 1 .. 3 ) {
+        for my $Number ( 1 .. 3 ) {
 
-            if ( $Article{"ArticleFreeText$_"} ) {
-                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$_"} . ':';
+            if ( $Article{"ArticleFreeText$Number"} ) {
+                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$Number"} . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$_"};
+                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$Number"};
                 $Row++;
             }
         }
@@ -865,42 +869,61 @@ sub _HTMLMask {
         );
     }
 
+    # flag to control the header print
+    my $HeaderFlag = 0;
+
     # ticket free text
-    for my $Count ( 1 .. 16 ) {
-        if ( $Param{ 'TicketFreeText' . $Count } ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
-                Data => {%Param},
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
-                Data => {
-                    %Param,
-                    TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
-                    TicketFreeText => $Param{ 'TicketFreeText' . $Count },
-                    Count          => $Count,
-                },
-            );
+    for my $Number ( 1 .. 16 ) {
+        next if !$Param{"TicketFreeText$Number"};
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeText' . $Number };
+
+        # display the header only once
+        if ( !$HeaderFlag ) {
+            $Self->{LayoutObject}->Block( Name => 'TicketFreeTextHeader' );
+            $HeaderFlag = 1;
         }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText' . $Number,
+            Data => {%Param},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeText',
+            Data => {
+                %Param,
+                TicketFreeKey  => $Param{ 'TicketFreeKey' . $Number },
+                TicketFreeText => $Param{ 'TicketFreeText' . $Number },
+                Count          => $Number,
+            },
+        );
     }
 
+    $HeaderFlag = 0;
+
     # ticket free time
-    for my $Count ( 1 .. 6 ) {
-        if ( $Param{ 'TicketFreeTime' . $Count } ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => {%Param},
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    %Param,
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                    Count             => $Count,
-                },
-            );
+    for my $Number ( 1 .. 6 ) {
+        next if !$Param{"TicketFreeTime$Number"};
+        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeTime' . $Number };
+
+        # display the header only once
+        if ( !$HeaderFlag ) {
+            $Self->{LayoutObject}->Block( Name => 'TicketFreeTimeHeader' );
+            $HeaderFlag = 1;
         }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime' . $Number,
+            Data => {%Param},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFreeTime',
+            Data => {
+                %Param,
+                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Number ),
+                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Number },
+                Count             => $Number,
+            },
+        );
     }
 
     # build article stuff
@@ -959,26 +982,26 @@ sub _HTMLMask {
         );
 
         # do some strips && quoting
-        for (qw(From To Cc Subject)) {
-            if ( $Article{$_} ) {
+        for my $Parameter (qw(From To Cc Subject)) {
+            if ( $Article{$Parameter} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
                     Data => {
-                        Key   => $_,
-                        Value => $Article{$_},
+                        Key   => $Parameter,
+                        Value => $Article{$Parameter},
                     },
                 );
             }
         }
 
         # show article free text
-        for ( 1 .. 3 ) {
-            if ( $Article{"ArticleFreeText$_"} ) {
+        for my $Number ( 1 .. 3 ) {
+            if ( $Article{"ArticleFreeText$Number"} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleFreeText',
                     Data => {
-                        Key   => $Article{"ArticleFreeKey$_"},
-                        Value => $Article{"ArticleFreeText$_"},
+                        Key   => $Article{"ArticleFreeKey$Number"},
+                        Value => $Article{"ArticleFreeText$Number"},
                     },
                 );
             }
