@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.RebuildEscalationIndex.pl - the global search indexer handle
+# otrs.RebuildEscalationIndex.pl - rebuild escalation index
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildEscalationIndex.pl,v 1.7 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.RebuildEscalationIndex.pl,v 1.8 2010-11-25 08:48:06 bes Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,9 +30,10 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -42,7 +43,7 @@ use Kernel::System::Main;
 use Kernel::System::Ticket;
 
 # get options
-my %Opts = ();
+my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
@@ -52,7 +53,7 @@ if ( $Opts{h} ) {
 }
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
