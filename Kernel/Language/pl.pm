@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.101 2010-11-18 15:20:14 mg Exp $
+# $Id: pl.pm,v 1.102 2010-11-25 14:02:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:47
+    # Last translation file sync: 2010-11-25 14:51:39
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -37,6 +37,7 @@ sub Data {
     $Self->{Separator} = ';';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'Tak',
         'No' => 'Nie',
@@ -312,7 +313,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => '',
         'New account created. Sent login information to %s. Please check your email.' => '',
         'Please press Back and try again.' => 'Prosze wybraæ Cofnij i spróbowac ponownie.',
-        'Sent password reset instructions to %s. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
         'Upcoming Events' => 'Zbli¿aj±ce siê wydarzenia',
         'Event' => 'Zdarzenie',
@@ -401,6 +402,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Statystyki',
+        'Sum' => '',
         'Please fill out the required fields!' => 'Wype³nij wymagane pola!',
         'Please select a file!' => 'Wybierz plik!',
         'Please select an object!' => 'Wybierz obiekt!',
@@ -620,6 +622,9 @@ sub Data {
         'Plain Format' => '',
         'Reply All' => '',
         'Direction' => '',
+        'Agent (All with write permissions)' => '',
+        'Agent (Owner)' => '',
+        'Agent (Responsible)' => '',
         'New ticket notification' => 'Powiadomienie o nowym zg³oszeniu',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Powiadom o nowym zg³oszeniu w moich kolejkach.',
         'Send new ticket notifications' => 'Wysy³aj powiadomienia o nowych zg³oszeniach',
@@ -817,7 +822,6 @@ sub Data {
         'Group members need to have permission' => 'Cz³onkowie grupy musz± posiadaæ uprawnienia',
         'Send message to role members' => 'Wy¶lij wiadomo¶æ do posiadaczy roli',
         'Also send to customers in groups' => 'Wy¶lij tak¿e, do klientów w grupach',
-        'Please enter subject.' => 'Proszê podaæ tytu³',
         'Body' => 'Tre¶æ',
         'Send' => 'Wy¶lij',
 
@@ -830,12 +834,11 @@ sub Data {
         'Run this task' => 'Uruchom to zadanie',
         'Job Settings' => 'Ustawienia zadania',
         'Job name' => 'Nazwa zadania',
-        'Please provide a name.' => 'Proszê podaæ nazwê',
+        'Currently this generic agent job will not run automatically.' => 'Zadanie nie zostanie uruchomione automatycznie.',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Schedule minutes' => '',
         'Schedule hours' => '',
         'Schedule days' => '',
-        'Currently this generic agent job will not run automatically.' => 'Zadanie nie zostanie uruchomione automatycznie.',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Toggle this widget' => '',
         'Ticket Filter' => '',
         '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
@@ -886,10 +889,10 @@ sub Data {
         'New title' => '',
         'New type' => '',
         'New TicketFreeFields' => 'Nowe wolne pole',
+        'Archive selected tickets' => '',
         'Add Note' => 'Dodaj notatkê',
         'Time units' => 'Jednostek czasu',
         ' (work units)' => ' (jednostek roboczych)',
-        'Archive selected tickets' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Wy¶lij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceñ',
@@ -976,6 +979,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'Zarz±dzanie PGP',
+        'Use this feature if you want to work with PGP keys.' => '',
         'Add PGP key' => '',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'W ten sposób mozesz bezpo¶rednio edytowaæ plik kluczy skonfigurowany w SysConfig.',
         'Introduction to PGP' => '',
@@ -987,6 +991,7 @@ sub Data {
         'Expires' => 'Wygasa',
         'Delete this key' => '',
         'Add PGP Key' => '',
+        'PGP key' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Mened¿er pakietów',
@@ -1163,8 +1168,8 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'Konfiguracja S/MIME',
-        'Add private key' => '',
         'Add certificate' => '',
+        'Add private key' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'W taki sposób mo¿esz bezpo¶rednio edytowaæ certyfikaty i klucze prywarne w systemie plików',
         'See also' => 'Zobacz tak¿e',
         'Hash/Fingerprint' => '',
@@ -1190,6 +1195,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'Konsola SQL',
         'Here you can enter SQL to send it directly to the application database.' => 'Wpisz zapytanie SQL, które zostanie wys³ane bezpo¶rednio do bazy danych.',
+        'The syntax of your SQL query has a mistake. Please check it.' => '',
+        'There is at least one parameter missing for the binding. Please check it.' => '',
         'Result format' => 'Format wyników',
         'Run Query' => 'Uruchom polecenie',
 
@@ -1231,9 +1238,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Konfiguracja systemu',
         'Navigate by searching in %s settings' => '',
-        'Select Group' => 'Wybierz grupê ustawieñ',
-        'Navigate by selecting config groups' => '',
-        'Select group' => 'Wybierz grupê ustawieñ',
+        'Go to group %s' => '',
+        'Group %s' => '',
         'Download all system config changes' => '',
         'Export settings' => 'Eksportuj ustawienia',
         'Load SysConfig settings from file' => '',
@@ -1412,9 +1418,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Prawa',
+        'You can select one or more groups to define access for different agents.' => '',
         'Some result formats are disabled because at least one needed package is not installed.' => '',
         'Please contact your administrator.' => '',
         'Graph size' => '',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Je¿eli u¿ywasz wykresu jako formaty wyjsciowego musisz okresliæ jego rozmiar.',
         'Sum rows' => 'Suma wierszy',
         'Sum columns' => 'Suma kolumn',
         'Use cache' => '',
@@ -1910,6 +1918,11 @@ sub Data {
         'Show next pages' => '',
         'Show last page' => '',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => '',
+        'The file is not an image that can be shown inline!' => '',
+
         # Template: PrintFooter
         'URL' => 'URL',
 
@@ -2022,6 +2035,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => '',
+        'Change queue!' => '',
+        'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2535,7 +2550,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2595,6 +2610,7 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => 'Zarz±dzanie relacjami Odpowied¼ <-> Kolejka',
         'Link roles to groups.' => '',
+        'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2830,6 +2846,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3188,7 +3205,6 @@ sub Data {
         'If you need the sum of every column select yes.' => 'Je¿eli chcesz sumowaæ kolumny wybierz tak.',
         'If you need the sum of every row select yes' => 'Je¿eli chcesz sumowaæ wiersze wybierz tak.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Je¿eli u¿ywasz wzorców regularnych (RegExp), mo¿esz tak¿e u¿yæ dopasowanych warto¶ci w () jako [***] w \'Set\'.',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Je¿eli u¿ywasz wykresu jako formaty wyjsciowego musisz okresliæ jego rozmiar.',
         'Image' => 'Obraz',
         'Important' => 'Wa¿ne',
         'In this form you can select the basic specifications.' => 'W tym formularzu mo¿esz wybraæ podstawowe parametry.',
@@ -3295,6 +3311,8 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Uprawnienia do zmiany w³a¶ciciela zg³oszenia w tej grupie/kolejce',
         'PhoneView' => 'Nowy telefon',
         'Please contact your admin' => 'Skontaktuj siê z Administratorem',
+        'Please enter subject.' => 'Proszê podaæ tytu³',
+        'Please provide a name.' => 'Proszê podaæ nazwê',
         'Prio' => 'Priorytet',
         'Problem' => 'Problem',
         'Queue <-> Auto Responses Management' => 'Kolejka <-> Zarz±dzanie automatycznymi odpowiedziami',
@@ -3327,7 +3345,9 @@ sub Data {
         'Search for' => 'Szukaj',
         'Select Box' => 'Zapytanie SQL',
         'Select Box Result' => 'Wyniki Zapytania',
+        'Select Group' => 'Wybierz grupê ustawieñ',
         'Select Source (for add)' => 'Wybierz ¼ród³o (dla dodania)',
+        'Select group' => 'Wybierz grupê ustawieñ',
         'Select the customeruser:service relations.' => 'Wybierz relacjê klient:us³uga.',
         'Select the element, which will be used at the X-axis' => 'Wybierz element który bêdzie uzyty jako o¶ X',
         'Select the restrictions to characterise the stat' => 'Wybierz ograniczenia do opisania raportu.',
@@ -3477,6 +3497,7 @@ sub Data {
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
         'up' => 'góra',
         'utf8' => 'UTF8',
+
     };
     # $$STOP$$
     return;

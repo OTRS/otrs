@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.84 2010-11-12 14:57:04 mb Exp $
+# $Id: zh_CN.pm,v 1.85 2010-11-25 14:05:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:57
+    # Last translation file sync: 2010-11-25 14:51:48
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -40,6 +40,7 @@ sub Data {
     $Self->{Separator} = '';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => '是',
         'No' => '否',
@@ -315,7 +316,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => '',
         'New account created. Sent login information to %s. Please check your email.' => '',
         'Please press Back and try again.' => '请返回再试一次.',
-        'Sent password reset instructions to %s. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
         'Upcoming Events' => '即将到来的事件',
         'Event' => '事件',
@@ -404,6 +405,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => '统计',
+        'Sum' => '',
         'Please fill out the required fields!' => '请填写必填字段',
         'Please select a file!' => '请选择一个文件!',
         'Please select an object!' => '请选择一个对象!',
@@ -623,6 +625,9 @@ sub Data {
         'Plain Format' => '文本',
         'Reply All' => '回复所有',
         'Direction' => '',
+        'Agent (All with write permissions)' => '',
+        'Agent (Owner)' => '',
+        'Agent (Responsible)' => '',
         'New ticket notification' => '新 Ticket 通知',
         'Send me a notification if there is a new ticket in "My Queues".' => '如果我的队列中有新的 Ticket，请通知我.',
         'Send new ticket notifications' => '发送新 Ticket 通知',
@@ -820,7 +825,6 @@ sub Data {
         'Group members need to have permission' => '组成员需要权限',
         'Send message to role members' => '发送信息到角色成员',
         'Also send to customers in groups' => '同样发送到该组的客户',
-        'Please enter subject.' => '请输入主题',
         'Body' => '内容',
         'Send' => '发送',
 
@@ -833,12 +837,11 @@ sub Data {
         'Run this task' => '执行这个任务',
         'Job Settings' => '任务设置',
         'Job name' => '任务名称',
-        'Please provide a name.' => '请提供一个任务',
+        'Currently this generic agent job will not run automatically.' => '目前这一通用Agent作业将不会自动运行',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '启用自动执行至少选择一个值分钟，时间和日期',
         'Schedule minutes' => '',
         'Schedule hours' => '',
         'Schedule days' => '',
-        'Currently this generic agent job will not run automatically.' => '目前这一通用Agent作业将不会自动运行',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => '启用自动执行至少选择一个值分钟，时间和日期',
         'Toggle this widget' => '',
         'Ticket Filter' => '',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
@@ -889,10 +892,10 @@ sub Data {
         'New title' => '',
         'New type' => '',
         'New TicketFreeFields' => '新的 Ticket 自由区域',
+        'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '时间单元',
         ' (work units)' => '工作单元',
-        'Archive selected tickets' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -979,6 +982,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'PGP 管理',
+        'Use this feature if you want to work with PGP keys.' => '',
         'Add PGP key' => '',
         'In this way you can directly edit the keyring configured in SysConfig.' => '这种方式，您可以直接编辑在SysConfig设置的键',
         'Introduction to PGP' => '',
@@ -990,6 +994,7 @@ sub Data {
         'Expires' => '过期',
         'Delete this key' => '',
         'Add PGP Key' => '',
+        'PGP key' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '软件包管理',
@@ -1166,8 +1171,8 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME 管理',
-        'Add private key' => '添加私匙',
         'Add certificate' => '添加证书',
+        'Add private key' => '添加私匙',
         'In this way you can directly edit the certification and private keys in file system.' => '用这种方式您可以直接编辑证书和私匙',
         'See also' => '参见',
         'Hash/Fingerprint' => '',
@@ -1193,6 +1198,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'SQL查询窗口',
         'Here you can enter SQL to send it directly to the application database.' => '',
+        'The syntax of your SQL query has a mistake. Please check it.' => '',
+        'There is at least one parameter missing for the binding. Please check it.' => '',
         'Result format' => '结果格式',
         'Run Query' => '执行查询',
 
@@ -1234,9 +1241,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => '系统配置',
         'Navigate by searching in %s settings' => '',
-        'Select Group' => '选择组件',
-        'Navigate by selecting config groups' => '',
-        'Select group' => '选择组件',
+        'Go to group %s' => '',
+        'Group %s' => '',
         'Download all system config changes' => '下载所有配置(不包括默认配置)',
         'Export settings' => '导出设置',
         'Load SysConfig settings from file' => '从指定文件加载系统配置',
@@ -1415,9 +1421,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => '可许',
+        'You can select one or more groups to define access for different agents.' => '',
         'Some result formats are disabled because at least one needed package is not installed.' => '',
         'Please contact your administrator.' => '',
         'Graph size' => '',
+        'If you use a graph as output format you have to select at least one graph size.' => '如果您使用的是图形的输出格式你必须至少选择一个图形的大小',
         'Sum rows' => '总和行',
         'Sum columns' => '总和列',
         'Use cache' => '',
@@ -1913,6 +1921,11 @@ sub Data {
         'Show next pages' => '',
         'Show last page' => '',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => '',
+        'The file is not an image that can be shown inline!' => '',
+
         # Template: PrintFooter
         'URL' => '网址',
 
@@ -2025,6 +2038,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => '改变密码',
+        'Change queue!' => '',
+        'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2538,7 +2553,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2598,6 +2613,7 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '链接回复模板到队列',
         'Link roles to groups.' => '',
+        'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2833,6 +2849,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3200,7 +3217,6 @@ sub Data {
         'If you need the sum of every column select yes.' => '如需要每列的总和选择’yes’',
         'If you need the sum of every row select yes' => '如需要每行的总和选择 yes’',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '如果您用RegExp，您也能使用匹配值in () as [***] in \'Set\'',
-        'If you use a graph as output format you have to select at least one graph size.' => '如果您使用的是图形的输出格式你必须至少选择一个图形的大小',
         'If you want to install OTRS on other database systems, please refer to the file README.database.' => '如果你想在其它的数据系统上安装 OTRS, 请参考 README.database 文件.',
         'Image' => '图片',
         'Important' => '重要',
@@ -3308,6 +3324,8 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => '在该组/队列中修改 Tickets 所有者的权限.',
         'PhoneView' => '电话视图',
         'Please contact your admin' => '请联系系统管理员',
+        'Please enter subject.' => '请输入主题',
+        'Please provide a name.' => '请提供一个任务',
         'PostMaster Filter' => '邮件内容过滤',
         'PostMaster Mail Account' => '邮件帐号管理',
         'Prio' => '优先级',
@@ -3344,7 +3362,9 @@ sub Data {
         'Secure Mode need to be enabled!' => '安全模式需要启动',
         'Select Box' => '选择方框',
         'Select Box Result' => '查询结果',
+        'Select Group' => '选择组件',
         'Select Source (for add)' => '选择数据源(增加功能使用)',
+        'Select group' => '选择组件',
         'Select the customeruser:service relations.' => '选择客户和服务关系.',
         'Select the element, which will be used at the X-axis' => '选择将用在x轴的元素',
         'Select the restrictions to characterise the stat' => '选择限制参数，使统计特征化',
@@ -3491,6 +3511,7 @@ sub Data {
         'up' => '上',
         'utf8' => 'UTF-8',
         'x' => 'x',
+
     };
     # $$STOP$$
     return;

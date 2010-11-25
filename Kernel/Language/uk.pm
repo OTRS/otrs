@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.12 2010-11-12 14:56:16 mb Exp $
+# $Id: uk.pm,v 1.13 2010-11-25 14:05:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:55
+    # Last translation file sync: 2010-11-25 14:51:46
 
     # possible charsets
     $Self->{Charset} = ['WINDOWS-1251', 'cp1251', ];
@@ -36,6 +36,7 @@ sub Data {
     $Self->{Separator} = ',';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'Так',
         'No' => 'Ні',
@@ -311,7 +312,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => '',
         'New account created. Sent login information to %s. Please check your email.' => '',
         'Please press Back and try again.' => 'Натисніть «Назад» і спробуйте ще раз',
-        'Sent password reset instructions to %s. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
         'Upcoming Events' => 'Найближчі події',
         'Event' => 'Подія',
@@ -400,6 +401,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Статистика',
+        'Sum' => '',
         'Please fill out the required fields!' => 'Заповните обов\'язкові поля!',
         'Please select a file!' => 'Виберіть файл!',
         'Please select an object!' => 'Виберіть об\'єкт!',
@@ -619,6 +621,9 @@ sub Data {
         'Plain Format' => '',
         'Reply All' => '',
         'Direction' => 'Напрямок',
+        'Agent (All with write permissions)' => '',
+        'Agent (Owner)' => '',
+        'Agent (Responsible)' => '',
         'New ticket notification' => 'Повідомлення про нову заявку',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Повідомлення про нові заявки',
         'Send new ticket notifications' => 'Відправити повідомлення про нову заявку',
@@ -816,7 +821,6 @@ sub Data {
         'Group members need to have permission' => 'Члени групи повинні мати дозволу',
         'Send message to role members' => 'Відправити повідомлення членам ролі',
         'Also send to customers in groups' => 'Також відправити клієнтам у групах',
-        'Please enter subject.' => ' Будь ласка, уведіть тему.',
         'Body' => 'Тіло листа',
         'Send' => 'Відправити',
 
@@ -829,12 +833,11 @@ sub Data {
         'Run this task' => 'Запустити завдання',
         'Job Settings' => 'Настроювання завдання',
         'Job name' => 'Ім\'я завдання',
-        'Please provide a name.' => ' Будь ласка, уведіть ім\'я.',
+        'Currently this generic agent job will not run automatically.' => 'Це завдання агента не запускається автоматично',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => ' Для автоматичного запуску вкажіть як мінімум одне зі значень у хвилинах, годиннику або днях',
         'Schedule minutes' => '',
         'Schedule hours' => '',
         'Schedule days' => '',
-        'Currently this generic agent job will not run automatically.' => 'Це завдання агента не запускається автоматично',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => ' Для автоматичного запуску вкажіть як мінімум одне зі значень у хвилинах, годиннику або днях',
         'Toggle this widget' => '',
         'Ticket Filter' => 'Фільтр заявок',
         '(e. g. 10*5155 or 105658*)' => '(наприклад, 10*5155 або 105658*)',
@@ -885,10 +888,10 @@ sub Data {
         'New title' => 'Новий заголовок',
         'New type' => 'Новий тип',
         'New TicketFreeFields' => '',
+        'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
         ' (work units)' => ' ( робочі одиниці)',
-        'Archive selected tickets' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -975,6 +978,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'Керування підписами PGP',
+        'Use this feature if you want to work with PGP keys.' => '',
         'Add PGP key' => 'Додати PGP ключ',
         'In this way you can directly edit the keyring configured in SysConfig.' => '',
         'Introduction to PGP' => '',
@@ -986,6 +990,7 @@ sub Data {
         'Expires' => 'Минає',
         'Delete this key' => 'Вилучити ключ',
         'Add PGP Key' => 'Додати PGP ключ',
+        'PGP key' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Керування пакетами',
@@ -1162,8 +1167,8 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'Керування S/MIME',
-        'Add private key' => 'Додати закритий ключ',
         'Add certificate' => 'Додати сертифікат',
+        'Add private key' => 'Додати закритий ключ',
         'In this way you can directly edit the certification and private keys in file system.' => 'Ви можете редагувати сертифікати й закриті ключі прямо на файловій системі',
         'See also' => 'Див. також',
         'Hash/Fingerprint' => 'Хеш/Відбиток пальця',
@@ -1189,6 +1194,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'Запит SQL',
         'Here you can enter SQL to send it directly to the application database.' => '',
+        'The syntax of your SQL query has a mistake. Please check it.' => '',
+        'There is at least one parameter missing for the binding. Please check it.' => '',
         'Result format' => 'Формат результату',
         'Run Query' => 'Запустити чергу',
 
@@ -1230,9 +1237,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => '',
         'Navigate by searching in %s settings' => '',
-        'Select Group' => 'Виберіть Групу',
-        'Navigate by selecting config groups' => '',
-        'Select group' => 'Виберіть групу',
+        'Go to group %s' => '',
+        'Group %s' => '',
         'Download all system config changes' => '',
         'Export settings' => 'Експортувати настроювання',
         'Load SysConfig settings from file' => '',
@@ -1411,9 +1417,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Права',
+        'You can select one or more groups to define access for different agents.' => '',
         'Some result formats are disabled because at least one needed package is not installed.' => '',
         'Please contact your administrator.' => '',
         'Graph size' => 'Розмір графіка',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Якщо ви використовуєте графіки, вам необхідно вибрати хоча б один розмір графіка.',
         'Sum rows' => 'Сума рядків',
         'Sum columns' => 'Сума стовпців',
         'Use cache' => 'Кешувати',
@@ -1909,6 +1917,11 @@ sub Data {
         'Show next pages' => '',
         'Show last page' => '',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => '',
+        'The file is not an image that can be shown inline!' => '',
+
         # Template: PrintFooter
         'URL' => 'URL',
 
@@ -2021,6 +2034,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => 'Змінити пароль',
+        'Change queue!' => '',
+        'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2534,7 +2549,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2594,6 +2609,7 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => 'Зв\'язати відповіді із чергами.',
         'Link roles to groups.' => '',
+        'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2829,6 +2845,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3235,7 +3252,6 @@ sub Data {
         'If you need the sum of every column select yes.' => 'Якщо вам необхідний показ суми по кожному стовпцю, виберіть «Так»',
         'If you need the sum of every row select yes' => 'Якщо вам необхідний показ суми по кожному рядкові, виберіть «Так»',
         'If you use Regexp, you also can use the matched value in () as [***] in \'Set\'.' => 'Якщо ви використовуєте регулярні вираження, ви можете використовувати змінні в () як [***] при установці значень',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Якщо ви використовуєте графіки, вам необхідно вибрати хоча б один розмір графіка.',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! Postmaster filter will be used anyway.' => 'Якщо ваш обліковий запис безпечний, у листах буде використане поле заголовка X-OTRS ( для пріоритету й інших даних)! Фільтр Postmaster буде використаний у кожному разі.',
         'Image' => 'Значок',
         'Important' => 'Важливо',
@@ -3353,6 +3369,8 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Права на зміну власника заявок у цій групі/черги',
         'Phoneview' => 'Заявка по телефону',
         'Please contact your admin' => 'Будьласка, зв\'яжіться з вашим адміністратором',
+        'Please enter subject.' => ' Будь ласка, уведіть тему.',
+        'Please provide a name.' => ' Будь ласка, уведіть ім\'я.',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, Valueseries => Year).' => 'Помніть, що масштаб для послідовності значень повинен бути більше, ніж масштаб для осі X (наприклад, вісь Х — місяць, послідовність значень — рік).',
         'Postmaster Filter Management' => 'Керування фільтром Postmaster',
         'Postmaster Filters' => 'Фільтри постмайстру',
@@ -3395,7 +3413,9 @@ sub Data {
         'Secure Mode need to be enabled!' => 'Безпечний режим повинен бути включений',
         'Select Box' => 'Команда SELECT',
         'Select Box Result' => 'Виберіть із меню',
+        'Select Group' => 'Виберіть Групу',
         'Select Source (for add)' => 'Вибір джерела',
+        'Select group' => 'Виберіть групу',
         'Select the customeruser:service relations.' => 'Виберіть відносини клієнта й служби.',
         'Select the element, which will be used at the X-axis' => 'Виберіть елемент, який буде використаний на осі Х',
         'Select the restrictions to characterise the stat' => 'Виберіть обмеження для визначення статистики',
@@ -3558,6 +3578,7 @@ sub Data {
         'up' => 'нагору',
         'utf8' => 'utf8',
         'x' => 'x',
+
     };
     # $$STOP$$
     return;

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanoviæ <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.4 2010-11-12 14:56:16 mb Exp $
+# $Id: sr_Latn.pm,v 1.5 2010-11-25 14:05:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:53
+    # Last translation file sync: 2010-11-25 14:51:44
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -36,6 +36,7 @@ sub Data {
     $Self->{Separator} = ';';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'Da',
         'No' => 'Ne',
@@ -311,7 +312,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => '',
         'New account created. Sent login information to %s. Please check your email.' => 'Kreiran novi nalog. Podaci za prijavu poslati %s. Molimo proverite va¹ e-mejl',
         'Please press Back and try again.' => 'Molimo pritisnite Nazad i poku¹ajte ponovo.',
-        'Sent password reset instructions to %s. Please check your email.' => 'Uputstvo za reset lozinke poslato za %s. Molimo proverite va¹ e-mejl.',
+        'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
         'Upcoming Events' => 'Predstojeæi dogaðaji',
         'Event' => 'Dogaðaj',
@@ -400,6 +401,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Statistika',
+        'Sum' => '',
         'Please fill out the required fields!' => 'Molimo Bas, popunite obavezna polja!',
         'Please select a file!' => 'Molimo Vas da odaberete datoteku!',
         'Please select an object!' => 'Molimo Vas da odaberete objekat!',
@@ -619,6 +621,9 @@ sub Data {
         'Plain Format' => 'Prost format',
         'Reply All' => 'Odgovori na sve',
         'Direction' => '',
+        'Agent (All with write permissions)' => '',
+        'Agent (Owner)' => '',
+        'Agent (Responsible)' => '',
         'New ticket notification' => 'Obave¹tenje o novom tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Po¹alji mi obave¹tenje za novi tiket u "Mojim Redovima".',
         'Send new ticket notifications' => 'Po¹alji obave¹tenja o novim tiketima',
@@ -816,7 +821,6 @@ sub Data {
         'Group members need to have permission' => 'Èlanovi grupe treba da imaju dolvolu',
         'Send message to role members' => 'Po¹alji poruku za ulogu',
         'Also send to customers in groups' => 'Takoðe po¹alji korisnicima u grupi',
-        'Please enter subject.' => 'Molimo unesite predmet poruke.',
         'Body' => 'Tekst',
         'Send' => '©alji',
 
@@ -829,12 +833,11 @@ sub Data {
         'Run this task' => '',
         'Job Settings' => '',
         'Job name' => '',
-        'Please provide a name.' => '',
+        'Currently this generic agent job will not run automatically.' => 'Trenutno ovaj generièki agentski zadatak neæe raditi automatski.',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Da biste omoguæili automatsko izvr¹avanje izaberite bar jednu vrednost od minuta sati i dana!',
         'Schedule minutes' => '',
         'Schedule hours' => '',
         'Schedule days' => '',
-        'Currently this generic agent job will not run automatically.' => 'Trenutno ovaj generièki agentski zadatak neæe raditi automatski.',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Da biste omoguæili automatsko izvr¹avanje izaberite bar jednu vrednost od minuta sati i dana!',
         'Toggle this widget' => '',
         'Ticket Filter' => '',
         '(e. g. 10*5155 or 105658*)' => 'npr. 10*5144 ili 105658*',
@@ -885,10 +888,10 @@ sub Data {
         'New title' => '',
         'New type' => '',
         'New TicketFreeFields' => 'Slobodna polja novog tiketa',
+        'Archive selected tickets' => 'Arhiviraj izabrane tikete',
         'Add Note' => '',
         'Time units' => 'Vremenske jedinice',
         ' (work units)' => ' (elementi posla)',
-        'Archive selected tickets' => 'Arhiviraj izabrane tikete',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => '"CMD"',
@@ -975,6 +978,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'Upravljanje "PGP" kljuèevima',
+        'Use this feature if you want to work with PGP keys.' => '',
         'Add PGP key' => 'Dodaj "PGP"-kljuè',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'Na ovaj naèin mo¾ete direktno ureðivati komplet knjuèeva pode¹en u sistemskim opcijama.',
         'Introduction to PGP' => '',
@@ -986,6 +990,7 @@ sub Data {
         'Expires' => 'Istièe',
         'Delete this key' => 'Obri¹i ovaj kljuè',
         'Add PGP Key' => 'Dodaj "PGP"-kljuè',
+        'PGP key' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Upravljanje paketima',
@@ -1162,8 +1167,8 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => '"S/MIME" upravljanje',
-        'Add private key' => '',
         'Add certificate' => '',
+        'Add private key' => '',
         'In this way you can directly edit the certification and private keys in file system.' => '',
         'See also' => 'Pogledaj jo¹',
         'Hash/Fingerprint' => '',
@@ -1189,6 +1194,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => '"SQL" Box',
         'Here you can enter SQL to send it directly to the application database.' => '',
+        'The syntax of your SQL query has a mistake. Please check it.' => '',
+        'There is at least one parameter missing for the binding. Please check it.' => '',
         'Result format' => '',
         'Run Query' => '',
 
@@ -1230,9 +1237,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Sistemska konfiguracija',
         'Navigate by searching in %s settings' => '',
-        'Select Group' => '',
-        'Navigate by selecting config groups' => '',
-        'Select group' => '',
+        'Go to group %s' => '',
+        'Group %s' => '',
         'Download all system config changes' => '',
         'Export settings' => '',
         'Load SysConfig settings from file' => '',
@@ -1411,9 +1417,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Dozvole',
+        'You can select one or more groups to define access for different agents.' => '',
         'Some result formats are disabled because at least one needed package is not installed.' => '',
         'Please contact your administrator.' => '',
         'Graph size' => '',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Ako koristite grafikon kao izlazni format morate izabrati najmanje jednu velièinu grafikona.',
         'Sum rows' => 'Zbir redova',
         'Sum columns' => 'Zbir kolona',
         'Use cache' => '',
@@ -1909,6 +1917,11 @@ sub Data {
         'Show next pages' => '',
         'Show last page' => '',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => '',
+        'The file is not an image that can be shown inline!' => '',
+
         # Template: PrintFooter
         'URL' => '"URL"',
 
@@ -2021,6 +2034,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => '',
+        'Change queue!' => '',
+        'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2534,7 +2549,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2594,6 +2609,7 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
+        'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2829,6 +2845,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3196,7 +3213,6 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Ako ni¹ta nije izabrano, onda nema ni dozvola u ovoj grupi (tiketi neæe biti dostupni za korisnika).',
         'If you need the sum of every column select yes.' => 'Ukoliko vam je potrebna suma svake kolone, izaberite "Da".',
         'If you need the sum of every row select yes' => 'Ako vam je potrebna suma svakog reda, izaberite "Da".',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Ako koristite grafikon kao izlazni format morate izabrati najmanje jednu velièinu grafikona.',
         'Image' => 'Slika',
         'Important' => 'Va¾no',
         'Imported' => 'Uvezeno',
@@ -3316,6 +3332,7 @@ sub Data {
         'PhoneView' => 'Pregled telefona',
         'Phone{CustomerUser}' => 'Telefon (korisnik)',
         'Please contact your admin' => 'Molimo kontaktirajte va¹eg administratora',
+        'Please enter subject.' => 'Molimo unesite predmet poruke.',
         'Prio' => 'Prioritet',
         'Process-Path' => 'Prozess-Path',
         'Product' => 'Proizvod',
@@ -3372,6 +3389,7 @@ sub Data {
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Obavesti me ukoliko korisnik po¹alje nastavak, a ja sam vlasnik ovog tiketa.',
         'Sent new password to: ' => 'Po¹alji novu lozinku za: ',
         'Sent new password to: %s' => 'Poslata nova lozinka za %s.',
+        'Sent password reset instructions to %s. Please check your email.' => 'Uputstvo za reset lozinke poslato za %s. Molimo proverite va¹ e-mejl.',
         'Sent password token to: %s' => 'Poslana lozinka za: %s.',
         'Service-Name' => 'Naziv servisa',
         'Sessions' => 'Sesije',
@@ -3515,6 +3533,7 @@ sub Data {
         'utf8' => '"utf8"',
         'verified' => 'provereno',
         'x' => 'x',
+
     };
     # $$STOP$$
     return;
