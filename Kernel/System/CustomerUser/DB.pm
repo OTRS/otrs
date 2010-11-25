@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.85 2010-09-28 08:41:13 mg Exp $
+# $Id: DB.pm,v 1.86 2010-11-25 11:09:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,6 +226,9 @@ sub CustomerSearch {
         $SQL .= " , first_name, last_name, email ";
     }
 
+    # get like escape string needed for some databases (e.g. oracle)
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+
     # build SQL string 2/2
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
     if ( $Param{Search} ) {
@@ -253,10 +256,10 @@ sub CustomerSearch {
                 }
                 my $PostMasterSearch = $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' );
                 if ( $Self->{CaseSensitive} ) {
-                    $SQLExt .= " $Field LIKE '$PostMasterSearch' ";
+                    $SQLExt .= " $Field LIKE '$PostMasterSearch' $LikeEscapeString ";
                 }
                 else {
-                    $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') ";
+                    $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') $LikeEscapeString ";
                 }
             }
             $SQL .= $SQLExt;
@@ -278,10 +281,10 @@ sub CustomerSearch {
             $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Like' );
             $UserLogin =~ s/\*/%/g;
             if ( $Self->{CaseSensitive} ) {
-                $SQL .= "$Self->{CustomerKey} LIKE '$UserLogin'";
+                $SQL .= "$Self->{CustomerKey} LIKE '$UserLogin' $LikeEscapeString";
             }
             else {
-                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin')";
+                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin') $LikeEscapeString";
             }
         }
     }

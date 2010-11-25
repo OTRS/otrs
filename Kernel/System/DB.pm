@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.125 2010-10-27 08:26:07 mg Exp $
+# $Id: DB.pm,v 1.126 2010-11-25 11:09:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 =head1 NAME
 
@@ -942,6 +942,9 @@ sub QueryCondition {
         }
     }
 
+    # get like escape string needed for some databases (e.g. oracle)
+    my $LikeEscapeString = $Self->GetDatabaseFunction('LikeEscapeString');
+
     # search prefix/suffix check
     my $SearchPrefix = $Param{SearchPrefix} || '';
     my $SearchSuffix = $Param{SearchSuffix} || '';
@@ -1080,6 +1083,10 @@ sub QueryCondition {
                     else {
                         $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
                     }
+
+                    if ( $Type eq 'NOT LIKE' ) {
+                        $SQLA .= " $LikeEscapeString";
+                    }
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1107,6 +1114,10 @@ sub QueryCondition {
                     }
                     else {
                         $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
+                    }
+
+                    if ( $Type eq 'LIKE' ) {
+                        $SQLA .= " $LikeEscapeString";
                     }
                 }
                 $SQL .= '(' . $SQLA . ') ';
@@ -1259,6 +1270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.125 $ $Date: 2010-10-27 08:26:07 $
+$Revision: 1.126 $ $Date: 2010-11-25 11:09:01 $
 
 =cut
