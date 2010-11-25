@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.340 2010-11-25 13:52:47 bes Exp $
+# $Id: Layout.pm,v 1.341 2010-11-25 14:06:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.340 $) [1];
+$VERSION = qw($Revision: 1.341 $) [1];
 
 =head1 NAME
 
@@ -4733,10 +4733,7 @@ sub _BuildSelectionOutput {
             }
             my $OptionTitle = '';
             if ( $Param{OptionTitle} ) {
-                my $HTMLValue = $Self->{HTMLUtilsObject}->ToHTML(
-                    String => $Value,
-                );
-                $OptionTitle = ' title="' . $HTMLValue . '"';
+                $OptionTitle = ' title="' . $Value . '"';
             }
             $String .= "  <option value=\"$Key\"$SelectedDisabled$OptionTitle>$Value</option>\n";
         }
@@ -4820,6 +4817,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.340 $ $Date: 2010-11-25 13:52:47 $
+$Revision: 1.341 $ $Date: 2010-11-25 14:06:01 $
 
 =cut
