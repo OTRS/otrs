@@ -2,7 +2,7 @@
 // Core.App.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.App.js,v 1.2 2010-11-25 08:37:17 mn Exp $
+// $Id: Core.App.js,v 1.3 2010-11-25 09:05:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,13 +32,14 @@ Core.App = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Ready = function (Callback) {
+        var Trace;
         if ($.isFunction(Callback)) {
             $(document).ready(function () {
                 try {
                     Callback();
                 }
                 catch (Error) {
-                    var Trace = printStackTrace({e: Error, guess: true}).join('\n');
+                    Trace = printStackTrace({e: Error, guess: true}).join('\n');
                     Core.Exception.HandleFinalError(Error, Trace);
                 }
             });
