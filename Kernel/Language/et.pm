@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.42 2010-11-12 14:51:47 mb Exp $
+# $Id: et.pm,v 1.43 2010-11-25 13:54:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-12 14:48:38
+    # Last translation file sync: 2010-11-25 14:51:31
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -35,6 +35,7 @@ sub Data {
     $Self->{Separator} = '';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'Jah',
         'No' => 'Ei',
@@ -310,7 +311,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' => '',
         'New account created. Sent login information to %s. Please check your email.' => '',
         'Please press Back and try again.' => 'Palun vajuta tagasi-nuppu ja proovi uuesti.',
-        'Sent password reset instructions to %s. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
         'Upcoming Events' => '',
         'Event' => 'Sündmus',
@@ -399,6 +400,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Statistika',
+        'Sum' => '',
         'Please fill out the required fields!' => 'Palun täida nõutud väljad!',
         'Please select a file!' => 'Vali fail!',
         'Please select an object!' => 'Vali objekt!',
@@ -618,6 +620,9 @@ sub Data {
         'Plain Format' => '',
         'Reply All' => '',
         'Direction' => '',
+        'Agent (All with write permissions)' => '',
+        'Agent (Owner)' => '',
+        'Agent (Responsible)' => '',
         'New ticket notification' => 'Teavitus uuest intsidendist',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Saada mulle teavitus, kui "Minu järjekordades" on uusi intsidente.',
         'Send new ticket notifications' => '',
@@ -815,7 +820,6 @@ sub Data {
         'Group members need to have permission' => '',
         'Send message to role members' => '',
         'Also send to customers in groups' => '',
-        'Please enter subject.' => '',
         'Body' => 'Text',
         'Send' => 'Saada',
 
@@ -828,12 +832,11 @@ sub Data {
         'Run this task' => '',
         'Job Settings' => '',
         'Job name' => '',
-        'Please provide a name.' => '',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Schedule minutes' => '',
         'Schedule hours' => '',
         'Schedule days' => '',
-        'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Toggle this widget' => '',
         'Ticket Filter' => '',
         '(e. g. 10*5155 or 105658*)' => 'näiteks 10*5144 või 105658*',
@@ -884,10 +887,10 @@ sub Data {
         'New title' => '',
         'New type' => '',
         'New TicketFreeFields' => 'Uued intsidendi väljad',
+        'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
         ' (work units)' => ' (tööühikud)',
-        'Archive selected tickets' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -974,6 +977,7 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'PGP haldus',
+        'Use this feature if you want to work with PGP keys.' => '',
         'Add PGP key' => '',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'Nii saad otse muuta SysConfig-is seadistatud võtmeid.',
         'Introduction to PGP' => '',
@@ -985,6 +989,7 @@ sub Data {
         'Expires' => 'Aegub',
         'Delete this key' => '',
         'Add PGP Key' => '',
+        'PGP key' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Paketihaldus',
@@ -1161,8 +1166,8 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME haldus',
-        'Add private key' => '',
         'Add certificate' => '',
+        'Add private key' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'Nii saad otse hallata sertifikaate ja võtmeid failisüsteemis.',
         'See also' => 'Vaata lisaks',
         'Hash/Fingerprint' => '',
@@ -1188,6 +1193,8 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => '',
         'Here you can enter SQL to send it directly to the application database.' => '',
+        'The syntax of your SQL query has a mistake. Please check it.' => '',
+        'There is at least one parameter missing for the binding. Please check it.' => '',
         'Result format' => '',
         'Run Query' => '',
 
@@ -1229,9 +1236,8 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'SysConfig',
         'Navigate by searching in %s settings' => '',
-        'Select Group' => '',
-        'Navigate by selecting config groups' => '',
-        'Select group' => '',
+        'Go to group %s' => '',
+        'Group %s' => '',
         'Download all system config changes' => '',
         'Export settings' => '',
         'Load SysConfig settings from file' => '',
@@ -1410,9 +1416,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Õigused',
+        'You can select one or more groups to define access for different agents.' => '',
         'Some result formats are disabled because at least one needed package is not installed.' => '',
         'Please contact your administrator.' => '',
         'Graph size' => '',
+        'If you use a graph as output format you have to select at least one graph size.' => 'If you use a graph as output format you have to select at least one graph size.',
         'Sum rows' => 'Summaread',
         'Sum columns' => 'Summaveerud',
         'Use cache' => '',
@@ -1908,6 +1916,11 @@ sub Data {
         'Show next pages' => '',
         'Show last page' => '',
 
+        # Template: PictureUpload
+        'Need FormID!' => '',
+        'No file found!' => '',
+        'The file is not an image that can be shown inline!' => '',
+
         # Template: PrintFooter
         'URL' => 'URL',
 
@@ -2020,6 +2033,8 @@ sub Data {
         'Builds an article index right after the article\'s creation.' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' => '',
         'Change password' => '',
+        'Change queue!' => '',
+        'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2533,7 +2548,7 @@ sub Data {
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' => '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' => '',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' => '',
-        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' => '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' => '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' => '',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' => '',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' => '',
@@ -2593,6 +2608,7 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
+        'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -2828,6 +2844,7 @@ sub Data {
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' => '',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.' => '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' => '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' => '',
@@ -3160,7 +3177,6 @@ sub Data {
         'If you need the sum of every column select yes.' => 'If you need the sum of every column select yes.',
         'If you need the sum of every row select yes' => 'If you need the sum of every row select yes',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Kui kasutad regulaaravaldist saab kasutada ka leitud () väärtusi kui [***] "Sea" väljal .',
-        'If you use a graph as output format you have to select at least one graph size.' => 'If you use a graph as output format you have to select at least one graph size.',
         'Image' => 'Pilt',
         'Important' => 'Tähtis',
         'Imported' => 'Imporditud',
@@ -3415,6 +3431,7 @@ sub Data {
         'up' => 'üles',
         'verified' => 'kontrollitud',
         'x' => 'x',
+
     };
     # $$STOP$$
     return;
