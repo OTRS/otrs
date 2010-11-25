@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.75.2.4 2009-09-29 11:47:48 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.75.2.5 2010-11-25 23:58:07 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.4 $) [1];
+$VERSION = qw($Revision: 1.75.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1042,6 +1042,17 @@ sub MaskAgentZoom {
                         Name => 'ArticleOption',
                         Data => $DataRef,
                     );
+
+                    for my $Warning ( @{ $DataRef->{Warnings} } ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleOption',
+                            Data => {
+                                %{$Warning},
+                                Successful => 0,
+                            },
+                        );
+                    }
+
                 }
 
                 # filter option

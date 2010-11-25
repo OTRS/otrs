@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.1 2010-11-23 22:34:30 dz Exp $
+# $Id: PGP.pm,v 1.32.2.2 2010-11-25 23:58:07 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.1 $) [1];
+$VERSION = qw($Revision: 1.32.2.2 $) [1];
 
 =head1 NAME
 
@@ -199,7 +199,7 @@ sub _DecryptPart {
     print $FHPhrase $Param{Password};
     close $FHPhrase;
     my $GPGOptions
-        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt -o $FileDecrypt $Param{Filename}};
+        = qq{--batch --passphrase-fd 0 --yes --decrypt -o $FileDecrypt $Param{Filename}};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
     if ( $LogMessage =~ /failed/i ) {
         $Self->{LogObject}->Log( Priority => 'notice', Message => "$LogMessage!" );
@@ -209,14 +209,65 @@ sub _DecryptPart {
         );
     }
     else {
+
+        my %Log = $Self->_HandleLog(
+            LogString => $LogMessage,
+        );
+
         my $DecryptedDataRef = $Self->{MainObject}->FileRead( Location => $FileDecrypt );
         return (
             Successful => 1,
-            Message    => $LogMessage,
+            Message    => $Log{CleanLog},
+            Warnings   => $Log{Warnings},
             Data       => $$DecryptedDataRef,
             KeyID      => $Param{Key},
         );
     }
+}
+
+=item _HandleLog()
+
+Clean the log and split warnings
+
+    my %Log = $PGPObject->_HandleLog(
+        LogString => $LogMessage,
+    );
+
+=cut
+
+sub _HandleLog {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(LogString)) {
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my %Log;
+    $Log{OriginalLog} = $Param{LogString};
+
+    # delete the gpg string
+    $Log{CleanLog} = $Log{OriginalLog};
+    $Log{CleanLog} =~ s{ gpg: }{}xmsg;
+
+    # separete the warnings on an special array
+    my @Warnings;
+    while ( $Log{CleanLog} =~ s{ (.*)(?:WARNING:)(.*)(?:WARNING:.*)? }{$1}xms ) {
+        push @Warnings, {
+            Result => 'Error',
+            Key    => 'Crypt Warning',
+            Value  => $2,
+        };
+    }
+
+    if ( scalar @Warnings ) {
+        $Log{Warnings} = \@Warnings;
+    }
+
+    return %Log;
 }
 
 =item Sign()
@@ -761,6 +812,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.1 $ $Date: 2010-11-23 22:34:30 $
+$Revision: 1.32.2.2 $ $Date: 2010-11-25 23:58:07 $
 
 =cut
