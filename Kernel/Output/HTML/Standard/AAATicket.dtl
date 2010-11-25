@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.62 2010-11-10 09:12:26 mb Exp $
+# $Id: AAATicket.dtl,v 1.63 2010-11-25 12:04:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,7 +180,9 @@ $Text{"There are more escalated tickets!"}
 $Text{"Plain Format"}
 $Text{"Reply All"}
 $Text{"Direction"}
-
+$Text{"Agent (All with write permissions)"}
+$Text{"Agent (Owner)"}
+$Text{"Agent (Responsible)"}
 
 # preferences
 $Text{"New ticket notification"}
