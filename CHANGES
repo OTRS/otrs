@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1613 2010-11-25 13:46:27 mg Exp $
+# $Id: CHANGES,v 1.1614 2010-11-25 13:49:37 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.3 2010-11-??
+ - 2010-11-25 Fixed bug#6199 - OTRS 3.0 ToolBarSearchFulltext has no product design.
  - 2010-11-25 Fixed bug#2638 - Broken email syntax detection.
  - 2010-11-25 Fixed bug#6392 - Email addresses containing special but allowed
     characters are not accepted in customer administration.

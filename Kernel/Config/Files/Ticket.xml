@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.407 2010-11-16 10:52:51 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.408 2010-11-25 13:49:37 mn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -9615,6 +9615,7 @@ Thanks for your help!
                 <Item Key="Name">Fulltext-Search</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
+                <Item Key="CSS">Core.Agent.Toolbar.FulltextSearch.css</Item>
             </Hash>
         </Setting>
     </ConfigItem>

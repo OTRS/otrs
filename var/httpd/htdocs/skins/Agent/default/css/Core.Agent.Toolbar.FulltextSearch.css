@@ -1,0 +1,35 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  ToolbarFulltextSearch
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     ToolbarFulltextSearch
+ */
+
+#Fulltext {
+    height: 15px;
+    margin: 0;
+    padding: 4px 5px;
+    font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    border-color: #999;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    vertical-align: bottom;
+    -moz-box-shadow: 0 1px 2px #E8E8E8 inset;
+    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset;
+    box-shadow: 0 1px 2px #E8E8E8 inset;
+}
+
+} /* end @media */
