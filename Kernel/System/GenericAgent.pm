@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.67 2010-05-19 06:53:12 mb Exp $
+# $Id: GenericAgent.pm,v 1.68 2010-11-25 11:07:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
-Kernel::System::GenericAgent - to manage the generic agent and jobs
+Kernel::System::GenericAgent - to manage the generic agent jobs
 
 =head1 SYNOPSIS
 
@@ -188,7 +188,7 @@ sub new {
 
 =item JobRun()
 
-run an generic agent job
+run a generic agent job
 
     $GenericAgentObject->JobRun(
         Job    => 'JobName',
@@ -596,7 +596,7 @@ adds a new job to the database
         Data => {
             Queue => 'SomeQueue',
             ...
-            Vaild => 1,
+            Valid => 1,
         },
         UserID => 123,
     );
@@ -656,7 +656,7 @@ sub JobAdd {
 
 =item JobDelete()
 
-deletes an job from the database
+deletes a job from the database
 
     $GenericAgentObject->JobDelete(Name => 'JobName');
 
@@ -691,7 +691,7 @@ sub JobDelete {
 
 =item _JobRunTicket()
 
-run an generic agent job on a ticket
+run a generic agent job on a ticket
 
     $GenericAgentObject->_JobRunTicket(
         TicketID => 123,
@@ -1168,6 +1168,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2010-05-19 06:53:12 $
+$Revision: 1.68 $ $Date: 2010-11-25 11:07:34 $
 
 =cut
