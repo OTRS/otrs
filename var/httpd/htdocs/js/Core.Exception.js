@@ -2,7 +2,7 @@
 // Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Exception.js,v 1.2 2010-10-04 08:47:24 mg Exp $
+// $Id: Core.Exception.js,v 1.3 2010-11-25 08:37:17 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -72,23 +72,30 @@ Core.Exception = (function (TargetNS) {
      * @function
      *      This function handles the given error object (used as last possibility to catch the error)
      * @param {Object} Error The error object
+     * @param {String} Trace (Optional) A string containing the stacktrace
      * @return nothing
      */
-    TargetNS.HandleFinalError = function (ErrorObject) {
-        var UserErrorMessage = 'An error occured! For details please see your browser log!';
+    TargetNS.HandleFinalError = function (ErrorObject, Trace) {
+        var UserErrorMessage = 'An error occured! Do you want to see the complete error messages?';
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
-            TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType());
-            window.alert(UserErrorMessage);
+            TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
+            if (window.confirm(UserErrorMessage)) {
+                alert(ErrorObject.GetMessage() + '\n\n' + Trace);
+            }
         }
         else if (ErrorObject instanceof Error) {
-            TargetNS.ShowError(ErrorObject.message, 'JavaScriptError');
-            window.alert(UserErrorMessage);
+            TargetNS.ShowError(ErrorObject.message, 'JavaScriptError', Trace);
+            if (window.confirm(UserErrorMessage)) {
+                alert(ErrorObject.message + '\n\n' + Trace);
+            }
             throw ErrorObject; // rethrow
         }
         else {
-            TargetNS.ShowError(ErrorObject, 'UndefinedError');
-            window.alert(UserErrorMessage);
+            TargetNS.ShowError(ErrorObject, 'UndefinedError', Trace);
+            if (window.confirm(UserErrorMessage)) {
+                alert(ErrorObject + '\n\n' + Trace);
+            }
             throw ErrorObject; // rethrow
         }
     };
@@ -98,10 +105,14 @@ Core.Exception = (function (TargetNS) {
      *      This function shows an error message in the log
      * @param {string} ErrorType The error type
      * @param {string} ErrorMessage The error message
+     * @param {string} Trace (Optional) The stacktrace
      * @return nothing
      */
-    TargetNS.ShowError = function (ErrorMessage, ErrorType) {
+    TargetNS.ShowError = function (ErrorMessage, ErrorType, Trace) {
         Core.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);
+        if (typeof Trace !== 'undefined') {
+            Core.Debug.Log('[STACKTRACE] ' + Trace);
+        }
     };
 
     return TargetNS;
