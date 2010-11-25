@@ -42,7 +42,11 @@ ALTER TABLE article_flag CHANGE article_key article_key VARCHAR (50) NOT NULL;
 ALTER TABLE article_flag ADD article_value VARCHAR (50) NULL;
 CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
 CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
+# workaround for bug#6361 - Upgrade v2.4->v3.0 on MySQL with InnoDB as storage engine generates an error
+ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_create_by_id;
 DROP INDEX article_flag_create_by ON article_flag;
+ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+# /workaround
 # ----------------------------------------------------------
 #  create table virtual_fs
 # ----------------------------------------------------------
