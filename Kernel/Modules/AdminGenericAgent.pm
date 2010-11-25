@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.91 2010-11-23 00:10:35 en Exp $
+# $Id: AdminGenericAgent.pm,v 1.92 2010-11-25 11:06:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,7 +116,7 @@ sub Run {
         {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
 
-            # remove leading and tailing blank spaces
+            # remove leading and trailing blank spaces
             $CheckItemObject->StringClean( StringRef => \$GetParam{$Parameter} )
                 if $GetParam{$Parameter};
         }
@@ -136,7 +136,7 @@ sub Run {
             )
             )
         {
-            for my $Attribut (
+            for my $Attribute (
                 qw(
                 TimePoint TimePointFormat TimePointStart
                 TimeStart TimeStartDay TimeStartMonth TimeStopMonth
@@ -144,16 +144,16 @@ sub Run {
                 )
                 )
             {
-                my $Key = $Type . $Attribut;
+                my $Key = $Type . $Attribute;
                 $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
             }
 
             # validate data
-            for my $Attribut (
+            for my $Attribute (
                 qw(TimeStartDay TimeStartMonth TimeStopMonth TimeStopDay)
                 )
             {
-                my $Key = $Type . $Attribut;
+                my $Key = $Type . $Attribute;
                 $GetParam{$Key} = sprintf( '%02d', $GetParam{$Key} ) if $GetParam{$Key};
             }
         }
@@ -167,7 +167,7 @@ sub Run {
                     Param => 'NewTicketFreeKey' . $ID,
                 );
 
-                # remove leading and tailing blank spaces
+                # remove leading and trailing blank spaces
                 $CheckItemObject->StringClean( StringRef => \$GetParam{"NewTicketFreeKey$ID"} )
                     if ( $GetParam{"NewTicketFreeKey$ID"} );
             }
@@ -185,7 +185,7 @@ sub Run {
                     Param => 'NewTicketFreeText' . $ID,
                 );
 
-                # remove leading and tailing blank spaces
+                # remove leading and trailing blank spaces
                 $CheckItemObject->StringClean( StringRef => \$GetParam{"NewTicketFreeText$ID"} )
                     if ( $GetParam{"NewTicketFreeText$ID"} );
             }
@@ -277,7 +277,7 @@ sub Run {
                 my $SearchType = $Map{$Type} . 'SearchType';
                 if ( !$GetParam{$SearchType} || $GetParam{$SearchType} eq 'None' ) {
 
-                    # do noting on time stuff
+                    # do noting with time stuff
                 }
                 elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
                     for my $DatePart (qw(Month Day)) {
