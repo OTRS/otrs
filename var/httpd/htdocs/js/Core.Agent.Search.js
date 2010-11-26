@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.34 2010-11-26 13:39:58 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.35 2010-11-26 13:52:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -50,23 +50,24 @@ Core.Agent.Search = (function (TargetNS) {
      *      This function adds one attributes for search.
      */
     TargetNS.SearchAttributeAdd = function (Attribute) {
-        $('#SearchAttributesHidden').find('label').each(function () {
-            if ($(this).attr('id') === 'Label' + Attribute) {
-                $(this).prev().clone().appendTo('#SearchInsert');
-                $(this).clone().appendTo('#SearchInsert');
-                $(this).next().clone().appendTo('#SearchInsert')
-                    // bind click function to remove button now
-                    .find('.Remove').bind('click', function () {
-                        var $Element = $(this).parent();
-                        TargetNS.SearchAttributeRemove($Element);
+        var $Label = $('#SearchAttributesHidden label#Label' + Attribute);
 
-                        // rebuild selection
-                        TargetNS.AdditionalAttributeSelectionRebuild();
+        if ($Label.length) {
+            $Label.prev().clone().appendTo('#SearchInsert');
+            $Label.clone().appendTo('#SearchInsert');
+            $Label.next().clone().appendTo('#SearchInsert')
 
-                        return false;
-                    });
-            }
-        });
+                // bind click function to remove button now
+                .find('.Remove').bind('click', function () {
+                    var $Element = $(this).parent();
+                    TargetNS.SearchAttributeRemove($Element);
+
+                    // rebuild selection
+                    TargetNS.AdditionalAttributeSelectionRebuild();
+
+                    return false;
+                });
+        }
 
         return false;
     };
