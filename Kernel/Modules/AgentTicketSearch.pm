@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.112 2010-11-26 02:53:30 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.113 2010-11-26 05:27:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2003,24 +2003,21 @@ sub Run {
             Data => { %Param, %GetParam, %TicketFreeTextHTML, EmptySearch => $EmptySearch },
         );
 
-        # comapt map
-        if ( $GetParamBackup{TimeSearchType} eq 'TimePoint' ) {
-            $GetParamBackup{TicketCreateTimePoint} = 1;
-        }
-        elsif ( $GetParamBackup{TimeSearchType} eq 'TimeSlot' ) {
-            $GetParamBackup{TicketCreateTimeSlot} = 1;
-        }
-        elsif ( $GetParamBackup{ChangeTimeSearchType} eq 'TimePoint' ) {
-            $GetParamBackup{TicketChangeTimePoint} = 1;
-        }
-        elsif ( $GetParamBackup{ChangeTimeSearchType} eq 'TimeSlot' ) {
-            $GetParamBackup{TicketChangeTimeSlot} = 1;
-        }
-        elsif ( $GetParamBackup{CloseTimeSearchType} eq 'TimePoint' ) {
-            $GetParamBackup{TicketCloseTimePoint} = 1;
-        }
-        elsif ( $GetParamBackup{CloseTimeSearchType} eq 'TimeSlot' ) {
-            $GetParamBackup{TicketCloseTimeSlot} = 1;
+        # comapt. map for attributes
+        my %Map = (
+            TimeSearchType        => 'TicketCreate',
+            ChangeTimeSearchType  => 'TicketChange',
+            CloseTimeSearchType   => 'TicketClose',
+            ArticleTimeSearchType => 'ArticleCreate',
+        );
+        for my $Key ( keys %Map ) {
+            next if !$GetParamBackup{$Key};
+            if ( $GetParamBackup{$Key} eq 'TimePoint' ) {
+                $GetParamBackup{ $Map{$Key} . 'TimePoint' } = 1;
+            }
+            elsif ( $GetParamBackup{$Key} eq 'TimeSlot' ) {
+                $GetParamBackup{ $Map{$Key} . 'TimeSlot' } = 1;
+            }
         }
 
         # show attributes
