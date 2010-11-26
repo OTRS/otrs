@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.60 2010-11-23 14:01:11 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.61 2010-11-26 13:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -972,15 +972,17 @@ sub MaskForm {
     for ( 1 .. 6 ) {
         $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
-            Prefix   => 'TicketFreeTime' . $_ . 'Start',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                               => 'TicketFreeTime' . $_ . 'Start',
+            'TicketFreeTime' . $_ . 'StartClass' => 'DateSelection',
+            Format                               => 'DateInputFormat',
+            DiffTime                             => -( ( 60 * 60 * 24 ) * 30 ),
         );
         $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
-            Prefix   => 'TicketFreeTime' . $_ . 'Stop',
-            Format   => 'DateInputFormat',
-            DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                              => 'TicketFreeTime' . $_ . 'Stop',
+            'TicketFreeTime' . $_ . 'StopClass' => 'DateSelection',
+            Format                              => 'DateInputFormat',
+            DiffTime                            => +( ( 60 * 60 * 24 ) * 30 ),
         );
     }
 
