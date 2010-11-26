@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.44 2010-11-26 10:28:25 mg Exp $
+# $Id: UPGRADING,v 1.45 2010-11-26 14:24:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,6 +177,11 @@ to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
     module-specific settings and no longer show up in
     Kernel/Config/Files/ZZZAuto.pm. After this procedure, you may customize these
     settings again, if needed.
+
+    The same procedure must be executed for the setting
+    "Frontend::ToolBarModule###1-Ticket::TicketSearchFulltext", as this now also uses
+    module specific CSS. If this setting is not activated on your system, you can
+    safely omit this step.
 
 
 15) Customer Database Backend Field Renaming
