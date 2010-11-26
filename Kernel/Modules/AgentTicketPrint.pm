@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.74 2010-07-27 18:11:28 en Exp $
+# $Id: AgentTicketPrint.pm,v 1.75 2010-11-26 13:30:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1034,7 +1034,8 @@ sub _PDFOutputArticles {
         );
         $TableParam1{CellData}[$Row][1]{Content}
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
-        $TableParam1{CellData}[$Row][1]{Content} .= ' ' . $Article{SenderType};
+        $TableParam1{CellData}[$Row][1]{Content}
+            .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get( $Article{SenderType} );
         $Row++;
         for my $Count ( 1 .. 3 ) {
 
@@ -1048,8 +1049,9 @@ sub _PDFOutputArticles {
 
         $TableParam1{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':';
-        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content} = $Article{ArticleType};
+        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
+        $TableParam1{CellData}[$Row][1]{Content}
+            = $Self->{LayoutObject}->{LanguageObject}->Get( $Article{ArticleType} );
         $Row++;
 
         if ($Attachments) {

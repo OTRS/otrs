@@ -2,7 +2,7 @@
 # AgentTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.28 2010-08-31 17:11:07 cg Exp $
+# $Id: AgentTicketPrint.dtl,v 1.29 2010-11-26 13:29:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -219,7 +219,7 @@
 <!-- dtl:block:Row -->
                                         <tr>
                                             <td class="contentkey">$Text{"Created"}:</td>
-                                            <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $QData{"SenderType"}</td>
+                                            <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $Text{"$Data{"SenderType"}"}</td>
                                         </tr>
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 <!-- dtl:block:ArticleFreeText -->
@@ -230,7 +230,8 @@
 <!-- dtl:block:ArticleFreeText -->
                                         <tr>
                                             <td class="contentkey">$Text{"Type"}:</td>
-                                            <td class="contentvalue"> $QData{"ArticleType"}</td>
+                                            <td class="contentvalue"> $Text{"$Data{"ArticleType"}"}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="contentkey">$Text{"Attachment"}:</td>
