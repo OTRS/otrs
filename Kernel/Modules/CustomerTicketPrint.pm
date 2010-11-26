@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.36 2010-11-25 21:59:52 en Exp $
+# $Id: CustomerTicketPrint.pm,v 1.37 2010-11-26 01:51:26 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -996,15 +996,16 @@ sub _HTMLMask {
 
         # show article free text
         for my $Number ( 1 .. 3 ) {
-            if ( $Article{"ArticleFreeText$Number"} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleFreeText',
-                    Data => {
-                        Key   => $Article{"ArticleFreeKey$Number"},
-                        Value => $Article{"ArticleFreeText$Number"},
-                    },
-                );
-            }
+            next if !$Param{"ArticleFreeText$Number"};
+            next if !$Self->{Config}->{AttributesView}->{ 'ArticleFreeText' . $Number };
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText',
+                Data => {
+                    Key   => $Article{"ArticleFreeKey$Number"},
+                    Value => $Article{"ArticleFreeText$Number"},
+                },
+            );
         }
     }
 
