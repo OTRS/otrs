@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.410 2010-11-26 01:22:21 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.411 2010-11-26 05:43:46 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -59,6 +59,17 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <String Regex="">My Queues</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::NewArticleIgnoreSystemSender" Required="1" Valid="1">
+        <Description Translatable="1">Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">

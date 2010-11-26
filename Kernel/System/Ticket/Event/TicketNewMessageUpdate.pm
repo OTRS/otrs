@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketNewMessageUpdate.pm,v 1.4 2010-11-23 22:32:09 en Exp $
+# $Id: TicketNewMessageUpdate.pm,v 1.5 2010-11-26 05:43:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,8 +47,10 @@ sub Run {
     }
     for my $DataParameter (qw(TicketID ArticleID)) {
         if ( !$Param{Data}->{$DataParameter} ) {
-            $Self->{LogObject}
-                ->Log( Priority => 'error', Message => "Need $DataParameter in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $DataParameter in Data!",
+            );
             return;
         }
     }
@@ -72,16 +74,26 @@ sub Run {
         return 1;
     }
     elsif ( $Param{Event} eq 'ArticleFlagSet' ) {
-        my @ArticleList = $Self->{TicketObject}->ArticleIndex(
-            TicketID => $Param{Data}->{TicketID},
-        );
+        my @ArticleList;
+        my @SenderTypes = (qw(customer agent system));
+
+        # ignore system sender
+        if ( $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender') ) {
+            @SenderTypes = (qw(customer agent));
+        }
+        for my $SenderType (@SenderTypes) {
+            push @ArticleList, $Self->{TicketObject}->ArticleIndex(
+                TicketID   => $Param{Data}->{TicketID},
+                SenderType => $SenderType,
+            );
+        }
 
         # check if ticket needs to be marked as seen
         my $ArticleAllSeen = 1;
         ARTICLE:
-        for my $Article (@ArticleList) {
+        for my $ArticleID (@ArticleList) {
             my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
-                ArticleID => $Article,
+                ArticleID => $ArticleID,
                 UserID    => $Param{Data}->{UserID},
             );
 
