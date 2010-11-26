@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.13 2010-11-25 13:46:27 mg Exp $
+# $Id: CheckItem.t,v 1.14 2010-11-26 10:58:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,6 +106,10 @@ my @Tests = (
     },
     {
         Email => '_some.name@somehost.com',
+        Valid => 1,
+    },
+    {
+        Email => 'name.surname@sometext.sometext.sometext',
         Valid => 1,
     },
     {
