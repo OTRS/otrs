@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.33 2010-11-26 13:24:44 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.34 2010-11-26 13:39:58 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,18 +29,12 @@ Core.Agent.Search = (function (TargetNS) {
      */
     TargetNS.AdditionalAttributeSelectionRebuild = function () {
 
-        // get original selection
-        var $AttributeClone = $('#AttributeOrig').clone();
-        $AttributeClone.attr('id', 'Attribute');
+        // get original selection with all possible fields and clone it
+        var $AttributeClone = $('#AttributeOrig').clone().attr('id', 'Attribute');
 
         // strip all already used attributes
         $AttributeClone.find('option').each(function () {
-            var $Attribute = $(this);
-            $('#SearchInsert label').each(function () {
-                if ($(this).attr('id') === 'Label' + $Attribute.attr('value')) {
-                    $Attribute.remove();
-                }
-            });
+            $('#SearchInsert label#' + 'Label' + $(this).attr('value')).remove();
         });
 
         // replace selection with original selection
