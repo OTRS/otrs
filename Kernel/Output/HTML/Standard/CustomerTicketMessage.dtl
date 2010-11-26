@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.57 2010-11-26 01:50:27 en Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.58 2010-11-26 13:14:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
                 <div>
 <!--<label for="TicketNumber">$Config{"Ticket::Hook"}</label>
                     <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />-->
-                    <label for="Type">$Text{"Type"}:</label>
+                    <label for="TypeID">$Text{"Type"}:</label>
                     $Data{"TypeStrg"}
                     <div class="Clear"></div>
                 </div>
@@ -62,7 +62,7 @@
 
 <!-- dtl:block:TicketService -->
                 <div>
-                    <label for="Service">$Text{"Service"}:</label>
+                    <label for="ServiceID">$Text{"Service"}:</label>
                     $Data{"ServiceStrg"}
                     <div class="Clear"></div>
                 </div>
@@ -80,7 +80,7 @@
 
 <!-- dtl:block:TicketSLA -->
                 <div>
-                    <label for="SLA" title="$Text{"Service level agreement"}">$Text{"SLA"}:</label>
+                    <label for="SLAID" title="$Text{"Service level agreement"}">$Text{"SLA"}:</label>
                     $Data{"SLAStrg"}
                     <div class="Clear"></div>
                 </div>
