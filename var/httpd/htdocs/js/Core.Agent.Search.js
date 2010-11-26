@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.35 2010-11-26 13:52:08 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.36 2010-11-26 13:54:41 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -74,8 +74,8 @@ Core.Agent.Search = (function (TargetNS) {
 
     /**
      * @function
-     * @param {jQueryObject} $Element The jQuery object of the form  or any element within this form
-check.
+     * @param {jQueryObject} $Element The jQuery object of the form  or any element
+     *      within this form check.
      * @return nothing
      *      This function remove attributes from an element.
      */
