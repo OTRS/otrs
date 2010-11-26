@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.409 2010-11-25 21:57:30 en Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.410 2010-11-26 01:22:21 en Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7284,7 +7284,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketFreeText" Required="0" Valid="1">
-        <Description Translatable="1">Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you to display these fields also in the ticket zoom of the customer interface, you have to enable them in Ticket::Frontend::CustomerTicketZoom###AttributesView.</Description>
+        <Description Translatable="1">Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -7309,7 +7309,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketFreeTime" Required="0" Valid="1">
-        <Description Translatable="1">Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Description Translatable="1">Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -7320,6 +7320,18 @@ $QData{"Body"}
                 <Item Key="4">0</Item>
                 <Item Key="5">0</Item>
                 <Item Key="6">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###ArticleFreeText" Required="0" Valid="1">
+        <Description Translatable="1">Article free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7445,6 +7457,9 @@ $QData{"Body"}
                 <Item Key="TicketFreeText14">0</Item>
                 <Item Key="TicketFreeText15">0</Item>
                 <Item Key="TicketFreeText16">0</Item>
+                <Item Key="ArticleFreeText1">0</Item>
+                <Item Key="ArticleFreeText2">0</Item>
+                <Item Key="ArticleFreeText3">0</Item>
                 <Item Key="Queue">1</Item>
                 <Item Key="Type">0</Item>
                 <Item Key="Priority">1</Item>
