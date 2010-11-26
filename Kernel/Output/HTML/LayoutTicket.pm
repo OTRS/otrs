@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.115 2010-11-26 05:35:20 martin Exp $
+# $Id: LayoutTicket.pm,v 1.116 2010-11-26 13:24:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -438,7 +438,7 @@ sub AgentFreeText {
 
             # for TicketFreeKeyFields
             $Data{"TicketFreeKeyField$_"} =
-                '<label for="TicketFreeText' . $_
+                '<label id="LabelTicketFreeText' . $_
                 . '" class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"TicketFreeKeyField$_"}
                 . ':</label>';
@@ -447,7 +447,7 @@ sub AgentFreeText {
 
             # for TicketFreeKeyFields
             $Data{"TicketFreeKeyField$_"} =
-                '<label for="TicketFreeText' . $_ . '">'
+                '<label id="LabelTicketFreeText' . $_ . '">'
                 . $Data{"TicketFreeKeyField$_"}
                 . ':</label>';
         }
@@ -553,14 +553,22 @@ sub AgentFreeDate {
         );
         if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
             $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label class="Mandatory" for="TicketFreeTime' . $Count . 'Used">'
+                '<label class="Mandatory" id="LabelTicketFreeTime'
+                . $Count
+                . ' for="TicketFreeTime'
+                . $Count
+                . 'Used">'
                 . '<span class="Marker">*</span> '
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
                 . ':</label>';
         }
         else {
             $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label for="TicketFreeTime' . $Count . 'Used">'
+                '<label id="LabelTicketFreeTime'
+                . $Count
+                . ' for="TicketFreeTime'
+                . $Count
+                . 'Used">'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
                 . ':</label>';
         }
@@ -668,7 +676,7 @@ sub TicketArticleFreeText {
 
             # for ArticleFreeKeyField
             $Data{"ArticleFreeKeyField$_"} =
-                '<label for="ArticleFreeText' . $_
+                '<label id="LabelArticleFreeText' . $_
                 . '" class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"ArticleFreeKeyField$_"}
                 . ':</label>';
@@ -677,7 +685,7 @@ sub TicketArticleFreeText {
 
             # for ArticleFreeKeyField
             $Data{"ArticleFreeKeyField$_"} =
-                '<label for="ArticleFreeText' . $_ . '">'
+                '<label id="LabelArticleFreeText' . $_ . '">'
                 . $Data{"ArticleFreeKeyField$_"}
                 . ':</label>';
         }
@@ -778,14 +786,22 @@ sub CustomerFreeDate {
         );
         if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
             $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label class="Mandatory" for="TicketFreeTime' . $Count . 'Used">'
+                '<label class="Mandatory" id="LabelTicketFreeTime'
+                . $Count
+                . '" for="TicketFreeTime'
+                . $Count
+                . 'Used">'
                 . '<span class="Marker">*</span> '
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
                 . ':</label>';
         }
         else {
             $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label for="TicketFreeTime' . $Count . 'Used">'
+                '<label id="LabelTicketFreeTime'
+                . $Count
+                . '" for="TicketFreeTime'
+                . $Count
+                . 'Used">'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
                 . ':</label>';
         }

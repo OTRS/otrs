@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.32 2010-11-23 15:12:06 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.33 2010-11-26 13:24:44 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ Core.Agent.Search = (function (TargetNS) {
         $AttributeClone.find('option').each(function () {
             var $Attribute = $(this);
             $('#SearchInsert label').each(function () {
-                if ($(this).attr('for') === $Attribute.attr('value')) {
+                if ($(this).attr('id') === 'Label' + $Attribute.attr('value')) {
                     $Attribute.remove();
                 }
             });
@@ -57,7 +57,7 @@ Core.Agent.Search = (function (TargetNS) {
      */
     TargetNS.SearchAttributeAdd = function (Attribute) {
         $('#SearchAttributesHidden').find('label').each(function () {
-            if ($(this).attr('for') === Attribute) {
+            if ($(this).attr('id') === 'Label' + Attribute) {
                 $(this).prev().clone().appendTo('#SearchInsert');
                 $(this).clone().appendTo('#SearchInsert');
                 $(this).next().clone().appendTo('#SearchInsert')
@@ -106,7 +106,7 @@ check.
         $AttributeClone.find('option').each(function () {
             var $Attribute = $(this);
             $('#SearchInsert label').each(function () {
-                if ($(this).attr('for') === $Attribute.attr('value')) {
+                if ($(this).attr('id') === 'Label' + $Attribute.attr('value')) {
                     $Attribute.remove();
                 }
             });
