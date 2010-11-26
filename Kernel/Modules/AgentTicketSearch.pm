@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.111 2010-11-23 15:12:06 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.112 2010-11-26 02:53:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1961,6 +1961,7 @@ sub Run {
             Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
+        my %GetParamBackup = %GetParam;
         for my $Key (qw(TicketClose TicketChange TicketCreate ArticleCreate)) {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
@@ -2002,39 +2003,33 @@ sub Run {
             Data => { %Param, %GetParam, %TicketFreeTextHTML, EmptySearch => $EmptySearch },
         );
 
+        # comapt map
+        if ( $GetParamBackup{TimeSearchType} eq 'TimePoint' ) {
+            $GetParamBackup{TicketCreateTimePoint} = 1;
+        }
+        elsif ( $GetParamBackup{TimeSearchType} eq 'TimeSlot' ) {
+            $GetParamBackup{TicketCreateTimeSlot} = 1;
+        }
+        elsif ( $GetParamBackup{ChangeTimeSearchType} eq 'TimePoint' ) {
+            $GetParamBackup{TicketChangeTimePoint} = 1;
+        }
+        elsif ( $GetParamBackup{ChangeTimeSearchType} eq 'TimeSlot' ) {
+            $GetParamBackup{TicketChangeTimeSlot} = 1;
+        }
+        elsif ( $GetParamBackup{CloseTimeSearchType} eq 'TimePoint' ) {
+            $GetParamBackup{TicketCloseTimePoint} = 1;
+        }
+        elsif ( $GetParamBackup{CloseTimeSearchType} eq 'TimeSlot' ) {
+            $GetParamBackup{TicketCloseTimeSlot} = 1;
+        }
+
         # show attributes
         my %AlreadyShown;
         for my $Item (@Attributes) {
             my $Key = $Item->{Key};
             next if !$Key;
-            next if !defined $GetParam{$Key};
-            next if $GetParam{$Key} eq '';
-
-            # show time attributes
-            for my $Type (qw(Ticket Article)) {
-                for my $Item (qw(Change Create Close)) {
-                    next if $Type eq 'Article' && $Item =~ /^(Change|Close)$/;
-                    for my $ItemSubSub (qw(Point Slot)) {
-
-                        # compat.
-                        my $ItemSub;
-                        if ( $Item eq 'Create' && $Type eq 'Ticket' ) {
-                            $ItemSub = 'TimeSearchType::Time' . $ItemSubSub;
-                        }
-                        else {
-                            if ( $Type eq 'Ticket' ) {
-                                $ItemSub = $Item . 'TimeSearchType::Time' . $ItemSubSub;
-                            }
-                            else {
-                                $ItemSub = $Type . 'TimeSearchType::Time' . $ItemSubSub;
-                            }
-                        }
-                        if ( $Key eq $ItemSub && $GetParam{$ItemSub} && $GetParam{$ItemSub} eq 1 ) {
-                            $Key = $Type . $Item . 'Time' . $ItemSubSub;
-                        }
-                    }
-                }
-            }
+            next if !defined $GetParamBackup{$Key};
+            next if $GetParamBackup{$Key} eq '';
 
             next if $AlreadyShown{$Key};
             $AlreadyShown{$Key} = 1;
