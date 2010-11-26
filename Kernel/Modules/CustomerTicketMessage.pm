@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.77 2010-11-17 21:32:53 cg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.78 2010-11-26 01:50:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,9 +64,17 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
+    # get article free text params
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    }
+
     if ( !$Self->{Subaction} ) {
 
-        # get default selections
+        # get default selections for ticket free text fields
         my %TicketFreeDefault;
         for my $Count ( 1 .. 16 ) {
             my $Key  = 'TicketFreeKey' . $Count;
@@ -94,11 +102,15 @@ sub Run {
             );
 
             # If Key has value 2, this means that the freetextfield is required
-            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+            if (
+                $Self->{Config}->{TicketFreeText}->{$Count}
+                && $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                )
+            {
                 $TicketFreeText{Required}->{$Count} = 1;
             }
-
         }
+
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
             Ticket => \%TicketFreeDefault,
@@ -142,10 +154,55 @@ sub Run {
             Ticket => \%TicketFreeTime,
         );
 
+        # get default selections for article free text fields
+        my %ArticleFreeDefault;
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeDefault{$Key}  = $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
+            $ArticleFreeDefault{$Text} = $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
+        }
+
+        # get article free text config options
+        my %ArticleFreeText;
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+                ArticleID      => $Self->{ArticleID},
+                Action         => $Self->{Action},
+                Type           => $Key,
+                CustomerUserID => $Self->{UserID},
+            );
+            $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID       => $Self->{TicketID},
+                Action         => $Self->{Action},
+                Type           => $Text,
+                CustomerUserID => $Self->{UserID},
+            );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
+        }
+
+        my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+            Config  => \%ArticleFreeText,
+            Article => {
+                %GetParam,
+                %ArticleFreeDefault,
+            },
+        );
+
         # print form ...
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
-        $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-        $Output .= $Self->_MaskNew( %TicketFreeTextHTML, %FreeTime, );
+        $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
+        $Output    .= $Self->_MaskNew(
+            %TicketFreeTextHTML,
+            %FreeTime,
+            %ArticleFreeTextHTML,
+        );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
@@ -286,6 +343,45 @@ sub Run {
             Ticket => \%TicketFreeTime,
         );
 
+        # article free text
+        my %ArticleFreeText;
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID       => $Self->{TicketID},
+                Type           => $Key,
+                Action         => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            );
+            $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID       => $Self->{TicketID},
+                Type           => $Text,
+                Action         => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            );
+
+            # If Key has value 2, this means that the field is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required ArticleTextField (if configured)
+            if (
+                $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $IsUpload == 0
+                )
+            {
+                $ArticleFreeText{Error}->{$Count} = 1;
+                $Error{$Text} = 'ServerError';
+            }
+        }
+        my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+            Config  => \%ArticleFreeText,
+            Article => \%GetParam,
+        );
+
         # rewrap body if rich text is used
         if ( $Self->{LayoutObject}->{BrowserRichText} && $GetParam{Body} ) {
             $GetParam{Body}
@@ -322,6 +418,7 @@ sub Run {
                 QueueID    => $NewQueueID,
                 %TicketFreeTextHTML,
                 %FreeTime,
+                %ArticleFreeTextHTML,
                 Errors => \%Error,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -433,6 +530,22 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerError();
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
+        }
+
+        # set article free text
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            if ( defined $GetParam{$Key} ) {
+                $Self->{TicketObject}->ArticleFreeTextSet(
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                    Key       => $GetParam{$Key},
+                    Value     => $GetParam{$Text},
+                    Counter   => $Count,
+                    UserID    => $Self->{UserID},
+                );
+            }
         }
 
         # get pre loaded attachment
@@ -659,11 +772,9 @@ sub _MaskNew {
                 %Param,
             },
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'FreeText' . $Count,
-            Data => { %Param, Count => $Count, },
-        );
     }
+
+    # ticket free time
     for my $Count ( 1 .. 6 ) {
         next if !$Self->{Config}->{TicketFreeTime}->{$Count};
         $Self->{LayoutObject}->Block(
@@ -674,9 +785,20 @@ sub _MaskNew {
                 Count             => $Count,
             },
         );
+    }
+
+    # article free text
+    for my $Count ( 1 .. 3 ) {
+        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
         $Self->{LayoutObject}->Block(
-            Name => 'FreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Name => 'ArticleFreeText',
+            Data => {
+                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
+                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
+                Count                => $Count,
+                ServerError          => $Param{Errors}->{ 'ArticletFreeText' . $Count },
+                %Param,
+            },
         );
     }
 

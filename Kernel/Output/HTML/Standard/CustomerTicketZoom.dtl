@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.103 2010-11-25 22:01:17 en Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.104 2010-11-26 01:51:57 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,6 +96,15 @@
                                 <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","150"}</span>
                                 <div class="Clear"></div>
                             </div>
+
+# show the ArticleFreeKey1-3 and ArticleFreeText1-3
+<!-- dtl:block:ArticleFreeText -->
+                            <div>
+                                <div class="Label" title="$QData{"Key"}">$QData{"Key", "11"}:</div> <span title="$QData{"Value"}">$QData{"Value","160"}</span>
+                                <div class="Clear"></div>
+                            </div>
+<!-- dtl:block:ArticleFreeText -->
+
 <!-- dtl:block:ArticleAttachment -->
                             <div class="Attachments">
                                 <div class="Label">$Text{"$Data{"Key"}"}:</div>

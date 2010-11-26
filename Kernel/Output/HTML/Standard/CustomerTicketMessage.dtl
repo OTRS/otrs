@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.56 2010-11-17 21:32:53 cg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.57 2010-11-26 01:50:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -164,6 +164,12 @@ $Include{"CustomerRichTextEditor"}
                     <div class="Clear"></div>
                 </div>
 <!-- dtl:block:FreeTime -->
+<!-- dtl:block:ArticleFreeText -->
+                $Data{"ArticleFreeKeyField"}
+                $Data{"ArticleFreeTextField"}
+                <div id="ArticleFreeText$Data{"Count"}UsedError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"ServerError"}"><p>$Text{"This field is required."}</p></div>
+                <div class="Clear"></div>
+<!-- dtl:block:ArticleFreeText -->
             </fieldset>
             <div id="BottomActionRow" class="ActionRow">
                 <button id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
