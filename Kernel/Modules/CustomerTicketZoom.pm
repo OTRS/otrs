@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.74 2010-11-26 01:51:57 en Exp $
+# $Id: CustomerTicketZoom.pm,v 1.75 2010-11-26 21:16:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -527,7 +527,7 @@ sub _Mask {
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 
-        # check if last article to make it Visible
+        # check if article should be expanded (visible)
         if ( $SelectedArticleID eq $Article{ArticleID} ) {
             $Article{Class} = 'Visible';
         }
@@ -550,6 +550,20 @@ sub _Mask {
             Name => 'Article',
             Data => \%Article,
         );
+
+        # show the correct title: "expand article..." or the article's subject
+        if ( $SelectedArticleID eq $Article{ArticleID} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleExpanded',
+                Data => \%Article,
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleContracted',
+                Data => \%Article,
+            );
+        }
 
         # do some strips && quoting
         for my $Key (qw(From To Cc)) {
