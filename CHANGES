@@ -2,15 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1619 2010-11-26 21:16:50 en Exp $
+# $Id: CHANGES,v 1.1620 2010-11-26 23:25:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.3 2010-11-29
+3.0.4 2010-12-??
  - 2010-11-26 Fixed bug#6390 - Customer Interface - Latest article hover text is always 'Loading'.
+
+3.0.3 2010-11-29
  - 2010-11-26 Fixed bug#6393 - ArticleFreeText is missing in Customer Interface TicketZoom.
  - 2010-11-26 Fixed bug#6396 - Freetext fields can't be added to ticket search.
  - 2010-11-25 Fixed bug#6131 - Lack of warning for revoked and expired keys for PGP signs on emails.
