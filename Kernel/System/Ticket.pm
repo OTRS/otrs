@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.476 2010-11-25 18:17:47 en Exp $
+# $Id: Ticket.pm,v 1.477 2010-11-26 09:11:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.476 $) [1];
+$VERSION = qw($Revision: 1.477 $) [1];
 
 =head1 NAME
 
@@ -814,7 +814,7 @@ strip/clean up a ticket subject
     my $NewSubject = $TicketObject->TicketSubjectClean(
         TicketNumber => '2004040510440485',
         Subject      => $OldSubject,
-        Size         => $SubjectSizeToBeDisplayed
+        Size         => $SubjectSizeToBeDisplayed   # optional
     );
 
 =cut
@@ -8183,6 +8183,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.476 $ $Date: 2010-11-25 18:17:47 $
+$Revision: 1.477 $ $Date: 2010-11-26 09:11:07 $
 
 =cut
