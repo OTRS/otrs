@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.25 2010-11-23 13:02:18 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.26 2010-11-26 10:30:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -201,7 +201,7 @@ Core.UI.Dialog = (function (TargetNS) {
             return (Position + 'px');
         }
 
-        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector,
+        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector, $InnerContent, InnerContentWidth = 0,
             DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
         // Close all opened dialogs
@@ -213,10 +213,12 @@ Core.UI.Dialog = (function (TargetNS) {
         if (Params.Modal) {
             $('<div id="Overlay" tabindex="-1">').appendTo('body');
             $('body').css({
-                'position': 'relative',
                 'overflow': 'hidden'
             });
             $('#Overlay').height($(document).height()).css('top', 0);
+
+            // If the underlying page is perhaps to small, wie extend the page to window height for the dialog
+            $('body').css('min-height', $(window).height());
         }
 
         // Build Dialog HTML
@@ -318,13 +320,20 @@ Core.UI.Dialog = (function (TargetNS) {
             $Dialog.find('.Header').append('<h1>' + Params.Title + '</h1>');
         }
 
-        // Check if "ContentFooter" is used in Content and change Footer
-        if ($Dialog.find('.Content .ContentFooter').length) {
-            $Dialog.find('.Footer').addClass('ContentFooter');
-        }
-
         // Add Dialog to page
         $Dialog.appendTo('body');
+
+        // Check if "ContentFooter" is used in Content
+        if ($Dialog.find('.Content .ContentFooter').length) {
+            // change default Footer
+            $Dialog.find('.Footer').addClass('ContentFooter');
+            // add special css for IE7
+            if ($.browser.msie && $.browser.version >= 7 && $.browser.version < 9) {
+                $InnerContent = $Dialog.find('.Content .InnerContent');
+                InnerContentWidth = $InnerContent.width() + parseInt($InnerContent.css('padding-left'), 10) + parseInt($InnerContent.css('padding-right'), 10);
+                $Dialog.find('.Content .ContentFooter').width(InnerContentWidth);
+            }
+        }
 
         // Now add the selector for the original dialog template content to the dialog, if it exists
         if (DialogCopySelector && DialogCopySelector.length) {
@@ -489,11 +498,11 @@ Core.UI.Dialog = (function (TargetNS) {
         $Dialog.remove();
         $('#Overlay').remove();
         $('body').css({
-            'overflow': 'auto',
-            'position': 'static'
+            'overflow': 'auto'
         });
         $(document).unbind('keydown.Dialog').unbind('keypress.Dialog').unbind('click.Dialog');
         $(window).unbind('resize.Dialog');
+        $('body').css('min-height', 'auto');
 
         // Revert orignal html
         if (DialogCopySelector.length) {

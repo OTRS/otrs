@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -25,7 +25,7 @@
     opacity: 0.5;
     -moz-opacity: 0.5;
     filter: alpha(opacity = 50);
-    z-index: 200;
+    z-index: 3500;
 }
 
 /**

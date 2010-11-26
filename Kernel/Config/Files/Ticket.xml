@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.411 2010-11-26 05:43:46 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.412 2010-11-26 10:30:16 mn Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7896,7 +7896,7 @@ $QData{"Body"}
                     <Description Translatable="1">Search Ticket</Description>
                     <Name Translatable="1">Search</Name>
                     <Link>Action=AgentTicketSearch</Link>
-                    <LinkOption>onclick="Core.Agent.Search.OpenSearchDialog('AgentTicketSearch'); event.stopPropagation(); return false;"</LinkOption>
+                    <LinkOption>onclick="window.setTimeout('Core.Agent.Search.OpenSearchDialog(\'AgentTicketSearch\');', 0); return false;"</LinkOption>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
