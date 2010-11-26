@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.114 2010-11-26 01:53:08 en Exp $
+# $Id: LayoutTicket.pm,v 1.115 2010-11-26 05:35:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -438,7 +438,8 @@ sub AgentFreeText {
 
             # for TicketFreeKeyFields
             $Data{"TicketFreeKeyField$_"} =
-                '<label class="Mandatory"><span class="Marker">*</span> '
+                '<label for="TicketFreeText' . $_
+                . '" class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"TicketFreeKeyField$_"}
                 . ':</label>';
         }
@@ -446,7 +447,7 @@ sub AgentFreeText {
 
             # for TicketFreeKeyFields
             $Data{"TicketFreeKeyField$_"} =
-                '<label>'
+                '<label for="TicketFreeText' . $_ . '">'
                 . $Data{"TicketFreeKeyField$_"}
                 . ':</label>';
         }
@@ -667,7 +668,8 @@ sub TicketArticleFreeText {
 
             # for ArticleFreeKeyField
             $Data{"ArticleFreeKeyField$_"} =
-                '<label class="Mandatory"><span class="Marker">*</span> '
+                '<label for="ArticleFreeText' . $_
+                . '" class="Mandatory"><span class="Marker">*</span> '
                 . $Data{"ArticleFreeKeyField$_"}
                 . ':</label>';
         }
@@ -675,7 +677,7 @@ sub TicketArticleFreeText {
 
             # for ArticleFreeKeyField
             $Data{"ArticleFreeKeyField$_"} =
-                '<label>'
+                '<label for="ArticleFreeText' . $_ . '">'
                 . $Data{"ArticleFreeKeyField$_"}
                 . ':</label>';
         }

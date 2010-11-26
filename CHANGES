@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1616 2010-11-25 21:30:12 dz Exp $
+# $Id: CHANGES,v 1.1617 2010-11-26 05:35:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+3.0.3 2010-11-29
+ - 2010-11-26 Fixed bug#6396 - Freetext fields can't be added to ticket search
+    after applying fix for bug# 6308.
 3.0.3 2010-11-??
  - 2010-11-25 Fixed bug#6131 - Lack of warning for revoked and expired keys for PGP signs on emails.
  - 2010-11-25 Fixed bug#6361 - Upgrade v2.4->v3.0 on MySQL with InnoDB as storage
