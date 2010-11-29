@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.262 2010-11-25 13:52:47 bes Exp $
+# $Id: Article.pm,v 1.263 2010-11-29 23:45:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.262 $) [1];
+$VERSION = qw($Revision: 1.263 $) [1];
 
 =head1 NAME
 
@@ -2197,6 +2197,11 @@ sub SendAgentNotification {
     return if !$User{UserEmail};
     return if $User{UserEmail} !~ /@/;
 
+    my %State = $Self->{StateObject}->StateGet( ID => $Param{StateID} );
+    if ( $State{TypeName} eq 'closed' && $Param{Type} == 'NewTicket' ) {
+        return;
+    }
+
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
         MainObject         => $Self->{MainObject},
         DBObject           => $Self->{DBObject},
@@ -3274,6 +3279,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.262 $ $Date: 2010-11-25 13:52:47 $
+$Revision: 1.263 $ $Date: 2010-11-29 23:45:41 $
 
 =cut
