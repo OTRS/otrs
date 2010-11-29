@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,6 +19,10 @@ body {
 .RTL {
     text-align: right;
     direction: rtl;
+}
+
+#EmptyMessage {
+    border-bottom: 1px solid #DDD;
 }
 
 input {

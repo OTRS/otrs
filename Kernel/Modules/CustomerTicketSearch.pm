@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.61 2010-11-26 13:17:07 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.62 2010-11-29 19:46:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -548,70 +548,79 @@ sub Run {
         }
 
         my $Counter = 0;
-        for my $TicketID (@ViewableTicketIDs) {
-            $Counter++;
 
-            # build search result
-            if (
-                $Counter >= $Self->{StartHit}
-                && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} )
-                )
-            {
+        # if there are results to show
+        if (@ViewableTicketIDs) {
+            for my $TicketID (@ViewableTicketIDs) {
+                $Counter++;
 
-                # get first article data
-                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID => $TicketID,
-                    Extended => 1,
-                );
+                # build search result
+                if (
+                    $Counter >= $Self->{StartHit}
+                    && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} )
+                    )
+                {
 
-                # customer info
-                my %CustomerData;
-                if ( $Article{CustomerUserID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        User => $Article{CustomerUserID},
+                    # get first article data
+                    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                        TicketID => $TicketID,
+                        Extended => 1,
+                    );
+
+                    # customer info
+                    my %CustomerData;
+                    if ( $Article{CustomerUserID} ) {
+                        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                            User => $Article{CustomerUserID},
+                        );
+                    }
+                    elsif ( $Article{CustomerID} ) {
+                        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                            CustomerID => $Article{CustomerID},
+                        );
+                    }
+
+                    # customer info (customer name)
+                    if ( $CustomerData{UserLogin} ) {
+                        $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                            UserLogin => $CustomerData{UserLogin},
+                        );
+                    }
+
+                    # user info
+                    my %Owner = $Self->{UserObject}->GetUserData(
+                        User => $Article{Owner},
+                    );
+
+                    # Condense down the subject
+                    my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+                        TicketNumber => $Article{TicketNumber},
+                        Subject => $Article{Subject} || '',
+                    );
+                    $Article{Age}
+                        = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+
+                    # customer info string
+                    if ( $Article{CustomerName} ) {
+                        $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
+                    }
+
+                    # add blocks to template
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Record',
+                        Data => {
+                            %Article,
+                            Subject => $Subject,
+                            %Owner,
+                        },
                     );
                 }
-                elsif ( $Article{CustomerID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        CustomerID => $Article{CustomerID},
-                    );
-                }
-
-                # customer info (customer name)
-                if ( $CustomerData{UserLogin} ) {
-                    $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
-                        UserLogin => $CustomerData{UserLogin},
-                    );
-                }
-
-                # user info
-                my %Owner = $Self->{UserObject}->GetUserData(
-                    User => $Article{Owner},
-                );
-
-                # Condense down the subject
-                my $Subject = $Self->{TicketObject}->TicketSubjectClean(
-                    TicketNumber => $Article{TicketNumber},
-                    Subject => $Article{Subject} || '',
-                );
-                $Article{Age}
-                    = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
-
-                # customer info string
-                if ( $Article{CustomerName} ) {
-                    $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
-                }
-
-                # add blocks to template
-                $Self->{LayoutObject}->Block(
-                    Name => 'Record',
-                    Data => {
-                        %Article,
-                        Subject => $Subject,
-                        %Owner,
-                    },
-                );
             }
+        }
+
+        # otherwise show a no data found msg
+        else {
+            $Self->{LayoutObject}->Block( Name => 'NoDataFoundMsg' );
         }
 
         # show attributes used for search
@@ -739,22 +748,46 @@ sub Run {
             );
         }
 
+        my $Order = 'Down';
+        if ( $Self->{Order} eq 'Down' ) {
+            $Order = 'Up';
+        }
+        my $Sort       = '';
+        my $StateSort  = '';
+        my $TicketSort = '';
+        my $AgeSort    = '';
+
+        # this sets the opposit to the $Order
+        if ( $Order eq 'Down' ) {
+            $Sort = 'SortAscending';
+        }
+        if ( $Order eq 'Up' ) {
+            $Sort = 'SortDescending';
+        }
+
+        if ( $Self->{SortBy} eq 'State' ) {
+            $StateSort = $Sort;
+        }
+        if ( $Self->{SortBy} eq 'Ticket' ) {
+            $TicketSort = $Sort;
+        }
+        if ( $Self->{SortBy} eq 'Age' ) {
+            $AgeSort = $Sort;
+        }
+
         # start html page
         my $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-
-        my %NewOrder = (
-            Down => 'Up',
-            Up   => 'Down',
-        );
-
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'CustomerTicketSearchResultShort',
             Data         => {
                 %Param,
                 %PageNav,
-                Order   => $NewOrder{ $Self->{Order} },
-                Profile => $Self->{Profile},
+                Order      => $Order,
+                StateSort  => $StateSort,
+                TicketSort => $TicketSort,
+                AgeSort    => $AgeSort,
+                Profile    => $Self->{Profile},
             },
         );
 
