@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1621 2010-11-29 08:13:17 mb Exp $
+# $Id: CHANGES,v 1.1622 2010-11-29 10:25:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-11-29 Fixed bug#6401 - Field label for Content not aligned in SysConfig.
  - 2010-11-26 Fixed bug#6390 - Customer Interface - Latest article hover text is always 'Loading'.
 
 3.0.3 2010-11-29

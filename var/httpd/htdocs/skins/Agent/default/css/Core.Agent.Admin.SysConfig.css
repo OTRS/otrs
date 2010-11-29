@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -117,6 +117,22 @@
 .RTL #AdminSysConfig .Setting .Hash label.Content {
     float: right;
     margin: 0 0 5px 5px;
+}
+
+#AdminSysConfig .Setting .Hash label.Key {
+    padding: 0 6px 0 0;
+}
+
+.RTL #AdminSysConfig .Setting .Hash label.Key {
+    padding: 0 0 0 6px;
+}
+
+#AdminSysConfig .Setting .Hash label.Content {
+    padding: 0 0 0 3px;
+}
+
+.RTL #AdminSysConfig .Setting .Hash label.Content {
+    padding: 0 3px 0 0;
 }
 
 #AdminSysConfig .Setting .Hash input.Key {
