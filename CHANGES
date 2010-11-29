@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1624 2010-11-29 13:25:46 mg Exp $
+# $Id: CHANGES,v 1.1625 2010-11-29 19:45:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-11-29 Fixed bug#6428 - FreeText field alignment is wrong in AdminGenericAgent.
  - 2010-11-29 Updated Japanese translation, thanks to Kaz Kamimura Thomas!
  - 2010-11-29 Fixed bug#2950 - Field labels for ArticleFreeTime are not translated in PDF print.
  - 2010-11-29 Fixed bug#6401 - Field label for Content not aligned in SysConfig.
