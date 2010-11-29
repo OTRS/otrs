@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.75 2010-11-26 13:30:10 mb Exp $
+# $Id: AgentTicketPrint.pm,v 1.76 2010-11-29 11:39:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -779,7 +779,8 @@ sub _PDFOutputTicketFreeTime {
                 || '';
             my $TicketFreeTime = $Ticket{"TicketFreeTime$Count"};
 
-            $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
+            $TableParam{CellData}[$Row][0]{Content}
+                = $Self->{LayoutObject}->{LanguageObject}->Get($TicketFreeTimeKey) . ':';
             $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',

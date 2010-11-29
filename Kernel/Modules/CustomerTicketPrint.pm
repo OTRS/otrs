@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.39 2010-11-26 16:05:21 en Exp $
+# $Id: CustomerTicketPrint.pm,v 1.40 2010-11-29 11:39:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -503,7 +503,8 @@ sub _PDFOutputTicketFreeTime {
         my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Number ) || '';
         my $TicketFreeTime = $Ticket{"TicketFreeTime$Number"};
 
-        $TableParam{CellData}[$Row][0]{Content} = $TicketFreeTimeKey . ':';
+        $TableParam{CellData}[$Row][0]{Content}
+            = $Self->{LayoutObject}->{LanguageObject}->Get($TicketFreeTimeKey) . ':';
         $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
             Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
