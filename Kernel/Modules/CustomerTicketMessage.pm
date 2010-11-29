@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.79 2010-11-26 13:58:46 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.80 2010-11-29 10:34:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -544,7 +544,7 @@ sub Run {
                     Key       => $GetParam{$Key},
                     Value     => $GetParam{$Text},
                     Counter   => $Count,
-                    UserID    => $Self->{UserID},
+                    UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
         }
@@ -554,7 +554,7 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
-        # get submit attachment
+        # get submitted attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'file_upload',
             Source => 'String',
