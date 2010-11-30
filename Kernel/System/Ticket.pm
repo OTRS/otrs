@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.477 2010-11-26 09:11:07 mg Exp $
+# $Id: Ticket.pm,v 1.478 2010-11-30 15:39:46 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.477 $) [1];
+$VERSION = qw($Revision: 1.478 $) [1];
 
 =head1 NAME
 
@@ -2367,11 +2367,10 @@ sub TicketEscalationIndexBuild {
     my $EscalationTime = 0;
 
     # update first response (if not responded till now)
-    my $FirstResponseTime = 0;
     if ( !$Escalation{FirstResponseTime} ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
-            Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
+            SQL  => 'UPDATE ticket SET escalation_response_time = 0 WHERE id = ?',
+            Bind => [ \$Ticket{TicketID}, ]
         );
     }
     else {
@@ -2385,8 +2384,8 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if (%FirstResponseDone) {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
-                Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
+                SQL  => 'UPDATE ticket SET escalation_response_time = 0 WHERE id = ?',
+                Bind => [ \$Ticket{TicketID}, ]
             );
         }
 
@@ -2412,11 +2411,10 @@ sub TicketEscalationIndexBuild {
     }
 
     # update update && do not escalate in "pending auto" for escalation update time
-    my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
-            Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
+            SQL  => 'UPDATE ticket SET escalation_update_time = 0 WHERE id = ?',
+            Bind => [ \$Ticket{TicketID}, ]
         );
     }
     else {
@@ -2512,18 +2510,17 @@ sub TicketEscalationIndexBuild {
         # else, no not escalate, because latest sender was agent
         else {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
-                Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
+                SQL  => 'UPDATE ticket SET escalation_update_time = 0 WHERE id = ?',
+                Bind => [ \$Ticket{TicketID}, ]
             );
         }
     }
 
     # update solution
-    my $SolutionTime = 0;
     if ( !$Escalation{SolutionTime} ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
-            Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
+            SQL  => 'UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?',
+            Bind => [ \$Ticket{TicketID}, ]
         );
     }
     else {
@@ -2537,8 +2534,8 @@ sub TicketEscalationIndexBuild {
         # update solution time to 0
         if (%SolutionDone) {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
-                Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
+                SQL  => 'UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?',
+                Bind => [ \$Ticket{TicketID}, ]
             );
         }
         else {
@@ -8183,6 +8180,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.477 $ $Date: 2010-11-26 09:11:07 $
+$Revision: 1.478 $ $Date: 2010-11-30 15:39:46 $
 
 =cut
