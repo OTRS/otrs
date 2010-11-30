@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.251 2010-11-30 17:25:26 ep Exp $
+# $Id: de.pm,v 1.252 2010-11-30 17:45:46 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.251 $) [1];
+$VERSION = qw($Revision: 1.252 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -764,7 +764,7 @@ sub Data {
         'Add customer' => 'Kunden hinzufügen',
         'Select' => 'Auswahl',
         'Hint' => 'Hinweis',
-        'Customer will be needed to have a customer history and to login via customer panel.' => 'Kunden werden benötigt, um eine eine Kunden-Historie zu bekommen und für die Anmeldung über den Kundenzugang.',
+        'Customer will be needed to have a customer history and to login via customer panel.' => 'Kunden werden für die Bereitstellung einer Kunden-Historie und für die Anmeldung über den Kunden-Zugang benötigt.',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
         'Last Login' => 'Letzte Anmeldung',
         'Add Customer' => 'Kunden hinzufügen',
