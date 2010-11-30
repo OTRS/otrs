@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.45 2010-11-23 16:10:31 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.46 2010-11-30 10:00:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -767,8 +767,10 @@ sub _Show {
                         );
                         my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
                         for my $Address (@Addresses) {
+                            my $Email = $EmailParser->GetEmailAddress( Email => $Address );
+                            next if !$Email;
                             my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
-                                Address => $EmailParser->GetEmailAddress( Email => $Address ),
+                                Address => $Email,
                             );
                             next if $IsLocal;
                             $RecipientCount++;

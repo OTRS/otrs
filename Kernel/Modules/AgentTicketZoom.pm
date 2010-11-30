@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.140 2010-11-26 05:43:46 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.141 2010-11-30 10:00:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1343,8 +1343,10 @@ sub _ArticleItem {
                     my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
                     ADDRESS:
                     for my $Address (@Addresses) {
+                        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
+                        next if !$Email;
                         my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
-                            Address => $EmailParser->GetEmailAddress( Email => $Address ),
+                            Address => $Email,
                         );
                         next ADDRESS if $IsLocal;
                         $RecipientCount++;
