@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.408 2010-11-30 05:38:19 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.409 2010-11-30 09:56:11 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2796,7 +2796,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::TrustedNetwork" Required="0" Valid="1">
-        <Description Translatable="1">Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted sign.</Description>
+        <Description Translatable="1">Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2807,21 +2807,21 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Log" Required="1" Valid="1">
-        <Description Translatable="1">Configure your own log text for pgp.</Description>
+        <Description Translatable="1">Configure your own log text for PGP.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SIG_ID">Signaure data</Item>
-                <Item Key="GOODSIG">Good pgp signature</Item>
-                <Item Key="VALIDSIG">The pgp signature with the keyid is good</Item>
+                <Item Key="SIG_ID">Signature data</Item>
+                <Item Key="GOODSIG">Good PGP signature</Item>
+                <Item Key="VALIDSIG">The PGP signature with the keyid is good</Item>
                 <Item Key="TRUST_UNDEFINED">This key is not certified with a trusted signature!</Item>
-                <Item Key="KEYREVOKED">The pgp signature was made by a revoked key, this could mean that the signature is forged</Item>
-                <Item Key="REVKEYSIG">The pgp signature was made by a revoked key, this could mean that the signature is forged</Item>
-                <Item Key="BADSIG">The pgp signature with the keyid has not been verified okay</Item>
-                <Item Key="ERRSIG">It was not possible to check the pgp signature, this may be caused by a missing public key or an unsupported algorithm</Item>
-                <Item Key="SIGEXPIRED">The pgp signature is expired</Item>
-                <Item Key="EXPKEYSIG">The pgp signature was made by an expired key</Item>
+                <Item Key="KEYREVOKED">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
+                <Item Key="REVKEYSIG">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
+                <Item Key="BADSIG">The PGP signature with the keyid has not been verified successfully</Item>
+                <Item Key="ERRSIG">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm</Item>
+                <Item Key="SIGEXPIRED">The PGP signature is expired</Item>
+                <Item Key="EXPKEYSIG">The PGP signature was made by an expired key</Item>
                 <Item Key="NO_PUBKEY">No public key found</Item>
             </Hash>
         </Setting>
