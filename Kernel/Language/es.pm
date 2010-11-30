@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.118 2010-11-25 13:54:21 mb Exp $
+# $Id: es.pm,v 1.119 2010-11-30 21:12:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1612,15 +1612,15 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search template' => 'Buscar-Modelo',
-        'Create New' => '',
-        'Create Template' => '',
-        'Save changes in template' => '',
-        'Add another attribute' => '',
-        'Output' => 'Modelo de Resultados',
-        'Fulltext' => 'Texto Completo',
-        'Remove' => '',
-        'Customer User Login' => 'Identificador del cliente',
+        'Search template'          => 'Plantilla de búsqueda',
+        'Create New'               => 'Crear Nueva',
+        'Create Template'          => 'Crear Plantilla',
+        'Save changes in template' => 'Guardar los cambios en la plantilla',
+        'Add another attribute'    => 'Agregar otro atributo',
+        'Output'                   => 'Formato de Resultados',
+        'Fulltext'                 => 'Texto Completo',
+        'Remove'                   => 'Remover',
+        'Customer User Login'      => 'Identificador del cliente',
         'Time1' => '',
         'Time2' => '',
         'Time3' => '',
@@ -1638,8 +1638,8 @@ sub Data {
         'Ticket Change Time (between)' => '',
         'Ticket Close Time (before/after)' => '',
         'Ticket Close Time (between)' => '',
-        'Archive Search' => '',
-        'Run Search' => '',
+        'Archive Search' => 'Guardar Búsqueda',
+        'Run Search'     => 'Ejecutar Búsqueda',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -3231,8 +3231,8 @@ sub Data {
         'It\'s useful for ASP solutions.' => 'Esto es útil para soluciones ASP.',
         'It\'s useful for a lot of users and groups.' => 'Es útil para gestionar muchos usuarios y grupos.',
         'Job-List' => 'Lista de Tareas',
-        'Keyword' => 'palabra clave',
-        'Keywords' => 'palabras clave',
+        'Keyword' => 'Palabra clave',
+        'Keywords' => 'Palabras clave',
         'Last update' => 'Ultima Actualización',
         'Lastname{CustomerUser}' => 'Apellido',
         'Link to Parent' => 'Enlazar con el padre',

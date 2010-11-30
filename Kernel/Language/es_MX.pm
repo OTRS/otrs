@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.27 2010-11-25 13:54:21 mb Exp $
+# $Id: es_MX.pm,v 1.28 2010-11-30 21:12:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1608,7 +1608,7 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search template' => 'Buscar-Modelo',
+        'Search template' => 'Plantilla de busqueda',
         'Create New' => '',
         'Create Template' => '',
         'Save changes in template' => '',
