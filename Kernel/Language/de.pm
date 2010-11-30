@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.250 2010-11-25 13:54:21 mb Exp $
+# $Id: de.pm,v 1.251 2010-11-30 17:25:26 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.250 $) [1];
+$VERSION = qw($Revision: 1.251 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1691,7 +1691,7 @@ sub Data {
         'Forgot password?' => 'Passwort vergessen?',
         'Log In' => 'Anmelden',
         'Not yet registered?' => 'Noch nicht registriert?',
-        'Sign up now' => 'Registrieren Sie sich jetzt an',
+        'Sign up now' => 'Registrieren Sie sich jetzt',
         'Request new password' => 'Neues Passwort beantragen',
         'Your User Name' => 'Ihr Benutzername',
         'A new password will be sent to your email address.' => 'Ein neues Passwort wird an Ihre E-Mail-Adresse gesendet.',
