@@ -2,7 +2,7 @@
 # Kernel/System/CacheInternal.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.8 2010-10-25 06:19:18 martin Exp $
+# $Id: CacheInternal.pm,v 1.9 2010-11-30 13:11:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -222,6 +222,20 @@ delete all caches
 
     $CacheInternalObject->CleanUp();
 
+If another cache type needs to be cleaned up, you can
+use the parameter 'OtherType'.
+
+    $CacheInternalObject->CleanUp(OtherType => 'SomeType');
+
+This is useful for cleaning up dependent cache entries after
+the modification of objects (for example, cleaning up the group
+cache after modifying agents).
+
+NOTE: This 'OtherType'-cleanup only affects permanent caches.
+In-memory-caches in other CacheInternal objects cannot be cleaned
+up presently, therefore a refactoring of the entire caching architecture
+will be neccessary.
+
 =cut
 
 sub CleanUp {
@@ -232,7 +246,17 @@ sub CleanUp {
 
     # delete permanent cache
     if ( $Self->{CacheObject} ) {
-        return if !$Self->{CacheObject}->CleanUp( Type => $Self->{Type} );
+
+        if ( $Param{OtherType} ) {
+            return if !$Self->{CacheObject}->CleanUp(
+                Type => 'CacheInternal' . $Param{OtherType}
+            );
+        }
+        else {
+            return if !$Self->{CacheObject}->CleanUp(
+                Type => $Self->{Type}
+            );
+        }
     }
 
     return 1;
@@ -254,6 +278,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2010-10-25 06:19:18 $
+$Revision: 1.9 $ $Date: 2010-11-30 13:11:11 $
 
 =cut

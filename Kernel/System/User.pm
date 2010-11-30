@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.110 2010-11-25 15:50:51 mb Exp $
+# $Id: User.pm,v 1.111 2010-11-30 13:11:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
@@ -497,25 +497,8 @@ sub UserUpdate {
     );
 
     # delete cache
-    my @CacheKeys = (
-        'GetUserData::User::' . $Param{UserLogin} . '::0::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::0::1',
-        'GetUserData::User::' . $Param{UserLogin} . '::1::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::1::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::1',
-        'UserLookup::Login::' . $Param{UserID},
-        'UserLookup::ID::' . $Param{UserLogin},
-        'UserList::Short::0',
-        'UserList::Short::1',
-        'UserList::Long::0',
-        'UserList::Long::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Group' );
 
     return 1;
 }
@@ -1117,6 +1100,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2010-11-25 15:50:51 $
+$Revision: 1.111 $ $Date: 2010-11-30 13:11:11 $
 
 =cut

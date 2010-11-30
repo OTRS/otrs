@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.90 2010-10-25 10:31:06 mg Exp $
+# $Id: Group.pm,v 1.91 2010-11-30 13:11:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 =head1 NAME
 
@@ -812,13 +812,18 @@ sub GroupGroupMemberList {
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
+    my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+
     # sql
-    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.user_id FROM groups g, group_user gu WHERE "
-        . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
-        . " g.id = gu.group_id AND "
-        . " gu.permission_value = 1 AND "
-        . " gu.permission_key IN ( $TypeString ) AND ";
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id
+        FROM groups g, group_user gu, users u
+        WHERE g.valid_id IN ($ValidIDs)
+            AND g.id = gu.group_id
+            AND gu.permission_value = 1
+            AND gu.permission_key IN ( $TypeString )
+            AND gu.user_id = u.id
+            AND u.valid_id IN ( $ValidIDs )
+            AND ";
 
     if ( $Param{UserID} ) {
         $SQL .= 'gu.user_id = ' . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
@@ -1235,10 +1240,15 @@ sub GroupUserRoleMemberList {
         }
     }
 
+    my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+
     # sql
-    my $SQL = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r WHERE "
-        . " r.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
-        . " r.id = ru.role_id AND ";
+    my $SQL = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r, users u
+        WHERE r.valid_id IN ($ValidIDs)
+            AND r.id = ru.role_id
+            AND ru.user_id = u.id
+            AND u.valid_id IN ($ValidIDs)
+            AND ";
 
     # db quote
     for (qw(RoleID UserID)) {
@@ -1676,6 +1686,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.90 $ $Date: 2010-10-25 10:31:06 $
+$Revision: 1.91 $ $Date: 2010-11-30 13:11:11 $
 
 =cut

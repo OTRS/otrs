@@ -2,7 +2,7 @@
 # CacheInternal.t - CacheInternal tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.t,v 1.2 2010-10-29 22:16:59 en Exp $
+# $Id: CacheInternal.t,v 1.3 2010-11-30 13:11:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,5 +84,47 @@ for my $Test (@Tests) {
 
 $CacheInternal1->CleanUp();
 $CacheInternal2->CleanUp();
+
+#
+# check cleanup in other cache type
+#
+
+$CacheInternal1 = Kernel::System::CacheInternal->new(
+    %{$Self},
+    Type => 'UnitTest1',
+    TTL  => 60,
+);
+
+$CacheInternal2 = Kernel::System::CacheInternal->new(
+    %{$Self},
+    Type => 'UnitTest2',
+    TTL  => 60,
+);
+
+$CacheInternal2->Set(
+    Key   => 'testkey',
+    Value => 'testvalue',
+);
+
+$Self->Is(
+    $CacheInternal2->Get( Key => 'testkey' ),
+    'testvalue',
+    'verify key was set correctly',
+);
+
+$CacheInternal1->CleanUp( OtherType => 'UnitTest2' );
+
+# renew cache object to invalidate the internal cache
+$CacheInternal2 = Kernel::System::CacheInternal->new(
+    %{$Self},
+    Type => 'UnitTest2',
+    TTL  => 60,
+);
+
+$Self->Is(
+    $CacheInternal2->Get( Key => 'testkey' ) || '',
+    '',
+    'CleanUp() with OtherType',
+);
 
 1;
