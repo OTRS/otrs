@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.113 2010-11-26 05:27:59 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.114 2010-12-01 13:41:06 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -431,7 +431,7 @@ sub Run {
         # get create time settings
         if ( !$GetParam{TimeSearchType} ) {
 
-            # do noting with time stuff
+            # do nothing with time stuff
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
@@ -505,7 +505,7 @@ sub Run {
         # get close time settings
         if ( !$GetParam{ChangeTimeSearchType} ) {
 
-            # do noting ont time stuff
+            # do nothing on time stuff
         }
         elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
@@ -579,7 +579,7 @@ sub Run {
         # get close time settings
         if ( !$GetParam{CloseTimeSearchType} ) {
 
-            # do noting ont time stuff
+            # do nothing on time stuff
         }
         elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {

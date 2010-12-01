@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.26 2010-11-23 10:27:15 martin Exp $
+# $Id: SysConfig.pm,v 1.27 2010-12-01 13:41:07 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -1715,7 +1715,7 @@ sub _DataDiff {
     # ''
     if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
 
-        # do noting, it's ok
+        # do nothing, it's ok
         return if !defined $Param{Data1} && !defined $Param{Data2};
 
         # return diff, because its different
@@ -1731,7 +1731,7 @@ sub _DataDiff {
     # SCALAR
     if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
 
-        # do noting, it's ok
+        # do nothing, it's ok
         return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
 
         # return diff, because its different
@@ -1755,7 +1755,7 @@ sub _DataDiff {
         # compare array
         for my $Count ( 0 .. $#A ) {
 
-            # do noting, it's ok
+            # do nothing, it's ok
             next if !defined $A[$Count] && !defined $B[$Count];
 
             # return diff, because its different
@@ -1780,7 +1780,7 @@ sub _DataDiff {
         # compare %A with %B and remove it if checked
         for my $Key ( keys %A ) {
 
-            # do noting, it's ok
+            # do nothing, it's ok
             next if !defined $A{$Key} && !defined $B{$Key};
 
             # return diff, because its different
@@ -2248,6 +2248,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2010-11-23 10:27:15 $
+$Revision: 1.27 $ $Date: 2010-12-01 13:41:07 $
 
 =cut

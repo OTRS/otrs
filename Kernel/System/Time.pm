@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.56 2010-06-17 21:39:40 cr Exp $
+# $Id: Time.pm,v 1.57 2010-12-01 13:41:07 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -435,7 +435,7 @@ sub MailTimeStamp {
 
 =item WorkingTime()
 
-get the working time in secondes between this times
+get the working time in seconds between these times
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
@@ -512,14 +512,14 @@ sub WorkingTime {
             0 => 'Sun',
         );
 
-        # count noting because of vacation
+        # count nothing because of vacation
         if (
             $TimeVacationDays->{$Month}->{$Day}
             || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
             )
         {
 
-            # do noting
+            # do nothing
         }
         else {
             if ( $TimeWorkingHours->{ $LDay{$WDay} } ) {
@@ -566,7 +566,7 @@ sub WorkingTime {
 
 =item DestinationTime()
 
-get the destination time (working time cal.) from start plus some time in secondes
+get the destination time (working time cal.) from start plus some time in seconds
 
     my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $Created,
@@ -645,14 +645,14 @@ sub DestinationTime {
             0 => 'Sun',
         );
 
-        # count noting becouse of vacation
+        # count nothing because of vacation
         if (
             $TimeVacationDays->{$Month}->{$Day}
             || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
             )
         {
 
-            # do noting
+            # do nothing
             if ($FirstTurn) {
                 $First           = 1;
                 $DestinationTime = $Self->Date2SystemTime(
@@ -865,6 +865,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.57 $ $Date: 2010-12-01 13:41:07 $
 
 =cut

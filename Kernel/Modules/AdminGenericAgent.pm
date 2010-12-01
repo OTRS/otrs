@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.92 2010-11-25 11:06:51 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.93 2010-12-01 13:41:06 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -277,7 +277,7 @@ sub Run {
                 my $SearchType = $Map{$Type} . 'SearchType';
                 if ( !$GetParam{$SearchType} || $GetParam{$SearchType} eq 'None' ) {
 
-                    # do noting with time stuff
+                    # do nothing with time stuff
                 }
                 elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
                     for my $DatePart (qw(Month Day)) {

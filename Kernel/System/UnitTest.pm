@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.43 2010-10-25 08:06:49 mg Exp $
+# $Id: UnitTest.pm,v 1.44 2010-12-01 13:41:07 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -617,7 +617,7 @@ sub _DataDiff {
     # ''
     if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
 
-        # do noting, it's ok
+        # do nothing, it's ok
         return if !defined $Param{Data1} && !defined $Param{Data2};
 
         # return diff, because its different
@@ -633,7 +633,7 @@ sub _DataDiff {
     # SCALAR
     if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
 
-        # do noting, it's ok
+        # do nothing, it's ok
         return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
 
         # return diff, because its different
@@ -657,7 +657,7 @@ sub _DataDiff {
         # compare array
         for my $Count ( 0 .. $#A ) {
 
-            # do noting, it's ok
+            # do nothing, it's ok
             next if !defined $A[$Count] && !defined $B[$Count];
 
             # return diff, because its different
@@ -682,7 +682,7 @@ sub _DataDiff {
         # compare %A with %B and remove it if checked
         for my $Key ( keys %A ) {
 
-            # do noting, it's ok
+            # do nothing, it's ok
             next if !defined $A{$Key} && !defined $B{$Key};
 
             # return diff, because its different
@@ -854,6 +854,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-10-25 08:06:49 $
+$Revision: 1.44 $ $Date: 2010-12-01 13:41:07 $
 
 =cut
