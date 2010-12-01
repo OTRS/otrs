@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.3 2010-09-03 08:26:12 mg Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.4 2010-12-01 17:43:05 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,16 +34,26 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      */
 
     function CalculateHeight(Iframe){
-        var NewHeight = $(Iframe).contents().find('html').outerHeight();
+        if (isJQueryObject($(Iframe))) {
+            var NewHeight = $(Iframe).contents().find('html').outerHeight();
 
-        if (NewHeight > 2500) {
-            NewHeight = 2500;
-        }
-        else if (NewHeight < 100) {
-            NewHeight = 100;
-        }
+            if (!NewHeight || isNaN(NewHeight)) {
+                NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
+            }
+            if (NewHeight > 2500) {
+                NewHeight = 2500;
+            }
+            else if (NewHeight < 100) {
+                if (NewHeight < 50) {
+                    NewHeight = 50;
+                }
+                else {
+                    NewHeight = 100;
+                }
+            }
 
-        $(Iframe).height(NewHeight);
+            $(Iframe).height(NewHeight + 'px');
+        }
     }
 
     /**
@@ -202,6 +212,11 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         /* correct the status saved in the hidden field of the initial visible message */
         $('> input[name=ArticleState]', $VisibleMessage).val("true");
         HideQuote($VisibleIframe);
+
+        $VisibleIframe.load(function() {
+            var $MyIframe = $('#VisibleFrame');
+            CalculateHeight($MyIframe);
+         });
     };
 
     return TargetNS;
