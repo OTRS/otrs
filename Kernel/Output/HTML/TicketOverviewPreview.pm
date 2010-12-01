@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.46 2010-11-30 10:00:03 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.47 2010-12-01 12:25:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -302,6 +302,14 @@ sub _Show {
                     Template => $Item->{$Key},
                     Data     => \%Article,
                 );
+            }
+
+            # add session id if needed
+            if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
+                $Item->{Link}
+                    .= ';'
+                    . $Self->{LayoutObject}->{SessionName} . '='
+                    . $Self->{LayoutObject}->{SessionID};
             }
 
             # create id
