@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.36 2010-11-23 16:10:31 mg Exp $
+# $Id: TicketOverviewMedium.pm,v 1.37 2010-12-01 09:45:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -319,10 +319,12 @@ sub _Show {
             push @ActionItems, {
                 HTML        => $Output,
                 ID          => $Item->{ID},
+                Name        => $Item->{Name},
                 Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Target      => $Item->{Target},
                 PopupType   => $Item->{PopupType},
                 Description => $Item->{Description},
+                Block       => $Item->{Block} || 'DocumentMenuItem',
             };
         }
     }
@@ -337,6 +339,50 @@ sub _Show {
         Name => 'DocumentContent',
         Data => { %Param, %Article },
     );
+
+    # if "Actions per Ticket" (Inline Action Row) is active
+    if ( $Param{Config}->{TicketActionsPerTicket} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'InlineActionRow',
+            Data => \%Param,
+        );
+
+        # Add list entries for every action
+        for my $Item (@ActionItems) {
+            my $Link = $Item->{Link};
+            if ( $Item->{Target} ) {
+                $Link = '#';
+            }
+
+            my $Class = '';
+            if ( $Item->{PopupType} ) {
+                $Class = 'AsPopup PopupType_' . $Item->{PopupType};
+            }
+
+            if ( $Item->{Block} eq 'DocumentMenuItem' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InlineActionRowItem',
+                    Data => {
+                        TicketID    => $Param{TicketID},
+                        QueueID     => $Article{QueueID},
+                        ID          => $Item->{ID},
+                        Name        => $Item->{Name},
+                        Description => $Item->{Description},
+                        Class       => $Class,
+                        Link        => $Link,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InlineActionRowItemHTML',
+                    Data => {
+                        HTML => $Item->{HTML},
+                    },
+                );
+            }
+        }
+    }
 
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
