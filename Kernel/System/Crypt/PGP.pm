@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.41 2010-11-30 05:38:19 dz Exp $
+# $Id: PGP.pm,v 1.42 2010-12-01 21:44:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -292,7 +292,7 @@ sub Verify {
 
         if (
             $LogMessage{GOODSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sGOODSIG\s(?:[0-9A-F]{8})([0-9A-F]{8})}xms
+            =~ m{\Q[GNUPG:] GOODSIG \E (?: [0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
             $KeyID = $1;
@@ -307,7 +307,7 @@ sub Verify {
         my $KeyUserID = '';
         if (
             $LogMessage{GOODSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sGOODSIG\s(?:[0-9A-F]{16})\s(.*)}xms
+            =~ m{\Q[GNUPG:] GOODSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
             $KeyUserID = $1;
@@ -340,7 +340,7 @@ sub Verify {
         # key id
         if (
             $LogMessage{ERRSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sERRSIG\s(?:[0-9A-F]{8})([0-9A-F]{8})}xms
+            =~ m{ \Q[GNUPG:] ERRSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
             $KeyID = $1;
@@ -370,7 +370,7 @@ sub Verify {
         my $KeyID;
         if (
             $LogMessage{EXPKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sEXPKEYSIG\s(?:[0-9A-F]{8})([0-9A-F]{8})}xms
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8})}xms
             )
         {
             $KeyID = $1;
@@ -385,7 +385,7 @@ sub Verify {
         my $KeyUserID = '';
         if (
             $LogMessage{EXPKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sEXPKEYSIG\s(?:[0-9A-F]{16})\s(.*)}xms
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
             $KeyUserID = $1;
@@ -414,7 +414,7 @@ sub Verify {
         my $KeyID;
         if (
             $LogMessage{REVKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sREVKEYSIG\s(?:[0-9A-F]{8})([0-9A-F]{8})}xms
+            =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
             $KeyID = $1;
@@ -429,7 +429,7 @@ sub Verify {
         my $KeyUserID = '';
         if (
             $LogMessage{REVKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sREVKEYSIG\s(?:[0-9A-F]{16})\s(.*)}xms
+            =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
             $KeyUserID = $1;
@@ -458,7 +458,7 @@ sub Verify {
         my $KeyID;
         if (
             $LogMessage{EXPKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sEXPKEYSIG\s(?:[0-9A-F]{8})([0-9A-F]{8})}xms
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
             $KeyID = $1;
@@ -473,7 +473,7 @@ sub Verify {
         my $KeyUserID = '';
         if (
             $LogMessage{EXPKEYSIG}->{GPGMessage}
-            =~ m{\Q[GNUPG:]\E\sEXPKEYSIG\s(?:[0-9A-F]{16})\s(.*)}xms
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
             $KeyUserID = $1;
@@ -825,16 +825,10 @@ sub _DecryptPart {
         );
     }
     else {
-
-        my %Log = $Self->_HandleLog(
-            LogString => $LogMessage,
-        );
-
         my $DecryptedDataRef = $Self->{MainObject}->FileRead( Location => $FileDecrypt );
         return (
             Successful => 1,
-            Message    => $Log{CleanLog},
-            Warnings   => $Log{Warnings},
+            Message    => $LogMessage,
             Data       => $$DecryptedDataRef,
             KeyID      => $Param{Key},
         );
@@ -1035,6 +1029,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2010-11-30 05:38:19 $
+$Revision: 1.42 $ $Date: 2010-12-01 21:44:32 $
 
 =cut
