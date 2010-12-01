@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.65 2010-11-08 09:15:47 mg Exp $
+# $Id: CustomerTicketOverView.pm,v 1.66 2010-12-01 14:15:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
     # check subaction
     if ( !$Self->{Subaction} ) {
         return $Self->{LayoutObject}->Redirect(
-            OP => 'CustomerTicketOverview;Subaction=MyTickets',
+            OP => 'Action=CustomerTicketOverView;Subaction=MyTickets',
         );
     }
 
