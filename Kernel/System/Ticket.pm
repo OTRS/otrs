@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.479 2010-12-01 10:16:15 bes Exp $
+# $Id: Ticket.pm,v 1.480 2010-12-01 13:44:27 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.479 $) [1];
+$VERSION = qw($Revision: 1.480 $) [1];
 
 =head1 NAME
 
@@ -2457,13 +2457,13 @@ sub TicketEscalationIndexBuild {
                 $LastSenderTime = $Row->{Created};
             }
 
-            # do not use locked tickets for calc.
+            # do not use locked tickets for calculation
             #last if $Ticket{Lock} eq 'lock';
 
-            # do not use /int/ article types for calc.
+            # do not use /int/ article types for calculation
             next if $Row->{ArticleType} =~ /int/i;
 
-            # do not use /agent|customer/ article types for calc.
+            # only use 'agent' and 'customer' sender types for calculation
             next if $Row->{SenderType} !~ /^(agent|customer)$/;
 
             # last if latest was customer and the next was not customer
@@ -8179,6 +8179,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.479 $ $Date: 2010-12-01 10:16:15 $
+$Revision: 1.480 $ $Date: 2010-12-01 13:44:27 $
 
 =cut
