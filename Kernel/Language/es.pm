@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.119 2010-11-30 21:12:18 cr Exp $
+# $Id: es.pm,v 1.120 2010-12-01 04:02:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -723,10 +723,10 @@ sub Data {
         # Template: AdminAttachment
         'Attachment Management' => 'Gestión de Anexos',
         'Actions' => '',
-        'Go to overview' => '',
+        'Go to overview'        => 'Ir al resumen',
         'Add attachment' => '',
-        'List' => 'Listar',
-        'No data found.' => '',
+        'List'                  => 'Listar',
+        'No data found.'        => 'No se encontraron resultados',
         'Download file' => '',
         'Delete this attachment' => '',
         'Add Attachment' => '',
@@ -1379,14 +1379,14 @@ sub Data {
         'To accept some news, a license or some changes.' => '',
 
         # Template: AgentLinkObject
-        'Link Object: %s' => 'Objeto Vinculado: %s',
-        'Close window' => '',
-        'go to link delete screen' => '',
-        'Select Target Object' => '',
-        'Link Object' => 'Enlazar Objeto',
-        'with' => 'con',
-        'Unlink Object: %s' => 'Objecto desvinculado: %s',
-        'go to link add screen' => '',
+        'Link Object: %s'          => 'Objeto Vinculado: %s',
+        'Close window'             => 'Cerrar ventana',
+        'go to link delete screen' => 'ir a la pantalla de borrado de vínculos',
+        'Select Target Object'     => 'Seleccionar El Objeto Destino',
+        'Link Object'              => 'Vincular Objeto',
+        'with'                     => 'con',
+        'Unlink Object: %s'        => 'Objecto desvinculado: %s',
+        'go to link add screen'    => 'ir a la pantalla de agregar vínculos',
 
         # Template: AgentNavigationBar
 
@@ -1482,7 +1482,7 @@ sub Data {
         'Set Pending' => 'Establecer como pendiente',
         'Change Priority of Ticket' => '',
         'Change Responsible of Ticket' => '',
-        'Cancel & close window' => '',
+        'Cancel & close window' => 'Cancelar y cerrar esta ventana',
         'Service invalid.' => '',
         'New Owner' => 'Nuevo Propietario',
         'Please set a new owner!' => '',
@@ -1651,7 +1651,7 @@ sub Data {
         'Article filter' => '',
         'Save filter settings as default' => 'Grabar configuración de filtros como defecto',
         'Ticket Information' => '',
-        'Linked Objects' => '',
+        'Linked Objects' => 'Objetos Vinculados',
         'Article(s)' => '',
         'Change Queue' => '',
         'Article Filter' => '',
@@ -1681,7 +1681,7 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => '',
-        'One or more errors occurred!' => '',
+        'One or more errors occurred!' => 'Uno o más errores ocurrieron!',
         'Close this dialog' => '',
         'Could not open popup window. Please disable any popup blockers for this application.' => '',
 
@@ -1731,7 +1731,7 @@ sub Data {
 
         # Template: CustomerTicketSearch
         'Profile' => 'Perfil',
-        'e. g. 10*5155 or 105658*' => '',
+        'e. g. 10*5155 or 105658*' => 'ej: 10*5155 or 105658*',
         'Customer ID' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
         'Recipient' => 'Recipiente',
@@ -1740,9 +1740,9 @@ sub Data {
         'Only tickets created' => '',
         'Only tickets created between' => '',
         'Search-Profile as Template?' => '',
-        'Save as Template?' => '',
-        'Template Name' => '',
-        'Output to' => '',
+        'Save as Template?' => '¿Guardar como plantilla?',
+        'Template Name'     => 'Nombre de Plantilla',
+        'Output to'         => 'Formato de salida',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -1891,9 +1891,9 @@ sub Data {
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' => '',
 
         # Template: LinkObject
-        'Object#' => '',
-        'Add links' => '',
-        'Delete links' => '',
+        'Object#'      => 'Objeto#',
+        'Add links'    => 'Agregar Vínculos',
+        'Delete links' => 'Borrar Vínculos',
 
         # Template: Login
         'JavaScript Not Available' => '',
