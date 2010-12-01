@@ -1,8 +1,8 @@
 # --
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGPForm.dtl,v 1.22.2.1 2009-10-01 14:12:05 ub Exp $
+# $Id: AdminPGPForm.dtl,v 1.22.2.2 2010-12-01 22:03:18 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,6 +82,7 @@
                         <table border="0" cellspacing="0" cellpadding="3" width="100%">
                             <tr>
                                 <td class="contentkey">$Text{"Type"}</td>
+                                <td class="contentkey">$Text{"Status"}</td>
                                 <td class="contentkey">$Text{"Identifier"}</td>
                                 <td class="contentkey">$Text{"Bit"}</td>
                                 <td class="contentkey">$Text{"Key"}/$Text{"Fingerprint"}</td>
@@ -92,6 +93,7 @@
                             <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
                             <tr>
                                 <td class="$Env{"Color"}">$QData{"Type"}</td>
+                                <td class="$Env{"Color"}">$QData{"Status"}</td>
                                 <td class="$Env{"Color"}">$QData{"Identifier","80"}</td>
                                 <td class="$Env{"Color"}">$QData{"Bit"}</td>
                                 <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$LQData{"Type"}&Key=$LQData{"Key"}">$QData{"Key"}</a>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.242.2.6 2010-03-09 09:37:46 dz Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.242.2.7 2010-12-01 21:58:32 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -2875,6 +2875,37 @@
             <Hash>
                 <Item Key="D2DF79FA">SomePassword</Item>
                 <Item Key="488A0B8F">SomePassword</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PGP::TrustedNetwork" Required="0" Valid="1">
+        <Description Lang="en">Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Crypt::PGP</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PGP::Log" Required="1" Valid="1">
+        <Description Lang="en">Configure your own log text for PGP.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Crypt::PGP</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="SIG_ID">Signature data</Item>
+                <Item Key="GOODSIG">Good PGP signature</Item>
+                <Item Key="VALIDSIG">The PGP signature with the keyid is good</Item>
+                <Item Key="TRUST_UNDEFINED">This key is not certified with a trusted signature!</Item>
+                <Item Key="KEYREVOKED">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
+                <Item Key="REVKEYSIG">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
+                <Item Key="BADSIG">The PGP signature with the keyid has not been verified successfully</Item>
+                <Item Key="ERRSIG">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm</Item>
+                <Item Key="SIGEXPIRED">The PGP signature is expired</Item>
+                <Item Key="EXPKEYSIG">The PGP signature was made by an expired key</Item>
+                <Item Key="NO_PUBKEY">No public key found</Item>
             </Hash>
         </Setting>
     </ConfigItem>

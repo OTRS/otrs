@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.2 2010-11-25 23:58:07 dz Exp $
+# $Id: PGP.pm,v 1.32.2.3 2010-12-01 21:58:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.2 $) [1];
+$VERSION = qw($Revision: 1.32.2.3 $) [1];
 
 =head1 NAME
 
@@ -209,16 +209,10 @@ sub _DecryptPart {
         );
     }
     else {
-
-        my %Log = $Self->_HandleLog(
-            LogString => $LogMessage,
-        );
-
         my $DecryptedDataRef = $Self->{MainObject}->FileRead( Location => $FileDecrypt );
         return (
             Successful => 1,
-            Message    => $Log{CleanLog},
-            Warnings   => $Log{Warnings},
+            Message    => $LogMessage,
             Data       => $$DecryptedDataRef,
             KeyID      => $Param{Key},
         );
@@ -227,7 +221,7 @@ sub _DecryptPart {
 
 =item _HandleLog()
 
-Clean the log and split warnings
+Clean the log
 
     my %Log = $PGPObject->_HandleLog(
         LogString => $LogMessage,
@@ -249,25 +243,30 @@ sub _HandleLog {
     my %Log;
     $Log{OriginalLog} = $Param{LogString};
 
-    # delete the gpg string
-    $Log{CleanLog} = $Log{OriginalLog};
-    $Log{CleanLog} =~ s{ gpg: }{}xmsg;
-
-    # separete the warnings on an special array
-    my @Warnings;
-    while ( $Log{CleanLog} =~ s{ (.*)(?:WARNING:)(.*)(?:WARNING:.*)? }{$1}xms ) {
-        push @Warnings, {
-            Result => 'Error',
-            Key    => 'Crypt Warning',
-            Value  => $2,
-        };
+    # get computable log lines
+    my @ComputableLines;
+    while ( $Log{OriginalLog} =~ m{(\[GNUPG\:\]\s.*)}g ) {
+        push @ComputableLines, $1;
     }
 
-    if ( scalar @Warnings ) {
-        $Log{Warnings} = \@Warnings;
+    # get the hash of messages
+    my $LogDictionary = $Self->{ConfigObject}->Get('PGP::Log');
+
+    my %ComputableLog;
+    for my $Line (@ComputableLines) {
+
+        # get tag
+        $Line =~ m{(\[GNUPG\:\]\s)(\w*)(\s.*)?}xms;
+        my $Tag     = $2;
+        my $Message = $Line;
+
+        $ComputableLog{$Tag} = {
+            Log => $LogDictionary->{$Tag} || $Message,
+            GPGMessage => $Message || $LogDictionary->{$Tag},
+            }
     }
 
-    return %Log;
+    return %ComputableLog;
 }
 
 =item Sign()
@@ -365,11 +364,9 @@ The returned hash %Result has the following keys:
 sub Verify {
     my ( $Self, %Param ) = @_;
 
-    my %Return;
-
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Message!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Message!' );
         return;
     }
 
@@ -378,7 +375,7 @@ sub Verify {
     print $FH $Param{Message};
     close $FH;
 
-    my $GPGOptions = "--verify";
+    my $GPGOptions = '--verify --status-fd 1';
     if ( $Param{Sign} ) {
         my ( $FHSign, $FilenameSign ) = $Self->{FileTempObject}->TempFile();
         binmode($FHSign);
@@ -386,37 +383,219 @@ sub Verify {
         close $FHSign;
         $GPGOptions .= " $FilenameSign";
     }
+
+    my %Return;
     my $Message = qx{$Self->{GPGBin} $GPGOptions $File 2>&1};
-    if ( $Message =~ m{(Good signature from ".+?")}i ) {
-        my $GPGMessage = $1;
-        my $KeyID      = '';
-        if ( $Message =~ m{\s+ID\s+([0-9A-F]{8})}i ) {
+
+    my %LogMessage = $Self->_HandleLog( LogString => $Message );
+    if ( $LogMessage{GOODSIG} ) {
+        my $KeyID = '';
+
+        if (
+            $LogMessage{GOODSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] GOODSIG \E (?: [0-9A-F]{8}) ([0-9A-F]{8}) }xms
+            )
+        {
             $KeyID = $1;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Unable to fetch key-ID from gpg output!"
+                Message  => 'Unable to fetch key-ID from gpg output!'
             );
         }
+
         my $KeyUserID = '';
-        if ( $Message =~ m{Good signature from "(.+?)"}i ) {
+        if (
+            $LogMessage{GOODSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] GOODSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
+            )
+        {
             $KeyUserID = $1;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Unable to fetch key-user-ID from gpg output!"
+                Message  => 'Unable to fetch key-user-ID from gpg output!'
             );
         }
+
         %Return = (
             SignatureFound => 1,
             Successful     => 1,
-            Message        => "gpg: $GPGMessage",
-            MessageLong    => $Message,
+            Message        => $LogMessage{GOODSIG}->{Log} . " : $KeyID $KeyUserID",
+            GPGMessage     => $LogMessage{GOODSIG}->{GPGMessage},
             KeyID          => $KeyID,
             KeyUserID      => $KeyUserID,
         );
+
+    }
+    elsif ( $LogMessage{ERRSIG} ) {
+        my $KeyID = '';
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "$LogMessage{ERRSIG}->{GPGMessage}",
+        );
+
+        # key id
+        if (
+            $LogMessage{ERRSIG}->{GPGMessage}
+            =~ m{ \Q[GNUPG:] ERRSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
+            )
+        {
+            $KeyID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-ID from gpg output!'
+            );
+        }
+
+        my $InternalMessage;
+        if ( $LogMessage{NO_PUBKEY}->{Log} ) {
+            $InternalMessage = $LogMessage{NO_PUBKEY}->{Log} . ": $KeyID";
+        }
+
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message        => $InternalMessage || $LogMessage{ERRSIG}->{Log},
+        );
+
+    }
+    elsif ( $LogMessage{KEYREVOKED} && $LogMessage{EXPKEYSIG} ) {
+
+        # revoked has the preference but also expired can be shown, is it?
+        my $KeyID;
+        if (
+            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8})}xms
+            )
+        {
+            $KeyID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-ID from gpg output!'
+            );
+        }
+
+        my $KeyUserID = '';
+        if (
+            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
+            )
+        {
+            $KeyUserID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-user-ID from gpg output!'
+            );
+        }
+
+        my $ComposedMessage = '';
+        if ( $LogMessage{KEYREVOKED}->{Log} ) {
+            $ComposedMessage = $LogMessage{KEYREVOKED}->{Log}
+                . " and the key is also expired. : $KeyID $KeyUserID";
+        }
+
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message        => $ComposedMessage || $Message,
+        );
+    }
+    elsif ( $LogMessage{REVKEYSIG} ) {
+
+        my $KeyID;
+        if (
+            $LogMessage{REVKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
+            )
+        {
+            $KeyID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-ID from gpg output!'
+            );
+        }
+
+        my $KeyUserID = '';
+        if (
+            $LogMessage{REVKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
+            )
+        {
+            $KeyUserID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-user-ID from gpg output!'
+            );
+        }
+
+        my $ComposedMessage = '';
+        if ( $LogMessage{REVKEYSIG}->{Log} ) {
+            $ComposedMessage = $LogMessage{REVKEYSIG}->{Log} . ": $KeyID $KeyUserID";
+        }
+
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message        => $ComposedMessage || $Message,
+        );
+
+    }
+    elsif ( $LogMessage{EXPKEYSIG} ) {
+
+        my $KeyID;
+        if (
+            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
+            )
+        {
+            $KeyID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-ID from gpg output!'
+            );
+        }
+
+        my $KeyUserID = '';
+        if (
+            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
+            )
+        {
+            $KeyUserID = $1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Unable to fetch key-user-ID from gpg output!'
+            );
+        }
+
+        my $ComposedMessage = '';
+        if ( $LogMessage{EXPKEYSIG}->{Log} ) {
+            $ComposedMessage = $LogMessage{EXPKEYSIG}->{Log} . ": $KeyID $KeyUserID";
+        }
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message        => ($ComposedMessage) || $Message,
+        );
+
     }
     else {
         %Return = (
@@ -425,6 +604,29 @@ sub Verify {
             Message        => $Message,
         );
     }
+
+    my @WarningTags;
+
+    my $Trusted = $Self->{ConfigObject}->Get('PGP::TrustedNetwork');
+    if ( !$Trusted ) {
+        push @WarningTags, 'TRUST_UNDEFINED';
+    }
+
+    my @Warnings;
+    for my $Tag (@WarningTags) {
+        if ( $LogMessage{$Tag}->{Log} ) {
+            push @Warnings, {
+                Result => 'Error',
+                Key    => 'Sign Warning',
+                Value  => $LogMessage{$Tag}->{Log},
+            };
+        }
+    }
+
+    if ( scalar @Warnings ) {
+        $Return{Warnings} = \@Warnings;
+    }
+
     return %Return;
 }
 
@@ -812,6 +1014,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.2 $ $Date: 2010-11-25 23:58:07 $
+$Revision: 1.32.2.3 $ $Date: 2010-12-01 21:58:32 $
 
 =cut
