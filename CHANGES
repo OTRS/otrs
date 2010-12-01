@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1630 2010-11-30 14:19:37 mg Exp $
+# $Id: CHANGES,v 1.1631 2010-12-01 12:16:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-01 Fixed bug#6453 - Moving Tickets via AgentTicketMove empties set Free Fields.
  - 2010-11-30 Updated Serbian translation, thanks to Milorad Jovanovic!
  - 2010-11-30 Fixed bug#6401 - Invalid agents are partially ignored/shown in ticket masks.
  - 2010-11-30 Fixed bug#6040 - Remove ReplyAll option if possible in agent interface.
