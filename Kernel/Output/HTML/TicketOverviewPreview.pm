@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.47 2010-12-01 12:25:14 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.48 2010-12-01 14:50:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -331,18 +331,72 @@ sub _Show {
             push @ActionItems, {
                 HTML        => $Output,
                 ID          => $Item->{ID},
+                Name        => $Item->{Name},
+                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Target      => $Item->{Target},
                 PopupType   => $Item->{PopupType},
-                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Description => $Item->{Description},
+                Block       => $Item->{Block} || 'DocumentMenuItem',
+
             };
         }
     }
 
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
-        Data => { %Param, %Article, Class => 'ArticleCount' . $ArticleCount },
+        Data => {
+            %Param,
+            %Article,
+            Class             => 'ArticleCount' . $ArticleCount,
+            AdditionalClasses => $Param{Config}->{TicketActionsPerTicket}
+            ? 'ShowInlineActions'
+            : '',
+        },
     );
+
+    # if "Actions per Ticket" (Inline Action Row) is active
+    if ( $Param{Config}->{TicketActionsPerTicket} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'InlineActionRow',
+            Data => \%Param,
+        );
+
+        # Add list entries for every action
+        for my $Item (@ActionItems) {
+            my $Link = $Item->{Link};
+            if ( $Item->{Target} ) {
+                $Link = '#';
+            }
+
+            my $Class = '';
+            if ( $Item->{PopupType} ) {
+                $Class = 'AsPopup PopupType_' . $Item->{PopupType};
+            }
+
+            if ( $Item->{Block} eq 'DocumentMenuItem' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InlineActionRowItem',
+                    Data => {
+                        TicketID    => $Param{TicketID},
+                        QueueID     => $Article{QueueID},
+                        ID          => $Item->{ID},
+                        Name        => $Item->{Name},
+                        Description => $Item->{Description},
+                        Class       => $Class,
+                        Link        => $Link,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InlineActionRowItemHTML',
+                    Data => {
+                        HTML => $Item->{HTML},
+                    },
+                );
+            }
+        }
+    }
 
     # check if bulk feature is enabled
     if ( $Param{Bulk} ) {
@@ -815,7 +869,7 @@ sub _Show {
     }
 
     # add action items as js
-    if (@ActionItems) {
+    if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
         my $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => \@ActionItems,
         );

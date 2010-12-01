@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.61 2010-11-17 10:09:16 ub Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.62 2010-12-01 14:50:42 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,29 @@
 
 <!-- dtl:block:DocumentContent -->
     <li id="TicketID_$QData{"TicketID"}" class="MasterAction">
-        <div class="Content">
+        <div class="Content $QData{"AdditionalClasses"}">
+<!-- dtl:block:InlineActionRow -->
+            <div class="InlineActionRow">
+                <ul class="Actions InlineActions">
+<!-- dtl:block:InlineActionRowItem -->
+                    <li><a class="$QData{"Class"}" href="$QData{"Link"}" title="$QData{"Description"}">$QData{"Name"}</a></li>
+<!-- dtl:block:InlineActionRowItem -->
+<!-- dtl:block:InlineActionRowItemHTML -->
+                    $Data{"HTML"}
+<!-- dtl:block:InlineActionRowItemHTML -->
+                </ul>
+            </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('.InlineActionRow ul').click(function (Event) {
+        Event.cancelBubble = true;
+        if (Event.stopPropagation) {
+            Event.stopPropagation();
+        }
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:InlineActionRow -->
 <!-- dtl:block:Bulk -->
             <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
 <!-- dtl:block:Bulk -->
@@ -104,7 +126,7 @@
                             <td>
 <!-- dtl:block:CustomerID -->
                                 <label>$Text{"CustomerID"}</label>
-                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
+                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
 <!-- dtl:block:CustomerName -->
                                 <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
 <!-- dtl:block:CustomerName -->
@@ -269,9 +291,17 @@ $Data{"Body"}
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('a.AsPopup').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-    return false;
-});
+    $('a.AsPopup').bind('click', function (Event) {
+        var Matches,
+            PopupType = 'TicketAction';
+
+        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+        if (Matches) {
+            PopupType = Matches[1];
+        }
+
+        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+        return false;
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
