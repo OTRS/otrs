@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.478 2010-11-30 15:39:46 bes Exp $
+# $Id: Ticket.pm,v 1.479 2010-12-01 10:16:15 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.478 $) [1];
+$VERSION = qw($Revision: 1.479 $) [1];
 
 =head1 NAME
 
@@ -2338,7 +2338,6 @@ sub TicketEscalationIndexBuild {
             EscalationUpdateTime   => 'escalation_update_time',
             EscalationSolutionTime => 'escalation_solution_time',
         );
-        my $Time = 0;
         for my $Key ( keys %EscalationTimes ) {
 
             # check if table update is needed
@@ -2346,8 +2345,8 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
-                Bind => [ \$Time, \$Ticket{TicketID}, ]
+                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = 0 WHERE id = ?",
+                Bind => [ \$Ticket{TicketID}, ]
             );
         }
 
@@ -8180,6 +8179,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.478 $ $Date: 2010-11-30 15:39:46 $
+$Revision: 1.479 $ $Date: 2010-12-01 10:16:15 $
 
 =cut
