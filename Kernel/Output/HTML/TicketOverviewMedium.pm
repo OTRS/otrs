@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.37 2010-12-01 09:45:14 mn Exp $
+# $Id: TicketOverviewMedium.pm,v 1.38 2010-12-01 10:55:17 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -696,7 +696,7 @@ sub _Show {
     }
 
     # add action items as js
-    if (@ActionItems) {
+    if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
         my $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => \@ActionItems,
         );
