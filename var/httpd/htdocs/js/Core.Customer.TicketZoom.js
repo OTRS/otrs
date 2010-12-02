@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.4 2010-12-01 17:43:05 en Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.5 2010-12-02 23:22:55 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,23 +35,16 @@ Core.Customer.TicketZoom = (function (TargetNS) {
 
     function CalculateHeight(Iframe){
         if (isJQueryObject($(Iframe))) {
-            var NewHeight = $(Iframe).contents().find('html').outerHeight();
-
+            var NewHeight = $(Iframe).contents().find('html').height();
             if (!NewHeight || isNaN(NewHeight)) {
-                NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
+                NewHeight = 100;
             }
-            if (NewHeight > 2500) {
-                NewHeight = 2500;
-            }
-            else if (NewHeight < 100) {
-                if (NewHeight < 50) {
-                    NewHeight = 50;
-                }
-                else {
-                    NewHeight = 100;
+            else {
+                if (NewHeight > 2500) {
+                    NewHeight = 2500;
+                    console.log("Valor maximo " + NewHeight);
                 }
             }
-
             $(Iframe).height(NewHeight + 'px');
         }
     }
