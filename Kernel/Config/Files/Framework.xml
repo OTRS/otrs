@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.410 2010-12-01 15:17:30 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.411 2010-12-02 23:09:26 en Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -24,7 +24,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ConfigLevel" Required="1" Valid="1">
-        <Description Translatable="1">Sets the configuration level of the administrator. Depending on the the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.</Description>
+        <Description Translatable="1">Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -165,7 +165,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.</Description>
+        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -685,7 +685,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
-        <Description Translatable="1">Defines the module used to store the session data. With "DB" the the frontend server can be splitted from the db server. "FS" is faster.</Description>
+        <Description Translatable="1">Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>

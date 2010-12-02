@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.414 2010-12-01 09:45:14 mn Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.415 2010-12-02 23:09:26 en Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -186,7 +186,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 2 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 2 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -233,7 +233,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 3 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 3 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -280,7 +280,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 4 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 4 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -327,7 +327,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 5 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 5 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -374,7 +374,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 6 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 6 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -421,7 +421,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 7 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 7 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -468,7 +468,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 8 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 8 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -515,7 +515,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 9 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 9 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -562,7 +562,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 10 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 10 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -609,7 +609,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 11 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 11 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -656,7 +656,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 12 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 12 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -703,7 +703,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 13 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 13 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -750,7 +750,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 14 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 14 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -797,7 +797,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 15 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 15 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -844,7 +844,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 16 for tickets to add a new ticket attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 16 for tickets to add a new ticket attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -1119,7 +1119,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 1 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 1 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1158,7 +1158,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 2 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 2 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1197,7 +1197,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the the free key field number 3 for articles to add a new article attribute.</Description>
+        <Description Translatable="1">Defines the free key field number 3 for articles to add a new article attribute.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
