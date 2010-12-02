@@ -537,7 +537,7 @@
                 c.width = width;
                 c.height = height;
 //OTRS - patched to work correctly in IE9
-                if ($.browser.msie && parseFloat($.browser.version) < 9) // excanvas hack
+                if (window.G_vmlCanvasManager) // excanvas hack
 //OTRS
                     c = window.G_vmlCanvasManager.initElement(c);
                 return c;
@@ -553,7 +553,7 @@
                 throw "Invalid dimensions for plot, width = " + canvasWidth + ", height = " + canvasHeight;
 
 //OTRS - patched to work correctly in IE9
-            if ($.browser.msie && parseFloat($.browser.version) < 9) // excanvas hack
+            if (window.G_vmlCanvasManager) // excanvas hack
 //OTRS
                 window.G_vmlCanvasManager.init_(document); // make sure everything is setup
 
