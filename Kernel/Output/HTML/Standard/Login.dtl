@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.65 2010-11-16 13:27:36 mg Exp $
+# $Id: Login.dtl,v 1.66 2010-12-02 11:32:30 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@ X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System
 $Include{"Copyright"}
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->

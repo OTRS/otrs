@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -46,18 +46,11 @@
     border-bottom: none;
 }
 
-.OverviewLarge > li div.InlineActionRow {
-    height: 28px;
+.OverviewLarge > li ul.InlineActions {
     position: absolute;
     top: 0px;
     right: 0px;
-}
-
-.OverviewLarge > li:hover div.InlineActionRow {
-    display: block;
-}
-
-.OverviewLarge > li ul.InlineActions {
+    display: none;
     background-color: #EEE;
     opacity: 0.9;
     filter: alpha(opacity=90);
@@ -74,6 +67,10 @@
     box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
     -webkit-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
     -moz-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
+}
+
+.OverviewLarge > li:hover ul.InlineActions {
+    display: block;
 }
 
 .OverviewLarge > li ul.InlineActions li {

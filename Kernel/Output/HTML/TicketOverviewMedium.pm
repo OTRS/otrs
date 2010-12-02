@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.39 2010-12-01 12:25:14 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.40 2010-12-02 11:32:30 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -382,10 +382,14 @@ sub _Show {
                 );
             }
             else {
+                my $TicketID   = $Param{TicketID};
+                my $SelectHTML = $Item->{HTML};
+                $SelectHTML =~ s/id="DestQueueID"/id="DestQueueID$TicketID"/xmig;
+                $SelectHTML =~ s/for="DestQueueID"/for="DestQueueID$TicketID"/xmig;
                 $Self->{LayoutObject}->Block(
                     Name => 'InlineActionRowItemHTML',
                     Data => {
-                        HTML => $Item->{HTML},
+                        HTML => $SelectHTML,
                     },
                 );
             }
