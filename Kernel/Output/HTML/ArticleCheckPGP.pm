@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.24 2009-09-23 07:39:59 sb Exp $
+# $Id: ArticleCheckPGP.pm,v 1.25 2010-12-02 19:16:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,7 +100,7 @@ sub Check {
     }
 
     # check inline pgp signature
-    if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP SIGNED MESSAGE-----/m ) {
+    if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms ) {
         %SignCheck = $Self->{CryptObject}->Verify( Message => $Param{Article}->{Body}, );
         if (%SignCheck) {
 
