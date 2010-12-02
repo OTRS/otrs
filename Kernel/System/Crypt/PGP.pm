@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.3 2010-12-01 21:58:32 dz Exp $
+# $Id: PGP.pm,v 1.32.2.4 2010-12-02 19:40:26 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.3 $) [1];
+$VERSION = qw($Revision: 1.32.2.4 $) [1];
 
 =head1 NAME
 
@@ -612,6 +612,7 @@ sub Verify {
         push @WarningTags, 'TRUST_UNDEFINED';
     }
 
+    # get needed warnings
     my @Warnings;
     for my $Tag (@WarningTags) {
         if ( $LogMessage{$Tag}->{Log} ) {
@@ -621,6 +622,21 @@ sub Verify {
                 Value  => $LogMessage{$Tag}->{Log},
             };
         }
+    }
+
+    # looks for text before and after the signature
+    if (
+        $Param{Message} =~ m{ \s* \S+ \s* \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xmsg
+        ||
+        $Param{Message} =~ m{ \Q-----END PGP SIGNATURE-----\E \s* \S+ \s* }xmsg
+        )
+    {
+        push @Warnings, {
+            Result => 'Error',
+            Key    => 'Sign Warning',
+            Value =>
+                'Just a part of the message is signed, for info please see plain view of article',
+        };
     }
 
     if ( scalar @Warnings ) {
@@ -1014,6 +1030,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.3 $ $Date: 2010-12-01 21:58:32 $
+$Revision: 1.32.2.4 $ $Date: 2010-12-02 19:40:26 $
 
 =cut
