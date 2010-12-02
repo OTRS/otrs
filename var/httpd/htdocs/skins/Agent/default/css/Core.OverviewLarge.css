@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.17 $
+ * @version     $Revision: 1.18 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -93,6 +93,11 @@
 
 .OverviewLarge > li ul.InlineActions li.Even {
     background-color: transparent;
+}
+
+.OverviewLarge .ReallyStupidIE7Hack {
+    width: 1px;
+    height: 1px;
 }
 
 .OverviewLarge .Content {
