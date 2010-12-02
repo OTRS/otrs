@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.480 2010-12-01 13:44:27 bes Exp $
+# $Id: Ticket.pm,v 1.481 2010-12-02 15:48:04 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.480 $) [1];
+$VERSION = qw($Revision: 1.481 $) [1];
 
 =head1 NAME
 
@@ -6108,7 +6108,8 @@ sub TicketResponsibleList {
 
 =item TicketInvolvedAgentsList()
 
-returns array with hash ref of involved agents of a ticket
+returns an array with hash ref of agents which have been involved with a ticket.
+It is guaranteed that no agent is returned twice.
 
     my @InvolvedAgents = $TicketObject->TicketInvolvedAgentsList(
         TicketID => 123,
@@ -6124,9 +6125,9 @@ Returns:
             # custom attributes
         },
         {
-            UserFirstname => 'SomeName',
-            UserLastname  => 'SomeName',
-            UserEmail     => 'some@example.com',
+            UserFirstname => 'AnotherName',
+            UserLastname  => 'AnotherName',
+            UserEmail     => 'another@example.com',
             # custom attributes
         },
     );
@@ -6138,28 +6139,32 @@ sub TicketInvolvedAgentsList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
-    # db query
+    # db query, only entries with a known history_id are retrieved
     my @User;
     my %UsedOwner;
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT sh.name, sh.create_by FROM '
-            . ' ticket_history sh, ticket_history_type ht WHERE '
-            . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
+        SQL => ''
+            . 'SELECT sh.create_by'
+            . ' FROM ticket_history sh, ticket_history_type ht'
+            . ' WHERE sh.ticket_id = ?'
+            . ' AND ht.id = sh.history_type_id'
             . ' ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # store result
-        if ( $Row[1] ne 1 && !$UsedOwner{ $Row[1] } ) {
-            $UsedOwner{ $Row[1] } = $Row[1];
-            push @User, $Row[1];
+        # store result, skip the
+        if ( $Row[0] ne 1 && !$UsedOwner{ $Row[0] } ) {
+            $UsedOwner{ $Row[0] } = $Row[0];
+            push @User, $Row[0];
         }
     }
+
+    # collect agent information
     my @UserInfo;
     for my $SingleUser (@User) {
         my %User = $Self->{UserObject}->GetUserData(
@@ -6170,6 +6175,7 @@ sub TicketInvolvedAgentsList {
         next if !%User;
         push @UserInfo, \%User;
     }
+
     return @UserInfo;
 }
 
@@ -8179,6 +8185,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.480 $ $Date: 2010-12-01 13:44:27 $
+$Revision: 1.481 $ $Date: 2010-12-02 15:48:04 $
 
 =cut
