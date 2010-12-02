@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.23.2.2 2010-12-02 19:40:26 dz Exp $
+# $Id: ArticleCheckPGP.pm,v 1.23.2.3 2010-12-02 20:33:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.2 $) [1];
+$VERSION = qw($Revision: 1.23.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Check {
     $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
 
     # check inline pgp crypt
-    if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
+    if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP MESSAGE-----\E }xms ) {
 
         # check sender (don't decrypt sent emails)
         if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
@@ -269,11 +269,11 @@ sub Filter {
     if ( $Self->{Result}->{SignatureFound} ) {
 
         # remove pgp begin signed message
-        $Param{Article}->{Body} =~ s/^-----BEGIN\sPGP\sSIGNED\sMESSAGE-----.+?Hash:\s.+?$//sm;
+        $Param{Article}->{Body} =~ s{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E(.+?Hash:\s?\w*) }{}xms;
 
         # remove pgp inline sign
         $Param{Article}->{Body}
-            =~ s/^-----BEGIN\sPGP\sSIGNATURE-----.+?-----END\sPGP\sSIGNATURE-----//sm;
+            =~ s{\Q-----BEGIN PGP SIGNATURE-----\E.+?\Q-----END PGP SIGNATURE-----\E}{}xms;
     }
     return 1;
 }
