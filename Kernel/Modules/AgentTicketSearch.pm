@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.114 2010-12-01 13:41:06 bes Exp $
+# $Id: AgentTicketSearch.pm,v 1.115 2010-12-03 14:22:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1520,20 +1520,20 @@ sub Run {
             Type   => 'ro',
         );
         $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data           => \%AllQueues,
-            Size           => 5,
-            Multiple       => 1,
-            Name           => 'QueueIDs',
-            SelectedID     => $GetParam{QueueIDs},
-            OnChangeSubmit => 0,
+            Data               => \%AllQueues,
+            Size               => 5,
+            Multiple           => 1,
+            Name               => 'QueueIDs',
+            SelectedIDRefArray => $GetParam{QueueIDs},
+            OnChangeSubmit     => 0,
         );
         $Param{CreatedQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data           => \%AllQueues,
-            Size           => 5,
-            Multiple       => 1,
-            Name           => 'CreatedQueueIDs',
-            SelectedID     => $GetParam{CreatedQueueIDs},
-            OnChangeSubmit => 0,
+            Data               => \%AllQueues,
+            Size               => 5,
+            Multiple           => 1,
+            Name               => 'CreatedQueueIDs',
+            SelectedIDRefArray => $GetParam{CreatedQueueIDs},
+            OnChangeSubmit     => 0,
         );
         $Param{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {
