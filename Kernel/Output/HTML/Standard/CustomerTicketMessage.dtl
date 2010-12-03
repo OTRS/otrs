@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.58 2010-11-26 13:14:04 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.59 2010-12-03 13:45:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#TypeID').bind('change', function (Event) {
         // make sure the ticket is not yet created on queue change
-        $('input#Expand').val(3); // not sure about the meaning of "3"
+        $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
     });
@@ -52,7 +52,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dest').bind('change', function (Event) {
         // make sure the ticket is not yet created on queue change
-        $('input#Expand').val(3); // not sure about the meaning of "3"
+        $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
     });
@@ -70,7 +70,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
         // make sure the ticket is not yet created on queue change
-        $('input#Expand').val(3); // not sure about the meaning of "3"
+        $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
     });
@@ -88,7 +88,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
         // make sure the ticket is not yet created on queue change
-        $('input#Expand').val(3); // not sure about the meaning of "3"
+        $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
     });
