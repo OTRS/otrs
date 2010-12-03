@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.6 2010-12-03 08:56:41 mg Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.7 2010-12-03 11:49:35 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,8 +34,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      */
 
     function CalculateHeight(Iframe){
-        if (isJQueryObject($(Iframe))) {
-            var NewHeight = $(Iframe).contents().find('html').height();
+        Iframe =  isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
+        setTimeout(function () {
+            var $IframeContent = $(Iframe.contentDocument || Iframe.contentWindow.document);
+            var NewHeight = $IframeContent.height();
             if (!NewHeight || isNaN(NewHeight)) {
                 NewHeight = 100;
             }
@@ -44,8 +46,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                     NewHeight = 2500;
                 }
             }
+
             $(Iframe).height(NewHeight + 'px');
-        }
+        }, 1500);
     }
 
     /**
@@ -71,10 +74,12 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 }
             );
         // initial height calculation
-        CalculateHeight(Iframe);
-        if ($.isFunction(Callback)) {
-            Callback();
-        }
+        $(Iframe).attr('onload', function() {
+            CalculateHeight(this);
+            if ($.isFunction(Callback)) {
+                Callback();
+            }
+        });
     }
 
     /**
@@ -203,12 +208,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
         /* correct the status saved in the hidden field of the initial visible message */
         $('> input[name=ArticleState]', $VisibleMessage).val("true");
-        HideQuote($VisibleIframe);
-
-        $VisibleIframe.load(function() {
-            var $MyIframe = $('#VisibleFrame');
-            CalculateHeight($MyIframe);
-         });
+        HideQuote($VisibleIframe.get(0));
     };
 
     return TargetNS;
