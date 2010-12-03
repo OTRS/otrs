@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.31 2010-09-03 13:41:19 mb Exp $
+# $Id: InterfacePublic.pm,v 1.32 2010-12-03 15:24:56 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -134,6 +134,20 @@ sub Run {
         }
     }
 
+    # get common application and add-on application params
+    # Important!
+    # This must be done before creating the layout object,
+    # because otherwise the action parameter is not passed and then
+    # the loader can not load module specific JavaScript and CSS
+    # For details see bug: http://bugs.otrs.org/show_bug.cgi?id=6471
+    my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonParam') };
+    for my $Key ( keys %CommonObjectParam ) {
+        $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
+    }
+
+    # security check Action Param (replace non-word chars)
+    $Param{Action} =~ s/\W//g;
+
     # create common framework objects 2/3
     $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %Param,
@@ -166,19 +180,11 @@ sub Run {
         else {
 
             # print error
-            $Self->{LayoutObject}
-                ->CustomerFatalError( Comment => 'Please contact your administrator' );
+            $Self->{LayoutObject}->CustomerFatalError(
+                Comment => 'Please contact your administrator',
+            );
         }
     }
-
-    # get common application and add-on application params
-    my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonParam') };
-    for my $Key ( keys %CommonObjectParam ) {
-        $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
-    }
-
-    # security check Action Param (replace non-word chars)
-    $Param{Action} =~ s/\W//g;
 
     # run modules if a version value exists
     if ( !$Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
@@ -284,6 +290,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2010-09-03 13:41:19 $
+$Revision: 1.32 $ $Date: 2010-12-03 15:24:56 $
 
 =cut
