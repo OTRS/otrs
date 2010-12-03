@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.dist,v 1.13 2009-02-16 12:00:11 tr Exp $
+# $Id: GenericAgent.pm.dist,v 1.14 2010-12-03 09:58:00 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,9 @@ use warnings;
 
 use vars qw($VERSION @ISA @EXPORT %Jobs);
 require Exporter;
-@ISA = qw(Exporter);
-@EXPORT = qw(%Jobs);
-
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $)[1];
+@ISA     = qw(Exporter);
+@EXPORT  = qw(%Jobs);
+$VERSION = qw($Revision: 1.14 $)[1];
 
 # -----------------------------------------------------------------------
 # config options
