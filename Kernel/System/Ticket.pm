@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.481 2010-12-02 15:48:04 bes Exp $
+# $Id: Ticket.pm,v 1.482 2010-12-03 12:03:23 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.481 $) [1];
+$VERSION = qw($Revision: 1.482 $) [1];
 
 =head1 NAME
 
@@ -2388,7 +2388,7 @@ sub TicketEscalationIndexBuild {
             );
         }
 
-        # update first response time to expected escaltion destination time
+        # update first response time to expected escalation destination time
         else {
             my $DestinationTime = $Self->{TimeObject}->DestinationTime(
                 StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -8185,6 +8185,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.481 $ $Date: 2010-12-02 15:48:04 $
+$Revision: 1.482 $ $Date: 2010-12-03 12:03:23 $
 
 =cut
