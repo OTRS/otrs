@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.115 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.116 2010-12-03 19:00:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get lock state
+    my $OutputLocked = "";
     if ( $Self->{Config}->{RequiredLock} ) {
         if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
             $Self->{TicketObject}->TicketLockSet(
@@ -118,6 +119,14 @@ sub Run {
                     Type => 'Small',
                 );
                 return $Output;
+            }
+            else {
+
+                # add a notify when you lock the ticket
+                $OutputLocked = $Self->{LayoutObject}->Notify(
+                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+                );
+
             }
         }
         else {
@@ -685,6 +694,9 @@ sub Run {
             Value => $Ticket{TicketNumber},
             Type  => 'Small',
         );
+
+        # add locked notify
+        $Output .= $OutputLocked;
 
         # add std. attachments to email
         if ( $GetParam{ResponseID} ) {
