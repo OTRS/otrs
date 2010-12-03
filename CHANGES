@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1639 2010-12-03 14:12:11 martin Exp $
+# $Id: CHANGES,v 1.1640 2010-12-03 14:14:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-03 Fixed bug#6468 - Can't add "To" field to TicketSearch.
  - 2010-12-03 Fixed bug#6289 - i18n: Creating a new stat shows hardcoded value 'New'.
  - 2010-12-03 Fixed bug#6304 - Not sure about the meaning of "3".
  - 2010-12-03 Updated Russian translation, thanks to Sergey Romanov!

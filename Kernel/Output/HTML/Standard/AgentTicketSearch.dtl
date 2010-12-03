@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.58 2010-11-26 13:24:44 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.59 2010-12-03 14:14:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,7 +96,7 @@
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="To" id="LableTo">$Text{"To"}:</label>
+        <label for="To" id="LabelTo">$Text{"To"}:</label>
         <div class="Field">
             <input type="text" name="To" value="$QData{"To"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
