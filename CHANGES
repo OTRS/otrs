@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1636 2010-12-02 19:16:51 dz Exp $
+# $Id: CHANGES,v 1.1637 2010-12-03 09:26:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-03 Updated Russian translation, thanks to Sergey Romanov!
  - 2010-12-02 Fixed bug#6366 - gnupg signatures not working correct for partly signed messages.
  - 2010-12-01 Fixed bug#6303 - Article display height in ticket zoom of customer interface can be too high.
  - 2010-12-01 Updated Danish translation, thanks to Lars Jorgensen!

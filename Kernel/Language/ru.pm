@@ -7,8 +7,9 @@
 # Copyright (C) 2010 Denis Kot <denis.kot at gmail.com>
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
+# Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.109 2010-12-02 23:19:46 en Exp $
+# $Id: ru.pm,v 1.110 2010-12-03 09:26:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1099,20 +1100,20 @@ sub Data {
         'The signature for email answers.' => 'Подпись для писем',
 
         # Template: AdminQueueAutoResponse
-        'Manage Queue-Auto Response Relations' => '',
-        'Filter for Queues' => '',
-        'Filter for Auto Responses' => '',
+        'Manage Queue-Auto Response Relations' => 'Связь Очереди с Автоответами',
+        'Filter for Queues' => 'Фильтр для Очередей',
+        'Filter for Auto Responses' => 'Фильтр для Автоответов',
         'Auto Responses' => 'Автоответы',
-        'Change Auto Response Relations for Queue' => '',
+        'Change Auto Response Relations for Queue' => 'Изменить Автоответ для Очереди',
         'settings' => 'параметры',
 
         # Template: AdminQueueResponses
-        'Manage Response-Queue Relations' => '',
+        'Manage Response-Queue Relations' => 'Связь Ответов с Очередями',
         'Filter' => 'Фильтр',
-        'Filter for Responses' => '',
+        'Filter for Responses' => 'Фильтр для Ответов',
         'Responses' => 'Ответы',
-        'Change Queue Relations for Response' => '',
-        'Change Response Relations for Queue' => '',
+        'Change Queue Relations for Response' => 'Изменить Очередь для Ответа',
+        'Change Response Relations for Queue' => 'Изменить Ответ для Очереди',
 
         # Template: AdminResponse
         'Manage Responses' => '',
@@ -1126,10 +1127,10 @@ sub Data {
         'Your email address is' => 'Ваш email адрес ',
 
         # Template: AdminResponseAttachment
-        'Manage Responses <-> Attachments Relations' => '',
-        'Filter for Attachments' => '',
-        'Change Response Relations for Attachment' => '',
-        'Change Attachment Relations for Response' => '',
+        'Manage Responses <-> Attachments Relations' => 'Связь Ответов с Прикрепленными файлами',
+        'Filter for Attachments' => 'Фильтр для Прикреленных файлов',
+        'Change Response Relations for Attachment' => 'Изменить связь Ответов с Прикрепленными файлами',
+        'Change Attachment Relations for Response' => 'Изменить связь Прикрепленных файлов с Ответами',
         'Toggle active for all' => '',
         'Link %s to selected %s' => '',
 
@@ -1142,8 +1143,8 @@ sub Data {
         'Edit Role' => 'Изменить роль',
 
         # Template: AdminRoleGroup
-        'Manage Role-Group Relations' => '',
-        'Filter for Roles' => '',
+        'Manage Role-Group Relations' => 'Связь ролей с группами',
+        'Filter for Roles' => 'Фильтр для Ролей',
         'Roles' => 'Роли',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' => '',
@@ -1158,8 +1159,8 @@ sub Data {
         'Permissions to change the ticket priority in this group/queue.' => 'Права на смену приоритета заявок в этой группе/очереди',
 
         # Template: AdminRoleUser
-        'Manage Agent-Role Relations' => '',
-        'Filter for Agents' => '',
+        'Manage Agent-Role Relations' => 'Связь агентов с ролями',
+        'Filter for Agents' => 'Фильтр для Агентов',
         'Agents' => 'Агенты',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
@@ -1306,22 +1307,22 @@ sub Data {
         'Edit Type' => '',
 
         # Template: AdminUser
-        'Add agent' => '',
+        'Add agent' => 'Добавить агента',
         'Agents will be needed to handle tickets.' => '',
         'Don\'t forget to add a new agent to groups and/or roles!' => '',
         'Please enter a search term to look for agents.' => '',
-        'Last login' => '',
+        'Last login' => 'Последний вход',
         'Login as' => 'Зайти данным пользователем',
         'Switch to agent' => '',
-        'Add Agent' => '',
-        'Edit Agent' => '',
+        'Add Agent' => 'Добавить агента',
+        'Edit Agent' => 'Редактирование агента',
         'Firstname' => 'Имя',
         'Lastname' => 'Фамилия',
         'Start' => 'Начало',
         'End' => 'Окончание',
 
         # Template: AdminUserGroup
-        'Manage Agent-Group Relations' => '',
+        'Manage Agent-Group Relations' => 'Связь агентов с группами',
         'Change Group Relations for Agent' => '',
         'Change Agent Relations for Group' => '',
         'note' => '',
@@ -1993,7 +1994,7 @@ sub Data {
         'Agent interface notification module to see the number of tickets an agent is responsible for.' => '',
         'Agent interface notification module to see the number of watched tickets.' => '',
         'Agents <-> Groups' => 'Агенты <-> Группы',
-        'Agents <-> Roles' => '',
+        'Agents <-> Roles' => 'Агенты <-> Роли',
         'Allows adding notes in the close ticket screen of the agent interface.' => '',
         'Allows adding notes in the ticket free text screen of the agent interface.' => '',
         'Allows adding notes in the ticket note screen of the agent interface.' => '',
@@ -2149,7 +2150,7 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' => '',
         'Defines the default CSS used in rich text editors.' => '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' => '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' => '',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.' => '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' => '',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default maximum number of X-axis attributes for the time scale.' => '',
@@ -2368,7 +2369,7 @@ sub Data {
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' => '',
         'Defines the module to generate html refresh headers of html sites.' => '',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' => '',
-        'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' => '',
+        'Defines the module used to store the session data. With "DB" the the frontend server can be splitted from the db server. "FS" is faster.' => '',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' => '',
         'Defines the name of the calendar number 1.' => '',
         'Defines the name of the calendar number 2.' => '',
@@ -2435,24 +2436,24 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' => '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' => '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' => '',
-        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 1 for articles to add a new article attribute.' => '',
+        'Defines the the free key field number 10 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 11 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 12 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 13 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 14 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 15 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 16 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 2 for articles to add a new article attribute.' => '',
+        'Defines the the free key field number 2 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 3 for articles to add a new article attribute.' => '',
+        'Defines the the free key field number 3 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 4 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 5 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 6 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 7 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 8 for tickets to add a new ticket attribute.' => '',
+        'Defines the the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.' => '',
@@ -2609,12 +2610,12 @@ sub Data {
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => 'Связать агентов с группами.',
         'Link agents to roles.' => 'Связать агентов с ролями.',
-        'Link attachments to responses templates.' => '',
+        'Link attachments to responses templates.' => 'Связать прикрепленный файлы с ответами.',
         'Link customers to groups.' => 'Связать клиентов с группами.',
         'Link customers to services.' => 'Связать клиентов с сервисами.',
-        'Link queues to auto responses.' => '',
+        'Link queues to auto responses.' => 'Связать очереди с автоответами.',
         'Link responses to queues.' => 'Связать ответы с очередями.',
-        'Link roles to groups.' => '',
+        'Link roles to groups.' => 'Связать роли с группами.',
         'Link this ticket to other objects!' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
@@ -2756,7 +2757,7 @@ sub Data {
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' => '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' => '',
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' => '',
-        'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
+        'Sets the configuration level of the administrator. Depending on the the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
         'Sets the default article type for new email tickets in the agent interface.' => '',
         'Sets the default article type for new phone tickets in the agent interface.' => '',
         'Sets the default body text for notes added in the close ticket screen of the agent interface.' => '',
