@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.75 2010-12-02 14:34:05 mg Exp $
+# $Id: DB.t,v 1.76 2010-12-03 09:11:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2916,7 +2916,7 @@ for my $QuerySize (
     4_000, 4_400, 5_000, 10_000, 100_000, 1_000_000
     )
 {
-    my $SQL = 'SELECT' . ( ' ' x ( $QuerySize - 28 ) ) . '1 FROM ticket LIMIT 1';
+    my $SQL = 'SELECT' . ( ' ' x ( $QuerySize - 31 ) ) . '1 FROM valid WHERE id = 1';
 
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
