@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileStorable.pm - all cache functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.7 2010-09-10 09:31:13 mg Exp $
+# $Id: FileStorable.pm,v 1.8 2010-12-06 14:36:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ umask 002;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,7 +125,9 @@ sub Get {
     # check if cache exists
     return if !$Content;
 
-    my $Storage = Storable::thaw( ${$Content} );
+    # read data structure back from file dump, use block eval for safety reasons
+    my $Storage = eval { Storable::thaw( ${$Content} ) };
+    return if !$Storage;
 
     # check ttl
     my $Now = time();

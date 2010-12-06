@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1648 2010-12-06 13:54:58 mn Exp $
+# $Id: CHANGES,v 1.1649 2010-12-06 14:36:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-06 Fixed bug#6427 - Building large number of CacheFileStorable/
+    CacheInternalTicket Files will cause Software error.
  - 2010-12-06 Fixed bug#6408 - Uploading an attachment removed previously uploaded inline images.
  - 2010-12-06 Fixed bug#6234 - Field validation in the AgentTicketPhone mask kicks in after uploading a picture.
  - 2010-12-06 Fixed bug#6425 - Ticket::Frontend::MenuModule###460-Delete and
