@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1646 2010-12-06 13:14:33 martin Exp $
+# $Id: CHANGES,v 1.1647 2010-12-06 13:50:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-06 Fixed bug#6234 - Field validation in the AgentTicketPhone mask kicks in after uploading a picture.
  - 2010-12-06 Fixed bug#6425 - Ticket::Frontend::MenuModule###460-Delete and
     Ticket::Frontend::PreMenuModule###450-Delete resulting in white page.
  - 2010-12-03 Fixed bug#6458 - "Lock" not indicated on compose.

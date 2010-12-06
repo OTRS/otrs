@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.17 2010-11-25 23:21:41 ub Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.18 2010-12-06 13:50:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -125,7 +125,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Form.Validate.ValidateElement($EditorArea);
         });
 
-        // mainly needed for clientside validation
+        // needed for client-side validation
+        CKEDITOR.instances[EditorID].on('focus', function () {
+            if ($EditorArea.attr('class').match(/Error/)) {
+                window.setTimeout(function () {
+                    CKEDITOR.instances[EditorID].updateElement();
+                    Core.Form.Validate.ValidateElement($EditorArea);
+                }, 0);
+            }
+        });
+
+        // mainly needed for client-side validation
         $EditorArea.focus(function () {
             TargetNS.Focus($EditorArea);
             Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
@@ -178,7 +188,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         Data = CKEDITOR.instances[EditorID].getData();
         StrippedContent = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
 
-        if (StrippedContent.length === 0) {
+        if (StrippedContent.length === 0 && !Data.match(/<img/)) {
             $EditorArea.val('');
         }
         else {
