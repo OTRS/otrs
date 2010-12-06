@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1649 2010-12-06 14:36:59 martin Exp $
+# $Id: CHANGES,v 1.1650 2010-12-06 14:39:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,12 +10,16 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-06 Fixed bug#6451 - Article Tree doesn't expand.
  - 2010-12-06 Fixed bug#6427 - Building large number of CacheFileStorable/
     CacheInternalTicket Files will cause Software error.
  - 2010-12-06 Fixed bug#6408 - Uploading an attachment removed previously uploaded inline images.
  - 2010-12-06 Fixed bug#6234 - Field validation in the AgentTicketPhone mask kicks in after uploading a picture.
  - 2010-12-06 Fixed bug#6425 - Ticket::Frontend::MenuModule###460-Delete and
     Ticket::Frontend::PreMenuModule###450-Delete resulting in white page.
+ - 2010-12-03 Added possibility to see ticket actions on hover on every single ticket in medium and large
+    ticket overviews (enable with TicketActionsPerTicket item on Ticket::Frontend::Overview###Medium or
+    Ticket::Frontend::Overview###Preview setting).
  - 2010-12-03 Fixed bug#6458 - "Lock" not indicated on compose.
  - 2010-12-03 Fixed bug#6471 - Public interface handler is not able to load module
     specific JavaScript and CSS.
