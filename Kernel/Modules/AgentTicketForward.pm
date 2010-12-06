@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.90 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketForward.pm,v 1.91 2010-12-06 18:14:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -971,8 +971,22 @@ sub _Mask {
         );
     }
 
+    my $ShownOptionsBlock;
+
     # show spell check
     if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+
+        # check if need to call Options clock
+        if ( !$ShownOptionsBlock ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketOptions',
+                Data => {},
+            );
+
+            # set flag to "true" in order to prevent callthing the Options block again
+            $ShownOptionsBlock = 1;
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},
@@ -981,6 +995,18 @@ sub _Mask {
 
     # show address book
     if ( $Self->{LayoutObject}->{BrowserJavaScriptSupport} ) {
+
+        # check if need to call Options clock
+        if ( !$ShownOptionsBlock ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketOptions',
+                Data => {},
+            );
+
+            # set flag to "true" in order to prevent callthing the Options block again
+            $ShownOptionsBlock = 1;
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'AddressBook',
             Data => {},

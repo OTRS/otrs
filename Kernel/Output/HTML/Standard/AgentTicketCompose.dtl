@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.80 2010-12-03 22:30:01 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.81 2010-12-06 18:14:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,8 +87,12 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:Option -->
+
+<!-- dtl:block:TicketOptions -->
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
+
+<!-- OutputFilterHook_OptionsBegin -->
 
 <!-- dtl:block:SpellCheck -->
                         <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
@@ -96,8 +100,12 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:AddressBook -->
                         <a href="#" id="OptionAddressBook">[ $Text{"Address book"} ]</a>
 <!-- dtl:block:AddressBook -->
+
+<!-- OutputFilterHook_OptionsEnd -->
+
                     </div>
                     <div class="Clear"></div>
+<!-- dtl:block:TicketOptions -->
 
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">

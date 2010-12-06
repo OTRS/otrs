@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.26 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.27 2010-12-06 18:14:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1296,6 +1296,10 @@ sub _Mask {
 
         # show spell check
         if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketOptions',
+                Data => {},
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'SpellCheck',
                 Data => {},

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.122 2010-11-24 18:54:05 en Exp $
+# $Id: AgentTicketPhone.dtl,v 1.123 2010-12-06 18:14:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -186,8 +186,11 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
+<!-- dtl:block:TicketOptions -->
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
+
+<!-- OutputFilterHook_OptionsBegin -->
 
 <!-- dtl:block:SpellCheck -->
                         <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
@@ -197,8 +200,11 @@ $Include{"AgentCustomerSearch"}
                         <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
 <!-- dtl:block:OptionCustomer -->
 
+<!-- OutputFilterHook_OptionsEnd -->
+
                     </div>
                     <div class="Clear"></div>
+<!-- dtl:block:TicketOptions -->
 
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Text"}:</label>
                     <div class="RichTextField">

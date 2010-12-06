@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.79 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketForward.dtl,v 1.80 2010-12-06 18:14:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,16 +90,24 @@ $Include{"AgentCustomerSearch"}
                 <div class="Clear"></div>
 <!-- dtl:block:Option -->
 
+<!-- dtl:block:TicketOptions -->
                 <label>$Text{"Options"}:</label>
                 <div class="Field">
+
+<!-- OutputFilterHook_OptionsBegin -->
+
 <!-- dtl:block:SpellCheck -->
                     <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
 <!-- dtl:block:SpellCheck -->
 <!-- dtl:block:AddressBook -->
                     <a href="#" id="OptionAddressBook">[ $Text{"Address book"} ]</a>
 <!-- dtl:block:AddressBook -->
+
+<!-- OutputFilterHook_OptionsEnd -->
+
                 </div>
                 <div class="Clear"></div>
+<!-- dtl:block:TicketOptions -->
 
                 <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                 <div class="RichTextField">
