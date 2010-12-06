@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.253 2010-12-02 23:12:04 en Exp $
+# $Id: de.pm,v 1.254 2010-12-06 16:27:34 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.253 $) [1];
+$VERSION = qw($Revision: 1.254 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1258,7 +1258,7 @@ sub Data {
         'Error: this directory could not be found.' => 'Error: Dieses Verzeichnis konnte nicht gefunden werden.',
         'Error: an invalid value was entered.' => 'Error: Ein ungültiger Wert wurde eingegeben.',
         'Content' => 'Inhalt',
-        'Remove this entry' => 'Diesen Eintrag entferenen',
+        'Remove this entry' => 'Diesen Eintrag entfernen',
         'Add entry' => 'Eintrag hinzufügen',
         'Remove entry' => 'Eintrag entfernen',
         'Add new entry' => 'Eintrag hinzufügen',
