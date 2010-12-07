@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1653 2010-12-07 09:42:42 mg Exp $
+# $Id: CHANGES,v 1.1654 2010-12-07 17:01:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-07 Fixed bug#6012 - DashboardTicketGeneric.pm fails handing over
+    "Attributes" to AgentTicketSearch().
  - 2010-12-07 Fixed bug#6459 - Unwanted and unconfigurable text when customer has no ticket created yet.
     This text was adapted and can now optionally be configured with the SysConfig setting
     'Ticket::Frontend::CustomerTicketOverviewCustomEmptyText'.

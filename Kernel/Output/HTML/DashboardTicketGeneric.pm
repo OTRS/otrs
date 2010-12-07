@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.36 2010-11-25 13:52:47 bes Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.37 2010-12-07 17:01:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,7 +133,12 @@ sub Run {
         next if !$String;
         my ( $Key, $Value ) = split /=/, $String;
 
-        if ( $Key eq 'StateType' ) {
+        # push ARRAYREF attributes directly in an ARRAYREF
+        if (
+            $Key
+            =~ /^(StateType|StateTypeIDs|Queues|QueueIDs|Types|TypeIDs|States|StateIDs|Priorities|PriorityIDs|Services|ServiceIDs|SLAs|SLAIDs|Locks|LockIDs|OwnerIDs|ResponsibleIDs|WatchUserIDs|ArchiveFlags)$/
+            )
+        {
             push @{ $TicketSearch{$Key} }, $Value;
         }
         elsif ( !defined $TicketSearch{$Key} ) {
