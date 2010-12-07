@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.Login.js,v 1.4 2010-11-04 11:59:28 mg Exp $
+// $Id: Core.Customer.Login.js,v 1.5 2010-12-07 18:53:35 ub Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ Core.Customer.Login = (function (TargetNS) {
         var $PopulatedInput = $(PopulatedInput),
             $Label = $PopulatedInput.prev('label');
 
-        if ($PopulatedInput.val() !== "" || $PopulatedInput[0] == document.activeElement) {
+        if ($PopulatedInput.val() !== "" || $PopulatedInput[0] === document.activeElement) {
             $Label.hide();
         }
         else {
