@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.47 2010-09-08 16:39:22 ub Exp $
+# $Id: State.pm,v 1.48 2010-12-07 11:09:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -171,6 +171,19 @@ get state attributes
 
     my %State = $StateObject->StateGet(
         ID    => 123,
+    );
+
+returns
+
+    my %State = (
+        Name       => "new",
+        ID         => 1,
+        TypeName   => "new",
+        TypeID     => 1,
+        ValidID    => 1,
+        CreateTime => "2010-11-29 11:04:04",
+        ChangeTime => "2010-11-29 11:04:04",
+        Comment    => "New ticket created by customer.",
     );
 
 =cut
@@ -437,7 +450,7 @@ sub StateGetStatesByType {
 
 =item StateList()
 
-get state list
+get state list as a hash of ID, Name pairs
 
     my %List = $StateObject->StateList(
         UserID => 123,
@@ -451,6 +464,20 @@ get state list
     my %List = $StateObject->StateList(
         UserID => 123,
         Valid  => 0,
+    );
+
+returns
+
+    my %List = (
+        1 => "new",
+        2 => "closed successful",
+        3 => "closed unsuccessful",
+        4 => "open",
+        5 => "removed",
+        6 => "pending reminder",
+        7 => "pending auto close+",
+        8 => "pending auto close-",
+        9 => "merged",
     );
 
 =cut
@@ -557,10 +584,22 @@ sub StateLookup {
 
 =item StateTypeList()
 
-get state type list
+get state type list as a hash of ID, Name pairs
 
     my %ListType = $StateObject->StateTypeList(
         UserID => 123,
+    );
+
+returns
+
+    my %ListType = (
+        1 => "new",
+        2 => "open",
+        3 => "closed",
+        4 => "pending reminder",
+        5 => "pending auto",
+        6 => "removed",
+        7 => "merged",
     );
 
 =cut
@@ -590,7 +629,7 @@ sub StateTypeList {
 returns the id or the name of a state type
 
     my $StateTypeID = $StateTypeObject->StateTypeLookup(
-        StateType => '3 normal',
+        StateType => 'pending auto',
     );
 
     my $StateType = $StateTypeObject->StateTypeLookup(
@@ -675,6 +714,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2010-09-08 16:39:22 $
+$Revision: 1.48 $ $Date: 2010-12-07 11:09:19 $
 
 =cut
