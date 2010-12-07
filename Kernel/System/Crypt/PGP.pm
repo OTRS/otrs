@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.43 2010-12-02 19:16:52 dz Exp $
+# $Id: PGP.pm,v 1.44 2010-12-07 18:45:40 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -619,18 +619,31 @@ sub PublicKeyGet {
     my ( $Self, %Param ) = @_;
 
     my $Key = quotemeta( $Param{Key} || '' );
-    my $KeyString = qx{$Self->{GPGBin} --export --armor $Key 2>&1};
-
-    if ( $KeyString =~ /nothing exported/i ) {
-        $KeyString =~ s/\n//g;
+    my $LogMessage = qx{$Self->{GPGBin} --export --armor $Key 2>&1};
+    my $PublicKey;
+    if ( $LogMessage =~ /nothing exported/i ) {
+        $LogMessage =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't export key: $KeyString!",
+            Message  => "Can't export key: $LogMessage!",
         );
         return;
     }
+    elsif ( $LogMessage =~ /-----BEGIN PGP PUBLIC KEY BLOCK-----/i ) {
 
-    return $KeyString;
+        # filter the key
+        $PublicKey = $LogMessage;
+
+        # delete text before
+        $PublicKey =~ s{
+            .* ( \Q-----BEGIN PGP PUBLIC KEY BLOCK-----\E .*
+                 \Q-----END PGP PUBLIC KEY BLOCK-----\E ) .*
+        }{$1}xmsg;
+
+        return $PublicKey;
+    }
+
+    return $LogMessage;
 }
 
 =item SecretKeyGet()
@@ -647,18 +660,31 @@ sub SecretKeyGet {
     my ( $Self, %Param ) = @_;
 
     my $Key = quotemeta( $Param{Key} || '' );
-    my $KeyString = qx{$Self->{GPGBin} --export-secret-keys --armor $Key 2>&1};
 
-    if ( $KeyString =~ /nothing exported/i ) {
-        $KeyString =~ s/\n//g;
+    my $LogMessage = qx{$Self->{GPGBin} --export-secret-keys --armor $Key 2>&1};
+    my $SecretKey  = '';
+
+    if ( $LogMessage =~ /nothing exported/i ) {
+        $LogMessage =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't export key: $KeyString!",
+            Message  => "Can't export key: $LogMessage!",
         );
         return;
     }
+    elsif ( $LogMessage =~ /-----BEGIN PGP PRIVATE KEY BLOCK-----/i ) {
 
-    return $KeyString;
+        # filter the key
+        $SecretKey = $LogMessage;
+        $SecretKey =~ s{
+            .* ( \Q-----BEGIN PGP PRIVATE KEY BLOCK-----\E .*
+                 \Q-----END PGP PRIVATE KEY BLOCK-----\E ) .*
+        }{$1}xmsg;
+
+        return $SecretKey;
+    }
+
+    return $LogMessage;
 }
 
 =item PublicKeyDelete()
@@ -1045,6 +1071,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-12-02 19:16:52 $
+$Revision: 1.44 $ $Date: 2010-12-07 18:45:40 $
 
 =cut
