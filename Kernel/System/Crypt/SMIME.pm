@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.31 2009-06-03 09:28:23 martin Exp $
+# $Id: SMIME.pm,v 1.31.2.1 2010-12-07 06:23:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.31.2.1 $) [1];
 
 =head1 NAME
 
@@ -45,7 +45,7 @@ sub _Init {
     }
     else {
 
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        # make sure that we are getting POSIX (i.e. english) messages from openssl
         $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
     }
 
@@ -55,6 +55,14 @@ sub _Init {
     # prepend RANDFILE declaration to openssl cmd
     $Self->{Cmd}
         = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+
+    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+    $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
+
+    # get the openssl major version, e.g. 1 for version 1.0.0
+    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+        $Self->{OpenSSLMajorVersion} = $1;
+    }
 
     return $Self;
 }
@@ -296,6 +304,7 @@ verify a message with signature and returns a hash (Successful, Message, SignerC
 
     my %Data = $CryptObject->Verify(
         Message => $Message,
+        Certificate => $PathtoCert, # send path to the cert, when unsing self signed certificates
     );
 
 =cut
@@ -327,9 +336,17 @@ sub Verify {
         print $FHSig $Param{Sign};
         close $FHSig;
     }
+
+    # path to the cert, when self signed certs
+    # specially for openssl 1.0
+    my $CertificateOption = '';
+    if ( $Param{Certificate} ) {
+        $CertificateOption = "-CAfile $Param{Certificate}";
+    }
+
     my $Options
         = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . " -CApath $Self->{CertPath} $SigFile $SignedFile";
+        . "-CApath $Self->{CertPath} $CertificateOption $SigFile $SignedFile";
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
     for my $LogLine (@LogLines) {
         $MessageLong .= $LogLine;
@@ -349,12 +366,24 @@ sub Verify {
     # return message
     if ( $Message =~ /Verification successful/i ) {
         %Return = (
-            SignatureFound => 1,
-            Successful     => 1,
-
-            #            Message => $1,
+            SignatureFound    => 1,
+            Successful        => 1,
             Message           => "OpenSSL: " . $Message,
             MessageLong       => "OpenSSL: " . $MessageLong,
+            SignerCertificate => $$SignerCertRef,
+            Content           => $$SignedContentRef,
+        );
+    }
+    elsif ( $Message =~ /self signed certificate/i ) {
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message =>
+                'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
+                . $Message,
+            MessageLong =>
+                'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
+                . $MessageLong,
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,
         );
@@ -804,7 +833,7 @@ sub _FetchAttributesFromCert {
     my ( $Self, $Filename, $AttributesRef ) = @_;
 
     my %Option = (
-        Hash        => '-hash',
+        Hash        => '-subject_hash',
         Issuer      => '-issuer',
         Fingerprint => '-fingerprint -sha1',
         Serial      => '-serial',
@@ -814,6 +843,17 @@ sub _FetchAttributesFromCert {
         Email       => '-email',
         Modulus     => '-modulus',
     );
+
+    # The hash algorithm used in the -subject_hash and -issuer_hash options before OpenSSL 1.0.0
+    # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
+    # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
+    #
+    # output the hash of the certificate subject name using the older algorithm as
+    # used by OpenSSL versions before 1.0.0.
+    if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
+        $Option{Hash} = '-subject_hash_old';
+    }
+
     for my $Key ( keys %Option ) {
         my $Options = "x509 -in $Filename -noout $Option{$Key}";
         my $Output  = qx{$Self->{Cmd} $Options 2>&1};
@@ -912,12 +952,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-06-03 09:28:23 $
+$Revision: 1.31.2.1 $ $Date: 2010-12-07 06:23:51 $
 
 =cut

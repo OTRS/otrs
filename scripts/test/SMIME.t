@@ -1,8 +1,8 @@
 # --
 # SMIME.t - SMIME tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.7 2009-02-16 12:41:12 tr Exp $
+# $Id: SMIME.t,v 1.7.2.1 2010-12-07 06:23:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,12 +21,18 @@ my $HomeDir = $Self->{ConfigObject}->Get('Home');
 # set config
 $Self->{ConfigObject}->Set( Key => 'SMIME', Value => 1 );
 
-#$Self->{ConfigObject}->Set(
-#    Key => 'SMIME::CertPath', Value => "$HomeDir/var/ssl/certs"
-#);
-#$Self->{ConfigObject}->Set(
-#    Key => 'SMIME::PrivatePath', Value => "$HomeDir/var/ssl/private"
-#);
+my $CertPath = $Self->{ConfigObject}->Get('SMIME::CertPath');
+
+my $OpenSSLBin = $Self->{ConfigObject}->Get('SMIME::Bin');
+
+# get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+my $OpenSSLVersionString = qx{$OpenSSLBin version};
+my $OpenSSLMajorVersion;
+
+# get the openssl major version, e.g. 1 for version 1.0.0
+if ( $OpenSSLVersionString =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+    $OpenSSLMajorVersion = $1;
+}
 
 # check if openssl is located there
 if ( !-e $Self->{ConfigObject}->Get('SMIME::Bin') ) {
@@ -269,22 +275,36 @@ for my $Count ( 1 .. 2 ) {
 
     # verify
     my %Verify = $Self->{CryptObject}->Verify(
-        Message => $Sign,
+        Message     => $Sign,
+        Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
     );
+
     $Self->True(
         $Verify{Successful} || '',
-        "#$Count Verify()",
+        "#$Count Verify() - self signed sending certificate path",
     );
     $Self->True(
         $Verify{SignerCertificate} eq $Check{"cert-$Count"},
         "#$Count Verify()",
     );
 
+    if ( $OpenSSLMajorVersion >= 1 ) {
+        my %Verify = $Self->{CryptObject}->Verify(
+            Message => $Sign,
+        );
+
+        $Self->False(
+            $Verify{Successful} || '',
+            "#$Count Verify() - self signed not sending certificate path",
+        );
+    }
+
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{Q}{W}g;
     %Verify = $Self->{CryptObject}->Verify(
-        Message => $ManipulatedSign,
+        Message     => $ManipulatedSign,
+        Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
     );
     $Self->True(
         !$Verify{Successful},
@@ -345,7 +365,8 @@ for my $Count ( 1 .. 2 ) {
 
         # verify
         my %Verify = $Self->{CryptObject}->Verify(
-            Message => $Signed,
+            Message     => $Signed,
+            Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
         );
         $Self->True(
             $Verify{Successful} || '',
