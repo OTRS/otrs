@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.27 2010-12-07 09:26:13 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.28 2010-12-07 17:12:18 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -489,6 +489,11 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
+        function ResetRTE(Editor) {
+            CKEDITOR.instances[Editor].setMode('source');
+            CKEDITOR.instances[Editor].setMode('wysiwyg');
+        }
+
         var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;
         $Dialog = $(Object).closest('.Dialog:visible');
 
@@ -530,10 +535,7 @@ Core.UI.Dialog = (function (TargetNS) {
         if (typeof CKEDITOR !== 'undefined') {
             for (Editor in CKEDITOR.instances) {
                 if (typeof CKEDITOR.instances[Editor].setMode === 'function') {
-                    window.setTimeout(function () {
-                        CKEDITOR.instances[Editor].setMode('source');
-                        CKEDITOR.instances[Editor].setMode('wysiwyg');
-                    }, 0);
+                    window.setTimeout(ResetRTE, 0, Editor);
                 }
             }
         }
