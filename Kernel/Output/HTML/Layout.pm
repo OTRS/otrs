@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.341 2010-11-25 14:06:01 mn Exp $
+# $Id: Layout.pm,v 1.342 2010-12-07 19:21:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.341 $) [1];
+$VERSION = qw($Revision: 1.342 $) [1];
 
 =head1 NAME
 
@@ -3311,7 +3311,7 @@ sub CustomerNavigationBar {
             for my $Permission (qw(GroupRo Group)) {
 
                 # array access restriction
-                if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
+                if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                     for my $Type ( @{ $Item->{$Permission} } ) {
                         my $Key = 'UserIs' . $Permission . '[' . $Type . ']';
                         if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
@@ -3373,29 +3373,47 @@ sub CustomerNavigationBar {
         }
     }
 
+    # deactivate nav bar selected highlighting if more then one action is registered twice
+    my $SelectedDeactivated;
+    my %UsedAction;
+    for my $Item ( sort keys %NavBarModule ) {
+        next if !%{ $NavBarModule{$Item} };
+        next if !$NavBarModule{$Item}->{Link};
+        if ( $NavBarModule{$Item}->{Link} =~ /Action=(.+?)((;|&|&amp;).*|)$/ ) {
+            if ( !$UsedAction{$1} ) {
+                $UsedAction{$1} = 0;
+            }
+            $UsedAction{$1}++;
+            if ( $UsedAction{$1} > 1 ) {
+                $SelectedDeactivated = 1;
+                last;
+            }
+        }
+    }
+
     my $Total   = keys %NavBarModule;
     my $Counter = 0;
-    for ( sort keys %NavBarModule ) {
-        next if !%{ $NavBarModule{$_} };
+    for my $Item ( sort keys %NavBarModule ) {
+        next if !%{ $NavBarModule{$Item} };
         $Counter++;
 
         # highlight active link
-        $NavBarModule{$_}->{Class} = '';
-        if ( $NavBarModule{$_}->{Link} ) {
+        $NavBarModule{$Item}->{Class} = '';
+        if ( !$SelectedDeactivated && $NavBarModule{$Item}->{Link} ) {
             if (
-                $NavBarModule{$_}->{Link} =~ /$Self->{Action}/
-                && $NavBarModule{$_}->{Link} =~ /$Self->{Subaction}/
+                $NavBarModule{$Item}->{Link} =~ /$Self->{Action}/
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/
                 )
             {
-                $NavBarModule{$_}->{Class} .= ' Selected';
+                $NavBarModule{$Item}->{Class} .= ' Selected';
             }
         }
         if ( $Counter == $Total ) {
-            $NavBarModule{$_}->{Class} .= ' Last';
+            $NavBarModule{$Item}->{Class} .= ' Last';
         }
         $Self->Block(
-            Name => $NavBarModule{$_}->{Block} || 'Item',
-            Data => $NavBarModule{$_},
+            Name => $NavBarModule{$Item}->{Block} || 'Item',
+            Data => $NavBarModule{$Item},
         );
     }
 
@@ -4817,6 +4835,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.341 $ $Date: 2010-11-25 14:06:01 $
+$Revision: 1.342 $ $Date: 2010-12-07 19:21:32 $
 
 =cut
