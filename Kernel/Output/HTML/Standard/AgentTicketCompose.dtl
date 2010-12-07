@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.82 2010-12-07 17:47:27 cr Exp $
+# $Id: AgentTicketCompose.dtl,v 1.83 2010-12-07 23:11:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,19 +25,9 @@ $Include{"AgentCustomerSearch"}
         <div class="Header">
             <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
             <p>
-                <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"}">$Text{"Cancel & close window"}</a>
             </p>
         </div>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-            $('.CancelClosePopup').unbind();
-            $('.CancelClosePopup').bind('click', function () {
-                window.close();
-                window.opener.location.reload();
-            });
-//]]></script>
-<!--dtl:js_on_document_complete-->
-
         <div class="Content">
             <div class="ContentColumn">
                 <fieldset class="TableLike FixedLabel">
