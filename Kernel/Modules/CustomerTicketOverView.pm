@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.66 2010-12-01 14:15:11 mg Exp $
+# $Id: CustomerTicketOverView.pm,v 1.67 2010-12-07 09:42:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,8 +209,22 @@ sub Run {
     if ( !$AllTicketsTotal ) {
         $Self->{LayoutObject}->Block(
             Name => 'Empty',
-            Data => \%Param,
         );
+
+        my $CustomTexts
+            = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
+
+        if ( ref $CustomTexts eq 'HASH' ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'EmptyCustom',
+                Data => $CustomTexts,
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'EmptyDefault',
+            );
+        }
     }
     else {
 

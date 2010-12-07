@@ -2,7 +2,7 @@
 # CustomerTicketOverView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.dtl,v 1.21 2010-11-19 22:08:44 cg Exp $
+# $Id: CustomerTicketOverView.dtl,v 1.22 2010-12-07 09:42:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,16 +97,23 @@
 
 <!-- dtl:block:Empty -->
         <div class="Placeholder">
-            <h2>$Text{"You have not created a ticket yet."}</h2>
+
+<!-- dtl:block:EmptyDefault -->
+            <h2>$Text{"Welcome!"}</h2>
             <p>
-                $Text{"You as the customer have the ability to let us support staff people jump around as you wish because it's all about you."}
-                $Text{"We stop eating if you wish us to do."}
-                $Text{"Your way to communicate with us is this thing called 'ticket'."}
-                $Text{"Please command us."}
+                $Text{"Please click the button below to create your first ticket."}
             </p>
-            <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first Ticket"}</a>
+            <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first ticket"}</a>
+<!-- dtl:block:EmptyDefault -->
+<!-- dtl:block:EmptyCustom -->
+            <h2>$QData{"Title"}</h2>
+            <p>
+                $QData{"Text"}
+            </p>
+            <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$QData{"Button"}</a>
+<!-- dtl:block:EmptyCustom -->
+
         </div>
-
-
 <!-- dtl:block:Empty -->
+
     </div>
