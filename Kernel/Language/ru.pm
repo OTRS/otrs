@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.110 2010-12-03 09:26:12 mg Exp $
+# $Id: ru.pm,v 1.111 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -428,7 +428,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Выбранное время конца выходит за пределы разрешенного!',
         'The selected time period is larger than the allowed time period!' => 'Выбранный период времени больше, чем разрешенный период!',
         'Common Specification' => 'Общая спецификация',
-        'Xaxis' => 'Ось X',
+        'X-axis' => 'Ось X',
         'Value Series' => 'Ряд значений',
         'Restrictions' => 'Ограничения',
         'graph-lines' => 'График',

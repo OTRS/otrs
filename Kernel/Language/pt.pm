@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.98 2010-12-02 23:20:54 en Exp $
+# $Id: pt.pm,v 1.99 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'O tempo selecionado é depois do fim do tempo permitido',
         'The selected time period is larger than the allowed time period!' => 'O intervalo de tempo é suporior ao permitido',
         'Common Specification' => 'Especificações Comuns',
-        'Xaxis' => 'Eixo X',
+        'X-axis' => 'Eixo X',
         'Value Series' => 'Valores das Series',
         'Restrictions' => 'Restricções',
         'graph-lines' => '',

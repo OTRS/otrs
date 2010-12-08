@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.89 2010-12-02 23:19:47 en Exp $
+# $Id: sv.pm,v 1.90 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -422,7 +422,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Vald sluttid är efter den tillåtna sluttiden!',
         'The selected time period is larger than the allowed time period!' => 'Vald tidsperiod är större än den tillåtna tidsperioden!',
         'Common Specification' => 'Vanlig Spec.',
-        'Xaxis' => 'X-axel',
+        'X-axis' => 'X-axel',
         'Value Series' => 'Värdeserie',
         'Restrictions' => 'Begränsningar',
         'graph-lines' => 'graf-linjer',

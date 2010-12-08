@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.7 2010-12-02 23:19:46 en Exp $
+# $Id: sr_Cyrl.pm,v 1.8 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Изабрано време краја је после дозвољеног времена краја!',
         'The selected time period is larger than the allowed time period!' => 'Изабрани временски период је дужи од дозвољеног!',
         'Common Specification' => 'Опште информације',
-        'Xaxis' => 'X-Оса',
+        'X-axis' => 'X-Оса',
         'Value Series' => 'Опсези',
         'Restrictions' => 'Ограничења',
         'graph-lines' => 'Линијски графикон',

@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.106 2010-12-02 23:19:47 en Exp $
+# $Id: pt_BR.pm,v 1.107 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -423,7 +423,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'A data final selecionada é posterior à permitida!',
         'The selected time period is larger than the allowed time period!' => 'O período de tempo selecionado é maior do que o permitido!',
         'Common Specification' => 'Especificação Comum',
-        'Xaxis' => 'Eixo X',
+        'X-axis' => 'Eixo X',
         'Value Series' => 'Sequência de Valores',
         'Restrictions' => 'Restrições',
         'graph-lines' => 'gráfico de linhas',

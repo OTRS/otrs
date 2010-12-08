@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.103 2010-12-02 23:17:59 en Exp $
+# $Id: pl.pm,v 1.104 2010-12-08 10:37:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -422,7 +422,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Wybrany czas koñca przekracza dopuszczalny czas zakoñczenia!',
         'The selected time period is larger than the allowed time period!' => 'Wybrany zakres czasu przekracza maksymalny dopuszczalny!',
         'Common Specification' => 'Podstawowa specyfikacja',
-        'Xaxis' => 'O¶ X',
+        'X-axis' => 'O¶ X',
         'Value Series' => 'Serie warto¶ci',
         'Restrictions' => 'Ograniczenia',
         'graph-lines' => 'wykres-linie',

@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.46 2010-12-02 23:21:13 en Exp $
+# $Id: tr.pm,v 1.47 2010-12-08 10:37:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $)[1];
+$VERSION = qw($Revision: 1.47 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Seçilen bitiþ zamaný izin verilen bitiþ zamanýndan sonra!',
         'The selected time period is larger than the allowed time period!' => 'Seçilen zaman dönemi izin verilen zaman döneminden daha büyük!',
         'Common Specification' => 'Genel Belirtim',
-        'Xaxis' => 'X ekseni',
+        'X-axis' => 'X ekseni',
         'Value Series' => 'Deðer Serileri',
         'Restrictions' => 'Kýsýtlamalar',
         'graph-lines' => 'grafik-çizgiler',
