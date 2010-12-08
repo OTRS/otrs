@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.342 2010-12-07 19:21:32 martin Exp $
+# $Id: Layout.pm,v 1.343 2010-12-08 09:15:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.342 $) [1];
+$VERSION = qw($Revision: 1.343 $) [1];
 
 =head1 NAME
 
@@ -3373,36 +3373,25 @@ sub CustomerNavigationBar {
         }
     }
 
-    # deactivate nav bar selected highlighting if more then one action is registered twice
-    my $SelectedDeactivated;
-    my %UsedAction;
-    for my $Item ( sort keys %NavBarModule ) {
-        next if !%{ $NavBarModule{$Item} };
-        next if !$NavBarModule{$Item}->{Link};
-        if ( $NavBarModule{$Item}->{Link} =~ /Action=(.+?)((;|&|&amp;).*|)$/ ) {
-            if ( !$UsedAction{$1} ) {
-                $UsedAction{$1} = 0;
-            }
-            $UsedAction{$1}++;
-            if ( $UsedAction{$1} > 1 ) {
-                $SelectedDeactivated = 1;
-                last;
-            }
-        }
-    }
-
     my $Total   = keys %NavBarModule;
     my $Counter = 0;
+
+    # Only highlight the first matched navigation entry. If there are several entries
+    #   with the same Action and Subaction, it cannot be determined which one was used.
+    #   Therefore we just highlight the first one.
+    my $SelectedFlag;
+
     for my $Item ( sort keys %NavBarModule ) {
         next if !%{ $NavBarModule{$Item} };
         $Counter++;
 
         # highlight active link
         $NavBarModule{$Item}->{Class} = '';
-        if ( !$SelectedDeactivated && $NavBarModule{$Item}->{Link} ) {
+        if ( $NavBarModule{$Item}->{Link} ) {
             if (
-                $NavBarModule{$Item}->{Link} =~ /$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/
+                !$SelectedFlag
+                && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/     # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4835,6 +4824,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.342 $ $Date: 2010-12-07 19:21:32 $
+$Revision: 1.343 $ $Date: 2010-12-08 09:15:26 $
 
 =cut
