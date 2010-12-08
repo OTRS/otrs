@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # --
-# $Id: it.pm,v 1.105 2010-12-02 23:14:12 en Exp $
+# $Id: it.pm,v 1.106 2010-12-08 09:59:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -426,7 +426,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'tempo finale segue il tempo finale ammesso!',
         'The selected time period is larger than the allowed time period!' => 'Intervallo di troppo grande del periodo ammesso!',
         'Common Specification' => 'Specifiche comuni',
-        'Xaxis' => '',
+        'X-axis' => '',
         'Value Series' => '',
         'Restrictions' => 'Restrizioni-filtro',
         'graph-lines' => 'grafico-linea',

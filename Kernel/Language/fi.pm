@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.111 2010-12-02 23:13:20 en Exp $
+# $Id: fi.pm,v 1.112 2010-12-08 09:59:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -422,7 +422,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Valittu lopetusaika on sallitun ajan jälkeen!',
         'The selected time period is larger than the allowed time period!' => 'Valittu aikaväli on suurempi kuin sallittu aikaväli!',
         'Common Specification' => 'Yleiset määritykset',
-        'Xaxis' => 'X-akseli',
+        'X-axis' => 'X-akseli',
         'Value Series' => 'Arvosarja',
         'Restrictions' => 'Rajoitukset',
         'graph-lines' => 'kuvaaja-linjat',

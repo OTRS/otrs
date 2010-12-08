@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.146 2010-12-02 23:17:59 en Exp $
+# $Id: nl.pm,v 1.147 2010-12-08 09:59:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -434,7 +434,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'De eindtijd is te laat.',
         'The selected time period is larger than the allowed time period!' => 'De geselecteerde tijdsperiode is langer dan de toegestane periode.',
         'Common Specification' => 'Algemene eigenschappen',
-        'Xaxis' => 'X-as',
+        'X-axis' => 'X-as',
         'Value Series' => 'Waardes',
         'Restrictions' => 'Restricties',
         'graph-lines' => 'lijnengrafiek',
@@ -790,7 +790,7 @@ sub Data {
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
         'Notice' => 'Notitie',
-        'This feature is disabled!' => 'Deze functie is geactiveerd.',
+        'This feature is disabled!' => 'Deze functie is niet geactiveerd.',
         'Just use this feature if you want to define group permissions for customers.' => 'Gebuik deze mogelijkheid alleen als u groep-permissies voor klanten wilt gebruiken.',
         'Enable it here!' => 'Inschakelen',
         'Search for customers (wildcards are allowed).' => 'Typ om te zoeken naar klanten (wildcards toegestaan).',
@@ -1742,7 +1742,7 @@ sub Data {
         'Profile' => 'Profiel',
         'e. g. 10*5155 or 105658*' => 'bijv. 2010*5155 of 20100802*',
         'Customer ID' => 'Klant ID',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Zoeken in tekst in tickets (bijv. "Jans*en" of "Print*"',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Zoeken in tekst in tickets (bijv. "Jans*en" of "Print*")',
         'Recipient' => 'Geadresseerde',
         'Carbon Copy' => 'CC',
         'Time restrictions' => 'Tijd',

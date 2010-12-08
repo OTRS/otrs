@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.101 2010-12-02 23:17:59 en Exp $
+# $Id: nb_NO.pm,v 1.102 2010-12-08 09:59:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.101 $;
+$VERSION = q$Revision: 1.102 $;
 
 sub Data {
     my $Self = shift;
@@ -424,7 +424,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Det valgte slutt tidspunktet er etter godkjent slutt tidspunkt!',
         'The selected time period is larger than the allowed time period!' => 'Den valgte tidsperioden er større enn godkjent tidsperiode!',
         'Common Specification' => 'Felles spesifikasjon',
-        'Xaxis' => 'X-akse',
+        'X-axis' => 'X-akse',
         'Value Series' => 'Verdiserier',
         'Restrictions' => 'Restriksjoner',
         'graph-lines' => 'graf-linjer',

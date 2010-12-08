@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.85 2010-12-02 23:13:20 en Exp $
+# $Id: fa.pm,v 1.86 2010-12-08 09:59:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -425,7 +425,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'زمان پایان انتخاب شده بیشتر از حد مجاز است',
         'The selected time period is larger than the allowed time period!' => 'دوره زمانی انتخاب شده بزرگتر از حد مجاز است',
         'Common Specification' => 'مشخصات عمومی',
-        'Xaxis' => 'محور افقی',
+        'X-axis' => 'محور افقی',
         'Value Series' => 'لیست مقادیر',
         'Restrictions' => 'محدوده',
         'graph-lines' => 'نمودار خطی',

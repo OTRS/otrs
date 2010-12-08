@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.89 2010-12-02 23:14:12 en Exp $
+# $Id: hu.pm,v 1.90 2010-12-08 09:59:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -425,7 +425,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'A kiválasztott befejezési idõ a megengedett befejezési idõ után van!',
         'The selected time period is larger than the allowed time period!' => 'A kiválasztott ismétlõdés a megengedett ismétlõdésnél nagyobb!',
         'Common Specification' => 'Általános beállítások',
-        'Xaxis' => 'X tengely',
+        'X-axis' => 'X tengely',
         'Value Series' => 'Megjelenített értékek',
         'Restrictions' => 'Megkötések',
         'graph-lines' => 'Grafikon - vonalak',

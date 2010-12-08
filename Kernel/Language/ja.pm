@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Kaz Kamimura Thomas <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.4 2010-12-02 23:17:59 en Exp $
+# $Id: ja.pm,v 1.5 2010-12-08 09:59:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => '選択された終了時間は許可されている時間の後です！',
         'The selected time period is larger than the allowed time period!' => '選択された期間は許可されている周期よりも大きいです！',
         'Common Specification' => '共通仕様',
-        'Xaxis' => 'X軸',
+        'X-axis' => 'X軸',
         'Value Series' => '値系列',
         'Restrictions' => '制限',
         'graph-lines' => '線グラフ',

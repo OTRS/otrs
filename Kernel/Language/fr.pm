@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.138 2010-12-02 23:14:12 en Exp $
+# $Id: fr.pm,v 1.139 2010-12-08 09:59:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -427,7 +427,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'La date de fin choisie est posterieure à la date de fin autorisée !',
         'The selected time period is larger than the allowed time period!' => 'La plage de temps choisie est supérieure à la période de temps autorisée !',
         'Common Specification' => 'Caractéristiques Communes',
-        'Xaxis' => 'Axe X',
+        'X-axis' => 'Axe X',
         'Value Series' => 'Séries de valeurs',
         'Restrictions' => 'Restrictions',
         'graph-lines' => 'Graphique-Lignes',

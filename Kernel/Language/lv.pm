@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.22 2010-12-02 23:17:59 en Exp $
+# $Id: lv.pm,v 1.23 2010-12-08 09:59:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Izvēlētais beigu laiks ir pēc atļautā beigu laika!',
         'The selected time period is larger than the allowed time period!' => 'Izvēlētais laika periods ir lielāks nekā atļautais periods!',
         'Common Specification' => 'Vispārīgā specifikācija',
-        'Xaxis' => 'X-ass',
+        'X-axis' => 'X-ass',
         'Value Series' => 'Vērtības',
         'Restrictions' => 'Ierobežojumi',
         'graph-lines' => 'līniju diagramma',
