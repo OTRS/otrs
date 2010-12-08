@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.14 2010-12-02 23:19:46 en Exp $
+# $Id: uk.pm,v 1.15 2010-12-08 10:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Обраний час кінця виходить за межі дозволеного!',
         'The selected time period is larger than the allowed time period!' => 'Обраний період часу більше, ніж дозволений період!',
         'Common Specification' => 'Загальна специфікація',
-        'Xaxis' => 'Вісь X',
+        'X-axis' => 'Вісь X',
         'Value Series' => 'Ряд значень',
         'Restrictions' => 'Обмеження',
         'graph-lines' => 'Графік',

@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.86 2010-12-02 23:19:46 en Exp $
+# $Id: zh_CN.pm,v 1.87 2010-12-08 10:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -425,7 +425,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => '选定的结束时间晚于允许的结束时间',
         'The selected time period is larger than the allowed time period!' => '在选定时间段大于允许的时间段',
         'Common Specification' => '共同规范',
-        'Xaxis' => 'X轴',
+        'X-axis' => 'X轴',
         'Value Series' => '价值系列',
         'Restrictions' => '限制',
         'graph-lines' => '线图',

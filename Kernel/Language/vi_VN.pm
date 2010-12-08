@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.45 2010-12-02 23:19:46 en Exp $
+# $Id: vi_VN.pm,v 1.46 2010-12-08 10:51:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Th¶i gian kªt thúc ðã ch÷n sau th¶i gian kªt thúc cho phép!',
         'The selected time period is larger than the allowed time period!' => 'Khoäng th¶i gian ðã ch÷n l¾n h½n khoäng th¶i gian cho phép!',
         'Common Specification' => 'Ð£c tä chung',
-        'Xaxis' => 'Trøc X',
+        'X-axis' => 'Trøc X',
         'Value Series' => 'Chu²i giá tr¸',
         'Restrictions' => 'Các hÕn chª',
         'graph-lines' => 'Bi¬u ð° ðß¶ng kë',
