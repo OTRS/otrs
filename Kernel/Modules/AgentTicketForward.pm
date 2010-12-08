@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.93 2010-12-08 16:44:13 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.94 2010-12-08 22:23:42 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -522,16 +522,17 @@ sub SendEmail {
     # get free text config options
     my %TicketFreeText;
     for my $Count ( 1 .. 16 ) {
-
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
         $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeKey$Count",
+            Type     => $Key,
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
         $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
-            Type     => "TicketFreeText$Count",
+            Type     => $Key,
             Action   => $Self->{Action},
             UserID   => $Self->{UserID},
         );
@@ -539,6 +540,16 @@ sub SendEmail {
         # If Key has value 2, this means that the freetextfield is required
         if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
             $TicketFreeText{Required}->{$Count} = 1;
+        }
+
+        # check required FreeTextField (if configured)
+        if (
+            $Self->{Config}->{TicketFreeText}->{$Count} == 2
+            && $GetParam{$Text} eq ''
+            )
+        {
+            $TicketFreeText{Error}->{$Count} = 1;
+            $Error{$Text} = 'ServerError';
         }
 
     }

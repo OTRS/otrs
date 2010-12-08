@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.67 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.68 2010-12-08 22:26:24 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -452,89 +452,90 @@ sub Run {
                 }
             }
         }
+
+        # get free text config options
+        my %TicketFreeText;
+        for my $Count ( 1 .. 16 ) {
+            my $Key  = 'TicketFreeKey' . $Count;
+            my $Text = 'TicketFreeText' . $Count;
+            $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => $Key,
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+            $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => $Text,
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+
+            # If Key has value 2, this means that the freetextfield is required
+            if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+                $TicketFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required FreeTextField (if configured)
+            if (
+                $Self->{Config}->{TicketFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $IsUpload == 0
+                )
+            {
+                $TicketFreeText{Error}->{$Count} = 1;
+            }
+        }
+
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config => \%TicketFreeText,
+            Ticket => \%GetParam,
+        );
+
+        # free time
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+
+        # article free text
+        my %ArticleFreeText;
+        for my $Count ( 1 .. 3 ) {
+            my $Key  = 'ArticleFreeKey' . $Count;
+            my $Text = 'ArticleFreeText' . $Count;
+            $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => $Key,
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+            $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => $Text,
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+
+            # If Key has value 2, this means that the field is required
+            if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+                $ArticleFreeText{Required}->{$Count} = 1;
+            }
+
+            # check required ArticleTextField (if configured)
+            if (
+                $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+                && $GetParam{$Text} eq ''
+                && $IsUpload == 0
+                )
+            {
+                $ArticleFreeText{Error}->{$Count} = 1;
+                $Error{$Text} = 'ServerError';
+            }
+        }
+
+        my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+            Config  => \%ArticleFreeText,
+            Article => \%GetParam,
+        );
+
         if (%Error) {
-
-            # get free text config options
-            my %TicketFreeText;
-            for my $Count ( 1 .. 16 ) {
-                my $Key  = 'TicketFreeKey' . $Count;
-                my $Text = 'TicketFreeText' . $Count;
-                $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type     => $Key,
-                    Action   => $Self->{Action},
-                    UserID   => $Self->{UserID},
-                );
-                $TicketFreeText{$Text} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type     => $Text,
-                    Action   => $Self->{Action},
-                    UserID   => $Self->{UserID},
-                );
-
-                # If Key has value 2, this means that the freetextfield is required
-                if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
-                    $TicketFreeText{Required}->{$Count} = 1;
-                }
-
-                # check required FreeTextField (if configured)
-                if (
-                    $Self->{Config}->{TicketFreeText}->{$Count} == 2
-                    && $GetParam{$Text} eq ''
-                    && $IsUpload == 0
-                    )
-                {
-                    $TicketFreeText{Error}->{$Count} = 1;
-                }
-
-            }
-
-            my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-                Config => \%TicketFreeText,
-                Ticket => \%GetParam,
-            );
-
-            # free time
-            my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
-
-            # article free text
-            my %ArticleFreeText;
-            for my $Count ( 1 .. 3 ) {
-                my $Key  = 'ArticleFreeKey' . $Count;
-                my $Text = 'ArticleFreeText' . $Count;
-                $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type     => $Key,
-                    Action   => $Self->{Action},
-                    UserID   => $Self->{UserID},
-                );
-                $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type     => $Text,
-                    Action   => $Self->{Action},
-                    UserID   => $Self->{UserID},
-                );
-
-                # If Key has value 2, this means that the field is required
-                if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
-                    $ArticleFreeText{Required}->{$Count} = 1;
-                }
-
-                # check required ArticleTextField (if configured)
-                if (
-                    $Self->{Config}->{ArticleFreeText}->{$Count} == 2
-                    && $GetParam{$Text} eq ''
-                    && $IsUpload == 0
-                    )
-                {
-                    $ArticleFreeText{Error}->{$Count} = 1;
-                }
-
-            }
-            my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-                Config  => \%ArticleFreeText,
-                Article => \%GetParam,
-            );
 
             # get ticket info if ticket id is given
             my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
