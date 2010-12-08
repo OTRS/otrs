@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.92 2010-12-06 19:48:29 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.93 2010-12-08 16:44:13 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -381,6 +381,45 @@ sub Form {
     }
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
 
+    # get article free text default selections
+    my %ArticleFreeDefault;
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $ArticleFreeDefault{$Key} = $GetParam{$Key}
+            || $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
+        $ArticleFreeDefault{$Text} = $GetParam{$Text}
+            || $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
+    }
+
+    # article free text
+    my %ArticleFreeText;
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type     => $Key,
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
+        );
+        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type     => $Text,
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
+        );
+
+        # If Key has value 2, this means that the ArticleFreeText is required
+        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+            $ArticleFreeText{Required}->{$Count} = 1;
+        }
+    }
+    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+        Config => \%ArticleFreeText,
+        Article => { %GetParam, %ArticleFreeDefault, },
+    );
+
     # build view ...
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(
@@ -405,6 +444,7 @@ sub Form {
         References => "$Data{References} $Data{MessageID}",
         %TicketFreeTextHTML,
         %TicketFreeTimeHTML,
+        %ArticleFreeTextHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
@@ -555,6 +595,53 @@ sub SendEmail {
 
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
 
+    # get article free text params
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    }
+
+    # article free text
+    my %ArticleFreeText;
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type     => $Key,
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
+        );
+        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type     => $Text,
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
+        );
+
+        # If Key has value 2, this means that the field is required
+        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+            $ArticleFreeText{Required}->{$Count} = 1;
+        }
+
+        # check required ArticleTextField (if configured)
+        if (
+            $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+            && $GetParam{$Text} eq ''
+            )
+        {
+            $ArticleFreeText{Error}->{$Count} = 1;
+            $Error{$Text} = 'ServerError';
+        }
+    }
+
+    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+        Config  => \%ArticleFreeText,
+        Article => \%GetParam,
+    );
+
     # check some values
     for my $Line (qw(To Cc Bcc)) {
         next if !$GetParam{$Line};
@@ -653,6 +740,7 @@ sub SendEmail {
             Attachments  => \@Attachments,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
+            %ArticleFreeTextHTML,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer(
@@ -792,6 +880,22 @@ sub SendEmail {
             Counter  => $Count,
             UserID   => $Self->{UserID},
         );
+    }
+
+    # set article free text
+    for my $Count ( 1 .. 3 ) {
+        my $Key  = 'ArticleFreeKey' . $Count;
+        my $Text = 'ArticleFreeText' . $Count;
+        if ( defined $GetParam{$Key} ) {
+            $Self->{TicketObject}->ArticleFreeTextSet(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                Key       => $GetParam{$Key},
+                Value     => $GetParam{$Text},
+                Counter   => $Count,
+                UserID    => $Self->{UserID},
+            );
+        }
     }
 
     # set state
@@ -947,6 +1051,23 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
+            Data => { %Param, Count => $Count, },
+        );
+    }
+
+    # article free text
+    for my $Count ( 1 .. 3 ) {
+        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText',
+            Data => {
+                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
+                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
+                Count                => $Count,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleFreeText' . $Count,
             Data => { %Param, Count => $Count, },
         );
     }
