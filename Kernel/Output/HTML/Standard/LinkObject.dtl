@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.28 2010-11-05 08:27:29 mg Exp $
+# $Id: LinkObject.dtl,v 1.29 2010-12-08 19:20:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ $Data{"Content"}
 <!-- dtl:block:TextTranslate -->
 
 <!-- dtl:block:Link -->
-<a href="$Data{"Link"}" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
+<a class="AsBlock" href="$Data{"Link"}" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
 <!-- dtl:block:Link -->
 
 <!-- dtl:block:TimeLong -->
