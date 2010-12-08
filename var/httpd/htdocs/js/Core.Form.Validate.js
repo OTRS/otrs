@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.24 2010-11-22 14:02:37 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.25 2010-12-08 09:41:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,15 @@ Core.Form.Validate = (function (TargetNS) {
      */
     $.validator.addMethod("Validate_Required", ValidatorMethodRequired, "");
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
-    $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
+
+    // There is a configuration option in OTRS that controls if email addresses
+    //  should be validated or not.
+    if (Core.Config.Get('CheckEmailAddresses')) {
+        $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
+    }
+    else {
+        $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
+    }
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);

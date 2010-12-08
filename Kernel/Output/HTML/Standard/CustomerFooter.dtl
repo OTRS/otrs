@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.37 2010-11-02 15:00:39 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.38 2010-12-08 09:41:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@ Core.Customer.Enhance();
 Core.App.Ready(function() {
 
     Core.Config.AddConfig({
+        // config
         Baselink: '$Env{"Baselink"}',
         CGIHandle: '$Env{"CGIHandle"}',
         Action: '$Env{"Action"}',
@@ -41,7 +42,9 @@ Core.App.Ready(function() {
         CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
         Images: '$Config{"Frontend::ImagePath"}',
         UserLanguage: '$Env{"UserLanguage"}',
+        CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+        // translation
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
         DialogCloseMsg: '$JSText{"Close this dialog"}',

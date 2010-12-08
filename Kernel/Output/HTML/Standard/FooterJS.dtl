@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.23 2010-11-11 09:18:05 mg Exp $
+# $Id: FooterJS.dtl,v 1.24 2010-12-08 09:41:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,7 @@
 Core.App.Ready(function () {
 
     Core.Config.AddConfig({
+        // config
         Baselink: '$Env{"Baselink"}',
         CGIHandle: '$Env{"CGIHandle"}',
         Action: '$Env{"Action"}',
@@ -31,10 +32,12 @@ Core.App.Ready(function () {
         CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
         Images: '$Config{"Frontend::ImagePath"}',
         UserLanguage: '$Env{"UserLanguage"}',
+        CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
         OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
         HTMLArticleHeightDefault: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightDefault"}" || 0, 10),
         HTMLArticleHeightMax: parseInt("$Config{"Ticket::Frontend::HTMLArticleHeightMax"}" || 0, 10),
+        // translations
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
         PopupLeaveParentWindowMsg: '$JSText{"If you now leave this page, all open popup windows will be closed, too!"}',
