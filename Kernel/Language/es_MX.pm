@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.34 2010-12-07 21:08:06 en Exp $
+# $Id: es_MX.pm,v 1.35 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'El tiempo de finalización seleccionado es posterior al permitido.',
         'The selected time period is larger than the allowed time period!' => 'El periodo de tiempo seleccionado es mayor al permitido.',
         'Common Specification' => 'Especificación común',
-        'Xaxis' => 'EjeX',
+        'X-axis' => 'EjeX',
         'Value Series' => 'Serie de Valores',
         'Restrictions' => 'Restricciones',
         'graph-lines' => 'gráfica-líneas',

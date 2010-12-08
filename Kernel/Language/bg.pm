@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.111 2010-12-02 23:10:33 en Exp $
+# $Id: bg.pm,v 1.112 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -422,7 +422,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Възможния начален момент от време е след възможния краен момент от време!',
         'The selected time period is larger than the allowed time period!' => 'Избрания времеви интервал е по-голям от максимално възможния!',
         'Common Specification' => 'Общи спецификации',
-        'Xaxis' => 'Ос Х',
+        'X-axis' => 'Ос Х',
         'Value Series' => 'Поредици за стойност',
         'Restrictions' => 'Ограничения',
         'graph-lines' => 'Графика-линии',

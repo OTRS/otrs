@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cz.pm,v 1.99 2010-12-02 23:12:04 en Exp $
+# $Id: cz.pm,v 1.100 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -425,7 +425,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Zvolen˝ konec je po povolenÈm konci!',
         'The selected time period is larger than the allowed time period!' => 'Zvolen· perioda je delπÌ, neæ povolen·!',
         'Common Specification' => 'VπeobecnÈ nastavenÌ',
-        'Xaxis' => 'Osa X',
+        'X-axis' => 'Osa X',
         'Value Series' => 'ÿada Hodnot',
         'Restrictions' => 'OmezenÌ',
         'graph-lines' => 'graf-Ë·ry',

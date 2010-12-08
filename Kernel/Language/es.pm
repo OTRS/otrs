@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.121 2010-12-02 23:13:20 en Exp $
+# $Id: es.pm,v 1.122 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -425,7 +425,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => '¡El momento de finalización es posterior al permitido!',
         'The selected time period is larger than the allowed time period!' => '¡El periodo de tiempo es mayor que el permitido!',
         'Common Specification' => 'Especificación común',
-        'Xaxis' => 'EjeX',
+        'X-axis' => 'EjeX',
         'Value Series' => 'Serie de Valores',
         'Restrictions' => 'Restricciones',
         'graph-lines' => 'gráfico-de-lineas',

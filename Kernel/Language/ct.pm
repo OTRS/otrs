@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.45 2010-12-02 23:10:33 en Exp $
+# $Id: ct.pm,v 1.46 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'El període de temps final és posterior al permès!',
         'The selected time period is larger than the allowed time period!' => 'El període de temps és major que el permès!',
         'Common Specification' => 'Especificació comuna',
-        'Xaxis' => 'EixX',
+        'X-axis' => 'EixX',
         'Value Series' => 'Sèrie de Valors',
         'Restrictions' => 'Restriccions',
         'graph-lines' => 'gràfica-de-línies',

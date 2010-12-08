@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.44 2010-12-02 23:13:20 en Exp $
+# $Id: et.pm,v 1.45 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => ' Valitud lõppaeg on peale lubatud lõppaega!',
         'The selected time period is larger than the allowed time period!' => 'Valitud ajavahemik on pikem kui lubatud!',
         'Common Specification' => 'Common Specification',
-        'Xaxis' => 'X-telg',
+        'X-axis' => 'X-telg',
         'Value Series' => 'Väärtused',
         'Restrictions' => 'Piirangud',
         'graph-lines' => 'Joondiagramm',

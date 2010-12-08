@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.73 2010-12-02 23:12:04 en Exp $
+# $Id: el.pm,v 1.74 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -423,7 +423,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Το επιλεγμένο τέλος χρόνου είναι μετά το επιτρεπόμενο τέλος χρόνου',
         'The selected time period is larger than the allowed time period!' => 'Η επιλεγμένη χρονική περίοδος είναι μεγαλύτερη απο την επιτρεπόμενη χρονική περίοδο',
         'Common Specification' => 'Κοινές προδιαγραφές',
-        'Xaxis' => 'Αξονας Χ',
+        'X-axis' => 'Αξονας Χ',
         'Value Series' => 'Τιμές',
         'Restrictions' => 'Περιορισμοί',
         'graph-lines' => 'Γραμμές',

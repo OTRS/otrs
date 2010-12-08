@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.254 2010-12-06 16:27:34 bes Exp $
+# $Id: de.pm,v 1.255 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.254 $) [1];
+$VERSION = qw($Revision: 1.255 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist außerhalb des erlaubten Bereichs!',
         'The selected time period is larger than the allowed time period!' => 'Der gewählte Zeitraum ist größer als der erlaubte Zeitraum!',
         'Common Specification' => 'Allgemeine Angaben',
-        'Xaxis' => 'X-Achse',
+        'X-axis' => 'X-Achse',
         'Value Series' => 'Wertereihen',
         'Restrictions' => 'Einschränkungen',
         'graph-lines' => 'Liniendiagramm',

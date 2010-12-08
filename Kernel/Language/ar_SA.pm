@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.55 2010-12-02 23:10:33 en Exp $
+# $Id: ar_SA.pm,v 1.56 2010-12-08 09:39:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -422,7 +422,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'æÞÊ ÇáäåÇíÉ ÇáãÍÏÏ ÈÚÏ æÞÊ ÇáäåÇíÉ ÇáãÓãæÍ Èå!',
         'The selected time period is larger than the allowed time period!' => 'ãÏÉ ÇáæÞÊ ÇáãÍÏÏÉ ÃßÈÑ ãä ÇáãÏÉ ÇáãÓãæÍ ÈåÇ!',
         'Common Specification' => '',
-        'Xaxis' => '',
+        'X-axis' => '',
         'Value Series' => '',
         'Restrictions' => '',
         'graph-lines' => '',
