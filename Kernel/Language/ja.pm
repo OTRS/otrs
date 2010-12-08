@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/ja.pm - provides Japanese language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# Copyright (C) 2010 Kaz Kamimura Thomas <kamypus at yahoo.co.jp>
+# Copyright (C) 2010 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.5 2010-12-08 09:59:47 mb Exp $
+# $Id: ja.pm,v 1.6 2010-12-08 14:17:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
