@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.32 2010-11-11 08:18:30 mg Exp $
+# $Id: HTMLUtils.t,v 1.33 2010-12-09 09:02:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -447,6 +447,13 @@ for my $Test (@Tests) {
         Target => '',
     },
     {
+        Input => 'Some Text with url http://xwww.example.com',
+        Result =>
+            'Some Text with url <a href="http://xwww.example.com" title="http://xwww.example.com">http://xwww.example.com</a>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
         Input => 'Some Text with url http://example-domain.com',
         Result =>
             'Some Text with url <a href="http://example-domain.com" title="http://example-domain.com">http://example-domain.com</a>',
@@ -477,6 +484,14 @@ for my $Test (@Tests) {
         Result =>
             'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" title="http://example.com/?q=123">http://example.com/?q=123</a>',
         Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input =>
+            'Some text with a complicated url http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631',
+        Result =>
+            'Some text with a complicated url <a href="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631" title="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631">http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631</a>',
+        Name   => 'LinkQuote - complicated',
         Target => '',
     },
     {
