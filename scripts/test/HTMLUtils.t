@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.33 2010-12-09 09:02:54 mb Exp $
+# $Id: HTMLUtils.t,v 1.34 2010-12-09 09:56:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -693,6 +693,14 @@ for my $Test (@Tests) {
         Result =>
             'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2</a> link with ;',
         Name   => 'LinkQuote - link params with ;',
+        Target => '',
+    },
+    {
+        Input =>
+            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
+        Result =>
+            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
+        Name   => 'LinkQuote - invalid URL, no quoting;',
         Target => '',
     },
 );
