@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.35 2010-11-23 00:10:35 en Exp $
+# $Id: AdminSelectBox.pm,v 1.36 2010-12-09 13:45:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,54 +80,57 @@ sub Run {
                     Data => \%Param,
                 );
 
-                # if there are any matching rows, they are shown
-                if ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
-                    do {
-                        if ( !$TableOpened ) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'ResultTableStart',
-                            );
-                            $Self->{LayoutObject}->Block(
-                                Name => 'ResultTableEnd',
-                            );
-                            $TableOpened++;
-                        }
+                my $MatchesFound;
 
-                        # get csv data
-                        if ( $Param{ResultFormat} eq 'CSV' ) {
-                            $Count++;
-                            if ( $Count == 1 ) {
-                                @Head = @Row;
-                                next;
-                            }
-                            push @Data, \@Row;
+                # if there are any matching rows, they are shown
+                while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
+
+                    $MatchesFound = 1;
+
+                    if ( !$TableOpened ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ResultTableStart',
+                        );
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ResultTableEnd',
+                        );
+                        $TableOpened++;
+                    }
+
+                    # get csv data
+                    if ( $Param{ResultFormat} eq 'CSV' ) {
+                        $Count++;
+                        if ( $Count == 1 ) {
+                            @Head = @Row;
                             next;
-                            last if $Count > 2000;
+                        }
+                        push @Data, \@Row;
+                        next;
+                        last if $Count > 2000;
+                    }
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Row',
+                    );
+
+                    # get html data
+                    my $Row = '';
+                    for my $Item (@Row) {
+                        if ( !defined $Item ) {
+                            $Item = 'NULL';
                         }
 
                         $Self->{LayoutObject}->Block(
-                            Name => 'Row',
+                            Name => 'Cell',
+                            Data => {
+                                Content => $Item,
+                            },
                         );
-
-                        # get html data
-                        my $Row = '';
-                        for my $Item (@Row) {
-                            if ( !defined $Item ) {
-                                $Item = 'NULL';
-                            }
-
-                            $Self->{LayoutObject}->Block(
-                                Name => 'Cell',
-                                Data => {
-                                    Content => $Item,
-                                },
-                            );
-                        }
-                    } while ( @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) );
+                    }
                 }
 
                 # otherwise a no matches found msg is displayed
-                else {
+                if ( !$MatchesFound ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoMatches',
                     );

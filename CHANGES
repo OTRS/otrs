@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1660 2010-12-09 13:19:50 mg Exp $
+# $Id: CHANGES,v 1.1661 2010-12-09 13:45:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-09 Fixed bug#6515 - CSV export of SQL statement isn't working.
  - 2010-12-09 Updated Danish Translation, thanks to Lars Jørgensen!
  - 2010-12-09 Fixed bug#6496 - Article Filter only displays one article.
  - 2010-12-08 Fixed bug#6421 - AdminCustomerUser does not show customers without searching
