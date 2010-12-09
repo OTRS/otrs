@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.86 2010-11-19 22:28:58 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.87 2010-12-09 00:01:02 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,7 +50,7 @@ sub Run {
     my $NavBar = '';
     my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || '';
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
+    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '*';
 
     #create local object
     my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
@@ -529,7 +529,7 @@ sub _Overview {
 
             # get valid list
             my %ValidList = $Self->{ValidObject}->ValidList();
-            for my $ListKey ( sort keys %List ) {
+            for my $ListKey ( sort { lc($a) cmp lc($b) } keys %List ) {
 
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $ListKey );
                 $Self->{LayoutObject}->Block(
