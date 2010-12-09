@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.21 2010-12-08 13:03:13 mb Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.22 2010-12-09 14:06:42 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -148,6 +148,11 @@ sub HandleLanguage {
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
+    }
+
+    if ( !-w $TargetFile ) {
+        print STDERR "Ignoring nonexisting file $TargetFile!\n";
+        return;
     }
 
     if ($IsSubTranslation) {
