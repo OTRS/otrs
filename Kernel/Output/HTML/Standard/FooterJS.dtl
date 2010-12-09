@@ -2,7 +2,7 @@
 # FooterJS.dtl - provides global HTML footer JavaScript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.24 2010-12-08 09:41:38 mg Exp $
+# $Id: FooterJS.dtl,v 1.25 2010-12-09 16:30:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,6 +70,9 @@ Core.App.Ready(function () {
 
 });
 //]]></script>
+
+# JavaScript from OutputFilters can go here:
+<!-- OutputFilterHook_CustomJavaScript -->
 
 # Finally, unblock click events on the page again after all JavaScript was loaded and
 # executed. Put in an own block to make sure it is always run.

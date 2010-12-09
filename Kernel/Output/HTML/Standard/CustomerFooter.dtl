@@ -2,7 +2,7 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.38 2010-12-08 09:41:38 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.39 2010-12-09 16:30:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,9 @@ Core.App.Ready(function() {
 
 });
 //]]></script>
+
+# JavaScript from OutputFilters can go here:
+<!-- OutputFilterHook_CustomJavaScript -->
 
 </body>
 </html>
