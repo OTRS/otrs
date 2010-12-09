@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.42 2010-12-08 19:50:54 mp Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.43 2010-12-09 10:19:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@
 <!-- dtl:block:Owner -->
                 <label for="NewOwnerID">$Text{"New Owner"}:</label>
                 <div class="Field">
-                    <input type="radio" name="NewOwnerType" value="New" title ="Select new owner" $Data{"NewOwnerType::New"} />
+                    <input type="radio" name="NewOwnerType" value="New" title="Select new owner" $Data{"NewOwnerType::New"} />
                     $Data{"OwnerStrg"}
                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>$Text{"Please set a new owner!"}</p></div>
 <!--dtl:js_on_document_complete-->
