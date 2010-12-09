@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.15 2010-12-09 11:54:06 mg Exp $
+// $Id: Core.AJAX.js,v 1.16 2010-12-09 17:00:09 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -143,25 +143,31 @@ Core.AJAX = (function (TargetNS) {
      * @function
      *      Serializes the form data into a query string
      * @param {jQueryObject} $Element The jQuery object of the form  or any element within this form that should be serialized
-     * @param {Object} Data Elements (Keys) which should not be included in the serialized form string (optional)
+     * @param {Object} Ignore Elements (Keys) which should not be included in the serialized form string (optional)
      * @return {string} The query string
      */
-    TargetNS.SerializeForm = function ($Element, Data) {
+    TargetNS.SerializeForm = function ($Element, Ignore) {
         var QueryString = "";
-        if (typeof Data === 'undefined') {
-            Data = {};
+        if (typeof Ignore === 'undefined') {
+            Ignore = {};
         }
         if (isJQueryObject($Element) && $Element.length) {
-            $Element = $Element.closest('form');
-            $Element.find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
+            $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
+                var Name = $(this).attr('name') || '',
+                    Value;
+
+                // only look at fields with name
                 // only add element to the string, if there is no key in the data hash with the same name
-                if (typeof Data[$(this).attr('name')] === 'undefined') {
-                    if ($(this).is(':checkbox, :radio')) {
-                        QueryString += $(this).attr('name') + '=' + encodeURIComponent(($(this).is(':checked') ? ($(this).val() || 'on') : '')) + ";";
-                    }
-                    else {
-                        QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val() || '') + ";";
-                    }
+                if (!Name.length || typeof Ignore[Name] !== 'undefined'){
+                    return;
+                }
+
+                QueryString += encodeURIComponent(Name) + '=';
+                if ($(this).is(':checkbox, :radio')) {
+                    QueryString += encodeURIComponent(($(this).is(':checked') ? ($(this).val() || 'on') : '')) + ";";
+                }
+                else {
+                    QueryString += encodeURIComponent($(this).val() || '') + ";";
                 }
             });
         }
