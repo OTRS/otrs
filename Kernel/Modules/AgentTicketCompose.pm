@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.119 2010-12-08 19:46:59 mp Exp $
+# $Id: AgentTicketCompose.pm,v 1.120 2010-12-09 18:11:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,7 +91,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get lock state
-    my $OutputLocked = "";
+    my $TicketBackType = "TicketBack";
     if ( $Self->{Config}->{RequiredLock} ) {
         if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
             $Self->{TicketObject}->TicketLockSet(
@@ -121,12 +121,7 @@ sub Run {
                 return $Output;
             }
             else {
-
-                # add a notify when you lock the ticket
-                $OutputLocked = $Self->{LayoutObject}->Notify(
-                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
-                );
-
+                $TicketBackType .= "Undo";
             }
         }
         else {
@@ -148,19 +143,7 @@ sub Run {
                 );
                 return $Output;
             }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
-                );
-            }
         }
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketBack',
-            Data => { %Param, %Ticket, },
-        );
     }
 
     # get params
@@ -475,6 +458,7 @@ sub Run {
                 Errors         => \%Error,
                 Attachments    => \@Attachments,
                 GetParam       => \%GetParam,
+                TicketBackType => $TicketBackType,
                 %Ticket,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -698,9 +682,6 @@ sub Run {
             Value => $Ticket{TicketNumber},
             Type  => 'Small',
         );
-
-        # add locked notify
-        $Output .= $OutputLocked;
 
         # add std. attachments to email
         if ( $GetParam{ResponseID} ) {
@@ -1134,8 +1115,9 @@ $QData{"Signature"}
             ReplyArticleID => $GetParam{ArticleID},
             %Ticket,
             %Data,
-            InReplyTo  => $Data{MessageID},
-            References => "$Data{References} $Data{MessageID}",
+            InReplyTo      => $Data{MessageID},
+            References     => "$Data{References} $Data{MessageID}",
+            TicketBackType => $TicketBackType,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -1216,6 +1198,15 @@ sub _Mask {
         Name => 'Content',
         Data => {
             FormID => $Self->{FormID},
+            %Param,
+        },
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => $Param{TicketBackType},
+        Data => {
+
+            #            FormID => $Self->{FormID},
             %Param,
         },
     );
