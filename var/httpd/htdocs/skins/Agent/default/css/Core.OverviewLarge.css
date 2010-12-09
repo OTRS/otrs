@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -69,10 +69,6 @@
     -moz-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
 }
 
-.OverviewLarge > li:hover ul.InlineActions {
-    display: block;
-}
-
 .OverviewLarge > li ul.InlineActions li {
     height: auto;
     min-height: 0;
@@ -83,7 +79,7 @@
     padding-top: 7px;
 }
 
-.OverviewLarge > li ul.InlineActions li form select{
+.OverviewLarge > li ul.InlineActions li form select {
     font-size: 11px;
 }
 
