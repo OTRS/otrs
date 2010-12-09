@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.12 2010-11-04 14:59:33 mn Exp $
+// $Id: Core.Agent.js,v 1.13 2010-12-09 15:13:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -189,7 +189,8 @@ Core.Agent = (function (TargetNS) {
                 Key: Key,
                 Value: Value
             };
-        Core.AJAX.FunctionCall(URL, Data);
+        // We need no callback here, but the called function needs one, so we send an "empty" function
+        Core.AJAX.FunctionCall(URL, Data, $.noop);
         return true;
     };
 
