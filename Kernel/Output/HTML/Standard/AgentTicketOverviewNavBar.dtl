@@ -2,7 +2,7 @@
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.45 2010-11-05 13:33:55 mb Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.46 2010-12-09 13:17:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,7 +67,7 @@
                         <input type="hidden" name="Group" value="$QData{"Group"}"/>
                         <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
                         <fieldset class="TableLike">
-                            <label for="$QData{"PreferencesKey"}">$Text{"Max. shown Tickets a page"}:</label>
+                            <label for="$QData{"PreferencesKey"}">$Text{"Tickets per page"}:</label>
                             <div class="Field">
                                 $Data{"PageShownString"}
                             </div>
