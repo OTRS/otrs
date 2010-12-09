@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.12.2.6 2010-09-30 10:07:21 mg Exp $
+# $Id: HTMLUtils.pm,v 1.12.2.7 2010-12-09 09:23:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12.2.6 $) [1];
+$VERSION = qw($Revision: 1.12.2.7 $) [1];
 
 =head1 NAME
 
@@ -730,6 +730,9 @@ sub LinkQuote {
     if ( !ref $String ) {
         $StringScalar = $String;
         $String       = \$StringScalar;
+
+        # return if string is not a ref and it is empty
+        return $StringScalar if !$StringScalar;
     }
 
     # add target to already existing url of html string
@@ -781,7 +784,6 @@ sub LinkQuote {
             > | < | \s+ | \#{6} |
             (?: &[a-zA-Z0-9]+; )                   # get html entities
         )
-
         (                                          # $2
             (?:                                    # http or only www
                 (?: (?: http s? | ftp ) :\/\/) |   # http://,https:// and ftp://
@@ -798,6 +800,10 @@ sub LinkQuote {
             (?:                                    # param string
                 [\?]                               # if param string is there, "?" must be present
                 [a-zA-Z0-9&;=%]*                   # param string content, this will also catch entities like &amp;
+            )?
+            (?:                                    # link hash string
+                [\#]                               #
+                [a-zA-Z0-9&;=%]*                   # hash string content, this will also catch entities like &amp;
             )?
         )
         (                                          # $4
@@ -876,6 +882,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12.2.6 $ $Date: 2010-09-30 10:07:21 $
+$Revision: 1.12.2.7 $ $Date: 2010-12-09 09:23:58 $
 
 =cut
