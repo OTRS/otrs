@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.98 2010-11-25 10:09:47 mg Exp $
+# $Id: AAABase.dtl,v 1.99 2010-12-09 15:12:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,17 +27,23 @@ $Text{"Reset"}
 
 $Text{"last"}
 $Text{"before"}
+$Text{"Today"}
+$Text{"Tomorrow"}
+$Text{"Next Week"}
 $Text{"day"}
 $Text{"days"}
 $Text{"day(s)"}
+$Text{"d"}
 $Text{"hour"}
 $Text{"hours"}
 $Text{"hour(s)"}
 $Text{"Hours"}
+$Text{"h"}
 $Text{"minute"}
 $Text{"minutes"}
 $Text{"minute(s)"}
 $Text{"Minutes"}
+$Text{"m"}
 $Text{"month"}
 $Text{"months"}
 $Text{"month(s)"}
@@ -49,6 +55,7 @@ $Text{"year(s)"}
 $Text{"second(s)"}
 $Text{"seconds"}
 $Text{"second"}
+$Text{"s"}
 
 $Text{"wrote"}
 $Text{"Message"}
