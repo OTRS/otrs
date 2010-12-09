@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.140 2010-12-07 17:47:27 cr Exp $
+# $Id: AgentTicketEmail.dtl,v 1.141 2010-12-09 17:02:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -249,6 +249,8 @@ $('#ResponsibleSelectionGetAll').bind('click', function (Event) {
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketOptions -->
+
+<!-- OutputFilterHook_NoTicketOptionsFallback -->
 
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Text"}:</label>
                     <div class="RichTextField">
