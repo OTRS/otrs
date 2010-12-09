@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1658 2010-12-09 00:06:19 mp Exp $
+# $Id: CHANGES,v 1.1659 2010-12-09 11:54:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-09 Fixed bug#6496 - Article Filter only displays one article.
  - 2010-12-08 Fixed bug#6421 - AdminCustomerUser does not show customers without searching
  - 2010-12-08 Fixed bug#6470 - AgentTicketForward does not support ArticleFreeText
  - 2010-12-08 Fixed bug#6436 - Content validation with javascript does not

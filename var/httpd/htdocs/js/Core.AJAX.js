@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.14 2010-11-19 15:00:00 martin Exp $
+// $Id: Core.AJAX.js,v 1.15 2010-12-09 11:54:06 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -160,7 +160,7 @@ Core.AJAX = (function (TargetNS) {
                         QueryString += $(this).attr('name') + '=' + encodeURIComponent(($(this).is(':checked') ? ($(this).val() || 'on') : '')) + ";";
                     }
                     else {
-                        QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + ";";
+                        QueryString += $(this).attr('name') + '=' + encodeURIComponent($(this).val() || '') + ";";
                     }
                 }
             });
