@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.16 2010-12-09 17:00:09 mg Exp $
+// $Id: Core.AJAX.js,v 1.17 2010-12-09 17:12:43 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -153,8 +153,7 @@ Core.AJAX = (function (TargetNS) {
         }
         if (isJQueryObject($Element) && $Element.length) {
             $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
-                var Name = $(this).attr('name') || '',
-                    Value;
+                var Name = $(this).attr('name') || '';
 
                 // only look at fields with name
                 // only add element to the string, if there is no key in the data hash with the same name
@@ -162,12 +161,13 @@ Core.AJAX = (function (TargetNS) {
                     return;
                 }
 
-                QueryString += encodeURIComponent(Name) + '=';
                 if ($(this).is(':checkbox, :radio')) {
-                    QueryString += encodeURIComponent(($(this).is(':checked') ? ($(this).val() || 'on') : '')) + ";";
+                    if ($(this).is(':checked')) {
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
+                    }
                 }
                 else {
-                    QueryString += encodeURIComponent($(this).val() || '') + ";";
+                    QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
                 }
             });
         }

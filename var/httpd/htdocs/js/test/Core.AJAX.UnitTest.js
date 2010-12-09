@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.2 2010-12-09 17:00:10 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.3 2010-12-09 17:12:43 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,8 +53,14 @@ Core.AJAX = (function (Namespace) {
 
                  },
                  {
+                     HTML:   '<input type="checkbox" name="Element" value="test" checked="checked"/><input type="checkbox" name="Element" value="test2" checked="checked"/><input type="checkbox" name="Element" value="test3"/>',
+                     Result: 'Element=test;Element=test2;',
+                     Name:   'Multiple checkboxes with the same name'
+
+                 },
+                 {
                      HTML:   '<input type="checkbox" value="test" name="Element"/>',
-                     Result: 'Element=;',
+                     Result: '',
                      Name:   'Checkbox with custom value, unchecked'
 
                  },
@@ -65,8 +71,8 @@ Core.AJAX = (function (Namespace) {
 
                  },
                  {
-                     HTML:   '<input type="radio" value="test" name="Element" checked="checked"/><input type="radio" value="test2" name="Element" checked="checked"/><input type="radio" value="test3" name="Element"/>',
-                     Result: 'Element=test;Element=test2;',
+                     HTML:   '<input type="radio" value="test" name="Element" /><input type="radio" value="test2" name="Element" checked="checked"/><input type="radio" value="test3" name="Element"/>',
+                     Result: 'Element=test2;',
                      Name:   'Radio with custom value, checked'
 
                  },
@@ -78,7 +84,7 @@ Core.AJAX = (function (Namespace) {
                  },
                  {
                      HTML:   '<input type="checkbox" value="test" name="Element"/>',
-                     Result: 'Element=;',
+                     Result: '',
                      Name:   'Radio with custom value, unchecked'
 
                  },
