@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.25 2010-12-10 14:40:09 martin Exp $
+# $Id: PostMaster.t,v 1.26 2010-12-10 15:15:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -327,13 +327,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         ArticleID => $ArticleIDs[0],
                         UserID    => 1,
                     );
-                    my $FileID = 4;
-                    if ( $StorageModule eq 'ArticleStorageDB' ) {
-                        $FileID = 2;
-                    }
                     my %Attachment = $TicketObject->ArticleAttachment(
                         ArticleID => $ArticleIDs[0],
-                        FileID    => $FileID,
+                        FileID    => 2,
                         UserID    => 1,
                     );
                     $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
