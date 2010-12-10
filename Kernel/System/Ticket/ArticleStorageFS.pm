@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.63 2009-08-13 07:56:40 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.63.2.1 2010-12-10 18:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.63.2.1 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -285,18 +285,21 @@ sub ArticleWriteAttachment {
     # strip dots from filenames
     $Param{Filename} =~ s/^\.//g;
     my $NewFileName = $Param{Filename};
-    my %UsedFile    = ();
-    my %Index       = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID}, );
-    for ( keys %Index ) {
-        $UsedFile{ $Index{$_}->{Filename} } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFileName} ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
-            }
-            else {
-                $NewFileName = "$Param{Filename}-$i";
+
+    if ( !$Param{Force} ) {
+        my %UsedFile = ();
+        my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID}, );
+        for ( keys %Index ) {
+            $UsedFile{ $Index{$_}->{Filename} } = 1;
+        }
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            if ( exists $UsedFile{$NewFileName} ) {
+                if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
+                    $NewFileName = "$1-$i.$2";
+                }
+                else {
+                    $NewFileName = "$Param{Filename}-$i";
+                }
             }
         }
     }
@@ -453,9 +456,6 @@ sub ArticleAttachmentIndex {
 
         # human readable file size
         if ($FileSize) {
-
-            # remove meta data in files
-            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
             if ( $FileSize > ( 1024 * 1024 ) ) {
                 $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
             }

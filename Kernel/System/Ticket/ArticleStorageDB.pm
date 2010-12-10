@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.68 2009-04-06 21:25:05 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.68.2.1 2010-12-10 18:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.68.2.1 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -203,7 +203,7 @@ sub ArticleWritePlain {
         }
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Email} );
         $Param{Email} = encode_base64( $Param{Email} );
@@ -229,18 +229,20 @@ sub ArticleWriteAttachment {
         }
     }
     my $NewFileName = $Param{Filename};
-    my %UsedFile    = ();
-    my %Index       = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
-    for ( keys %Index ) {
-        $UsedFile{ $Index{$_}->{Filename} } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFileName} ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
-            }
-            else {
-                $NewFileName = "$Param{Filename}-$i";
+    if ( !$Param{Force} ) {
+        my %UsedFile = ();
+        my %Index = $Self->ArticleAttachmentIndex( ArticleID => $Param{ArticleID} );
+        for ( keys %Index ) {
+            $UsedFile{ $Index{$_}->{Filename} } = 1;
+        }
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            if ( exists $UsedFile{$NewFileName} ) {
+                if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
+                    $NewFileName = "$1-$i.$2";
+                }
+                else {
+                    $NewFileName = "$Param{Filename}-$i";
+                }
             }
         }
     }
@@ -255,7 +257,7 @@ sub ArticleWriteAttachment {
         no bytes;
     }
 
-    # encode attachemnt if it's a postgresql backend!!!
+    # encode attachment if it's a postgresql backend!!!
     if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
@@ -302,7 +304,7 @@ sub ArticlePlain {
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        # decode attachemnt if it's e. g. a postgresql backend!!!
+        # decode attachment if it's e. g. a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / / ) {
             $Data = decode_base64( $Row[0] );
         }
@@ -421,9 +423,6 @@ sub ArticleAttachmentIndex {
 
         # human readable file size
         if ($FileSize) {
-
-            # remove meta data in files
-            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
             if ( $FileSize > ( 1024 * 1024 ) ) {
                 $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
             }
@@ -525,7 +524,7 @@ sub ArticleAttachment {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ContentType} = $Row[0];
 
-        # decode attachemnt if it's e. g. a postgresql backend!!!
+        # decode attachment if it's e. g. a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Data{Content} = decode_base64( $Row[1] );
         }

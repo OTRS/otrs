@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.232.2.4 2010-04-22 19:39:56 martin Exp $
+# $Id: Article.pm,v 1.232.2.5 2010-12-10 18:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.232.2.4 $) [1];
+$VERSION = qw($Revision: 1.232.2.5 $) [1];
 
 =head1 NAME
 
@@ -3039,6 +3039,8 @@ write an article attachment to storage
         UserID             => 123,
     );
 
+You also can use "Force => 1" to not check if a filename already exists, it force to use the given file name. Otherwise a new file name like "oldfile-2.html" is used.
+
 =item ArticleAttachmentIndex()
 
 get article attachment index as hash (ID => hashref (Filename, Filesize, ContentID (if exists), ContentAlternative(if exists) ))
@@ -3068,12 +3070,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.232.2.4 $ $Date: 2010-04-22 19:39:56 $
+$Revision: 1.232.2.5 $ $Date: 2010-12-10 18:45:51 $
 
 =cut
