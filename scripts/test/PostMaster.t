@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.24 2010-10-29 22:16:59 en Exp $
+# $Id: PostMaster.t,v 1.25 2010-12-10 14:40:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -339,7 +339,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
                     $Self->Is(
                         $MD5,
-                        '5ee767f3b68f24a9213e0bef82dc53e5',
+                        '0596f2939525c6bd50fc2b649e40fbb6',
                         $NamePrefix . ' md5 attachment check',
                     );
 
