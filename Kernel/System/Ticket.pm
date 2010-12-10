@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.482 2010-12-03 12:03:23 bes Exp $
+# $Id: Ticket.pm,v 1.483 2010-12-10 06:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.482 $) [1];
+$VERSION = qw($Revision: 1.483 $) [1];
 
 =head1 NAME
 
@@ -8075,6 +8075,231 @@ sub TicketAclActionData {
     return %{ $Self->{ConfigObject}->Get('TicketACL::Default::Action') };
 }
 
+=item TicketArticleStorageSwitch()
+
+move article storage from one backend to other backend
+
+    my $Success = $TicketObject->TicketArticleStorageSwitch(
+        TicketID    => 123,
+        Source      => 'ArticleStorageDB',
+        Destination => 'ArticleStorageFS',
+        UserID      => 1,
+    );
+
+=cut
+
+sub TicketArticleStorageSwitch {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(TicketID Source Destination UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check source vs. destination
+    return 1 if $Param{Source} eq $Param{Destination};
+
+    # reset events and remember
+    my $EventConfig = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
+    $Self->{ConfigObject}->{'Ticket::EventModulePost'} = {};
+
+    # get articles
+    my @ArticleIndex = $Self->ArticleIndex(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+    for my $ArticleID (@ArticleIndex) {
+
+        # create source object
+        $Self->{ConfigObject}->Set(
+            Key   => 'Ticket::StorageModule',
+            Value => 'Kernel::System::Ticket::' . $Param{Source},
+        );
+        my $TicketObjectSource = Kernel::System::Ticket->new( %{$Self} );
+
+        # read source attachments
+        my %Index = $TicketObjectSource->ArticleAttachmentIndex(
+            ArticleID     => $ArticleID,
+            UserID        => $Param{UserID},
+            OnlyMyBackend => 1,
+        );
+
+        # read source plain
+        my $Plain = $TicketObjectSource->ArticlePlain(
+            ArticleID     => $ArticleID,
+            OnlyMyBackend => 1,
+        );
+        my $PlainMD5Sum = '';
+        if ($Plain) {
+            my $PlainMD5 = $Plain;
+            $PlainMD5Sum = $Self->{MainObject}->MD5sum(
+                String => \$PlainMD5,
+            );
+        }
+
+        # read source attachments
+        my @Attachments;
+        my %MD5Sums;
+        for my $FileID ( keys %Index ) {
+            my %Attachment = $TicketObjectSource->ArticleAttachment(
+                ArticleID     => $ArticleID,
+                FileID        => $FileID,
+                UserID        => $Param{UserID},
+                OnlyMyBackend => 1,
+                Force         => 1,
+            );
+            push @Attachments, \%Attachment;
+            my $MD5Sum = $Self->{MainObject}->MD5sum(
+                String => $Attachment{Content},
+            );
+            $MD5Sums{$MD5Sum} = 1;
+        }
+
+        # nothing to transfer
+        return 1 if !@Attachments && !$Plain;
+
+        # write target attachments
+        $Self->{ConfigObject}->Set(
+            Key   => 'Ticket::StorageModule',
+            Value => 'Kernel::System::Ticket::' . $Param{Destination},
+        );
+        my $TicketObjectDestination = Kernel::System::Ticket->new( %{$Self} );
+
+        # read destination attachments
+        %Index = $TicketObjectDestination->ArticleAttachmentIndex(
+            ArticleID     => $ArticleID,
+            UserID        => $Param{UserID},
+            OnlyMyBackend => 1,
+        );
+
+        # read source attachments
+        if (%Index) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Attachments already in $Param{Destination}!"
+            );
+            return;
+        }
+
+        # write attachments to destination
+        for my $Attachment (@Attachments) {
+            $TicketObjectDestination->ArticleWriteAttachment(
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => $Param{UserID},
+                Force     => 1,
+            );
+        }
+
+        # write destination plain
+        if ($Plain) {
+            $TicketObjectDestination->ArticleWritePlain(
+                Email     => $Plain,
+                ArticleID => $ArticleID,
+                UserID    => $Param{UserID},
+            );
+        }
+
+        # verify destination attachments
+        %Index = $TicketObjectDestination->ArticleAttachmentIndex(
+            ArticleID     => $ArticleID,
+            UserID        => $Param{UserID},
+            OnlyMyBackend => 1,
+        );
+        for my $FileID ( keys %Index ) {
+            my %Attachment = $TicketObjectDestination->ArticleAttachment(
+                ArticleID     => $ArticleID,
+                FileID        => $FileID,
+                UserID        => $Param{UserID},
+                OnlyMyBackend => 1,
+                Force         => 1,
+            );
+            my $MD5Sum = $Self->{MainObject}->MD5sum(
+                String => \$Attachment{Content},
+            );
+            if ( !$MD5Sums{$MD5Sum} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Corrupt file: $Attachment{Filename} (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
+                );
+
+                # set events
+                $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+                return;
+            }
+        }
+
+        # verify destination plain if exists in source backend
+        if ($Plain) {
+            my $PlainVerify = $TicketObjectDestination->ArticlePlain(
+                ArticleID     => $ArticleID,
+                OnlyMyBackend => 1,
+            );
+            my $PlainMD5SumVerify = '';
+            if ($PlainVerify) {
+                $PlainMD5SumVerify = $Self->{MainObject}->MD5sum(
+                    String => \$PlainVerify,
+                );
+            }
+            if ( $PlainMD5Sum ne $PlainMD5SumVerify ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)",
+                );
+
+                # set events
+                $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+                return;
+            }
+        }
+
+        # remove source attachments
+        $Self->{ConfigObject}->Set(
+            Key   => 'Ticket::StorageModule',
+            Value => 'Kernel::System::Ticket::' . $Param{Source},
+        );
+        $TicketObjectSource = Kernel::System::Ticket->new( %{$Self} );
+        $TicketObjectSource->ArticleDeleteAttachment(
+            ArticleID     => $ArticleID,
+            UserID        => 1,
+            OnlyMyBackend => 1,
+        );
+
+        # remove source plain
+        $TicketObjectSource->ArticleDeletePlain(
+            ArticleID     => $ArticleID,
+            UserID        => 1,
+            OnlyMyBackend => 1,
+        );
+
+        # read source attachments
+        %Index = $TicketObjectSource->ArticleAttachmentIndex(
+            ArticleID     => $ArticleID,
+            UserID        => $Param{UserID},
+            OnlyMyBackend => 1,
+        );
+
+        # read source attachments
+        if (%Index) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Attachments still in $Param{Source}!"
+            );
+            return;
+        }
+    }
+
+    # set events
+    $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+
+    return 1;
+}
+
 sub DESTROY {
     my $Self = shift;
 
@@ -8185,6 +8410,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.482 $ $Date: 2010-12-03 12:03:23 $
+$Revision: 1.483 $ $Date: 2010-12-10 06:29:02 $
 
 =cut

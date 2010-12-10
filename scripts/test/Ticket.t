@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.63 2010-11-29 14:47:23 martin Exp $
+# $Id: Ticket.t,v 1.64 2010-12-10 06:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,16 +10,25 @@
 # --
 
 use utf8;
+use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
-use Kernel::Config;
 use Kernel::System::User;
+use Kernel::System::PostMaster;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
 my $UserObject   = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
     %{$Self},
+);
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
 );
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
@@ -287,11 +296,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     }
 }
 
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
+$TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
@@ -5528,6 +5533,135 @@ for my $UserID (@UserIDs) {
         ValidID       => 2,
         ChangeUserID  => 1,
     );
+}
+
+# create tickets/article/attachments in backend for article storage switch tests
+for my $SourceBackend (qw(ArticleStorageDB)) {
+    my @TicketIDs;
+    my %ArticleIDs;
+    my $NamePrefix = "ArticleStorageSwitch ($SourceBackend)";
+    for my $File (qw(1 2 3 4 5 8)) {
+
+        my $NamePrefix = "$NamePrefix #$File ";
+
+        # new ticket check
+        my @Content;
+        my $MailFile = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
+        open( IN, '<', $MailFile ) || die $!;
+        binmode(IN);
+        while ( my $Line = <IN> ) {
+            push @Content, $Line;
+        }
+        close(IN);
+
+        my $PostMasterObject = Kernel::System::PostMaster->new(
+            %{$Self},
+            TicketObject => $TicketObject,
+            QueueObject  => $QueueObject,
+            ConfigObject => $ConfigObject,
+            Email        => \@Content,
+        );
+
+        my @Return = $PostMasterObject->Run();
+        $Self->Is(
+            $Return[0] || 0,
+            1,
+            $NamePrefix . ' Run() - NewTicket',
+        );
+        $Self->True(
+            $Return[1] || 0,
+            $NamePrefix . ' Run() - NewTicket/TicketID',
+        );
+
+        # remember created tickets
+        push @TicketIDs, $Return[1];
+
+        # remember created article and attachments
+        my @ArticleBox = $TicketObject->ArticleContentIndex(
+            TicketID => $Return[1],
+            UserID   => 1,
+        );
+        for my $Article (@ArticleBox) {
+            $ArticleIDs{ $Article->{ArticleID} } = { %{ $Article->{Atms} } };
+        }
+    }
+
+    my @Map = (
+        [ 'ArticleStorageFS', 'ArticleStorageDB' ],
+        [ 'ArticleStorageDB', 'ArticleStorageFS' ],
+        [ 'ArticleStorageFS', 'ArticleStorageDB' ],
+        [ 'ArticleStorageFS', 'ArticleStorageDB' ],
+    );
+    for my $Case (@Map) {
+        my $SourceBackend      = $Case->[0];
+        my $DestinationBackend = $Case->[1];
+        my $NamePrefix         = "ArticleStorageSwitch ($SourceBackend->$DestinationBackend)";
+
+        # verify
+        for my $ArticleID ( sort keys %ArticleIDs ) {
+            my %Index = $TicketObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            # check file attributes
+            for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
+                for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
+                    $Self->Is(
+                        $Index{$AttachmentID}->{$Attribute},
+                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
+                        "$NamePrefix - Verify - $Attribute (ArticleID:$ArticleID)",
+                    );
+                }
+            }
+        }
+
+        # switch to backend b
+        for my $TicketID (@TicketIDs) {
+            my $Success = $TicketObject->TicketArticleStorageSwitch(
+                TicketID    => $TicketID,
+                Source      => $SourceBackend,
+                Destination => $DestinationBackend,
+                UserID      => 1,
+            );
+            $Self->True(
+                $Success,
+                "$NamePrefix - backend move",
+            );
+        }
+
+        # verify
+        for my $ArticleID ( sort keys %ArticleIDs ) {
+            my %Index = $TicketObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            # check file attributes
+            for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
+                for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
+                    $Self->Is(
+                        $Index{$AttachmentID}->{$Attribute},
+                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
+                        "$NamePrefix - Verify - $Attribute (ArticleID:$ArticleID)",
+                    );
+                }
+            }
+        }
+    }
+
+    # cleanup
+    for my $TicketID (@TicketIDs) {
+        my $Delete = $TicketObject->TicketDelete(
+            UserID   => 1,
+            TicketID => $TicketID,
+        );
+        $Self->True(
+            $Delete,
+            "$NamePrefix - TicketDelete()",
+        );
+    }
 }
 
 1;

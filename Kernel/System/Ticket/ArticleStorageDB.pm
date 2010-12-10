@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.76 2010-07-13 08:54:25 mg Exp $
+# $Id: ArticleStorageDB.pm,v 1.77 2010-12-10 06:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -212,16 +212,19 @@ sub ArticleWriteAttachment {
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
-    for ( keys %Index ) {
-        $UsedFile{ $Index{$_}->{Filename} } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFileName} ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
-            }
-            else {
-                $NewFileName = "$Param{Filename}-$i";
+
+    if ( !$Param{Force} ) {
+        for ( keys %Index ) {
+            $UsedFile{ $Index{$_}->{Filename} } = 1;
+        }
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            if ( exists $UsedFile{$NewFileName} ) {
+                if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
+                    $NewFileName = "$1-$i.$2";
+                }
+                else {
+                    $NewFileName = "$Param{Filename}-$i";
+                }
             }
         }
     }
@@ -342,7 +345,7 @@ sub ArticleAttachmentIndexRaw {
     # try database
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT filename, content_type, content_size, content_id, content_alternative'
-            . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
+            . ' FROM article_attachment WHERE article_id = ? ORDER BY filename, id',
         Bind => [ \$Param{ArticleID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -386,7 +389,7 @@ sub ArticleAttachmentIndexRaw {
         Silent    => 1,
     );
 
-    for my $Filename (@List) {
+    for my $Filename ( sort @List ) {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
 
@@ -398,9 +401,6 @@ sub ArticleAttachmentIndexRaw {
 
         # human readable file size
         if ($FileSize) {
-
-            # remove meta data in files
-            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
             if ( $FileSize > ( 1024 * 1024 ) ) {
                 $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
             }

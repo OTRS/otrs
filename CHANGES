@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1663 2010-12-09 14:06:42 mg Exp $
+# $Id: CHANGES,v 1.1664 2010-12-10 06:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -868,6 +868,7 @@
  - 2009-09-15 Improved performance of the PDF backend.
 
 2.4.10 (2010/??/??)
+ - 2010-12-09 Fixed bug#6488 - otrs.ArticleStorageSwitch.pl creating wrong files.
  - 2010-11-29 Fixed bug#5981 - Warnings from TransfromDateSelection() in AgentTicketMove.
  - 2010-11-23 Fixed bug#6131 - Lack of warning for revoked and expired PGP keys in email compose screens.
  - 2010-11-04 Fixed bug#6211 - Wrong TicketFreeText-value in ticket creation by
