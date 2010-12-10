@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1664 2010-12-10 06:29:02 martin Exp $
+# $Id: CHANGES,v 1.1665 2010-12-10 09:08:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.4 2010-12-??
+ - 2010-12-10 Improved handling of JavaScript code. Now post output filters
+    are able to inject and modify JavaScript code.
  - 2010-12-09 Fixed bug#6498 - Creating module translations with
     otrs.CreateTranslationFile.pl -l all creates new files.
  - 2010-11-09 Upgraded jQuery UI to 1.8.6 (to fix some IE9 bugs).

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.344 2010-12-08 09:26:45 mg Exp $
+# $Id: Layout.pm,v 1.345 2010-12-10 09:08:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.344 $) [1];
+$VERSION = qw($Revision: 1.345 $) [1];
 
 =head1 NAME
 
@@ -708,6 +708,31 @@ sub Output {
         }iegx;
     }
 
+    # custom post filters
+    if ( $Self->{FilterElementPost} ) {
+        my %Filters = %{ $Self->{FilterElementPost} };
+        for my $Filter ( sort keys %Filters ) {
+            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
+            my $Object = $Filters{$Filter}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+
+            # run module
+            $Object->Run(
+                %{ $Filters{$Filter} },
+                Data => \$Output,
+                TemplateFile => $Param{TemplateFile} || '',
+            );
+        }
+    }
+
+    # Cut out all dtl:js_on_document_complete tags. These will be inserted to the
+    #   place with the js_on_document_complete_placeholder in the page footer if
+    #   it is present.
+    # This must be done after the post output filters, so that they can also inject
+    #   and mofiy existing script tags.
+
     if ( !$Param{KeepScriptTags} ) {
 
         # find document ready
@@ -735,25 +760,6 @@ sub Output {
                     "";
                 }
             }segxm;
-        }
-    }
-
-    # custom post filters
-    if ( $Self->{FilterElementPost} ) {
-        my %Filters = %{ $Self->{FilterElementPost} };
-        for my $Filter ( sort keys %Filters ) {
-            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
-            my $Object = $Filters{$Filter}->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            # run module
-            $Object->Run(
-                %{ $Filters{$Filter} },
-                Data => \$Output,
-                TemplateFile => $Param{TemplateFile} || '',
-            );
         }
     }
 
@@ -4825,6 +4831,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.344 $ $Date: 2010-12-08 09:26:45 $
+$Revision: 1.345 $ $Date: 2010-12-10 09:08:21 $
 
 =cut
