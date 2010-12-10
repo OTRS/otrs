@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.64 2010-12-10 06:29:02 martin Exp $
+# $Id: Ticket.t,v 1.65 2010-12-10 13:03:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3306,7 +3306,10 @@ for my $Backend (qw(DB FS)) {
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
-    my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
     for my $File (
         qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
         Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)
@@ -4712,9 +4715,12 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         Key   => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
-    $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
 
-    my @TicketIDs = ();
+    my @TicketIDs;
     $TicketID = $TicketObject->TicketCreate(
         Title        => 'Some Ticket Title - ticket index accelerator tests',
         Queue        => 'Raw',
@@ -5245,7 +5251,10 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
-    my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
 
     # create some content
     my $TicketID = $TicketObject->TicketCreate(
@@ -5536,11 +5545,20 @@ for my $UserID (@UserIDs) {
 }
 
 # create tickets/article/attachments in backend for article storage switch tests
-for my $SourceBackend (qw(ArticleStorageDB)) {
+for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
+
+    $ConfigObject->Set(
+        Key   => 'Ticket::StorageModule',
+        Value => 'Kernel::System::Ticket::' . $SourceBackend,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
     my @TicketIDs;
     my %ArticleIDs;
     my $NamePrefix = "ArticleStorageSwitch ($SourceBackend)";
-    for my $File (qw(1 2 3 4 5 8)) {
+    for my $File (qw(1 2 3 4 5 6 7 8 9 10 11)) {
 
         my $NamePrefix = "$NamePrefix #$File ";
 
@@ -5588,6 +5606,7 @@ for my $SourceBackend (qw(ArticleStorageDB)) {
     }
 
     my @Map = (
+        [ 'ArticleStorageDB', 'ArticleStorageFS' ],
         [ 'ArticleStorageFS', 'ArticleStorageDB' ],
         [ 'ArticleStorageDB', 'ArticleStorageFS' ],
         [ 'ArticleStorageFS', 'ArticleStorageDB' ],
@@ -5607,12 +5626,17 @@ for my $SourceBackend (qw(ArticleStorageDB)) {
 
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
-                for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
-                    $Self->Is(
-                        $Index{$AttachmentID}->{$Attribute},
-                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
-                        "$NamePrefix - Verify - $Attribute (ArticleID:$ArticleID)",
-                    );
+                for my $ID ( sort keys %Index ) {
+                    next
+                        if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
+                            $Index{$ID}->{Filename};
+                    for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
+                        $Self->Is(
+                            $Index{$ID}->{$Attribute},
+                            $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
+                            "$NamePrefix - Verify before - $Attribute (ArticleID:$ArticleID)",
+                        );
+                    }
                 }
             }
         }
@@ -5640,12 +5664,17 @@ for my $SourceBackend (qw(ArticleStorageDB)) {
 
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
-                for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
-                    $Self->Is(
-                        $Index{$AttachmentID}->{$Attribute},
-                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
-                        "$NamePrefix - Verify - $Attribute (ArticleID:$ArticleID)",
-                    );
+                for my $ID ( sort keys %Index ) {
+                    next
+                        if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
+                            $Index{$ID}->{Filename};
+                    for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
+                        $Self->Is(
+                            $Index{$ID}->{$Attribute},
+                            $ArticleIDs{$ArticleID}->{$AttachmentID}->{$Attribute},
+                            "$NamePrefix - Verify after - $Attribute (ArticleID:$ArticleID)",
+                        );
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.483 2010-12-10 06:29:02 martin Exp $
+# $Id: Ticket.pm,v 1.484 2010-12-10 13:03:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.483 $) [1];
+$VERSION = qw($Revision: 1.484 $) [1];
 
 =head1 NAME
 
@@ -8181,7 +8181,7 @@ sub TicketArticleStorageSwitch {
                 Priority => 'error',
                 Message  => "Attachments already in $Param{Destination}!"
             );
-            return;
+            return 1;
         }
 
         # write attachments to destination
@@ -8220,7 +8220,10 @@ sub TicketArticleStorageSwitch {
             my $MD5Sum = $Self->{MainObject}->MD5sum(
                 String => \$Attachment{Content},
             );
-            if ( !$MD5Sums{$MD5Sum} ) {
+            if ( $MD5Sums{$MD5Sum} ) {
+                delete $MD5Sums{$MD5Sum};
+            }
+            else {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message =>
@@ -8231,6 +8234,19 @@ sub TicketArticleStorageSwitch {
                 $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
                 return;
             }
+        }
+
+        # check if all files are moved
+        if (%MD5Sums) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Not all files are moved! (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
+            );
+
+            # set events
+            $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+            return;
         }
 
         # verify destination plain if exists in source backend
@@ -8410,6 +8426,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.483 $ $Date: 2010-12-10 06:29:02 $
+$Revision: 1.484 $ $Date: 2010-12-10 13:03:31 $
 
 =cut
