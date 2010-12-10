@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1666 2010-12-10 10:50:45 mg Exp $
+# $Id: CHANGES,v 1.1667 2010-12-10 11:00:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
  - 2010-11-29 Fixed bug#4856 - Notifications are sent even if ticket is created with closed state.
  - 2010-11-29 Fixed bug#6420 - Customer Search with No Results does not display appropriate message.
  - 2010-11-29 Fixed bug#6428 - FreeText field alignment is wrong in AdminGenericAgent.
- - 2010-11-29 Updated Japanese translation, thanks to Kaz Kamimura Thomas!
+ - 2010-11-29 Updated Japanese translation, thanks to Kaz Kamimura!
  - 2010-11-29 Fixed bug#2950 - Field labels for ArticleFreeTime are not translated in PDF print.
  - 2010-11-29 Fixed bug#6401 - Field label for Content not aligned in SysConfig.
  - 2010-11-26 Fixed bug#6390 - Customer Interface - Latest article hover text is always 'Loading'.
