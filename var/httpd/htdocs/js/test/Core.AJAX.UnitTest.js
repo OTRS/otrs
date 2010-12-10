@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.3 2010-12-09 17:12:43 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.4 2010-12-10 09:37:12 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -147,6 +147,12 @@ Core.AJAX = (function (Namespace) {
                      Ignore: { Element: 1 },
                      Result: 'Element2=1%0A2;',
                      Name:   'Textarea, test Ignore parameter'
+
+                 },
+                 {
+                     HTML:   '<input type="hidden" name="Element" value="12 3"/>',
+                     Result: 'Element=12%203;',
+                     Name:   'Hidden field'
 
                  }
 
