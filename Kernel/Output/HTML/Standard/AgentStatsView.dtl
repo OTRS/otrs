@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view stat screen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.31 2010-12-07 22:42:40 cg Exp $
+# $Id: AgentStatsView.dtl,v 1.32 2010-12-10 00:01:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Overview" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                        <a href="$Env{"Baselink"}$Env{"LastStatsOverview"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:AdminLinks -->
                     <li>
