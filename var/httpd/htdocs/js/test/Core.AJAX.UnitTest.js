@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.6 2010-12-10 14:02:46 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.7 2010-12-10 14:21:56 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,8 @@ Core.AJAX = Core.AJAX || {};
 Core.AJAX = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         var SerializeFormTests,
-            ContentUpdateTests;
+            ContentUpdateTests,
+            FunctionCallTests;
 
         module('Core.AJAX');
 
@@ -220,6 +221,36 @@ Core.AJAX = (function (Namespace) {
                     start();
                 }
             });
+        });
+
+        /*
+         * Core.AJAX.FunctionCall
+         */
+
+        FunctionCallTests =
+        [
+             {
+                 Expect: 1,
+                 Name: 'Core.AJAX.FunctionCall() simple select',
+                 URL: 'sample/Core.AJAX.FunctionCall1.html',
+                 Callback: function(Result) {
+                     equals(Result, "1\n2\n3\n-", 'Function call with simple data');
+                     start();
+                 }
+             }
+         ];
+
+        $.each(FunctionCallTests, function(){
+            var Test = this;
+
+            asyncTest(Test.Name, Test.Expect, function(){
+                try {
+                    Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback, 'text');
+                }
+                catch (Error) {
+                    start();
+                }
+            }, 'text');
         });
 
     };
