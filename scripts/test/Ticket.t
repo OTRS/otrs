@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.47.2.2 2010-12-10 18:45:51 martin Exp $
+# $Id: Ticket.t,v 1.47.2.3 2010-12-10 18:48:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,6 @@ $Self->{ConfigObject}->Set(
 );
 $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 $Self->{QueueObject}  = Kernel::System::Queue->new( %{$Self} );
-goto LAB;
 
 # check GetTNByString
 my $Tn = $Self->{TicketObject}->TicketCreateNumber() || 'NONE!!!';
@@ -4757,7 +4756,6 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'TicketDelete()',
     );
 }
-LAB:
 
 # create tickets/article/attachments in backend for article storage switch tests
 for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
