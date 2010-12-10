@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.4 2010-12-10 09:37:12 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.5 2010-12-10 13:35:31 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,8 @@ Core.AJAX = Core.AJAX || {};
 
 Core.AJAX = (function (Namespace) {
     Namespace.RunUnitTests = function(){
+        var ContentUpdateTests;
+
         module('Core.AJAX');
         test('Core.AJAX.SerializeForm()', function(){
 
@@ -163,14 +165,14 @@ Core.AJAX = (function (Namespace) {
             /*
              * Create a form containter for the tests
              */
-            $('body').append('<form id="CORE_AJAX_TestForm1"></form>');
+            $('body').append('<form id="CORE_AJAX_SerializeFormTest"></form>');
 
             /*
              * Run the tests
              */
             $.each(Tests, function(){
-                $('#CORE_AJAX_TestForm1').empty().append(this.HTML);
-                equals(Core.AJAX.SerializeForm($('#CORE_AJAX_TestForm1'), this.Ignore), this.Result, this.Name);
+                $('#CORE_AJAX_SerializeFormTest').empty().append(this.HTML);
+                equals(Core.AJAX.SerializeForm($('#CORE_AJAX_SerializeFormTest'), this.Ignore), this.Result, this.Name);
 
             });
 
@@ -179,6 +181,45 @@ Core.AJAX = (function (Namespace) {
              */
             $('#CORE_AJAX_TestForm1').remove();
         });
+
+        ContentUpdateTests =
+        [
+             {
+                 Expect: 2,
+                 Name: 'Core.AJAX.ContentUpdate() simple select',
+                 URL: 'sample/Core.AJAX.ContentUpdate1.html',
+                 ResultCheck: function() {
+                     equals($('#Core_AJAX_ContentUpdateTest_Element').val(), 2, 'Simple select');
+                     equals($('#CORE_AJAX_ContentUpdateTest').children().length, 1, 'Number of form children');
+                 }
+             }
+        ];
+
+        $.each(ContentUpdateTests, function(){
+            var Test = this;
+
+            asyncTest(Test.Name, Test.Expect, function(){
+                try {
+                    $('body').append('<form id="CORE_AJAX_ContentUpdateTest"></form>');
+
+                    Core.AJAX.ContentUpdate($('#CORE_AJAX_ContentUpdateTest'), Test.URL, function(){
+                        try {
+                            Test.ResultCheck();
+                        }
+                        catch (Error) {
+                        }
+                        finally {
+                            $('#CORE_AJAX_ContentUpdateTest').remove();
+                            start();
+                        }
+                    });
+                }
+                catch (Error) {
+                    start();
+                }
+            });
+        });
+
     };
 
     return Namespace;
