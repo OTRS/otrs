@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jorgensen <itlj[at]gyldendal.dk>
 # --
-# $Id: da.pm,v 1.80 2010-12-09 13:19:50 mg Exp $
+# $Id: da.pm,v 1.81 2010-12-10 14:07:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -670,44 +670,44 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Alle nye sager, der ikke er blevet arbejdet på endnu',
         'All escalated tickets' => 'Alle eskalerede sager',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle sager med påmindelser, hvor påmindelsesfristen er nået',
-        'History::Move' => 'Historik::Flytning',
-        'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
-        'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
-        'History::SLAUpdate' => 'Updated SLA to %s (ID=%s).',
-        'History::NewTicket' => 'Historik::NySag',
-        'History::FollowUp' => 'Historik::Opfølgning',
-        'History::SendAutoReject' => 'Historik::SendAutoAfslag',
-        'History::SendAutoReply' => 'Historik::SendAutoSvar',
-        'History::SendAutoFollowUp' => 'Historik::SendAutoOpfølgning',
-        'History::Forward' => 'Historik::Videresend',
-        'History::Bounce' => 'Historik::Retur til afsender',
-        'History::SendAnswer' => 'Historik::SendSvar',
-        'History::SendAgentNotification' => 'Historik::SendAgentBesked',
-        'History::SendCustomerNotification' => 'Historik::SendKundeBesked',
-        'History::EmailAgent' => 'Historik::EmailAgent',
-        'History::EmailCustomer' => 'Historik::EmailKunde',
-        'History::PhoneCallAgent' => 'Historik::TelefonOpkaldAgent',
-        'History::PhoneCallCustomer' => 'Historik::TelefonOpkaldKunde',
-        'History::AddNote' => 'Historik::TilføjBemærkning',
-        'History::Lock' => 'Historik::Træk',
-        'History::Unlock' => 'Historik::Frigiv',
-        'History::TimeAccounting' => 'Historik::TidRegnskab',
-        'History::Remove' => 'Historik::Fjern',
-        'History::CustomerUpdate' => 'Historik::KundeOpdatering',
-        'History::PriorityUpdate' => 'Historik::Prioritetsopdatering',
-        'History::OwnerUpdate' => 'Historik::IndehaverOpdatering',
-        'History::LoopProtection' => 'Historik::LoopBeskyttelse',
-        'History::Misc' => 'Historik::Diverse',
-        'History::SetPendingTime' => 'Historik::IndstilVentetid',
-        'History::StateUpdate' => 'Historik::TilstandOpdatering',
-        'History::TicketFreeTextUpdate' => 'Historik::SagFriTekstOpdatering',
-        'History::WebRequestCustomer' => 'Historik::WebAnmodningKunde',
-        'History::TicketLinkAdd' => 'Historik::SagLinkTilføj',
-        'History::TicketLinkDelete' => 'Historik::SagLinkSlet',
-        'History::Subscribe' => 'Historik::Tilmeld',
-        'History::Unsubscribe' => 'Historik::Afmeld',
-        'History::SystemRequest' => '',
-        'History::ResponsibleUpdate' => '',
+        'History::Move' => 'Sag flyttet til kø "%s" (%s) fra kø "%s".',
+        'History::TypeUpdate' => 'Opdaterede Type til %s (ID=%s).',
+        'History::ServiceUpdate' => 'Opdaterede Service til %s (ID=%s).',
+        'History::SLAUpdate' => 'Opdateret SLA til %s (ID=%s).',
+        'History::NewTicket' => 'Ny sag [%s] oprettet (Kø=%s;P=%s;S=%s).',
+        'History::FollowUp' => 'Opfølgning til sag %s. %s',
+        'History::SendAutoReject' => 'Automatisk afvisning sendt til "%s".',
+        'History::SendAutoReply' => 'Automatisk svar sendt til "%s".',
+        'History::SendAutoFollowUp' => 'Automatisk opfølgning send til "%s".',
+        'History::Forward' => 'Videresendt til "%s".',
+        'History::Bounce' => 'Bounced til "%s".',
+        'History::SendAnswer' => 'Email sendt til "%s".',
+        'History::SendAgentNotification' => '"%s"-besked sendt til "%s".',
+        'History::SendCustomerNotification' => 'Besked sendt til "%s".',
+        'History::EmailAgent' => 'Email sendt til agent.',
+        'History::EmailCustomer' => 'Email sendt til kunde.',
+        'History::PhoneCallAgent' => 'Agent ringede kunden op.',
+        'History::PhoneCallCustomer' => 'Kundende ringede os op.',
+        'History::AddNote' => 'Tilføjede bemærkning (%s).',
+        'History::Lock' => 'Sag trukket.',
+        'History::Unlock' => 'Sag frigivet.',
+        'History::TimeAccounting' => '%s tidsenheder registreret. Nu totalt %s tidsenheder brugt.',
+        'History::Remove' => 'Fjern %s',
+        'History::CustomerUpdate' => 'Opdateret: %s',
+        'History::PriorityUpdate' => 'Ændrede prioritet fra "%s" (%s) til "%s" (%s)',
+        'History::OwnerUpdate' => 'Ny ejer er "%s" (ID=%s)',
+        'History::LoopProtection' => 'Loop-beskyttelse! Intet ausvar sendt til "%s".',
+        'History::Misc' => 'Diverse %s',
+        'History::SetPendingTime' => 'Sag afventer til %s',
+        'History::StateUpdate' => 'Gammel status var "%s", ny status er "%s".',
+        'History::TicketFreeTextUpdate' => 'Opdateret: %s=%s;%s=%s;',
+        'History::WebRequestCustomer' => 'Kundeanmodning via web.',
+        'History::TicketLinkAdd' => 'Tilføjet link til sag %s.',
+        'History::TicketLinkDelete' => 'Slettet link til sag %s.',
+        'History::Subscribe' => 'Bruger "%s" overvåger nu sagen.',
+        'History::Unsubscribe' => 'Bruger "%s" overvåger ikke længere sagen.',
+        'History::SystemRequest' => 'System Request (%s)',
+        'History::ResponsibleUpdate' => 'Ny ansvarlig er "%s" (ID=%s)',
 
         # Template: AAAWeekDay
         'Sun' => 'Søn',
@@ -3024,6 +3024,7 @@ sub Data {
         'All tickets' => 'Alle sager',
         'Tickets available' => 'Frie sager',
         'h' => 't',
+        'Ticket moved into Queue %s from Queue %s' => 'Sag flyttet til kø %s fra kø %s',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
