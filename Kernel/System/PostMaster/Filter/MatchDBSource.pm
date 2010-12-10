@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.20 2010-10-04 11:03:01 bes Exp $
+# $Id: MatchDBSource.pm,v 1.21 2010-12-10 15:35:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,6 +83,7 @@ sub Run {
                 my $LocalMatched;
                 for my $Recipients (@EmailAddresses) {
                     my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+                    next if !$Email;
                     if ( $Email =~ /^$SearchEmail$/i ) {
                         $LocalMatched = $SearchEmail || 1;
                         if ( $Self->{Debug} > 1 ) {
