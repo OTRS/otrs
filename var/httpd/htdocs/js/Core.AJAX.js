@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.18 2010-12-10 08:27:08 mn Exp $
+// $Id: Core.AJAX.js,v 1.19 2010-12-10 12:36:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ Core.AJAX = (function (TargetNS) {
     function SerializeData(Data) {
         var QueryString = '';
         $.each(Data, function (Key, Value) {
-            QueryString += ';' + Key + '=' + encodeURIComponent(Value);
+            QueryString += ';' + encodeURIComponent(Key) + '=' + encodeURIComponent(Value);
         });
         return QueryString;
     }
