@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.484 2010-12-10 13:03:31 martin Exp $
+# $Id: Ticket.pm,v 1.485 2010-12-10 16:01:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.484 $) [1];
+$VERSION = qw($Revision: 1.485 $) [1];
 
 =head1 NAME
 
@@ -8119,6 +8119,7 @@ sub TicketArticleStorageSwitch {
             Value => 'Kernel::System::Ticket::' . $Param{Source},
         );
         my $TicketObjectSource = Kernel::System::Ticket->new( %{$Self} );
+        return if !$TicketObjectSource;
 
         # read source attachments
         my %Index = $TicketObjectSource->ArticleAttachmentIndex(
@@ -8167,6 +8168,7 @@ sub TicketArticleStorageSwitch {
             Value => 'Kernel::System::Ticket::' . $Param{Destination},
         );
         my $TicketObjectDestination = Kernel::System::Ticket->new( %{$Self} );
+        return if !$TicketObjectDestination;
 
         # read destination attachments
         %Index = $TicketObjectDestination->ArticleAttachmentIndex(
@@ -8426,6 +8428,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.484 $ $Date: 2010-12-10 13:03:31 $
+$Revision: 1.485 $ $Date: 2010-12-10 16:01:54 $
 
 =cut
