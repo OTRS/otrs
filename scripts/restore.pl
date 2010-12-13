@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.10.2.2 2009-10-26 15:54:45 martin Exp $
+# $Id: restore.pl,v 1.10.2.3 2010-12-13 13:23:15 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.2 $) [1];
+$VERSION = qw($Revision: 1.10.2.3 $) [1];
 
 use Getopt::Std;
 
@@ -42,7 +42,7 @@ my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( $Opts{h} ) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }
@@ -180,7 +180,7 @@ if ( -e "$Opts{b}/DataDir.tar.gz" ) {
 if ( $DB =~ /mysql/i ) {
     print "create $DB\n";
     if ($DatabasePw) {
-        $DatabasePw = "-p$DatabasePw";
+        $DatabasePw = "-p'$DatabasePw'";
     }
     if ( -e "$Opts{b}/DatabaseBackup.sql.gz" ) {
         print "decompresses SQL-file ...\n";
@@ -209,7 +209,7 @@ else {
         system("gunzip $Opts{b}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
         system(
-            "cat $Opts{b}/DatabaseBackup.sql | psql -U$DatabaseUser -W$DatabasePw -h$DatabaseHost $Database"
+            "cat $Opts{b}/DatabaseBackup.sql | psql -U$DatabaseUser -W'$DatabasePw' -h$DatabaseHost $Database"
         );
         print "compress SQL-file...\n";
         system("gzip $Opts{b}/DatabaseBackup.sql");
@@ -219,7 +219,7 @@ else {
         system("bunzip $Opts{b}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
         system(
-            "cat $Opts{b}/DatabaseBackup.sql | psql -U$DatabaseUser -W$DatabasePw -h$DatabaseHost $Database"
+            "cat $Opts{b}/DatabaseBackup.sql | psql -U$DatabaseUser -W'$DatabasePw' -h$DatabaseHost $Database"
         );
         print "compress SQL-file...\n";
         system("bzip $Opts{b}/DatabaseBackup.sql");
