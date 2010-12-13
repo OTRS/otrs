@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.5 2010-12-13 06:06:57 dz Exp $
+# $Id: PGP.pm,v 1.32.2.6 2010-12-13 17:06:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,8 @@ package Kernel::System::Crypt::PGP;
 use strict;
 use warnings;
 
-use Kernel::System::Time;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.5 $) [1];
+$VERSION = qw($Revision: 1.32.2.6 $) [1];
 
 =head1 NAME
 
@@ -799,10 +797,6 @@ sub _ParseGPGKeyList {
                 $Key{Fingerprint} = "$1 $2 $3 $4 $5  $6 $7 $8 $9 $10";
             }
         }
-        $Self->{TimeObject} = Kernel::System::Time->new(
-            ConfigObject => $Self->{ConfigObject},
-            LogObject    => $Self->{LogObject},
-        );
 
         # convert system time to timestamp
         if ( $Key{Created} !~ /-/ ) {
@@ -1059,6 +1053,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.5 $ $Date: 2010-12-13 06:06:57 $
+$Revision: 1.32.2.6 $ $Date: 2010-12-13 17:06:31 $
 
 =cut

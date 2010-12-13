@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt.pm - the main crypt module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.20 2009-04-17 08:36:44 tr Exp $
+# $Id: Crypt.pm,v 1.20.2.1 2010-12-13 17:06:31 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::FileTemp;
+use Kernel::System::Time;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.2.1 $) [1];
 
 =head1 NAME
 
@@ -100,6 +101,8 @@ sub new {
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
     return if !$Self->{MainObject}->Require( $Self->{GenericModule} );
 
+    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+
     # add generator crypt functions
     @ISA = ("$Self->{GenericModule}");
 
@@ -122,12 +125,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.20.2.1 $ $Date: 2010-12-13 17:06:31 $
 
 =cut
