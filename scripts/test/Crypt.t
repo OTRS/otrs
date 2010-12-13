@@ -1,8 +1,8 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.14 2009-02-16 12:50:17 tr Exp $
+# $Id: Crypt.t,v 1.14.2.1 2010-12-13 06:06:57 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@ my %Check = (
         Key              => '38677C3B',
         KeyPrivate       => '04A17B7A',
         Created          => '2007-08-21',
-        Expires          => '',
+        Expires          => 'never',
         Fingerprint      => '4124 DFBD CF52 D129 AB3E  3C44 1404 FBCB 3867 7C3B',
         FingerprintShort => '4124DFBDCF52D129AB3E3C441404FBCB38677C3B',
     },
