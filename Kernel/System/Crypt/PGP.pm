@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.44 2010-12-07 18:45:40 dz Exp $
+# $Id: PGP.pm,v 1.45 2010-12-13 04:56:29 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::Crypt::PGP;
 use strict;
 use warnings;
 
+use Kernel::System::Time;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -985,7 +987,12 @@ sub _ParseGPGKeyList {
 
         # add any additional info to the current key
         if ( $Type eq 'uid' ) {
-            $Key{Identifier} .= ', ' . $Fields[9];
+            if ( $Key{Identifier} ) {
+                $Key{Identifier} .= ', ' . $Fields[9];
+            }
+            else {
+                $Key{Identifier} .= $Fields[9];
+            }
         }
         elsif ( $Type eq 'ssb' ) {
             $Key{Bit} = $Fields[2];
@@ -1012,6 +1019,29 @@ sub _ParseGPGKeyList {
             {
                 $Key{Fingerprint} = "$1 $2 $3 $4 $5  $6 $7 $8 $9 $10";
             }
+        }
+
+        $Self->{TimeObject} = Kernel::System::Time->new(
+            ConfigObject => $Self->{ConfigObject},
+            LogObject    => $Self->{LogObject},
+        );
+
+        # convert system time to timestamp
+        if ( $Key{Created} !~ /-/ ) {
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Key{Created},
+                );
+            $Key{Created} = "$Year-$Month-$Day";
+        }
+
+        # expires
+        if ( $Key{Expires} =~ /^\d*$/ ) {
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Key{Expires},
+                );
+            $Key{Expires} = "$Year-$Month-$Day";
         }
     }
     push( @Result, {%Key} ) if (%Key);
@@ -1071,6 +1101,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2010-12-07 18:45:40 $
+$Revision: 1.45 $ $Date: 2010-12-13 04:56:29 $
 
 =cut
