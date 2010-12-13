@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.22 2010-07-12 09:27:43 bes Exp $
+# $Id: backup.pl,v 1.23 2010-12-13 10:27:02 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -251,7 +251,7 @@ if ( $DB =~ m/mysql/i ) {
     }
     if (
         !system(
-            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
+            "$DBDump -u $DatabaseUser '$DatabasePw' -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
         )
         )
     {
