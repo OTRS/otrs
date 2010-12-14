@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.117 2010-12-06 13:33:57 ub Exp $
+# $Id: LayoutTicket.pm,v 1.118 2010-12-14 09:54:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -863,7 +863,7 @@ sub ArticleQuote {
             UserID                     => $Self->{UserID},
         );
 
-        my @NotInlineAttachments;
+        my %NotInlineAttachments;
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
 
@@ -901,8 +901,6 @@ sub ArticleQuote {
             );
 
             # display inline images if exists
-            my %Attachments = %{ $ArticleTmp->{Atms} };
-
             my $SessionID = '';
             if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
                 $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
@@ -915,6 +913,7 @@ sub ArticleQuote {
                 . ';ContentID=';
 
             # search inline documents in body and add it to upload cache
+            my %Attachments = %{ $ArticleTmp->{Atms} };
             my %AttachmentAlreadyUsed;
             $Body =~ s{
                 "cid:(.*?)"
@@ -925,16 +924,13 @@ sub ArticleQuote {
                 my $ContentID = $1;
                 ATMCOUNT:
                 for my $AttachmentID ( sort keys %Attachments ) {
-                    next if $AttachmentAlreadyUsed{$AttachmentID};
 
-                    # remember not included real attachments
+                    # next is cid is not matchin
                     if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
-                        push @NotInlineAttachments, $AttachmentID;
-                        $AttachmentAlreadyUsed{$AttachmentID} = 1;
                         next ATMCOUNT;
                     }
 
-                    # add to upload cache
+                    # get whole attachment
                     my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
                         ArticleID => $Param{ArticleID},
                         FileID    => $AttachmentID,
@@ -945,37 +941,33 @@ sub ArticleQuote {
                     $AttachmentPicture{ContentID} =~ s/^<//;
                     $AttachmentPicture{ContentID} =~ s/>$//;
 
-                    $Param{UploadCacheObject}->FormIDAddFile(
-                        FormID      => $Param{FormID},
-                        Disposition => 'inline',
-                        %{ $Attachments{$AttachmentID} },
-                        %AttachmentPicture,
-                    );
-                    my @Attachments = $Param{UploadCacheObject}->FormIDGetAllFilesMeta(
-                        FormID => $Param{FormID},
-                    );
-                    CONTENTIDRETURN:
-                    for my $Attachment (@Attachments) {
-                        next CONTENTIDRETURN
-                            if $Attachments{$AttachmentID}->{Filename} ne $Attachment->{Filename};
-                        $ContentID = $AttachmentLink . $Attachment->{ContentID};
-                        last CONTENTIDRETURN;
+                    # find cid, add attachment URL and remeber, file is already uploaded
+                    $ContentID = $AttachmentLink . $AttachmentPicture{ContentID};
+
+                    # add to upload cache if not uploaded and remember
+                    if (!$AttachmentAlreadyUsed{$AttachmentID}) {
+
+                        # remember
+                        $AttachmentAlreadyUsed{$AttachmentID} = 1;
+
+                        # write attachment to upload cache
+                        $Param{UploadCacheObject}->FormIDAddFile(
+                            FormID      => $Param{FormID},
+                            Disposition => 'inline',
+                            %{ $Attachments{$AttachmentID} },
+                            %AttachmentPicture,
+                        );
                     }
-                    $AttachmentAlreadyUsed{$AttachmentID} = 1;
                 }
 
                 # return link
                 '"' . $ContentID . '"';
             }egxi;
 
-            # attach also other attachments (add all if no "cid:" was in html reply)
-            my @Attachments = $Param{UploadCacheObject}->FormIDGetAllFilesMeta(
-                FormID => $Param{FormID},
-            );
-            if ( !@Attachments ) {
-                for my $Index ( keys %Attachments ) {
-                    push @NotInlineAttachments, $Index;
-                }
+            # find not inline images
+            for my $AttachmentID ( sort keys %Attachments ) {
+                next if $AttachmentAlreadyUsed{$AttachmentID};
+                $NotInlineAttachments{$AttachmentID} = 1;
             }
 
             # do no more article
@@ -984,7 +976,7 @@ sub ArticleQuote {
 
         # attach also other attachments on article forward
         if ( $Body && $Param{AttachmentsInclude} ) {
-            for my $AttachmentID (@NotInlineAttachments) {
+            for my $AttachmentID ( sort keys %NotInlineAttachments ) {
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Param{ArticleID},
                     FileID    => $AttachmentID,

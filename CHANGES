@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1669 2010-12-14 07:56:45 martin Exp $
+# $Id: CHANGES,v 1.1670 2010-12-14 09:54:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.5 2010-01-??
+ - 2010-12-14 Fixed bug#6532 - With multiple inline images, only first one is
+    preserved when replying.
  - 2010-12-14 Fixed bug#6533 - Not possible to search tickets by responsible agent.
  - 2010-12-13 Fixed bug#6520 - backup.pl doesn't backup with strong password.
 
