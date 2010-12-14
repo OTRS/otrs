@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.266 2010-12-10 13:03:31 martin Exp $
+# $Id: Article.pm,v 1.267 2010-12-14 10:08:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.266 $) [1];
+$VERSION = qw($Revision: 1.267 $) [1];
 
 =head1 NAME
 
@@ -3043,7 +3043,7 @@ sub ArticleAccountedTimeDelete {
 
 =item ArticleDelete()
 
-delete all article, attachments and plain message of a ticket
+delete an article, its plain message, and all attachments
 
     my $Success = $TicketObject->ArticleDelete(
         ArticleID => 123,
@@ -3052,7 +3052,7 @@ delete all article, attachments and plain message of a ticket
 
 =item ArticleDeletePlain()
 
-delete a artile plain message
+delete a plain article
 
     my $Success = $TicketObject->ArticleDeletePlain(
         ArticleID => 123,
@@ -3070,7 +3070,7 @@ delete all attachments of an article
 
 =item ArticleWritePlain()
 
-write an plain email to storage
+write a plain email to storage
 
     my $Success = $TicketObject->ArticleWritePlain(
         ArticleID => 123,
@@ -3080,7 +3080,7 @@ write an plain email to storage
 
 =item ArticlePlain()
 
-get plain message/email
+get plain article/email
 
     my $PlainMessage = $TicketObject->ArticlePlain(
         ArticleID => 123,
@@ -3102,6 +3102,28 @@ write an article attachment to storage
     );
 
 You also can use "Force => 1" to not check if a filename already exists, it force to use the given file name. Otherwise a new file name like "oldfile-2.html" is used.
+
+=item ArticleAttachment()
+
+get article attachment (Content, ContentType, Filename and optional ContentID, ContentAlternative)
+
+    my %Attachment = $TicketObject->ArticleAttachment(
+        ArticleID => 123,
+        FileID    => 1,   # as returned by ArticleAttachmentIndex
+        UserID    => 123,
+    );
+
+returns:
+
+    my %Attachment = (
+        Content            => "xxxx",     # actual attachment contents
+        ContentAlternative => "",
+        ContentID          => "",
+        ContentType        => "application/pdf",
+        Filename           => "StdAttachment-Test1.pdf",
+        Filesize           => "4.6 KBytes",
+        FilesizeRaw        => 4722,
+    );
 
 =item ArticleAttachmentIndex()
 
@@ -3143,6 +3165,27 @@ attachment (not include text body and html body as attachment)
         Article                    => \%Article,
         StripPlainBodyAsAttachment => 3,
     );
+
+returns:
+
+    my %Index = {
+        '1' => {
+            'ContentAlternative' => '',
+            'ContentID' => '',
+            'Filesize' => '4.6 KBytes',
+            'ContentType' => 'application/pdf',
+            'Filename' => 'StdAttachment-Test1.pdf',
+            'FilesizeRaw' => 4722
+        },
+        '2' => {
+            'ContentAlternative' => '',
+            'ContentID' => '',
+            'Filesize' => '183 Bytes',
+            'ContentType' => 'text/html; charset="utf-8"',
+            'Filename' => 'file-2',
+            'FilesizeRaw' => 183
+        },
+    };
 
 =cut
 
@@ -3256,17 +3299,7 @@ sub ArticleAttachmentIndex {
     return %Attachments;
 }
 
-=item ArticleAttachment()
-
-get article attachment (Content, ContentType, Filename and optional ContentID, ContentAlternative)
-
-    my %Attachment = $TicketObject->ArticleAttachment(
-        ArticleID => 123,
-        FileID    => 1,
-        UserID    => 123,
-    );
-
-=cut
+1;
 
 =back
 
@@ -3282,6 +3315,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.266 $ $Date: 2010-12-10 13:03:31 $
+$Revision: 1.267 $ $Date: 2010-12-14 10:08:14 $
 
 =cut
