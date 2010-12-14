@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.83 2010-12-09 17:02:42 cr Exp $
+# $Id: AgentTicketForward.dtl,v 1.84 2010-12-14 12:42:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
             <p>
-                $Text{"The ticket was locked"}.
+                $Text{"The ticket has been locked"}.
                 <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
                     $Text{"Undo & close window"}
                 </a>

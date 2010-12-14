@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.256 2010-12-10 10:03:45 mg Exp $
+# $Id: de.pm,v 1.257 2010-12-14 12:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.256 $) [1];
+$VERSION = qw($Revision: 1.257 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1380,7 +1380,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'Das Ticket wurde gesperrt',
+        'The ticket has been locked' => 'Das Ticket wurde gesperrt',
         'Undo & close window' => 'Rückgängig machen und Fenster schließen',
 
         # Template: AgentInfo

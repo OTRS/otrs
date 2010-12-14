@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.45 2010-11-17 17:48:15 mg Exp $
+# $Id: AgentTicketBounce.dtl,v 1.46 2010-12-14 12:42:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
             <p>
-                $Text{"The ticket was locked"}.
+                $Text{"The ticket has been locked"}.
                 <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
                     $Text{"Undo & close window"}
                 </a>

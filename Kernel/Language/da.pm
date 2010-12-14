@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jorgensen <itlj[at]gyldendal.dk>
 # --
-# $Id: da.pm,v 1.81 2010-12-10 14:07:52 mg Exp $
+# $Id: da.pm,v 1.82 2010-12-14 12:43:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1369,7 +1369,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'Sagen blev trukket',
+        'The ticket has been locked' => 'Sagen blev trukket',
         'Undo & close window' => 'Afbryd og luk vindue',
 
         # Template: AgentInfo

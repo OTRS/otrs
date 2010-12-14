@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.6 2010-12-08 14:17:16 mg Exp $
+# $Id: ja.pm,v 1.7 2010-12-14 12:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1364,7 +1364,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'チケットはロック済です',
+        'The ticket has been locked' => 'チケットはロック済です',
         'Undo & close window' => '元に戻してウィンドウを閉じる',
 
         # Template: AgentInfo

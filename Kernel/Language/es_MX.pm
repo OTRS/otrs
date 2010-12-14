@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.37 2010-12-13 17:44:09 en Exp $
+# $Id: es_MX.pm,v 1.38 2010-12-14 12:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1367,7 +1367,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'El ticket ha sido bloqueado',
+        'The ticket has been locked' => 'El ticket ha sido bloqueado',
         'Undo & close window' => 'Deshacer y cerrar la ventana',
 
         # Template: AgentInfo

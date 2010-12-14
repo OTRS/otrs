@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.148 2010-12-10 10:17:01 mb Exp $
+# $Id: nl.pm,v 1.149 2010-12-14 12:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.148 $) [1];
+$VERSION = qw($Revision: 1.149 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1393,7 +1393,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'Het ticket is vergrendeld',
+        'The ticket has been locked' => 'Het ticket is vergrendeld',
         'Undo & close window' => 'Annuleren en scherm sluiten',
 
         # Template: AgentInfo

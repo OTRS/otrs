@@ -2,7 +2,7 @@
 # AgentHTMLReferencePageLayout.dtl - HTML reference page layout page
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentHTMLReferencePageLayout.dtl,v 1.8 2010-10-12 16:07:49 cg Exp $
+# $Id: AgentHTMLReferencePageLayout.dtl,v 1.9 2010-12-14 12:42:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,7 +195,7 @@
             <div class="Header">
                 <h1>Header</h1>
                 <p>
-                    $Text{"The ticket was locked"}.
+                    $Text{"The ticket has been locked"}.
                     <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
                         $Text{"Undo & close window"}
                     </a>

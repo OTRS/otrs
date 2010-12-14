@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.139 2010-12-08 09:59:46 mb Exp $
+# $Id: fr.pm,v 1.140 2010-12-14 12:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1373,7 +1373,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => 'Le ticket a été verrouillé',
+        'The ticket has been locked' => 'Le ticket a été verrouillé',
         'Undo & close window' => 'Annuler et fermer la fenêtre',
 
         # Template: AgentInfo
