@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.176 2010-12-14 10:27:42 mb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.177 2010-12-14 10:36:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
     $('#SetArticleFilter').bind('click', function (Event) {
         Core.UI.Dialog.ShowContentDialog($('#ArticleFilterDialog'), '$JSText{"Article filter"}', '20px', 'Center', true, [
             {
-                Label: "$JSText{"Save"}",
+                Label: "$JSText{"Apply"}",
                 Function: function () {
                     var Data = Core.AJAX.SerializeForm($('#ArticleFilterDialogForm'));
                     Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
