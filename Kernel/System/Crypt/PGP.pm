@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.46 2010-12-13 17:06:43 dz Exp $
+# $Id: PGP.pm,v 1.47 2010-12-15 21:19:59 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -500,7 +500,7 @@ sub Verify {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
-            Message        => $Message,
+            Message        => $LogMessage{CleanLog} || $Message,
         );
     }
 
@@ -914,15 +914,23 @@ sub _HandleLog {
     for my $Line (@ComputableLines) {
 
         # get tag
-        $Line =~ m{(\[GNUPG\:\]\s)(\w*)(\s.*)?}xms;
+        $Line =~ m{(:?\[GNUPG\:\]\s)(\w*)(:?\s.*)?}xms;
         my $Tag     = $2;
         my $Message = $Line;
 
         $ComputableLog{$Tag} = {
-            Log => $LogDictionary->{$Tag} || $Message,
-            GPGMessage => $Message || $LogDictionary->{$Tag},
+            Log => $LogDictionary->{$Tag} || $Line,
+            GPGMessage => $Line || $LogDictionary->{$Tag},
             }
     }
+
+    # get clean log lines
+    my $CleanLog = '';
+    while ( $Param{LogString} =~ m{(gpg\:\s.*)}g ) {
+        $CleanLog .= ' ' . $1;
+    }
+
+    $ComputableLog{CleanLog} = $CleanLog;
 
     return %ComputableLog;
 }
@@ -1094,6 +1102,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2010-12-13 17:06:43 $
+$Revision: 1.47 $ $Date: 2010-12-15 21:19:59 $
 
 =cut
