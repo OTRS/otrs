@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.116 2010-12-15 11:56:56 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.117 2010-12-15 14:20:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -144,6 +144,11 @@ sub Run {
             Name      => $Self->{Profile},
             UserLogin => $Self->{UserLogin},
         );
+
+        # convert attributes
+        if ( $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
+            $GetParam{ShownAttributes} = join ';', @{ $GetParam{ShownAttributes} };
+        }
     }
 
     # get search string params (get submitted params)
@@ -339,6 +344,11 @@ sub Run {
                 Name      => $Self->{Profile},
                 UserLogin => $Self->{UserLogin},
             );
+
+            # convert attributes
+            if ( $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq '' ) {
+                $GetParam{ShownAttributes} = [ split /;/, $GetParam{ShownAttributes} ];
+            }
 
             # insert new profile params
             for my $Key ( keys %GetParam ) {
@@ -1133,6 +1143,11 @@ sub Run {
             Name      => $Profile,
             UserLogin => $Self->{UserLogin},
         );
+
+        # convert attributes
+        if ( $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
+            $GetParam{ShownAttributes} = join ';', @{ $GetParam{ShownAttributes} };
+        }
 
         # if no profile is used, set default params of default attributes
         if ( !$Profile ) {
@@ -2020,7 +2035,10 @@ sub Run {
         }
 
         # show attributes
-        my @ShownAttributes = split /;/, $GetParamBackup{ShownAttributes};
+        my @ShownAttributes;
+        if ( $GetParamBackup{ShownAttributes} ) {
+            @ShownAttributes = split /;/, $GetParamBackup{ShownAttributes};
+        }
         my %AlreadyShown;
         for my $Item (@Attributes) {
             my $Key = $Item->{Key};
