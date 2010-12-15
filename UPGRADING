@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.46 2010-12-07 09:43:03 mg Exp $
+# $Id: UPGRADING,v 1.47 2010-12-15 09:24:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -166,8 +166,8 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
     locally modified frontend module configuration settings will not catch the updates
     of the new default configuration.
 
-    To check if you are affected, please look at the file Kernel/Config/ZZZAuto.pm and
-    look for entries like
+    To check if you are affected, please look at the file Kernel/Config/Files/ZZZAuto.pm
+    and look for entries like
 
     $Self->{'Frontend::Module'}->{'AgentStats'} = { ... };
 
