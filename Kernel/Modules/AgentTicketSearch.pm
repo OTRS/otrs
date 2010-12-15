@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.115 2010-12-03 14:22:44 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.116 2010-12-15 11:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,7 +152,7 @@ sub Run {
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
             ArticleTimeSearchType SearchInArchive
-            Fulltext
+            Fulltext ShownAttributes
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
             TicketFreeTime1StartYear
@@ -342,15 +342,14 @@ sub Run {
 
             # insert new profile params
             for my $Key ( keys %GetParam ) {
-                if ( $GetParam{$Key} ) {
-                    $Self->{SearchProfileObject}->SearchProfileAdd(
-                        Base      => 'TicketSearch',
-                        Name      => $Self->{Profile},
-                        Key       => $Key,
-                        Value     => $GetParam{$Key},
-                        UserLogin => $Self->{UserLogin},
-                    );
-                }
+                next if !$GetParam{$Key};
+                $Self->{SearchProfileObject}->SearchProfileAdd(
+                    Base      => 'TicketSearch',
+                    Name      => $Self->{Profile},
+                    Key       => $Key,
+                    Value     => $GetParam{$Key},
+                    UserLogin => $Self->{UserLogin},
+                );
             }
         }
 
@@ -2021,13 +2020,29 @@ sub Run {
         }
 
         # show attributes
+        my @ShownAttributes = split /;/, $GetParamBackup{ShownAttributes};
         my %AlreadyShown;
         for my $Item (@Attributes) {
             my $Key = $Item->{Key};
             next if !$Key;
-            next if !defined $GetParamBackup{$Key};
-            next if $GetParamBackup{$Key} eq '';
 
+            # check if shown
+            if (@ShownAttributes) {
+                my $Show = 0;
+                for my $ShownAttribute (@ShownAttributes) {
+                    if ( 'Label' . $Key eq $ShownAttribute ) {
+                        $Show = 1;
+                        last;
+                    }
+                }
+                next if !$Show;
+            }
+            else {
+                next if !defined $GetParamBackup{$Key};
+                next if $GetParamBackup{$Key} eq '';
+            }
+
+            # show attribute
             next if $AlreadyShown{$Key};
             $AlreadyShown{$Key} = 1;
             $Self->{LayoutObject}->Block(

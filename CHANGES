@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1675 2010-12-15 10:06:34 mg Exp $
+# $Id: CHANGES,v 1.1676 2010-12-15 11:56:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2010-01-??
+ - 2010-12-15 Fixed bug#6380 - Change Search Options does not list default fields.
  - 2010-12-14 Fixed bug#6476 - Stats overview table has display error in table header.
  - 2010-12-14 Fixed bug#6540 - System Log Hint could make room for more log information.
  - 2010-12-14 Fixed bug#6541 - Left pane in AdminNotification is empty.

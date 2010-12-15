@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.Search.js,v 1.36 2010-11-26 13:54:41 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.37 2010-12-15 11:56:56 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -220,8 +220,19 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // register submit
                 $('#SearchFormSubmit').bind('click', function () {
+                    var ShownAttributes = '';
+
+                    // remember shown attributes
+                    $('#SearchInsert label').each(function () {
+                        if ( $(this).attr('id') ) {
+                            ShownAttributes = ShownAttributes + ';' + $(this).attr('id');
+                        }
+                    });
+                    $('#SearchForm #ShownAttributes').val(ShownAttributes);
+
                     // Normal results mode will return HTML in the same window
                     if ($('#SearchForm #ResultForm').val() === 'Normal') {
+
                         $('#SearchForm').submit();
                         ShowWaitingDialog();
                     }

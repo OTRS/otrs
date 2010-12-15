@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.61 2010-12-14 08:24:09 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.62 2010-12-15 11:56:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@
         <input type="hidden" name="Action" value="$Env{"Action"}" id="SearchAction"/>
         <input type="hidden" name="Subaction" value="Search"/>
         <input type="hidden" name="EmptySearch" value="$QData{"EmptySearch"}" id="EmptySearch"/>
+        <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
         <fieldset class="TableLike">
             <div class="Clear"></div>
             <label>$Text{"Search template"}:</label>
