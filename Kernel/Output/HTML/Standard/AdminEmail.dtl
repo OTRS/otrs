@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.41 2010-11-23 00:10:35 en Exp $
+# $Id: AdminEmail.dtl,v 1.42 2010-12-15 09:36:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,21 @@ $Include{"RichTextEditor"}
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
-            <div class="Header"></div>
-            <div class="Content"></div> <!-- intentionally empty -->
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"With this module, administrators can send messages to agents, group or role members."}
+                </p>
+            </div>
         </div>
     </div>
     <div class="ContentColumn">
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Send Administrative Message to Agents"}</h2>
+                <h2>$Text{"Create Administrative Message"}</h2>
             </div>
             <div class="Content">
 
@@ -104,7 +110,7 @@ $Include{"RichTextEditor"}
 
                         <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Body"}:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" class="RichText Validate_RequiredRichText $QData{"RichTextInvalid"}" value="$QData{"Subject"}" name="Body" rows="16" class="W100pc">$QData{"Body"}</textarea>
+                            <textarea id="RichText" class="W100pc RichText Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="16" cols="78">$QData{"Body"}</textarea>
                             <div id="RichTextError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -112,6 +118,7 @@ $Include{"RichTextEditor"}
                                 <p>$Text{"This field is required."}</p>
                             </div>
                         </div>
+                        <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
                             <button class="Primary" id="submitRichText" type="submit" value="$Text{"Send"}">$Text{"Send"}</button>
