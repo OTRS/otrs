@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.109 2010-12-14 22:39:15 cg Exp $
+# $Id: AgentStats.pm,v 1.110 2010-12-16 17:14:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2063,7 +2063,12 @@ sub Run {
             my $Time = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
             my $Output = "Name: $Title; Created: $Time\n";
 
-            my $UserCSVSeparator = '';
+            # get Separator from language file
+            my $UserCSVSeparator =
+                $Self->{LayoutObject}->{LanguageObject}->Time(
+                Action => 'GET',
+                Format => 'Separator'
+                );
             if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
                 $UserCSVSeparator = $UserData{UserCSVSeparator};
