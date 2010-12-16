@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.29 2010-12-15 23:17:46 mp Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.30 2010-12-16 17:07:36 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -853,16 +853,6 @@ sub Run {
             $GetParam{Subject} = $Self->{LayoutObject}->Output(
                 Template => $Self->{Config}->{Subject},
             );
-        }
-
-        # get default selections
-        for my $Count ( 1 .. 16 ) {
-            my $Key  = 'TicketFreeKey' . $Count;
-            my $Text = 'TicketFreeText' . $Count;
-            $Ticket{$Key} = $Ticket{$Key}
-                || $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
-            $Ticket{$Text} = $Ticket{$Text}
-                || $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
         }
 
         # get free text config options
