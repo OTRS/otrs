@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.111 2010-11-17 13:40:48 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.112 2010-12-16 11:33:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -822,22 +822,25 @@ sub Run {
             Name => 'SearchBox',
             Data => {
                 ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
-                }
+            },
         );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
-        # generate a button per group
-        for my $ListKey ( keys %List ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigGroups',
-                Data => {
-                    SysConfigGroup     => $ListKey,
-                    SysConfigGroupData => $List{$ListKey},
-                },
-            );
-        }
+        # create select Box
+        $Data{List} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
+            PossibleNone        => 1,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
 
         # check if sysconfig download link should be shown
         if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
@@ -895,22 +898,27 @@ sub Run {
             Name => 'SearchBox',
             Data => {
                 ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
-                }
+            },
         );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
-        # generate a button per group
-        for my $ListKey ( keys %List ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigGroups',
-                Data => {
-                    SysConfigGroup     => $ListKey,
-                    SysConfigGroupData => $List{$ListKey},
-                },
-            );
-        }
+        $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
+
+        # create select Box
+        $Data{List} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
+            PossibleNone        => 1,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
 
         # check if sysconfig download link should be shown
         if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {
@@ -922,7 +930,6 @@ sub Run {
 
         $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
-        $Group = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         %List = $Self->{SysConfigObject}->ConfigSubGroupList( Name => $Group );
 
         # if there are any results, they are shown
@@ -963,23 +970,25 @@ sub Run {
             Name => 'SearchBox',
             Data => {
                 ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
-                }
-
+            },
         );
 
         # list Groups
         my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
-        # generate a button per group
-        for my $ListKey ( keys %List ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigGroups',
-                Data => {
-                    SysConfigGroup     => $ListKey,
-                    SysConfigGroupData => $List{$ListKey},
-                },
-            );
-        }
+        # create select Box
+        $Data{List} = $Self->{LayoutObject}->BuildSelection(
+            Data                => \%List,
+            SelectedID          => $Group,
+            Name                => 'SysConfigGroup',
+            LanguageTranslation => 0,
+            PossibleNone        => 1,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigGroups',
+            Data => \%Data,
+        );
 
         # check if sysconfig download link should be shown
         if ( $Self->{SysConfigObject}->Download( Type => 'Check' ) ) {

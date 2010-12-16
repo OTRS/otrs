@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.41 2010-11-17 13:40:48 mg Exp $
+# $Id: AdminSysConfig.dtl,v 1.42 2010-12-16 11:33:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,19 +33,41 @@
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
-                            <input type="text" name="Search" value="$QData{"Search"}" title="$Text{"Search"}" />
+                            <input type="text" name="Search" id="SysConfigSearch" value="$QData{"Search"}" title="$Text{"Search"}" />
                             <button title="$Text{"Navigate by searching in %s settings", "$QData{"ConfigCounter"}"}" type="submit" value="$Text{"Search"}">
                                 <span>$Text{"Search"}</span>
                             </button>
+                            <p class="FieldExplanation">
+                                <label for="SysConfigSearch">
+                                    $Text{"Navigate by searching in %s settings", "$QData{"ConfigCounter"}"}
+                                </label>
+                            </p>
                         </form>
                     </li>
 <!-- dtl:block:SearchBox -->
 
 <!-- dtl:block:ConfigGroups -->
                     <li>
-                        <a title="$Text{"Go to group %s", "$Data{"SysConfigGroupData"}"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SelectGroup;DontWriteDefault=1;SysConfigGroup=$Data{"SysConfigGroup"}" class="CallForAction">
-                            <span>$Text{"Group %s", "$Data{"SysConfigGroup"}"}</span>
-                        </a>
+                        <form action="$Env{"CGIHandle"}" method="post" id="SysConfigGroupForm">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="SelectGroup"/>
+                            <input type="hidden" name="DontWriteDefault" value="1"/>
+                            <div>
+                                $Data{"List"}
+                            </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('#SysConfigGroup').bind('change', function(){
+    $('#SysConfigGroupForm').submit();
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                            <p class="FieldExplanation">
+                                <label for="SysConfigGroup">
+                                    $Text{"Navigate by selecting config groups"}
+                                </label>
+                            </p>
+                        </form>
                     </li>
 <!-- dtl:block:ConfigGroups -->
 
