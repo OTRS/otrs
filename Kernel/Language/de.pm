@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.257 2010-12-14 12:43:06 mb Exp $
+# $Id: de.pm,v 1.258 2010-12-17 10:44:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.257 $) [1];
+$VERSION = qw($Revision: 1.258 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1015,7 +1015,7 @@ sub Data {
         'Continue' => 'Weiter',
         'Install' => 'Installieren',
         'Install Package' => 'Paket installieren',
-        'Update repository information' => 'Verzeichnisinformationen aktualisieren',
+        'Update repository information' => 'Verzeichnis aktualisieren',
         'Online Repository' => 'Online-Verzeichnis',
         'Vendor' => 'Anbieter',
         'Module documentation' => 'Moduldokumentation',
