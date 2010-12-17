@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.110 2009-05-15 06:14:46 martin Exp $
+# $Id: Queue.pm,v 1.110.2.1 2010-12-17 20:53:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.110.2.1 $) [1];
 
 =head1 NAME
 
@@ -631,16 +631,19 @@ add queue with attributes
 sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
-    for (
-        qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpLock SystemAddressID SalutationID SignatureID
-        FollowUpID FollowUpLock DefaultSignKey Calendar)
-        )
-    {
+    # check if this request is from web and not from command line
+    if ( !$Param{FromWeb} ) {
+        for (
+            qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
+            FollowUpLock SystemAddressID SalutationID SignatureID
+            FollowUpID FollowUpLock DefaultSignKey Calendar)
+            )
+        {
 
-        # I added default values in the Load Routine
-        if ( !$Param{$_} ) {
-            $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
+            # I added default values in the Load Routine
+            if ( !$Param{$_} ) {
+                $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
+            }
         }
     }
 
@@ -1087,12 +1090,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2009-05-15 06:14:46 $
+$Revision: 1.110.2.1 $ $Date: 2010-12-17 20:53:22 $
 
 =cut
