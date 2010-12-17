@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.412 2010-12-09 13:58:39 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.413 2010-12-17 15:15:53 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -129,7 +129,7 @@
                 <Item Key="ar_SA">Arabic (Saudi Arabia)</Item>
                 <Item Key="bg">Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)</Item>
                 <Item Key="ct">Catal&amp;agrave;</Item>
-                <Item Key="cz">Czech (&amp;#x010c;esky)</Item>
+                <Item Key="cs">Czech (&amp;#x010c;esky)</Item>
                 <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
                 <Item Key="en">English (United States)</Item>

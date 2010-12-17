@@ -1,25 +1,25 @@
 # --
-# Kernel/Language/cz.pm - provides cz language translation
+# Kernel/Language/cs.pm - provides Czech language translation
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cz.pm,v 1.100 2010-12-08 09:39:05 mb Exp $
+# $Id: cs.pm,v 1.1 2010-12-17 15:15:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Language::cz;
+package Kernel::Language::cs;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;
