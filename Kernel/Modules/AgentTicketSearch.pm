@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.117 2010-12-15 14:20:49 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.118 2010-12-17 22:14:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -797,10 +797,17 @@ sub Run {
                 push @CSVData, \@Data;
             }
 
+            # get Separator from language file
+            my $UserCSVSeparator = $Self->{LayoutObject}->{LanguageObject}->{Separator};
+
+            if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
+                my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+                $UserCSVSeparator = $UserData{UserCSVSeparator};
+            }
             my $CSV = $Self->{CSVObject}->Array2CSV(
                 Head      => \@CSVHead,
                 Data      => \@CSVData,
-                Separator => $Self->{UserCSVSeparator},
+                Separator => $UserCSVSeparator,
             );
 
             # return csv to download
