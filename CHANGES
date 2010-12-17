@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1679 2010-12-16 17:27:24 mp Exp $
+# $Id: CHANGES,v 1.1680 2010-12-17 07:35:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.5 2010-01-??
+ - 2010-12-17 Fixed bug#6543 - UPGRADING should clearly state changed parameters
+    of SetPermissions script.
  - 2010-12-16 Fixed bug#6554 - SysConfig Group Handling.
  - 2010-12-15 Fixed bug#6380 - Change Search Options does not list default fields.
  - 2010-12-14 Fixed bug#6476 - Stats overview table has display error in table header.

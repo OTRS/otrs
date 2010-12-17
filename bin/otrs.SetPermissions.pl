@@ -3,7 +3,7 @@
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPermissions.pl,v 1.3 2010-05-07 18:58:19 mb Exp $
+# $Id: otrs.SetPermissions.pl,v 1.4 2010-12-17 07:35:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 print "bin/otrs.SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
@@ -38,11 +38,11 @@ my $Version            = 0;
 my $Help               = 0;
 my $NotRoot            = 0;
 my $AdminGroupWritable = 0;
-my $OtrsUser           = 'otrs';
-my $WebUser            = 'otrs';
+my $OtrsUser           = '';
+my $WebUser            = '';
 my $AdminUser          = 'root';
-my $OtrsGroup          = 'nogroup';
-my $WebGroup           = 'nogroup';
+my $OtrsGroup          = '';
+my $WebGroup           = '';
 my $AdminGroup         = 'root';
 
 GetOptions(
@@ -87,6 +87,24 @@ EOF
     }
 }
 my $DestDir = $ARGV[0];
+
+# check params
+if ( !$OtrsUser ) {
+    print STDERR "ERROR: --otrs-user=<OTRS_USER>\n";
+    exit 1;
+}
+if ( !$WebUser ) {
+    print STDERR "ERROR: --web-user=<WEBSERVER_USER>\n";
+    exit 1;
+}
+if ( !$OtrsGroup ) {
+    print STDERR "ERROR: --otrs-group=<OTRS_GROUP>\n";
+    exit 1;
+}
+if ( !$WebGroup ) {
+    print STDERR "ERROR: --web-group=<WEB_GROUP>\n";
+    exit 1;
+}
 
 # Check that the users exist
 my ( $WebUserId, $OtrsUserId, $AdminUserId );
