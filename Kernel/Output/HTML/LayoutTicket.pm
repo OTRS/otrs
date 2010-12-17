@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.50.2.7 2010-06-28 21:38:27 sb Exp $
+# $Id: LayoutTicket.pm,v 1.50.2.8 2010-12-17 13:40:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.7 $) [1];
+$VERSION = qw($Revision: 1.50.2.8 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -765,6 +765,7 @@ sub ArticleQuote {
                 . '&ContentID=';
 
             # search inline documents in body and add it to upload cache
+            my %AttachmentAlreadyUsed;
             $Body =~ s{
                 (=|"|')cid:(.*?)("|'|>|\/>|\s)
             }
@@ -784,10 +785,12 @@ sub ArticleQuote {
                 # find attachment to include
                 ATMCOUNT:
                 for my $AttachmentID ( keys %Attachments ) {
+                    next if $AttachmentAlreadyUsed{$AttachmentID};
 
                     # remember not included real attachments
-                    if ( $Attachments{$AttachmentID}->{ContentID} !~ /^<$ContentID>$/i ) {
+                    if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         push @NotInlineAttachments, $AttachmentID;
+                        $AttachmentAlreadyUsed{$AttachmentID} = 1;
                         next ATMCOUNT;
                     }
 
@@ -795,6 +798,7 @@ sub ArticleQuote {
                     my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
                         ArticleID => $Param{ArticleID},
                         FileID    => $AttachmentID,
+                        UserID    => $Self->{UserID},
                     );
 
                     # content id cleanup
@@ -817,7 +821,7 @@ sub ArticleQuote {
                         $ContentID = $AttachmentLink . $Attachment->{ContentID};
                         last CONTENTIDRETURN;
                     }
-                    last ATMCOUNT;
+                    $AttachmentAlreadyUsed{$AttachmentID} = 1;
                 }
 
                 # return link
