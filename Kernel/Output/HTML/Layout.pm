@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.345 2010-12-10 09:08:21 mg Exp $
+# $Id: Layout.pm,v 1.346 2010-12-17 10:54:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.345 $) [1];
+$VERSION = qw($Revision: 1.346 $) [1];
 
 =head1 NAME
 
@@ -1293,9 +1293,17 @@ sub Header {
     if ( !defined $Param{ShowToolbarItems} ) {
         $Param{ShowToolbarItems} = 1;
     }
+
     if ( !defined $Param{ShowPrefLink} ) {
         $Param{ShowPrefLink} = 1;
     }
+
+    # do not show preferences link if the preferences module is disabled
+    my $Modules = $Self->{ConfigObject}->Get('Frontend::Module');
+    if ( !$Modules->{AgentPreferences} ) {
+        $Param{ShowPrefLink} = 0;
+    }
+
     if ( !defined $Param{ShowLogoutButton} ) {
         $Param{ShowLogoutButton} = 1;
     }
@@ -4831,6 +4839,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.345 $ $Date: 2010-12-10 09:08:21 $
+$Revision: 1.346 $ $Date: 2010-12-17 10:54:56 $
 
 =cut

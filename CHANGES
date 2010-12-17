@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1681 2010-12-17 10:44:20 mg Exp $
+# $Id: CHANGES,v 1.1682 2010-12-17 10:54:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2010-01-??
+ - 2010-12-17 Fixed bug#6560 - Link to "AgentPreferences" is shown even when the module is disabled.
  - 2010-12-17 Fixed bug#6561 - Text sometimes too long for button.
  - 2010-12-17 Fixed bug#6543 - UPGRADING should clearly state changed parameters
     of SetPermissions script.
