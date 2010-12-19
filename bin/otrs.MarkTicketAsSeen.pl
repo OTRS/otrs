@@ -3,7 +3,7 @@
 # otrs.MarkTicketAsSeen.pl - set all ticket to seen
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.MarkTicketAsSeen.pl,v 1.1 2010-11-23 15:32:59 martin Exp $
+# $Id: otrs.MarkTicketAsSeen.pl,v 1.2 2010-12-19 12:42:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -67,7 +67,7 @@ $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # disable ticket events
-$CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = {};
+$CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = undef;
 
 # get all users
 my %Users = $CommonObject{UserObject}->UserList(
@@ -92,11 +92,12 @@ my $TicketCount = scalar @TicketIDs;
 my $Count       = 0;
 for my $TicketID (@TicketIDs) {
     $Count++;
+    my $TicketObject = Kernel::System::Ticket->new(%CommonObject);
 
     # check permission
     my %UserAccess;
     for my $UserID ( sort keys %Users ) {
-        my $Access = $CommonObject{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'ro',
             TicketID => $TicketID,
             LogNo    => 1,
@@ -106,7 +107,7 @@ for my $TicketID (@TicketIDs) {
     }
 
     # update article flag
-    my @ArticleIndex = $CommonObject{TicketObject}->ArticleIndex(
+    my @ArticleIndex = $TicketObject->ArticleIndex(
         TicketID => $TicketID,
         UserID   => 1,
     );
@@ -123,10 +124,10 @@ for my $TicketID (@TicketIDs) {
             };
         }
     }
-    for my $Row (@Data) {
 
-        # mark article as seen
-        $CommonObject{TicketObject}->ArticleFlagSet(
+    # mark article as seen
+    for my $Row (@Data) {
+        $TicketObject->ArticleFlagSet(
             ArticleID => $Row->{ArticleID},
             Key       => 'Seen',
             Value     => 1,
@@ -141,7 +142,7 @@ for my $TicketID (@TicketIDs) {
         next if !$UserAccess{$UserID};
 
         # set ticket flag
-        $CommonObject{TicketObject}->TicketFlagSet(
+        $TicketObject->TicketFlagSet(
             TicketID => $TicketID,
             Key      => 'Seen',
             Value    => 1,
@@ -150,7 +151,6 @@ for my $TicketID (@TicketIDs) {
     }
 
     print "NOTICE: $Count of $TicketCount Tickets.\n";
-
 }
 print "NOTICE: done.\n";
 
