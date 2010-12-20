@@ -1850,7 +1850,7 @@ Er is een nieuw ticket aangemaakt in &lt;OTRS_TICKET_Queue&gt;!
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
@@ -1871,7 +1871,7 @@ Er is een reactie ontvangen op onderstaand ticket.
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
@@ -1893,7 +1893,7 @@ De bewerkingstijd van ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is overschreden,
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
@@ -1975,7 +1975,7 @@ Notitie:
 
 &lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt; heeft [&lt;OTRS_TICKET_TicketNumber&gt;] verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt;.
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
@@ -1997,7 +1997,7 @@ Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
@@ -2022,7 +2022,7 @@ Geëscaleerd sinds: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
@@ -2047,7 +2047,7 @@ Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 
 &lt;OTRS_CUSTOMER_FROM&gt; schreef:
 
-OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
