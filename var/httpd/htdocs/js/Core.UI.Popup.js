@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.9 2010-11-18 11:02:38 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.10 2010-12-20 09:22:03 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,6 +56,29 @@ Core.UI.Popup = (function (TargetNS) {
     function GetPopupObjectByType(Type) {
         return OpenPopups[Type];
     }
+
+    /**
+     * @function
+     * @description
+     *      Adds a popup profile.
+     * @param {String} Key      Name of the Profile (UID).
+     * @param {String} Value    Profile string as expected by window.open(),
+     *          e. g. "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
+     * @return nothing
+     */
+    TargetNS.ProfileAdd = function (Key, Value) {
+        PopupProfiles[Key] = Value;
+    };
+
+    /**
+     * @function
+     * @description
+     *      Get the list of registered popup profiles.
+     * @return {Object} PopupProfiles object.
+     */
+    TargetNS.ProfileList = function () {
+        return PopupProfiles;
+    };
 
     /**
      * @function
