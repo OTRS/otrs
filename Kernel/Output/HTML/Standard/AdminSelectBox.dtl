@@ -2,7 +2,7 @@
 # AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.7 2010-11-23 00:10:36 en Exp $
+# $Id: AdminSelectBox.dtl,v 1.8 2010-12-20 18:34:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,8 +70,25 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="$Text{"Run Query"}">$Text{"Run Query"}</button>
+                            <button class="Primary" type="submit" id="Run" value="$Text{"Run Query"}">$Text{"Run Query"}</button>
                         </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#Run').bind('click', function (Event) {
+        var ResultFormat = $('#ResultFormat option:selected').text();
+        if (ResultFormat == 'CSV') {
+            if ( $('#ResultFormat').closest('form').hasClass("PreventMultipleSubmits") ) {
+                $('#ResultFormat').closest('form').removeClass("PreventMultipleSubmits")
+            }
+        }
+        else {
+            if ( !$('#ResultFormat').closest('form').hasClass("PreventMultipleSubmits") ) {
+                $('#ResultFormat').closest('form').addClass("PreventMultipleSubmits")
+            }
+        }
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </fieldset>
                 </form>
             </div>
