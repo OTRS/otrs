@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.6 2010-12-20 14:17:05 mg Exp $
+# $Id: Selenium.pm,v 1.7 2010-12-20 14:26:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,7 +165,7 @@ sub AUTOLOAD {
 
 =item Login()
 
-login to agent oder customer interface
+login to agent or customer interface
 
     $SeleniumObject->Login(
         Type     => 'Agent', # Agent|Customer
@@ -229,6 +229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-12-20 14:17:05 $
+$Revision: 1.7 $ $Date: 2010-12-20 14:26:00 $
 
 =cut
