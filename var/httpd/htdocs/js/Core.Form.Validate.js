@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.25 2010-12-08 09:41:38 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.26 2010-12-20 09:43:18 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -438,14 +438,19 @@ Core.Form.Validate = (function (TargetNS) {
         else {
             FormSelector = 'form';
         }
-        $(FormSelector).validate({
-            ignoreTitle: true,
-            errorClass: Options.ErrorClass,
-            highlight: HighlightError,
-            unhighlight: UnHighlightError,
-            errorPlacement: OnErrorElement,
-            submitHandler: OnSubmit,
-            ignore: '.' + Options.IgnoreClass
+
+        // Init all forms separately, the validate plugin can
+        //  only handle one at a time.
+        $(FormSelector).each(function(){
+            $(this).validate({
+                ignoreTitle: true,
+                errorClass: Options.ErrorClass,
+                highlight: HighlightError,
+                unhighlight: UnHighlightError,
+                errorPlacement: OnErrorElement,
+                submitHandler: OnSubmit,
+                ignore: '.' + Options.IgnoreClass
+            });
         });
 
         /*
