@@ -2,7 +2,7 @@
 # 100-Admin.t - frontend tests for admin area
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-Admin.t,v 1.1 2010-12-20 15:14:25 mg Exp $
+# $Id: 100-Admin.t,v 1.2 2010-12-20 16:00:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,6 @@ my @AdminModules = qw(
     AdminEmail
     AdminGenericAgent
     AdminGroup
-    AdminInit
     AdminLog
     AdminMailAccount
     AdminNotification
@@ -85,6 +84,15 @@ ADMINMODULE:
 for my $AdminModule (@AdminModules) {
     $sel->open_ok("${ScriptAlias}index.pl?Action=$AdminModule");
     $sel->wait_for_page_to_load_ok("30000");
+
+    # Guess if the page content is ok or an error message. Here we
+    #   check for the presence of div.SidebarColumn because all Admin
+    #   modules have this sidebar column present.
+    $sel->is_element_present_ok("css=div.SidebarColumn");
+
+    # Also check if the navigation is present (this is not the case
+    #   for error messages and has "Admin" highlighted
+    $sel->is_element_present_ok("css=li#nav-Admin.Selected");
 }
 
 1;
