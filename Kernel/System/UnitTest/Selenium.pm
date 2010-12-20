@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.4 2010-11-17 13:09:25 mg Exp $
+# $Id: Selenium.pm,v 1.5 2010-12-20 13:55:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,6 +163,65 @@ sub AUTOLOAD {
     }
 }
 
+=item Login()
+
+login to agent oder customer interface
+
+    $SeleniumObject->Login(
+        Type     => 'Agent', # Agent|Customer
+        User     => 'someuser',
+        Password => 'somepassword',
+    );
+
+=cut
+
+sub Login {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Type User Password)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
+    $ScriptAlias = '/otrs-cvs/otrs-cvs/bin/cgi-bin/';
+    if ( $Param{Type} eq 'Agent' ) {
+        $ScriptAlias .= 'index.pl';
+    }
+    else {
+        $ScriptAlias .= 'customer.pl';
+    }
+    $Self->open_ok("${ScriptAlias}?Action=Logout");
+
+    $Self->is_editable_ok("User");
+    $Self->type_ok( "User", $Param{User} );
+    $Self->is_editable_ok("Password");
+    $Self->type_ok( "Password", $Param{Password} );
+    $Self->is_visible_ok("//button[\@id='LoginButton']");
+    if ( !$Self->click_ok("//button[\@id='LoginButton']") ) {
+        $Self->{UnitTestObject}->{LogObject}
+            ->Log( Priority => 'error', Message => "Could not submit login form" );
+        return;
+    }
+
+    $Self->wait_for_page_to_load_ok("30000");
+    if ( !$Self->click_ok("//a[\@id='LogoutButton']") ) {
+        $Self->{UnitTestObject}->{LogObject}
+            ->Log( Priority => 'error', Message => "Could not submit logout form" );
+        return;
+    }
+
+    $Self->wait_for_page_to_load_ok("30000");
+    $Self->is_editable_ok("User");
+    $Self->is_editable_ok("Password");
+    $Self->is_visible_ok("//button[\@id='LoginButton']");
+    $Self->open_ok("${ScriptAlias}");
+    return 1;
+}
+
 1;
 
 =back
@@ -179,6 +238,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-11-17 13:09:25 $
+$Revision: 1.5 $ $Date: 2010-12-20 13:55:24 $
 
 =cut
