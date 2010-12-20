@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.44.2.2 2010-12-17 20:53:22 cg Exp $
+# $Id: AdminQueueForm.dtl,v 1.44.2.3 2010-12-20 23:51:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,6 @@
                 <input type="hidden" name="Action"    value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
                 <input type="hidden" name="QueueID"   value="$QData{"QueueID"}"/>
-                <input type="hidden" name="FromWeb"   value="1"/>
                 <table width="100%" cellspacing="0" cellpadding="4">
                     <tr>
                         <td class="contenthead">
