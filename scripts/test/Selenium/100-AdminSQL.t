@@ -2,7 +2,7 @@
 # 100-AdminSQL.t - frontend tests for AdminSQL
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-AdminSQL.t,v 1.1 2010-12-20 13:56:03 martin Exp $
+# $Id: 100-AdminSQL.t,v 1.2 2010-12-20 14:16:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,9 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
+# use local Config object because it will be modified
+my $ConfigObject = Kernel::Config->new();
+
 my $sel = Kernel::System::UnitTest::Selenium->new(
     Verbose        => 1,
     UnitTestObject => $Self,
@@ -33,17 +36,13 @@ $sel->Login(
     Password => 'root',
 );
 
-$sel->click_ok("link=Admin");
-$sel->wait_for_page_to_load_ok("30000");
-$sel->click_ok("link=Admin");
-$sel->wait_for_page_to_load_ok("30000");
-$sel->click_ok("link=SQL Box");
+my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+$sel->open_ok("${ScriptAlias}index.pl?Action=AdminSelectBox");
 $sel->wait_for_page_to_load_ok("30000");
 $sel->type_ok( "SQL", "SELECT * FROM valid" );
 $sel->click_ok("//button[\@value='Run Query']");
 $sel->wait_for_page_to_load_ok("30000");
 $sel->body_text_is("valid");
-
-# $sel->_ok();
 
 1;

@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.5 2010-12-20 13:55:24 martin Exp $
+# $Id: Selenium.pm,v 1.6 2010-12-20 14:17:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -187,7 +187,7 @@ sub Login {
     }
 
     my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
-    $ScriptAlias = '/otrs-cvs/otrs-cvs/bin/cgi-bin/';
+
     if ( $Param{Type} eq 'Agent' ) {
         $ScriptAlias .= 'index.pl';
     }
@@ -201,6 +201,7 @@ sub Login {
     $Self->is_editable_ok("Password");
     $Self->type_ok( "Password", $Param{Password} );
     $Self->is_visible_ok("//button[\@id='LoginButton']");
+
     if ( !$Self->click_ok("//button[\@id='LoginButton']") ) {
         $Self->{UnitTestObject}->{LogObject}
             ->Log( Priority => 'error', Message => "Could not submit login form" );
@@ -208,17 +209,7 @@ sub Login {
     }
 
     $Self->wait_for_page_to_load_ok("30000");
-    if ( !$Self->click_ok("//a[\@id='LogoutButton']") ) {
-        $Self->{UnitTestObject}->{LogObject}
-            ->Log( Priority => 'error', Message => "Could not submit logout form" );
-        return;
-    }
 
-    $Self->wait_for_page_to_load_ok("30000");
-    $Self->is_editable_ok("User");
-    $Self->is_editable_ok("Password");
-    $Self->is_visible_ok("//button[\@id='LoginButton']");
-    $Self->open_ok("${ScriptAlias}");
     return 1;
 }
 
@@ -238,6 +229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2010-12-20 13:55:24 $
+$Revision: 1.6 $ $Date: 2010-12-20 14:17:05 $
 
 =cut
