@@ -2,7 +2,7 @@
 # AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.8 2010-12-20 18:34:47 cg Exp $
+# $Id: AdminSelectBox.dtl,v 1.9 2010-12-20 23:59:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Select"/>
                     <fieldset class="TableLike FixedLabelSmall">
@@ -76,15 +76,8 @@
 <script type="text/javascript">//<![CDATA[
     $('#Run').bind('click', function (Event) {
         var ResultFormat = $('#ResultFormat option:selected').text();
-        if (ResultFormat == 'CSV') {
-            if ( $('#ResultFormat').closest('form').hasClass("PreventMultipleSubmits") ) {
-                $('#ResultFormat').closest('form').removeClass("PreventMultipleSubmits")
-            }
-        }
-        else {
-            if ( !$('#ResultFormat').closest('form').hasClass("PreventMultipleSubmits") ) {
-                $('#ResultFormat').closest('form').addClass("PreventMultipleSubmits")
-            }
+        if (ResultFormat != 'CSV') {
+            Core.Form.DisableForm( $('#ResultFormat').closest('form') );
         }
     });
 //]]></script>
