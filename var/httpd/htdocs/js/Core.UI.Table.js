@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.2 2010-07-21 06:05:17 cg Exp $
+// $Id: Core.UI.Table.js,v 1.3 2010-12-20 14:50:07 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,20 @@ Core.UI.Table = (function (TargetNS) {
                 .removeClass('Even Last');
             $('tr:nth-child(even), li:not(.Header):nth-child(even)', $Context)
                 .addClass('Even');
+            /*
             $('tr:last-child, th:last-child, td:last-child, li:last-child', $Context)
+                .addClass('Last');
+
+                This had to be split up into several statements as it caused
+                    performance problems (script timeout) in IE7.
+            */
+            $('tr:last-child', $Context)
+                .addClass('Last');
+            $('th:last-child', $Context)
+                .addClass('Last');
+            $('td:last-child', $Context)
+                .addClass('Last');
+            $('li:last-child', $Context)
                 .addClass('Last');
         }
     };
