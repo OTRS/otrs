@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.86 2010-12-14 12:42:20 mb Exp $
+# $Id: AgentTicketCompose.dtl,v 1.87 2010-12-20 15:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,14 +175,14 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 <!-- dtl:block:TicketFreeText -->
 #<!-- dtl:block:TicketFreeText1 -->
-#                   <label>$Data{"TicketFreeKeyField1"}:</label>
+#                   $Data{"TicketFreeKeyField1"}
 #                   <div class="Field">
 #                       $Data{"TicketFreeTextField1"}
 #                   </div>
 #                   <div class="Clear"></div>
 #<!-- dtl:block:TicketFreeText1 -->
 #<!-- dtl:block:TicketFreeText2 -->
-#                   <label>$Data{"TicketFreeKeyField2"}:</label>
+#                   $Data{"TicketFreeKeyField2"}
 #                   <div class="Field">
 #                       $Data{"TicketFreeTextField2"}
 #                   </div>
@@ -218,14 +218,14 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleFreeText -->
 #<!-- dtl:block:ArticleFreeText1 -->
-#                   <label>$Data{"ArticleFreeKeyField1"}:</label>
+#                   $Data{"ArticleFreeKeyField1"}
 #                   <div class="Field">
 #                       $Data{"ArticleFreeKeyField1"}
 #                   </div>
 #                   <div class="Clear"></div>
 #<!-- dtl:block:ArticleFreeText1 -->
 #<!-- dtl:block:ArticleFreeText2 -->
-#                   <label>$Data{"ArticleFreeKeyField2"}:</label>
+#                   $Data{"ArticleFreeKeyField2"}
 #                   <div class="Field">
 #                       $Data{"ArticleFreeKeyField2"}
 #                   </div>

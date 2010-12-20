@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.71 2010-12-14 12:42:20 mb Exp $
+# $Id: AgentTicketMove.dtl,v 1.72 2010-12-20 15:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -194,18 +194,18 @@ $Include{"RichTextEditor"}
 
 # example of how to use fixed ticket freetext blocks for customizations
 #<!-- dtl:block:TicketFreeText1 -->
-#                        <label>$Data{"TicketFreeKeyField1"}:</label>
-#                        <div class="Field">
-#                            $Data{"TicketFreeTextField1"}
-#                        </div>
-#                        <div class="Clear"></div>
+#                    $Data{"TicketFreeKeyField1"}
+#                    <div class="Field">
+#                        $Data{"TicketFreeTextField1"}
+#                    </div>
+#                    <div class="Clear"></div>
 #<!-- dtl:block:TicketFreeText1 -->
 #<!-- dtl:block:TicketFreeText2 -->
-#                        <label>$Data{"TicketFreeKeyField2"}:</label>
-#                        <div class="Field">
-#                            $Data{"TicketFreeTextField2"}
-#                        </div>
-#                        <div class="Clear"></div>
+#                    $Data{"TicketFreeKeyField2"}
+#                    <div class="Field">
+#                        $Data{"TicketFreeTextField2"}
+#                    </div>
+#                    <div class="Clear"></div>
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->

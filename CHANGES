@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1684 2010-12-20 14:50:07 mg Exp $
+# $Id: CHANGES,v 1.1685 2010-12-20 15:36:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.5 2010-01-??
+ - 2010-12-20 Fixed bug#6580 - Troubles modifying AgentTicketPhone in OTRS 3.0.3
+    - using FreeText... failed.
  - 2010-12-20 Fixed bug#6577 - AdminNotification screen does not work in IE7 on Windows XP.
  - 2010-12-17 Fixed bug#6559 - the CK EDITOR for entering comments does not starts
     if you use CZ localization.
