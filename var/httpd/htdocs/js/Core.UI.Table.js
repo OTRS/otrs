@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.3 2010-12-20 14:50:07 mg Exp $
+// $Id: Core.UI.Table.js,v 1.4 2010-12-21 09:42:45 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,9 +68,12 @@ Core.UI.Table = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
+        var Timeout;
+
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
 
-            window.setTimeout(function () {
+            window.clearTimeout(Timeout);
+            Timeout = window.setTimeout(function () {
 
                 /**
                  * @function
@@ -81,22 +84,24 @@ Core.UI.Table = (function (TargetNS) {
                  * @description Ckeck if a text exist inside an element
                  */
                 function CheckText($Element, FilterText) {
-                    var Result = ($Element.text().toLowerCase().indexOf(FilterText) > -1);
-                    if (!Result) {
-                        if ($Element.is('li, td')) {
-                            if ($Element.attr('title').toLowerCase().indexOf(FilterText) > -1) {
-                                Result = true;
-                            }
-                        }
-                        else {
-                            $Element.find('td').each(function () {
-                                if ($(this).attr('title').toLowerCase().indexOf(FilterText) > -1) {
-                                    Result = true;
-                                }
-                            });
+                    if ($Element.text().toLowerCase().indexOf(FilterText) > -1){
+                        return true;
+                    }
+
+                    if ($Element.is('li, td')) {
+                        if ($Element.attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                            return true;
                         }
                     }
-                    return Result;
+                    else {
+                        $Element.find('td').each(function () {
+                            if ($(this).attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                                return true;
+                            }
+                        });
+                    }
+
+                    return false;
                 }
 
                 var FilterText = ($FilterInput.val() || '').toLowerCase(),
@@ -126,7 +131,7 @@ Core.UI.Table = (function (TargetNS) {
                     $Container.find('.FilterMessage').show();
                 }
 
-            }, 0);
+            }, 100);
         });
 
         // Prevent submit when the Return key was pressed
