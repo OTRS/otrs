@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.34 2010-12-09 09:56:51 mg Exp $
+# $Id: HTMLUtils.t,v 1.35 2010-12-21 15:26:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -554,6 +554,12 @@ for my $Test (@Tests) {
         Input => '<html>www.heise.de</html>',
         Result =>
             '<html><a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>xwww.heise.de</html>',
+        Result => '<html>xwww.heise.de</html>',
         Name   => 'LinkQuote with plain domains.',
         Target => '',
     },
