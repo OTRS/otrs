@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.110.2.2 2010-12-20 23:51:17 cg Exp $
+# $Id: Queue.pm,v 1.110.2.3 2010-12-21 16:56:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110.2.2 $) [1];
+$VERSION = qw($Revision: 1.110.2.3 $) [1];
 
 =head1 NAME
 
@@ -632,7 +632,7 @@ sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
     # check if this request is from web and not from command line
-    if ( $Param{SetDefaults} ) {
+    if ( !$Param{NoDefaultValues} ) {
         for (
             qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
             FollowUpLock SystemAddressID SalutationID SignatureID
@@ -1096,6 +1096,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.110.2.2 $ $Date: 2010-12-20 23:51:17 $
+$Revision: 1.110.2.3 $ $Date: 2010-12-21 16:56:52 $
 
 =cut
