@@ -2,7 +2,7 @@
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-JSUnitTest.t,v 1.2 2010-12-21 14:18:51 mg Exp $
+# $Id: 000-JSUnitTest.t,v 1.3 2010-12-21 14:23:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,10 @@ if (
         }
 
         for my $Test ( 1 .. $Failed ) {
-            $Self->True( 0, 'Failed JavaScript unit test found' );
+            $Self->True(
+                0,
+                'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
+            );
         }
 
         return 1;
