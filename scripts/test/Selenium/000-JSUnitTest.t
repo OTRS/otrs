@@ -2,7 +2,7 @@
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-JSUnitTest.t,v 1.1 2010-12-21 13:31:11 mg Exp $
+# $Id: 000-JSUnitTest.t,v 1.2 2010-12-21 14:18:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,18 +44,29 @@ $sel->is_element_present_ok("css=p.result span.total");
 
 if (
     !eval {
-        $sel->eval_is(
-            "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()",
-            "0"
+        my ( $Passed, $Failed, $Total );
+        $Passed = $sel->get_eval(
+            "this.browserbot.getCurrentWindow().\$('p.result span.passed').text()"
         );
-        $sel->eval_is(
-            "this.browserbot.getCurrentWindow().\$('p.result span.passed').text() > 0",
-            "true"
+        $Failed = $sel->get_eval(
+            "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
         );
-        $sel->eval_is(
-            "this.browserbot.getCurrentWindow().\$('p.result span.passed').text() == this.browserbot.getCurrentWindow().\$('p.result span.total').text()",
-            "true"
-        );
+        $Total
+            = $sel->get_eval("this.browserbot.getCurrentWindow().\$('p.result span.total').text()");
+
+        $Self->True( $Passed, 'Found passed tests' );
+        $Self->Is( $Passed, $Total, 'Total number of tests' );
+        $Self->False( $Failed, 'Failed tests' );
+
+        for my $Test ( 1 .. $Passed ) {
+            $Self->True( 1, 'Successful JavaScript unit test found' );
+        }
+
+        for my $Test ( 1 .. $Failed ) {
+            $Self->True( 0, 'Failed JavaScript unit test found' );
+        }
+
+        return 1;
     }
     )
 {
