@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/installer.pl - the global CGI handle for installer
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.32 2009-11-18 11:57:40 martin Exp $
+# $Id: installer.pl,v 1.33 2010-12-21 14:37:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -29,11 +29,8 @@ use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
-use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.32 $) [1];
-
-# check @INC for mod_perl (add lib path for "require module"!)
-push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.33 $) [1];
 
 # 0=off;1=on;
 my $Debug = 0;
