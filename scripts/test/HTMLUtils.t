@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13.2.8 2010-09-30 10:06:27 mg Exp $
+# $Id: HTMLUtils.t,v 1.13.2.9 2010-12-21 15:27:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -417,6 +417,13 @@ for my $Test (@Tests) {
         Target => '',
     },
     {
+        Input => 'Some Text with url http://xwww.example.com',
+        Result =>
+            'Some Text with url <a href="http://xwww.example.com" title="http://xwww.example.com">http://xwww.example.com</a>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
         Input => 'Some Text with url http://example-domain.com',
         Result =>
             'Some Text with url <a href="http://example-domain.com" title="http://example-domain.com">http://example-domain.com</a>',
@@ -447,6 +454,14 @@ for my $Test (@Tests) {
         Result =>
             'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" title="http://example.com/?q=123">http://example.com/?q=123</a>',
         Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input =>
+            'Some text with a complicated url http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631',
+        Result =>
+            'Some text with a complicated url <a href="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631" title="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631">http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631</a>',
+        Name   => 'LinkQuote - complicated',
         Target => '',
     },
     {
@@ -499,34 +514,169 @@ for my $Test (@Tests) {
     },
     {
         Input =>
-            'Test www.otrs.org www.otrs3.org <sometag attribute="www.otrs4.org">www.otrs4.org</sometag> <sometag attribute="www5.otrs.org"> www.otrs5.org </sometag>',
+            'Some text with a full url http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631',
         Result =>
-            'Test <a href="http://www.otrs.org" target="_blue" title="http://www.otrs.org">www.otrs.org</a> <a href="http://www.otrs3.org" target="_blue" title="http://www.otrs3.org">www.otrs3.org</a> <sometag attribute="www.otrs4.org"><a href="http://www.otrs4.org" target="_blue" title="http://www.otrs4.org">www.otrs4.org</a></sometag> <sometag attribute="www5.otrs.org"> <a href="http://www.otrs5.org" target="_blue" title="http://www.otrs5.org">www.otrs5.org</a> </sometag>',
+            'Some text with a full url <a href="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631" title="http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631">http://example.com/otrs/index.pl?Action=AgentTicketZoom&TicketID=256868&ArticleID=696631&ZoomExpand=0#696631</a>',
+        Name   => 'LinkQuote - full url',
+        Target => '',
+    },
+    {
+        Input => '<html>www.heise.de</html>',
+        Result =>
+            '<html><a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>xwww.heise.de</html>',
+        Result => '<html>xwww.heise.de</html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>ftp.heise.de</html>',
+        Result =>
+            '<html><a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>www.heise.de/Suffix</html>',
+        Result =>
+            '<html><a href="http://www.heise.de/Suffix" title="http://www.heise.de/Suffix">www.heise.de/Suffix</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>www.heise-online.de/Suffix</html>',
+        Result =>
+            '<html><a href="http://www.heise-online.de/Suffix" title="http://www.heise-online.de/Suffix">www.heise-online.de/Suffix</a></html>',
+        Name   => 'LinkQuote with plain domains with a dash.',
+        Target => '',
+    },
+    {
+        Input => '<html>ftp.heise.de/Suffix</html>',
+        Result =>
+            '<html><a href="ftp://ftp.heise.de/Suffix" title="ftp://ftp.heise.de/Suffix">ftp.heise.de/Suffix</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixwww.heise.de</html>',
+        Result => '<html>Prefixwww.heise.de</html>',
+        Name   => 'LinkQuote with prefix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixftp.heise.de</html>',
+        Result => '<html>Prefixftp.heise.de</html>',
+        Name   => 'LinkQuote with prefix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixwww.heise.deSuffix</html>',
+        Result => '<html>Prefixwww.heise.deSuffix</html>',
+        Name   => 'LinkQuote with prefix and suffix plain domains.',
+        Target => '',
+    },
+    {
+        Input  => '<html>Prefixftp.heise.deSuffix</html>',
+        Result => '<html>Prefixftp.heise.deSuffix</html>',
+        Name   => 'LinkQuote with prefix and suffix plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html> www.heise.de </html>',
+        Result =>
+            '<html> <a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a> </html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html> ftp.heise.de </html>',
+        Result =>
+            '<html> <a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a> </html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;www.heise.de&nbsp;</html>',
+        Result =>
+            '<html>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a>&nbsp;</html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;ftp.heise.de&nbsp;</html>',
+        Result =>
+            '<html>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a>&nbsp;</html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;www.heise.de&nbsp;www.heise.de</html>',
+        Result =>
+            '<html>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a>&nbsp;<a href="http://www.heise.de" title="http://www.heise.de">www.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input => '<html>&nbsp;ftp.heise.de&nbsp;ftp.heise.de</html>',
+        Result =>
+            '<html>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a>&nbsp;<a href="ftp://ftp.heise.de" title="ftp://ftp.heise.de">ftp.heise.de</a></html>',
+        Name   => 'LinkQuote with plain domains.',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url thisisnotanftp.link',
+        Result => 'Some Text with url thisisnotanftp.link',
+        Name   => 'LinkQuote - Not valid ftp url ',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url thisisnotanwww.link',
+        Result => 'Some Text with url thisisnotanwww.link',
+        Name   => 'LinkQuote - Not valid www url ',
+        Target => '',
+    },
+    {
+        Input =>
+            'Test www.example.org www.example3.org <sometag attribute="www.example4.org">www.example4.org</sometag> <sometag attribute="www5.example.org"> www.example5.org </sometag>',
+        Result =>
+            'Test <a href="http://www.example.org" target="_blue" title="http://www.example.org">www.example.org</a> <a href="http://www.example3.org" target="_blue" title="http://www.example3.org">www.example3.org</a> <sometag attribute="www.example4.org"><a href="http://www.example4.org" target="_blue" title="http://www.example4.org">www.example4.org</a></sometag> <sometag attribute="www5.example.org"> <a href="http://www.example5.org" target="_blue" title="http://www.example5.org">www.example5.org</a> </sometag>',
         Name   => 'LinkQuote - complex test with other tags ',
         Target => '_blue',
     },
     {
         Input =>
-            'Test http://example.otrs.local/otrs/index.pl?Action=AgentZoom&TicketID=2 link with &',
+            'Test http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2 link with &',
         Result =>
-            'Test <a href="http://example.otrs.local/otrs/index.pl?Action=AgentZoom&TicketID=2" title="http://example.otrs.local/otrs/index.pl?Action=AgentZoom&TicketID=2">http://example.otrs.local/otrs/index.pl?Action=AgentZoom&TicketID=2</a> link with &',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2</a> link with &',
         Name   => 'LinkQuote - link params with &',
         Target => '',
     },
     {
         Input =>
-            'Test http://example.otrs.local/otrs/index.pl?Action=AgentZoom&amp;TicketID=2 link with &amp;',
+            'Test http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2 link with &amp;',
         Result =>
-            'Test <a href="http://example.otrs.local/otrs/index.pl?Action=AgentZoom&amp;TicketID=2" title="http://example.otrs.local/otrs/index.pl?Action=AgentZoom&amp;TicketID=2">http://example.otrs.local/otrs/index.pl?Action=AgentZoom&amp;TicketID=2</a> link with &amp;',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2</a> link with &amp;',
         Name   => 'LinkQuote - link params with &amp;',
         Target => '',
     },
     {
         Input =>
-            'Test http://example.otrs.local/otrs/index.pl?Action=AgentZoom;TicketID=2 link with ;',
+            'Test http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2 link with ;',
         Result =>
-            'Test <a href="http://example.otrs.local/otrs/index.pl?Action=AgentZoom;TicketID=2" title="http://example.otrs.local/otrs/index.pl?Action=AgentZoom;TicketID=2">http://example.otrs.local/otrs/index.pl?Action=AgentZoom;TicketID=2</a> link with ;',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2</a> link with ;',
         Name   => 'LinkQuote - link params with ;',
+        Target => '',
+    },
+    {
+        Input =>
+            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
+        Result =>
+            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
+        Name   => 'LinkQuote - invalid URL, no quoting;',
         Target => '',
     },
 );
