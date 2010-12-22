@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.7 2010-12-15 22:17:38 dz Exp $
+# $Id: PGP.pm,v 1.32.2.8 2010-12-22 23:43:47 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.7 $) [1];
+$VERSION = qw($Revision: 1.32.2.8 $) [1];
 
 =head1 NAME
 
@@ -605,6 +605,13 @@ sub Verify {
         );
 
     }
+    elsif ( $LogMessage{NODATA} ) {
+        %Return = (
+            SignatureFound => 0,
+            Successful     => 0,
+            Message        => $LogMessage{NODATA}->{Log} || $Message,
+        );
+    }
     else {
         %Return = (
             SignatureFound => 1,
@@ -1061,6 +1068,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.7 $ $Date: 2010-12-15 22:17:38 $
+$Revision: 1.32.2.8 $ $Date: 2010-12-22 23:43:47 $
 
 =cut
