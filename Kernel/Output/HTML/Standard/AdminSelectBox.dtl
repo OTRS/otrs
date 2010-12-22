@@ -2,7 +2,7 @@
 # AdminSelectBox.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.9 2010-12-20 23:59:41 cg Exp $
+# $Id: AdminSelectBox.dtl,v 1.10 2010-12-22 11:17:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,12 +74,19 @@
                         </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#Run').bind('click', function (Event) {
-        var ResultFormat = $('#ResultFormat option:selected').text();
-        if (ResultFormat != 'CSV') {
-            Core.Form.DisableForm( $('#ResultFormat').closest('form') );
-        }
-    });
+$('#Run').bind('click', function (Event) {
+    var ResultFormat = $('#ResultFormat option:selected').text(),
+        $Form = $('#ResultFormat').closest('form');
+
+    $Form.submit();
+
+    if (ResultFormat != 'CSV') {
+        Core.Form.DisableForm( $Form );
+    }
+
+    Event.preventDefault;
+    return false;
+});
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </fieldset>
