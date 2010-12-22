@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.69 2010-12-01 13:41:07 bes Exp $
+# $Id: GenericAgent.pm,v 1.70 2010-12-22 14:02:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -717,6 +717,11 @@ sub _JobRunTicket {
 
     my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
 
+    # disable sending emails
+    if ( $Param{Config}->{New}->{SendNoNotification} ) {
+        $Self->{TicketObject}->{SendNoNotification} = 1;
+    }
+
     # move ticket
     if ( $Param{Config}->{New}->{Queue} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -727,9 +732,8 @@ sub _JobRunTicket {
                 Queue => $Param{Config}->{New}->{Queue},
                 Cache => 1,
             ),
-            UserID             => $Param{UserID},
-            TicketID           => $Param{TicketID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
+            UserID   => $Param{UserID},
+            TicketID => $Param{TicketID},
         );
     }
     if ( $Param{Config}->{New}->{QueueID} ) {
@@ -737,10 +741,9 @@ sub _JobRunTicket {
             print "  - Move Ticket $Ticket to QueueID '$Param{Config}->{New}->{QueueID}'\n";
         }
         $Self->{TicketObject}->TicketQueueSet(
-            QueueID            => $Param{Config}->{New}->{QueueID},
-            UserID             => $Param{UserID},
-            TicketID           => $Param{TicketID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
+            QueueID  => $Param{Config}->{New}->{QueueID},
+            UserID   => $Param{UserID},
+            TicketID => $Param{TicketID},
         );
     }
 
@@ -785,10 +788,9 @@ sub _JobRunTicket {
             print "  - changed state of Ticket $Ticket to '$Param{Config}->{New}->{State}'\n";
         }
         $Self->{TicketObject}->TicketStateSet(
-            TicketID           => $Param{TicketID},
-            UserID             => $Param{UserID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
-            State              => $Param{Config}->{New}->{State},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            State    => $Param{Config}->{New}->{State},
         );
     }
     if ( $Param{Config}->{New}->{StateID} ) {
@@ -796,10 +798,9 @@ sub _JobRunTicket {
             print "  - changed state id of ticket $Ticket to '$Param{Config}->{New}->{StateID}'\n";
         }
         $Self->{TicketObject}->TicketStateSet(
-            TicketID           => $Param{TicketID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
-            UserID             => $Param{UserID},
-            StateID            => $Param{Config}->{New}->{StateID},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            StateID  => $Param{Config}->{New}->{StateID},
         );
     }
 
@@ -932,10 +933,9 @@ sub _JobRunTicket {
             print "  - set owner of Ticket $Ticket to '$Param{Config}->{New}->{Owner}'\n";
         }
         $Self->{TicketObject}->TicketOwnerSet(
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
-            TicketID           => $Param{TicketID},
-            UserID             => $Param{UserID},
-            NewUser            => $Param{Config}->{New}->{Owner},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            NewUser  => $Param{Config}->{New}->{Owner},
         );
     }
     if ( $Param{Config}->{New}->{OwnerID} ) {
@@ -943,10 +943,9 @@ sub _JobRunTicket {
             print "  - set owner id of Ticket $Ticket to '$Param{Config}->{New}->{OwnerID}'\n";
         }
         $Self->{TicketObject}->TicketOwnerSet(
-            TicketID           => $Param{TicketID},
-            UserID             => $Param{UserID},
-            NewUserID          => $Param{Config}->{New}->{OwnerID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
+            TicketID  => $Param{TicketID},
+            UserID    => $Param{UserID},
+            NewUserID => $Param{Config}->{New}->{OwnerID},
         );
     }
 
@@ -956,10 +955,9 @@ sub _JobRunTicket {
             print "  - set lock of Ticket $Ticket to '$Param{Config}->{New}->{Lock}'\n";
         }
         $Self->{TicketObject}->TicketLockSet(
-            TicketID           => $Param{TicketID},
-            UserID             => $Param{UserID},
-            Lock               => $Param{Config}->{New}->{Lock},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            Lock     => $Param{Config}->{New}->{Lock},
         );
     }
     if ( $Param{Config}->{New}->{LockID} ) {
@@ -967,10 +965,9 @@ sub _JobRunTicket {
             print "  - set lock id of Ticket $Ticket to '$Param{Config}->{New}->{LockID}'\n";
         }
         $Self->{TicketObject}->TicketLockSet(
-            TicketID           => $Param{TicketID},
-            UserID             => $Param{UserID},
-            LockID             => $Param{Config}->{New}->{LockID},
-            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            LockID   => $Param{Config}->{New}->{LockID},
         );
     }
 
@@ -1168,6 +1165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2010-12-01 13:41:07 $
+$Revision: 1.70 $ $Date: 2010-12-22 14:02:35 $
 
 =cut

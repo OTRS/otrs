@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1687 2010-12-22 13:16:17 mb Exp $
+# $Id: CHANGES,v 1.1688 2010-12-22 14:02:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 3.0.5 2011-01-??
+ - 2010-12-22 Fixed bug#4502 - Event Based Notification ignores SendNoNotification flag.
  - 2010-12-22 Fixed bug#6596 - Ticket::Frontend::AgentTicketBounce###StateDefault doesn't work.
+ - 2010-12-21 Fixed bug#6576 - Unneeded entries in @INC.
  - 2010-12-21 Fixed bug#6573 - Dutch notification texts don't display the ticket data.
  - 2010-12-20 Fixed bug#6580 - Troubles modifying AgentTicketPhone in OTRS 3.0.3
     - using FreeText... failed.

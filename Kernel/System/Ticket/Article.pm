@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.267 2010-12-14 10:08:14 mb Exp $
+# $Id: Article.pm,v 1.268 2010-12-22 14:02:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.267 $) [1];
+$VERSION = qw($Revision: 1.268 $) [1];
 
 =head1 NAME
 
@@ -2169,6 +2169,9 @@ sub SendAgentNotification {
         }
     }
 
+    # return if no notification is active
+    return 1 if $Self->{SendNoNotification};
+
     # Check if agent recevies notifications for actions done by himself.
     if (
         !$Self->{ConfigObject}->Get('AgentSelfNotifyOnAction')
@@ -2289,6 +2292,9 @@ sub SendCustomerNotification {
             return;
         }
     }
+
+    # return if no notification is active
+    return 1 if $Self->{SendNoNotification};
 
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
@@ -2608,6 +2614,9 @@ sub SendAutoResponse {
             return;
         }
     }
+
+    # return if no notification is active
+    return 1 if $Self->{SendNoNotification};
 
     # get orig email header
     my %OrigHeader = %{ $Param{OrigHeader} };
@@ -3315,6 +3324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.267 $ $Date: 2010-12-14 10:08:14 $
+$Revision: 1.268 $ $Date: 2010-12-22 14:02:34 $
 
 =cut
