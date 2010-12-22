@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.9 2010-12-22 10:23:19 mg Exp $
+# $Id: Selenium.pm,v 1.10 2010-12-22 11:19:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,15 +29,15 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     # check needed objects
-    if ( !$Param{UnitTestObject} ) {
-        die "Got no UnitTestObject!";
+    for my $Needed (qw(UnitTestObject ID host port browser browser_url)) {
+        if ( !$Param{$Needed} ) {
+            die "Got no $Needed!";
+        }
     }
 
-    $Param{host}        ||= 'localhost';
-    $Param{port}        ||= '4444';
-    $Param{browser}     ||= '*chrome';
-    $Param{browser_url} ||= 'http://127.0.0.1/';
+    $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario '$Param{ID}'..." );
 
+    # selenium stuff
     my $default_names = defined $Param{default_names}
         ?
         delete $Param{default_names}
@@ -223,6 +223,14 @@ sub Login {
     return 1;
 }
 
+sub DESTROY {
+    my $Self = shift;
+
+    $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario" );
+
+    $Self->SUPER::DESTROY();
+}
+
 1;
 
 =back
@@ -239,6 +247,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2010-12-22 10:23:19 $
+$Revision: 1.10 $ $Date: 2010-12-22 11:19:57 $
 
 =cut
