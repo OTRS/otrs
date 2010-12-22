@@ -2,7 +2,7 @@
 # AgentPreferences.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.dtl,v 1.7 2010-11-25 10:44:23 mn Exp $
+# $Id: AgentPreferences.dtl,v 1.8 2010-12-22 09:21:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                             <div class="Field">
                                 <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
 <!-- dtl:block:InputKeySingleBlock -->
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
 <!-- dtl:block:InputKeySingleBlock -->
                             </div>
                             <div class="Clear"></div>
@@ -50,7 +50,7 @@
                             <div class="Field">
                                 <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"SelectedID"}" />
 <!-- dtl:block:InputSingleBlock -->
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
 <!-- dtl:block:InputSingleBlock -->
                             </div>
                             <div class="Clear"></div>
@@ -60,7 +60,7 @@
                             <div class="FloatingField">
                                 $Data{"Option"}
 <!-- dtl:block:OptionSingleBlock -->
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
 <!-- dtl:block:OptionSingleBlock -->
                             </div>
                             <div class="Clear"></div>
@@ -72,7 +72,7 @@
                                 <br/>
                                 <a href="">$QData{"Filename"}</a>
 <!-- dtl:block:UploadSingleBlock -->
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
 <!-- dtl:block:UploadSingleBlock -->
                             </div>
                             <div class="Clear"></div>
@@ -82,7 +82,7 @@
                             <div class="Field">
                                 <input name="$QData{"Name"}" id="$QData{"Name"}" type="password"/>
 <!-- dtl:block:PasswordSingleBlock -->
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
 <!-- dtl:block:PasswordSingleBlock -->
                             </div>
                             <div class="Clear"></div>
@@ -109,7 +109,7 @@
                             <div class="Clear"></div>
 <!-- dtl:block:OutOfOfficeSingleBlock -->
                             <div class="Field">
-                                <button type="submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                                <button type="submit" id="$QData{"Name"}Update" value="$Text{"Update"}">$Text{"Update"}</button>
                             </div>
 <!-- dtl:block:OutOfOfficeSingleBlock -->
 <!-- dtl:block:OutOfOffice -->
