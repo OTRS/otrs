@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.413 2010-12-17 15:15:53 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.414 2010-12-22 23:40:29 dz Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2812,17 +2812,18 @@
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="SIG_ID">Signature data</Item>
-                <Item Key="GOODSIG">Good PGP signature</Item>
-                <Item Key="VALIDSIG">The PGP signature with the keyid is good</Item>
-                <Item Key="TRUST_UNDEFINED">This key is not certified with a trusted signature!</Item>
-                <Item Key="KEYREVOKED">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
-                <Item Key="REVKEYSIG">The PGP signature was made by a revoked key, this could mean that the signature is forged</Item>
-                <Item Key="BADSIG">The PGP signature with the keyid has not been verified successfully</Item>
-                <Item Key="ERRSIG">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm</Item>
-                <Item Key="SIGEXPIRED">The PGP signature is expired</Item>
-                <Item Key="EXPKEYSIG">The PGP signature was made by an expired key</Item>
-                <Item Key="NO_PUBKEY">No public key found</Item>
+                <Item Key="SIG_ID">Signature data.</Item>
+                <Item Key="GOODSIG">Good PGP signature.</Item>
+                <Item Key="VALIDSIG">The PGP signature with the keyid is good.</Item>
+                <Item Key="TRUST_UNDEFINED">This key is not certified with a trusted signature!.</Item>
+                <Item Key="KEYREVOKED">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
+                <Item Key="REVKEYSIG">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
+                <Item Key="BADSIG">The PGP signature with the keyid has not been verified successfully.</Item>
+                <Item Key="ERRSIG">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.</Item>
+                <Item Key="SIGEXPIRED">The PGP signature is expired.</Item>
+                <Item Key="EXPKEYSIG">The PGP signature was made by an expired key.</Item>
+                <Item Key="NO_PUBKEY">No public key found.</Item>
+                <Item Key="NODATA">No valid OpenPGP data found.</Item>
             </Hash>
         </Setting>
     </ConfigItem>
