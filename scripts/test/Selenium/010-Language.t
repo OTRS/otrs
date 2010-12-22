@@ -2,7 +2,7 @@
 # 010-Language.t - frontend tests for admin area
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 010-Language.t,v 1.1 2010-12-22 09:26:14 mg Exp $
+# $Id: 010-Language.t,v 1.2 2010-12-22 10:23:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@ use warnings;
 use vars qw($Self);
 
 use Kernel::System::UnitTest::Selenium;
+use Kernel::System::UnitTest::Helper;
 use Kernel::Language;
 
 use Time::HiRes qw(sleep);
@@ -24,15 +25,17 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-# use local Config object because it will be modified
-my $ConfigObject = Kernel::Config->new();
+my $Helper = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+);
+
+my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
 
 my $sel = Kernel::System::UnitTest::Selenium->new(
     Verbose        => 1,
     UnitTestObject => $Self,
 );
-
-my $TestUserLogin = $sel->TestUserCreate() || die "Did not get test user";
 
 $sel->Login(
     Type     => 'Agent',
@@ -40,12 +43,12 @@ $sel->Login(
     Password => $TestUserLogin,
 );
 
-my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
 $sel->open_ok("${ScriptAlias}index.pl?Action=AgentPreferences");
 $sel->wait_for_page_to_load_ok("30000");
 
-my @Languages = sort keys %{ $ConfigObject->Get('DefaultUsedLanguages') };
+my @Languages = sort keys %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
 
 Language:
 for my $Language (@Languages) {

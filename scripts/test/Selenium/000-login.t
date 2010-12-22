@@ -2,7 +2,7 @@
 # 000-login.t - frontend tests for login
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-login.t,v 1.8 2010-12-22 09:24:09 mg Exp $
+# $Id: 000-login.t,v 1.9 2010-12-22 10:23:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use Kernel::Config;
 use Kernel::System::User;
 
 use Kernel::System::UnitTest::Selenium;
+use Kernel::System::UnitTest::Helper;
 use Time::HiRes qw(sleep);
 
 if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
@@ -25,12 +26,17 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
+my $Helper = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+);
+
+my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
+
 my $sel = Kernel::System::UnitTest::Selenium->new(
     Verbose        => 1,
     UnitTestObject => $Self,
 );
-
-my $TestUserLogin = $sel->TestUserCreate() || die "Did not get test user";
 
 my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
