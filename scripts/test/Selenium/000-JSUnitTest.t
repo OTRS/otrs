@@ -2,7 +2,7 @@
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-JSUnitTest.t,v 1.3 2010-12-21 14:23:15 mg Exp $
+# $Id: 000-JSUnitTest.t,v 1.4 2010-12-22 09:23:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ $sel->open_ok("${WebPath}js/test/JSUnitTest.html");
 $sel->wait_for_page_to_load_ok("30000");
 
 # wait for the javascript tests (including AJAX) to complete
-$sel->set_timeout_ok("3000");
+$sel->set_timeout_ok("5000");
 
 $sel->is_element_present_ok("css=p.result span.failed");
 $sel->is_element_present_ok("css=p.result span.passed");
