@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.3 2010-12-22 11:19:57 mg Exp $
+# $Id: Helper.pm,v 1.4 2010-12-22 13:31:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,6 +146,21 @@ sub SeleniumScenariosGet {
             browser     => '*safari',
             browser_url => 'http://127.0.0.1/',
         },
+
+        #        {
+        #            ID          => 'IE7 VM',
+        #            host        => '192.168.56.101',
+        #            port        => '4444',
+        #            browser     => '*iehta',
+        #            browser_url => 'http://192.168.56.1/',
+        #        },
+        #        {
+        #            ID          => 'IE8 VM',
+        #            host        => '192.168.56.102',
+        #            port        => '4444',
+        #            browser     => '*iehta',
+        #            browser_url => 'http://192.168.56.1/',
+        #        },
     ];
 
     return $Scenarios;
@@ -200,6 +215,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2010-12-22 11:19:57 $
+$Revision: 1.4 $ $Date: 2010-12-22 13:31:45 $
 
 =cut
