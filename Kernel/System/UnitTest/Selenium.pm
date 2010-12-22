@@ -2,7 +2,7 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.7 2010-12-20 14:26:00 mb Exp $
+# $Id: Selenium.pm,v 1.8 2010-12-22 09:22:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,9 @@ package Kernel::System::UnitTest::Selenium;
 
 use strict;
 use base qw(WWW::Selenium);
-use Carp qw(croak);
+
+use Kernel::Config;
+use Kernel::System::User;
 
 =head1 NAME
 
@@ -44,6 +46,21 @@ sub new {
     my $Self = $Class->SUPER::new(%Param);
     $Self->{default_names} = $default_names;
     $Self->start;
+
+    # use local Config object because it will be modified
+    $Self->{ConfigObject} = Kernel::Config->new();
+
+    # disable email checks to create new user
+    $Self->{ConfigObject}->Set(
+        Key   => 'CheckEmailAddresses',
+        Value => 0,
+    );
+
+    $Self->{UserObject} = Kernel::System::User->new(
+        %{ $Self->{UnitTestObject} },
+        ConfigObject => $Self->{ConfigObject},
+    );
+
     return $Self;
 }
 
@@ -186,7 +203,9 @@ sub Login {
         }
     }
 
-    my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
+    $Self->{UnitTestObject}->True( 1, 'Initiating login...' );
+
+    my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
     if ( $Param{Type} eq 'Agent' ) {
         $ScriptAlias .= 'index.pl';
@@ -203,14 +222,88 @@ sub Login {
     $Self->is_visible_ok("//button[\@id='LoginButton']");
 
     if ( !$Self->click_ok("//button[\@id='LoginButton']") ) {
-        $Self->{UnitTestObject}->{LogObject}
-            ->Log( Priority => 'error', Message => "Could not submit login form" );
+        $Self->{UnitTestObject}->False( 1, "Could not submit login form" );
+        return;
+    }
+    $Self->wait_for_page_to_load_ok("30000");
+
+    if ( !$Self->is_element_present_ok("css=a#LogoutButton") ) {
+        $Self->{UnitTestObject}->False( 1, "Login was not successful" );
         return;
     }
 
-    $Self->wait_for_page_to_load_ok("30000");
+    $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
 
     return 1;
+}
+
+=item TestUserCreate()
+
+creates a test user that can be used in the Selenium tests. It will
+be set to invalid automatically during the constructor. Returns
+the login name of the new user, the password is the same.
+
+    my $TestUserLogin = $sel->TestUserCreate();
+
+=cut
+
+sub TestUserCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw()) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{UnitTestObject}->True( 0, "Cannot create test user: need $Needed!" );
+            die "Cannot create test user: need $Needed!";
+        }
+    }
+
+    # create test user
+    my $TestUserLogin = 'selenium-test-user' . int( rand(1000000) );
+
+    my $TestUserID = $Self->{UserObject}->UserAdd(
+        UserFirstname => $TestUserLogin,
+        UserLastname  => $TestUserLogin,
+        UserLogin     => $TestUserLogin,
+        UserPw        => $TestUserLogin,
+        UserEmail     => $TestUserLogin . '@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    ) || die "Could not create test user";
+
+    # Remember UserID of the test user to later set it to invalid
+    #   in the destructor.
+    $Self->{TestUsers} ||= [];
+    push( @{ $Self->{TestUsers} }, $TestUserID );
+
+    $Self->{UnitTestObject}->True( 1, "Created test user $TestUserID" );
+
+    return $TestUserLogin;
+}
+
+sub DESTROY {
+    my $Self = shift;
+
+    # invalidate test users
+    if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
+        for my $TestUser ( @{ $Self->{TestUsers} } ) {
+
+            # make test user invalid
+            $Self->{UserObject}->UserUpdate(
+                UserID        => $TestUser,
+                UserFirstname => 'Firstname Test1',
+                UserLastname  => 'Lastname Test1',
+                UserLogin     => $TestUser,
+                UserEmail     => $TestUser . '@example.com',
+                ValidID       => 2,
+                ChangeUserID  => 1,
+            ) || die "Could not invalidate test user";
+
+            $Self->{UnitTestObject}->True( 1, "Set test user $TestUser to invalid" );
+        }
+    }
+
+    return $Self->SUPER::DESTROY();
 }
 
 1;
@@ -229,6 +322,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-12-20 14:26:00 $
+$Revision: 1.8 $ $Date: 2010-12-22 09:22:59 $
 
 =cut
