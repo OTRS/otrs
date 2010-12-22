@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.38 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.39 2010-12-22 11:27:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -149,14 +149,14 @@
                                     $Text{"Active"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#ItemsSelected').bind('click', function (Event) {
-        if ($(this).attr('checked')) {
-            $('input[name=' + $(this).attr('name') + ']').attr('checked', 'checked');
-        }
-        else {
-            $('input[name=' + $(this).attr('name') + ']').removeAttr('checked');
-        }
-    })
+$('#ItemsSelected').bind('click', function (Event) {
+    if ($(this).attr('checked')) {
+        $('input[name=' + $(this).attr('name') + ']').attr('checked', 'checked');
+    }
+    else {
+        $('input[name=' + $(this).attr('name') + ']').removeAttr('checked');
+    }
+});
 //]]></script>
 <!--dtl:js_on_document_complete-->
                                 </th>
