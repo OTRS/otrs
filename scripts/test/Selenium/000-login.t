@@ -2,7 +2,7 @@
 # 000-login.t - frontend tests for login
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-login.t,v 1.9 2010-12-22 10:23:19 mg Exp $
+# $Id: 000-login.t,v 1.10 2010-12-22 10:39:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
     %{$Self},
+    RestoreSystemConfiguration => 0,
 );
 
 my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";

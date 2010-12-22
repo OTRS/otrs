@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.1 2010-12-22 10:23:19 mg Exp $
+# $Id: Helper.pm,v 1.2 2010-12-22 10:39:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,26 @@ use strict;
 
 use Kernel::Config;
 use Kernel::System::User;
+use Kernel::System::SysConfig;
 
 =head1 NAME
 
-Kernel::System::UnitTest::Selenium - run frontend tests
+Kernel::System::UnitTest::Helper - unit test helper functions
 
 =over 4
 
+=cut
+
+=item new()
+
+construct a helper object.
+
+    use Kernel::System::UnitTest::Helper;
+
+    my $Helper = Kernel::System::UnitTest::Helper->new(
+        %{$Self},
+        RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm and restore it in the destructor
+    );
 =cut
 
 sub new {
@@ -56,6 +69,17 @@ sub new {
         %{ $Self->{UnitTestObject} },
         ConfigObject => $Self->{ConfigObject},
     );
+
+    #
+    # Make backup of system configuration if needed
+    #
+    if ( $Param{RestoreSystemConfiguration} ) {
+        $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
+
+        $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
+
+        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
+    }
 
     return $Self;
 }
@@ -107,6 +131,16 @@ sub TestUserCreate {
 sub DESTROY {
     my $Self = shift;
 
+    #
+    # Restore system configuration if needed
+    #
+    if ( $Self->{SysConfigBackup} ) {
+
+        $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
+
+        $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
+    }
+
     # invalidate test users
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
@@ -143,6 +177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-12-22 10:23:19 $
+$Revision: 1.2 $ $Date: 2010-12-22 10:39:07 $
 
 =cut

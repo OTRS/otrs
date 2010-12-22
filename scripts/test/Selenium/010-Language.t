@@ -2,7 +2,7 @@
 # 010-Language.t - frontend tests for admin area
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: 010-Language.t,v 1.2 2010-12-22 10:23:19 mg Exp $
+# $Id: 010-Language.t,v 1.3 2010-12-22 10:39:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
     %{$Self},
+    RestoreSystemConfiguration => 0,
 );
 
 my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
