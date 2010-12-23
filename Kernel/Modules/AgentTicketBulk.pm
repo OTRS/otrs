@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.72 2010-11-23 22:56:02 en Exp $
+# $Id: AgentTicketBulk.pm,v 1.73 2010-12-23 19:37:04 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -505,11 +505,21 @@ sub _Mask {
             delete $NoteTypes{$KeyNoteType};
         }
     }
-    $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%NoteTypes,
-        Name       => 'ArticleTypeID',
-        SelectedID => $Param{ArticleTypeID} || $Self->{Config}->{ArticleTypeDefault},
-    );
+
+    if ( $Param{ArticleTypeID} ) {
+        $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%NoteTypes,
+            Name       => 'ArticleTypeID',
+            SelectedID => $Param{ArticleTypeID},
+        );
+    }
+    else {
+        $Param{NoteStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data          => \%NoteTypes,
+            Name          => 'ArticleTypeID',
+            SelectedValue => $Self->{Config}->{ArticleTypeDefault},
+        );
+    }
 
     # build next states string
     if ( $Self->{Config}->{State} ) {

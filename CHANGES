@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1690 2010-12-23 17:24:27 mp Exp $
+# $Id: CHANGES,v 1.1691 2010-12-23 19:39:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.5 2011-01-??
+ - 2010-12-23 Fixed bug#6579 - ArticleTypeDefault is not selected in 'Note'
+    on Bulk Action
  - 2010-12-23 Fixed bug#6570 - Services/SLAs are not loaded if
     Ticket::Frontend::CustomerTicketMessage###Queue is set to "No"
  - 2010-12-23 Fixed bug#6553 - Add CC for ticket customer function is no longer working.
