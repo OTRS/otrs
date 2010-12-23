@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.127 2010-10-18 08:18:33 mb Exp $
+# $Id: Queue.pm,v 1.128 2010-12-23 17:42:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 =head1 NAME
 
@@ -633,16 +633,19 @@ add queue with attributes
 sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
-    for (
-        qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpLock SystemAddressID SalutationID SignatureID
-        FollowUpID FollowUpLock DefaultSignKey Calendar)
-        )
-    {
+    # check if this request is from web and not from command line
+    if ( !$Param{NoDefaultValues} ) {
+        for (
+            qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
+            FollowUpLock SystemAddressID SalutationID SignatureID
+            FollowUpID FollowUpLock DefaultSignKey Calendar)
+            )
+        {
 
-        # I added default values in the Load Routine
-        if ( !$Param{$_} ) {
-            $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
+            # I added default values in the Load Routine
+            if ( !$Param{$_} ) {
+                $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
+            }
         }
     }
 
@@ -1155,6 +1158,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.127 $ $Date: 2010-10-18 08:18:33 $
+$Revision: 1.128 $ $Date: 2010-12-23 17:42:36 $
 
 =cut
