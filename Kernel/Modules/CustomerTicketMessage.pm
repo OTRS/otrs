@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.80 2010-11-29 10:34:40 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.81 2010-12-23 17:21:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand)) {
+    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand Dest)) {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
@@ -73,6 +73,15 @@ sub Run {
     }
 
     if ( !$Self->{Subaction} ) {
+
+        #Get QueueID for services
+        my $QueueID;
+        if ( !$GetParam{Dest} ) {
+            my $Queue = $Self->{Config}->{'QueueDefault'} || '';
+            if ($Queue) {
+                $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+            }
+        }
 
         # get default selections for ticket free text fields
         my %TicketFreeDefault;
@@ -199,6 +208,7 @@ sub Run {
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
         $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
+            QueueID => $QueueID,
             %TicketFreeTextHTML,
             %FreeTime,
             %ArticleFreeTextHTML,
