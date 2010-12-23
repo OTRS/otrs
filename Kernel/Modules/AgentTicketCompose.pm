@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.120 2010-12-09 18:11:30 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.121 2010-12-23 15:40:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -851,6 +851,12 @@ sub Run {
             $Data{ToEmail} = $Email->address();
         }
 
+        # only reply to sender
+        if ( !$GetParam{ReplyAll} ) {
+            $Data{Cc}  = '';
+            $Data{Bcc} = '';
+        }
+
         # use customer database email
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress') ) {
 
@@ -868,7 +874,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Data => "Cc: ($Data{To}) added database email!",
+                        Data => "Cc: ($Customer{UserEmail}) added database email!",
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};
@@ -904,12 +910,6 @@ sub Run {
                 }
                 $Data{$Type} = $NewLine;
             }
-        }
-
-        # only reply to sender
-        if ( !$GetParam{ReplyAll} ) {
-            $Data{Cc}  = '';
-            $Data{Bcc} = '';
         }
 
         # get template
