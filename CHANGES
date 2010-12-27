@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1692 2010-12-27 18:30:44 dz Exp $
+# $Id: CHANGES,v 1.1693 2010-12-27 18:35:16 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
     otrs.CreateTranslationFile.pl -l all creates new files.
  - 2010-11-09 Upgraded jQuery UI to 1.8.6 (to fix some IE9 bugs).
  - 2010-12-09 Fixed bug#6515 - CSV export of SQL statement isn't working.
- - 2010-12-09 Updated Danish Translation, thanks to Lars J�rgensen!
+ - 2010-12-09 Updated Danish Translation, thanks to Lars Jørgensen!
  - 2010-12-09 Fixed bug#6496 - Article Filter only displays one article.
  - 2010-12-08 Fixed bug#6421 - AdminCustomerUser does not show customers without searching
  - 2010-12-08 Fixed bug#6470 - AgentTicketForward does not support ArticleFreeText
