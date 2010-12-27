@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.47 2010-12-15 09:24:04 mg Exp $
+# $Id: UPGRADING,v 1.48 2010-12-27 21:21:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -201,6 +201,10 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
 
      [ 'UserTitle',      'Title',      'title',      1, 0, 'var', '', 0 ],
 
+    Please note that this can also affect any salutations or other templates
+    where you've used the string <OTRS_*_UserSalutation>. If you have used this
+    string AND you use the built-in customer table, please replace it with 
+    <OTRS_CURRENT_UserTitle> instead.
 
 16) Optional: Mark Tickets as Read
     ------------------------------
