@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.141 2010-11-30 10:00:03 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.142 2010-12-29 14:38:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1424,8 +1424,9 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name  => 'Forward',
-                        Class => 'AsPopup PopupType_TicketAction',
+                        Description => 'Forward',
+                        Name        => 'Forward',
+                        Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
                             'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1471,8 +1472,9 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Name  => 'Bounce',
-                        Class => 'AsPopup PopupType_TicketAction',
+                        Description => 'Bounce',
+                        Name        => 'Bounce',
+                        Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
                             'Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                     },
@@ -1526,9 +1528,10 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name  => 'Phone Call Outbound',
-                    Class => 'AsPopup PopupType_TicketAction',
-                    Link  => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
+                    Description => 'Phone Call Outbound',
+                    Name        => 'Phone Call Outbound',
+                    Class       => 'AsPopup PopupType_TicketAction',
+                    Link        => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
                 },
             );
         }
@@ -1544,7 +1547,8 @@ sub _ArticleItem {
             Name => 'ArticleMenu',
             Data => {
                 %Ticket, %Article, %AclAction,
-                Name => 'Split',
+                Description => 'Split',
+                Name        => 'Split',
                 Link =>
                     'Action=AgentTicketPhone;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};LinkTicketID=$Data{"TicketID"}'
             },
@@ -1568,8 +1572,9 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name  => 'Print',
-                    Class => 'AsPopup PopupType_TicketAction',
+                    Description => 'Print',
+                    Name        => 'Print',
+                    Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
                         'Action=AgentTicketPrint;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
                 },
@@ -1597,9 +1602,10 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Name  => 'Plain Format',
-                    Class => 'AsPopup PopupType_TicketAction',
-                    Link  => $Link,
+                    Description => 'Plain Format',
+                    Name        => 'Plain Format',
+                    Class       => 'AsPopup PopupType_TicketAction',
+                    Link        => $Link,
                 },
             );
         }
