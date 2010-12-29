@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.26 2010-12-20 09:43:18 mg Exp $
+// $Id: Core.Form.Validate.js,v 1.27 2010-12-29 11:30:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -417,7 +417,7 @@ Core.Form.Validate = (function (TargetNS) {
 
 
     $.validator.addClassRules("Validate_DependingRequiredOR", {
-        Validate_DependingRequiredAND: true
+        Validate_DependingRequiredOR: true
     });
 
     /**
