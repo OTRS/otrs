@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.13 2010-12-09 15:13:31 mn Exp $
+// $Id: Core.Agent.js,v 1.14 2010-12-29 19:03:34 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -192,6 +192,17 @@ Core.Agent = (function (TargetNS) {
         // We need no callback here, but the called function needs one, so we send an "empty" function
         Core.AJAX.FunctionCall(URL, Data, $.noop);
         return true;
+    };
+
+    /**
+     * @function
+     * @return nothing
+     *      This function reload the page if the session is over and a login form is showed in some part of the current screen.
+     */
+    TargetNS.ReloadLoginShowed = function () {
+        if ( $('#ArticleItems #LoginBox').length ) {
+            location.reload();
+        }
     };
 
     return TargetNS;
