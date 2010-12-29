@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.258 2010-12-17 10:44:20 mg Exp $
+# $Id: de.pm,v 1.259 2010-12-29 15:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.258 $) [1];
+$VERSION = qw($Revision: 1.259 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1508,8 +1508,8 @@ sub Data {
         # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
-        'Bounce Ticket: ' => 'Ticket zurückweisen',
-        'Bounce to' => 'Zurückweisen an',
+        'Bounce Ticket: ' => 'Ticket umleiten',
+        'Bounce to' => 'Umleiten an',
         'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse',
         'Need a valid email address or don\'t use a local email address.' => 'Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse.',
         'Next ticket state' => 'Nächster Status des Tickets',
