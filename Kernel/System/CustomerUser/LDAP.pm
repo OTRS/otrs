@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.60 2010-09-03 10:47:29 martin Exp $
+# $Id: LDAP.pm,v 1.61 2010-12-30 23:57:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +43,20 @@ sub new {
     $Self->{Die} = 0;
     if ( defined $Self->{CustomerUserMap}->{Params}->{Die} ) {
         $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die};
+    }
+
+    # params
+    if ( $Self->{CustomerUserMap}->{Params}->{Params} ) {
+        $Self->{Params} = $Self->{CustomerUserMap}->{Params}->{Params};
+    }
+
+    # Net::LDAP new params
+    elsif ( $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Params' . $Param{Count} ) ) {
+        $Self->{Params} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Params' . $Param{Count} );
+    }
+    else
+    {
+        $Self->{Params} = {};
     }
 
     # host
