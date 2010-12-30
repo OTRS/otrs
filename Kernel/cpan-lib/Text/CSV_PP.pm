@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.28';
+$VERSION = '1.29';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -705,7 +705,38 @@ sub _return_getline_result {
     return [];
 }
 
+################################################################################
+# getline_all
+################################################################################
+sub getline_all {
+    my ( $self, $io, $offset, $len ) = @_;
+    my @list;
+    my $tail;
+    my $n = 0;
 
+    $offset ||= 0;
+
+    if ( $offset < 0 ) {
+        $tail = -$offset;
+        $offset = 0;
+    }
+
+    while ( my $row = $self->getline($io) ) {
+        next if $offset && $offset-- > 0;               # skip
+        last if defined $len && !$tail && $n >= $len;   # exceedes limit size
+        push @list, $row;
+        ++$n;
+        if ( $tail && $n > $tail ) {
+            shift @list;
+        }
+    }
+
+    if ( $tail && defined $len && $n > $len ) {
+        @list = splice( @list, 0, $len);
+    }
+
+    return \@list;
+}
 ################################################################################
 # getline_hr
 ################################################################################
@@ -722,6 +753,21 @@ sub getline_hr {
     @hr{ @{ $self->{_COLUMN_NAMES} } } = @$fr;
 
     \%hr;
+}
+################################################################################
+# getline_hr_all
+################################################################################
+sub getline_hr_all {
+    my ( $self, $io, @args ) = @_;
+    my %hr;
+
+    unless ( $self->{_COLUMN_NAMES} ) {
+        $self->SetDiag( 3002 );
+    }
+
+    my @cn = @{$self->{_COLUMN_NAMES}};
+
+    return [ map { my %h; @h{ @cn } = @$_; \%h } @{ $self->getline_all( $io, @args ) } ];
 }
 ################################################################################
 # column_names
@@ -996,9 +1042,9 @@ is a XS module and Text::CSV_PP is a Puer Perl one.
 
 =head1 VERSION
 
-    1.28
+    1.29
 
-This module is compatible with Text::CSV_XS B<0.74> and later.
+This module is compatible with Text::CSV_XS B<0.80> and later.
 
 =head2 Unicode (UTF8)
 
@@ -1377,6 +1423,30 @@ reference to an empty list.
 The I<$csv-E<gt>string ()>, I<$csv-E<gt>fields ()> and I<$csv-E<gt>status ()>
 methods are meaningless, again.
 
+=head2 getline_all
+
+ $arrayref = $csv->getline_all ($io);
+ $arrayref = $csv->getline_all ($io, $offset);
+ $arrayref = $csv->getline_all ($io, $offset, $length);
+
+This will return a reference to a list of C<getline ($io)> results.
+In this call, C<keep_meta_info> is disabled. If C<$offset> is negative,
+as with C<splice ()>, only the last C<abs ($offset)> records of C<$io>
+are taken into consideration.
+
+Given a CSV file with 10 lines:
+
+ lines call
+ ----- ---------------------------------------------------------
+ 0..9  $csv->getline_all ($io)         # all
+ 0..9  $csv->getline_all ($io,  0)     # all
+ 8..9  $csv->getline_all ($io,  8)     # start at 8
+ -     $csv->getline_all ($io,  0,  0) # start at 0 first 0 rows
+ 0..4  $csv->getline_all ($io,  0,  5) # start at 0 first 5 rows
+ 4..5  $csv->getline_all ($io,  4,  2) # start at 4 first 2 rows
+ 8..9  $csv->getline_all ($io, -2)     # last 2 rows
+ 6..7  $csv->getline_all ($io, -4,  2) # first 2 of last  4 rows
+
 =head2 parse
 
  $status = $csv->parse ($line);
@@ -1402,6 +1472,13 @@ first to declare your column names.
  print "Price for $hr->{name} is $hr->{price} EUR\n";
 
 C<getline_hr ()> will croak if called before C<column_names ()>.
+
+=head2 getline_hr_all
+
+ $arrayref = $csv->getline_hr_all ($io);
+
+This will return a reference to a list of C<getline_hr ($io)> results.
+In this call, C<keep_meta_info> is disabled.
 
 =head2 column_names
 

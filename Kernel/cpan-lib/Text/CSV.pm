@@ -6,14 +6,14 @@ use Carp ();
 use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $VERSION = '1.20';
+    $VERSION = '1.21';
     $DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.74';
+my $XS_Version = '0.80';
 
 my $Is_Dynamic = 0;
 
@@ -26,7 +26,7 @@ my @PublicMethods = qw/
     version types quote_char escape_char sep_char eol always_quote binary allow_whitespace
     keep_meta_info allow_loose_quotes allow_loose_escapes verbatim meta_info is_quoted is_binary eof
     getline print parse combine fields string error_diag error_input status blank_is_undef empty_is_undef
-    getline_hr column_names bind_columns auto_diag quote_space quote_null
+    getline_hr column_names bind_columns auto_diag quote_space quote_null getline_all getline_hr_all
     PV IV NV
 /;
 #
@@ -287,9 +287,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.20
+    1.21
 
-This module is compatible with Text::CSV_XS B<0.74> and later.
+This module is compatible with Text::CSV_XS B<0.80> and later.
 
 =head2 Embedded newlines
 
@@ -727,6 +727,30 @@ reference to an empty list.
 The I<$csv-E<gt>string ()>, I<$csv-E<gt>fields ()> and I<$csv-E<gt>status ()>
 methods are meaningless, again.
 
+=head2 getline_all
+
+ $arrayref = $csv->getline_all ($io);
+ $arrayref = $csv->getline_all ($io, $offset);
+ $arrayref = $csv->getline_all ($io, $offset, $length);
+
+This will return a reference to a list of C<getline ($io)> results.
+In this call, C<keep_meta_info> is disabled. If C<$offset> is negative,
+as with C<splice ()>, only the last C<abs ($offset)> records of C<$io>
+are taken into consideration.
+
+Given a CSV file with 10 lines:
+
+ lines call
+ ----- ---------------------------------------------------------
+ 0..9  $csv->getline_all ($io)         # all
+ 0..9  $csv->getline_all ($io,  0)     # all
+ 8..9  $csv->getline_all ($io,  8)     # start at 8
+ -     $csv->getline_all ($io,  0,  0) # start at 0 first 0 rows
+ 0..4  $csv->getline_all ($io,  0,  5) # start at 0 first 5 rows
+ 4..5  $csv->getline_all ($io,  4,  2) # start at 4 first 2 rows
+ 8..9  $csv->getline_all ($io, -2)     # last 2 rows
+ 6..7  $csv->getline_all ($io, -4,  2) # first 2 of last  4 rows
+
 =head2 parse
 
  $status = $csv->parse ($line);
@@ -752,6 +776,15 @@ first to declare your column names.
  print "Price for $hr->{name} is $hr->{price} EUR\n";
 
 C<getline_hr ()> will croak if called before C<column_names ()>.
+
+=head2 getline_hr_all
+
+ $arrayref = $csv->getline_hr_all ($io);
+ $arrayref = $csv->getline_hr_all ($io, $offset);
+ $arrayref = $csv->getline_hr_all ($io, $offset, $length);
+
+This will return a reference to a list of C<getline_hr ($io)> results.
+In this call, C<keep_meta_info> is disabled.
 
 =head2 column_names
 
