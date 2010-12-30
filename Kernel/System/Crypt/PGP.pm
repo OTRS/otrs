@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.32.2.8 2010-12-22 23:43:47 dz Exp $
+# $Id: PGP.pm,v 1.32.2.9 2010-12-30 22:30:41 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.8 $) [1];
+$VERSION = qw($Revision: 1.32.2.9 $) [1];
 
 =head1 NAME
 
@@ -262,7 +262,7 @@ sub _HandleLog {
 
         $ComputableLog{$Tag} = {
             Log => $LogDictionary->{$Tag} || $Line,
-            GPGMessage => $Line || $LogDictionary->{$Tag},
+            MessageLong => $Line || $LogDictionary->{$Tag},
             }
     }
 
@@ -400,7 +400,7 @@ sub Verify {
         my $KeyID = '';
 
         if (
-            $LogMessage{GOODSIG}->{GPGMessage}
+            $LogMessage{GOODSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] GOODSIG \E (?: [0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
@@ -415,7 +415,7 @@ sub Verify {
 
         my $KeyUserID = '';
         if (
-            $LogMessage{GOODSIG}->{GPGMessage}
+            $LogMessage{GOODSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] GOODSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
@@ -432,7 +432,7 @@ sub Verify {
             SignatureFound => 1,
             Successful     => 1,
             Message        => $LogMessage{GOODSIG}->{Log} . " : $KeyID $KeyUserID",
-            GPGMessage     => $LogMessage{GOODSIG}->{GPGMessage},
+            MessageLong    => $LogMessage{GOODSIG}->{MessageLong},
             KeyID          => $KeyID,
             KeyUserID      => $KeyUserID,
         );
@@ -441,14 +441,9 @@ sub Verify {
     elsif ( $LogMessage{ERRSIG} ) {
         my $KeyID = '';
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "$LogMessage{ERRSIG}->{GPGMessage}",
-        );
-
         # key id
         if (
-            $LogMessage{ERRSIG}->{GPGMessage}
+            $LogMessage{ERRSIG}->{MessageLong}
             =~ m{ \Q[GNUPG:] ERRSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
@@ -478,7 +473,7 @@ sub Verify {
         # revoked has the preference but also expired can be shown, is it?
         my $KeyID;
         if (
-            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            $LogMessage{EXPKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8})}xms
             )
         {
@@ -493,7 +488,7 @@ sub Verify {
 
         my $KeyUserID = '';
         if (
-            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            $LogMessage{EXPKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
@@ -522,7 +517,7 @@ sub Verify {
 
         my $KeyID;
         if (
-            $LogMessage{REVKEYSIG}->{GPGMessage}
+            $LogMessage{REVKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
@@ -537,7 +532,7 @@ sub Verify {
 
         my $KeyUserID = '';
         if (
-            $LogMessage{REVKEYSIG}->{GPGMessage}
+            $LogMessage{REVKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] REVKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
@@ -566,7 +561,7 @@ sub Verify {
 
         my $KeyID;
         if (
-            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            $LogMessage{EXPKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{8}) ([0-9A-F]{8}) }xms
             )
         {
@@ -581,7 +576,7 @@ sub Verify {
 
         my $KeyUserID = '';
         if (
-            $LogMessage{EXPKEYSIG}->{GPGMessage}
+            $LogMessage{EXPKEYSIG}->{MessageLong}
             =~ m{\Q[GNUPG:] EXPKEYSIG \E (?:[0-9A-F]{16}) \s (.*) }xms
             )
         {
@@ -1068,6 +1063,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32.2.8 $ $Date: 2010-12-22 23:43:47 $
+$Revision: 1.32.2.9 $ $Date: 2010-12-30 22:30:41 $
 
 =cut
