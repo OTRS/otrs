@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.121 2010-12-23 15:40:09 en Exp $
+# $Id: AgentTicketCompose.pm,v 1.122 2010-12-30 18:08:18 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1104,6 +1104,9 @@ $QData{"Signature"}
             Article => { %GetParam, %ArticleFreeDefault, },
         );
 
+        # build references if exist
+        my $References = ( $Data{MessageID} || '' ) . ( $Data{References} || '' );
+
         # build view ...
         $Output .= $Self->_Mask(
             TicketID       => $Self->{TicketID},
@@ -1116,7 +1119,7 @@ $QData{"Signature"}
             %Ticket,
             %Data,
             InReplyTo      => $Data{MessageID},
-            References     => "$Data{References} $Data{MessageID}",
+            References     => "$References",
             TicketBackType => $TicketBackType,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
