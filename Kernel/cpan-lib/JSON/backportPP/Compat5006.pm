@@ -1,4 +1,5 @@
-package JSON::PP56;
+package # This is JSON::backportPP
+    JSON::backportPP56;
 
 use 5.006;
 use strict;
@@ -140,32 +141,6 @@ sub _is_valid_utf8 {
     }
 
     return $is_utf8;
-}
-
-
-sub JSON::PP::incr_parse {
-    local $Carp::CarpLevel = 1;
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_parse( @_ );
-}
-
-
-sub JSON::PP::incr_text : lvalue {
-    $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new;
-
-    if ( $_[0]->{_incr_parser}->{incr_parsing} ) {
-        Carp::croak("incr_text can not be called when the incremental parser already started parsing");
-    }
-    $_[0]->{_incr_parser}->{incr_text};
-}
-
-
-sub JSON::PP::incr_skip {
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_skip;
-}
-
-
-sub JSON::PP::incr_reset {
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_reset;
 }
 
 

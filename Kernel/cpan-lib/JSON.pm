@@ -7,12 +7,15 @@ use base qw(Exporter);
 @JSON::EXPORT = qw(from_json to_json jsonToObj objToJson encode_json decode_json);
 
 BEGIN {
-    $JSON::VERSION = '2.27';
+    $JSON::VERSION = '2.50';
     $JSON::DEBUG   = 0 unless (defined $JSON::DEBUG);
+    $JSON::DEBUG   = $ENV{ PERL_JSON_DEBUG } if exists $ENV{ PERL_JSON_DEBUG };
 }
 
 my $Module_XS  = 'JSON::XS';
 my $Module_PP  = 'JSON::PP';
+my $Module_bp  = 'JSON::backportPP'; # included in JSON distribution
+my $PP_Version = '2.27101';
 my $XS_Version = '2.27';
 
 
@@ -42,6 +45,7 @@ my $_INSTALL_DONT_DIE  = 1; # When _load_xs fails to load XS, don't die.
 my $_INSTALL_ONLY      = 2; # Don't call _set_methods()
 my $_ALLOW_UNSUPPORTED = 0;
 my $_UNIV_CONV_BLESSED = 0;
+my $_USSING_bpPP       = 0;
 
 
 # Check the environment variable to decide worker module. 
@@ -59,6 +63,10 @@ unless ($JSON::Backend) {
     }
     elsif ($backend eq '2' or $backend eq 'JSON::XS') {
         _load_xs();
+    }
+    elsif ($backend eq 'JSON::backportPP') {
+        $_USSING_bpPP = 1;
+        _load_pp();
     }
     else {
         Carp::croak "The value of environmental variable 'PERL_JSON_BACKEND' is invalid.";
@@ -184,7 +192,7 @@ sub is_xs {
 
 
 sub is_pp {
-    return $_[0]->module eq $Module_PP;
+    return not $_[0]->xs;
 }
 
 
@@ -264,26 +272,43 @@ sub _load_xs {
 
 sub _load_pp {
     my $opt = shift;
+    my $backend = $_USSING_bpPP ? $Module_bp : $Module_PP;
 
-    $JSON::DEBUG and Carp::carp "Load $Module_PP.";
+    $JSON::DEBUG and Carp::carp "Load $backend.";
 
     # if called after install module, overload is disable.... why?
     JSON::Boolean::_overrride_overload($Module_XS);
-    JSON::Boolean::_overrride_overload($Module_PP);
+    JSON::Boolean::_overrride_overload($backend);
 
-    eval qq| require $Module_PP |;
+    if ( $_USSING_bpPP ) {
+        eval qq| require $backend |;
+    }
+    else {
+        eval qq| use $backend $PP_Version () |;
+    }
+
     if ($@) {
-        Carp::croak $@;
+        if ( $backend eq $Module_PP ) {
+            $JSON::DEBUG and Carp::carp "Can't load $Module_PP ($@), so try to load $Module_bp";
+            $_USSING_bpPP++;
+            $backend = $Module_bp;
+            JSON::Boolean::_overrride_overload($backend);
+            local $^W; # if PP installed but invalid version, backportPP redifines methods.
+            eval qq| require $Module_bp |;
+        }
+        Carp::croak $@ if $@;
     }
 
     unless (defined $opt and $opt & $_INSTALL_ONLY) {
-        _set_module( $JSON::Backend = $Module_PP );
+        _set_module( $JSON::Backend = $Module_PP ); # even if backportPP, set $Backend with 'JSON::PP'
         JSON::Backend::PP->init;
     }
 };
 
 
 sub _set_module {
+    return if defined $JSON::true;
+
     my $module = shift;
 
     local $^W;
@@ -352,7 +377,7 @@ package JSON::Backend::PP;
 
 sub init {
     local $^W;
-    no strict qw(refs);
+    no strict qw(refs); # this routine may be called after JSON::Backend::XS init was called.
     *{"JSON::decode_json"} = \&{"JSON::PP::decode_json"};
     *{"JSON::encode_json"} = \&{"JSON::PP::encode_json"};
     *{"JSON::PP::is_xs"}  = sub { 0 };
@@ -487,7 +512,8 @@ sub _make_unsupported_method {
 
 
 sub _set_for_pp {
-    require JSON::PP;
+    JSON::_load_pp( $_INSTALL_ONLY );
+
     my $type  = shift;
     my $pp    = new JSON::PP;
     my $prop = $_[0]->property;
@@ -611,10 +637,19 @@ JSON - JSON (JavaScript Object Notation) encoder/decoder
  
 =head1 VERSION
 
-    2.27
+    2.50
 
 This version is compatible with JSON::XS B<2.27> and later.
 
+
+=head1 NOTE
+
+JSON::PP was inculded in C<JSON> distribution.
+It comes to be a perl core module in Perl 5.14.
+And L<JSON::PP> will be split away it.
+
+C<JSON> distribution will inculde yet another JSON::PP modules.
+They are JSNO::backportPP and so on. JSON.pm should work as it did at all.
 
 =head1 DESCRIPTION
 
@@ -1923,6 +1958,12 @@ otherwise use JSON::PP.
 =item PERL_JSON_BACKEND == 2 or PERL_JSON_BACKEND = 'JSON::XS'
 
 Always use compiled JSON::XS, die if it isn't properly compiled & installed.
+
+=item PERL_JSON_BACKEND = 'JSON::backportPP'
+
+Always use JSON::backportPP.
+JSON::backportPP is JSON::PP back port module.
+C<JSON> includs JSON::backportPP instead of JSON::PP.
 
 =back
 

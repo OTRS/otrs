@@ -1,4 +1,5 @@
-package JSON::PP5005;
+package # This is JSON::backportPP
+    JSON::backportPP5005;
 
 use 5.005;
 use strict;
@@ -89,12 +90,6 @@ sub _decode_unicode {
 }
 
 
-sub JSON::PP::incr_parse {
-    local $Carp::CarpLevel = 1;
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_parse( @_ );
-}
-
-
 sub JSON::PP::incr_text {
     $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new;
 
@@ -104,16 +99,6 @@ sub JSON::PP::incr_text {
 
     $_[0]->{_incr_parser}->{incr_text} = $_[1] if ( @_ > 1 );
     $_[0]->{_incr_parser}->{incr_text};
-}
-
-
-sub JSON::PP::incr_skip {
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_skip;
-}
-
-
-sub JSON::PP::incr_reset {
-    ( $_[0]->{_incr_parser} ||= JSON::PP::IncrParser->new )->incr_reset;
 }
 
 
