@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.28 2010-12-07 17:12:18 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.29 2010-12-30 15:46:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -143,6 +143,7 @@ Core.UI.Dialog = (function (TargetNS) {
      *               PositionRight: value (default: undefined) Defines the right position of the dilaog window
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
+     *               NotDraggableIE7: true|false (default: false) If true, the dialog is not draggable in IE7 (due to performance reasons)
      *               Buttons: Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
      *                  Label: string Text of the button
      *                  Type: string 'Submit'|'Close' (default: none) Special type of the button - invokes a standard function
@@ -370,10 +371,12 @@ Core.UI.Dialog = (function (TargetNS) {
         AdjustScrollableHeight();
 
         // Add event-handling
-        $Dialog.draggable({
-            containment: 'body',
-            handle: '.Header'
-        });
+        if (!(Params.NotDraggableIE7 && $.browser.msie && $.browser.version == 7)) {
+            $Dialog.draggable({
+                containment: 'body',
+                handle: '.Header'
+            });
+        }
 
         // Add button events
         if (Params.Buttons) {
@@ -447,9 +450,10 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param PositionLeft The left position the dialog is positioned initially
      * @param Modal If defined and set to true, an overlay is shown for a modal dialog
      * @param Buttons The button array
+     * @param NotDraggableIE7 If true, the dialog is not draggable in IE7 (performance reasons)
      * @return nothing
      */
-    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons) {
+    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, NotDraggableIE7) {
         TargetNS.ShowDialog({
             HTML: HTML,
             Title: Title,
@@ -458,7 +462,8 @@ Core.UI.Dialog = (function (TargetNS) {
             CloseOnEscape: true,
             PositionTop: PositionTop,
             PositionLeft: PositionLeft,
-            Buttons: Buttons
+            Buttons: Buttons,
+            NotDraggableIE7: NotDraggableIE7
         });
     };
 
