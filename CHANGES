@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1703 2010-12-30 17:18:41 en Exp $
+# $Id: CHANGES,v 1.1704 2010-12-30 18:14:42 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2010-12-30 Fixed bug#6473 - Error at Apache log "uninitialized value".
  - 2010-12-30 Fixed bug#4886 - FollowUp-notification send not to owner.
  - 2010-12-30 Updated CPAN module JSON to version 2.50.
  - 2010-12-30 Updated CPAN module JSON::PP to version 2.27103.
