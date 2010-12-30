@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.27 2010-12-29 11:30:05 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.28 2010-12-30 16:51:08 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -457,7 +457,9 @@ Core.Form.Validate = (function (TargetNS) {
          * If on document load there are Error classes present, there were validation errors on server side.
          * Show an alert message and initialize the tooltips.
          */
-        $ServerErrors = $('input, textarea, select').filter('.' + Options.ServerErrorClass);
+        $ServerErrors = $('input.' + Options.ServerErrorClass)
+            .add('textarea.' + Options.ServerErrorClass)
+            .add('select.' + Options.ServerErrorClass);
 
         if ($ServerErrors.length) {
             $ServerErrors.each(function () {
