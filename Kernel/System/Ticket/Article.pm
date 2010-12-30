@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.268 2010-12-22 14:02:34 martin Exp $
+# $Id: Article.pm,v 1.269 2010-12-30 17:18:40 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.268 $) [1];
+$VERSION = qw($Revision: 1.269 $) [1];
 
 =head1 NAME
 
@@ -480,6 +480,11 @@ sub ArticleCreate {
                     Notify   => 1,
                     Result   => 'ARRAY',
                 );
+
+                # verify that the owner's id is in the list. If not, add it
+                if ( !grep( /^\$Ticket{OwnerID}$/, @OwnerIDs ) ) {
+                    push @OwnerIDs, $Ticket{OwnerID};
+                }
             }
             for my $UserID (@OwnerIDs) {
                 next if !$UserID;
@@ -3324,6 +3329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.268 $ $Date: 2010-12-22 14:02:34 $
+$Revision: 1.269 $ $Date: 2010-12-30 17:18:40 $
 
 =cut
