@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1700 2010-12-30 09:33:43 mh Exp $
+# $Id: CHANGES,v 1.1701 2010-12-30 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2010-12-30 Updated CPAN module JSON::PP to version 2.27103.
  - 2010-12-30 Updated CPAN module Text::CSV to version 1.21.
  - 2010-12-28 Fixed bug#6595 - umleiten != Zurückweisen an.
  - 2010-12-28 Fixed bug#6057 - Some action buttons don't have tooltips.
