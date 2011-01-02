@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.269 2010-12-30 17:18:40 en Exp $
+# $Id: Article.pm,v 1.270 2011-01-02 10:48:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.269 $) [1];
+$VERSION = qw($Revision: 1.270 $) [1];
 
 =head1 NAME
 
@@ -1824,13 +1824,14 @@ sub _ArticleGetId {
         $SQL .= 'a_subject = ? AND ';
         push @Bind, \$Param{Subject};
     }
-    $SQL .= ' incoming_time = ?';
+    $SQL .= ' incoming_time = ? ORDER BY id DESC';
     push @Bind, \$Param{IncomingTime};
 
     # start query
     return if !$Self->{DBObject}->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
     );
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -3329,6 +3330,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.269 $ $Date: 2010-12-30 17:18:40 $
+$Revision: 1.270 $ $Date: 2011-01-02 10:48:15 $
 
 =cut
