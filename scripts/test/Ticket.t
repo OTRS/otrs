@@ -1,8 +1,8 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.65 2010-12-10 13:03:31 martin Exp $
+# $Id: Ticket.t,v 1.66 2011-01-02 09:54:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5442,7 +5442,7 @@ for my $UserID (@UserIDs) {
     );
     $Self->False(
         $TicketFlag{Seen},
-        'TicketFlagGet()',
+        "TicketFlagGet() - TicketID($TicketID) - UserID($UserID)",
     );
     for my $ArticleID (@ArticleIDs) {
         my %ArticleFlag = $TicketObject->ArticleFlagGet(
@@ -5451,7 +5451,7 @@ for my $UserID (@UserIDs) {
         );
         $Self->False(
             $ArticleFlag{Seen},
-            'ArticleFlagGet()',
+            "ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleID) - UserID($UserID)",
         );
     }
 }
@@ -5470,7 +5470,7 @@ for my $UserID (@UserIDs) {
     );
     $Self->False(
         $TicketFlag{Seen},
-        'TicketFlagGet()',
+        "TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
     );
     my %ArticleFlag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
@@ -5478,7 +5478,7 @@ for my $UserID (@UserIDs) {
     );
     $Self->True(
         $ArticleFlag{Seen},
-        'ArticleFlagGet()',
+        "ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
     );
     %ArticleFlag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[1],
@@ -5486,7 +5486,7 @@ for my $UserID (@UserIDs) {
     );
     $Self->False(
         $ArticleFlag{Seen},
-        'ArticleFlagGet()',
+        "ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
     );
 }
 
@@ -5504,7 +5504,7 @@ for my $UserID (@UserIDs) {
     );
     $Self->True(
         $TicketFlag{Seen},
-        'TicketFlagGet()',
+        "TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[1]) - UserID($UserID)",
     );
     for my $ArticleID (@ArticleIDs) {
         my %ArticleFlag = $TicketObject->ArticleFlagGet(
@@ -5513,7 +5513,7 @@ for my $UserID (@UserIDs) {
         );
         $Self->True(
             $ArticleFlag{Seen},
-            'ArticleFlagGet()',
+            "ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleID) - UserID($UserID)",
         );
     }
 }
