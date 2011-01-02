@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.67 2011-01-02 09:57:21 martin Exp $
+# $Id: Ticket.t,v 1.68 2011-01-02 11:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5458,11 +5458,15 @@ for my $UserID (@UserIDs) {
 
 # update one article
 for my $UserID (@UserIDs) {
-    $TicketObject->ArticleFlagSet(
+    my $Success = $TicketObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[0],
         Key       => 'Seen',
         Value     => 1,
         UserID    => $UserID,
+    );
+    $Self->True(
+        $Success,
+        "UpdateOne FlagCheck ArticleFlagSet() - ArticleID($ArticleIDs[0])",
     );
     my %TicketFlag = $TicketObject->TicketFlagGet(
         TicketID => $TicketID,
@@ -5486,17 +5490,21 @@ for my $UserID (@UserIDs) {
     );
     $Self->False(
         $ArticleFlag{Seen},
-        "UpdateOne FlagCheck (false) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
+        "UpdateOne FlagCheck (false) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[1]) - UserID($UserID)",
     );
 }
 
 # update second article
 for my $UserID (@UserIDs) {
-    $TicketObject->ArticleFlagSet(
+    my $Success = $TicketObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[1],
         Key       => 'Seen',
         Value     => 1,
         UserID    => $UserID,
+    );
+    $Self->True(
+        $Success,
+        "UpdateTwo FlagCheck ArticleFlagSet() - ArticleID($ArticleIDs[1])",
     );
     my %TicketFlag = $TicketObject->TicketFlagGet(
         TicketID => $TicketID,
