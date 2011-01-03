@@ -1,8 +1,8 @@
 // --
 // Core.UI.Dialog.js - Dialogs
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.29 2010-12-30 15:46:21 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.30 2011-01-03 18:35:48 ub Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -371,7 +371,7 @@ Core.UI.Dialog = (function (TargetNS) {
         AdjustScrollableHeight();
 
         // Add event-handling
-        if (!(Params.NotDraggableIE7 && $.browser.msie && $.browser.version == 7)) {
+        if (!(Params.NotDraggableIE7 && $.browser.msie && $.browser.version === 7)) {
             $Dialog.draggable({
                 containment: 'body',
                 handle: '.Header'
