@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.270 2011-01-02 10:48:15 martin Exp $
+# $Id: Article.pm,v 1.271 2011-01-03 15:49:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.270 $) [1];
+$VERSION = qw($Revision: 1.271 $) [1];
 
 =head1 NAME
 
@@ -3251,16 +3251,32 @@ sub ArticleAttachmentIndex {
             {
                 $AttachmentIDHTML = $AttachmentID;
             }
-
-            # remove any files with content-id from attachment list
-            if ( $File{ContentID} ) {
-                if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
-                    delete $Attachments{$AttachmentID};
-                }
-            }
         }
         if ($AttachmentIDHTML) {
             delete $Attachments{$AttachmentIDPlain};
+
+            # remove any files with content-id from attachment list and listed in html body
+            if ( $Param{StripPlainBodyAsAttachment} eq 1 ) {
+
+                # get html body
+                my %Attachment = $Self->ArticleAttachment(
+                    ArticleID => $Param{ArticleID},
+                    FileID    => $AttachmentIDHTML,
+                    UserID    => $Param{UserID},
+                );
+
+                for my $AttachmentID ( sort keys %Attachments ) {
+                    my %File = %{ $Attachments{$AttachmentID} };
+                    next if !$File{ContentID};
+
+                    # content id cleanup
+                    $File{ContentID} =~ s/^<//;
+                    $File{ContentID} =~ s/>$//;
+                    if ( $Attachment{Content} =~ /\Q$File{ContentID}\E/i ) {
+                        delete $Attachments{$AttachmentID};
+                    }
+                }
+            }
 
             # only strip html body attachment by "1" or "3"
             if (
@@ -3330,6 +3346,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.270 $ $Date: 2011-01-02 10:48:15 $
+$Revision: 1.271 $ $Date: 2011-01-03 15:49:55 $
 
 =cut
