@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.122 2010-12-08 09:39:05 mb Exp $
+# $Id: es.pm,v 1.123 2011-01-03 18:36:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -726,7 +726,7 @@ sub Data {
         'Go to overview'        => 'Ir al resumen',
         'Add attachment' => '',
         'List'                  => 'Listar',
-        'No data found.'        => 'No se encontraron resultados',
+        'No data found.'        => 'No se encontraron resultados.',
         'Download file' => '',
         'Delete this attachment' => '',
         'Add Attachment' => '',
