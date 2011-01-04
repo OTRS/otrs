@@ -1,8 +1,8 @@
 # --
 # HTMLUtils.t - HTMLUtils tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.35 2010-12-21 15:26:56 mg Exp $
+# $Id: HTMLUtils.t,v 1.36 2011-01-04 16:07:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -705,8 +705,8 @@ for my $Test (@Tests) {
         Input =>
             '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
         Result =>
-            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
-        Name   => 'LinkQuote - invalid URL, no quoting;',
+            '<br /><a href="http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348" title="http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348">http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348</a><br /><br />Your OTRS Notification Master',
+        Name   => 'LinkQuote - just TLD given;',
         Target => '',
     },
 );
