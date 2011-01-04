@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.76 2010-12-03 09:11:38 mg Exp $
+# $Id: DB.t,v 1.77 2011-01-04 14:54:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1231,7 +1231,7 @@ for my $UTF8Test (@UTF8Tests) {
     );
 
     # check insert result
-    next UTF8Test if !$Result;
+    next UTF8TEST if !$Result;
 
     $Result = $Self->{DBObject}->Prepare(
         SQL   => 'SELECT name_b FROM test_d WHERE name_a = ? AND name_b = ?',
@@ -1244,7 +1244,7 @@ for my $UTF8Test (@UTF8Tests) {
     );
 
     # check prepare result
-    next UTF8Test if !$Result;
+    next UTF8TEST if !$Result;
 
     my @UTF8ResultSet;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
