@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1705 2011-01-03 15:49:56 martin Exp $
+# $Id: CHANGES,v 1.1706 2011-01-04 12:45:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-04 Updated Italian translation, thanks to Alessandro Grassi!
+ - 2011-01-04 Updated Norwegian translation, thanks to Eirik Wulff!
  - 2011-01-03 Fixed bug#6604 - Some attachments from mails created with OTRS 2.4.6
     are missing from the attachment list after upgrade to 3.0.
  - 2010-12-30 Fixed bug#6473 - Error at Apache log "uninitialized value".
