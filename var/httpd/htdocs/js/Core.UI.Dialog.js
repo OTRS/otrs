@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Dialog.js,v 1.30 2011-01-03 18:35:48 ub Exp $
+// $Id: Core.UI.Dialog.js,v 1.31 2011-01-04 11:21:41 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -371,7 +371,7 @@ Core.UI.Dialog = (function (TargetNS) {
         AdjustScrollableHeight();
 
         // Add event-handling
-        if (!(Params.NotDraggableIE7 && $.browser.msie && $.browser.version === 7)) {
+        if (!(Params.NotDraggableIE7 && $.browser.msie && parseInt($.browser.version, 10) === 7)) {
             $Dialog.draggable({
                 containment: 'body',
                 handle: '.Header'
@@ -496,7 +496,9 @@ Core.UI.Dialog = (function (TargetNS) {
     TargetNS.CloseDialog = function (Object) {
         function ResetRTE(Editor) {
             CKEDITOR.instances[Editor].setMode('source');
-            CKEDITOR.instances[Editor].setMode('wysiwyg');
+            window.setTimeout(function () {
+                CKEDITOR.instances[Editor].setMode('wysiwyg');
+            }, 100);
         }
 
         var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;
