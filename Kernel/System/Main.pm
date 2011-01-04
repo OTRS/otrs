@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.57 2010-10-21 09:09:56 martin Exp $
+# $Id: Main.pm,v 1.58 2011-01-04 17:40:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -260,15 +260,15 @@ sub FilenameCleanUp {
 to read files from file system
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory => 'c:\some\location',
-        Filename  => 'me_to/alal.xml',
+        Directory => 'c:\some\location\me_to',
+        Filename  => 'alal.xml',
         # or Location
         Location  => 'c:\some\location\me_to\alal.xml'
     );
 
     my $ContentARRAYRef = $MainObject->FileRead(
-        Directory => 'c:\some\location',
-        Filename  => 'me_to/alal.xml',
+        Directory => 'c:\some\location\me_to',
+        Filename  => 'alal.xml',
         # or Location
         Location  => 'c:\some\location\me_to\alal.xml'
 
@@ -276,8 +276,8 @@ to read files from file system
     );
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory       => 'c:\some\location',
-        Filename        => 'me_to/alal.xml',
+        Directory       => 'c:\some\location\me_to',
+        Filename        => 'alal.xml',
         # or Location
         Location        => 'c:\some\location\me_to\alal.xml'
 
@@ -975,6 +975,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2010-10-21 09:09:56 $
+$Revision: 1.58 $ $Date: 2011-01-04 17:40:12 $
 
 =cut
