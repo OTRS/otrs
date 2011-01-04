@@ -1,8 +1,8 @@
 # --
 # UPGRADING - upgrading OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.48 2010-12-27 21:21:13 mb Exp $
+# $Id: UPGRADING,v 1.49 2011-01-04 15:54:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,9 @@ and applies both for RPM and source code (tarball) upgrades.
 
 If you are running a lower version of OTRS you have to follow the upgrade path
 to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
+
+If you need to do a "patch level upgrade", which is an upgrade for instance 
+from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
 
 
 1) Stop all relevant services
@@ -54,7 +57,7 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
     shell> tar -xzf otrs-x.x.x.tar.gz
     shell> ln -s otrs-x.x.x otrs
 
-    Restore old config files.
+    Restore old configuration files.
     o Kernel/Config.pm
     o Kernel/Config/GenericAgent.pm
     o Kernel/Config/Files/ZZZAuto.pm
@@ -64,7 +67,7 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
 
     shell> rpm -Uvh otrs-x.x.x.-01.rpm
 
-    Restore old config files not needed, done by RPM.
+    Restore old configuration files is not needed, done by RPM.
 
 6) Own themes
    ----------
