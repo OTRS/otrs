@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.112 2010-12-22 22:58:21 cg Exp $
+# $Id: AgentStats.pm,v 1.113 2011-01-05 18:34:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1195,7 +1195,7 @@ sub Run {
                         Data        => $DynamicFiles,
                         Name        => 'Object',
                         Translation => 1,
-                        SelectedValue =>
+                        SelectedID =>
                             $Self->{ConfigObject}->Get('Stats::DefaultSelectedDynamicObject'),
                     );
                     $Self->{LayoutObject}->Block(
