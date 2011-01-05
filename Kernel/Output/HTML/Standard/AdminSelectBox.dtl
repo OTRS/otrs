@@ -1,8 +1,8 @@
 # --
 # AdminSelectBox.dtl - provides HTML form for SelectBox
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.10 2010-12-22 11:17:25 mg Exp $
+# $Id: AdminSelectBox.dtl,v 1.11 2011-01-05 10:37:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate" id="AdminSelectBoxForm">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Select"/>
                     <fieldset class="TableLike FixedLabelSmall">
@@ -74,18 +74,14 @@
                         </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-$('#Run').bind('click', function (Event) {
-    var ResultFormat = $('#ResultFormat option:selected').text(),
-        $Form = $('#ResultFormat').closest('form');
+Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
+    Form.submit();
 
-    $Form.submit();
-
-    if (ResultFormat != 'CSV') {
-        Core.Form.DisableForm( $Form );
+    if ($('#ResultFormat option:selected').text() != 'CSV') {
+        window.setTimeout(function(){
+            Core.Form.DisableForm( $(Form) );
+        }, 0);
     }
-
-    Event.preventDefault;
-    return false;
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->
