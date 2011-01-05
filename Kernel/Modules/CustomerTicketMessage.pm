@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.81 2010-12-23 17:21:16 mp Exp $
+# $Id: CustomerTicketMessage.pm,v 1.82 2011-01-05 19:44:29 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,11 +75,11 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         #Get QueueID for services
-        my $QueueID;
+        my $QueueDefaultID;
         if ( !$GetParam{Dest} ) {
-            my $Queue = $Self->{Config}->{'QueueDefault'} || '';
-            if ($Queue) {
-                $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+            my $QueueDefault = $Self->{Config}->{'QueueDefault'} || '';
+            if ($QueueDefault) {
+                $QueueDefaultID = $Self->{QueueObject}->QueueLookup( Queue => $QueueDefault );
             }
         }
 
@@ -208,7 +208,7 @@ sub Run {
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
         $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
-            QueueID => $QueueID,
+            QueueID => $QueueDefaultID,
             %TicketFreeTextHTML,
             %FreeTime,
             %ArticleFreeTextHTML,
@@ -741,26 +741,28 @@ sub _MaskNew {
             Data => \%Param,
         );
         my %SLA;
-        if ( $Param{ServiceID} && $Self->{Config}->{Queue} ) {
-            %SLA = $Self->{TicketObject}->TicketSLAList(
-                %Param,
-                Action         => $Self->{Action},
-                CustomerUserID => $Self->{UserID},
+        if ( $Self->{Config}->{SLA} ) {
+            if ( $Param{ServiceID} ) {
+                %SLA = $Self->{TicketObject}->TicketSLAList(
+                    %Param,
+                    Action         => $Self->{Action},
+                    CustomerUserID => $Self->{UserID},
+                );
+            }
+            $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data         => \%SLA,
+                Name         => 'SLAID',
+                SelectedID   => $Param{SLAID},
+                PossibleNone => 1,
+                Sort         => 'AlphanumericValue',
+                Translation  => 0,
+                Max          => 200,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketSLA',
+                Data => \%Param,
             );
         }
-        $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%SLA,
-            Name         => 'SLAID',
-            SelectedID   => $Param{SLAID},
-            PossibleNone => 1,
-            Sort         => 'AlphanumericValue',
-            Translation  => 0,
-            Max          => 200,
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketSLA',
-            Data => \%Param,
-        );
     }
 
     # prepare errors
