@@ -1,8 +1,8 @@
 // --
 // Core.UI.Popup.js - provides functionality to open popup windows
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.js,v 1.10 2010-12-20 09:22:03 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.11 2011-01-06 12:04:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,12 @@ Core.UI.Popup = (function (TargetNS) {
         var Size = 0;
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
-            Size++;
+            // IE(7) treats windows in new tabs (opened with right-click) also as popups
+            // Therefor we check if the popup has a defined WindowType, because this is a
+            // special OTRS property, which is only present at real OTRS popups
+            if (Value.WindowType) {
+                Size++;
+            }
         });
         if (Size) {
             return Core.Config.Get('PopupLeaveParentWindowMsg');
@@ -140,7 +145,12 @@ Core.UI.Popup = (function (TargetNS) {
     TargetNS.ClosePopupsOnUnload = function () {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
-            TargetNS.ClosePopup(Value);
+            // IE(7) treats windows in new tabs (opened with right-click) also as popups
+            // Therefor we check if the popup has a defined WindowType, because this is a
+            // special OTRS property, which is only present at real OTRS popups
+            if (Value.WindowType) {
+                TargetNS.ClosePopup(Value);
+            }
         });
     };
 
