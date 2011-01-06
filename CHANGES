@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1713 2011-01-06 13:59:54 mn Exp $
+# $Id: CHANGES,v 1.1714 2011-01-06 14:39:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-06 Fixed bug#6591 - Date selector calendar does not open on agent out of office.
  - 2011-01-06 Fixed bug#6563 - Article list in AgentTicketZoom scrolls inconveniently.
  - 2011-01-06 Fixed bug#6629 - Opening a link in a new Tab with IE doesn't allow you to navigate away from the SOURCE tab.
  - 2011-01-06 Fixed bug#6650 - AgentTicketPhone loses Responsible selection after reload.

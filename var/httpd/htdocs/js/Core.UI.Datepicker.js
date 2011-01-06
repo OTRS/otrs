@@ -1,8 +1,8 @@
 // --
 // Core.UI.Datepicker.js - Datepicker
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Datepicker.js,v 1.6 2010-11-05 08:32:29 mb Exp $
+// $Id: Core.UI.Datepicker.js,v 1.7 2011-01-06 14:39:11 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         else {
             return false;
         }
-        
+
         // Define options hash
         Options = {
             beforeShowDay: function (DateObject) {
@@ -169,7 +169,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         $DatepickerElement.datepicker(Options);
 
         // add datepicker icon and click event
-        Element.Year.after('<a href="#" class="DatepickerIcon" title="' + LocalizationData.IconText + '"></a>').next('a.DatepickerIcon').click(function () {
+        $DatepickerElement.after('<a href="#" class="DatepickerIcon" title="' + LocalizationData.IconText + '"></a>').next('a.DatepickerIcon').click(function () {
             $DatepickerElement.trigger('focus');
             return false;
         });
