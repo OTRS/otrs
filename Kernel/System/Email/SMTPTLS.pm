@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/SMTPTLS.pm - the global email send module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPTLS.pm,v 1.2 2010-09-20 23:00:59 cg Exp $
+# $Id: SMTPTLS.pm,v 1.3 2011-01-06 09:47:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,10 @@ package Kernel::System::Email::SMTPTLS;
 use strict;
 use warnings;
 
-use Net::SMTP::TLS;
+use Net::SMTP::TLS::ButMaintained;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,9 +64,9 @@ sub Check {
     for my $Try ( 1 .. 3 ) {
 
         # connect to mail server
-        # During construction of an <Net::SMTP::TLS> instance,
+        # During construction of an <Net::SMTP::TLS::ButMaintained> instance,
         # the full login process will occur.
-        $SMTP = Net::SMTP::TLS->new(
+        $SMTP = Net::SMTP::TLS::ButMaintained->new(
             $Self->{MailHost},
             Hello   => $Self->{FQDN},
             Port    => $Self->{SMTPPort},
@@ -107,7 +107,7 @@ sub Send {
     }
 
     # connect to mail server
-    my $SMTP = Net::SMTP::TLS->new(
+    my $SMTP = Net::SMTP::TLS::ButMaintained->new(
         $Self->{MailHost},
         Hello    => $Self->{FQDN},
         Port     => $Self->{SMTPPort},
