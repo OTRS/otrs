@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Agent.js,v 1.15 2011-01-04 18:00:18 cg Exp $
+// $Id: Core.Agent.js,v 1.16 2011-01-06 13:34:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,7 @@ Core.Agent = (function (TargetNS) {
      *      This function reload the page if the session is over and a login form is showed in some part of the current screen.
      */
     TargetNS.CheckSessionExpiredAndReload = function () {
-        if ( $('#LoginBox').length ) {
+        if ($('#LoginBox').length) {
             location.reload();
         }
     };
