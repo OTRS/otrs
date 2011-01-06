@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.102 2010-11-30 10:00:03 martin Exp $
+# $Id: EmailParser.pm,v 1.103 2011-01-06 23:21:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -771,10 +771,16 @@ sub PartsAttachments {
         }
     }
 
-    # parse/get Content-Id for html email attachments
-    $PartData{ContentID} = $Part->head()->get('Content-Id');
+    # parse/get Content-Id and Content-Location for html email attachments
+    $PartData{ContentID}       = $Part->head()->get('Content-Id');
+    $PartData{ContentLocation} = $Part->head()->get('Content-Location');
+
     if ( $PartData{ContentID} ) {
         chomp $PartData{ContentID};
+    }
+    elsif ( $PartData{ContentLocation} ) {
+        chomp $PartData{ContentLocation};
+        $PartData{ContentID} = "Content-Location:" . $PartData{ContentLocation};
     }
 
     # get attachment size
@@ -941,6 +947,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2010-11-30 10:00:03 $
+$Revision: 1.103 $ $Date: 2011-01-06 23:21:01 $
 
 =cut
