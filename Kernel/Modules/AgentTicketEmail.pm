@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.160 2010-12-08 22:25:44 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.161 2011-01-06 10:45:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.160 $) [1];
+$VERSION = qw($Revision: 1.161 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -774,8 +774,8 @@ sub Run {
                     QueueID  => $NewQueueID,
                     AllUsers => $GetParam{ResponsibleAll}
                 ),
-                ResponsibleUsersSelected => $NewResponsibleID,
-                NextStates               => $Self->_GetNextStates(
+                ResponsibleUserSelected => $NewResponsibleID,
+                NextStates              => $Self->_GetNextStates(
                     %GetParam,
                     CustomerUserID => $CustomerUser || '',
                     QueueID        => $NewQueueID   || 1,
@@ -1683,7 +1683,7 @@ sub _MaskEmailNew {
         $Param{ResponsibleUsers}->{''} = '-';
         $Param{ResponsibleOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Param{ResponsibleUsers},
-            SelectedID => $Param{ResponsibleUsersSelected},
+            SelectedID => $Param{ResponsibleUserSelected},
             Name       => 'NewResponsibleID',
         );
         $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1710 2011-01-06 09:52:30 mb Exp $
+# $Id: CHANGES,v 1.1711 2011-01-06 10:45:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-06 Fixed bug#6650 - AgentTicketPhone loses Responsible selection after reload.
  - 2011-01-06 Fixed bug#6354 - SMTPTLS multiplies attachments.
  - 2011-01-05 Fixed bug#6624 - If ticket is displayed in "Show all articles mode" only the last article can be replied in IE7.
  - 2011-01-04 Fixed bug#6578 - Agent settings 'My Queues' selection not shown.
