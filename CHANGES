@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1718 2011-01-07 16:36:36 en Exp $
+# $Id: CHANGES,v 1.1719 2011-01-07 23:40:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-07 Fixed bug#6555 - no decoder for iso-8859-1 at /opt/otrs/Kernel/cpan-lib/MIME/Parser.pm line 821.
  - 2011-01-07 Fixed bug#6582 - Admin->Manage Queues wrong subqueue default.
  - 2011-01-07 Fixed bug#6658 - History contains redundant SetPendingTime entries.
  - 2011-01-06 Fixed bug#5053 - Some inline images (bitmaps) from MS Outlook clients are not displayed in ticket zoom.

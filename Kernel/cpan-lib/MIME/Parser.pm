@@ -818,16 +818,30 @@ sub process_singlepart {
 
     ### Get a content-decoder to decode this part's encoding:
     my $encoding = $head->mime_encoding;
-    my $decoder = new MIME::Decoder $encoding;
-    if (!$decoder) {
-	$self->whine("Unsupported encoding '$encoding': using 'binary'... \n".
-		     "The entity will have an effective MIME type of \n".
-		     "application/octet-stream.");  ### as per RFC-2045
-	$ent->effective_type('application/octet-stream');
-	$decoder = new MIME::Decoder 'binary';
-	$encoding = 'binary';
+# ---
+# OTRS
+# ---
+# 2011-01-07 added patch/workaround for bug in MIME::Words (v5.428)
+# see also: https://rt.cpan.org/Public/Bug/Display.html?id=64589
+#           http://bugs.otrs.org/show_bug.cgi?id=6555
+#    my $decoder = new MIME::Decoder $encoding;
+#    if (!$decoder) {
+#	$self->whine("Unsupported encoding '$encoding': using 'binary'... \n".
+#		     "The entity will have an effective MIME type of \n".
+#		     "application/octet-stream.");  ### as per RFC-2045
+#	$ent->effective_type('application/octet-stream');
+#	$decoder = new MIME::Decoder 'binary';
+#	$encoding = 'binary';
+#    }
+    if ( ! supported MIME::Decoder $encoding ){
+        $self->whine("Unsupported encoding '$encoding': using 'binary'... \n".
+                 "The entity will have an effective MIME type of \n".
+                 "application/octet-stream.");  ### as per RFC-2045
+        $ent->effective_type('application/octet-stream');
+        $encoding = 'binary';
     }
-
+    my $decoder = new MIME::Decoder $encoding;
+    
     ### Data should be stored encoded / as-is?
     if ( !$self->decode_bodies ) {
 	$decoder = new MIME::Decoder 'binary';
