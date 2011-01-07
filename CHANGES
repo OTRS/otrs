@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1716 2011-01-06 23:21:01 dz Exp $
+# $Id: CHANGES,v 1.1717 2011-01-07 11:09:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-07 Fixed bug#6658 - History contains redundant SetPendingTime entries.
  - 2011-01-06 Fixed bug#5053 - Some inline images (bitmaps) from MS Outlook clients are not displayed in ticket zoom.
  - 2011-01-06 Fixed bug#6627 - Queue names are wrapped badly by the browser.
  - 2011-01-06 Fixed bug#6591 - Date selector calendar does not open on agent out of office.

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/TicketPendingTimeReset.pm - Empty pending time on status change
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketPendingTimeReset.pm,v 1.1 2010-05-28 21:11:35 mb Exp $
+# $Id: TicketPendingTimeReset.pm,v 1.2 2011-01-07 11:07:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,9 @@ sub Run {
     );
     return if !%Ticket;
 
+    # only set the pending time to 0 if it's actually set
+    return 1 if !$Ticket{UntilTime};
+
     # only set the pending time to 0 if the new state is NOT a pending state
     return 1 if $Ticket{StateType} eq $PendingReminderStateType;
     return 1 if $Ticket{StateType} eq $PendingAutoStateType;
@@ -73,7 +76,7 @@ sub Run {
     # reset pending date/time
     return if !$Self->{TicketObject}->TicketPendingTimeSet(
         TicketID => $Param{Data}->{TicketID},
-        UserID   => 1,
+        UserID   => $Param{UserID},
         String   => '0000-00-00 00:00:00',
     );
 
