@@ -2,7 +2,7 @@
 # 100-Admin.t - frontend tests for admin area
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-Admin.t,v 1.4 2011-01-07 16:19:19 mg Exp $
+# $Id: 100-Admin.t,v 1.5 2011-01-07 16:33:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     }
         || $Self->True(
         0,
-        "Exception occurred in Selenium scenario $SeleniumScenario->{ID}: $@",
+        "Exception occurred in Selenium scenario '$SeleniumScenario->{ID}': $@",
         );
 }
 

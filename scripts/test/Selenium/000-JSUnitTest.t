@@ -2,7 +2,7 @@
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-JSUnitTest.t,v 1.6 2011-01-07 16:19:19 mg Exp $
+# $Id: 000-JSUnitTest.t,v 1.7 2011-01-07 16:33:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     }
         || $Self->True(
         0,
-        "Exception occurred in Selenium scenario $SeleniumScenario->{ID}: $@",
+        "Exception occurred in Selenium scenario '$SeleniumScenario->{ID}': $@",
         );
 }
 
