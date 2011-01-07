@@ -1,8 +1,8 @@
 # --
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-JSUnitTest.t,v 1.5 2010-12-22 11:19:57 mg Exp $
+# $Id: 000-JSUnitTest.t,v 1.6 2011-01-07 16:19:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,59 +34,62 @@ my $Helper = Kernel::System::UnitTest::Helper->new(
 );
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
-    my $sel = Kernel::System::UnitTest::Selenium->new(
-        Verbose        => 1,
-        UnitTestObject => $Self,
-        %{$SeleniumScenario},
-    );
+    eval {
+        my $sel = Kernel::System::UnitTest::Selenium->new(
+            Verbose        => 1,
+            UnitTestObject => $Self,
+            %{$SeleniumScenario},
+        );
 
-    my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+        my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
 
-    $sel->open_ok("${WebPath}js/test/JSUnitTest.html");
-    $sel->wait_for_page_to_load_ok("30000");
+        $sel->open_ok("${WebPath}js/test/JSUnitTest.html");
+        $sel->wait_for_page_to_load_ok("30000");
 
-    # wait for the javascript tests (including AJAX) to complete
-    $sel->set_timeout_ok("5000");
-
-    $sel->is_element_present_ok("css=p.result span.failed");
-    $sel->is_element_present_ok("css=p.result span.passed");
-    $sel->is_element_present_ok("css=p.result span.total");
-
-    if (
-        !eval {
-            my ( $Passed, $Failed, $Total );
-            $Passed = $sel->get_eval(
-                "this.browserbot.getCurrentWindow().\$('p.result span.passed').text()"
-            );
-            $Failed = $sel->get_eval(
-                "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
-            );
-            $Total
-                = $sel->get_eval(
-                "this.browserbot.getCurrentWindow().\$('p.result span.total').text()"
-                );
-
-            $Self->True( $Passed, 'Found passed tests' );
-            $Self->Is( $Passed, $Total, 'Total number of tests' );
-            $Self->False( $Failed, 'Failed tests' );
-
-            for my $Test ( 1 .. $Passed ) {
-                $Self->True( 1, 'Successful JavaScript unit test found' );
-            }
-
-            for my $Test ( 1 .. $Failed ) {
-                $Self->True(
-                    0,
-                    'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
-                );
-            }
-
-            return 1;
+        # wait for the javascript tests (including AJAX) to complete
+        WAIT:
+        for ( 1 .. 20 ) {
+            last WAIT if ( $sel->is_element_present("css=p.result span.failed") );
+            sleep(0.2);
         }
-        )
-    {
-        $Self->True( 0, "An expeption occurred: $@" );
+
+        $sel->is_element_present_ok("css=p.result span.failed");
+        $sel->is_element_present_ok("css=p.result span.passed");
+        $sel->is_element_present_ok("css=p.result span.total");
+
+        my ( $Passed, $Failed, $Total );
+        $Passed = $sel->get_eval(
+            "this.browserbot.getCurrentWindow().\$('p.result span.passed').text()"
+        );
+        $Failed = $sel->get_eval(
+            "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
+        );
+        $Total
+            = $sel->get_eval(
+            "this.browserbot.getCurrentWindow().\$('p.result span.total').text()"
+            );
+
+        $Self->True( $Passed, 'Found passed tests' );
+        $Self->Is( $Passed, $Total, 'Total number of tests' );
+        $Self->False( $Failed, 'Failed tests' );
+
+        for my $Test ( 1 .. $Passed ) {
+            $Self->True( 1, 'Successful JavaScript unit test found' );
+        }
+
+        for my $Test ( 1 .. $Failed ) {
+            $Self->True(
+                0,
+                'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
+            );
+        }
+
+        return 1;
     }
+        || $Self->True(
+        0,
+        "Exception occurred in Selenium scenario $SeleniumScenario->{ID}: $@",
+        );
 }
 
 1;

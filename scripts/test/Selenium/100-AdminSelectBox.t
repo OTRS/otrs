@@ -1,8 +1,8 @@
 # --
 # 100-AdminSelectBox.t - frontend tests for AdminSQL
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-AdminSelectBox.t,v 1.2 2010-12-22 11:19:57 mg Exp $
+# $Id: 100-AdminSelectBox.t,v 1.3 2011-01-07 16:19:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,32 +30,75 @@ my $Helper = Kernel::System::UnitTest::Helper->new(
 );
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
-    my $sel = Kernel::System::UnitTest::Selenium->new(
-        Verbose        => 1,
-        UnitTestObject => $Self,
-        %{$SeleniumScenario},
-    );
+    eval {
+        my $sel = Kernel::System::UnitTest::Selenium->new(
+            Verbose        => 1,
+            UnitTestObject => $Self,
+            %{$SeleniumScenario},
+        );
 
-    $sel->Login(
-        Type     => 'Agent',
-        User     => 'root@localhost',
-        Password => 'root',
-    );
+        $sel->Login(
+            Type     => 'Agent',
+            User     => 'root@localhost',
+            Password => 'root',
+        );
 
-    my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
-    $sel->open_ok("${ScriptAlias}index.pl?Action=AdminSelectBox");
-    $sel->wait_for_page_to_load_ok("30000");
-    $sel->type_ok( "SQL", "SELECT * FROM valid" );
-    $sel->click_ok("css=button#Run");
-    $sel->wait_for_page_to_load_ok("30000");
+        $sel->open_ok("${ScriptAlias}index.pl?Action=AdminSelectBox");
+        $sel->wait_for_page_to_load_ok("30000");
 
-    $sel->table_is( "//table.0.0", "1" );
-    $sel->table_is( "//table.0.1", "valid" );
-    $sel->table_is( "//table.1.0", "2" );
-    $sel->table_is( "//table.1.1", "invalid" );
-    $sel->table_is( "//table.2.0", "3" );
-    $sel->table_is( "//table.2.1", "invalid-temp[...]" );
+        # empty SQL statement, check client side validation
+        $sel->type_ok( "SQL", "" );
+        $sel->click_ok("css=button#Run");
+        $Self->Is(
+            $sel->get_eval(
+                "this.browserbot.getCurrentWindow().\$('#SQL').hasClass('Error')"
+            ),
+            'true',
+            'Client side validation correctly detected missing input value for #SQL',
+        );
+
+        # wrong SQL statement, check server side validation
+        $sel->type_ok( "SQL", "SELECT * FROM" );
+        $sel->click_ok("css=button#Run");
+        $sel->wait_for_page_to_load_ok("30000");
+        $Self->Is(
+            $sel->get_eval(
+                "this.browserbot.getCurrentWindow().\$('#SQL').hasClass('ServerError')"
+            ),
+            'true',
+            'Server side validation correctly detected missing input value for #SQL',
+        );
+
+        # correct SQL statement
+        $sel->type_ok( "SQL", "SELECT * FROM valid" );
+        $sel->click_ok("css=button#Run");
+
+        # now the button must be disabled
+        $Self->Is(
+            $sel->get_eval(
+                "this.browserbot.getCurrentWindow().\$('button#Run').attr('disabled')"
+            ),
+            'true',
+            'Check for prevention of multiple submits',
+        );
+        $sel->wait_for_page_to_load_ok("30000");
+
+        # verify results
+        $sel->table_is( "//table.0.0", "1" );
+        $sel->table_is( "//table.0.1", "valid" );
+        $sel->table_is( "//table.1.0", "2" );
+        $sel->table_is( "//table.1.1", "invalid" );
+        $sel->table_is( "//table.2.0", "3" );
+        $sel->table_is( "//table.2.1", "invalid-temp[...]" );
+
+        return 1;
+    }
+        || $Self->True(
+        0,
+        "Exception occurred in Selenium scenario $SeleniumScenario->{ID}: $@",
+        );
 }
 
 1;
