@@ -1,8 +1,8 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.33 2010-11-03 15:56:44 en Exp $
+# $Id: EmailParser.t,v 1.34 2011-01-10 05:14:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -830,6 +830,32 @@ $Self->Is(
     $Data{Charset},
     'iso-8859-1',
     "#18 ContentType - iso-8859-1 charset should be found",
+);
+
+# test #20
+@Array = ();
+open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );
+while (<IN>) {
+    push( @Array, $_ );
+}
+close(IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+
+@Attachments = $EmailParserObject->GetAttachments();
+my $ContentLocation;
+for my $Attachment (@Attachments) {
+    next if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
+    $ContentLocation = $Attachment->{ContentID};
+}
+
+$Self->Is(
+    $ContentLocation,
+    'Content-Location:Untitled%20Attachment',
+    "#20 Get Content-Location",
 );
 
 1;
