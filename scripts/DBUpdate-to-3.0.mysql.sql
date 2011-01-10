@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-09-02 15:15:40
+#  driver: mysql, generated: 2011-01-10 15:40:14
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -47,40 +47,6 @@ ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_create_by_id;
 DROP INDEX article_flag_create_by ON article_flag;
 ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 # /workaround
-# ----------------------------------------------------------
-#  create table virtual_fs
-# ----------------------------------------------------------
-CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    filename TEXT NOT NULL,
-    backend VARCHAR (60) NOT NULL,
-    backend_key VARCHAR (160) NOT NULL,
-    create_time DATETIME NOT NULL,
-    PRIMARY KEY(id),
-    INDEX virtual_fs_backend (backend(60)),
-    INDEX virtual_fs_filename (filename(350))
-);
-# ----------------------------------------------------------
-#  create table virtual_fs_preferences
-# ----------------------------------------------------------
-CREATE TABLE virtual_fs_preferences (
-    virtual_fs_id BIGINT NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value TEXT NULL,
-    INDEX virtual_fs_preferences_key_value (preferences_key, preferences_value(150)),
-    INDEX virtual_fs_preferences_virtual_fs_id (virtual_fs_id)
-);
-# ----------------------------------------------------------
-#  create table virtual_fs_db
-# ----------------------------------------------------------
-CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    filename TEXT NOT NULL,
-    content LONGBLOB NOT NULL,
-    create_time DATETIME NOT NULL,
-    PRIMARY KEY(id),
-    INDEX virtual_fs_db_filename (filename(350))
-);
 # ----------------------------------------------------------
 #  alter table customer_user
 # ----------------------------------------------------------
@@ -355,4 +321,3 @@ ALTER TABLE package_repository CHANGE name name VARCHAR (200) NOT NULL;
 ALTER TABLE article_attachment CHANGE content_type content_type TEXT NULL;
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

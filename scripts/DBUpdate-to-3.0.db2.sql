@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-09-02 15:15:40
+--  driver: db2, generated: 2011-01-10 15:47:49
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -91,48 +91,6 @@ CREATE INDEX article_flag_article_id_create15 ON article_flag (article_id, creat
 CREATE INDEX article_flag_article_id_articlf0 ON article_flag (article_id, article_key);
 
 DROP INDEX article_flag_create_by;
-
--- ----------------------------------------------------------
---  create table virtual_fs
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    filename VARCHAR (350) NOT NULL,
-    backend VARCHAR (60) NOT NULL,
-    backend_key VARCHAR (160) NOT NULL,
-    create_time TIMESTAMP NOT NULL,
-    PRIMARY KEY(id)
-);
-
-CREATE INDEX virtual_fs_backend ON virtual_fs (backend);
-
-CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
-
--- ----------------------------------------------------------
---  create table virtual_fs_preferences
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs_preferences (
-    virtual_fs_id BIGINT NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (350)
-);
-
-CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
-
-CREATE INDEX virtual_fs_preferences_virtualf6 ON virtual_fs_preferences (virtual_fs_id);
-
--- ----------------------------------------------------------
---  create table virtual_fs_db
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    filename VARCHAR (350) NOT NULL,
-    content BLOB (30M) NOT NULL,
-    create_time TIMESTAMP NOT NULL,
-    PRIMARY KEY(id)
-);
-
-CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 
 SET INTEGRITY FOR customer_user OFF;
 
@@ -690,5 +648,3 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE article_attachment');
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-
-ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2010-09-02 15:15:40
+--  driver: ingres, generated: 2011-01-10 15:43:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -35,36 +35,6 @@ ALTER TABLE article_flag DROP COLUMN article_flag RESTRICT;\g
 --  alter table article_flag
 -- ----------------------------------------------------------
 ALTER TABLE article_flag ADD COLUMN article_value VARCHAR(50);\g
-CREATE SEQUENCE virtual_fs_955;\g
-CREATE TABLE virtual_fs (
-    id BIGINT NOT NULL DEFAULT virtual_fs_955.NEXTVAL,
-    filename VARCHAR(350) NOT NULL,
-    backend VARCHAR(60) NOT NULL,
-    backend_key VARCHAR(160) NOT NULL,
-    create_time TIMESTAMP NOT NULL
-);\g
-MODIFY virtual_fs TO btree unique ON id WITH unique_scope = statement;\g
-ALTER TABLE virtual_fs ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE INDEX virtual_fs_filename ON virtual_fs (filename);\g
-CREATE INDEX virtual_fs_backend ON virtual_fs (backend);\g
-CREATE TABLE virtual_fs_preferences (
-    virtual_fs_id BIGINT NOT NULL,
-    preferences_key VARCHAR(150) NOT NULL,
-    preferences_value VARCHAR(350)
-);\g
-MODIFY virtual_fs_preferences TO btree;\g
-CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);\g
-CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);\g
-CREATE SEQUENCE virtual_fs_db_124;\g
-CREATE TABLE virtual_fs_db (
-    id BIGINT NOT NULL DEFAULT virtual_fs_db_124.NEXTVAL,
-    filename VARCHAR(350) NOT NULL,
-    content LONG BYTE NOT NULL,
-    create_time TIMESTAMP NOT NULL
-);\g
-MODIFY virtual_fs_db TO btree unique ON id WITH unique_scope = statement;\g
-ALTER TABLE virtual_fs_db ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);\g
 -- ----------------------------------------------------------
 --  alter table customer_user
 -- ----------------------------------------------------------
@@ -253,4 +223,3 @@ ALTER TABLE package_repository ALTER COLUMN name VARCHAR(200);\g
 ALTER TABLE article_attachment ALTER COLUMN content_type VARCHAR(450);\g
 ALTER TABLE ticket_flag ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE ticket_flag ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);\g
-ALTER TABLE virtual_fs_preferences ADD FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs(id);\g

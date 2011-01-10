@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2010-09-02 15:15:40
+--  driver: postgresql, generated: 2011-01-10 15:46:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -48,40 +48,6 @@ ALTER TABLE article_flag ADD article_value VARCHAR (50) NULL;
 CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
 CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
 DROP INDEX article_flag_create_by;
--- ----------------------------------------------------------
---  create table virtual_fs
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs (
-    id serial NOT NULL,
-    filename VARCHAR (350) NOT NULL,
-    backend VARCHAR (60) NOT NULL,
-    backend_key VARCHAR (160) NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE INDEX virtual_fs_backend ON virtual_fs (backend);
-CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
--- ----------------------------------------------------------
---  create table virtual_fs_preferences
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs_preferences (
-    virtual_fs_id INTEGER NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (350) NULL
-);
-CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
-CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);
--- ----------------------------------------------------------
---  create table virtual_fs_db
--- ----------------------------------------------------------
-CREATE TABLE virtual_fs_db (
-    id serial NOT NULL,
-    filename VARCHAR (350) NOT NULL,
-    content TEXT NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 --  alter table customer_user
 -- ----------------------------------------------------------
@@ -365,4 +331,3 @@ ALTER TABLE article_attachment ALTER content_type TYPE VARCHAR (450);
 ALTER TABLE article_attachment ALTER content_type DROP DEFAULT;
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virtual_fs_id_id FOREIGN KEY (virtual_fs_id) REFERENCES virtual_fs (id);
