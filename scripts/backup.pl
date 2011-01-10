@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.24 2010-12-13 13:23:22 mg Exp $
+# $Id: backup.pl,v 1.25 2011-01-10 15:06:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,7 +52,7 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
@@ -235,7 +235,7 @@ else {
 # backup datadir
 if ( $ArticleDir !~ m/\Q$Home\E/ ) {
     print "Backup $Directory/DataDir.tar.gz ... ";
-    if ( !system("tar -czf $Directory/DataDir.tar.gz .") ) {
+    if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
         print "done\n";
     }
     else {
