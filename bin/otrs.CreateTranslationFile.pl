@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CreateTranslationFile.pl - create new translation file
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.22 2010-12-09 14:06:42 mg Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.23 2011-01-11 11:46:18 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -125,10 +125,10 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
 }
 
 sub HandleLanguage {
-    my %Params = @_;
+    my %Param = @_;
 
-    my $Language = $Params{Language};
-    my $Module   = $Params{Module};
+    my $Language = $Param{Language};
+    my $Module   = $Param{Module};
 
     my $ModuleDirectory = $Module;
     my $LanguageFile;
@@ -355,7 +355,7 @@ sub HandleLanguage {
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/${Language}_$Module.pm - translation file
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 $Separator
 # \$Id\$
 $Separator
