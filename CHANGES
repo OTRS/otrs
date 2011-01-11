@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1721 2011-01-11 23:21:06 mp Exp $
+# $Id: CHANGES,v 1.1722 2011-01-11 23:28:14 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-11 Fixed bug#6505 - Ticket::Frontend::PlainView has no effect.
  - 2011-01-10 Fixed bug#6668 - Upgrade to OTRS 3.0.x fails if OTRS 2.4.x is used with OTRS::ITSM 2.x
  - 2011-01-07 Fixed bug#6555 - no decoder for iso-8859-1 at /opt/otrs/Kernel/cpan-lib/MIME/Parser.pm line 821.
  - 2011-01-07 Fixed bug#6582 - Admin->Manage Queues wrong subqueue default.
