@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.120 2011-01-05 17:27:00 mp Exp $
+# $Id: LayoutTicket.pm,v 1.121 2011-01-11 15:37:33 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -967,6 +967,54 @@ sub ArticleQuote {
                 # return link
                 '"' . $ContentID . '"';
             }egxi;
+
+            # find inlines images using Content-Location instead of Content-ID
+            for my $AttachmentID ( sort keys %Attachments ) {
+
+                next if $AttachmentAlreadyUsed{$AttachmentID};
+
+                # look in all html email document the Content-Location
+                # if matchs replace it with URL link
+                $Attachments{$AttachmentID}->{ContentID} =~ s{<Content-Location:(.*)>}{$1}xms;
+
+                next if !$1;
+
+                my $LookContentID = "\Q$Attachments{$AttachmentID}->{ContentID}\E";
+                $Body =~ s{
+                    ("|')($LookContentID)('|")
+                }
+                {
+                    my $ContentID = $2;
+
+                    # get whole attachment
+                    my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
+                        ArticleID => $Param{ArticleID},
+                        FileID    => $AttachmentID,
+                        UserID    => $Self->{UserID},
+                    );
+
+                    # content id cleanup
+                    $AttachmentPicture{ContentID} =~ s{<Content-Location:(.*)>}{$1}xms;
+
+                    # add attachment URL and remeber, file is already uploaded
+                    $ContentID = $AttachmentLink . $AttachmentPicture{ContentID};
+
+                    # add to upload cache if not uploaded and remember
+                    # remember
+                    $AttachmentAlreadyUsed{$AttachmentID} = 1;
+
+                    # write attachment to upload cache
+                    $Param{UploadCacheObject}->FormIDAddFile(
+                        FormID      => $Param{FormID},
+                        Disposition => 'inline',
+                        %{ $Attachments{$AttachmentID} },
+                        %AttachmentPicture,
+                    );
+
+                    # return link
+                    '"' . $ContentID . '"';
+                }egxi
+            }
 
             # find not inline images
             for my $AttachmentID ( sort keys %Attachments ) {

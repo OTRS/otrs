@@ -1,8 +1,8 @@
 # --
 # scripts/test/LayoutTicket.t - layout module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.1 2010-12-14 12:23:03 martin Exp $
+# $Id: LayoutTicket.t,v 1.2 2011-01-11 15:37:33 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,7 @@ my $HTML = '<html>
 <body>
 <b>Test HTML document.</b>
 <img src="cid:1234" border="0">
+<img src="Untitled%Attachment" border="0">
 </body>
 </html>';
 
@@ -117,6 +118,16 @@ $TicketObject->ArticleWriteAttachment(
     MimeType    => 'image/png',
     ContentType => 'image/png',
     Content     => '#fake image3#',
+    ArticleID   => $ArticleID,
+    UserID      => 1,
+);
+
+$TicketObject->ArticleWriteAttachment(
+    Filename    => 'image.bmp',
+    MimeType    => 'image/bmp',
+    ContentType => 'image/bmp',
+    Content     => '#fake image#',
+    ContentID   => 'Content-Location:Untitled%Attachment',
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
@@ -177,6 +188,18 @@ my @Tests = (
         AttachmentsInclude => 0,
         Attachment         => {
             'file-2' => 1,
+            }
+    },
+    {
+        Config => {
+            'Frontend::RichText' => 1,
+        },
+        BodyRegExp => [
+            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=Untitled%Attachment" border="0">',
+        ],
+        AttachmentsInclude => 0,
+        Attachment         => {
+            'image.bmp' => 1,
             }
     },
 );
