@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.23 2011-01-11 11:46:18 ub Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.24 2011-01-11 20:52:10 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -98,7 +98,7 @@ my $Home = $CommonObject{ConfigObject}->Get('Home');
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files
-        @Languages = grep { $_ !~ / \A en.* /smx } @Languages;
+        @Languages = grep { $_ !~ m{ \A en .* }xms } @Languages;
     }
     elsif ( $Opts{l} ) {
         push @Languages, $Opts{l};
@@ -134,6 +134,8 @@ sub HandleLanguage {
     my $LanguageFile;
     my $TargetFile;
     my $IsSubTranslation;
+    my $Indent = ' ' x 8;    # 8 spaces for core files
+
     my $DefaultTheme = $CommonObject{ConfigObject}->Get('DefaultTheme');
 
     if ( !$Module ) {
@@ -142,9 +144,14 @@ sub HandleLanguage {
     }
     else {
         $IsSubTranslation = 1;
+        $Indent           = ' ' x 4;    # 4 spaces for module files
 
         # extract module name from module path
-        $Module =~ s/^.*\/(.+)\/?$/$1/;
+        $Module =~ s{ \A .* / (.+) /? \z }{$1}xms;
+
+        # remove underscores and/or version numbers and following from module name
+        # i.e. FAQ_2_0 or FAQ20
+        $Module =~ s{ [_0-9]+ .+ \z }{}xms;
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
@@ -187,10 +194,10 @@ sub HandleLanguage {
 
     my @List = $CommonObject{MainObject}->DirectoryRead(
         Directory => $Directory,
-        Filter    => '*.dtl'
+        Filter    => '*.dtl',
     );
 
-    print "\nReading template files: ";
+    print "\nReading template files:\n";
 
     for my $File (@List) {
         if ( open my $In, '<', $File ) {
@@ -202,8 +209,8 @@ sub HandleLanguage {
             }
             close $In;
             $File =~ s!^.*/(.+?)\.dtl!$1!;
-            print "$File ";
-            $Data .= "\n        # Template: $File\n";
+            print "$File\n";
+            $Data .= "\n" . $Indent . "# Template: $File\n";
 
             # replace data tags so that stuff like
             #   $Text{"$Data{"ernie"}"} will not be translated
@@ -252,7 +259,7 @@ sub HandleLanguage {
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        $Data .= "    \$Self->{Translation}->{'$Key'} = '$Translation';\n";
+                        $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
                     }
                 }
             }
@@ -270,7 +277,7 @@ sub HandleLanguage {
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        $Data .= "        '$Key' => '$Translation',\n";
+                        $Data .= $Indent . "'$Key' => '$Translation',\n";
                     }
                 }
             }
@@ -283,18 +290,20 @@ sub HandleLanguage {
     }
 
     # add translatable strings from SysConfig
-    print "SysConfig ";
-    $Data .= "\n        # SysConfig\n";
+    print "SysConfig\n";
+    $Data .= "\n" . $Indent . "# SysConfig\n";
     my @Strings = $CommonObject{SysConfigObject}->ConfigItemTranslatableStrings();
 
+    STRING:
     for my $String ( sort @Strings ) {
-        next if !$String;
+
+        next STRING if !$String;
 
         # skip if we translate a module and the word already exists in the core translation
-        next if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
+        next STRING if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
 
         # ignore word if already used
-        next if exists $UsedWords{$String};
+        next STRING if exists $UsedWords{$String};
 
         # remove it from misc list
         $UsedWordsMisc{$String} = 1;
@@ -309,26 +318,28 @@ sub HandleLanguage {
         my $Key = $String;
         $Key =~ s/'/\\'/g;
         if ($IsSubTranslation) {
-            $Data .= "    \$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
         }
         else {
-            $Data .= "        '$Key' => '$Translation',\n";
+            $Data .= $Indent . "'$Key' => '$Translation',\n";
         }
     }
 
     # add misc words
     print "Obsolete Entries\n\n";
     $Data .= "\n";
-    $Data .= "        #\n";
-    $Data .= "        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!\n";
-    $Data .= "        #\n";
+    $Data .= $Indent . "#\n";
+    $Data .= $Indent . "# OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!\n";
+    $Data .= $Indent . "#\n";
+
+    KEY:
     for my $Key ( sort keys %{ $LanguageObject->{Translation} } ) {
 
         # ignore words from the core if we are translating a module
-        next if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$Key};
+        next KEY if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$Key};
 
         # ignore word if already used
-        next if $UsedWordsMisc{$Key};
+        next KEY if $UsedWordsMisc{$Key};
 
         my $Translation = $LanguageObject->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
@@ -336,12 +347,17 @@ sub HandleLanguage {
 
         # if a string was previously in a DTL, but has not yet been translated,
         # there's no need to preserve it in the translation file.
-        next if ( !$Translation );
+        next KEY if !$Translation;
 
         # TODO: clarify if regular expression check is still needed
-        #   in the past it was used to guard against wrong matches
-        if ( $Key !~ /(a href|\$(Text|Quote)\{")/i ) {
-            $Data .= "        '$Key' => '$Translation',\n";
+        # in the past it was used to guard against wrong matches
+        next KEY if $Key =~ /(a href|\$(Text|Quote)\{")/i;
+
+        if ($IsSubTranslation) {
+            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+        }
+        else {
+            $Data .= $Indent . "'$Key' => '$Translation',\n";
         }
     }
 
@@ -351,7 +367,10 @@ sub HandleLanguage {
 
     # translating a module
     if ($IsSubTranslation) {
+
+        # needed for cvs check-in filter
         my $Separator = "# --";
+
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/${Language}_$Module.pm - translation file
@@ -370,9 +389,7 @@ use strict;
 
 sub Data {
     my \$Self = shift;
-
-$Data;
-
+$Data
 }
 
 1;
