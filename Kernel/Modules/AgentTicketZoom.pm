@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.143 2011-01-05 16:07:38 en Exp $
+# $Id: AgentTicketZoom.pm,v 1.144 2011-01-11 23:11:51 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1585,6 +1585,7 @@ sub _ArticleItem {
     # check if plain link should be shown
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPlain}
+        && $Self->{ConfigObject}->Get('Ticket::Frontend::PlainView')
         && ( !defined $AclAction{AgentTicketPlain} || $AclAction{AgentTicketPlain} )
         && $Article{ArticleType} =~ /email/i
         )
