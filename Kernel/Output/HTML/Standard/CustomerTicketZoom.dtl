@@ -1,8 +1,8 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.105 2010-11-26 21:16:50 en Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.106 2011-01-12 10:29:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,7 +135,7 @@
                         <div class="MessageContent">
 <!-- dtl:block:BodyPlain -->
                             $Data{"BodyNote"}
-                            <div class="message">
+                            <div class="ArticleBody">
                                 $Data{"Body"}
                             </div>
 <!-- dtl:block:BodyPlain -->

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1724 2011-01-12 09:27:33 martin Exp $
+# $Id: CHANGES,v 1.1725 2011-01-12 10:29:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.5 2011-01-??
+ - 2011-01-12 Fixed bug#6681 - Font of notes is not fixed font (Frontend::RichText is disabled).
  - 2011-01-12 Fixed bug#6458 - "Lock" not indicated on compose (lock/unlock message was not shown).
  - 2011-01-11 Fixed bug#6653 - Time Format Dashboard etc.
  - 2011-01-11 Fixed bug#6505 - Ticket::Frontend::PlainView has no effect.

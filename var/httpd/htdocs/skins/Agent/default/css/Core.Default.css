@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.39 $
+ * @version     $Revision: 1.40 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -643,7 +643,7 @@ iframe.TextOption.Customer {
 }
 
 /**
- * @subsection  global search
+ * @subsection global search
  */
 #SearchForm {
     width: 560px;
@@ -658,6 +658,13 @@ iframe.TextOption.Customer {
 #ContextSettingsDialog {
     width: 450px;
     max-height: 100px;
+}
+
+/**
+ * @subsection global message format
+ */
+.ArticleBody{
+    font-family: monospace,fixed;
 }
 
 } /* end @media */

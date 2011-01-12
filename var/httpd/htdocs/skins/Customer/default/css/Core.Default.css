@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -296,6 +296,13 @@ form textarea.Error {
 
 form select.Error {
     color: #ff505e;
+}
+
+/**
+ * @subsection global message format
+ */
+.ArticleBody{
+    font-family: monospace,fixed;
 }
 
 } /* end @media */
