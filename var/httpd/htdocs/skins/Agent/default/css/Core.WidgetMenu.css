@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.25 $
+ * @version     $Revision: 1.26 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -302,8 +302,12 @@ ul.ContextFunctions li:last-child:hover > a {
     position: absolute;
 }
 
-.AdditionalInformation.SpacingRight {
+.AdditionalInformation.SpacingLoader {
     margin-right: 23px;
+}
+
+.RTL .AdditionalInformation.SpacingLoader {
+    margin-left: 23px;
 }
 
 .RTL .AdditionalInformation {
