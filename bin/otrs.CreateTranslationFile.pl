@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.24 2011-01-11 20:52:10 ub Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.25 2011-01-12 08:54:08 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -209,7 +209,7 @@ sub HandleLanguage {
             }
             close $In;
             $File =~ s!^.*/(.+?)\.dtl!$1!;
-            print "$File\n";
+            print "$File ";
             $Data .= "\n" . $Indent . "# Template: $File\n";
 
             # replace data tags so that stuff like
