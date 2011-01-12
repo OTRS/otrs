@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.415 2011-01-06 09:54:05 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.416 2011-01-12 22:57:22 cg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5777,6 +5777,17 @@ via the Preferences button after logging in.
                 <Item Key="host1\.example\.com">Someskin1</Item>
                 <Item Key="host2\.example\.com">Someskin2</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeShowCompleteDescription" Required="1" Valid="1">
+        <Description Translatable="1">Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
 </otrs_config>
