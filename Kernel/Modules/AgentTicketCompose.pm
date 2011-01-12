@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.122 2010-12-30 18:08:18 mp Exp $
+# $Id: AgentTicketCompose.pm,v 1.123 2011-01-12 09:27:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,7 +91,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get lock state
-    my $TicketBackType = "TicketBack";
+    my $TicketBackType = 'TicketBack';
     if ( $Self->{Config}->{RequiredLock} ) {
         if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
             $Self->{TicketObject}->TicketLockSet(
@@ -107,22 +107,9 @@ sub Run {
 
             # show lock state
             if ( !$Owner ) {
-                my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
-                );
-                $Output .= $Self->{LayoutObject}->Warning(
-                    Message => 'Ticket locked!',
-                    Comment => 'Please unlock the ticket first.',
-                );
-                $Output .= $Self->{LayoutObject}->Footer(
-                    Type => 'Small',
-                );
-                return $Output;
+                return $Self->{LayoutObject}->FatalError();
             }
-            else {
-                $TicketBackType .= "Undo";
-            }
+            $TicketBackType .= 'Undo';
         }
         else {
             my $AccessOk = $Self->{TicketObject}->OwnerCheck(
