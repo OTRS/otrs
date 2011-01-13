@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.107 2010-12-08 10:37:22 mb Exp $
+# $Id: pt_BR.pm,v 1.108 2011-01-13 13:29:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-25 14:51:40
+    # Last translation file sync: 2011-01-13 14:09:08
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -55,17 +55,23 @@ sub Data {
         'Reset' => 'Reiniciar',
         'last' => 'último',
         'before' => 'antes',
+        'Today' => '',
+        'Tomorrow' => '',
+        'Next Week' => '',
         'day' => 'dia',
         'days' => 'dias',
         'day(s)' => 'dia(s)',
+        'd' => '',
         'hour' => 'hora',
         'hours' => 'horas',
         'hour(s)' => 'hora(s)',
         'Hours' => '',
+        'h' => '',
         'minute' => 'minuto',
         'minutes' => 'minutos',
         'minute(s)' => 'minuto(s)',
         'Minutes' => '',
+        'm' => '',
         'month' => 'mês',
         'months' => 'meses',
         'month(s)' => 'mês(s)',
@@ -77,6 +83,7 @@ sub Data {
         'second(s)' => 'segundo(s)',
         'seconds' => 'segundos',
         'second' => 'segundo',
+        's' => '',
         'wrote' => 'escreveu',
         'Message' => 'Mensagem',
         'Error' => 'Erro',
@@ -534,6 +541,12 @@ sub Data {
         'Watched Tickets Total' => '',
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
+        'All tickets' => 'Todos os chamados',
+        'Tickets available' => 'Chamados disponíveis',
+        'Escalation' => 'Escalação',
+        'last-search' => '',
+        'QueueView' => 'Visualizar Fila',
+        'Ticket Escalation View' => '',
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => 'Aberto',
@@ -816,7 +829,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Notificação Administrativa',
-        'Send Administrative Message to Agents' => '',
+        'With this module, administrators can send messages to agents, group or role members.' => '',
+        'Create Administrative Message' => '',
         'Your message was sent to' => '',
         'Send message to users' => '',
         'Send message to group members' => '',
@@ -893,7 +907,6 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Adicionar Anotação',
         'Time units' => 'Unidades de tempo',
-        ' (work units)' => ' (unidades de trabalho)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações para agente/cliente',
         'CMD' => 'Comando',
@@ -925,6 +938,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Logs do Sistema',
         'Here you will find log information about your system.' => '',
+        'Hide this message' => '',
+        'Recent Log Entries' => '',
         'Time' => 'Horário',
 
         # Template: AdminMailAccount
@@ -1239,8 +1254,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Configuração do Sistema',
         'Navigate by searching in %s settings' => '',
-        'Go to group %s' => '',
-        'Group %s' => '',
+        'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
         'Export settings' => '',
         'Load SysConfig settings from file' => '',
@@ -1369,7 +1383,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => '',
+        'The ticket has been locked' => '',
         'Undo & close window' => '',
 
         # Template: AgentInfo
@@ -1398,7 +1412,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
-        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1549,7 +1562,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Agrupar Chamado',
-        'The Ticket was locked' => '',
         'You need to use a ticket number!' => 'Você deve utilizar um número de chamado!',
         'A valid ticket number is required.' => '',
 
@@ -1571,7 +1583,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Alterar as oções de busca',
-        'Max. shown Tickets a page' => '',
+        'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1619,12 +1631,6 @@ sub Data {
         'Fulltext' => 'Texto Completo',
         'Remove' => '',
         'Customer User Login' => 'Login Usuário Cliente',
-        'Time1' => '',
-        'Time2' => '',
-        'Time3' => '',
-        'Time4' => '',
-        'Time5' => '',
-        'Time6' => '',
         'Created in Queue' => 'Criado na Fila',
         'Lock state' => '',
         'Watcher' => '',
@@ -1647,6 +1653,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => '',
+        'Article Type' => 'Tipo do Artigo',
+        'Sender Type' => '',
         'Save filter settings as default' => 'Salvar configurações de filtro como padrão',
         'Ticket Information' => '',
         'Linked Objects' => '',
@@ -1718,14 +1726,12 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverView
-        'You have not created a ticket yet.' => '',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
-        'We stop eating if you wish us to do.' => '',
-        'Your way to communicate with us is this thing called \'ticket\'.' => '',
-        'Please command us.' => '',
-        'Create your first Ticket' => '',
+        'Welcome!' => '',
+        'Please click the button below to create your first ticket.' => '',
+        'Create your first ticket' => '',
 
         # Template: CustomerTicketPrint
+        'Ticket Print' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Perfil',
@@ -1752,7 +1758,7 @@ sub Data {
         'Search Results for' => '',
 
         # Template: CustomerTicketZoom
-        'Loading' => '',
+        'Expand article' => '',
         'Reply' => '',
 
         # Template: CustomerWarning
@@ -2019,6 +2025,7 @@ sub Data {
         'Article free text options shown in the phone ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Article free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Article free text options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -2043,6 +2050,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => '',
+        'Configure your own log text for PGP.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' => '',
@@ -2068,6 +2076,7 @@ sub Data {
         'Create and manage ticket types.' => '',
         'Create new email ticket and send this out (outbound)' => '',
         'Create new phone ticket (inbound)' => '',
+        'Custom text for the page shown to customers that have no tickets yet.' => '',
         'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
@@ -2266,7 +2275,25 @@ sub Data {
         'Defines the difference from now (in seconds) of the free time field number 6\'s default value.' => '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' => '',
         'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' => '',
+        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
         'Defines the free key field number 1 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 1 for articles to add a new article attribute.' => '',
         'Defines the free text field number 1 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 10 for tickets to add a new ticket attribute.' => '',
@@ -2431,24 +2458,6 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' => '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' => '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' => '',
-        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.' => '',
@@ -2596,6 +2605,7 @@ sub Data {
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' => '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.' => '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.' => '',
+        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' => '',
         'Includes article create times in the ticket search of the agent interface.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
@@ -2748,6 +2758,7 @@ sub Data {
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
+        'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' => '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' => '',
@@ -2910,6 +2921,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -2966,7 +2978,7 @@ sub Data {
         'Ticket free text options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
-        'Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Ticket free text options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -2982,7 +2994,7 @@ sub Data {
         'Ticket free time options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
-        'Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Ticket free time options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -3014,6 +3026,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unidades de trabalho)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Chamados afetados! Você quer realmente utilizar este trabalho?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => 'Checar os registros do MX de endereços de e-mail utilizados na composição de uma resposta. Não utilizar checagem de registros do MX se o seu servidor OTRS estiver sib um acesso discado $!',
         '(Email of the system admin)' => '(E-mail do administrador do sistema)',
@@ -3071,7 +3084,6 @@ sub Data {
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Todos os emails entrantes com este Email(To:) serão despachados na fila selecionada!',
         'All messages' => 'Todas as mensagens',
         'All new tickets!' => 'Todos os chamados novos!',
-        'All tickets' => 'Todos os chamados',
         'All tickets where the reminder date has reached!' => 'Todos os chamados com lembrete expirado!',
         'All tickets which are escalated!' => 'Todos os chamados que foram escalados!',
         'Allocate CustomerUser to service' => 'Alocar Usuários Cliente para o serviço',
@@ -3079,7 +3091,6 @@ sub Data {
         'Answer' => 'Resposta',
         'Artefact' => 'Artefato',
         'Article Create Times' => 'Horário da Criação do Artigo',
-        'Article Type' => 'Tipo do Artigo',
         'Article created' => 'Artigo criado',
         'Article created between' => 'Artigo criado entre',
         'Article filter settings' => 'Configurações do filtro do Artigo',
@@ -3160,7 +3171,6 @@ sub Data {
         'Edit default services.' => 'Editar serviços padrão',
         'Email based' => 'Baseado em E-Mail',
         'Escaladed Tickets' => 'Chamados Escalados',
-        'Escalation' => 'Escalação',
         'Escalation - First Response Time' => 'Escalada - Prazo da Primeira Resposta',
         'Escalation - Solution Time' => 'Escalada - Prazo de Solução',
         'Escalation - Update Time' => 'Escalada - Prazo de Atualização',
@@ -3299,7 +3309,6 @@ sub Data {
         'Queue <-> Auto Responses Management' => 'Fila <-> Gerenciamento de Auto Respostas',
         'Queue ID' => 'ID da Fila',
         'Queue Management' => 'Gerenciamento de Filas',
-        'QueueView' => 'Visualizar Fila',
         'Realname' => 'Nome',
         'Rebuild' => 'Reconstruir',
         'Recipients' => 'Destinatários',
@@ -3382,7 +3391,6 @@ sub Data {
         'Ticket-Area' => 'Chamados',
         'TicketFreeText' => 'Texto livre Chamado',
         'TicketID' => 'Id.do Chamado',
-        'Tickets available' => 'Chamados disponíveis',
         'Tickets shown' => 'Chamados mostrados',
         'Tickets which need to be answered!' => 'Chamados que precisam ser respondidos',
         'Times' => 'Hora',

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.260 2011-01-13 13:14:09 ep Exp $
+# $Id: de.pm,v 1.261 2011-01-13 13:28:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.260 $) [1];
+$VERSION = qw($Revision: 1.261 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-12-10 11:02:16
+    # Last translation file sync: 2011-01-13 14:08:54
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -827,7 +827,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Admin-Benachrichtigung',
-        'Send Administrative Message to Agents' => 'Versenden von administrativen Nachrichten an die Agenten.',
+        'With this module, administrators can send messages to agents, group or role members.' => '',
+        'Create Administrative Message' => '',
         'Your message was sent to' => 'Ihre Nachricht wurde gesendet an',
         'Send message to users' => 'Nachricht an Benutzer senden',
         'Send message to group members' => 'Nachricht an Gruppenmitglieder senden',
@@ -904,7 +905,6 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        ' (work units)' => ' (Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -936,6 +936,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Systemprotokoll',
         'Here you will find log information about your system.' => 'Hier finden Sie Informationen zu protokollierten Systemereignissen.',
+        'Hide this message' => '',
+        'Recent Log Entries' => '',
         'Time' => 'Zeit',
 
         # Template: AdminMailAccount
@@ -1250,8 +1252,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'SysConfig',
         'Navigate by searching in %s settings' => 'Navigieren Sie mit Hilfe der Suche in %s Einstellungen',
-        'Go to group %s' => 'Zu Gruppe %s gehen',
-        'Group %s' => 'Gruppe %s',
+        'Navigate by selecting config groups' => 'Navigieren Sie durch Auswahl der Konfigurationsgruppen',
         'Download all system config changes' => 'Alle Konfigurationsanpassungen herunterladen',
         'Export settings' => 'Einstellungen exportieren',
         'Load SysConfig settings from file' => 'SysConfig-Einstellungen aus Datei laden',
@@ -1409,7 +1410,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Statistik löschen',
-        'Stat#' => 'Statistik Nr.',
         'Do you really want to delete this stat?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1560,7 +1560,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Ticket zusammenfassen',
-        'The Ticket was locked' => 'Das Ticket ist gesperrt',
         'You need to use a ticket number!' => 'Bitte eine Ticketnummer benutzen!',
         'A valid ticket number is required.' => 'Eine gültige Ticketnummer ist erforderlich.',
 
@@ -1630,12 +1629,6 @@ sub Data {
         'Fulltext' => 'Volltext',
         'Remove' => 'Entfernen',
         'Customer User Login' => 'Anmeldung Kundenkontakt',
-        'Time1' => 'Zeit1',
-        'Time2' => 'Zeit2',
-        'Time3' => 'Zeit3',
-        'Time4' => 'Zeit4',
-        'Time5' => 'Zeit5',
-        'Time6' => 'Zeit6',
         'Created in Queue' => 'Erstellt in Queue',
         'Lock state' => 'Status Sperre',
         'Watcher' => 'Beobachter',
@@ -1658,6 +1651,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => 'Filter für Beiträge',
+        'Article Type' => 'Artikel Typ',
+        'Sender Type' => '',
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
         'Ticket Information' => 'Ticket-Informationen',
         'Linked Objects' => 'Verknüpfte Objekte',
@@ -2924,6 +2919,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => 'Skin',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -3028,6 +3024,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (Arbeitseinheiten)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
         '(Email of the system admin)' => '(E-Mail des System-Administrators)',
@@ -3094,7 +3091,6 @@ sub Data {
         'Allocate services to CustomerUser' => 'Service Kundenkontakten zuordnen',
         'Answer' => 'Antwort',
         'Article Create Times' => 'Artikel Erstell-Zeiten',
-        'Article Type' => 'Artikel Typ',
         'Article created' => 'Artikel erstellt',
         'Article created between' => 'Artikel erstellt zwischen',
         'Article filter settings' => 'Artikel-Filter Einstellungen',
@@ -3220,6 +3216,8 @@ sub Data {
         'Full qualified domain name of your system.' => 'Name des Rechners inklusive des vollständigem Domänennamens. z. B. otrs-server.example.org',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z. B. "Mar*in" oder "Baue*")',
         'Go' => 'Go',
+        'Go to group %s' => 'Zu Gruppe %s gehen',
+        'Group %s' => 'Gruppe %s',
         'Group Ro' => 'Gruppe Ro',
         'Group based' => 'Gruppen basierend',
         'Group selection' => 'Gruppenauswahl',
@@ -3292,7 +3290,6 @@ sub Data {
         'My Queue' => 'Meine Queue',
         'MyTickets' => 'Meine Tickets',
         'Name is required!' => 'Name wird benötigt!',
-        'Navigate by selecting config groups' => 'Navigieren Sie durch Auswahl der Konfigurationsgruppen',
         'Need a valid email address or don\'t use a local address!' => 'Eine gültige Email-Adresse wird benötigt, aber keine lokale Adresse benutzen.',
         'Need a valid mail address or don\'t use a local email address.' => 'Eine gültige Email-Adresse wird benötigt, aber keine lokale Adresse benutzen.',
         'New Agent' => 'Neuer Besitzer',
@@ -3428,6 +3425,7 @@ sub Data {
         'Select your out of office time.' => 'Bitte die Abwesenheitszeit auswählen.',
         'Select your screen after creating a new ticket.' => 'Auswahl des Fensters, das nach der Erstellung eines neuen Tickets angezeigt werden soll.',
         'Selection needed' => 'Auswahl nötig',
+        'Send Administrative Message to Agents' => 'Versenden von administrativen Nachrichten an die Agenten.',
         'Send Notification' => 'Senden der Benachrichtigung',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
         'Send me a notification of an watched ticket like an owner of an ticket.' => 'Informiere mich über Änderungen an beobachteten Tickets (als ob ich der Besitzer eines Ticket wäre).',
@@ -3446,6 +3444,7 @@ sub Data {
         'Source' => 'Quelle',
         'Spell Check' => 'Rechtschreibprüfung',
         'Split' => 'Teilen',
+        'Stat#' => 'Statistik Nr.',
         'State Type' => 'Status-Typ',
         'Static-File' => 'Statische Datei',
         'Stats-Area' => 'Statistik-Bereich',
@@ -3458,6 +3457,7 @@ sub Data {
         'System Status' => 'System Status',
         'Systemaddress' => 'Systemadresse',
         'Text is required!' => 'Der Text wird benötigt',
+        'The Ticket was locked' => 'Das Ticket ist gesperrt',
         'The customer id is required!' => 'Die Kunden-ID ist erforderlich!',
         'The customer is required!' => 'Der Kundenkontakt ist erforderlich!',
         'The customer is required.' => 'Ein Kundenkontakt ist erforderlich.',
@@ -3498,6 +3498,12 @@ sub Data {
         'Time units is a required field!' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is a required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
+        'Time1' => 'Zeit1',
+        'Time2' => 'Zeit2',
+        'Time3' => 'Zeit3',
+        'Time4' => 'Zeit4',
+        'Time5' => 'Zeit5',
+        'Time6' => 'Zeit6',
         'Timeover' => 'Zeit abgelaufen',
         'Times' => 'Zeiten',
         'Title is required.' => 'Ein Titel ist erforderlich',

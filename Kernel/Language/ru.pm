@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.112 2010-12-14 12:43:06 mb Exp $
+# $Id: ru.pm,v 1.113 2011-01-13 13:29:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-11-25 14:51:41
+    # Last translation file sync: 2011-01-13 14:09:09
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -60,17 +60,23 @@ sub Data {
         'Reset' => 'Отклонить',
         'last' => 'последние',
         'before' => 'кроме последних',
+        'Today' => 'Сегодня',
+        'Tomorrow' => 'Завтра',
+        'Next Week' => 'На неделе',
         'day' => 'день',
         'days' => 'дней',
         'day(s)' => 'день/дней',
+        'd' => 'дн',
         'hour' => 'час',
         'hours' => 'часов',
         'hour(s)' => 'час(ов)',
         'Hours' => 'Часы',
+        'h' => 'ч',
         'minute' => 'минута',
         'minutes' => 'минут',
         'minute(s)' => 'минут(a)',
         'Minutes' => 'Минуты',
+        'm' => 'мин',
         'month' => 'месяц',
         'months' => 'месяцев',
         'month(s)' => 'месяц(ев)',
@@ -82,6 +88,7 @@ sub Data {
         'second(s)' => 'секунд(a)',
         'seconds' => 'секунд',
         'second' => 'секунда',
+        's' => '',
         'wrote' => 'написал(а)',
         'Message' => 'Сообщение',
         'Error' => 'Ошибка',
@@ -539,6 +546,12 @@ sub Data {
         'Watched Tickets Total' => '',
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
+        'All tickets' => 'Все заявки',
+        'Tickets available' => 'Доступные заявки',
+        'Escalation' => 'Эскалация',
+        'last-search' => '',
+        'QueueView' => 'Просмотр очереди',
+        'Ticket Escalation View' => 'Просмотр заявок с эскалацией',
         'new' => 'новый',
         'open' => 'открытый',
         'Open' => 'Открытый',
@@ -821,7 +834,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Уведомление администратором',
-        'Send Administrative Message to Agents' => 'Отправить сообщение администратора агентам',
+        'With this module, administrators can send messages to agents, group or role members.' => '',
+        'Create Administrative Message' => '',
         'Your message was sent to' => 'Ваше сообщение было отправлено к',
         'Send message to users' => 'Отправить сообщение пользователям',
         'Send message to group members' => 'Отправить сообщенеи членам группы',
@@ -898,7 +912,6 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -930,6 +943,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Системный журнал',
         'Here you will find log information about your system.' => '',
+        'Hide this message' => '',
+        'Recent Log Entries' => '',
         'Time' => 'Время',
 
         # Template: AdminMailAccount
@@ -1244,8 +1259,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Конфигурация системы',
         'Navigate by searching in %s settings' => '',
-        'Go to group %s' => '',
-        'Group %s' => '',
+        'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
         'Export settings' => 'Экспортировать настройки',
         'Load SysConfig settings from file' => 'Загрузить SysConfig настройки из файла',
@@ -1403,7 +1417,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
-        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1554,7 +1567,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Объединить заявку',
-        'The Ticket was locked' => '',
         'You need to use a ticket number!' => 'Вам необходимо использовать номер заявки!',
         'A valid ticket number is required.' => '',
 
@@ -1576,7 +1588,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Изменить параметры поиска',
-        'Max. shown Tickets a page' => 'Заявок на страницу',
+        'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1624,12 +1636,6 @@ sub Data {
         'Fulltext' => 'Полнотекстовый',
         'Remove' => 'Удалить',
         'Customer User Login' => 'Логин клиента',
-        'Time1' => '',
-        'Time2' => '',
-        'Time3' => '',
-        'Time4' => '',
-        'Time5' => '',
-        'Time6' => '',
         'Created in Queue' => 'Создана в очереди',
         'Lock state' => 'Состояние блокировки',
         'Watcher' => '',
@@ -1652,6 +1658,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => '',
+        'Article Type' => 'Тип сообщения',
+        'Sender Type' => '',
         'Save filter settings as default' => 'Сохранить условия фильтра для показа по умолчанию',
         'Ticket Information' => 'Информация о заявке',
         'Linked Objects' => 'Связанные объекты',
@@ -1723,14 +1731,12 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverView
-        'You have not created a ticket yet.' => '',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
-        'We stop eating if you wish us to do.' => '',
-        'Your way to communicate with us is this thing called \'ticket\'.' => '',
-        'Please command us.' => '',
-        'Create your first Ticket' => 'Добавить первую заявку',
+        'Welcome!' => '',
+        'Please click the button below to create your first ticket.' => '',
+        'Create your first ticket' => '',
 
         # Template: CustomerTicketPrint
+        'Ticket Print' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Параметры',
@@ -1757,7 +1763,7 @@ sub Data {
         'Search Results for' => '',
 
         # Template: CustomerTicketZoom
-        'Loading' => 'Загрузка',
+        'Expand article' => '',
         'Reply' => 'Ответить',
 
         # Template: CustomerWarning
@@ -2024,6 +2030,7 @@ sub Data {
         'Article free text options shown in the phone ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Article free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Article free text options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -2048,6 +2055,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => 'Заявки компании',
+        'Configure your own log text for PGP.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' => '',
@@ -2073,6 +2081,7 @@ sub Data {
         'Create and manage ticket types.' => 'Создание и управление типами заявок.',
         'Create new email ticket and send this out (outbound)' => 'Создать заявку по email (исходящую) и отправить ее',
         'Create new phone ticket (inbound)' => 'Создать телефонную заявку (входящую)',
+        'Custom text for the page shown to customers that have no tickets yet.' => '',
         'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
         'Customers <-> Groups' => 'Клиенты <-> Группы',
         'Customers <-> Services' => 'Клиенты <-> Сервисы',
@@ -2150,7 +2159,7 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' => '',
         'Defines the default CSS used in rich text editors.' => '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' => '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.' => '',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' => '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' => '',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default maximum number of X-axis attributes for the time scale.' => '',
@@ -2271,7 +2280,25 @@ sub Data {
         'Defines the difference from now (in seconds) of the free time field number 6\'s default value.' => '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' => '',
         'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' => '',
+        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
         'Defines the free key field number 1 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 1 for articles to add a new article attribute.' => '',
         'Defines the free text field number 1 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 10 for tickets to add a new ticket attribute.' => '',
@@ -2369,7 +2396,7 @@ sub Data {
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' => '',
         'Defines the module to generate html refresh headers of html sites.' => '',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' => '',
-        'Defines the module used to store the session data. With "DB" the the frontend server can be splitted from the db server. "FS" is faster.' => '',
+        'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' => '',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' => '',
         'Defines the name of the calendar number 1.' => '',
         'Defines the name of the calendar number 2.' => '',
@@ -2436,24 +2463,6 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' => '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' => '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' => '',
-        'Defines the the free key field number 1 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 10 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 11 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 12 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 13 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 14 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 15 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 16 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 2 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 2 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 3 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 3 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 4 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 5 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 6 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 7 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 8 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.' => '',
@@ -2601,6 +2610,7 @@ sub Data {
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' => '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.' => '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.' => '',
+        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' => '',
         'Includes article create times in the ticket search of the agent interface.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
@@ -2753,11 +2763,12 @@ sub Data {
         'Set sender email addresses for this system.' => 'Задать адрес отправителя для этой системы.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
+        'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' => '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' => '',
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' => '',
-        'Sets the configuration level of the administrator. Depending on the the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
+        'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
         'Sets the default article type for new email tickets in the agent interface.' => '',
         'Sets the default article type for new phone tickets in the agent interface.' => '',
         'Sets the default body text for notes added in the close ticket screen of the agent interface.' => '',
@@ -2915,6 +2926,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => 'Окрас',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -2971,7 +2983,7 @@ sub Data {
         'Ticket free text options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
-        'Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Ticket free text options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Ticket free text options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free text options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -2987,7 +2999,7 @@ sub Data {
         'Ticket free time options shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
-        'Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
+        'Ticket free time options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' => '',
         'Ticket free time options shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket owner screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket pending screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
@@ -3019,6 +3031,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => 'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
         '(Email of the system admin)' => 'Адрес электронной почты системного администратора',
@@ -3082,14 +3095,12 @@ sub Data {
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим получателем будут направлены в заданную очередь',
         'All messages' => 'Все сообщения',
         'All new tickets!' => 'Все новые заявки',
-        'All tickets' => 'Все заявки',
         'All tickets where the reminder date has reached!' => 'Все заявки с наступившей датой напоминания',
         'All tickets which are escalated!' => 'Все эскалированные заявки',
         'Allocate CustomerUser to service' => 'Привязать клиента к сервисам',
         'Allocate services to CustomerUser' => 'Привязать сервисы к клиенту',
         'Answer' => 'Ответ',
         'Article Create Times' => 'Время создания сообщения',
-        'Article Type' => 'Тип сообщения',
         'Article created' => 'Сообщение создано',
         'Article created between' => 'Сообщение создано в период',
         'Article filter settings' => 'Фильтр сообщений',
@@ -3141,6 +3152,7 @@ sub Data {
         'Create new Phone Ticket' => 'Создать телефонную заявку',
         'Create new database' => 'Создать новую базы данных',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Создать новые группы для назначения прав доступа группам агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
+        'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
@@ -3178,7 +3190,6 @@ sub Data {
         'Edit default services.' => 'Сервисы по умолчанию',
         'Email based' => 'Адрес электронной почты',
         'Escaladed Tickets' => 'Эскалированные заявки',
-        'Escalation' => 'Эскалация',
         'Escalation - First Response Time' => 'Эскалация — время первого ответа',
         'Escalation - Solution Time' => 'Эскалация — время решения',
         'Escalation - Update Time' => 'Эскалация — время обновления',
@@ -3242,6 +3253,7 @@ sub Data {
         'Link to Parent' => 'Связать с родительским объектом',
         'Linked as' => 'Связан как',
         'Load Settings' => 'Применить конфигурацию из файла',
+        'Loading' => 'Загрузка',
         'Locked tickets' => 'Заблокированные заявки',
         'Logfile' => 'Файл журнала',
         'Logfile too large, you need to reset it!' => 'Файл журнала слишком большой, вам нужно очистить его!',
@@ -3251,6 +3263,7 @@ sub Data {
         'Mailbox' => 'Почтовый ящик',
         'Mart' => 'Март',
         'Match' => 'Соответствует',
+        'Max. shown Tickets a page' => 'Заявок на страницу',
         'Message for new Owner' => 'Сообщение для нового владельца',
         'Message sent to' => 'Сообщение отправлено для',
         'Misc' => 'Дополнительно',
@@ -3276,7 +3289,6 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Создана новая учетная запись. Данные для входа в систему отправлены по адресу: %s.',
         'New messages' => 'Новые сообщения',
         'New password again' => 'Повторите новый пароль',
-        'Next Week' => 'На неделе',
         'No * possible!' => 'Нельзя использовать символ «*» !',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Нет пакетов для запрошенной среды в этом сетевом репозитории, но есть пакеты для других сред!',
         'No Packages or no new Packages in selected Online Repository!' => 'Нет пакетов или новых пакетов в выбранном сетевом репозитории!',
@@ -3339,7 +3351,6 @@ sub Data {
         'Queue ID' => 'ID очереди',
         'Queue Management' => 'Управление очередью',
         'Queue is required.' => 'Необходимо указать очередь.',
-        'QueueView' => 'Просмотр очереди',
         'Queues <-> Auto Responses' => 'Очередь <-> Автоответы',
         'Realname' => 'Имя',
         'Rebuild' => 'Перестроить',
@@ -3383,6 +3394,7 @@ sub Data {
         'Select your out of office time.' => 'Укажите период отсутствия',
         'Select your screen after creating a new ticket.' => 'Выберите раздел после создания новой заявки',
         'Selection needed' => 'Необходимо выделение',
+        'Send Administrative Message to Agents' => 'Отправить сообщение администратора агентам',
         'Send Notification' => 'Отправлять уведомление',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Прислать мне уведомление, если клиент прислал ответ и я владелец заявки.',
         'Send me a notification of an watched ticket like an owner of an ticket.' => 'Прислать мне и владельцу уведомление, если обновлена отслеживаемая заявка.',
@@ -3426,7 +3438,6 @@ sub Data {
         'Ticket Change Times (from moment)' => 'Время изменения заявки (с момента)',
         'Ticket Close Times (from moment)' => 'Время закрытия заявки (с момента)',
         'Ticket Create Times (from moment)' => 'Время создания заявки (с момента)',
-        'Ticket Escalation View' => 'Просмотр заявок с эскалацией',
         'Ticket Hook' => 'Выбор заявки',
         'Ticket Lock' => 'Блокирование заявки',
         'Ticket Number Generator' => 'Генератор номеров заявок',
@@ -3449,7 +3460,6 @@ sub Data {
         'TicketFreeText' => 'Свободные поля заявки',
         'TicketID' => 'ID заявки',
         'TicketZoom' => 'Просмотр заявки',
-        'Tickets available' => 'Доступные заявки',
         'Tickets shown' => 'Показаны заявки',
         'Tickets which need to be answered!' => 'Заявки, требующие ответа',
         'Timeover' => 'Время ожидания истекло',
@@ -3457,9 +3467,7 @@ sub Data {
         'Title of the stat.' => 'Название отчета',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Поля сообщения (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Данные сообщения (например, <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> и <OTRS_CUSTOMER_Body>).',
-        'Today' => 'Сегодня',
         'Tommorow' => 'Завтра',
-        'Tomorrow' => 'Завтра',
         'Top of Page' => 'В начало страницы',
         'Total hits' => 'Найдено вхождений',
         'U' => 'U',
@@ -3483,7 +3491,6 @@ sub Data {
         'Welcome to OTRS' => 'Добро пожаловать в OTRS',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'При статусе отчета «недействительный» отчет не может быть сформирован.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Вводя данные и выбирая поля, вы можете настраивать отчет как вам необходимо. От администратора, создававшего данный отчет, зависит какие данные вы можете настраивать. ',
-        'X-axis' => 'Ось X',
         'Yes means, send no agent and customer notifications on changes.' => '«Да» — не отправлять уведомления агентам и клиентам при изменениях.',
         'Yes, save it with name' => 'Да, сохранить с именем',
         'You got new message!' => 'У вас новое сообщение!',
@@ -3498,17 +3505,14 @@ sub Data {
         'Your own Ticket' => 'Ваша собственная заявка',
         'auto responses set!' => 'Установленных автоответов',
         'customer realname' => 'Имя клиента',
-        'd' => 'дн',
         'delete' => 'удалить',
         'down' => 'вниз',
         'false' => 'нет',
         'for ' => 'для',
         'for agent firstname' => 'для агента — имя',
         'for agent lastname' => 'для агента — фамилия',
-        'h' => 'ч',
         'kill all sessions' => 'Закрыть все текущие сеансы',
         'kill session' => 'Завершить сеанс',
-        'm' => 'мин',
         'maximal period form' => 'Максимальный период с',
         'modified' => 'Изменено',
         'new ticket' => 'Новая заявка',

@@ -6,9 +6,9 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.149 2010-12-14 12:43:06 mb Exp $
+# $Id: nl.pm,v 1.150 2011-01-13 13:28:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-12-10 11:12:14
+    # Last translation file sync: 2011-01-13 14:09:05
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -225,7 +225,7 @@ sub Data {
         'Date picker' => 'Datumkiezer',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
-        'Please answer this ticket(s) to get back to the normal queue view!' => 'Beantwoord eerst onderstaande geëscaleerde tickets om terug te kunnen komen in de normale wachtrij.',
+        'Please answer this ticket(s) to get back to the normal queue view!' => 'Beantwoord eerst onderstaande geï¿½scaleerde tickets om terug te kunnen komen in de normale wachtrij.',
         'You have %s new message(s)!' => 'U heeft %s nieuwe bericht(en).',
         'You have %s reminder ticket(s)!' => 'U heeft %s herinneringsticket(s).',
         'The recommended charset for your language is %s!' => 'De aanbevolen karakterset voor uw taal is %s.',
@@ -269,7 +269,7 @@ sub Data {
         'Cc: (%s) added database email!' => 'Cc: e-mail adres (%s) toegevoegd.',
         '(Click here to add)' => '(Klik hier om toe te voegen)',
         'Preview' => 'Voorbeeld',
-        'Package not correctly deployed! You should reinstall the Package again!' => 'Pakket is niet goed geïnstalleerd! Installeer het pakket opnieuw.',
+        'Package not correctly deployed! You should reinstall the Package again!' => 'Pakket is niet goed geï¿½nstalleerd! Installeer het pakket opnieuw.',
         '%s is not writable!' => '%s is niet schrijfbaar.',
         'Cannot create %s!' => 'Kan %s niet aanmaken.',
         'Customer %s added' => 'Klant %s toegevoegd.',
@@ -316,7 +316,7 @@ sub Data {
         'Street' => 'Straat',
         'Country' => 'Land',
         'Location' => 'Locatie',
-        'installed' => 'geïnstalleerd',
+        'installed' => 'geï¿½nstalleerd',
         'uninstalled' => 'verwijderd',
         'Security Note: You should activate %s because application is already running!' => 'Beveiligingswaarschuwing: Activeer %s omdat de applicatie al actief is!',
         'Unable to parse repository index document.' => 'Kan repository index document niet verwerken.',
@@ -428,13 +428,13 @@ sub Data {
         'Please select a graph size!' => 'Selecteer de grootte van de grafiek.',
         'Please select one element for the X-axis!' => 'Selecteer een element voor X-as.',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Selecteer een element of haal het vinkje bij \'Statisch\' weg.',
-        'If you use a checkbox you have to select some attributes of the select field!' => 'Als u een attribuut selecteert moet u ook één of meerdere waarden van dit attribuut selecteren.',
+        'If you use a checkbox you have to select some attributes of the select field!' => 'Als u een attribuut selecteert moet u ook ï¿½ï¿½n of meerdere waarden van dit attribuut selecteren.',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Selecteer een element of haal het vinkje bij \'Statisch\' weg.',
         'The selected end time is before the start time!' => 'De opgegeven eindtijd ligt voor de starttijd.',
-        'You have to select one or more attributes from the select field!' => 'Kies één of meer attributen.',
+        'You have to select one or more attributes from the select field!' => 'Kies ï¿½ï¿½n of meer attributen.',
         'The selected Date isn\'t valid!' => 'De geselecteerde datum is niet geldig.',
-        'Please select only one or two elements via the checkbox!' => 'Kies één of meer elementen met de keuzebox.',
-        'If you use a time scale element you can only select one element!' => 'Als u een tijdselement kiest kunt u maar één element selecteren.',
+        'Please select only one or two elements via the checkbox!' => 'Kies ï¿½ï¿½n of meer elementen met de keuzebox.',
+        'If you use a time scale element you can only select one element!' => 'Als u een tijdselement kiest kunt u maar ï¿½ï¿½n element selecteren.',
         'You have an error in your time selection!' => 'De tijdselectie bevat een fout.',
         'Your reporting time interval is too small, please use a larger time scale!' => 'De tijdsinterval is te klein, kies een grotere interval.',
         'The selected start time is before the allowed start time!' => 'De starttijd is te vroeg.',
@@ -643,7 +643,7 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'Ticket %s: vervolg tijd zal voorbij zijn binnen %s.',
         'Ticket %s: solution time is over (%s)!' => 'Ticket %s: oplossing tijd is voorbij (%s).',
         'Ticket %s: solution time will be over in %s!' => 'Ticket %s: oplossing tijd zal voorbij zijn binnen %s.',
-        'There are more escalated tickets!' => 'Er zijn nog meer geëscaleerde tickets.',
+        'There are more escalated tickets!' => 'Er zijn nog meer geï¿½scaleerde tickets.',
         'Plain Format' => 'Broncode',
         'Reply All' => 'Allen beantwoorden',
         'Direction' => 'Richting',
@@ -687,12 +687,12 @@ sub Data {
         'Phone Call Outbound' => 'Uitgaand telefoon',
         'Reminder Reached' => 'Moment van herinnering bereikt',
         'Reminder Tickets' => 'Tickets met herinnering',
-        'Escalated Tickets' => 'Geëscaleerde tickets',
+        'Escalated Tickets' => 'Geï¿½scaleerde tickets',
         'New Tickets' => 'Nieuwe tickets',
         'Open Tickets / Need to be answered' => 'Open tickets / wachtend op antwoord',
         'All open tickets, these tickets have already been worked on, but need a response' => 'Alle open tickets. Aan deze tickets is al gewerkt, maar moeten nog een antwoord krijgen.',
         'All new tickets, these tickets have not been worked on yet' => 'Alle nieuwe tickets. Aan deze tickets is nog niet gewerkt',
-        'All escalated tickets' => 'Alle geëscaleerde tickets',
+        'All escalated tickets' => 'Alle geï¿½scaleerde tickets',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle tickets met een herinnering waarbij het herinnermoment is bereikt',
         'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
         'History::TypeUpdate' => 'Type gewijzigd naar %s (ID=%s).',
@@ -840,7 +840,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Melding van de beheerder',
-        'Send Administrative Message to Agents' => 'Stuur berichten naar gebruikers',
+        'With this module, administrators can send messages to agents, group or role members.' => 'Vanuit dit scherm kunt u een bericht sturen aan gebruikers of klanten.',
+        'Create Administrative Message' => 'Stuur een bericht',
         'Your message was sent to' => 'Uw bericht is verstuurd aan',
         'Send message to users' => 'Stuur bericht aan gebruikers',
         'Send message to group members' => 'Stuur bericht aan gebruikers met groep',
@@ -860,7 +861,7 @@ sub Data {
         'Job Settings' => 'Taak instellingen',
         'Job name' => 'Naam',
         'Currently this generic agent job will not run automatically.' => 'Deze taak zal niet automatisch draaien.',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Om automatisch uit te voeren selecteer ten minste ïïn waarde bij minuten, uren en dagen.',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Om automatisch uit te voeren selecteer ten minste ï¿½ï¿½n waarde bij minuten, uren en dagen.',
         'Schedule minutes' => 'minuten',
         'Schedule hours' => 'uren',
         'Schedule days' => 'dagen',
@@ -917,7 +918,6 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        ' (work units)' => ' (in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur gebruiker/klant een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -949,6 +949,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Logboek',
         'Here you will find log information about your system.' => 'Hier is de OTRS log te raadplegen.',
+        'Hide this message' => 'Verberg dit paneel',
+        'Recent Log Entries' => 'Recente Logboekregels',
         'Time' => 'Tijd',
 
         # Template: AdminMailAccount
@@ -1034,8 +1036,8 @@ sub Data {
         'Module documentation' => 'Moduledocumentatie',
         'Upgrade' => 'Upgrade',
         'Local Repository' => 'Lokale Repository',
-        'Uninstall' => 'Deïnstalleer',
-        'Package not correctly deployed! You should reinstall the package again!' => 'Pakket is niet correct geïnstalleerd. Installeer het pakket opnieuw.',
+        'Uninstall' => 'Deï¿½nstalleer',
+        'Package not correctly deployed! You should reinstall the package again!' => 'Pakket is niet correct geï¿½nstalleerd. Installeer het pakket opnieuw.',
         'Reinstall' => 'Herinstalleer',
         'Download package' => 'Download pakket',
         'Rebuild package' => 'Genereer pakket opnieuw',
@@ -1105,9 +1107,9 @@ sub Data {
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' => 'Als een ticket vergrendeld is en de gebruiker handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, dan wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
         'Notify by' => 'Melding van',
         '0 = no escalation' => '0 = geen escalatie',
-        'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd.',
-        'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' => 'Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
-        'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' => 'Als het ticket niet is afgesloten voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
+        'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geï¿½scaleerd.',
+        'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' => 'Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniï¿½erde tijd, dan wordt het ticket geï¿½scaleerd.',
+        'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' => 'Als het ticket niet is afgesloten voor de hier gedefiniï¿½erde tijd, dan wordt het ticket geï¿½scaleerd.',
         'Follow up Option' => 'Reactie optie',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' => 'Bepaalt of reacties op gesloten tickets zorgen voor heropenen voor het ticket, geweigerd wordt, of een nieuw ticket genereert.',
         'Ticket lock after a follow up' => 'Ticket wordt vergrendeld na een reactie',
@@ -1157,7 +1159,7 @@ sub Data {
         'Role Management' => 'Beheer rollen',
         'Add role' => 'Nieuwe rol',
         'Create a role and put groups in it. Then add the role to the users.' => 'Maak een nieuwe rol en koppel deze aan groepen. Vervolgens kunt u rollen toewijzen aan gebruikers.',
-        'There are no roles defined. Please use the \'Add\' button to create a new role.' => 'Er zijn geen rollen gedefiniëerd. Maak een nieuwe aan.',
+        'There are no roles defined. Please use the \'Add\' button to create a new role.' => 'Er zijn geen rollen gedefiniï¿½erd. Maak een nieuwe aan.',
         'Add Role' => 'Nieuwe rol',
         'Edit Role' => 'Bewerk rol',
 
@@ -1263,8 +1265,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'Systeemconfiguratie',
         'Navigate by searching in %s settings' => 'Zoek in %s configuratie',
-        'Go to group %s' => 'Toon groep %s',
-        'Group %s' => 'Groep %s',
+        'Navigate by selecting config groups' => 'Navigeer door groepen te kiezen',
         'Download all system config changes' => 'Download alle aanpassingen in de systeemconfiguratie',
         'Export settings' => 'Exporteer configuratie',
         'Load SysConfig settings from file' => 'Laad configuratie uit bestand',
@@ -1422,7 +1423,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Verwijder rapport',
-        'Stat#' => 'Rapport#',
         'Do you really want to delete this stat?' => 'Wilt u dit rapport echt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1443,11 +1443,11 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Permissies',
-        'You can select one or more groups to define access for different agents.' => 'U kunt één of meerdere groepen definiëren die deze rapportage kunnen gebruiken.',
-        'Some result formats are disabled because at least one needed package is not installed.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
+        'You can select one or more groups to define access for different agents.' => 'U kunt ï¿½ï¿½n of meerdere groepen definiï¿½ren die deze rapportage kunnen gebruiken.',
+        'Some result formats are disabled because at least one needed package is not installed.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geï¿½nstalleerd. Vraag uw beheerder.',
         'Please contact your administrator.' => 'Neem contact op met uw beheerder.',
         'Graph size' => 'Grootte',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste één grootte selecteren.',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Als u een afbeelding als vorm heeft gekozen moet u tenminste ï¿½ï¿½n grootte selecteren.',
         'Sum rows' => 'Toon totaal per rij',
         'Sum columns' => 'Toon totaal per kolom',
         'Use cache' => 'Gebruik buffer',
@@ -1456,7 +1456,7 @@ sub Data {
 
         # Template: AgentStatsEditValueSeries
         'Here you can define the value series.' => 'Hier kunt u de waarden voor de Y-as kiezen.',
-        'You have the possibility to select one or two elements.' => 'U kunt één of twee elementen kiezen.',
+        'You have the possibility to select one or two elements.' => 'U kunt ï¿½ï¿½n of twee elementen kiezen.',
         'Then you can select the attributes of elements.' => 'Vervolgens kunt u de getoonde attributen van de elementen kiezen.',
         'Each attribute will be shown as single value series.' => 'Ieder attribuut wordt getoond als een eigen waarde.',
         'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
@@ -1465,7 +1465,7 @@ sub Data {
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Let er op dat de schaal voor de Y-as groter moet zijn dan die voor de X-as (bijvooreeld X-as = maand, Y-as = jaar).',
 
         # Template: AgentStatsEditXaxis
-        'Here you can define the x-axis. You can select one element via the radio button.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button.',
+        'Here you can define the x-axis. You can select one element via the radio button.' => 'Hier kunt u de X-as definiï¿½ren. U kunt een element kiezen met de radio-button.',
         'maximal period' => 'maximale periode',
         'minimal scale' => 'minimale schaal',
 
@@ -1484,8 +1484,8 @@ sub Data {
 
         # Template: AgentStatsView
         'Export config' => 'Exporteer rapport-configuratie',
-        'With the input and select fields you can influence the format and contents of the statistic.' => 'Met deze velden kunt u het formaat en de inhoud van het rapport beïnvloeden.',
-        'Exactly what fields and formats you can influence is defined by the statistic administrator.' => 'Welke velden en formaten beschikbaar zijn is gedefiniëerd in het rapport zelf.',
+        'With the input and select fields you can influence the format and contents of the statistic.' => 'Met deze velden kunt u het formaat en de inhoud van het rapport beï¿½nvloeden.',
+        'Exactly what fields and formats you can influence is defined by the statistic administrator.' => 'Welke velden en formaten beschikbaar zijn is gedefiniï¿½erd in het rapport zelf.',
         'Stat Details' => 'Rapport ',
         'Format' => 'Formaat',
         'Graphsize' => 'Grafiek grootte',
@@ -1573,7 +1573,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Ticket samenvoegen',
-        'The Ticket was locked' => 'Het ticket is ontgrendeld',
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
         'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht.',
 
@@ -1643,12 +1642,6 @@ sub Data {
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
         'Customer User Login' => 'Klant login',
-        'Time1' => 'Tijd 1',
-        'Time2' => 'Tijd 2',
-        'Time3' => 'Tijd 3',
-        'Time4' => 'Tijd 4',
-        'Time5' => 'Tijd 5',
-        'Time6' => 'Tijd 6',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
         'Watcher' => 'Volger',
@@ -1671,6 +1664,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => 'Filter interacties',
+        'Article Type' => 'Soort interactie',
+        'Sender Type' => 'Soort verzender',
         'Save filter settings as default' => 'Sla filter op als standaard',
         'Ticket Information' => 'Ticket informatie',
         'Linked Objects' => 'Gekoppelde objecten',
@@ -1680,7 +1675,7 @@ sub Data {
         'Add Filter' => 'Nieuw filter',
         'Set' => 'Nieuwe waarden',
         'Reset Filter' => 'Herstel filter',
-        'Show one article' => 'Toon één interactie',
+        'Show one article' => 'Toon ï¿½ï¿½n interactie',
         'Show all articles' => 'Toon alle interacties',
         'Unread articles' => 'Ongelezen interacties',
         'No.' => 'Nr.',
@@ -2081,7 +2076,7 @@ sub Data {
         'Create and manage groups.' => 'Aanmaken en beheren van groepen.',
         'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de gebruikers gestuurd worden.',
         'Create and manage queues.' => 'Aanmaken en beheren van wachtrijen.',
-        'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniëerde antwoorden.',
+        'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniï¿½erde antwoorden.',
         'Create and manage responses that are automatically sent.' => 'Aanmaken en beheren van teksten die automatisch naar de klant worden gestuurd.',
         'Create and manage roles.' => 'Aanmaken en beheren van rollen.',
         'Create and manage salutations.' => 'Aanmaken en beheren van aanheffen.',
@@ -2699,7 +2694,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the agent interface.' => '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' => '',
-        'Overview Escalated Tickets' => 'Overzicht geëscaleerde tickets',
+        'Overview Escalated Tickets' => 'Overzicht geï¿½scaleerde tickets',
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
         'PGP Key Upload' => 'PGP sleutel upload',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' => '',
@@ -2762,7 +2757,7 @@ sub Data {
         'Select your frontend Theme.' => 'Kies uw thema',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Stuur mij een melding als een reactie op een ticket binnenkomt en ik de eigenaar van het ticket ben, of het ticket ontgrendeld is en in ïïn van \'Mijn wachtrijen\' staat.',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' => 'Stuur mij een melding als een reactie op een ticket binnenkomt en ik de eigenaar van het ticket ben, of het ticket ontgrendeld is en in ï¿½ï¿½n van \'Mijn wachtrijen\' staat.',
         'Send notifications to users.' => 'Stuur berichten aan gebruikers.',
         'Send ticket follow up notifications' => 'Stuur meldingen bij reacties op een ticket',
         'Sender type for new tickets from the customer inteface.' => '',
@@ -2937,6 +2932,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => 'Skin',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -3041,6 +3037,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (in minuten)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets worden bewerkt! Weet u zeker dat u deze actie wilt uitvoeren?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controleerd MX-records voor e-mailadressen)',
@@ -3056,7 +3053,7 @@ sub Data {
         'A article should have a title!' => 'Geef een onderwerp op voor de interactie.',
         'A filter should have a name!' => 'Geef een naam op voor dit filter.',
         'A message must be spell checked!' => 'De spelling moet gecontroleerd worden.',
-        'A message should have a To: recipient!' => 'Geef teminste één geadresseerde (aan:) op.',
+        'A message should have a To: recipient!' => 'Geef teminste ï¿½ï¿½n geadresseerde (aan:) op.',
         'A message should have a body!' => 'Geen berichttekst ingevuld.',
         'A message should have a customer!' => 'Klant is verplicht.',
         'A message should have a subject!' => 'Geef een onderwerp op voor dit bericht.',
@@ -3102,19 +3099,18 @@ sub Data {
         'All Agents' => 'Alle gebruikers',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klant.',
         'All customer tickets.' => 'Alle tickets van deze klant.',
-        'All email addresses get excluded on replaying on composing an email.' => 'OTRS zal nooit mail sturen aan alle hier gedefiniëerde adressen.',
+        'All email addresses get excluded on replaying on composing an email.' => 'OTRS zal nooit mail sturen aan alle hier gedefiniï¿½erde adressen.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
         'All messages' => 'Alle berichten',
         'All new tickets!' => 'Alle nieuwe tickets.',
         'All tickets where the reminder date has reached!' => 'Alle tickets waar het herinnermoment is bereikt.',
-        'All tickets which are escalated!' => 'Alle geëscaleerde tickets',
+        'All tickets which are escalated!' => 'Alle geï¿½scaleerde tickets',
         'Allocate %s to' => 'Wijs %s toe aan',
         'Allocate CustomerUser to service' => 'Koppel klanten aan service',
         'Allocate services to CustomerUser' => 'Koppel services aan klant',
         'An' => 'een',
         'Answer' => 'Antwoord',
         'Article Create Times' => 'Aanmaakdatum interacties',
-        'Article Type' => 'Soort interactie',
         'Article created' => 'Interactie aangemaakt op',
         'Article created between' => 'Interactie aangemaakt tussen',
         'Article filter settings' => 'Filter',
@@ -3238,16 +3234,18 @@ sub Data {
         'Frontend' => 'Interface',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*")',
         'Go' => 'Uitvoeren',
+        'Go to group %s' => 'Toon groep %s',
+        'Group %s' => 'Groep %s',
         'Group Ro' => 'Alleen-lezen groep',
         'Group based' => 'Gebaseerd op groep',
         'Group selection' => 'Groep selectie',
         'HTML' => 'HTML',
         'Hash' => 'Hash',
         'Have a lot of fun!' => 'Veel plezier!',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de Y-as definiëren. U heeft de mogelijkheid om één of twee elementen te selecteren. Daarna kunt u de attributen kiezen. Als u geen attribuut selecteerd zullen alle attributen gebruikt worden.',
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de X-as definiëren. U kunt een element kiezen met de radio-button. Als u geen selectie maakt worden alle attributen van het element getoond bij het aanmaken van het rapport.',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de waarden voor de X-as definiëren. U kunt een element kiezen via de radiobutton. Daarna kunt u twee of meer attributen van dit element kiezen. Als u géén selectie maakt worden alle attributen van dit element gebruikt in de rapportage.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt ï¿½ï¿½n of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de Y-as definiï¿½ren. U heeft de mogelijkheid om ï¿½ï¿½n of twee elementen te selecteren. Daarna kunt u de attributen kiezen. Als u geen attribuut selecteerd zullen alle attributen gebruikt worden.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de X-as definiï¿½ren. U kunt een element kiezen met de radio-button. Als u geen selectie maakt worden alle attributen van het element getoond bij het aanmaken van het rapport.',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de waarden voor de X-as definiï¿½ren. U kunt een element kiezen via de radiobutton. Daarna kunt u twee of meer attributen van dit element kiezen. Als u gï¿½ï¿½n selectie maakt worden alle attributen van dit element gebruikt in de rapportage.',
         'Here you can insert a description of the stat.' => 'Hier kunt u een beschrijving van deze statistieken toevoegen.',
         'Here you can select the dynamic object you want to use.' => 'Selecteer de metriek die u wilt gebruiken.',
         'Home' => 'Home',
@@ -3305,7 +3303,6 @@ sub Data {
         'MyTickets' => 'Mijn tickets',
         'Name is required!' => 'Naam is verplicht.',
         'Name is required.' => 'De naam is verplicht.',
-        'Navigate by selecting config groups' => 'Navigeer door groepen te kiezen',
         'Need a valid email address or don\'t use a local address!' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need a valid mail address or don\'t use a local email address' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Need a valid mail address or don\'t use a local email address.' => 'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
@@ -3388,7 +3385,7 @@ sub Data {
         'Pending Times' => 'Wachtend tot',
         'Pending messages' => 'Wachtende berichten',
         'Pending type' => 'In de wacht: type',
-        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'U kunt één of meer groepen selecteren om de rapoorten voor de gebruikers beschikbaar te maken.',
+        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'U kunt ï¿½ï¿½n of meer groepen selecteren om de rapoorten voor de gebruikers beschikbaar te maken.',
         'Permissions to change the ticket owner in this group/queue.' => 'Permissies om de eigenaar van het ticket in deze groep / wachtrij te wijzigen.',
         'PhoneView' => 'Telefoonscherm',
         'Phone{CustomerUser}' => 'Telefoon',
@@ -3445,6 +3442,7 @@ sub Data {
         'Select your out of office time.' => 'Geef hieronder het tijdvak aan waarin u afwezig bent. Gedurende deze periode zien andere behandelaars uw afwezigheid.',
         'Select your screen after creating a new ticket.' => 'Selecteer het vervolgscherm na het invoeren van een nieuw ticket.',
         'Selection needed' => 'Selectie benodigd',
+        'Send Administrative Message to Agents' => 'Stuur berichten naar gebruikers',
         'Send Notification' => 'Stuur melding',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur mij een melding als een klant een reactie geeft en ik de eigenaar van het ticket ben.',
         'Send me a notification of an watched ticket like an owner of an ticket.' => 'Stuur mij meldingen van gevolgde tickets alsof ik de eigenaar ben.',
@@ -3456,12 +3454,13 @@ sub Data {
         'Set customer user and customer id of a ticket' => 'Wijs de klant en klantID aan een ticket toe',
         'Show' => 'Toon',
         'Solution' => 'Oplossing',
-        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',
+        'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' => 'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geï¿½nstalleerd. Vraag uw beheerder.',
         'Sorry, feature not active!' => 'Deze functie is niet actief.',
         'Sort by' => 'Sorteer op',
         'Source' => 'Bron',
         'Spell Check' => 'Spellingscontrole',
         'Split' => 'Splitsen',
+        'Stat#' => 'Rapport#',
         'State Type' => 'Status type',
         'Static-File' => '\'Hardcoded\' bestand',
         'Stats-Area' => 'Statistieken',
@@ -3482,6 +3481,7 @@ sub Data {
         'Systemaddress' => 'Systeem-adres',
         'Text is required!' => 'Tekst is verplicht.',
         'The SLA name is required.' => 'De naam is verplicht.',
+        'The Ticket was locked' => 'Het ticket is ontgrendeld',
         'The customer id is required!' => 'Het klant ID is verplicht.',
         'The customer is required!' => 'De klant is verplicht.',
         'The customer is required.' => 'Kies een klant.',
@@ -3523,6 +3523,12 @@ sub Data {
         'Time units is a required field!' => 'Bestede tijd is een verplicht veld.',
         'Time units is a required field.' => 'Bestede tijd is een verplicht veld.',
         'Time units is required field.' => 'Bestede Tijd is een verplicht veld.',
+        'Time1' => 'Tijd 1',
+        'Time2' => 'Tijd 2',
+        'Time3' => 'Tijd 3',
+        'Time4' => 'Tijd 4',
+        'Time5' => 'Tijd 5',
+        'Time6' => 'Tijd 6',
         'Timeover' => 'Tijdsoverschrijding',
         'Times' => 'Keren',
         'Title is required.' => 'Onderwerp is verplicht.',
@@ -3568,7 +3574,7 @@ sub Data {
         'You need a To: recipient!' => 'U hebt een adres nodig bij Aan:',
         'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een e-mailadres nodig.',
         'You need a to: recipient!.' => 'U moet een adres invullen bij Aan:',
-        'You need min. one selected Ticket!' => 'Selecteer tenminste één ticket.',
+        'You need min. one selected Ticket!' => 'Selecteer tenminste ï¿½ï¿½n ticket.',
         'You need to account time!' => 'Het is verplicht de bestede tijd in te voeren.',
         'You need to activate %s first to use it!' => 'U moet eerst %s activeren voordat u het kunt gebruiken.',
         'Your email address is new' => 'Uw e-mailadres is nieuw.',
