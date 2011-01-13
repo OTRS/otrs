@@ -2,7 +2,7 @@
 # scripts/test/LayoutTicket.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.2 2011-01-11 15:37:33 dz Exp $
+# $Id: LayoutTicket.t,v 1.3 2011-01-13 15:04:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ my $HTML = '<html>
 <body>
 <b>Test HTML document.</b>
 <img src="cid:1234" border="0">
-<img src="Untitled%Attachment" border="0">
+<img src="Untitled%20Attachment" border="0">
 </body>
 </html>';
 
@@ -127,7 +127,7 @@ $TicketObject->ArticleWriteAttachment(
     MimeType    => 'image/bmp',
     ContentType => 'image/bmp',
     Content     => '#fake image#',
-    ContentID   => 'Content-Location:Untitled%Attachment',
+    ContentID   => 'Content-Location:Untitled%20Attachment',
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
@@ -176,7 +176,7 @@ my @Tests = (
             'image.png'  => 1,
             'image2.png' => 1,
             'image3.png' => 1,
-            }
+        },
     },
     {
         Config => {
@@ -188,19 +188,19 @@ my @Tests = (
         AttachmentsInclude => 0,
         Attachment         => {
             'file-2' => 1,
-            }
+        },
     },
     {
         Config => {
             'Frontend::RichText' => 1,
         },
         BodyRegExp => [
-            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=Untitled%Attachment" border="0">',
+            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=Untitled%2520Attachment" border="0">',
         ],
         AttachmentsInclude => 0,
         Attachment         => {
             'image.bmp' => 1,
-            }
+        },
     },
 );
 
@@ -235,6 +235,7 @@ for my $Test (@Tests) {
         else {
             $Self->True(
                 0,
+                "BodyRegExp - $RegExp - $HTMLBody",
                 "BodyRegExp - $RegExp",
             );
         }
