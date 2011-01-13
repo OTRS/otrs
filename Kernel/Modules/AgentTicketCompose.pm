@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.123 2011-01-12 09:27:33 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.124 2011-01-13 18:08:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -475,7 +475,7 @@ sub Run {
             Source => 'String',
         );
         if (%UploadStuff) {
-            push( @AttachmentData, \%UploadStuff );
+            push @AttachmentData, \%UploadStuff;
         }
 
         # get recipients
@@ -501,6 +501,12 @@ sub Run {
                     my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
                         Text => $ContentID,
                     );
+
+                    # workaround for link encode of rich text editor, see bug#5053
+                    my $ContentIDLinkEncode = $Self->{LayoutObject}->LinkEncode($ContentID);
+                    $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
+
+                    # ignore attachment if not linked in body
                     next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 

@@ -2,7 +2,7 @@
 # scripts/test/LayoutTicket.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.3 2011-01-13 15:04:29 martin Exp $
+# $Id: LayoutTicket.t,v 1.4 2011-01-13 18:08:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,7 +127,7 @@ $TicketObject->ArticleWriteAttachment(
     MimeType    => 'image/bmp',
     ContentType => 'image/bmp',
     Content     => '#fake image#',
-    ContentID   => 'Content-Location:Untitled%20Attachment',
+    ContentID   => 'Untitled%20Attachment',
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
@@ -235,7 +235,6 @@ for my $Test (@Tests) {
         else {
             $Self->True(
                 0,
-                "BodyRegExp - $RegExp - $HTMLBody",
                 "BodyRegExp - $RegExp",
             );
         }

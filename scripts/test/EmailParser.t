@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.34 2011-01-10 05:14:51 dz Exp $
+# $Id: EmailParser.t,v 1.35 2011-01-13 18:08:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -854,7 +854,7 @@ for my $Attachment (@Attachments) {
 
 $Self->Is(
     $ContentLocation,
-    'Content-Location:Untitled%20Attachment',
+    'Untitled%20Attachment',
     "#20 Get Content-Location",
 );
 

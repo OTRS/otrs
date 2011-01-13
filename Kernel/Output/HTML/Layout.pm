@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.349 2011-01-12 19:18:18 cg Exp $
+# $Id: Layout.pm,v 1.350 2011-01-13 18:08:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.349 $) [1];
+$VERSION = qw($Revision: 1.350 $) [1];
 
 =head1 NAME
 
@@ -1855,6 +1855,7 @@ sub LinkEncode {
 
     return if !defined $Link;
 
+    $Link =~ s/%/%25/g;
     $Link =~ s/&/%26/g;
     $Link =~ s/=/%3D/g;
     $Link =~ s/\!/%21/g;
@@ -3837,8 +3838,6 @@ sub RichTextDocumentServe {
         $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
 
-    my %MatchingAttachment;
-
     # replace inline images in content with runtime url to images
     my $AttachmentLink = $Self->{Baselink} . $Param{URL};
     $Param{Data}->{Content} =~ s{
@@ -3861,7 +3860,6 @@ sub RichTextDocumentServe {
         for my $AttachmentID ( keys %{ $Param{Attachments} }) {
             next if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
             $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
-            $MatchingAttachment{$AttachmentID} = 1;
             last;
         }
 
@@ -3875,31 +3873,32 @@ sub RichTextDocumentServe {
 
     # find matching attachment and replace it with runtlime url to image
     for my $AttachmentID ( keys %{ $Param{Attachments} } ) {
+        next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
-        next if $MatchingAttachment{$AttachmentID};
+        # content id cleanup
+        $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;
+        $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/>$//;
 
-        # look in all html email document the Content-Location
-        # if matchs replace it with URL link
+        $Param{Data}->{Content} =~ s{
+        (=|"|')(\Q$Param{Attachments}->{$AttachmentID}->{ContentID}\E)("|'|>|\/>|\s)
+    }
+    {
+        my $Start= $1;
+        my $ContentID = $2;
+        my $End = $3;
 
-        $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s{<Content-Location:(.*)>}{$1}xms;
-
-        if ($1) {
-            my $LookContentID = "\Q$Param{Attachments}->{$AttachmentID}->{ContentID}\E";
-            $Param{Data}->{Content} =~ s{
-                ("|')($LookContentID)("|')
-            }
-            {
-                my $Start= $1;
-                my $ContentID = $2;
-                my $End = $3;
-
-                # replace it with runtlime url to image
-                $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
-
-                # return new runtime url
-                $Start . $ContentID . $End;
-            }egxi;
+        # improve html quality
+        if ( $Start ne '"' && $Start ne '\'' ) {
+            $Start .= '"';
         }
+        if ( $End ne '"' && $End ne '\'' ) {
+            $End = '"' . $End;
+        }
+
+        # return new runtime url
+        $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
+        $Start . $ContentID . $End;
+    }egxi;
     }
 
     return %{ $Param{Data} };
@@ -4889,6 +4888,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.349 $ $Date: 2011-01-12 19:18:18 $
+$Revision: 1.350 $ $Date: 2011-01-13 18:08:47 $
 
 =cut

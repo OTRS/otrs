@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.47 2011-01-11 22:24:00 dz Exp $
+# $Id: Layout.t,v 1.48 2011-01-13 18:08:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -831,7 +831,7 @@ for my $Test (@Tests) {
         Attachments => {
             0 =>
                 {
-                ContentID => '<Content-Location:Untitled%20Attachment>',
+                ContentID => '<Untitled%20Attachment>',
                 },
         },
         Result => {
