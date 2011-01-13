@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.48 2010-12-22 23:03:02 cg Exp $
+# $Id: DB.pm,v 1.49 2011-01-13 14:25:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -269,45 +269,9 @@ sub UpdateSessionID {
         }
     }
 
-    # store session data
-    if ( $Param{StoreData} ) {
+    # check cache
+    if ( !$Self->{Cache}->{ $Param{SessionID} } ) {
         my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
-
-        # check needed update! (no changes)
-        return 1
-            if exists $SessionData{ $Param{Key} } && $SessionData{ $Param{Key} } eq $Param{Value};
-        return 1 if !exists $SessionData{ $Param{Key} } && $Param{Value} eq '';
-
-        # update the value
-        $SessionData{ $Param{Key} } = $Param{Value};
-
-        # set new data string
-        my $NewData = '';
-        for my $Key ( keys %SessionData ) {
-            my $Value = $SessionData{$Key};
-            $Self->{EncodeObject}->EncodeOutput( \$Value );
-            $NewData .= "$Key:" . encode_base64( $Value, '' ) . ':;';
-
-            # Debug
-            if ( $Self->{Debug} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
-                );
-            }
-        }
-
-        # update db entry
-        return if !$Self->{DBObject}->Do(
-            SQL => "UPDATE $Self->{SQLSessionTable} SET "
-                . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
-            Bind => [ \$NewData, \$Param{SessionID} ],
-        );
-
-        # reset cache
-        if ( $Self->{"Cache::$Param{SessionID}"} ) {
-            $Self->{"Cache::$Param{SessionID}"} = \%SessionData;
-        }
     }
 
     # update the value, set cache
