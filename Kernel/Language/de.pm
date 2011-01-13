@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/de.pm - provides German language translation
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.259 2010-12-29 15:02:49 martin Exp $
+# $Id: de.pm,v 1.260 2011-01-13 13:14:09 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.259 $) [1];
+$VERSION = qw($Revision: 1.260 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -678,7 +678,7 @@ sub Data {
         'New Tickets' => 'Neue Tickets',
         'Open Tickets / Need to be answered' => 'Offene Tickets / Beantwortung erforderlich',
         'All open tickets, these tickets have already been worked on, but need a response' => 'Alle offenen Tickets, an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich',
-        'All new tickets, these tickets have not been worked on yet' => 'Alle neuen tickets, an diesen Tickets wurde noch nicht gearbeitet',
+        'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets, an diesen Tickets wurde noch nicht gearbeitet',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle Tickets, deren Erinnerungszeit erreicht ist',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
