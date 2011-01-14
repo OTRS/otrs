@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.6 2011-01-14 15:07:38 mg Exp $
+# $Id: Helper.pm,v 1.7 2011-01-14 15:13:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,6 +144,8 @@ sub TestUserCreate {
     $Self->{TestUsers} ||= [];
     push( @{ $Self->{TestUsers} }, $TestUserID );
 
+    $Self->{UnitTestObject}->True( 1, "Created test user $TestUserID" );
+
     # Add user to groups
     GROUP_NAME:
     for my $GroupName ( @{ $Param{Groups} || [] } ) {
@@ -164,11 +166,8 @@ sub TestUserCreate {
             UserID => 1,
         ) || die "Could not add test user $TestUserLogin to group $GroupName";
 
-        print STDERR "added test user $TestUserLogin to group $GroupName";
-
+        $Self->{UnitTestObject}->True( 1, "Added test user $TestUserLogin to group $GroupName" );
     }
-
-    $Self->{UnitTestObject}->True( 1, "Created test user $TestUserID" );
 
     return $TestUserLogin;
 }
@@ -260,6 +259,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-01-14 15:07:38 $
+$Revision: 1.7 $ $Date: 2011-01-14 15:13:59 $
 
 =cut
