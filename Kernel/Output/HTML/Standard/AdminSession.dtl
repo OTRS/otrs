@@ -1,8 +1,8 @@
 # --
 # AdminSession.dtl - provides global HTML AdminSession
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.36 2010-10-06 09:38:32 mg Exp $
+# $Id: AdminSession.dtl,v 1.37 2011-01-14 14:00:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,13 +52,13 @@
                             <div class="Value">$QData{"CustomerSessionUniq"}</div>
                             <div class="Clear"></div>
                         </fieldset>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" id="KillAllSessions" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
                     </li>
 <!-- dtl:block:ActionSummary -->
 
 <!-- dtl:block:ActionKillSession -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Kill;WantSessionID=$Data{"SessionID"}" class="CallForAction"><span>Kill this session</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Kill;WantSessionID=$Data{"SessionID"}" id="KillThisSession" class="CallForAction"><span>Kill this session</span></a>
                     </li>
 <!-- dtl:block:ActionKillSession -->
 
