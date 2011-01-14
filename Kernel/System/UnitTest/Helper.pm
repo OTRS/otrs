@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.5 2011-01-14 14:01:21 mg Exp $
+# $Id: Helper.pm,v 1.6 2011-01-14 15:07:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,6 +91,18 @@ sub new {
     return $Self;
 }
 
+=item GetRandomID()
+
+creates a random ID that can be used in tests as a unique identifier.
+
+=cut
+
+sub GetRandomID {
+    my ( $Self, %Param ) = @_;
+
+    return 'selenium-test-' . int( rand(1000000) )
+}
+
 =item TestUserCreate()
 
 creates a test user that can be used in the Selenium tests. It will
@@ -115,7 +127,7 @@ sub TestUserCreate {
     }
 
     # create test user
-    my $TestUserLogin = 'selenium-test-user' . int( rand(1000000) );
+    my $TestUserLogin = $Self->GetRandomID();
 
     my $TestUserID = $Self->{UserObject}->UserAdd(
         UserFirstname => $TestUserLogin,
@@ -248,6 +260,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-01-14 14:01:21 $
+$Revision: 1.6 $ $Date: 2011-01-14 15:07:38 $
 
 =cut
