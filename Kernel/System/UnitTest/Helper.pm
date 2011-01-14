@@ -1,8 +1,8 @@
 # --
 # Helper.pm - unit test helper functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.4 2010-12-22 13:31:45 mg Exp $
+# $Id: Helper.pm,v 1.5 2011-01-14 14:01:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@ use strict;
 
 use Kernel::Config;
 use Kernel::System::User;
+use Kernel::System::Group;
 use Kernel::System::SysConfig;
 
 =head1 NAME
@@ -70,6 +71,12 @@ sub new {
         ConfigObject => $Self->{ConfigObject},
     );
 
+    $Self->{GroupObject} = Kernel::System::Group->new(
+        %{ $Self->{UnitTestObject} },
+        ConfigObject => $Self->{ConfigObject},
+        UserObject   => $Self->{UserObject},
+    );
+
     #
     # Make backup of system configuration if needed
     #
@@ -90,7 +97,9 @@ creates a test user that can be used in the Selenium tests. It will
 be set to invalid automatically during the constructor. Returns
 the login name of the new user, the password is the same.
 
-    my $TestUserLogin = $sel->TestUserCreate();
+    my $TestUserLogin = $sel->TestUserCreate(
+        Groups => ['admin', 'users'],           # optional, list of groups to add this user to (rw rights)
+    );
 
 =cut
 
@@ -122,6 +131,30 @@ sub TestUserCreate {
     #   in the destructor.
     $Self->{TestUsers} ||= [];
     push( @{ $Self->{TestUsers} }, $TestUserID );
+
+    # Add user to groups
+    GROUP_NAME:
+    for my $GroupName ( @{ $Param{Groups} || [] } ) {
+        my $GroupID = $Self->{GroupObject}->GroupLookup( Group => $GroupName );
+        die "Cannot find group $GroupName" if ( !$GroupID );
+
+        $Self->{GroupObject}->GroupMemberAdd(
+            GID        => $GroupID,
+            UID        => $TestUserID,
+            Permission => {
+                ro        => 1,
+                move_into => 1,
+                create    => 1,
+                owner     => 1,
+                priority  => 1,
+                rw        => 1,
+            },
+            UserID => 1,
+        ) || die "Could not add test user $TestUserLogin to group $GroupName";
+
+        print STDERR "added test user $TestUserLogin to group $GroupName";
+
+    }
 
     $Self->{UnitTestObject}->True( 1, "Created test user $TestUserID" );
 
@@ -215,6 +248,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-12-22 13:31:45 $
+$Revision: 1.5 $ $Date: 2011-01-14 14:01:21 $
 
 =cut
