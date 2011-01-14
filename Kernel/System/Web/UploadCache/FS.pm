@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.24 2010-06-28 08:17:00 mg Exp $
+# $Id: FS.pm,v 1.25 2011-01-14 09:23:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,6 +195,11 @@ sub FormIDGetAllFilesData {
         );
         next if !$ContentID;
 
+        # verify if content id is empty, set to undef
+        if ( !${$ContentID} ) {
+            ${$ContentID} = undef;
+        }
+
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
         push(
@@ -264,6 +269,11 @@ sub FormIDGetAllFilesMeta {
             Mode     => 'binmode',             # optional - binmode|utf8
         );
         next if !$ContentID;
+
+        # verify if content id is empty, set to undef
+        if ( !${$ContentID} ) {
+            ${$ContentID} = undef;
+        }
 
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
