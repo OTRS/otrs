@@ -1,8 +1,8 @@
 # --
 # AdminGroup.dtl - provides HTML form for AdminGroup
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.dtl,v 1.26 2010-11-03 22:47:07 en Exp $
+# $Id: AdminGroup.dtl,v 1.27 2011-01-14 09:49:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
         var NameValue = $('#GroupName').val(),
             NameOldValue = $('#GroupOldName').val();
 
-        if (!NameOldValue || NameOldValue !== 'admin' || NameValue == 'admin') {
+        if (!NameOldValue || NameOldValue !== 'admin' || NameValue === 'admin') {
             return true;
         }
 
