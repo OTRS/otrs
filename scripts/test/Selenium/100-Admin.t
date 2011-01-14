@@ -2,7 +2,7 @@
 # 100-Admin.t - frontend tests for admin area
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-Admin.t,v 1.5 2011-01-07 16:33:47 mg Exp $
+# $Id: 100-Admin.t,v 1.6 2011-01-14 14:03:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,10 @@ my $Helper = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 
+my $TestUserLogin = $Helper->TestUserCreate(
+    Groups => ['admin'],
+) || die "Did not get test user";
+
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     eval {
         my $sel = Kernel::System::UnitTest::Selenium->new(
@@ -39,8 +43,8 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
         $sel->Login(
             Type     => 'Agent',
-            User     => 'root@localhost',
-            Password => 'root',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
         );
 
         my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
