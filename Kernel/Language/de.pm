@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.261 2011-01-13 13:28:02 mb Exp $
+# $Id: de.pm,v 1.262 2011-01-15 03:58:53 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.261 $) [1];
+$VERSION = qw($Revision: 1.262 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -827,8 +827,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Admin-Benachrichtigung',
-        'With this module, administrators can send messages to agents, group or role members.' => '',
-        'Create Administrative Message' => '',
+        'With this module, administrators can send messages to agents, group or role members.' => 'Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder Rolleninhaber senden.',
+        'Create Administrative Message' => 'Administratorennachricht erzeugen',
         'Your message was sent to' => 'Ihre Nachricht wurde gesendet an',
         'Send message to users' => 'Nachricht an Benutzer senden',
         'Send message to group members' => 'Nachricht an Gruppenmitglieder senden',
@@ -936,8 +936,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Systemprotokoll',
         'Here you will find log information about your system.' => 'Hier finden Sie Informationen zu protokollierten Systemereignissen.',
-        'Hide this message' => '',
-        'Recent Log Entries' => '',
+        'Hide this message' => 'Diesen Hinweis ausblenden',
+        'Recent Log Entries' => 'Aktuelle Einträge im Systemprotokoll',
         'Time' => 'Zeit',
 
         # Template: AdminMailAccount
@@ -1652,7 +1652,7 @@ sub Data {
         # Template: AgentTicketZoom
         'Article filter' => 'Filter für Beiträge',
         'Article Type' => 'Artikel Typ',
-        'Sender Type' => '',
+        'Sender Type' => 'Absender Typ',
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
         'Ticket Information' => 'Ticket-Informationen',
         'Linked Objects' => 'Verknüpfte Objekte',
