@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.55 2010-11-23 10:19:27 mg Exp $
+# $Id: INSTALL,v 1.56 2011-01-17 14:08:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ Mandatory:
     * Perl 5.8.8 or higher (not Perl6)
     * Database (e. g. MySQL, PostgreSQL)
     * Webserver
-    * some CPAN-Modules (see step 2 of the chapter "Installation" for details)
+    * a few Perl modules (see step 2 of the chapter "Installation" for details)
 
 Optional:
     * On the Apache webserver, using mod_perl is highly recommended
@@ -26,8 +26,18 @@ Optional:
 Installation:
 =============
 
-This few steps describe an OTRS installation with webserver and database
-setup. The OTRS system user in this example is "otrs" and the installation
+The steps below describe how to install OTRS on Linux.
+This procedure describes 'installation from source'. If you want to deploy 
+on RedHat, CentOS, Fedora, OpenSUSE, or SLES you can also choose to 
+instead install using the RPM from our website at http://otrs.org/downloads
+Please refer to http://doc.otrs.org/ for detailed instructions on RPM based
+installation.
+
+If you want to deploy on Windows we ship an installer that automatically
+installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
+sets up the cron jobs for you. Please refer to XXX for detailed instructions.
+
+The OTRS system user in this example is "otrs" and the installation
 directory is /opt/otrs. You can adapt these values as needed.
 
 1) Install tar.gz:
@@ -36,8 +46,8 @@ directory is /opt/otrs. You can adapt these values as needed.
    shell> tar -xzvf otrs-x.x.x.tar.gz
    shell> mv otrs-x.x.x otrs
 
-2) Install CPAN Modules (if needed):
-   ---------------------------------
+2) Install additional Perl modules:
+   --------------------------------
    Use the following script to get an overview of all installed and
    required cpan modules.
 
@@ -45,12 +55,42 @@ directory is /opt/otrs. You can adapt these values as needed.
 
    To install missing Perl modules, you can:
 
-   a) Install the RPMs if your distributions provides RPMs for
-      the required CPAN modules.
-
+   a) Install the packages via the package manager of your Linux distribution.
+   
+      - For RedHat, CentOS, Fedora or compatible systems:
+      
+        shell> yum install "perl(Digest::MD5)"
+      
+      - For Suse Enterprise Linux, openSUSE or compatible systems:
+        first determine the name of the package the module is shipped in.
+        Usually the package for My::Module would be called "perl-My-Module".
+        
+        shell> zypper search Digest::MD5
+      
+        Then install:
+        
+        shell> zypper install perl-Digest-MD5
+      
+      - For Debian, Ubuntu or compatible systems
+        first determine the name of the package the module is shipped in. 
+        Usually the package for My::Module would be called "libmy-module-perl".
+        
+        shell> apt-get search Digest::MD5
+      
+        Then install:
+        shell> apt-get install libdigest-md5-perl
+      
+      Please note that it might be that you can't find all modules or their
+      required versions in your distribution repository, in that case you might
+      choose to install those modules via CPAN (see below).
+      
    - or -
 
-   b) Install the required modules via CPAN shell (http://www.cpan.org/)
+   b) Install the required modules via the CPAN shell
+   
+      note that when you're on Unix you should run CPAN as your superuser
+      account because the modules should be accessible both by the OTRS
+      account and the account under which the web server is running.
 
       shell> perl -MCPAN -e shell;
       ...
@@ -68,11 +108,11 @@ directory is /opt/otrs. You can adapt these values as needed.
 
     shell> useradd -d /opt/otrs/ -c 'OTRS user' otrs
 
-    Add user to webserver group (if the webserver is not running with OTRS user):
+    Add user to webserver group (if the webserver is not running as the OTRS user):
 
     shell> usermod -G www otrs
 
-    (SuSE=www, Red Hat/Fedora=apache)
+    (SuSE=www, Red Hat/CentOS/Fedora=apache)
 
 4) Demo config files:
    ------------------
@@ -126,16 +166,10 @@ directory is /opt/otrs. You can adapt these values as needed.
 
 8) Database setup:
    ---------------
-   If you use MySQL, you can use the Web-Installer (http://yourhost/otrs/installer.pl).
-   Otherwise, please follow README.database --> "DB - Setup Example".
+   If you use MySQL, you can use the Web based installer (http://yourhost/otrs/installer.pl).
+   Otherwise, please follow README.database for instructions
 
-9) Basic Configuration:
-   --------------------
-   If you used the Web-Installer, you can skip this point.
-   Otherwise, set the mandatory configuration settings in /opt/otrs/Kernel/Config.pm,
-   such as FQDN, SystemID, Ticket::Hook, Home and other settings you need.
-
-10) First Login:
+9) First login:
    ------------
    http://yourhost/otrs/index.pl
    User: root@localhost
@@ -143,24 +177,19 @@ directory is /opt/otrs. You can adapt these values as needed.
 
    With this step, the basic system setup is finished.
 
-11) First Email:
+10) First email:
     ------------
    To check email reception, you can pipe an email directly into /opt/otrs/bin/otrs.Postmaster.pl:
 
    shell> cat /opt/otrs/doc/sample_mails/test-email-1.box | /opt/otrs/bin/otrs.PostMaster.pl
 
-12) Cronjobs for the OTRS user:
+11) Cronjobs for the OTRS user:
     ---------------------------
    There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
    They can be activated by copying them without the ".dist" filename extension.
 
    shell> cd var/cron
    shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
-
-   Or if you are installing OTRS an a Windows system:
-
-   shell> cd var/cron
-   shell> copy *.dist *.
 
    To schedule these cronjobs on your system, you can use the script Cron.sh.
    Make sure to execute it as the OTRS system user!
@@ -169,11 +198,11 @@ directory is /opt/otrs. You can adapt these values as needed.
 
       shell> /opt/otrs/bin/Cron.sh start
 
-      Updating the cronjob schedulings after changes:
+      Updating the cronjob schedules if you made changes changes:
 
       shell> /opt/otrs/bin/Cron.sh restart
 
-      Deallocating the cronjobs:
+      Stopping the cronjobs (useful for maintenance):
 
       shell> /opt/otrs/bin/Cron.sh stop
 
@@ -181,13 +210,19 @@ directory is /opt/otrs. You can adapt these values as needed.
 Notes:
 ======
 
-Also you should read the OTRS performance tuning chapter on our homepage:
+We advise you to read the OTRS performance tuning chapter on our homepage:
 http://doc.otrs.org/3.0/en/html/.
 
-If you encounter problems with the installation, you cane ask on the
+If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).
 
-((enjoy)).
+You can also ask the OTRS Group to either help you in planning or deploying 
+OTRS, or review your installed OTRS system. Our professional services are 
+designed to help you deploy OTRS faster and to get the most benefit out of
+OTRS. See for more information: http://www.otrs.com/en/services/
+
+
+((enjoy))
 
  Your OTRS Team
 
