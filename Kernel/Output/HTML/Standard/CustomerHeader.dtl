@@ -1,8 +1,8 @@
 # --
 # CustomerHeader.dtl - provides global HTML header
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.54 2010-12-06 17:57:01 ub Exp $
+# $Id: CustomerHeader.dtl,v 1.55 2011-01-17 09:13:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ Pragma: no-cache
 $Include{"Copyright"}
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=$Env{"UserCharset"}" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
     <meta http-equiv="refresh" content="$QData{"Refresh"}" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
