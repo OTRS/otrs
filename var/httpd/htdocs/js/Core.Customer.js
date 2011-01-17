@@ -1,8 +1,8 @@
 // --
 // Core.Customer.js - provides functions for the customer login
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.js,v 1.11 2010-09-03 08:26:12 mg Exp $
+// $Id: Core.Customer.js,v 1.12 2011-01-17 10:53:12 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,8 @@ Core.Customer = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         Core.Form.Validate.Init();
+        // Add table functions here
+        $('table.Overview tbody tr:nth-child(even)').addClass('Even');
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
         // init IE7 compat code (will only run on IE7)
