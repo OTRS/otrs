@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.56 2011-01-17 14:08:49 mb Exp $
+# $Id: INSTALL,v 1.57 2011-01-17 14:34:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,9 @@ installation.
 
 If you want to deploy on Windows we ship an installer that automatically
 installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
-sets up the cron jobs for you. Please refer to XXX for detailed instructions.
+sets up the cron jobs for you. Please refer to 
+http://doc.otrs.org/3.0/en/html/c480.html#installation-on-windows 
+for detailed instructions.
 
 The OTRS system user in this example is "otrs" and the installation
 directory is /opt/otrs. You can adapt these values as needed.
