@@ -1,8 +1,8 @@
 # --
 # README.web server - web server configuration for OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.22 2009-11-11 11:39:53 mb Exp $
+# $Id: README.webserver,v 1.23 2011-01-17 14:10:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 Which web server is needed?
 ===========================
-I prefer the apache web server (http://httpd.apache.org).
+We recommend the apache web server (http://httpd.apache.org).
 
 Configuration:
 ==============
@@ -67,33 +67,8 @@ b)
   [...]
 
  *)
-  With mod_perl 1 (speed!):
-  =========================
-  Add this to the mod_perl stuff section in httpd.conf
-  [...]
-    # agent, admin and customer frontend (mod_alias required!)
-    ScriptAlias /otrs/ "/opt/otrs/bin/cgi-bin/"
-    Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
 
-    # load all otrs modules (speed improvement!)
-#   Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
-
-    # Apache::StatINC - Reload %INC files when updated on disk
-    # (just use it for testing, setup, ... not for high productiv systems)
-#   PerlInitHandler Apache::StatINC
-
-    <Location /otrs>
-        ErrorDocument 403 /otrs/index.pl
-        SetHandler  perl-script
-        PerlHandler Apache::Registry
-        Options ExecCGI
-        PerlSendHeader On
-        PerlSetupEnv On
-    </Location>
-  [...]
-
- *)
-  With mod_perl 2 (speed!):
+  With mod_perl 2 (fast):
   =========================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
@@ -123,7 +98,7 @@ b)
     </Location>
   [...]
 
-  Edit the scripts/apache-perl-startup.pl / scripts/apache2-perl-startup.pl script:
+  Edit the scripts/apache2-perl-startup.pl script:
 
    - Establish database connections on process startup (httpd).
 
