@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.34 2010-11-20 00:03:37 en Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.35 2011-01-18 19:16:59 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,40 +109,48 @@ sub Run {
             my $InvalidCount = 0;
             for my $MatchKey ( sort keys %Match ) {
                 $InvalidCount++;
-                my $I = $Match{$MatchKey};
-                if ( !eval { $I =~ /(.|$Match{$MatchKey})/i } ) {
-                    $Errors{"MatchHeader$InvalidCount"} = 'ServerError';
-                    $Errors{"MatchValue$InvalidCount"}  = 'ServerError';
-                    $Errors{"SetHeader$InvalidCount"}   = 'ServerError';
-                    $Errors{"SetValue$InvalidCount"}    = 'ServerError';
+                my $MatchValue = $Match{$MatchKey};
+                if ( !eval { my $Regex = qr/$MatchValue/; 1; } ) {
+                    $Errors{"MatchHeader${InvalidCount}Invalid"} = 'ServerError';
+                    $Errors{"MatchValue${InvalidCount}Invalid"}  = 'ServerError';
                 }
             }
         }
-        if ( !%Set ) {
-            $Errors{SetHeader1Invalid} = 'ServerError';
-            $Errors{SetValue1Invalid}  = 'ServerError';
+        else {
+            $Errors{"MatchHeader1Invalid"} = 'ServerError';
+            $Errors{"MatchValue1Invalid"}  = 'ServerError';
         }
-        if ( !%Match ) {
-            $Errors{MatchHeader1Invalid} = 'ServerError';
-            $Errors{MatchValue1Invalid}  = 'ServerError';
+
+        if (%Set) {
+            my $InvalidCount = 0;
+            for my $SetKey ( sort keys %Set ) {
+                $InvalidCount++;
+                my $SetValue = $Set{$SetKey};
+                if ( !eval { my $Regex = qr/$SetValue/; 1; } ) {
+                    $Errors{"SetHeader${InvalidCount}Invalid"} = 'ServerError';
+                    $Errors{"SetValue${InvalidCount}Invalid"}  = 'ServerError';
+                }
+            }
+        }
+        else {
+            $Errors{"SetHeader1Invalid"} = 'ServerError';
+            $Errors{"SetValue1Invalid"}  = 'ServerError';
         }
 
         # Name validation
-        my $NameServerError = '';
         if ( $Name eq '' ) {
-            $NameServerError = 'ServerError';
+            $Errors{"NameInvalid"} = 'ServerError';
         }
 
-        if ( %Errors || $NameServerError ) {
+        if (%Errors) {
             return $Self->_MaskUpdate(
                 Name => $Name,
                 Data => {
                     %Errors,
-                    Name            => $Name,
-                    Set             => \%Set,
-                    Match           => \%Match,
-                    StopAfterMatch  => $StopAfterMatch,
-                    NameServerError => $NameServerError,
+                    Name           => $Name,
+                    Set            => \%Set,
+                    Match          => \%Match,
+                    StopAfterMatch => $StopAfterMatch,
                 },
             );
         }

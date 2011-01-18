@@ -1,8 +1,8 @@
 # --
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.52 2010-11-20 00:03:38 en Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.53 2011-01-18 19:18:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,9 +107,9 @@
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="EditName"><span class="Marker">*</span> $Text{"Filter name"}:</label>
                         <div class="Field">
-                            <input type="text" class="W50pc Validate_Required $QData{"NameServerError"}" name="Name" id="EditName" value="$QData{"Name"}"/>
+                            <input type="text" class="W50pc Validate_Required $QData{"NameInvalid"}" name="Name" id="EditName" value="$QData{"Name"}"/>
                             <div id="EditNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>$Text{"The name is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -132,7 +132,7 @@
                             <label for="MatchValue1">$Text{"Value"} 1:</label>
                             <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc $QData{"MatchValue1Invalid"}" maxlength="100"/>
                             <div id="MatchValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -146,7 +146,7 @@
                             <label for="MatchValue2">$Text{"Value"} 2:</label>
                             <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc $QData{"MatchValue2Invalid"}" maxlength="100"/>
                             <div id="MatchValue2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -160,7 +160,7 @@
                             <label for="MatchValue3">$Text{"Value"} 3:</label>
                             <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc $QData{"MatchValue3Invalid"}" maxlength="100"/>
                             <div id="MatchValue3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -174,7 +174,7 @@
                             <label for="MatchValue4">$Text{"Value"} 4:</label>
                             <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
                             <div id="MatchValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -190,7 +190,7 @@
                             <label for="SetValue1">$Text{"Value"} 1:</label>
                             <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc $QData{"SetValue1Invalid"}" maxlength="100"/>
                             <div id="SetValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -204,7 +204,7 @@
                             <label for="SetValue2">$Text{"Value"} 2:</label>
                             <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc $QData{"SetValue2Invalid"}" maxlength="100"/>
                             <div id="SetValue2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -218,7 +218,7 @@
                             <label for="SetValue3">$Text{"Value"} 3:</label>
                             <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc $QData{"SetValue3Invalid"}" maxlength="100"/>
                             <div id="SetValue3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -232,7 +232,7 @@
                             <label for="SetValue4">$Text{"Value"} 4:</label>
                             <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc $QData{"SetValue4Invalid"}" maxlength="100"/>
                             <div id="SetValue4ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
