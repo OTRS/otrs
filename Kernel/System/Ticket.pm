@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.486 2011-01-05 09:42:54 bes Exp $
+# $Id: Ticket.pm,v 1.487 2011-01-18 13:20:19 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.486 $) [1];
+$VERSION = qw($Revision: 1.487 $) [1];
 
 =head1 NAME
 
@@ -310,7 +310,7 @@ creates a new ticket
         UserID       => 123,
     );
 
-    or
+or
 
     my $TicketID = $TicketObject->TicketCreate(
         TN            => $TicketObject->TicketCreateNumber(), # optional
@@ -703,7 +703,7 @@ sub TicketNumberLookup {
 
 rebuild a new ticket subject
 
-    This will generate a subject like "RE: [Ticket# 2004040510440485] Some subject"
+This will generate a subject like "RE: [Ticket# 2004040510440485] Some subject"
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -711,8 +711,8 @@ rebuild a new ticket subject
         Action       => 'Reply',
     );
 
-    This will generate a subject like  "[Ticket# 2004040510440485] Some subject"
-    (so without RE: )
+This will generate a subject like  "[Ticket# 2004040510440485] Some subject"
+(so without RE: )
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -721,7 +721,7 @@ rebuild a new ticket subject
         Action       => 'Reply',
     );
 
-    This will generate a subject like "FWD: [Ticket# 2004040510440485] Some subject"
+This will generate a subject like "FWD: [Ticket# 2004040510440485] Some subject"
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -729,8 +729,8 @@ rebuild a new ticket subject
         Action       => 'Forward', # Possible values are Reply and Forward, Reply is default.
     );
 
-    This will generate a subject like "[Ticket# 2004040510440485] Re: Some subject"
-    (so without clean-up of subject)
+This will generate a subject like "[Ticket# 2004040510440485] Re: Some subject"
+(so without clean-up of subject)
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -1599,11 +1599,11 @@ to move a ticket (sends notification to agents of selected my queues, if ticket 
         UserID   => 123,
     );
 
-    Optional attribute:
-    SendNoNotification disables or enables agent and customer notification for this
-    action.
+Optional attribute:
+SendNoNotification disables or enables agent and customer notification for this
+action.
 
-    For example:
+For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
@@ -3794,11 +3794,11 @@ To find tickets in your system.
 
 Returns:
 
-    Result: 'ARRAY'
+Result: 'ARRAY'
 
     @TicketIDs = ( 1, 2, 3 );
 
-    Result: 'HASH'
+Result: 'HASH'
 
     %TicketIDs = (
         1 => '2010102700001',
@@ -3806,7 +3806,7 @@ Returns:
         3 => '2010102700003',
     );
 
-    Result: 'COUNT'
+Result: 'COUNT'
 
     $TicketIDs = 123;
 
@@ -5253,11 +5253,11 @@ to lock or unlock a ticket
         UserID   => 123,
     );
 
-    Optional attribute:
-    SendNoNotification, disable or enable agent and customer notification for this
-    action. Otherwise a notification will be send to agent and cusomer.
+Optional attribute:
+SendNoNotification, disable or enable agent and customer notification for this
+action. Otherwise a notification will be send to agent and cusomer.
 
-    For example:
+For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
@@ -5473,11 +5473,11 @@ to set a ticket state
         UserID   => 123,
     );
 
-    Optional attribute:
-    SendNoNotification, disable or enable agent and customer notification for this
-    action. Otherwise a notification will be send to agent and cusomer.
+Optional attribute:
+SendNoNotification, disable or enable agent and customer notification for this
+action. Otherwise a notification will be send to agent and cusomer.
 
-    For example:
+For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
@@ -5739,7 +5739,7 @@ sub OwnerCheck {
 
 to set the ticket owner (notification to the new owner will be sent)
 
-    by using user id
+by using user id
 
     my $Success = $TicketObject->TicketOwnerSet(
         TicketID  => 123,
@@ -5747,7 +5747,7 @@ to set the ticket owner (notification to the new owner will be sent)
         UserID    => 123,
     );
 
-    by using user login
+by using user login
 
     my $Success = $TicketObject->TicketOwnerSet(
         TicketID => 123,
@@ -5755,15 +5755,15 @@ to set the ticket owner (notification to the new owner will be sent)
         UserID   => 123,
     );
 
-    Return:
+Return:
     1 = owner has been set
     2 = this owner is already set, no update needed
 
-    Optional attribute:
-    SendNoNotification, disable or enable agent and customer notification for this
-    action. Otherwise a notification will be send to agent and cusomer.
+Optional attribute:
+SendNoNotification, disable or enable agent and customer notification for this
+action. Otherwise a notification will be send to agent and cusomer.
 
-    For example:
+For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
@@ -5926,15 +5926,15 @@ to set the ticket responsible (notification to the new responsible will be sent)
         UserID    => 213,
     );
 
-    Return:
+Return:
     1 = responsible has been set
     2 = this responsible is already set, no update needed
 
-    Optional attribute:
-    SendNoNotification, disable or enable agent and customer notification for this
-    action. Otherwise a notification will be send to agent and cusomer.
+Optional attribute:
+SendNoNotification, disable or enable agent and customer notification for this
+action. Otherwise a notification will be send to agent and cusomer.
 
-    For example:
+For example:
 
         SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
@@ -7604,7 +7604,7 @@ prepare ACL execution of current state
         UserID        => 123,
     );
 
-    or
+or
 
     $TicketObject->TicketAcl(
         Data => {
@@ -8428,6 +8428,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.486 $ $Date: 2011-01-05 09:42:54 $
+$Revision: 1.487 $ $Date: 2011-01-18 13:20:19 $
 
 =cut
