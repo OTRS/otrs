@@ -1,8 +1,8 @@
 // --
 // Core.Exception.js - provides the exception object and handling functions
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Exception.js,v 1.3 2010-11-25 08:37:17 mn Exp $
+// $Id: Core.Exception.js,v 1.4 2011-01-19 13:36:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -81,20 +81,20 @@ Core.Exception = (function (TargetNS) {
         if (ErrorObject instanceof TargetNS.ApplicationError) {
             TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
             if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject.GetMessage() + '\n\n' + Trace);
+                alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
             }
         }
         else if (ErrorObject instanceof Error) {
             TargetNS.ShowError(ErrorObject.message, 'JavaScriptError', Trace);
             if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject.message + '\n\n' + Trace);
+                alert(ErrorObject.message + (Trace ? ('\n\n' + Trace) : ''));
             }
             throw ErrorObject; // rethrow
         }
         else {
             TargetNS.ShowError(ErrorObject, 'UndefinedError', Trace);
             if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject + '\n\n' + Trace);
+                alert(ErrorObject + (Trace ? ('\n\n' + Trace) : ''));
             }
             throw ErrorObject; // rethrow
         }

@@ -1,8 +1,8 @@
 // --
 // Core.AJAX.js - provides the funcionality for AJAX calls
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.js,v 1.19 2010-12-10 12:36:48 mg Exp $
+// $Id: Core.AJAX.js,v 1.20 2011-01-19 13:36:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -203,7 +203,8 @@ Core.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    Core.Exception.Throw("Invalid JSON from: " + URL, 'CommunicationError');
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid JSON from: " + URL, 'CommunicationError'));
                 }
                 else {
                     UpdateFormElements(Response, FieldsToUpdate);
@@ -218,7 +219,8 @@ Core.AJAX = (function (TargetNS) {
                 });
             },
             error: function () {
-                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });
 
@@ -248,13 +250,15 @@ Core.AJAX = (function (TargetNS) {
             dataType: 'html',
             success: function (Response) {
                 if (!Response) {
-                    Core.Exception.Throw("No content from: " + URL, 'CommunicationError');
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
                     $ElementToUpdate.html(Response);
                 }
                 else {
-                    Core.Exception.Throw("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError');
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError'));
                 }
             },
             complete: function () {
@@ -263,7 +267,8 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             error: function () {
-                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });
 
@@ -296,11 +301,13 @@ Core.AJAX = (function (TargetNS) {
                     Callback(Response);
                 }
                 else {
-                    Core.Exception.Throw("Invalid callback method: " + ((typeof Callback === 'undefined') ? 'undefined' : Callback.toString()), 'CommunicationError');
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid callback method: " + ((typeof Callback === 'undefined') ? 'undefined' : Callback.toString())));
                 }
             },
             error: function () {
-                Core.Exception.Throw("Error during AJAX communication", 'CommunicationError');
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });
     };
