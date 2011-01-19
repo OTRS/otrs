@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.35 2011-01-18 19:16:59 mp Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.36 2011-01-19 16:06:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,8 +125,7 @@ sub Run {
             my $InvalidCount = 0;
             for my $SetKey ( sort keys %Set ) {
                 $InvalidCount++;
-                my $SetValue = $Set{$SetKey};
-                if ( !eval { my $Regex = qr/$SetValue/; 1; } ) {
+                if ( !defined $Set{$SetKey} ) {
                     $Errors{"SetHeader${InvalidCount}Invalid"} = 'ServerError';
                     $Errors{"SetValue${InvalidCount}Invalid"}  = 'ServerError';
                 }

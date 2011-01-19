@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminPostMasterFilter
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.53 2011-01-18 19:18:49 mp Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.54 2011-01-19 16:04:58 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -190,7 +190,7 @@
                             <label for="SetValue1">$Text{"Value"} 1:</label>
                             <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc $QData{"SetValue1Invalid"}" maxlength="100"/>
                             <div id="SetValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                                <p>$Text{"The field needs to be a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -204,7 +204,7 @@
                             <label for="SetValue2">$Text{"Value"} 2:</label>
                             <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc $QData{"SetValue2Invalid"}" maxlength="100"/>
                             <div id="SetValue2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                                <p>$Text{"The field needs to be a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -218,7 +218,7 @@
                             <label for="SetValue3">$Text{"Value"} 3:</label>
                             <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc $QData{"SetValue3Invalid"}" maxlength="100"/>
                             <div id="SetValue3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                                <p>$Text{"The field needs to be a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -232,7 +232,7 @@
                             <label for="SetValue4">$Text{"Value"} 4:</label>
                             <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc $QData{"SetValue4Invalid"}" maxlength="100"/>
                             <div id="SetValue4ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                                <p>$Text{"The field needs to be a literal word."}</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
