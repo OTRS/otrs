@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1731 2011-01-20 13:41:33 mb Exp $
+# $Id: CHANGES,v 1.1732 2011-01-20 15:04:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-01-20 Fixed bug#6725 -Typo in description for Stats in SysConfig.
  - 2011-01-20 Fixed bug#6001 - Configuration issues when Apache::DBI is not installed.
     Apache::DBI is now bundled in Kernel/cpan-lib, mainly because it's not part of the
     RHEL5 package repositories.
