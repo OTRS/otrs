@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.39 2011-01-13 13:29:05 mb Exp $
+# $Id: es_MX.pm,v 1.40 2011-01-20 14:25:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2664,9 +2664,9 @@ sub Data {
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => 'Módulo para filtrar y manipular mensajes entrantes. Obtenga un número de 4 dígitos para el texto libre de ticket, use una expresión regular en Match, por ejemplo: From => \'(.+?)@.+?\', y utilice () como [***] en Set =>.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => 'Módulo para generar perfil OpenSearch html para búsqueda simple de tickets en la interfaz del agente.',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => 'Módulo para generar perfil OpenSearch html para búsqueda simple de tickets en la interfaz del cliente.',
-        'Module to genetare accounted time ticket statistics.' => 'Módulo para generar estadísticas de la contabilidad de tiempo de los tickets.',
-        'Module to genetare ticket solution and response time statistics.' => 'Módulo para generar estadísticas del tiempo de solución y respuesta de los tickets.',
-        'Module to genetare ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
+        'Module to generate accounted time ticket statistics.' => 'Módulo para generar estadísticas de la contabilidad de tiempo de los tickets.',
+        'Module to generate ticket solution and response time statistics.' => 'Módulo para generar estadísticas del tiempo de solución y respuesta de los tickets.',
+        'Module to generate ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => 'Módulo para informar a los agentes, a través de su propia interfaz, acerca del juego de caracteres usado. Se despliega una notificación en caso de que no se esté usando el juego de caracteres por defecto en, por ejemplo, los tickets.',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => 'Módulo para mostrar notificaciones y escalados (ShownMax: Número máximo de escalados que se muestran, EscalationInMinutes: Mostrar el ticket que escalará en estos minutos, CacheTime: Caché de los escalados calculados en segundos).',
         'Module to use database filter storage.' => 'Módulo para utilizar el almacenamiento de base de datos del filtro.',
