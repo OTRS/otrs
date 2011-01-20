@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1730 2011-01-19 13:37:13 mn Exp $
+# $Id: CHANGES,v 1.1731 2011-01-20 13:41:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-01-20 Fixed bug#6001 - Configuration issues when Apache::DBI is not installed.
+    Apache::DBI is now bundled in Kernel/cpan-lib, mainly because it's not part of the
+    RHEL5 package repositories.
  - 2011-01-19 Fixed bug#6704 - Core.AJAX throws exceptions which cannot be handled.
  - 2011-01-17 Fixed bug#6599 - Ticket sub-sorting in dashlets isn't working
  - 2011-01-17 Fixed bug#6706 - Add Google Chrome Frame support.
