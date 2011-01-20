@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.113 2011-01-13 13:29:05 mb Exp $
+# $Id: ru.pm,v 1.114 2011-01-20 14:52:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2671,9 +2671,9 @@ sub Data {
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to genetare accounted time ticket statistics.' => '',
-        'Module to genetare ticket solution and response time statistics.' => 'Модуль для формирования статистки по времени реакции и разрешения заявки.',
-        'Module to genetare ticket statistics.' => 'Модуль для формирования статистки по заявкам.',
+        'Module to generate accounted time ticket statistics.' => '',
+        'Module to generate ticket solution and response time statistics.' => 'Модуль для формирования статистки по времени реакции и разрешения заявки.',
+        'Module to generate ticket statistics.' => 'Модуль для формирования статистки по заявкам.',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => '',

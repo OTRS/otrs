@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # Copyright (C) 2010 Eirik Wulff <eirik at epledoktor.no>
 # --
-# $Id: nb_NO.pm,v 1.104 2011-01-04 10:26:20 mg Exp $
+# $Id: nb_NO.pm,v 1.105 2011-01-20 14:52:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.104 $;
+$VERSION = q$Revision: 1.105 $;
 
 sub Data {
     my $Self = shift;
@@ -2676,9 +2676,9 @@ sub Data {
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to genetare accounted time ticket statistics.' => 'Modul for å lage statistikk over tidsforbruk på saker',
-        'Module to genetare ticket solution and response time statistics.' => 'Modul for å lage statistikk over respons- og løsningstid',
-        'Module to genetare ticket statistics.' => 'Modul for å lage statistikk over saker',
+        'Module to generate accounted time ticket statistics.' => 'Modul for å lage statistikk over tidsforbruk på saker',
+        'Module to generate ticket solution and response time statistics.' => 'Modul for å lage statistikk over respons- og løsningstid',
+        'Module to generate ticket statistics.' => 'Modul for å lage statistikk over saker',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => '',
