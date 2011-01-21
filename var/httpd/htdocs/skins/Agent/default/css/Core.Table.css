@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.30 $
+ * @version     $Revision: 1.31 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -230,6 +230,10 @@ table tr.MasterAction {
 }
 
 .DataTable tr.Even td.Highlight {
+    background-color: #E5E5E5;
+}
+
+.DataTable tr:nth-child(even) td.Highlight {
     background-color: #E5E5E5;
 }
 

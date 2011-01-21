@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.19 $
+ * @version     $Revision: 1.20 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -87,6 +87,10 @@
     background-color: transparent;
 }
 
+.OverviewMedium li ul.InlineActions li:nth-child(even) {
+    background-color: transparent;
+}
+
 .OverviewMedium li div.Content {
     padding-top: 12px;
     padding-bottom: 0;
@@ -116,6 +120,10 @@
 }
 
 .OverviewMedium li.Even {
+    background-color: #EEE;
+}
+
+.OverviewMedium li:nth-child(even) {
     background-color: #EEE;
 }
 
