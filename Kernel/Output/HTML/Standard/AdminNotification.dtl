@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.25 2011-01-21 23:05:55 mp Exp $
+# $Id: AdminNotification.dtl,v 1.26 2011-01-21 23:57:51 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ $('#LanguageSelection').bind('change', function(){
 //]]></script>
 <!--dtl:js_on_document_complete-->
                             <p class="FieldExplanation">
-                                <label for="Languages">
+                                <label for="LanguageSelection">
                                     $Text{"Select a different language"}
                                 </label>
                             </p>
