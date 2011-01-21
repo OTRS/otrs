@@ -1,8 +1,8 @@
 # --
 # AdminQueue.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.dtl,v 1.21 2010-11-04 23:28:09 en Exp $
+# $Id: AdminQueue.dtl,v 1.22 2011-01-21 12:00:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -207,12 +207,18 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="FollowUpLock">$Text{"Ticket lock after a follow up"}:</label>
+                        <label class="Mandatory" for="FollowUpLock"><span class="Marker">*</span> $Text{"Ticket lock after a follow up"}:</label>
                         <div class="Field">
                             $Data{"FollowUpLockYesNoOption"}
                             <p class="FieldExplanation">
                                 $Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner."}
                             </p>
+                            <div id="FollowUpLockError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="FollowUpLockServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
