@@ -1,8 +1,8 @@
 // --
 // Core.UI.Table.js - Table specific functions
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Table.js,v 1.4 2010-12-21 09:42:45 mg Exp $
+// $Id: Core.UI.Table.js,v 1.5 2011-01-21 12:12:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,25 +35,31 @@ Core.UI.Table = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitCSSPseudoClasses = function ($Context) {
+        var SelectorCount = 0;
         if (typeof $Context === 'undefined' || (isJQueryObject($Context) && $Context.length)) {
-            $('tr.Even, tr.Last, th.Last, td.Last, li.Even, li.Last', $Context)
+            // comma-seperated selectors have performance issues, so we add the different selectors after each other
+            $('tr.Even', $Context)
+                .add('tr.Last', $Context)
+                .add('th.Last', $Context)
+                .add('td.Last', $Context)
+                .add('li.Even', $Context)
+                .add('li.Last', $Context)
                 .removeClass('Even Last');
-            $('tr:nth-child(even), li:not(.Header):nth-child(even)', $Context)
-                .addClass('Even');
-            /*
-            $('tr:last-child, th:last-child, td:last-child, li:last-child', $Context)
-                .addClass('Last');
 
-                This had to be split up into several statements as it caused
-                    performance problems (script timeout) in IE7.
-            */
+            // nth-child selector has heavy performance problems on big tables or lists
+            // Because this CSS classes are only used on IE7, we skip this class for big tables and lists
+            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length
+            if (SelectorCount < 200) {
+                $('tr:nth-child(even)', $Context)
+                .add('li:not(.Header):nth-child(even)', $Context)
+                .addClass('Even');
+            }
+
+            // comma-seperated selectors have performance issues, so we add the different selectors after each other
             $('tr:last-child', $Context)
-                .addClass('Last');
-            $('th:last-child', $Context)
-                .addClass('Last');
-            $('td:last-child', $Context)
-                .addClass('Last');
-            $('li:last-child', $Context)
+                .add('th:last-child', $Context)
+                .add('td:last-child', $Context)
+                .add('li:last-child', $Context)
                 .addClass('Last');
         }
     };
@@ -68,7 +74,14 @@ Core.UI.Table = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
-        var Timeout;
+        var Timeout,
+            $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)'),
+            $Elements = $Rows.closest('tr, li');
+
+        // Only search in one special column of the table
+        if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
+            $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
+        }
 
         $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
 
@@ -104,26 +117,19 @@ Core.UI.Table = (function (TargetNS) {
                     return false;
                 }
 
-                var FilterText = ($FilterInput.val() || '').toLowerCase(),
-                    $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)');
-                // Only search in one special column of the table
-                if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
-                    $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
-                }
+                var FilterText = ($FilterInput.val() || '').toLowerCase();
                 if (FilterText.length) {
-                    $Rows
-                        .closest('tr, li')
-                        .hide()
-                        .end()
-                        .each(function () {
-                            if (CheckText($(this), FilterText)) {
-                                $(this).closest('tr, li').show();
-                            }
-                        });
+                    $Elements.hide();
+                    $Rows.each(function () {
+                        if (CheckText($(this), FilterText)) {
+                            $(this).closest('tr, li').show();
+                        }
+                    });
                 }
                 else {
-                    $Rows.closest('tr, li').show();
+                    $Elements.show();
                 }
+
                 if ($Rows.filter(':visible').length) {
                     $Container.find('.FilterMessage').hide();
                 }
