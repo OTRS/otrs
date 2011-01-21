@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1733 2011-01-20 15:21:17 mb Exp $
+# $Id: CHANGES,v 1.1734 2011-01-21 12:21:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-01-21 Fixed bug#6654 - Can't add a queue with Unlock set to No using a PostgreSQL
+    database.
  - 2011-01-20 Fixed bug#4814 - Need UserID or UserLogin error message in some scenarios
     when using BasicAuth.
  - 2011-01-20 Fixed bug#6725 -Typo in description for Stats in SysConfig.
