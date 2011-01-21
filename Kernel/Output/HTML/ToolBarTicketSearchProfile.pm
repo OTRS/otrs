@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketSearchProfile.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketSearchProfile.pm,v 1.3 2010-09-24 07:37:53 martin Exp $
+# $Id: ToolBarTicketSearchProfile.pm,v 1.4 2011-01-21 18:01:40 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,8 +59,9 @@ sub Run {
         Max        => $Param{Config}->{MaxWidth},
     );
 
-    my %Return = ();
-    $Return{'1990000'} = {
+    my $Priority = $Param{Config}->{'Priority'};
+    my %Return   = ();
+    $Return{ $Priority++ } = {
         Block       => $Param{Config}->{Block},
         Description => $Param{Config}->{Description},
         Name        => $Param{Config}->{Name},

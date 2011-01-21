@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketResponsible.pm,v 1.7 2010-10-15 13:16:35 mb Exp $
+# $Id: ToolBarTicketResponsible.pm,v 1.8 2011-01-21 18:01:40 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,8 +84,9 @@ sub Run {
         = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible Tickets Reminder Reached');
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
+    my $Priority = $Param{Config}->{Priority};
     if ($CountNew) {
-        $Return{'0999897'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => $TextNew,
             Count       => $CountNew,
@@ -95,7 +96,7 @@ sub Run {
         };
     }
     if ($CountReached) {
-        $Return{'0999898'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => $TextReached,
             Count       => $CountReached,
@@ -105,7 +106,7 @@ sub Run {
         };
     }
     if ($Count) {
-        $Return{'0999899'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => $Text,
             Count       => $Count,
