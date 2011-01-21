@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.24 2011-01-21 22:53:23 mp Exp $
+# $Id: AdminNotification.dtl,v 1.25 2011-01-21 23:05:55 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ $Include{"RichTextEditor"}
                             </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-$('#Languages').bind('change', function(){
+$('#LanguageSelection').bind('change', function(){
     $('#LanguageSelectionForm').submit();
 });
 //]]></script>
