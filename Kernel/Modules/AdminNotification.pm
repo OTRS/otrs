@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.33 2010-11-23 00:10:35 en Exp $
+# $Id: AdminNotification.pm,v 1.34 2011-01-21 23:07:51 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +43,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my @Params = (qw(Name Type Charset Language Subject Body UserID));
+    my @Params = (qw(Name Type Charset Language Subject Body UserID LanguageSelection));
     my %GetParam;
     my $Note = '';
     for my $Parameter (@Params) {
@@ -59,6 +59,21 @@ sub Run {
     my $ContentType = 'text/plain';
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $ContentType = 'text/html';
+    }
+
+    # ------------------------------------------------------------ #
+    # Select language action
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'SelectLanguage' ) {
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->_MaskNotificationForm(
+            %GetParam,
+            %Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+
     }
 
     # ------------------------------------------------------------ #
@@ -137,32 +152,31 @@ sub Run {
 sub _MaskNotificationForm {
     my ( $Self, %Param ) = @_;
 
-    # build NotificationOption string
-    $Param{NotificationOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{NotificationObject}->NotificationList() },
-        Name       => 'Name',
-        Size       => 15,
-        SelectedID => $Param{Name},
-        HTMLQuote  => 1,
+    # get lenguages
+    my %Languages        = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
+    my %UserData         = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+    my $SelectedLanguage = $Param{LanguageSelection}
+        || $UserData{UserLanguage}
+        || $Self->{ConfigObject}->{DefaultLanguage};
+
+    # build LanguageOption string
+    $Param{LanguageOption} = $Self->{LayoutObject}->BuildSelection(
+        Data       => {%Languages},
+        Name       => 'LanguageSelection',
+        SelectedID => $SelectedLanguage,
+        HTMLQuote  => 0,
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
     );
 
     #Show update form
-    if ( $Self->{Subaction} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionList',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ActionOverview',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewUpdate',
-            Data => \%Param,
-        );
-    }
-    else {
+    if ( $Self->{Subaction} eq 'SelectLanguage' || !$Self->{Subaction} ) {
 
         $Self->{LayoutObject}->Block(
-            Name => 'LanguageFilter',
+            Name => 'ActionLanguageOptions',
+            Data => \%Param,
         );
         $Self->{LayoutObject}->Block(
             Name => 'NotificationFilter',
@@ -171,56 +185,56 @@ sub _MaskNotificationForm {
             Name => 'OverviewResult',
         );
 
-        # Get notifications types.
+        # get Notifications
+        my %NotificationList = $Self->{NotificationObject}->NotificationList();
 
-        my @Types;
-        my $SQL
-            = "SELECT DISTINCT notification_type FROM "
-            . "notifications ORDER BY notification_type ASC";
-
-        $Self->{DBObject}->Prepare( SQL => $SQL );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            push( @Types, $Row[0] );
-        }
-
-        # get lenguages
-        my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
-
-        for my $Language ( sort { lc($a) cmp lc($b) } keys %Languages ) {
-            for my $NotificationType (@Types) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'OverviewResultRow',
-                    Data => {
-                        Language => $Languages{$Language},
-                        Type     => $NotificationType,
-                        Name     => $Language . '::' . $NotificationType,
-                    },
-                );
-            }
-        }
-    }
-
-    # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'RichText',
-            Data => \%Param,
-        );
-
-        # reformat from plain to html
-        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Body} = $Self->{HTMLUtilsObject}->ToHTML(
-                String => $Param{Body},
+        for my $Notification ( sort { lc($a) cmp lc($b) } keys %NotificationList ) {
+            $Notification =~ /^(\w+)::(.*)$/;
+            my $LanguageKey      = $1;
+            my $NotificationType = $2;
+            next if $LanguageKey ne $SelectedLanguage;
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Language => $Languages{$LanguageKey},
+                    Type     => $NotificationType,
+                    Name     => $Notification,
+                },
             );
         }
     }
     else {
 
-        # reformat from html to plain
-        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Body} = $Self->{HTMLUtilsObject}->ToAscii(
-                String => $Param{Body},
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewUpdate',
+            Data => \%Param,
+        );
+
+        # add rich text editor
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
             );
+
+            # reformat from plain to html
+            if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
+                $Param{Body} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Param{Body},
+                );
+            }
+        }
+        else {
+
+            # reformat from html to plain
+            if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+                $Param{Body} = $Self->{HTMLUtilsObject}->ToAscii(
+                    String => $Param{Body},
+                );
+            }
         }
     }
 
