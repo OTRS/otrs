@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.70 2010-06-17 21:39:40 cr Exp $
+# $Id: Email.pm,v 1.71 2011-01-21 21:39:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -224,7 +224,13 @@ sub Send {
             CryptType    => $Param{Crypt}->{Type},
             MainObject   => $Self->{MainObject},
         );
-        return !$CryptObject;
+        if ( !$CryptObject ) {
+            $Self->{LogObject}->Log(
+                Message  => 'Not possible to create crypt object.',
+                Priority => 'error',
+            );
+            return;
+        }
 
         my $Body = $CryptObject->Crypt(
             Message => $Param{Body},
@@ -523,7 +529,7 @@ sub Send {
             );
             if ($Sign) {
                 use MIME::Parser;
-                my $Parser = new MIME::Parser;
+                my $Parser = MIME::Parser->new();
                 $Parser->output_to_core('ALL');
 
                 #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
@@ -619,7 +625,7 @@ sub Send {
             Hash    => $Param{Crypt}->{Key},
         );
         use MIME::Parser;
-        my $Parser = new MIME::Parser;
+        my $Parser = MIME::Parser->new();
 
         #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
         $Entity = $Parser->parse_data( $Header . $Crypt );
@@ -857,6 +863,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.71 $ $Date: 2011-01-21 21:39:14 $
 
 =cut

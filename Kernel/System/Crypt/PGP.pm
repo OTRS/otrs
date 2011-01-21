@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.49 2011-01-06 23:16:08 dz Exp $
+# $Id: PGP.pm,v 1.50 2011-01-21 21:39:14 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -98,15 +98,6 @@ sub Crypt {
     my $GPGOptions
         = "--always-trust --yes --encrypt --armor -o $FilenameCrypt -r $Param{Key} $Filename";
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
-
-    # error
-    if ($LogMessage) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't crypt with Key $Param{Key}: $LogMessage!"
-        );
-        return;
-    }
 
     # get crypted content
     my $CryptedDataRef = $Self->{MainObject}->FileRead( Location => $FilenameCrypt );
@@ -1104,6 +1095,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2011-01-06 23:16:08 $
+$Revision: 1.50 $ $Date: 2011-01-21 21:39:14 $
 
 =cut
