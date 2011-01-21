@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1737 2011-01-21 22:47:21 en Exp $
+# $Id: CHANGES,v 1.1738 2011-01-21 23:19:12 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.6 2011-??-??
- - 2011-01-20 Fixed bug#6741 - Select box does not display helpful error messages.
+ - 2011-01-21 Fixed bug#6728 - Notification Management not usable if many notifications exist.
+ - 2011-01-21 Fixed bug#6741 - Select box does not display helpful error messages.
  - 2011-01-21 Fixed bug#6530 - Problem sending inline PGP answer.
  - 2011-01-21 Fixed bug#6044 - Toolbar - show static buttons first
  - 2011-01-21 Fixed bug#6654 - Can't add a queue with Unlock set to No using a PostgreSQL
