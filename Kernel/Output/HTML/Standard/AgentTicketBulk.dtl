@@ -1,8 +1,8 @@
 # --
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.63 2010-11-17 17:48:15 mg Exp $
+# $Id: AgentTicketBulk.dtl,v 1.64 2011-01-21 21:23:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                 <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
 <!-- dtl:block:UsedTicketID -->
                 <fieldset class="TableLike FixedLabel">
-                    <label for="Subject">$Text{"Subject"}:</label>
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" class="Validate_Required $Data{"SubjectInvalid"} W75pc" id="Subject" name="Subject" value="$QData{"Subject"}" />
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -48,7 +48,7 @@
                     <div class="Clear"></div>
 <!-- dtl:block:SpellCheck -->
 
-                    <label for="RichText">$Text{"Text"}:</label>
+                    <label class="Mandatory" for="RichText"><span class="Marker">*</span> $Text{"Text"}:</label>
                     <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
