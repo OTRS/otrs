@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.128 2010-12-23 17:42:36 cg Exp $
+# $Id: Queue.pm,v 1.129 2011-01-21 14:30:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 =head1 NAME
 
@@ -136,7 +136,6 @@ sub new {
         UpdateNotify        => 0,
         SolutionTime        => 0,
         SolutionNotify      => 0,
-        FollowUpLock        => 0,
         SystemAddressID     => 1,
         SalutationID        => 1,
         SignatureID         => 1,
@@ -617,14 +616,19 @@ add queue with attributes
         GroupID             => 1,
         Calendar            => 'Calendar1', # (optional)
         FirstResponseTime   => 120,         # (optional)
-        FirstResponseNotify => 60,   # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime          => 180,  # (optional)
-        UpdateNotify        => 80,   # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime        => 580,  # (optional)
-        SolutionNotify      => 80,   # (optional, notify agent if solution escalation is 80% reached)
+        FirstResponseNotify => 60,          # (optional, notify agent if first response escalation is 60% reached)
+        UpdateTime          => 180,         # (optional)
+        UpdateNotify        => 80,          # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime        => 580,         # (optional)
+        SolutionNotify      => 80,          # (optional, notify agent if solution escalation is 80% reached)
+        UnlockTimeout       => 480,         # (optional)
+        FollowUpId          => 3,           # possible (1), reject (2) or new ticket (3) (optional, default 0)
+        FollowUpLock        => 0,           # yes (1) or no (0) (optional, default 0)
+        DefaultSignKey      => 'key name',  # (optional)
         SystemAddressID     => 1,
         SalutationID        => 1,
         SignatureID         => 1,
+        Comment             => 'Some comment',
         UserID              => 123,
     );
 
@@ -1158,6 +1162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.128 $ $Date: 2010-12-23 17:42:36 $
+$Revision: 1.129 $ $Date: 2011-01-21 14:30:57 $
 
 =cut
