@@ -1,8 +1,8 @@
 # --
 # AdminNotification.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.23 2010-11-23 00:10:36 en Exp $
+# $Id: AdminNotification.dtl,v 1.24 2011-01-21 22:53:23 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,29 @@ $Include{"RichTextEditor"}
             </div>
             <div class="Content">
                 <ul class="ActionList">
+<!-- dtl:block:ActionLanguageOptions -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post" id="LanguageSelectionForm">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="SelectLanguage"/>
+                            <div>
+                                $Data{"LanguageOption"}
+                            </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('#Languages').bind('change', function(){
+    $('#LanguageSelectionForm').submit();
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                            <p class="FieldExplanation">
+                                <label for="Languages">
+                                    $Text{"Select a different language"}
+                                </label>
+                            </p>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionLanguageOptions -->
 <!-- dtl:block:ActionOverview -->
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
@@ -32,25 +55,6 @@ $Include{"RichTextEditor"}
             </div>
         </div>
 <!-- dtl:block:ActionList -->
-
-<!-- dtl:block:LanguageFilter -->
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2><label for="FilterLanguage">$Text{"Filter for Language"}</label></h2>
-            </div>
-            <div class="Content">
-                <ul>
-                    <li>
-                        <form action="">
-                            <fieldset>
-                                <input type="text" id="FilterLanguage" class="W50pc" name="FilterLanguage" value="" title="$Text{"Filter for Language"}" />
-                            </fieldset>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-<!-- dtl:block:LanguageFilter -->
 <!-- dtl:block:NotificationFilter -->
         <div class="WidgetSimple">
             <div class="Header">
@@ -241,7 +245,6 @@ Your OTRS Notification Master
         </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterLanguage'), $('#Notifications'), 0);
     Core.UI.Table.InitTableFilter($('#FilterNotification'), $('#Notifications'), 1);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
