@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/ja.pm - provides Japanese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# Copyright (C) 2010 Kaz Kamimura <kamypus at yahoo.co.jp>
+# Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.8 2011-01-20 14:52:10 mb Exp $
+# $Id: ja.pm,v 1.9 2011-01-24 14:19:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -95,7 +95,7 @@ sub Data {
         'valid' => '有効',
         'invalid' => '無効',
         '* invalid' => '* は無効です',
-        'invalid-temporarily' => '',
+        'invalid-temporarily' => '無効-暫定',
         ' 2 minutes' => ' 2 分',
         ' 5 minutes' => ' 5 分',
         ' 7 minutes' => ' 7 分',
@@ -112,7 +112,7 @@ sub Data {
         'none!' => 'ありません！',
         'none - answered' => 'なし - 回答済',
         'please do not edit!' => '編集しないでください！',
-        'Need Action' => '行動が必要',
+        'Need Action' => '操作が必要',
         'AddLink' => '連結を追加',
         'Link' => '連結',
         'Unlink' => '連結解除',
@@ -185,7 +185,7 @@ sub Data {
         'Fulltext Search' => '全文検索',
         'Data' => 'データ',
         'Options' => 'オプション',
-        'Title' => '肩書き',
+        'Title' => 'タイトル',
         'Item' => 'アイテム',
         'Delete' => '削除',
         'Edit' => '編集',
@@ -509,7 +509,7 @@ sub Data {
         'Email' => 'メール',
         'email' => 'メール',
         'Close' => '完了',
-        'Action' => '行動',
+        'Action' => '操作',
         'Attachment' => '添付ファイル',
         'Attachments' => '添付ファイル',
         'This message was written in a character set other than your own.' => 'このメッセージは現在使用中の文字コードではないもので書かれています。',
@@ -577,8 +577,8 @@ sub Data {
         'Search Tickets' => 'チケット検索',
         'Edit Customer Users' => '顧客ユーザー編集',
         'Edit Customer Company' => '顧客企業編集',
-        'Bulk Action' => '一括行動',
-        'Bulk Actions on Tickets' => 'チケットへの一括行動',
+        'Bulk Action' => '一括操作',
+        'Bulk Actions on Tickets' => 'チケットへの一括操作',
         'Send Email and create a new Ticket' => 'メール送信と新規チケット作成',
         'Create new Email Ticket and send this out (Outbound)' => '新規メールチケットを作成し送信（外部）',
         'Create new Phone Ticket (Inbound)' => '新規電話チケット作成（受信）',
@@ -715,7 +715,7 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => '添付ファイル管理',
-        'Actions' => '行動',
+        'Actions' => '操作',
         'Go to overview' => '一覧へ移動',
         'Add attachment' => '添付ファイルを追加',
         'List' => 'リスト',
@@ -744,7 +744,7 @@ sub Data {
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
         'Ticket owner options' => 'チケット所有者オプション',
         'Ticket responsible options' => 'チケット応答オプション',
-        'Options of the current user who requested this action' => '行動を要求された現在のユーザーのオプション',
+        'Options of the current user who requested this action' => '操作を要求された現在のユーザーのオプション',
         'Options of the ticket data' => 'チケットデータのオプション',
         'Config options' => '設定オプション',
         'Example response' => '応答例',
@@ -873,7 +873,7 @@ sub Data {
         'Ticket solution time reached' => 'チケット解決期限が',
         'Ticket solution time reached between' => 'チケット解決期限がこの期間内',
         'Archive search option' => '書庫検索オプション',
-        'Ticket Action' => 'チケットの行動',
+        'Ticket Action' => 'チケットの操作',
         'Set new service' => '新規サービスを設定',
         'Set new Service Level Agreement' => '新規の品質保証合意を設定',
         'Set new priority' => '新規優先度を設定',
@@ -1306,8 +1306,8 @@ sub Data {
         'Switch to agent' => '担当者を切り替え',
         'Add Agent' => '担当者の追加',
         'Edit Agent' => '担当者の編集',
-        'Firstname' => '姓',
-        'Lastname' => '名',
+        'Firstname' => '名',
+        'Lastname' => '姓',
         'Start' => '開始',
         'End' => '終了',
 
@@ -1499,7 +1499,7 @@ sub Data {
         'Send mail!' => 'メール送信！',
 
         # Template: AgentTicketBulk
-        'Ticket Bulk Action' => 'チケット一括アクション',
+        'Ticket Bulk Action' => 'チケット一括操作',
         'Merge to' => 'これと結合',
         'Invalid ticket identifier!' => '無効なチケット識別子です！',
         'Merge to oldest' => '古いものへ結合',
@@ -1570,7 +1570,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'エスカレーション: ',
-        'Locked' => 'ロック済',
+        'Locked' => 'ロック状態',
 
         # Template: AgentTicketOwner
 
@@ -1782,8 +1782,8 @@ sub Data {
         'Top of page' => 'ページトップへ',
 
         # Template: FooterJS
-        'If you now leave this page, all open popup windows will be closed, too!' => '',
-        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '',
+        'If you now leave this page, all open popup windows will be closed, too!' => 'このページから移動します。全てのポップアップウィンドウを閉じてもよろしいですか？',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' => '既にポップアップウィンドウを開いています。開いているウィンドウを閉じて新しく開きますか？',
 
         # Template: FooterSmall
 
@@ -3305,9 +3305,9 @@ sub Data {
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '現在の顧客ユーザーデータオプション (例 &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '現在の顧客ユーザーデータオプション (例 <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '現在の顧客ユーザーデータオプション (例 <OTRS_CUSTOMER_DATA_UserFirstname>)',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'この行動を要求した現在ユーザーオプション (例 &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'この行動を要求した現在ユーザーオプション (例 <OTRS_CURRENT_UserFirstname>)',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'この行動を要求した現在ユーザーオプション (例 <OTRS_CURRENT_UserFirstname).',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'この操作を要求した現在ユーザーオプション (例 &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'この操作を要求した現在ユーザーオプション (例 <OTRS_CURRENT_UserFirstname>)',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'この操作を要求した現在ユーザーオプション (例 <OTRS_CURRENT_UserFirstname).',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'チケットデータオプション (例 &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'チケットデータオプション (例 <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'チケットデータオプション (例 <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
@@ -3451,7 +3451,7 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'チケット所有者オプション (例 <OTRS_OWNER_UserFirstname>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'チケット所有者オプション (例 <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'チケット応答者オプション (例 <OTRS_RESPONSIBLE_UserFirstname>).',
-        'Ticket selected for bulk action!' => '選択済みチケットの一括行動',
+        'Ticket selected for bulk action!' => '選択済みチケットの一括操作',
         'Ticket type is required.' => 'チケット種別が入力されていません。',
         'Ticket unlock!' => 'チケットのロックを解除しました。',
        'Ticket#' => 'チケット番号',
