@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.26 2011-01-24 17:20:51 ub Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.27 2011-01-24 19:51:23 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -152,6 +152,14 @@ sub HandleLanguage {
         # remove underscores and/or version numbers and following from module name
         # i.e. FAQ_2_0 or FAQ20
         $Module =~ s{ [_0-9]+ .+ \z }{}xms;
+
+        # special handling of some ITSM modules
+        if ( $Module eq 'ITSMIncidentProblemManagement' ) {
+            $Module = 'ITSMTicket';
+        }
+        elsif ( $Module eq 'ITSMConfigurationManagement' ) {
+            $Module = 'ITSMConfigItem';
+        }
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
