@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.46 2010-11-10 12:35:57 mg Exp $
+# $Id: Installer.dtl,v 1.47 2011-01-24 13:19:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,30 +60,28 @@
                 <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
             </div>
             <div class="LayoutGrid Content">
-                <div class="Size1of2">
+                <div class="Size1of4">
                     <h4>USA</h4>
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
                     <p>$Text{"Phone"}: +1 (408) 725 7501</p>
                 </div>
-                <div class="Size1of2">
+                <div class="Size1of4">
                     <h4>Germany</h4>
                     <p>OTRS AG</p>
                     <p>Norsk-Data-Str. 1</p>
                     <p>61352 Bad Homburg</p>
                     <p>$Text{"Phone"}: +49 (0) 9421 56818 0</p>
                 </div>
-            </div>
-            <div class="LayoutGrid Content">
-                <div class="Size1of2">
+                <div class="Size1of4">
                     <h4>Mexico</h4>
                     <p>OTRS S.A. de C.V.</p>
                     <p>Oso 127 - 105, Col. Del Valle</p>
                     <p>03100 Mexico, D.F.</p>
                     <p>$Text{"Phone"}: +52 55 5524 3171 </p>
                 </div>
-                <div class="Size1of2">
+                <div class="Size1of4">
                     <h4>The Netherlands</h4>
                     <p>OTRS B.V.</p>
                     <p>Schipholweg 103</p>
