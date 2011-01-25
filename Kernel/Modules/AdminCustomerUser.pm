@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.87 2010-12-09 00:01:02 mp Exp $
+# $Id: AdminCustomerUser.pm,v 1.88 2011-01-25 19:26:33 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +38,8 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
+
+    # create additonal objects
     $Self->{CustomerUserObject}    = Kernel::System::CustomerUser->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
     $Self->{ValidObject}           = Kernel::System::Valid->new(%Param);
@@ -47,14 +49,15 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-    my $NavBar = '';
-    my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || '';
+
+    my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' )    || '';
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '*';
 
     #create local object
     my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
 
+    my $NavBar = '';
     if ( $Nav eq 'None' ) {
         $NavBar = $Self->{LayoutObject}->Header( Type => 'Small' );
     }
@@ -83,6 +86,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 
@@ -120,16 +124,15 @@ sub Run {
 
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
-        my $Output = $NavBar
-            . $Self->_Edit(
+        my $Output = $NavBar;
+        $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',
             Source => $Source,
-            Nav    => $Nav,
             Search => $Search,
             ID     => $User,
             %UserData,
-            );
+        );
 
         if ( $Nav eq 'None' ) {
             $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
@@ -137,6 +140,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 
@@ -228,6 +232,7 @@ sub Run {
                     else {
                         $Output .= $Self->{LayoutObject}->Footer();
                     }
+
                     return $Output;
                 }
             }
@@ -242,7 +247,6 @@ sub Run {
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',
-            Nav    => $Nav,
             Source => $Source,
             Search => $Search,
             Errors => \%Errors,
@@ -255,6 +259,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 
@@ -264,14 +269,14 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
         $GetParam{UserLogin} = $Self->{ParamObject}->GetParam( Param => 'UserLogin' ) || '';
-        my $Output = $NavBar
-            . $Self->_Edit(
+        my $Output = $NavBar;
+        $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Add',
             Source => $Source,
             Search => $Search,
             %GetParam,
-            );
+        );
 
         if ( $Nav eq 'None' ) {
             $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
@@ -279,6 +284,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 
@@ -429,6 +435,7 @@ sub Run {
                     else {
                         $Output .= $Self->{LayoutObject}->Footer();
                     }
+
                     return $Output;
                 }
             }
@@ -438,12 +445,10 @@ sub Run {
         }
 
         # something has gone wrong
-        my $Output = $NavBar;
-        $Output .= $Note;
+        my $Output = $NavBar . $Note;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Add',
-            Nav    => $Nav,
             Source => $Source,
             Search => $Search,
             Errors => \%Errors,
@@ -456,6 +461,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 
@@ -479,6 +485,7 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Footer();
         }
+
         return $Output;
     }
 }
@@ -486,14 +493,6 @@ sub Run {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
-    # build source string
-    $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
-        Name       => 'Source',
-        SelectedID => $Param{Source} || '',
-    );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -591,11 +590,11 @@ sub _Edit {
     my $Output = '';
 
     # build source string
-    $Param{CompanyOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{CustomerCompanyObject}->CustomerCompanyList() },
-        Name       => 'CustomerID',
-        SelectedID => $Param{CustomerID},
-    );
+    #    $Param{CompanyOption} = $Self->{LayoutObject}->BuildSelection(
+    #        Data       => { $Self->{CustomerCompanyObject}->CustomerCompanyList() },
+    #        Name       => 'CustomerID',
+    #        SelectedID => $Param{CustomerID},
+    #    );
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -715,13 +714,12 @@ sub _Edit {
             && $Self->{ConfigObject}->Get( $Param{Source} )->{CustomerCompanySupport}
             )
         {
-            my %Company     = ();
             my %CompanyList = (
                 $Self->{CustomerCompanyObject}->CustomerCompanyList(),
                 '' => '-',
             );
             if ( $Param{ $Entry->[0] } ) {
-                %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                my %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
                     CustomerID => $Param{ $Entry->[0] },
                 );
                 if ( !%Company ) {
