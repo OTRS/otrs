@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1745 2011-01-25 23:08:25 dz Exp $
+# $Id: CHANGES,v 1.1746 2011-01-25 23:16:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-01-25 Fixed Bug#4764 - Public frontend has Customer frontent opensearch descriptions.
  - 2011-01-25 Fixed bug#6600 - AgentTicketSearch date selection issues.
  - 2011-01-25 Fixed bug#5487 - Event Based notification - respect "Include
     Attachments to Notification:"
