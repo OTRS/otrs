@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.50 2011-01-21 21:39:14 dz Exp $
+# $Id: PGP.pm,v 1.51 2011-01-25 23:26:10 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -702,14 +702,17 @@ sub PublicKeyDelete {
         return;
     }
 
-    my $Key = quotemeta( $Param{Key} || '' );
-    my $LogMessage = qx{$Self->{GPGBin} --delete-key $Key 2>&1};
+    my $Key        = quotemeta( $Param{Key} || '' );
+    my $GPGOptions = '--status-fd 1';
+    my $Message    = qx{$Self->{GPGBin} $GPGOptions --delete-key $Key 2>&1};
 
-    if ($LogMessage) {
-        $LogMessage =~ s/\n//g;
+    my %LogMessage = $Self->_HandleLog( LogString => $Message );
+
+    if ( $LogMessage{DELETE_PROBLEM} ) {
+        $LogMessage{CleanLog} =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't delete key: $LogMessage!",
+            Message  => "Can't delete key: $LogMessage{CleanLog}!",
         );
         return;
     }
@@ -754,17 +757,22 @@ sub SecretKeyDelete {
         );
         return;
     }
-    my $GPGOptions = '--delete-secret-key ' . quotemeta( $Keys[0]->{FingerprintShort} );
-    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+    my $GPGOptions
+        = '--status-fd 1 --delete-secret-key ' . quotemeta( $Keys[0]->{FingerprintShort} );
+    my $Message = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
-    if ($LogMessage) {
-        $LogMessage =~ s/\n//g;
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't delete private key: $LogMessage!",
-        );
-        return;
-    }
+    my %LogMessage = $Self->_HandleLog( LogString => $Message );
+
+    # waiting for better solution, some times gpg returns just enviroment warnings and
+    # with next code lines is wrong detected like an error
+    #    if ($Message) {
+    #        $Message =~ s/\n//g;
+    #        $Self->{LogObject}->Log(
+    #            Priority => 'error',
+    #            Message  => "Can't delete private key: $Message!",
+    #        );
+    #        return;
+    #    }
 
     return 1;
 }
@@ -792,18 +800,21 @@ sub KeyAdd {
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Key};
-    close $FH;
-    my $GPGOptions = "--import $Filename";
-    my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
-    if ( $LogMessage =~ /failed/i ) {
-        $LogMessage =~ s/\n//g;
+    my $GPGOptions = "--status-fd 1 --import $Filename";
+    my $Message    = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+
+    my %LogMessage = $Self->_HandleLog( LogString => $Message );
+
+    if ( !$LogMessage{IMPORT_OK} ) {
+        $Message =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't add key: $LogMessage!",
+            Message  => "Can't add key: $LogMessage{CleanLog}!",
         );
         return;
     }
-    return $LogMessage;
+
+    return $LogMessage{CleanLog};
 }
 
 =begin Internal:
@@ -1095,6 +1106,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2011-01-21 21:39:14 $
+$Revision: 1.51 $ $Date: 2011-01-25 23:26:10 $
 
 =cut
