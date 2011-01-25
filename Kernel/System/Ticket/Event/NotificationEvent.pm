@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.9.2.2 2010-09-29 05:58:20 martin Exp $
+# $Id: NotificationEvent.pm,v 1.9.2.3 2011-01-25 19:55:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9.2.2 $) [1];
+$VERSION = qw($Revision: 1.9.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,10 +165,11 @@ sub Run {
             }
 
             # add attachments to notification
-            if ( $Notification{Data}->{ArticleAttachmentInclude} ) {
+            if ( $Notification{Data}->{ArticleAttachmentInclude}->[0] ) {
                 my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
-                    ArticleID => $Param{ArticleID},
-                    UserID    => $Param{UserID},
+                    ArticleID                  => $Param{ArticleID},
+                    UserID                     => $Param{UserID},
+                    StripPlainBodyAsAttachment => 3,
                 );
                 if (%Index) {
                     for my $FileID ( sort keys %Index ) {

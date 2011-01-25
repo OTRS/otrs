@@ -1,8 +1,8 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.184 2010-12-17 20:53:21 cg Exp $
+# $Id: CHANGES,v 1.993.2.185 2011-01-25 19:56:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.10 (2010/??/??)
+ - 2011-01-25 Event Based notification - respect "Include Attachments
+    to Notification".
  - 2010-12-17 Fixed bug#6510 - Signature ID missing.
  - 2010-12-14 Fixed bug#6532 - With multiple inline images, only first one is
     preserved when replying.
