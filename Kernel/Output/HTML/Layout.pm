@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.350 2011-01-13 18:08:47 martin Exp $
+# $Id: Layout.pm,v 1.351 2011-01-25 23:13:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.350 $) [1];
+$VERSION = qw($Revision: 1.351 $) [1];
 
 =head1 NAME
 
@@ -3186,17 +3186,19 @@ sub CustomerHeader {
         }
     }
 
-    # run header meta modules
-    my $HeaderMetaModule = $Self->{ConfigObject}->Get('CustomerFrontend::HeaderMetaModule');
-    if ( ref $HeaderMetaModule eq 'HASH' ) {
-        my %Jobs = %{$HeaderMetaModule};
-        for my $Job ( sort keys %Jobs ) {
+    # run header meta modules only on customer frontends
+    if ( $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } ) {
+        my $HeaderMetaModule = $Self->{ConfigObject}->Get('CustomerFrontend::HeaderMetaModule');
+        if ( ref $HeaderMetaModule eq 'HASH' ) {
+            my %Jobs = %{$HeaderMetaModule};
+            for my $Job ( sort keys %Jobs ) {
 
-            # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
-            next if !$Object;
-            $Object->Run( %Param, Config => $Jobs{$Job} );
+                # load and run module
+                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+                next if !$Object;
+                $Object->Run( %Param, Config => $Jobs{$Job} );
+            }
         }
     }
 
@@ -4888,6 +4890,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.350 $ $Date: 2011-01-13 18:08:47 $
+$Revision: 1.351 $ $Date: 2011-01-25 23:13:39 $
 
 =cut
