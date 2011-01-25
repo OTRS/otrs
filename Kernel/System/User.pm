@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.111 2010-11-30 13:11:11 mg Exp $
+# $Id: User.pm,v 1.112 2011-01-25 23:22:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 =head1 NAME
 
@@ -445,12 +445,14 @@ sub UserUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
+    for (qw(UserID UserFirstname UserLastname UserLogin ChangeUserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
+    $Param{ValidID} = !$Param{ValidID} ? 0 : 1;
 
     # check email address
     if (
@@ -938,9 +940,13 @@ sub SetPreferences {
         UserID        => $Param{UserID},
         NoOutOfOffice => 1,
     );
+    $Self->{LogObject}->Log( Priority => 'error', Message => "YA LLEGO" );
 
     # no updated needed
     return 1 if exists $User{ $Param{Key} } && $User{ $Param{Key} } eq $Param{Value};
+
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Y SI PASO" );
+    $Self->{UserLastname} = 'MI APELLIDOOOOOOOOOOOOOOOOOOOOOOOO';
 
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
@@ -1100,6 +1106,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2010-11-30 13:11:11 $
+$Revision: 1.112 $ $Date: 2011-01-25 23:22:04 $
 
 =cut
