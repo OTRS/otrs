@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.164 2011-01-14 09:23:44 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.165 2011-01-25 19:17:19 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164 $) [1];
+$VERSION = qw($Revision: 1.165 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1777,7 +1777,9 @@ sub _MaskEmailNew {
         if ( !$ShownOptionsBlock ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketOptions',
-                Data => {},
+                Data => {
+                    %Param,
+                },
             );
 
             # set flag to "true" in order to prevent calling the Options block again
@@ -1786,7 +1788,9 @@ sub _MaskEmailNew {
 
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
-            Data => {},
+            Data => {
+                %Param,
+            },
         );
     }
 
@@ -1801,7 +1805,9 @@ sub _MaskEmailNew {
         if ( !$ShownOptionsBlock ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketOptions',
-                Data => {},
+                Data => {
+                    %Param,
+                },
             );
 
             # set flag to "true" in order to prevent calling the Options block again
@@ -1810,7 +1816,9 @@ sub _MaskEmailNew {
 
         $Self->{LayoutObject}->Block(
             Name => 'AddressBook',
-            Data => {},
+            Data => {
+                %Param,
+            },
         );
     }
 
@@ -1825,7 +1833,9 @@ sub _MaskEmailNew {
         if ( !$ShownOptionsBlock ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketOptions',
-                Data => {},
+                Data => {
+                    %Param,
+                },
             );
 
             # set flag to "true" in order to prevent calling the Options block again
@@ -1834,7 +1844,9 @@ sub _MaskEmailNew {
 
         $Self->{LayoutObject}->Block(
             Name => 'OptionCustomer',
-            Data => {},
+            Data => {
+                %Param,
+            },
         );
     }
 
