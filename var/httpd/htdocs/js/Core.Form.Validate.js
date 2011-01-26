@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.29 2011-01-03 11:01:55 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.30 2011-01-26 09:55:20 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,27 +65,25 @@ Core.Form.Validate = (function (TargetNS) {
             InputErrorMessageHTML,
             InputErrorMessageText;
 
-        /*
-         * Check error type and correct it, if necessary
-         */
+        // Check error type and correct it, if necessary
         if (ErrorType !== 'Error' && ErrorType !== 'ServerError') {
             ErrorType = 'Error';
         }
 
-        /*
-         * Add error class to field and its label
-         */
+        // Add error class to field and its label
         $Element.addClass(Options.ErrorClass);
         $(Element.form).find("label[for=" + Element.id + "]").addClass(Options.ErrorLabelClass);
 
-        /*
-         * mark field as invalid for screenreader users
-         */
+        // mark field as invalid for screenreader users
         $Element.attr('aria-invalid', true);
 
-        /* Get the target element and find the associated hidden div with the
-         * error message.
-         */
+        // save value of element for a later check if field value was changed.
+        // if the field has a servererror class and the value was not changed,
+        // keep the error class.
+        $Element.data('ValidateOldValue', $Element.val());
+
+        // Get the target element and find the associated hidden div with the
+        // error message.
         InputErrorMessageHTML = $('#' + $Element.attr('id') + ErrorType).html();
         InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
 
@@ -98,9 +96,7 @@ Core.Form.Validate = (function (TargetNS) {
             }
         }
 
-        /*
-         * speak the error message for screen reader users
-         */
+        // speak the error message for screen reader users
         Core.UI.Accessibility.AudibleAlert(InputErrorMessageText);
     }
 
@@ -112,24 +108,34 @@ Core.Form.Validate = (function (TargetNS) {
      * @description Remove error classes from element and its label
      */
     function UnHighlightError(Element) {
-        var $Element = $(Element);
+        var $Element = $(Element),
+            RemoveError = true;
 
-        /*
-         * remove error classes from element and its label
-         */
-        $Element.removeClass(Options.ErrorClass);
-        $(Element.form).find("label[for=" + Element.id + "]").removeClass(Options.ErrorLabelClass);
+        // check ServerError
+        // if the field value has not changed, do not remove error class
+        if ($Element.hasClass(Options.ServerErrorClass)) {
+            if ($Element.data('ValidateOldValue') === $Element.val()) {
+                RemoveError = false;
+            }
+            else {
+                $Element.removeData('ValidateOldValue');
+            }
+        }
 
-        /*
-         * mark field as valid for screenreader users
-         */
-        $Element.attr('aria-invalid', false);
+        if (RemoveError) {
+            // remove error classes from element and its label
+            $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass);
+            $(Element.form).find("label[for=" + Element.id + "]").removeClass(Options.ErrorLabelClass);
 
-        // if error field is a RTE, it is a little bit more difficult
-        if ($('#cke_' + Element.id).length) {
-            Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
-        } else {
-            Core.Form.ErrorTooltips.RemoveTooltip($Element);
+            // mark field as valid for screenreader users
+            $Element.attr('aria-invalid', false);
+
+            // if error field is a RTE, it is a little bit more difficult
+            if ($('#cke_' + Element.id).length) {
+                Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
+            } else {
+                Core.Form.ErrorTooltips.RemoveTooltip($Element);
+            }
         }
     }
 
