@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.263 2011-01-20 14:19:52 mb Exp $
+# $Id: de.pm,v 1.264 2011-01-26 13:13:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.263 $) [1];
+$VERSION = qw($Revision: 1.264 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1983,7 +1983,7 @@ sub Data {
         'Adds the permanent vacation days for the calendar number 8. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the permanent vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' => '',
-        'Agent Notifications' => '',
+        'Agent Notifications' => 'Agenten-Benachrichtigungen',
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' => '',
         'Agent interface module to access fulltext search via nav bar.' => '',
@@ -1992,8 +1992,8 @@ sub Data {
         'Agent interface notification module to check the used charset.' => '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' => '',
         'Agent interface notification module to see the number of watched tickets.' => '',
-        'Agents <-> Groups' => '',
-        'Agents <-> Roles' => '',
+        'Agents <-> Groups' => 'Agent <-> Gruppen',
+        'Agents <-> Roles' => 'Agent <-> Rollen',
         'Allows adding notes in the close ticket screen of the agent interface.' => '',
         'Allows adding notes in the ticket free text screen of the agent interface.' => '',
         'Allows adding notes in the ticket note screen of the agent interface.' => '',
@@ -2031,7 +2031,7 @@ sub Data {
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Attachments <-> Responses' => 'Anlagen <-> Antworten',
-        'Auto Responses <-> Queues' => '',
+        'Auto Responses <-> Queues' => 'Auto Antworten <-> Queues',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' => '',
@@ -2076,8 +2076,8 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Custom text for the page shown to customers that have no tickets yet.' => '',
         'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
-        'Customers <-> Groups' => '',
-        'Customers <-> Services' => '',
+        'Customers <-> Groups' => 'Kunden <-> Gruppen',
+        'Customers <-> Services' => 'Kunden <-> Services',
         'Data used to export the search result in CSV format.' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
@@ -2711,8 +2711,8 @@ sub Data {
         'Path of the file that stores all the settings for the TicketObject for the customer interface.' => '',
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
-        'PostMaster Filters' => '',
-        'PostMaster Mail Accounts' => '',
+        'PostMaster Filters' => 'PostMaster Filter',
+        'PostMaster Mail Accounts' => 'PostMaster Mail Accounts',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' => '',
         'Queue view' => 'Ansicht nach Queues',
         'QueueView Refresh Time' => 'Queueansicht Aktualisierungszeit',
@@ -3007,7 +3007,7 @@ sub Data {
         'Toolbar Item for a shortcut.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' => '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' => '',
-        'Types' => '',
+        'Types' => 'Typen',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' => '',
         'Update and extend your system with software packages.' => 'System mit Softwarepaketen aktualisieren und erweitern.',
         'Updates the ticket escalation index after a ticket attribute got updated.' => '',
