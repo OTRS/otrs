@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.79 2010-11-19 22:28:58 en Exp $
+# $Id: AdminUser.pm,v 1.80 2011-01-26 23:24:54 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -300,7 +300,7 @@ sub Run {
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID)) {
+        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID UserPw)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -463,6 +463,10 @@ sub _Edit {
     }
     else {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $Self->{LayoutObject}->Block( Name => 'MarkerMandatory' );
+        $Param{ClassMandatory} = 'Mandatory';
+        $Param{UserPwRequired} = 'Validate_Required';
+
     }
 
     # add the correct server error msg

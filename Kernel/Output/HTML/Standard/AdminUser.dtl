@@ -1,8 +1,8 @@
 # --
 # AdminUser.dtl - provides HTML form for AdminUser
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.30 2010-11-08 22:12:07 en Exp $
+# $Id: AdminUser.dtl,v 1.31 2011-01-26 23:24:29 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,14 +116,14 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;UserID=$LQData{"UserID"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;UserID=$LQData{"UserID"};Search=$LQData{"Search"}">$QData{"UserLogin"}</a>
                             </td>
                             <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                             <td title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</td>
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to agent"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to agent"}</a>
                             </td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>$Text{"$Data{"Valid"}"}</td>
@@ -188,9 +188,16 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="UserPw">$Text{"Password"}:</label>
+                        <label class="$QData{"ClassMandatory"}" for="UserPw">
+<!-- dtl:block:MarkerMandatory -->
+                            <span class="Marker">*</span>
+<!-- dtl:block:MarkerMandatory -->
+                            $Text{"Password"}:
+                        </label>
                         <div class="Field">
-                            <input type="password" name="UserPw" id="UserPw" value="" class="W50pc" maxlength="50"/>
+                            <input type="password" name="UserPw" id="UserPw" value="" class="W50pc $QData{"UserPwRequired"} $QData{"UserPwInvalid"} " maxlength="50"/>
+                            <div id="UserPwError" class="TooltipErrorMessage"><p>$Text{"Password is required."}</p></div>
+                            <div id="UserPwServerError" class="TooltipErrorMessage"><p>$Text{"Password is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
 
