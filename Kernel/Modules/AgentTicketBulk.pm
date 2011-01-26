@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.73 2010-12-23 19:37:04 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.74 2011-01-26 06:31:39 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -160,6 +160,8 @@ sub Run {
     # process tickets
     my @TicketIDSelected;
     my $ActionFlag = 0;
+    my $Counter    = 1;
+
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
@@ -349,12 +351,26 @@ sub Run {
 
             # time units
             if ( $GetParam{'TimeUnits'} ) {
-                $Self->{TicketObject}->TicketAccountTime(
-                    TicketID  => $TicketID,
-                    ArticleID => $ArticleID,
-                    TimeUnit  => $GetParam{'TimeUnits'},
-                    UserID    => $Self->{UserID},
-                );
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
+                    $Self->{TicketObject}->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $GetParam{'TimeUnits'},
+                        UserID    => $Self->{UserID},
+                    );
+                }
+                elsif (
+                    !$Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime')
+                    && $Counter == 1
+                    )
+                {
+                    $Self->{TicketObject}->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $GetParam{'TimeUnits'},
+                        UserID    => $Self->{UserID},
+                    );
+                }
             }
 
             # merge to
@@ -447,6 +463,7 @@ sub Run {
             }
             $ActionFlag = 1;
         }
+        $Counter++;
     }
 
     # redirect
