@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.74 2011-01-26 06:31:39 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.75 2011-01-26 22:54:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -113,12 +113,15 @@ sub Run {
         {
             $Error{'TimeUnitsInvalid'} = 'ServerError';
         }
-        if ( !$GetParam{'Subject'} ) {
+
+        # Body and Subject must both be filled in or both be empty
+        if ( $GetParam{Subject} eq '' && $GetParam{Body} ne '' ) {
             $Error{'SubjectInvalid'} = 'ServerError';
         }
-        if ( !$GetParam{'Body'} ) {
-            $Error{'RichTextInvalid'} = 'ServerError';
+        if ( $GetParam{Subject} ne '' && $GetParam{Body} eq '' ) {
+            $Error{'BodyInvalid'} = 'ServerError';
         }
+
         if ( !$Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 ) ) {
             $Error{'DateInvalid'} = 'ServerError';
         }
