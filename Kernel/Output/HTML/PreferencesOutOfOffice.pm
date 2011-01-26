@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesOutOfOffice.pm,v 1.7 2010-01-19 23:11:02 martin Exp $
+# $Id: PreferencesOutOfOffice.pm,v 1.8 2011-01-26 17:46:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,6 +108,17 @@ sub Run {
                 );
             }
         }
+    }
+
+    # also update the lastname to remove out of office massage
+    if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
+        my %User = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => 'UserLastname',
+            Value     => $User{UserLastname},
+        );
     }
 
     $Self->{Message} = 'Preferences updated successfully!';
