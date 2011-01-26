@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.113 2011-01-25 23:24:35 en Exp $
+# $Id: User.pm,v 1.114 2011-01-26 13:22:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -445,14 +445,12 @@ sub UserUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(UserID UserFirstname UserLastname UserLogin ChangeUserID)) {
+    for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-
-    $Param{ValidID} = !$Param{ValidID} ? 0 : 1;
 
     # check email address
     if (
@@ -1102,6 +1100,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2011-01-25 23:24:35 $
+$Revision: 1.114 $ $Date: 2011-01-26 13:22:13 $
 
 =cut
