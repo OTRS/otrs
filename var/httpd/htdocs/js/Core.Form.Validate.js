@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.30 2011-01-26 09:55:20 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.31 2011-01-26 12:24:54 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -52,6 +52,10 @@ Core.Form.Validate = (function (TargetNS) {
         return;
     }
 
+    if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.Form.ErrorTooltips', 'Core.Form.ErrorTooltips')) {
+        return;
+    }
+
     /**
      * @function
      * @private
@@ -80,7 +84,12 @@ Core.Form.Validate = (function (TargetNS) {
         // save value of element for a later check if field value was changed.
         // if the field has a servererror class and the value was not changed,
         // keep the error class.
-        $Element.data('ValidateOldValue', $Element.val());
+        if ($Element.is('input:checkbox, input:radio')) {
+            $Element.data('ValidateOldValue', $Element.attr('checked'));
+        }
+        else {
+            $Element.data('ValidateOldValue', $Element.val());
+        }
 
         // Get the target element and find the associated hidden div with the
         // error message.
@@ -109,12 +118,20 @@ Core.Form.Validate = (function (TargetNS) {
      */
     function UnHighlightError(Element) {
         var $Element = $(Element),
+            ElementValue,
             RemoveError = true;
 
         // check ServerError
         // if the field value has not changed, do not remove error class
         if ($Element.hasClass(Options.ServerErrorClass)) {
-            if ($Element.data('ValidateOldValue') === $Element.val()) {
+            if ($Element.is('input:checkbox, input:radio')) {
+                ElementValue = $Element.attr('checked');
+            }
+            else {
+                ElementValue = $Element.val();
+            }
+
+            if ($Element.data('ValidateOldValue') === ElementValue) {
                 RemoveError = false;
             }
             else {
