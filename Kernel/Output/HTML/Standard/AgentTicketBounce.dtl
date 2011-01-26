@@ -1,8 +1,8 @@
 # --
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.46 2010-12-14 12:42:20 mb Exp $
+# $Id: AgentTicketBounce.dtl,v 1.47 2011-01-26 12:48:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,9 @@
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Bounce Ticket: $QData{"TicketNumber"}"} - $QData{"Title","60"}</h1>
+# TODO: For OTRS 3.1 the translation string need to be changed to "$Text{"Bounce Ticket"}:"
+#       Can not be changed in patch level of OTRS 3.0 right now.
+            <h1>$Text{"Bounce Ticket: "} $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>
