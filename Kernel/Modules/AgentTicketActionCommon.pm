@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.32 2011-01-25 19:20:43 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.33 2011-01-26 17:37:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,6 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
-use Kernel::System::User;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,7 +35,6 @@ sub new {
     }
     $Self->{StateObject}       = Kernel::System::State->new(%Param);
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{UserObject}        = Kernel::System::User->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -657,10 +655,7 @@ sub Run {
                 );
             }
 
-            # get user data from DB instead of $Self due to bug 6745
-            my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-            my $From = "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
-
+            my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
             my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
