@@ -1,8 +1,8 @@
 # --
-# AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# AgentTicketCustomer.dtl - provides HTML for AgentTicketCustomer.pm
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.36 2010-11-04 13:25:02 mg Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.37 2011-01-27 10:35:37 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
