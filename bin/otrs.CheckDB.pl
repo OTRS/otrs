@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckDB.pl - to check the db access
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckDB.pl,v 1.3 2010-08-06 16:18:16 martin Exp $
+# $Id: otrs.CheckDB.pl,v 1.4 2011-01-27 14:14:11 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,7 +32,7 @@ use lib dirname($RealBin);
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -59,7 +59,14 @@ if ( $Opts{'s'} ) {
     $End = '';
 }
 
-# chech database state
+# print database information
+my $DatabaseDSN  = $CommonObject{ConfigObject}->{DatabaseDSN};
+my $DatabaseUser = $CommonObject{ConfigObject}->{DatabaseUser};
+print "Trying to connect to database\n";
+print "DSN: $DatabaseDSN\n";
+print "DatabaseUser: $DatabaseUser\n\n";
+
+# check database state
 if ( $CommonObject{DBObject} ) {
     $CommonObject{DBObject}->Prepare( SQL => "SELECT * FROM valid" );
     my $Check = 0;
