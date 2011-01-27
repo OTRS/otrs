@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1749 2011-01-26 23:27:49 mp Exp $
+# $Id: CHANGES,v 1.1750 2011-01-27 08:50:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,14 +10,18 @@
 # --
 
 3.0.6 2011-??-??
- - 2011-01-26 Fixed Bug#6721 - New users with empty password creation is allowed
-   but a ramdom password is assigned without notification.
- - 2011-01-26 Fixed Bug#4188 - Moving junk mails unnecessarily need subject and body (for 3.0 version).
- - 2011-01-25 Fixed Bug#6789 - Ticket OpenSearch in Customer Interface is broken.
- - 2011-01-25 Fixed Bug#4764 - Public frontend has Customer frontent opensearch descriptions.
+ - 2011-01-27 Fixed bug#6791 - In TicketZoom Total Accounted Time is displayed
+    when AccountTime is set to "off".
+ - 2011-01-26 Fixed bug#6721 - New users with empty password creation is allowed
+    but a random password is assigned without notification.
+ - 2011-01-26 Fixed bug#4188 - Moving junk mails unnecessarily need subject and
+    body (for 3.0 version).
+ - 2011-01-25 Fixed bug#6789 - Ticket OpenSearch in Customer Interface is broken.
+ - 2011-01-25 Fixed bug#4764 - Public frontend has Customer frontend opensearch
+    descriptions.
  - 2011-01-25 Fixed bug#6600 - AgentTicketSearch date selection issues.
  - 2011-01-25 Fixed bug#5487 - Event Based notification - respect "Include
-    Attachments to Notification:"
+    Attachments to Notification".
  - 2011-01-25 Fixed bug#6745 - Disabling out of office does not work until
     logging out.
  - 2011-01-25 Fixed bug#6740 - Link CI to new phone or mail ticket does not work.
@@ -33,12 +37,12 @@
     database.
  - 2011-01-20 Fixed bug#4814 - Need UserID or UserLogin error message in some scenarios
     when using BasicAuth.
- - 2011-01-20 Fixed bug#6725 -Typo in description for Stats in SysConfig.
+ - 2011-01-20 Fixed bug#6725 - Typo in description for Stats in SysConfig.
  - 2011-01-20 Fixed bug#6001 - Configuration issues when Apache::DBI is not installed.
     Apache::DBI is now bundled in Kernel/cpan-lib, mainly because it's not part of the
     RHEL5 package repositories.
  - 2011-01-19 Fixed bug#6704 - Core.AJAX throws exceptions which cannot be handled.
- - 2011-01-17 Fixed bug#6599 - Ticket sub-sorting in dashlets isn't working
+ - 2011-01-17 Fixed bug#6599 - Ticket sub-sorting in dashlets isn't working.
  - 2011-01-17 Fixed bug#6706 - Add Google Chrome Frame support.
 
 3.0.5 2011-01-18

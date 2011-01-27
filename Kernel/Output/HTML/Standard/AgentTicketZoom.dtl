@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.181 2011-01-25 13:59:00 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.182 2011-01-27 08:50:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -164,11 +164,12 @@
                             <a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a>
                         </p>
                         <div class="Clear"></div>
-
+<!-- dtl:block:TotalAccountedTime -->
                         <label>$Text{"Accounted time"}:</label>
                         <p class="Value">$Data{"TicketTimeUnits"}</p>
                         <div class="Clear"></div>
 
+<!-- dtl:block:TotalAccountedTime -->
 <!-- dtl:block:PendingUntil -->
                         <label>$Text{"Pending till"}:</label>
                         <p class="Value $QData{"PendingUntilClass"}">$Data{"PendingUntil"}</p>
