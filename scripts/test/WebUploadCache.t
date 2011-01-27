@@ -2,7 +2,7 @@
 # WebUploadCache.t - test of the web upload cache mechanism
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.16 2011-01-14 09:23:44 martin Exp $
+# $Id: WebUploadCache.t,v 1.17 2011-01-27 18:09:29 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,6 +116,80 @@ for my $Module (qw(DB FS)) {
                 $ContentID,
                 "#$Module - FormIDGetAllFilesMeta() - ContentID ." . $File,
             );
+            $Self->Is(
+                $File{Filename},
+                "UploadCache Test1äöüß.$File",
+                "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
+            );
+        }
+        my $Delete = $UploadCacheObject->FormIDRemoveFile(
+            FormID => $FormID,
+            FileID => 1,
+        );
+        $Self->True(
+            $Delete || '',
+            "#$Module - FormIDRemoveFile() - ." . $File,
+        );
+    }
+
+    # file checks without ContentID
+    for my $File (qw(xls txt doc png pdf)) {
+        my $Content = '';
+        open( IN,
+            "< "
+                . $ConfigObject->Get('Home')
+                . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File"
+            )
+            || die $!;
+        binmode(IN);
+        while (<IN>) {
+            $Content .= $_;
+        }
+        close(IN);
+        $EncodeObject->EncodeOutput( \$Content );
+        my $MD5         = md5_hex($Content);
+        my $Disposition = 'inline';
+        if ( $File eq 'txt' ) {
+            $Disposition = 'attachment';
+        }
+        my $Add = $UploadCacheObject->FormIDAddFile(
+            FormID      => $FormID,
+            Filename    => 'UploadCache Test1äöüß.' . $File,
+            Content     => $Content,
+            ContentType => 'text/html',
+            Disposition => $Disposition,
+        );
+
+        $Self->True(
+            $Add || '',
+            "#$Module - FormIDAddFile() - ." . $File,
+        );
+
+        my @Data = $UploadCacheObject->FormIDGetAllFilesData(
+            FormID => $FormID,
+        );
+        if (@Data) {
+            my %File = %{ $Data[$#Data] };
+            $Self->Is(
+                $File{Filename},
+                "UploadCache Test1äöüß.$File",
+                "#$Module - FormIDGetAllFilesData() - Filename ." . $File,
+            );
+            $Self->True(
+                $File{Content} eq $Content,
+                "#$Module - FormIDGetAllFilesData() - Content ." . $File,
+            );
+            $EncodeObject->EncodeOutput( \$File{Content} );
+            my $MD5New = md5_hex( $File{Content} );
+            $Self->Is(
+                $MD5New || '',
+                $MD5    || '',
+                "#$Module - md5 check",
+            );
+        }
+        @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
+        if (@Data) {
+            my %File = %{ $Data[$#Data] };
             $Self->Is(
                 $File{Filename},
                 "UploadCache Test1äöüß.$File",
