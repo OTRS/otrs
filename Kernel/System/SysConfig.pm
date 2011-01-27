@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SysConfig.pm - all system config tool functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.27 2010-12-01 13:41:07 bes Exp $
+# $Id: SysConfig.pm,v 1.28 2011-01-27 10:47:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -1640,7 +1640,11 @@ sub _Init {
         # load framework, application, config, changes
         for my $Init (qw(Framework Application Config Changes)) {
             for my $Set ( sort keys %Data ) {
-                if ( $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init ) {
+                if (
+                    defined $Data{$Set}->[1]->{otrs_config}->[1]->{init}
+                    && $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init
+                    )
+                {
 
                     # just use valid entries
                     if ( $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
@@ -2248,6 +2252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2010-12-01 13:41:07 $
+$Revision: 1.28 $ $Date: 2011-01-27 10:47:53 $
 
 =cut
