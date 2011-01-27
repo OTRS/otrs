@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddQueue.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.AddQueue.pl,v 1.4 2011-01-27 11:55:21 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,14 +43,15 @@ use Kernel::System::Group;
 use Kernel::System::Main;
 
 # get options
-my %Opts = ();
+my %Opts;
 getopts( 'hg:n:s:c:r:u:l:C:', \%Opts );
+
 if ( $Opts{h} ) {
-    print "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
-    print "Copyright (C) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
+    print STDOUT "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
+    print STDOUT "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c \n";
+    print STDOUT
+        "<COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
 }
 
@@ -64,7 +65,7 @@ if ( !$Opts{g} ) {
 }
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -84,25 +85,24 @@ if ( !$GroupID ) {
 }
 
 # add queue
-if (
-    !$CommonObject{QueueObject}->QueueAdd(
-        Name              => $Opts{n},
-        GroupID           => $GroupID,
-        SystemAddressID   => $Opts{s} || undef,
-        Comment           => $Opts{c} || undef,
-        FirstResponseTime => $Opts{r} || undef,
-        UpdateTime        => $Opts{u} || undef,
-        SolutionTime      => $Opts{l} || undef,
-        Calendar          => $Opts{C} || undef,
-        ValidID           => 1,
-        UserID            => 1,
-    )
-    )
-{
+my $Success = $CommonObject{QueueObject}->QueueAdd(
+    Name              => $Opts{n},
+    GroupID           => $GroupID,
+    SystemAddressID   => $Opts{s} || undef,
+    Comment           => $Opts{c} || undef,
+    FirstResponseTime => $Opts{r} || undef,
+    UpdateTime        => $Opts{u} || undef,
+    SolutionTime      => $Opts{l} || undef,
+    Calendar          => $Opts{C} || undef,
+    ValidID           => 1,
+    UserID            => 1,
+);
+
+# error handling
+if ( !$Success ) {
     print STDERR "ERROR: Can't create queue!\n";
     exit 1;
 }
-else {
-    print "Queue '$Opts{n}' created.\n";
-    exit(0);
-}
+
+print STDOUT "Queue '$Opts{n}' created.\n";
+exit 0;
