@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1751 2011-01-27 08:56:08 mb Exp $
+# $Id: CHANGES,v 1.1752 2011-01-27 09:38:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-01-27 Fixed bug#6792 - ArticleFreeText default selection is not respected
+    by input masks.
  - 2011-01-27 Fixed bug#6791 - In TicketZoom Total Accounted Time is displayed
     when AccountTime is set to "off".
  - 2011-01-26 Fixed bug#6721 - New users with empty password creation is allowed
