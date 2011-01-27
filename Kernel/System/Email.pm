@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.71 2011-01-21 21:39:14 dz Exp $
+# $Id: Email.pm,v 1.72 2011-01-27 23:21:16 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -226,7 +226,7 @@ sub Send {
         );
         if ( !$CryptObject ) {
             $Self->{LogObject}->Log(
-                Message  => 'Not possible to create crypt object.',
+                Message  => 'Not possible to create crypt object',
                 Priority => 'error',
             );
             return;
@@ -464,7 +464,13 @@ sub Send {
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Sign}->{Type},
         );
-        return if !$CryptObject;
+        if ( !$CryptObject ) {
+            $Self->{LogObject}->Log(
+                Message  => 'Not possible to create crypt object',
+                Priority => 'error',
+            );
+            return;
+        }
 
         if ( $Param{Sign}->{Type} eq 'PGP' ) {
 
@@ -532,7 +538,7 @@ sub Send {
                 my $Parser = MIME::Parser->new();
                 $Parser->output_to_core('ALL');
 
-                #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
+                $Parser->output_dir( $Self->{ConfigObject}->Get('TempDir') );
                 $Entity = $Parser->parse_data( $Header . $Sign );
             }
         }
@@ -606,7 +612,14 @@ sub Send {
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Crypt}->{Type},
         );
-        return !$CryptObject;
+
+        if ( !$CryptObject ) {
+            $Self->{LogObject}->Log(
+                Message  => 'Failed creation of crypt object',
+                Priority => 'error',
+            );
+            return;
+        }
 
         # make_multipart -=> one attachment for encryption
         $Entity->make_multipart( 'mixed;', Force => 1, );
@@ -627,7 +640,7 @@ sub Send {
         use MIME::Parser;
         my $Parser = MIME::Parser->new();
 
-        #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
+        $Parser->output_dir( $Self->{ConfigObject}->Get('TempDir') );
         $Entity = $Parser->parse_data( $Header . $Crypt );
     }
 
@@ -692,7 +705,13 @@ sub Send {
         Body    => \$Param{Body},
     );
 
-    return if !$Sent;
+    if ( !$Sent ) {
+        $Self->{LogObject}->Log(
+            Message  => "Error sending message",
+            Priority => 'info',
+        );
+        return;
+    }
 
     return ( \$Param{Header}, \$Param{Body} );
 }
@@ -863,6 +882,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2011-01-21 21:39:14 $
+$Revision: 1.72 $ $Date: 2011-01-27 23:21:16 $
 
 =cut
