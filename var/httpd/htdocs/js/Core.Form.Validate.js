@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.js,v 1.31 2011-01-26 12:24:54 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.32 2011-01-27 11:56:58 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -229,13 +229,9 @@ Core.Form.Validate = (function (TargetNS) {
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
 
     // There is a configuration option in OTRS that controls if email addresses
-    //  should be validated or not.
-    if (Core.Config.Get('CheckEmailAddresses')) {
-        $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
-    }
-    else {
-        $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
-    }
+    // should be validated or not.
+    // If email address should be validated, this function is overwritten in Init method
+    $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
@@ -326,10 +322,9 @@ Core.Form.Validate = (function (TargetNS) {
             for (I = 0; I < EqualElements.length; I++) {
                 if ($('#' + $.trim(EqualElements[I])).val() === Value) {
                     ApplyRule++;
-                    break;
                 }
             }
-            return ApplyRule;
+            return (ApplyRule === EqualElements.length);
         }
     });
 
@@ -464,6 +459,12 @@ Core.Form.Validate = (function (TargetNS) {
         }
         else {
             FormSelector = 'form';
+        }
+
+        // There is a configuration option in OTRS that controls if email addresses
+        //  should be validated or not.
+        if (Core.Config.Get('CheckEmailAddresses')) {
+            $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
         }
 
         // Init all forms separately, the validate plugin can
