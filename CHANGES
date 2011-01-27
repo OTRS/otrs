@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1750 2011-01-27 08:50:19 mb Exp $
+# $Id: CHANGES,v 1.1751 2011-01-27 08:56:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,6 @@
  - 2011-01-25 Fixed bug#6740 - Link CI to new phone or mail ticket does not work.
  - 2011-01-25 Fixed bug#6764 - Usage of TicketHook as TicketZoom Subject.
  - 2011-01-24 Fixed bug#6684 - CustomerInfoSize doesn't size the info box.
- - 2011-01-24 Fixed bug#3125 - No translation for ticket-state in notifications.
  - 2011-01-21 Fixed bug#6728 - Notification Management not usable if many
     notifications exist.
  - 2011-01-21 Fixed bug#6741 - Select box does not display helpful error messages.
