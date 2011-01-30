@@ -3,7 +3,7 @@
 # bin/otrs.AddQueue.pl - Add Queue from CLI
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddQueue.pl,v 1.4 2011-01-27 11:55:21 mh Exp $
+# $Id: otrs.AddQueue.pl,v 1.5 2011-01-30 19:54:28 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -40,18 +40,20 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Queue;
 use Kernel::System::Group;
+use Kernel::System::SystemAddress;
 use Kernel::System::Main;
 
 # get options
 my %Opts;
-getopts( 'hg:n:s:c:r:u:l:C:', \%Opts );
+getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
     print STDOUT "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c \n";
+    print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
-        "<COMMENT> -r <FirstResponseTime> -u <UpdateTime> -l <SolutionTime> -C <CalendarID>]\n";
+        "<SYSTEMADDRESS> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> \n";
+    print STDOUT "-l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
 }
 
@@ -72,10 +74,11 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.AddQueue.pl',
     %CommonObject,
 );
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
+$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
 
 # check group
 my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );
@@ -84,11 +87,34 @@ if ( !$GroupID ) {
     exit 1;
 }
 
+my $SystemAddressID;
+
+# check System Address
+if ( $Opts{S} ) {
+    my %SystemAddressList = $CommonObject{SystemAddressObject}->SystemAddressList(
+        Valid => 1
+    );
+    ADDRESS:
+    for my $ID ( keys %SystemAddressList ) {
+        my %SystemAddressInfo = $CommonObject{SystemAddressObject}->SystemAddressGet(
+            ID => $ID
+        );
+        if ( $SystemAddressInfo{Name} eq $Opts{S} ) {
+            $SystemAddressID = $ID;
+            last ADDRESS;
+        }
+    }
+    if ( !$SystemAddressID ) {
+        print STDERR "ERROR: Address $Opts{S} not found\n";
+        exit 1;
+    }
+}
+
 # add queue
 my $Success = $CommonObject{QueueObject}->QueueAdd(
-    Name              => $Opts{n},
-    GroupID           => $GroupID,
-    SystemAddressID   => $Opts{s} || undef,
+    Name            => $Opts{n},
+    GroupID         => $GroupID,
+    SystemAddressID => $SystemAddressID || $Opts{s} || undef,
     Comment           => $Opts{c} || undef,
     FirstResponseTime => $Opts{r} || undef,
     UpdateTime        => $Opts{u} || undef,
