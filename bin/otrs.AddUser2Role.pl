@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddUser2Role.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.AddUser2Role.pl,v 1.4 2011-01-30 14:16:48 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -44,21 +44,12 @@ use Kernel::System::Main;
 use Kernel::System::User;
 
 # get options
-my %Opts = ();
-getopts( 'hr:u:', \%Opts );
-if ( $Opts{h} ) {
+my %Opts;
+getopt( 'ur', \%Opts );
+if ( !$Opts{r} || !$Opts{u} ) {
     print "otrs.AddUser2Role <Revision $VERSION> - assign Users to Roles\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.addUsers2Role -u <USER> -r <ROLE> \n";
-    exit 1;
-}
-
-if ( !$Opts{r} ) {
-    print STDERR "ERROR: Need -r <ROLE>\n";
-    exit 1;
-}
-if ( !$Opts{u} ) {
-    print STDERR "ERROR: Need -u <USER>\n";
+    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;
 }
 
@@ -79,12 +70,12 @@ $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
 # check user
 my $UserID = $CommonObject{UserObject}->UserLookup( UserLogin => $Opts{u} );
 if ( !$UserID ) {
-    print STDERR "ERROR: Found no UserID for $Opts{u}\n";
+    print STDERR "ERROR: User $Opts{u} does not exist.\n";
     exit 1;
 }
 my $RoleID = $CommonObject{GroupObject}->RoleLookup( Role => $Opts{r} );
 if ( !$RoleID ) {
-    print STDERR "ERROR: Found no RoleID for $Opts{r}\n";
+    print STDERR "ERROR: Role $Opts{r} does not exist.\n";
     exit 1;
 }
 
@@ -102,6 +93,6 @@ if (
     exit 1;
 }
 else {
-    print "Rolle '$Opts{r}' permissions set for User '$Opts{u}'\n";
+    print "Role '$Opts{r}' added to user '$Opts{u}'\n";
     exit(0);
 }
