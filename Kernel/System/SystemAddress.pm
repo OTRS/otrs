@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.32 2010-06-17 21:39:40 cr Exp $
+# $Id: SystemAddress.pm,v 1.33 2011-01-30 19:34:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -149,6 +149,18 @@ get system address with attributes
         ID => 1,
     );
 
+returns:
+    %SystemAddress = (
+        'ID'         => 1,
+        'Name'       => 'info@example.com'
+        'Realname'   => 'Hotline',
+        'QueueID'    => 123,
+        'Comment'    => 'some comment',
+        'ValidID'    => 1,
+        'CreateTime' => '2010-11-29 11:04:04',
+        'ChangeTime' => '2010-12-07 12:33:56',
+    )
+
 =cut
 
 sub SystemAddressGet {
@@ -223,11 +235,19 @@ sub SystemAddressUpdate {
 
 =item SystemAddressList()
 
-get a system address list
+get a list of system addresses
 
     my %List = $SystemAddressObject->SystemAddressList();
 
     my %List = $SystemAddressObject->SystemAddressList( Valid => 1 );
+
+returns:
+
+    %List = (
+        '1' => 'Acme Sales ( sales@example.com )',
+        '2' => 'Acme Purchasing ( purchasing@example.com )',
+        '3' => 'Acme Support ( support@example.com )',
+    )
 
 =cut
 
@@ -248,7 +268,8 @@ sub SystemAddressList {
 
 =item SystemAddressIsLocalAddress()
 
-check if used system address is a local address
+Checks if the given address is a local (system) address. Returns true
+for local addresses.
 
     if ( $SystemAddressObject->SystemAddressIsLocalAddress( Address => 'info@example.com' ) ) {
         # is local
@@ -326,6 +347,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.33 $ $Date: 2011-01-30 19:34:12 $
 
 =cut
