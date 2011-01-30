@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.97 2010-11-23 00:10:35 en Exp $
+# $Id: AdminPackageManager.pm,v 1.98 2011-01-30 09:49:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,23 +65,13 @@ sub Run {
                 if ( !$ApacheReload ) {
                     return $Self->{LayoutObject}->ErrorScreen(
                         Message =>
-                            'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and '
+                            'Sorry, Apache::Reload is needed as PerlModule and '
                             .
                             'PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. '
                             .
                             'Alternatively, you can use the cmd tool bin/otrs.PackageManager.pl to install packages!'
                     );
                 }
-            }
-
-            # mod_perl v1 detected
-            else {
-                return $Self->{LayoutObject}->ErrorScreen(
-                    Message =>
-                        'In order to use this interface you need to run mod_perl2 and Apache::Reload. '
-                        .
-                        'Please use the cmd tool bin/otrs.PackageManager.pl to install packages!'
-                );
             }
         }
     }
