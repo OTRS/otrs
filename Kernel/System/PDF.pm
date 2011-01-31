@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PDF.pm - PDF lib
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.44 2010-07-19 13:08:59 ub Exp $
+# $Id: PDF.pm,v 1.45 2011-01-31 09:22:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -93,6 +93,17 @@ sub new {
         return;
     }
     elsif (
+
+        # version 2.x or newer exports a proper version number
+        $PDF::API2::VERSION =~ m{^(\d)\..*}mx
+        && ( $1 > 1 )
+        )
+    {
+        return $Self;
+    }
+    elsif (
+
+        # versions 0.73 and lower have a special Version.pm
         $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
         && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) )
         )
@@ -102,7 +113,8 @@ sub new {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "PDF support activated in SysConfig but PDF::API2 0.57 or newer is required!"
+            Message =>
+                "PDF support activated in SysConfig but PDF::API2 0.57 or newer is required. Found version $PDF::API2::Version::VERSION.",
         );
         return;
     }
@@ -3522,6 +3534,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2010-07-19 13:08:59 $
+$Revision: 1.45 $ $Date: 2011-01-31 09:22:08 $
 
 =cut
