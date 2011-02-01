@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758 2011-01-31 12:33:02 mb Exp $
+# $Id: CHANGES,v 1.1759 2011-02-01 21:54:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-02-01 Fixed bug#6696 - TicketFreeTime options are line breaked in the
+    search window.
  - 2011-01-31 Implemented bug#6824 - Adding system addresses from CLI, via new
     script bin/otrs.AddSystemAddress.pl.
  - 2011-01-31 Fixed bug#6818 - PDF Printing does not work with newest PDF::API2
