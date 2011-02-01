@@ -1,8 +1,8 @@
 # --
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.62 2010-12-15 11:56:55 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.62.2.1 2011-02-01 23:01:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -217,45 +217,45 @@
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime1" id="LabelTicketFreeTime1">$Text{"$Config{"TicketFreeTimeKey1"}"}:</label>
+        <label for="TicketFreeTime1" id="LabelTicketFreeTime1">$Text{"$Config{"TicketFreeTimeKey1"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}/>
-            $Text{"Between"} $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
+            $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime2" id="LabelTicketFreeTime2">$Text{"$Config{"TicketFreeTimeKey2"}"}:</label>
+        <label for="TicketFreeTime2" id="LabelTicketFreeTime2">$Text{"$Config{"TicketFreeTimeKey2"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime2" value="checked" $QData{"TicketFreeTime2"}/>
-            $Text{"Between"} $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
+            $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime3" id="LabelTicketFreeTime3">$Text{"$Config{"TicketFreeTimeKey3"}"}:</label>
+        <label for="TicketFreeTime3" id="LabelTicketFreeTime3">$Text{"$Config{"TicketFreeTimeKey3"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime3" value="checked" $QData{"TicketFreeTime3"}/>
-            $Text{"Between"} $Data{"TicketFreeTime3Start"} $Text{"and"} $Data{"TicketFreeTime3Stop"}
+            $Data{"TicketFreeTime3Start"} $Text{"and"} $Data{"TicketFreeTime3Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime4" id="LabelTicketFreeTime4">$Text{"$Config{"TicketFreeTimeKey4"}"}:</label>
+        <label for="TicketFreeTime4" id="LabelTicketFreeTime4">$Text{"$Config{"TicketFreeTimeKey4"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime4" value="checked" $QData{"TicketFreeTime4"}/>
-            $Text{"Between"} $Data{"TicketFreeTime4Start"} $Text{"and"} $Data{"TicketFreeTime4Stop"}
+            $Data{"TicketFreeTime4Start"} $Text{"and"} $Data{"TicketFreeTime4Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime5" id="LabelTicketFreeTime5">$Text{"$Config{"TicketFreeTimeKey5"}"}:</label>
+        <label for="TicketFreeTime5" id="LabelTicketFreeTime5">$Text{"$Config{"TicketFreeTimeKey5"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime5" value="checked" $QData{"TicketFreeTime5"}/>
-            $Text{"Between"} $Data{"TicketFreeTime5Start"} $Text{"and"} $Data{"TicketFreeTime5Stop"}
+            $Data{"TicketFreeTime5Start"} $Text{"and"} $Data{"TicketFreeTime5Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
-        <label for="TicketFreeTime6" id="LabelTicketFreeTime6">$Text{"$Config{"TicketFreeTimeKey6"}"}:</label>
+        <label for="TicketFreeTime6" id="LabelTicketFreeTime6">$Text{"$Config{"TicketFreeTimeKey6"}"} ($Text{"Between"}):</label>
         <div class="Field">
             <input type="hidden" name="TicketFreeTime6" value="checked" $QData{"TicketFreeTime6"}/>
-            $Text{"Between"} $Data{"TicketFreeTime6Start"} $Text{"and"} $Data{"TicketFreeTime6Stop"}
+            $Data{"TicketFreeTime6Start"} $Text{"and"} $Data{"TicketFreeTime6Stop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
