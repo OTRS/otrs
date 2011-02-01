@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.77 2011-01-21 12:16:05 mb Exp $
+# $Id: AdminQueue.pm,v 1.78 2011-02-01 23:26:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,7 +145,7 @@ sub Run {
 
         # check needed data
         for my $Needed (
-            qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID FollowUpID FollowUpLock)
+            qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID FollowUpID)
             )
         {
             if ( !$GetParam{$Needed} ) {
@@ -283,11 +283,23 @@ sub Run {
 
         # check needed data
         for my $Needed (
-            qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID FollowUpID FollowUpLock)
+            qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID FollowUpID)
             )
         {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        # check if some fields must be set with default values
+        for my $Optional (
+            qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify FollowUpLock Calendar)
+            )
+        {
+
+            # add default values
+            if ( !$GetParam{$Optional} ) {
+                $GetParam{$Optional} = 0;
             }
         }
 
@@ -334,16 +346,9 @@ sub Run {
                         }
                     }
                 }
-                $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue added!' );
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminQueue',
-                    Data         => \%Param,
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
             }
         }
 
