@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.34 2010-11-23 19:24:54 en Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.35 2011-02-01 23:33:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,9 +75,9 @@
 <!-- dtl:block:FreeText -->
 <!-- dtl:block:FreeTime -->
                 <div>
-                    <label for ="TicketFreeTime$QData{"Count"}">$Data{"TicketFreeTimeKey"}</label>
+                    <label for ="TicketFreeTime$QData{"Count"}">$Data{"TicketFreeTimeKey"} ($Text{"Between"})</label>
                     <input type="checkbox" id="TicketFreeTime$QData{"Count"}" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
-                    $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"} $Data{"TicketFreeTime"}
+                    $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"} $Data{"TicketFreeTime"}
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:FreeTime -->
