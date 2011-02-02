@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.87 2010-12-03 08:58:40 mg Exp $
+# $Id: auto_build.sh,v 1.88 2011-02-02 12:51:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,8 +21,8 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.87 $>"
-echo "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.88 $>"
+echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
@@ -148,9 +148,13 @@ find -name ".cvsignore" | xargs rm -rf
 rm -f var/sessions/*
 rm -rf var/article/*
 rm -rf var/spool/*
+rm -rf Kernel/Config.pm
+
+# remove development content
+rm -rf development
+
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
-rm -rf Kernel/Config.pm
 
 # build html docu
 #$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC/../doc/ > /dev/null
