@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="613" text="Actions" locked="true" measuredWidth="237" measuredHeight="613"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="Mapping Details" locked="true" measuredWidth="131" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" text="Edit Mapping" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Label" x="304" y="136" text="Mapping for Keys" measuredWidth="141" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="176" text="Map key" measuredWidth="50" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="368" y="176" text="exact name(s)" measuredWidth="99" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="502" y="176" text="Prio" measuredWidth="31" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="574" y="176" text="to new name" measuredWidth="74" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="661" y="176" text="priority" measuredWidth="49" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="208" text="Map key" measuredWidth="50" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="368" y="208" text="regular expression" measuredWidth="124" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="504" y="208" text="Stat(e|us)" measuredWidth="61" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="574" y="208" text="to new name" measuredWidth="74" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="661" y="208" text="state" measuredWidth="37" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="751" y="175" text="-" measuredWidth="27" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="751" y="207" text="-" measuredWidth="27" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="280" text="For unmapped keys, perform the following:" measuredWidth="237" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="549" y="280" text="keep unchanged&#xA;map to new name&#xA;ignore" measuredWidth="113" measuredHeight="61">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="667" y="300" text="default name" measuredWidth="81" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="240" text="Add new key mapping" measuredWidth="124" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="427" y="239" text="+" measuredWidth="29" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="369" text="Mapping for values of mapped key" measuredWidth="274" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="409" text="Map value" measuredWidth="59" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="368" y="409" text="exact value(s)" measuredWidth="97" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="502" y="409" text="1" measuredWidth="17" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="574" y="409" text="to new value" measuredWidth="73" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="661" y="409" text="1 - very high" measuredWidth="80" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="441" text="Map value" measuredWidth="59" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="368" y="441" text="regular expression" measuredWidth="124" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="504" y="441" text="high|hoch" measuredWidth="64" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="574" y="441" text="to new value" measuredWidth="73" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="661" y="441" text="2 - high" measuredWidth="54" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="751" y="408" text="-" measuredWidth="27" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="751" y="440" text="-" measuredWidth="27" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="512" text="For unmapped values, perform the following:" measuredWidth="247" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="549" y="512" text="keep unchanged&#xA;map to new value&#xA;ignore" measuredWidth="113" measuredHeight="61">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="667" y="532" text="3 - normal" measuredWidth="68" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="473" text="Add new value mapping" measuredWidth="134" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="439" y="472" text="+" measuredWidth="29" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="584" y="371" text="priority" measuredWidth="49" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="635" y="370" text="-" measuredWidth="27" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="304" y="600" text="Add value mapping for another key" measuredWidth="280" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="584" y="601" text="+" measuredWidth="29" measuredHeight="23">
+    <font/>
+  </widgets>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>
