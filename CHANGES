@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1760 2011-02-01 23:31:55 mp Exp $
+# $Id: CHANGES,v 1.1761 2011-02-02 10:04:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.0 beta1 2011-??-??
+ - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
+    of > 70 characters exists.
 
 3.0.6 2011-??-??
  - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed
