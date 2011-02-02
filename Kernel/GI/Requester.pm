@@ -1,29 +1,29 @@
 # --
-# Kernel/GI/Provider.pm - GenericInterface provider handler
+# Kernel/GI/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.2 2011-02-02 13:41:25 mg Exp $
+# $Id: Requester.pm,v 1.1 2011-02-02 13:41:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Provider;
+package Kernel::GI::Requester;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Provider
+Kernel::GI::Requester
 
 =head1 SYNOPSIS
 
-GenericInterface handler for incoming web service requests.
+GenericInterface handler for sending web service requests to remote providers.
 
 =head1 PUBLIC INTERFACE
 
@@ -41,7 +41,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Provider;
+    use Kernel::GI::Requester;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -66,7 +66,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $ProviderObject = Kernel::GI::Provider->new(
+    my $RequesterObject = Kernel::GI::Requester->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -98,6 +98,22 @@ receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the configured requested
 web service.
 
+    my $Result = $RequesterObject->Run(
+        WebServiceID    => 1,                       # ID of the configured remote web service to use
+        Invoker         => 'Nagios::TicketLocked',  # Name of the Invoker to be used for sending the request
+        Data            => {                        # Data payload for the Invoker request (remote webservice)
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,   # 0 or 1
+        ErrorMessage    => '',  # if an error occurred
+        Data            => {    # Data payload of Invoker result (web service response)
+            ...
+        },
+    };
+
 =cut
 
 sub Run {
@@ -123,6 +139,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-02 13:41:25 $
+$Revision: 1.1 $ $Date: 2011-02-02 13:41:25 $
 
 =cut
