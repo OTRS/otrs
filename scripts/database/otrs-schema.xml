@@ -805,10 +805,10 @@
 <Table Name="ticket_index">
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
-    <Column Name="queue" Required="true" Size="70" Type="VARCHAR"/>
+    <Column Name="queue" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
-    <Column Name="s_lock" Required="true" Size="70" Type="VARCHAR"/>
-    <Column Name="s_state" Required="true" Size="70" Type="VARCHAR"/>
+    <Column Name="s_lock" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="s_state" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
     <Index Name="ticket_index_ticket_id">
         <IndexColumn Name="ticket_id"/>
