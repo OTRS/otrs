@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.45 2010-12-20 11:32:48 mg Exp $
+# $Id: UnitTest.pm,v 1.46 2011-02-02 09:20:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -127,7 +127,8 @@ sub new {
 Run all tests located in scripts/test/*.t and print result to stdout.
 
     $UnitTestObject->Run(
-        Name => 'JSON:User:Auth',  # optional, control which tests to select
+        Name      => 'JSON:User:Auth',  # optional, control which tests to select
+        Directory => 'Selenium',        # optional, control which tests to select
     );
 
 =cut
@@ -136,9 +137,18 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %ResultSummary;
-    my $Home  = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Self->{ConfigObject}->Get('Home');
+
+    my $Directory = "$Home/scripts/test";
+
+    # custom subdirectory passed
+    if ( $Param{Directory} ) {
+        $Directory .= "/$Param{Directory}";
+        $Directory =~ s/\.//g;
+    }
+
     my @Files = $Self->{MainObject}->DirectoryRead(
-        Directory => "$Home/scripts/test",
+        Directory => $Directory,
         Filter => [ '*.t', '*/*.t' ],
     );
 
@@ -854,6 +864,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2010-12-20 11:32:48 $
+$Revision: 1.46 $ $Date: 2011-02-02 09:20:20 $
 
 =cut

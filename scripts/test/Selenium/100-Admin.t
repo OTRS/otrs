@@ -2,7 +2,7 @@
 # 100-Admin.t - frontend tests for admin area
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-Admin.t,v 1.6 2011-01-14 14:03:03 mg Exp $
+# $Id: 100-Admin.t,v 1.7 2011-02-02 09:20:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,76 +41,78 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             %{$SeleniumScenario},
         );
 
-        $sel->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
+        eval {
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+            $sel->Login(
+                Type     => 'Agent',
+                User     => $TestUserLogin,
+                Password => $TestUserLogin,
+            );
 
-        my @AdminModules = qw(
-            AdminAttachment
-            AdminAutoResponse
-            AdminCustomerCompany
-            AdminCustomerUser
-            AdminCustomerUserGroup
-            AdminCustomerUserService
-            AdminEmail
-            AdminGenericAgent
-            AdminGroup
-            AdminLog
-            AdminMailAccount
-            AdminNotification
-            AdminNotificationEvent
-            AdminPGP
-            AdminPackageManager
-            AdminPerformanceLog
-            AdminPostMasterFilter
-            AdminPriority
-            AdminQueue
-            AdminQueueAutoResponse
-            AdminQueueResponses
-            AdminResponse
-            AdminResponseAttachment
-            AdminRole
-            AdminRoleGroup
-            AdminRoleUser
-            AdminSLA
-            AdminSMIME
-            AdminSalutation
-            AdminSelectBox
-            AdminService
-            AdminSession
-            AdminSignature
-            AdminState
-            AdminSysConfig
-            AdminSystemAddress
-            AdminType
-            AdminUser
-            AdminUserGroup
-        );
+            my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
-        ADMINMODULE:
-        for my $AdminModule (@AdminModules) {
-            $sel->open_ok("${ScriptAlias}index.pl?Action=$AdminModule");
-            $sel->wait_for_page_to_load_ok("30000");
+            my @AdminModules = qw(
+                AdminAttachment
+                AdminAutoResponse
+                AdminCustomerCompany
+                AdminCustomerUser
+                AdminCustomerUserGroup
+                AdminCustomerUserService
+                AdminEmail
+                AdminGenericAgent
+                AdminGroup
+                AdminLog
+                AdminMailAccount
+                AdminNotification
+                AdminNotificationEvent
+                AdminPGP
+                AdminPackageManager
+                AdminPerformanceLog
+                AdminPostMasterFilter
+                AdminPriority
+                AdminQueue
+                AdminQueueAutoResponse
+                AdminQueueResponses
+                AdminResponse
+                AdminResponseAttachment
+                AdminRole
+                AdminRoleGroup
+                AdminRoleUser
+                AdminSLA
+                AdminSMIME
+                AdminSalutation
+                AdminSelectBox
+                AdminService
+                AdminSession
+                AdminSignature
+                AdminState
+                AdminSysConfig
+                AdminSystemAddress
+                AdminType
+                AdminUser
+                AdminUserGroup
+            );
 
-            # Guess if the page content is ok or an error message. Here we
-            #   check for the presence of div.SidebarColumn because all Admin
-            #   modules have this sidebar column present.
-            $sel->is_element_present_ok("css=div.SidebarColumn");
+            ADMINMODULE:
+            for my $AdminModule (@AdminModules) {
+                $sel->open_ok("${ScriptAlias}index.pl?Action=$AdminModule");
+                $sel->wait_for_page_to_load_ok("30000");
 
-            # Also check if the navigation is present (this is not the case
-            #   for error messages and has "Admin" highlighted
-            $sel->is_element_present_ok("css=li#nav-Admin.Selected");
-        }
+                # Guess if the page content is ok or an error message. Here we
+                #   check for the presence of div.SidebarColumn because all Admin
+                #   modules have this sidebar column present.
+                $sel->is_element_present_ok("css=div.SidebarColumn");
+
+                # Also check if the navigation is present (this is not the case
+                #   for error messages and has "Admin" highlighted
+                $sel->is_element_present_ok("css=li#nav-Admin.Selected");
+            }
+            return 1;
+        } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );
+
         return 1;
-    }
-        || $Self->True(
-        0,
-        "Exception occurred in Selenium scenario '$SeleniumScenario->{ID}': $@",
-        );
+
+    } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );
 }
 
 1;
