@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.53 2011-01-27 08:56:08 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.54 2011-02-02 10:12:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,10 @@ use Kernel::System::SystemAddress;
 use Kernel::System::StandardResponse;
 use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
+use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -798,6 +799,7 @@ sub NotificationAgent {
         Data        => $Param{CustomerMessageParams},
         TicketID    => $Param{TicketID},
         UserID      => $Param{UserID},
+        Language    => $Language,
     );
     $Notification{Subject} = $Self->_Replace(
         RichText    => 0,
@@ -806,6 +808,7 @@ sub NotificationAgent {
         Data        => $Param{CustomerMessageParams},
         TicketID    => $Param{TicketID},
         UserID      => $Param{UserID},
+        Language    => $Language,
     );
 
     # prepare subject (insert old subject)
@@ -919,6 +922,7 @@ sub NotificationCustomer {
             Text     => $Notification{$_},
             TicketID => $Param{TicketID},
             UserID   => $Param{UserID},
+            Language => $Language,
         );
     }
 
@@ -956,6 +960,20 @@ sub _Replace {
     my %Ticket;
     if ( $Param{TicketID} ) {
         %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    }
+
+    # translate ticket values if needed
+    if ( $Param{Language} ) {
+        my $LanguageObject = Kernel::Language->new(
+            MainObject   => $Self->{MainObject},
+            ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
+            LogObject    => $Self->{LogObject},
+            UserLanguage => $Param{Language},
+        );
+        for my $Field (qw(Type State StateType Lock Priority)) {
+            $Ticket{$Field} = $LanguageObject->Get( $Ticket{$Field} );
+        }
     }
 
     my %Queue;
@@ -1342,6 +1360,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2011-01-27 08:56:08 $
+$Revision: 1.54 $ $Date: 2011-02-02 10:12:01 $
 
 =cut
