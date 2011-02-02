@@ -6,7 +6,7 @@
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" text="Edit Mapping" locked="true" measuredWidth="641" measuredHeight="613"/>
-  <widgets xsi:type="model:Label" x="304" y="136" text="Mapping for Keys" measuredWidth="141" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="294" y="136" text="Mapping for Keys" measuredWidth="141" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Label" x="304" y="176" text="Map key" measuredWidth="50" measuredHeight="21">
@@ -60,7 +60,7 @@
   <widgets xsi:type="model:Button" x="427" y="239" text="+" measuredWidth="29" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="304" y="369" text="Mapping for values of mapped key" measuredWidth="274" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="294" y="369" text="Mapping for values of mapped key" measuredWidth="274" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Label" x="304" y="409" text="Map value" measuredWidth="59" measuredHeight="21">
@@ -114,16 +114,25 @@
   <widgets xsi:type="model:Button" x="439" y="472" text="+" measuredWidth="29" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:TextField" x="584" y="371" text="priority" measuredWidth="49" measuredHeight="21">
+  <widgets xsi:type="model:TextField" x="574" y="371" text="priority" measuredWidth="49" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="635" y="370" text="-" measuredWidth="27" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="625" y="370" text="-" measuredWidth="27" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="304" y="600" text="Add value mapping for another key" measuredWidth="280" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="294" y="600" text="Add value mapping for another key" measuredWidth="280" measuredHeight="26">
     <font size="16"/>
   </widgets>
-  <widgets xsi:type="model:Button" x="584" y="601" text="+" measuredWidth="29" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="574" y="601" text="+" measuredWidth="29" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="24" y="133" text="Back to Operation" measuredWidth="116" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="24" y="175" text="Export Mapping Configuration" measuredWidth="182" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="24" y="218" text="Import Mapping Configuration" measuredWidth="183" measuredHeight="23">
     <font/>
   </widgets>
   <hRuler>
