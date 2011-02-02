@@ -3,6 +3,6 @@
     <TableAlter Name="ticket_index">
         <ColumnChange NameOld="queue" NameNew="queue" Required="true" Size="200" Type="VARCHAR"/>
         <ColumnChange NameOld="s_state" NameNew="s_state" Required="true" Size="200" Type="VARCHAR"/>
-        <ColumnChange NameOld="s_lock" NameNew="s_state" Required="true" Size="200" Type="VARCHAR"/>
+        <ColumnChange NameOld="s_lock" NameNew="s_lock" Required="true" Size="200" Type="VARCHAR"/>
     </TableAlter>
 </database>
