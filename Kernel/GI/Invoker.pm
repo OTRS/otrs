@@ -1,32 +1,41 @@
 # --
-# Kernel/GI/Operation.pm - GenericInterface operation interface
+# Kernel/GI/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.2 2011-02-03 13:54:41 mg Exp $
+# $Id: Invoker.pm,v 1.1 2011-02-03 13:54:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Operation;
+package Kernel::GI::Invoker;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Operation
+Kernel::GI::Invoker
 
 =head1 SYNOPSIS
 
-GenericInterface Operation interface.
+GenericInterface Invoker interface.
 
-Operations are called by web service requests from remote
-systems.
+Invokers are responsible to prepare for making a remote web service
+request.
+
+For every Request, two methods are called:
+
+    L<PrepareRequest()>
+    L<HandleResponse()>
+
+The first method prepares the response and can prevent it by returning
+an error state. The second method must always be called if the request
+was initiated to allow the Invoker to handle possible errors.
 
 =head1 PUBLIC INTERFACE
 
@@ -44,7 +53,7 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Operation;
+    use Kernel::GI::Invoker;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -69,7 +78,7 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $OperationObject = Kernel::GI::Operation->new(
+    my $InvokerObject = Kernel::GI::Invoker->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -77,7 +86,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Operation => 'Ticket::TicketCreate',    # the local operation to use
+        Invoker => 'Nagios::TicketLock',    # the Invoker to use
     );
 
 =cut
@@ -99,12 +108,12 @@ sub new {
     return;
 }
 
-=item Run()
+=item PrepareRequest()
 
-perform the selected Operation.
+prepare the invocation of the configured remote webservice.
 
-    my $Result = $OperationObject->Run(
-        Data => {                               # data payload before Operation
+    my $Result = $InvokerObject->PrepareRequest(
+        Data => {                               # data payload
             ...
         },
     );
@@ -112,43 +121,46 @@ perform the selected Operation.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Data            => {                    # result data payload after Operation
+        Data            => {                    # data payload after Invoker
             ...
         },
     };
 
 =cut
 
-sub Run {
+sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     #TODO implement
 
 }
 
-=item _Auth()
+=item HandleResponse()
 
-helper function which authenticates Agents or Customers.
-This function is used by the different Operations.
+handle response data of the configured remote webservice.
 
-    my $UserID = $ControllerObject->_Auth(
-        Type     => 'Agent',    # Agent or Customer
-        Username => 'User',
-        Password => 'PW',
-        TTL      => 60*60*24,   # TTL for caching of successful logins
+    my $Result = $InvokerObject->HandleResponse(
+        ResponseSuccess      => 1,              # success status of the remote webservice
+        ResponseErrorMessage => '',             # in case of webservice error
+        Data => {                               # data payload
+            ...
+        },
     );
 
-Returns UserID (for Agents), CustomerUserID (for Customers), or undef
-(on authentication failure).
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload after Invoker
+            ...
+        },
+    };
 
 =cut
 
-sub _Auth {
+sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    # TODO decide if this function may need to be moved somewhere else
-
-    # TODO implement
+    #TODO implement
 
 }
 
@@ -168,6 +180,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-03 13:54:41 $
+$Revision: 1.1 $ $Date: 2011-02-03 13:54:41 $
 
 =cut
