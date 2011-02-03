@@ -2,14 +2,14 @@
 # Kernel/System/GI/WebserviceHistory.pm - GI WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.1 2011-02-03 09:48:28 mg Exp $
+# $Id: WebserviceHistory.pm,v 1.2 2011-02-03 09:54:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::WebserviceHistory;
+package Kernel::System::GI::WebserviceHistory;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -188,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-03 09:48:28 $
+$Revision: 1.2 $ $Date: 2011-02-03 09:54:43 $
 
 =cut
