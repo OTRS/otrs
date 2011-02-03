@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1763 2011-02-02 15:44:48 mb Exp $
+# $Id: CHANGES,v 1.1764 2011-02-03 21:40:56 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,11 +10,13 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#3125 - No translation for ticket-state in notifications.
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
     of > 70 characters exists.
 
 3.0.6 2011-??-??
+ - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#2877 - Licence is "License" in British English.
  - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed
  - 2011-02-01 Fixed bug#6696 - TicketFreeTime options are line breaked in the
