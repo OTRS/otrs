@@ -2,7 +2,7 @@
 # Kernel/GI/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.2 2011-02-03 13:54:41 mg Exp $
+# $Id: Operation.pm,v 1.3 2011-02-04 10:01:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -85,16 +85,13 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    #my $Self = {};
-    #bless( $Self, $Type );
+    my $Self = {};
+    bless( $Self, $Type );
 
     # check needed objects
-    #for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-    #    $Self->{$_} = $Param{$_} || die "Got no $_!";
-    #}
-
-    # TODO: implement backend loading and returning
+    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     return;
 }
@@ -146,7 +143,7 @@ Returns UserID (for Agents), CustomerUserID (for Customers), or undef
 sub _Auth {
     my ( $Self, %Param ) = @_;
 
-    # TODO decide if this function may need to be moved somewhere else
+    # TODO move this function somewhere else, e. g. Kernel/System/GI/*.pm
 
     # TODO implement
 
@@ -168,6 +165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-03 13:54:41 $
+$Revision: 1.3 $ $Date: 2011-02-04 10:01:42 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GI/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.1 2011-02-03 13:54:41 mg Exp $
+# $Id: Invoker.pm,v 1.2 2011-02-04 10:01:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -86,7 +86,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Invoker => 'Nagios::TicketLock',    # the Invoker to use
+        Invoker            => 'Nagios::TicketLock',    # the Invoker to use
     );
 
 =cut
@@ -94,16 +94,13 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    #my $Self = {};
-    #bless( $Self, $Type );
+    my $Self = {};
+    bless( $Self, $Type );
 
     # check needed objects
-    #for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-    #    $Self->{$_} = $Param{$_} || die "Got no $_!";
-    #}
-
-    # TODO: implement backend loading and returning
+    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     return;
 }
@@ -180,6 +177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-03 13:54:41 $
+$Revision: 1.2 $ $Date: 2011-02-04 10:01:42 $
 
 =cut

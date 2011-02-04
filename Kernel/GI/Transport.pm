@@ -2,7 +2,7 @@
 # Kernel/GI/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.1 2011-02-02 14:38:52 mg Exp $
+# $Id: Transport.pm,v 1.2 2011-02-04 10:01:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -33,7 +33,7 @@ GenericInterface network transport interface.
 
 =item new()
 
-create an object. This will return the transport backend for the current web service.
+create an object.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -76,7 +76,9 @@ create an object. This will return the transport backend for the current web ser
 
         TransportConfig   => {
             Type => 'HTTP::SOAP',
-            ...
+            Config => {
+                ...
+            },
         },
     );
 
@@ -85,16 +87,13 @@ create an object. This will return the transport backend for the current web ser
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    #my $Self = {};
-    #bless( $Self, $Type );
+    my $Self = {};
+    bless( $Self, $Type );
 
     # check needed objects
-    #for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-    #    $Self->{$_} = $Param{$_} || die "Got no $_!";
-    #}
-
-    # TODO: implement backend loading and returning
+    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     return;
 }
@@ -216,6 +215,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-02 14:38:52 $
+$Revision: 1.2 $ $Date: 2011-02-04 10:01:42 $
 
 =cut
