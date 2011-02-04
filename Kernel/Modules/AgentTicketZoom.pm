@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.145 2011-01-27 08:50:20 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.146 2011-02-04 12:29:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.145 $) [1];
+$VERSION = qw($Revision: 1.146 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1431,7 +1431,7 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Description => 'Forward',
+                        Description => 'Forward Article via Mail',
                         Name        => 'Forward',
                         Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
@@ -1479,7 +1479,7 @@ sub _ArticleItem {
                     Name => 'ArticleMenu',
                     Data => {
                         %Ticket, %Article, %AclAction,
-                        Description => 'Bounce',
+                        Description => 'Bounce Article to a different mail address',
                         Name        => 'Bounce',
                         Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
@@ -1554,7 +1554,7 @@ sub _ArticleItem {
             Name => 'ArticleMenu',
             Data => {
                 %Ticket, %Article, %AclAction,
-                Description => 'Split',
+                Description => 'Split this Article',
                 Name        => 'Split',
                 Link =>
                     'Action=AgentTicketPhone;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};LinkTicketID=$Data{"TicketID"}'
@@ -1579,7 +1579,7 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Description => 'Print',
+                    Description => 'Print this Article',
                     Name        => 'Print',
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
@@ -1610,7 +1610,7 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Description => 'Plain Format',
+                    Description => 'View the source for this Article',
                     Name        => 'Plain Format',
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link        => $Link,
