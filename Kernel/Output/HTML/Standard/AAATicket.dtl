@@ -1,8 +1,8 @@
 # --
 # AAATicket.dtl - $Text variable file
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.64 2010-12-09 15:12:07 mb Exp $
+# $Id: AAATicket.dtl,v 1.65 2011-02-04 12:32:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,8 +157,8 @@ $Text{"Watched"}
 $Text{"Watch"}
 $Text{"Unwatch"}
 $Text{"New message"}
-$Text{"Lock it to work on it!"}
-$Text{"Unlock to give it back to the queue!"}
+$Text{"Lock it to work on it"}
+$Text{"Unlock to give it back to the queue"}
 $Text{"Shows the ticket history!"}
 $Text{"Print this ticket!"}
 $Text{"Change the ticket priority!"}

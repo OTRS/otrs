@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.425 2011-01-28 15:56:21 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.426 2011-02-04 12:31:14 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6264,7 +6264,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">History</Item>
-                <Item Key="Description" Translatable="1">Shows the ticket history!</Item>
+                <Item Key="Description" Translatable="1">Shows the ticket history</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6280,7 +6280,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Print</Item>
-                <Item Key="Description" Translatable="1">Print this ticket!</Item>
+                <Item Key="Description" Translatable="1">Print this ticket</Item>
                 <Item Key="Action">AgentTicketPrint</Item>
                 <Item Key="Link">Action=AgentTicketPrint;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="LinkParam">target="print"</Item>
@@ -6297,7 +6297,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Priority</Item>
-                <Item Key="Description" Translatable="1">Change the ticket priority!</Item>
+                <Item Key="Description" Translatable="1">Change the ticket priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6313,7 +6313,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Free Fields</Item>
-                <Item Key="Description" Translatable="1">Change the ticket free fields!</Item>
+                <Item Key="Description" Translatable="1">Change the free fields for this ticket</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
                 <Item Key="Link">Action=AgentTicketFreeText;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6329,7 +6329,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Link</Item>
-                <Item Key="Description" Translatable="1">Link this ticket to other objects!</Item>
+                <Item Key="Description" Translatable="1">Link this ticket to other objects</Item>
                 <Item Key="Action">AgentLinkObject</Item>
                 <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6345,7 +6345,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Owner</Item>
-                <Item Key="Description" Translatable="1">Change the ticket owner!</Item>
+                <Item Key="Description" Translatable="1">Change the owner for this ticket</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
                 <Item Key="Link">Action=AgentTicketOwner;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6361,7 +6361,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuResponsible</Item>
                 <Item Key="Name">Responsible</Item>
-                <Item Key="Description" Translatable="1">Change the ticket responsible!</Item>
+                <Item Key="Description" Translatable="1">Change the responsible person for this ticket</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
                 <Item Key="Link">Action=AgentTicketResponsible;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6377,7 +6377,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Customer</Item>
-                <Item Key="Description" Translatable="1">Change the ticket customer!</Item>
+                <Item Key="Description" Translatable="1">Change the customer for this ticket</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
                 <Item Key="Link">Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6393,7 +6393,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Note</Item>
-                <Item Key="Description" Translatable="1">Add a note to this ticket!</Item>
+                <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6409,7 +6409,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Merge</Item>
-                <Item Key="Description" Translatable="1">Merge this ticket!</Item>
+                <Item Key="Description" Translatable="1">Merge into a different ticket</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6425,7 +6425,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Pending</Item>
-                <Item Key="Description" Translatable="1">Set this ticket to pending!</Item>
+                <Item Key="Description" Translatable="1">Set this ticket to pending</Item>
                 <Item Key="Action">AgentTicketPending</Item>
                 <Item Key="Link">Action=AgentTicketPending;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6454,7 +6454,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Close</Item>
-                <Item Key="Description" Translatable="1">Close this ticket!</Item>
+                <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
@@ -6471,7 +6471,7 @@ $QData{"Body"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
-                <Item Key="Description" Translatable="1">Delete this ticket!</Item>
+                <Item Key="Description" Translatable="1">Delete this ticket</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
@@ -6565,7 +6565,7 @@ $QData{"Body"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Note</Item>
                 <Item Key="Action">AgentTicketNote</Item>
-                <Item Key="Description" Translatable="1">Add a note to this ticket!</Item>
+                <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
                 <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
@@ -6581,7 +6581,7 @@ $QData{"Body"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Close</Item>
                 <Item Key="Action">AgentTicketClose</Item>
-                <Item Key="Description" Translatable="1">Close this ticket!</Item>
+                <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
@@ -6610,7 +6610,7 @@ $QData{"Body"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
-                <Item Key="Description" Translatable="1">Delete this ticket!</Item>
+                <Item Key="Description" Translatable="1">Delete this ticket</Item>
                 <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>

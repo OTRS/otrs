@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketMenuLock.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.18 2010-09-07 10:17:45 mb Exp $
+# $Id: TicketMenuLock.pm,v 1.19 2011-02-04 12:34:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,7 +82,7 @@ sub Run {
             %{ $Param{Ticket} },
             %Param,
             Name        => 'Unlock',
-            Description => 'Unlock to give it back to the queue!',
+            Description => 'Unlock to give it back to the queue',
             Link        => 'Action=AgentTicketLock;Subaction=Unlock;TicketID=$QData{"TicketID"}',
         };
     }
@@ -93,7 +93,7 @@ sub Run {
         %{ $Param{Ticket} },
         %Param,
         Name        => 'Lock',
-        Description => 'Lock it to work on it!',
+        Description => 'Lock it to work on it',
         Link        => 'Action=AgentTicketLock;Subaction=Lock;TicketID=$QData{"TicketID"}',
     };
 }
