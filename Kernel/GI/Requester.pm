@@ -2,7 +2,7 @@
 # Kernel/GI/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.1 2011-02-02 13:41:25 mg Exp $
+# $Id: Requester.pm,v 1.2 2011-02-04 11:30:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -99,9 +99,12 @@ and returns an appropriate answer based on the configured requested
 web service.
 
     my $Result = $RequesterObject->Run(
-        WebServiceID    => 1,                       # ID of the configured remote web service to use
-        Invoker         => 'Nagios::TicketLocked',  # Name of the Invoker to be used for sending the request
-        Data            => {                        # Data payload for the Invoker request (remote webservice)
+        WebserviceID     => 1,                      # ID of the configured remote web service to use OR
+        WebserviceConfig => {                       # Web service configuration data (optional, WebserviceID or WebserviceConfig must be passed)
+            ...
+        },
+        Invoker          => 'Nagios::TicketLocked', # Name of the Invoker to be used for sending the request
+        Data             => {                       # Data payload for the Invoker request (remote webservice)
             ...
         },
     );
@@ -139,6 +142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-02 13:41:25 $
+$Revision: 1.2 $ $Date: 2011-02-04 11:30:55 $
 
 =cut
