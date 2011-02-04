@@ -2,7 +2,7 @@
 # Kernel/GI/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.2 2011-02-02 13:41:25 mg Exp $
+# $Id: Provider.pm,v 1.3 2011-02-04 11:30:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -98,6 +98,9 @@ receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the configured requested
 web service.
 
+    # put this in the handler script
+    $ProviderObject->Run();
+
 =cut
 
 sub Run {
@@ -105,6 +108,35 @@ sub Run {
 
     #TODO: implement
 
+    # determine webservice ID with $ENV{QUERY_STRING}
+    # get webservice config
+    # get request data
+
+    # call $Self->_HandleRequest()
+
+    # print out response
+
+}
+
+=item _HandleRequest()
+
+handles the request data and returns the response data.
+
+    my $Response = $ProviderObject->_HandleRequest(
+        WebserviceConfig => {
+            ...
+        },
+        Request          => $Request,   # complete request data
+    );
+
+=cut
+
+sub _HandleRequest {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+
+    #return response
 }
 
 1;
@@ -123,6 +155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-02 13:41:25 $
+$Revision: 1.3 $ $Date: 2011-02-04 11:30:24 $
 
 =cut
