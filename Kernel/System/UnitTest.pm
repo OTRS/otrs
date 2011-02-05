@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.47 2011-02-04 23:37:31 mh Exp $
+# $Id: UnitTest.pm,v 1.48 2011-02-05 21:00:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -264,8 +264,9 @@ sub Run {
             $ResultSummary{Vendor} = 'debian unknown';
         }
     }
-    elsif ( system 'uname -s' eq 'FreeBSD' ) {
-        $ResultSummary{Vendor} = 'FreeBSD ' . system 'uname -r';
+    elsif ( `uname -s` eq 'FreeBSD' ) {
+        my $Release = `uname -r`;
+        $ResultSummary{Vendor} = 'FreeBSD ' . $Release;
     }
     else {
         $ResultSummary{Vendor} = 'unknown';
@@ -867,6 +868,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2011-02-04 23:37:31 $
+$Revision: 1.48 $ $Date: 2011-02-05 21:00:11 $
 
 =cut
