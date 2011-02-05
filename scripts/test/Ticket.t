@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.68 2011-01-02 11:21:25 martin Exp $
+# $Id: Ticket.t,v 1.68.2.1 2011-02-05 00:05:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4974,6 +4974,75 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         }
     }
 
+    # array to save the accounted times of each ticket
+    my @AccountedTimes = ();
+    my $Position       = 0;
+
+    for my $TicketID (@TicketIDs) {
+
+        for my $Index ( 1 .. 3 ) {
+
+            # generate a random number for the time units
+            my $RandomNumber = int( rand(100) ) + 1;
+
+            my $ArticleID = $TicketObject->ArticleCreate(
+                TicketID       => $TicketID,
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Subject        => 'some short description',
+                Body           => 'the message text',
+                Charset        => 'ISO-8859-15',
+                MimeType       => 'text/plain',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                UserID         => 1,
+            );
+
+            # add accounted time
+            $Self->True(
+                $TicketObject->TicketAccountTime(
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                    TimeUnit  => $RandomNumber,
+                    UserID    => 1,
+                ),
+                "Add accounted time",
+            );
+
+            $AccountedTimes[$Position] += $RandomNumber;
+        }
+
+        # verify accounted time
+        $Self->Is(
+            $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID ),
+            $AccountedTimes[$Position],
+            "Ticket accounted time",
+        );
+        $Position++;
+    }
+
+    my $ArraySize = @TicketIDs;
+
+    # merge the first and the last ticket on the array
+    $Self->True(
+        $TicketObject->TicketMerge(
+            MainTicketID  => $TicketIDs[0],
+            MergeTicketID => $TicketIDs[ $ArraySize - 1 ],
+            UserID        => 1,
+        ),
+        "Merge tickets",
+    );
+
+# verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
+    $Self->Is(
+        $TicketObject->TicketAccountedTimeGet( TicketID => $TicketIDs[0] ),
+        $AccountedTimes[0] + $AccountedTimes[ $ArraySize - 1 ],
+        "Merged ticket accounted time",
+    );
+
+    # delete tickets
     for my $TicketID (@TicketIDs) {
         $Self->True(
             $TicketObject->TicketDelete(

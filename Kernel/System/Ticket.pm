@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488 2011-01-24 12:22:49 martin Exp $
+# $Id: Ticket.pm,v 1.488.2.1 2011-02-05 00:05:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488 $) [1];
+$VERSION = qw($Revision: 1.488.2.1 $) [1];
 
 =head1 NAME
 
@@ -7077,6 +7077,12 @@ sub TicketMerge {
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
+    # update the accounted time of the main ticket
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE time_accounting SET ticket_id = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+    );
+
     my %MainTicket  = $Self->TicketGet( TicketID => $Param{MainTicketID} );
     my %MergeTicket = $Self->TicketGet( TicketID => $Param{MergeTicketID} );
 
@@ -8428,6 +8434,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488 $ $Date: 2011-01-24 12:22:49 $
+$Revision: 1.488.2.1 $ $Date: 2011-02-05 00:05:20 $
 
 =cut

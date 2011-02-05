@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.4 2011-02-03 21:37:53 cg Exp $
+# $Id: CHANGES,v 1.1758.2.5 2011-02-05 00:05:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.6 2011-??-??
+ - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
  - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#2877 - Licence is "License" in British English.
  - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed
