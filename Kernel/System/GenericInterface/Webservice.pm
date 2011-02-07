@@ -1,15 +1,15 @@
 # --
-# Kernel/System/GI/Webservice.pm - GI webservice config backend
+# Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Webservice.pm,v 1.2 2011-02-07 16:22:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::GI::Webservice;
+package Kernel::System::GenericInterface::Webservice;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -43,7 +43,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::GI::Webservice;
+    use Kernel::System::GenericInterface::Webservice;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -64,7 +64,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $WebserviceObject = Kernel::System::GI::Webservice->new(
+    my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
@@ -184,6 +184,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-07 16:22:47 $
 
 =cut
