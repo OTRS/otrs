@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.21 2011-02-07 19:06:32 dz Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.22 2011-02-07 22:54:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,6 +102,19 @@ sub Check {
             )
         {
 
+            # if this is already decrypted just skip it
+            if ( $Param{Article}->{Body} !~ /\Q- no text message => see attachment -\E/ ) {
+
+                # return info
+                return (
+                    {
+                        Key        => 'Crypted',
+                        Value      => 'This message was successfuly dercypted',
+                        Successful => 1,
+                    }
+                );
+            }
+
             # check sender (don't decrypt sent emails)
             if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
 
@@ -140,10 +153,11 @@ sub Check {
                 return @Return;
             }
 
+            my %Decrypt;
             for my $CertResult (@SearchPrivateResult) {
 
                 # decrypt
-                my %Decrypt = $Self->{CryptObject}->Decrypt(
+                %Decrypt = $Self->{CryptObject}->Decrypt(
                     Message => $Message,
                     %{$CertResult},
                 );
@@ -175,16 +189,16 @@ sub Check {
                     );
                     return @Return;
                 }
-                else {
-                    push(
-                        @Return,
-                        {
-                            Key => 'Crypted',
-                            Value => $Decrypt{Message} || 'Impossible decrypt, unknown error',
-                            %Decrypt,
-                        }
-                    );
-                }
+            }
+            if ( !$Decrypt{Successful} ) {
+                push(
+                    @Return,
+                    {
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message} || 'Impossible decrypt, unknown error',
+                        %Decrypt,
+                    }
+                );
             }
         }
         if (

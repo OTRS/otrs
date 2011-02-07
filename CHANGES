@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1766 2011-02-04 23:59:39 en Exp $
+# $Id: CHANGES,v 1.1767 2011-02-07 22:54:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-07 Fixed Bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS.
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
  - 2011-02-04 Fixed bug#6057 - Some action buttons don't have tooltips.
  - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.146 2011-02-04 12:29:22 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.147 2011-02-07 22:54:51 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1664,6 +1664,60 @@ sub _ArticleItem {
         );
     }
 
+    # run article view modules
+    my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule');
+    if ( ref $Config eq 'HASH' ) {
+        my %Jobs = %{$Config};
+        for my $Job ( sort keys %Jobs ) {
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Article{ArticleID},
+            );
+
+            # run module
+            my @Data = $Object->Check( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
+            for my $DataRef (@Data) {
+                if ( !$DataRef->{Successful} ) {
+                    $DataRef->{Result} = 'Error';
+                }
+                else {
+                    $DataRef->{Result} = 'Notice';
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleOption',
+                    Data => $DataRef,
+                );
+
+                for my $Warning ( @{ $DataRef->{Warnings} } ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleOption',
+                        Data => $Warning,
+                    );
+                }
+            }
+
+            # filter option
+            $Object->Filter( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
+        }
+    }
+
+    %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Article{ArticleID} );
+
+    # get attachment index (without attachments)
+    my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+        ArticleID                  => $Article{ArticleID},
+        StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
+        Article                    => \%Article,
+        UserID                     => $Self->{UserID},
+    );
+    $Article{Atms} = \%AtmIndex;
+
     # add block for attachments
     if ( $Article{Atms} && %{ $Article{Atms} } ) {
         my %AtmIndex = %{ $Article{Atms} };
@@ -1711,49 +1765,6 @@ sub _ArticleItem {
                     Data => {%Data},
                 );
             }
-        }
-    }
-
-    # run article view modules
-    my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule');
-    if ( ref $Config eq 'HASH' ) {
-        my %Jobs = %{$Config};
-        for my $Job ( sort keys %Jobs ) {
-
-            # load module
-            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
-            my $Object = $Jobs{$Job}->{Module}->new(
-                %{$Self},
-                TicketID  => $Self->{TicketID},
-                ArticleID => $Article{ArticleID},
-            );
-
-            # run module
-            my @Data = $Object->Check( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
-            for my $DataRef (@Data) {
-                if ( !$DataRef->{Successful} ) {
-                    $DataRef->{Result} = 'Error';
-                }
-                else {
-                    $DataRef->{Result} = 'Notice';
-                }
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleOption',
-                    Data => $DataRef,
-                );
-
-                for my $Warning ( @{ $DataRef->{Warnings} } ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ArticleOption',
-                        Data => $Warning,
-                    );
-                }
-            }
-
-            # filter option
-            $Object->Filter( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
         }
     }
 

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43 2010-11-20 20:50:46 dz Exp $
+# $Id: SMIME.pm,v 1.44 2011-02-07 22:54:52 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -163,7 +163,7 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Needed $_ to can decrypt!" );
             return;
         }
     }
@@ -304,12 +304,6 @@ sub Verify {
     close $FHOutput;
     my ( $FHSigner, $SignerFile ) = $Self->{FileTempObject}->TempFile();
     close $FHSigner;
-    my $SigFile = '';
-    if ( $Param{Sign} ) {
-        ( my $FHSig, $SigFile ) = $Self->{FileTempObject}->TempFile();
-        print $FHSig $Param{Sign};
-        close $FHSig;
-    }
 
     # path to the cert, when self signed certs
     # specially for openssl 1.0
@@ -320,7 +314,7 @@ sub Verify {
 
     my $Options
         = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . "-CApath $Self->{CertPath} $CertificateOption $SigFile $SignedFile";
+        . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
@@ -978,6 +972,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-11-20 20:50:46 $
+$Revision: 1.44 $ $Date: 2011-02-07 22:54:52 $
 
 =cut
