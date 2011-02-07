@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.20 2009-04-23 13:47:27 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.21 2011-02-07 19:06:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,36 +115,76 @@ sub Check {
                 );
             }
 
-            # decrypt
-            my %Decrypt = $Self->{CryptObject}->Decrypt(
-                Message => $Message,
-                Cert    => 123,
-                Key     => 123,
-            );
-            if ( $Decrypt{Successful} ) {
-                $Entity = $parser->parse_data( $Decrypt{Data} );
-                my $Head = $Entity->head();
-                $Head->unfold();
-                $Head->combine('Content-Type');
-                $ContentType = $Head->get('Content-Type');
-                push(
-                    @Return,
-                    {
-                        Key   => 'Crypted',
-                        Value => $Decrypt{Message},
-                        %Decrypt,
-                    }
-                );
+            # clean email to search
+            my $EmailTo;
+            if ( $Param{Article}->{To} =~ m{.*<(.*@.+\.\w+)>}xms ) {
+                $EmailTo = $1;
             }
             else {
+                $Param{Article}->{To} =~ m{(.*@.+\.\w+)}xms;
+                $EmailTo = $1;
+            }
+
+            # search private cert to decrypt email
+            my @SearchPrivateResult = $Self->{CryptObject}->PrivateSearch( Search => $EmailTo, );
+
+            if ( !@SearchPrivateResult ) {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
-                        Value => $Decrypt{Message},
-                        %Decrypt,
+                        Key => 'Crypted',
+                        Value =>
+                            "Impossible to decrypt: private key for $EmailTo email doesn't found",
                     }
                 );
+                return @Return;
+            }
+
+            for my $CertResult (@SearchPrivateResult) {
+
+                # decrypt
+                my %Decrypt = $Self->{CryptObject}->Decrypt(
+                    Message => $Message,
+                    %{$CertResult},
+                );
+
+                if ( $Decrypt{Successful} ) {
+
+                    # updated article body
+                    $Self->{TicketObject}->ArticleUpdate(
+                        TicketID  => $Param{Article}->{TicketID},
+                        ArticleID => $Self->{ArticleID},
+                        Key       => 'Body',
+                        Value     => $Decrypt{Data},
+                        UserID    => $Self->{UserID},
+                    );
+
+                    # delete crypted attachments
+                    $Self->{TicketObject}->ArticleDeleteAttachment(
+                        ArticleID => $Self->{ArticleID},
+                        UserID    => $Self->{UserID},
+                    );
+
+                    push(
+                        @Return,
+                        {
+                            Key => 'Crypted',
+                            Value => $Decrypt{Message} || 'Successfull decryption',
+                            %Decrypt,
+                        }
+                    );
+                    return @Return;
+                }
+                else {
+                    push(
+                        @Return,
+                        {
+                            Key => 'Crypted',
+                            Value => $Decrypt{Message} || 'Impossible decrypt, unknown error',
+                            %Decrypt,
+                        }
+                    );
+                }
             }
         }
         if (
