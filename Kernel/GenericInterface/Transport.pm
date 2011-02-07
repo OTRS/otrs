@@ -1,41 +1,29 @@
 # --
-# Kernel/GI/Invoker.pm - GenericInterface Invoker interface
+# Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.2 2011-02-04 10:01:42 mg Exp $
+# $Id: Transport.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Invoker;
+package Kernel::GenericInterface::Transport;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Invoker
+Kernel::GenericInterface::Transport
 
 =head1 SYNOPSIS
 
-GenericInterface Invoker interface.
-
-Invokers are responsible to prepare for making a remote web service
-request.
-
-For every Request, two methods are called:
-
-    L<PrepareRequest()>
-    L<HandleResponse()>
-
-The first method prepares the response and can prevent it by returning
-an error state. The second method must always be called if the request
-was initiated to allow the Invoker to handle possible errors.
+GenericInterface network transport interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -53,7 +41,7 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Invoker;
+    use Kernel::GenericInterface::Transport;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -78,7 +66,7 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $InvokerObject = Kernel::GI::Invoker->new(
+    my $TransportObject = Kernel::GenericInterface::Transport->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -86,7 +74,12 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Invoker            => 'Nagios::TicketLock',    # the Invoker to use
+        TransportConfig   => {
+            Type => 'HTTP::SOAP',
+            Config => {
+                ...
+            },
+        },
     );
 
 =cut
@@ -105,41 +98,65 @@ sub new {
     return;
 }
 
-=item PrepareRequest()
+=item ProviderProcessRequest()
 
-prepare the invocation of the configured remote webservice.
+process an incoming web service request.
 
-    my $Result = $InvokerObject->PrepareRequest(
-        Data => {                               # data payload
-            ...
-        },
+    my $Result = $TransportObject->ProviderProcessRequest(
+        Request => $Request,    # complete request, such as HTTP request
     );
 
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload after Invoker
+        Operation       => 'DesiredOperation',  # name of the operation to perform
+        Data            => {                    # data payload of request
             ...
         },
     };
 
 =cut
 
-sub PrepareRequest {
+sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO implement
-
+    #TODO: implement
 }
 
-=item HandleResponse()
+=item ProviderGenerateResponse()
 
-handle response data of the configured remote webservice.
+generate response for an incoming web service request.
 
-    my $Result = $InvokerObject->HandleResponse(
-        ResponseSuccess      => 1,              # success status of the remote webservice
-        ResponseErrorMessage => '',             # in case of webservice error
-        Data => {                               # data payload
+    my $Result = $TransportObject->ProviderGenerateResponse(
+        Success         => 1,       # 1 or 0
+        ErrorMessage    => '',      # in case of an error
+        Data            => {        # data payload for response
+            ...
+        },
+
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Response        => $Response,           # complete response
+    };
+
+=cut
+
+sub ProviderGenerateResponse {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+}
+
+=item RequesterGenerateRequest()
+
+generate an outgoing web service request.
+
+    my $Result = $TransportObject->RequesterGenerateRequest(
+        Operation       => 'remote_op', # name of remote operation to perform
+        Data            => {            # data payload for request
             ...
         },
     );
@@ -147,18 +164,39 @@ handle response data of the configured remote webservice.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload after Invoker
+        Request        => $Request,             # complete request
+    };
+
+=cut
+
+sub RequesterGenerateRequest {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+}
+
+=item RequesterProcessResponse()
+
+process response of an incoming web service request.
+
+    my $Result = $TransportObject->RequesterProcessResponse(
+        Response => $Response,    # complete response, such as HTTP response
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload of response
             ...
         },
     };
 
 =cut
 
-sub HandleResponse {
+sub RequesterProcessResponse {
     my ( $Self, %Param ) = @_;
 
-    #TODO implement
-
+    #TODO: implement
 }
 
 1;
@@ -177,6 +215,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-04 10:01:42 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

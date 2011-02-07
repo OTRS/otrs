@@ -1,29 +1,41 @@
 # --
-# Kernel/GI/Provider.pm - GenericInterface provider handler
+# Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.3 2011-02-04 11:30:24 mg Exp $
+# $Id: Invoker.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Provider;
+package Kernel::GenericInterface::Invoker;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Provider
+Kernel::GenericInterface::Invoker
 
 =head1 SYNOPSIS
 
-GenericInterface handler for incoming web service requests.
+GenericInterface Invoker interface.
+
+Invokers are responsible to prepare for making a remote web service
+request.
+
+For every Request, two methods are called:
+
+    L<PrepareRequest()>
+    L<HandleResponse()>
+
+The first method prepares the response and can prevent it by returning
+an error state. The second method must always be called if the request
+was initiated to allow the Invoker to handle possible errors.
 
 =head1 PUBLIC INTERFACE
 
@@ -33,7 +45,7 @@ GenericInterface handler for incoming web service requests.
 
 =item new()
 
-create an object
+create an object.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -41,7 +53,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Provider;
+    use Kernel::GenericInterface::Invoker;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -66,13 +78,15 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $ProviderObject = Kernel::GI::Provider->new(
+    my $InvokerObject = Kernel::GenericInterface::Invoker->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
         MainObject         => $MainObject,
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
+
+        Invoker            => 'Nagios::TicketLock',    # the Invoker to use
     );
 
 =cut
@@ -80,7 +94,6 @@ create an object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
@@ -89,54 +102,63 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    return $Self;
+    return;
 }
 
-=item Run()
+=item PrepareRequest()
 
-receives the current incoming web service request, handles it,
-and returns an appropriate answer based on the configured requested
-web service.
+prepare the invocation of the configured remote webservice.
 
-    # put this in the handler script
-    $ProviderObject->Run();
-
-=cut
-
-sub Run {
-    my ( $Self, %Param ) = @_;
-
-    #TODO: implement
-
-    # determine webservice ID with $ENV{QUERY_STRING}
-    # get webservice config
-    # get request data
-
-    # call $Self->_HandleRequest()
-
-    # print out response
-
-}
-
-=item _HandleRequest()
-
-handles the request data and returns the response data.
-
-    my $Response = $ProviderObject->_HandleRequest(
-        WebserviceConfig => {
+    my $Result = $InvokerObject->PrepareRequest(
+        Data => {                               # data payload
             ...
         },
-        Request          => $Request,   # complete request data
     );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload after Invoker
+            ...
+        },
+    };
 
 =cut
 
-sub _HandleRequest {
+sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    #TODO implement
 
-    #return response
+}
+
+=item HandleResponse()
+
+handle response data of the configured remote webservice.
+
+    my $Result = $InvokerObject->HandleResponse(
+        ResponseSuccess      => 1,              # success status of the remote webservice
+        ResponseErrorMessage => '',             # in case of webservice error
+        Data => {                               # data payload
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload after Invoker
+            ...
+        },
+    };
+
+=cut
+
+sub HandleResponse {
+    my ( $Self, %Param ) = @_;
+
+    #TODO implement
+
 }
 
 1;
@@ -155,6 +177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-04 11:30:24 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

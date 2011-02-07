@@ -1,15 +1,15 @@
 # --
-# Kernel/GI/Debugger.pm - GenericInterface data debugger interface
+# Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.1 2011-02-04 09:37:35 mg Exp $
+# $Id: Operation.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Debugger;
+package Kernel::GenericInterface::Operation;
 
 use strict;
 use warnings;
@@ -19,16 +19,14 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Debugger
+Kernel::GenericInterface::Operation
 
 =head1 SYNOPSIS
 
-GenericInterface data debugger interface.
+GenericInterface Operation interface.
 
-For every communication process, one Kernel::GI::Debugger object
-should be constructed and fed with data at the various stages
-of the process. It will collect the data and write it into the database,
-based on the configured debug level.
+Operations are called by web service requests from remote
+systems.
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +44,7 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Debugger;
+    use Kernel::GenericInterface::Operation;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -71,7 +69,7 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $DebuggerObject = Kernel::GI::Debugger->new(
+    my $OperationObject = Kernel::GenericInterface::Operation->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -79,12 +77,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        DebuggerConfig   => {
-            DebugLevel => 'debug',
-            ...
-        },
-
-        WebserviceID    => 12,
+        Operation => 'Ticket::TicketCreate',    # the local operation to use
     );
 
 =cut
@@ -100,27 +93,60 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # TODO: implement
-
     return;
 }
 
-=item DebugLog()
+=item Run()
 
-add one piece of data to the logging of this communication process
+perform the selected Operation.
 
-    $DebuggerObject->DebugLog(
-        DebugLevel  => 'debug',
-        Title       => 'Short summary, one line',
-        Data        => $Data,
+    my $Result = $OperationObject->Run(
+        Data => {                               # data payload before Operation
+            ...
+        },
     );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # result data payload after Operation
+            ...
+        },
+    };
 
 =cut
 
-sub DebugLog {
+sub Run {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    #TODO implement
+
+}
+
+=item _Auth()
+
+helper function which authenticates Agents or Customers.
+This function is used by the different Operations.
+
+    my $UserID = $ControllerObject->_Auth(
+        Type     => 'Agent',    # Agent or Customer
+        Username => 'User',
+        Password => 'PW',
+        TTL      => 60*60*24,   # TTL for caching of successful logins
+    );
+
+Returns UserID (for Agents), CustomerUserID (for Customers), or undef
+(on authentication failure).
+
+=cut
+
+sub _Auth {
+    my ( $Self, %Param ) = @_;
+
+    # TODO move this function somewhere else, e. g. Kernel/System/GenericInterface/*.pm
+
+    # TODO implement
+
 }
 
 1;
@@ -139,6 +165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-04 09:37:35 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

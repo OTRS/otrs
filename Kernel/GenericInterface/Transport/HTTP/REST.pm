@@ -1,15 +1,15 @@
 # --
-# Kernel/GI/Mapping/Simple.pm - GenericInterface simle data mapping backend
+# Kernel/GenericInterface/Transport/HTTP/REST.pm - GenericInterface network transport interface for HTTP::REST
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.1 2011-02-03 10:19:07 mg Exp $
+# $Id: REST.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Mapping::Simple;
+package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
@@ -19,11 +19,11 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Mapping
+Kernel::GenericInterface::Transport::REST
 
 =head1 SYNOPSIS
 
-GenericInterface simple data mapping backend
+GenericInterface network transport interface for HTTP::REST
 
 =head1 PUBLIC INTERFACE
 
@@ -48,7 +48,25 @@ sub new {
     return;
 }
 
-sub Map {
+sub ProviderProcessRequest {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+}
+
+sub ProviderGenerateResponse {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+}
+
+sub RequesterGenerateRequest {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+}
+
+sub RequesterProcessResponse {
     my ( $Self, %Param ) = @_;
 
     #TODO: implement
@@ -70,6 +88,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-03 10:19:07 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

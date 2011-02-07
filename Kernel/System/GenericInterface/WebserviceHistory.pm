@@ -1,15 +1,15 @@
 # --
-# Kernel/System/GI/WebserviceHistory.pm - GI WebserviceHistory config backend
+# Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.2 2011-02-03 09:54:43 mg Exp $
+# $Id: WebserviceHistory.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::GI::WebserviceHistory;
+package Kernel::System::GenericInterface::WebserviceHistory;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::GI::WebserviceHistory;
+    use Kernel::System::GenericInterface::WebserviceHistory;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -65,7 +65,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $WebserviceHistoryObject = Kernel::System::GI::WebserviceHistory->new(
+    my $WebserviceHistoryObject = Kernel::System::GenericInterface::WebserviceHistory->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
@@ -153,7 +153,7 @@ sub WebserviceHistoryUpdate {
 
 =item WebserviceHistoryList()
 
-get WebserviceHistory list for a given web service
+get WebserviceHistory list for a GenericInterfaceven web service
 
     my @List = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => 1243,
@@ -188,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-03 09:54:43 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

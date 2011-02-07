@@ -1,29 +1,34 @@
 # --
-# Kernel/GI/Mapping.pm - GenericInterface data mapping interface
+# Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.2 2011-02-04 10:01:42 mg Exp $
+# $Id: Debugger.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Mapping;
+package Kernel::GenericInterface::Debugger;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Mapping
+Kernel::GenericInterface::Debugger
 
 =head1 SYNOPSIS
 
-GenericInterface data mapping interface.
+GenericInterface data debugger interface.
+
+For every communication process, one Kernel::GenericInterface::Debugger object
+should be constructed and fed with data at the various stages
+of the process. It will collect the data and write it into the database,
+based on the configured debug level.
 
 =head1 PUBLIC INTERFACE
 
@@ -33,7 +38,7 @@ GenericInterface data mapping interface.
 
 =item new()
 
-create an object. This will return the Mapping backend for the current web service configuration.
+create an object.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -41,7 +46,7 @@ create an object. This will return the Mapping backend for the current web servi
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Mapping;
+    use Kernel::GenericInterface::Debugger;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -66,7 +71,7 @@ create an object. This will return the Mapping backend for the current web servi
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $MappingObject = Kernel::GI::Mapping->new(
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -74,12 +79,12 @@ create an object. This will return the Mapping backend for the current web servi
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        MappingConfig   => {
-            Type => 'MappingSimple',
-            Config => {
-                ...
-            },
+        DebuggerConfig   => {
+            DebugLevel => 'debug',
+            ...
         },
+
+        WebserviceID    => 12,
     );
 
 =cut
@@ -95,30 +100,24 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # TODO: implement
+
     return;
 }
 
-=item Map()
+=item DebugLog()
 
-perform data mapping
+add one piece of data to the logging of this communication process
 
-    my $Result = $MappingObject->Map(
-        Data => {                               # data payload before mapping
-            ...
-        },
+    $DebuggerObject->DebugLog(
+        DebugLevel  => 'debug',
+        Title       => 'Short summary, one line',
+        Data        => $Data,
     );
-
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload of after mapping
-            ...
-        },
-    };
 
 =cut
 
-sub Map {
+sub DebugLog {
     my ( $Self, %Param ) = @_;
 
     #TODO: implement
@@ -140,6 +139,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-04 10:01:42 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

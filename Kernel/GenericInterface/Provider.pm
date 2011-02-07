@@ -1,32 +1,29 @@
 # --
-# Kernel/System/GI/Webservice.pm - GI webservice config backend
+# Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.2 2011-02-03 09:54:43 mg Exp $
+# $Id: Provider.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::GI::Webservice;
+package Kernel::GenericInterface::Provider;
 
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
-
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::Webservice
+Kernel::GenericInterface::Provider
 
 =head1 SYNOPSIS
 
-Webservice configuration backend.
+GenericInterface handler for incoming web service requests.
 
 =head1 PUBLIC INTERFACE
 
@@ -41,9 +38,10 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::GI::Webservice;
+    use Kernel::GenericInterface::Provider;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -52,6 +50,10 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -64,108 +66,77 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $WebserviceObject = Kernel::System::GI::Webservice->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
+    my $ProviderObject = Kernel::GenericInterface::Provider->new(
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
     );
 
 =cut
 
 sub new {
-    my ( $Webservice, %Param ) = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless( $Self, $Webservice );
+    bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
+    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
 }
 
-=item WebserviceAdd()
+=item Run()
 
-add new Webservices
+receives the current incoming web service request, handles it,
+and returns an appropriate answer based on the configured requested
+web service.
 
-    my $ID = $WebserviceObject->WebserviceAdd(
-        Config  => {
+    # put this in the handler script
+    $ProviderObject->Run();
+
+=cut
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    #TODO: implement
+
+    # determine webservice ID with $ENV{QUERY_STRING}
+    # get webservice config
+    # get request data
+
+    # call $Self->_HandleRequest()
+
+    # print out response
+
+}
+
+=item _HandleRequest()
+
+handles the request data and returns the response data.
+
+    my $Response = $ProviderObject->_HandleRequest(
+        WebserviceConfig => {
             ...
         },
-        ValidID => 1,
-        UserID  => 123,
+        Request          => $Request,   # complete request data
     );
 
 =cut
 
-sub WebserviceAdd {
+sub _HandleRequest {
     my ( $Self, %Param ) = @_;
 
-}
+    #TODO: implement
 
-=item WebserviceGet()
-
-get Webservices attributes
-
-    my %Webservice = $WebserviceObject->WebserviceGet(
-        ID => 123,
-    );
-
-Returns:
-
-    %Webservice = (
-        ...
-    );
-
-=cut
-
-sub WebserviceGet {
-    my ( $Self, %Param ) = @_;
-
-}
-
-=item WebserviceUpdate()
-
-update Webservice attributes
-
-    $WebserviceObject->WebserviceUpdate(
-        ID      => 123,
-        Config  => {
-            ...
-        },
-        ValidID => 1,
-        UserID  => 123,
-    );
-
-=cut
-
-sub WebserviceUpdate {
-    my ( $Self, %Param ) = @_;
-
-}
-
-=item WebserviceList()
-
-get Webservice list
-
-    my @List = $WebserviceObject->WebserviceList();
-
-    or
-
-    my @List = $WebserviceObject->WebserviceList(
-        Valid => 0, # optional, defaults to 1
-    );
-
-=cut
-
-sub WebserviceList {
-    my ( $Self, %Param ) = @_;
-
+    #return response
 }
 
 1;
@@ -184,6 +155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-03 09:54:43 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

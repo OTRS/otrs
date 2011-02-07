@@ -1,32 +1,29 @@
 # --
-# Kernel/GI/Operation.pm - GenericInterface operation interface
+# Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.3 2011-02-04 10:01:42 mg Exp $
+# $Id: Mapping.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Operation;
+package Kernel::GenericInterface::Mapping;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Operation
+Kernel::GenericInterface::Mapping
 
 =head1 SYNOPSIS
 
-GenericInterface Operation interface.
-
-Operations are called by web service requests from remote
-systems.
+GenericInterface data mapping interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -36,7 +33,7 @@ systems.
 
 =item new()
 
-create an object.
+create an object. This will return the Mapping backend for the current web service configuration.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -44,7 +41,7 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Operation;
+    use Kernel::GenericInterface::Mapping;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -69,7 +66,7 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $OperationObject = Kernel::GI::Operation->new(
+    my $MappingObject = Kernel::GenericInterface::Mapping->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -77,7 +74,12 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Operation => 'Ticket::TicketCreate',    # the local operation to use
+        MappingConfig   => {
+            Type => 'MappingSimple',
+            Config => {
+                ...
+            },
+        },
     );
 
 =cut
@@ -96,12 +98,12 @@ sub new {
     return;
 }
 
-=item Run()
+=item Map()
 
-perform the selected Operation.
+perform data mapping
 
-    my $Result = $OperationObject->Run(
-        Data => {                               # data payload before Operation
+    my $Result = $MappingObject->Map(
+        Data => {                               # data payload before mapping
             ...
         },
     );
@@ -109,44 +111,17 @@ perform the selected Operation.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Data            => {                    # result data payload after Operation
+        Data            => {                    # data payload of after mapping
             ...
         },
     };
 
 =cut
 
-sub Run {
+sub Map {
     my ( $Self, %Param ) = @_;
 
-    #TODO implement
-
-}
-
-=item _Auth()
-
-helper function which authenticates Agents or Customers.
-This function is used by the different Operations.
-
-    my $UserID = $ControllerObject->_Auth(
-        Type     => 'Agent',    # Agent or Customer
-        Username => 'User',
-        Password => 'PW',
-        TTL      => 60*60*24,   # TTL for caching of successful logins
-    );
-
-Returns UserID (for Agents), CustomerUserID (for Customers), or undef
-(on authentication failure).
-
-=cut
-
-sub _Auth {
-    my ( $Self, %Param ) = @_;
-
-    # TODO move this function somewhere else, e. g. Kernel/System/GI/*.pm
-
-    # TODO implement
-
+    #TODO: implement
 }
 
 1;
@@ -165,6 +140,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-04 10:01:42 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut

@@ -1,29 +1,29 @@
 # --
-# Kernel/GI/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
+# Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simle data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.2 2011-02-03 10:18:22 mg Exp $
+# $Id: Simple.pm,v 1.1 2011-02-07 16:06:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Transport::HTTP::SOAP;
+package Kernel::GenericInterface::Mapping::Simple;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Transport::SOAP
+Kernel::GenericInterface::Mapping
 
 =head1 SYNOPSIS
 
-GenericInterface network transport interface for HTTP::SOAP
+GenericInterface simple data mapping backend
 
 =head1 PUBLIC INTERFACE
 
@@ -48,25 +48,7 @@ sub new {
     return;
 }
 
-sub ProviderProcessRequest {
-    my ( $Self, %Param ) = @_;
-
-    #TODO: implement
-}
-
-sub ProviderGenerateResponse {
-    my ( $Self, %Param ) = @_;
-
-    #TODO: implement
-}
-
-sub RequesterGenerateRequest {
-    my ( $Self, %Param ) = @_;
-
-    #TODO: implement
-}
-
-sub RequesterProcessResponse {
+sub Map {
     my ( $Self, %Param ) = @_;
 
     #TODO: implement
@@ -88,6 +70,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-03 10:18:22 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:06 $
 
 =cut

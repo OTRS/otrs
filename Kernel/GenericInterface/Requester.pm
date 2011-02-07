@@ -1,25 +1,25 @@
 # --
-# Kernel/GI/Requester.pm - GenericInterface Requester handler
+# Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.2 2011-02-04 11:30:55 mg Exp $
+# $Id: Requester.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GI::Requester;
+package Kernel::GenericInterface::Requester;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GI::Requester
+Kernel::GenericInterface::Requester
 
 =head1 SYNOPSIS
 
@@ -41,7 +41,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GI::Requester;
+    use Kernel::GenericInterface::Requester;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -66,7 +66,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $RequesterObject = Kernel::GI::Requester->new(
+    my $RequesterObject = Kernel::GenericInterface::Requester->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -142,6 +142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-04 11:30:55 $
+$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
 
 =cut
