@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.1 2011-02-08 16:08:39 martin Exp $
+# $Id: Webservice.t,v 1.2 2011-02-08 16:34:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -181,8 +181,31 @@ my @Tests = (
         UserID        => 1,
     },
     {
-        Name          => 'test 2',
+        Name          => 'test 4',
         SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        Config        => {
+            Name        => 'Nagios',
+            Description => 'Connector to send and recive date from Nagios 2.',
+            Provider    => {},
+            Requester   => {
+                Transport => {
+                    Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                    Config => {
+                        NameSpace => '',
+                        Encoding  => '',
+                        Endpoint  => '',
+                    },
+                },
+            },
+        },
+        ValidID => 2,
+        UserID  => 1,
+        Update  => undef,
+    },
+    {
+        Name          => 'test 4',
+        SuccessAdd    => 0,
         SuccessUpdate => 0,
         Config        => {
             Name        => 'Nagios',
@@ -251,7 +274,7 @@ for my $Test (@Tests) {
     );
 
     # update config with a modification
-    if ( $Test->{Update} ) {
+    if ( exists $Test->{Update} ) {
         $Test->{Config} = $Test->{Update};
     }
     my $Success = $WebserviceObject->WebserviceUpdate(
@@ -266,7 +289,7 @@ for my $Test (@Tests) {
             $Success,
             "$Test->{Name} - WebserviceUpdate()",
         );
-        last;
+        next;
     }
     else {
         $Self->True(
