@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.4 2011-02-08 11:11:03 sb Exp $
+# $Id: Test.pm,v 1.5 2011-02-08 15:17:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -39,7 +39,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw(MappingConfig)) {
+    for my $Needed (qw(DebuggerObject MainObject MappingConfig)) {
         return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
@@ -48,7 +48,7 @@ sub new {
     # check mapping config
     return { ErrorMessage => 'MappingConfig is no hash reference!' }
         if ref $Self->{MappingConfig} ne 'HASH';
-    return { ErrorMessage => 'Got no Config param in MappingConfig!' }
+    return { ErrorMessage => 'Config param in MappingConfig is no hash reference!' }
         if ref $Self->{MappingConfig}->{Config} ne 'HASH';
 
     return $Self;
@@ -61,12 +61,29 @@ sub Map {
     if ( ref $Param{Data} ne 'HASH' ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Got no Data',
+            ErrorMessage => 'Data is not a hash reference!',
+        };
+    }
+    if ( !%{ $Param{Data} } ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Got no Data!',
         };
     }
 
-    # just return the input data if we have no instructions otherwise
-    if ( !%{ $Self->{MappingConfig}->{Config} } ) {
+    if (
+        $Self->{MappingConfig}->{Config}->{TestOption}
+        && ref $Self->{MappingConfig}->{Config}->{TestOption}
+        )
+    {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Config param TestOption is not a string!',
+        };
+    }
+
+    # just return the input data if we have no test instructions otherwise
+    if ( !%{ $Self->{MappingConfig}->{Config}->{TestOption} } ) {
         return {
             Success => 1,
             Data    => $Param{Data},
@@ -75,14 +92,17 @@ sub Map {
 
     # parse data according to configuration
     my $ReturnData = {};
-    if ( $Self->{MappingConfig}->{Config} eq 'ToUpper' ) {
+    if ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToUpper' ) {
         $ReturnData = $Self->_ToUpper( Data => $Param{Data} );
     }
-    elsif ( $Self->{MappingConfig}->{Config} eq 'ToLower' ) {
+    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToLower' ) {
         $ReturnData = $Self->_ToLower( Data => $Param{Data} );
     }
-    elsif ( $Self->{MappingConfig}->{Config} eq 'Empty' ) {
+    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'Empty' ) {
         $ReturnData = $Self->_Empty( Data => $Param{Data} );
+    }
+    else {
+        $ReturnData = $Param{Data};
     }
 
     # return result
@@ -142,6 +162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-08 11:11:03 $
+$Revision: 1.5 $ $Date: 2011-02-08 15:17:19 $
 
 =cut
