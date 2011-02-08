@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.3 2011-02-08 11:12:26 sb Exp $
+# $Id: Mapping.pm,v 1.4 2011-02-08 13:25:16 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -100,16 +100,20 @@ sub new {
     }
 
     # load backend module
-    if ( $Param{MappingConfig}->{'Type'} ) {
-        my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
-        if ( !$Self->{MainObject}->Require($GenericModule) ) {
-            return { ErrorMessage => "Can't load mapping backend module $GenericModule! $@" };
-        }
-        $Self->{Backend} = $GenericModule->new( %{$Self}, MappingConfig => \$Param{MappingConfig} );
-    }
-    else {
-        return { ErrorMessage => 'No type was supplied in MappingConfig!' };
-    }
+    return { ErrorMessage => 'No type was supplied in MappingConfig!' }
+        if !$Param{MappingConfig}->{'Type'};
+
+    my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
+    return { ErrorMessage => "Can't load mapping backend module $GenericModule! $@" }
+        if !$Self->{MainObject}->Require($GenericModule);
+
+    $Self->{Backend} = $GenericModule->new(
+        %{$Self},
+        MappingConfig => $Param{MappingConfig},
+    );
+    return { ErrorMessage => "Could not create backend object for $GenericModule!" }
+        if ref $Self->{Backend} ne $GenericModule;
+    return $Self->{Backend} if ref $Self->{Backend} eq 'HASH';
 
     return $Self;
 }
@@ -125,9 +129,9 @@ perform data mapping
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload of after mapping
+        Success         => 1,  # 0 or 1
+        ErrorMessage    => '', # in case of error
+        Data            => {   # data payload of after mapping
             ...
         },
     };
@@ -138,12 +142,10 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
-        return;
-    }
-    return $Self->{Backend}->Map(%Param)
+    return { ErrorMessage => 'Need Data!' } if !$Param{Data};
 
+    # map on backend
+    return $Self->{Backend}->Map(%Param);
 }
 
 1;
@@ -162,6 +164,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-08 11:12:26 $
+$Revision: 1.4 $ $Date: 2011-02-08 13:25:16 $
 
 =cut
