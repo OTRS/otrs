@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.4 2011-02-08 13:25:16 sb Exp $
+# $Id: Mapping.pm,v 1.5 2011-02-08 18:24:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -91,7 +91,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
     # check needed params
     for my $Needed (qw(DBObject DebuggerObject MainObject MappingConfig)) {
         return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
@@ -100,19 +99,36 @@ sub new {
     }
 
     # load backend module
-    return { ErrorMessage => 'No type was supplied in MappingConfig!' }
-        if !$Param{MappingConfig}->{'Type'};
+    if ( !$Param{MappingConfig}->{'Type'} ) {
+        $Self->{DebuggerObject}->DebugLog(
+            DebugLevel => 'debug',
+            Title      => 'No type was supplied in MappingConfig.',
+            Data       => 'Empty string',
+        );
+        return { ErrorMessage => 'No type was supplied in MappingConfig!' };
+    }
 
     my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
-    return { ErrorMessage => "Can't load mapping backend module $GenericModule! $@" }
-        if !$Self->{MainObject}->Require($GenericModule);
-
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        $Self->{DebuggerObject}->DebugLog(
+            DebugLevel => 'debug',
+            Title      => 'Can\'t load mapping backend module.',
+            Data       => $Param{MappingConfig}->{'Type'},
+        );
+        return { ErrorMessage => "Can't load mapping backend module $GenericModule! $@" };
+    }
     $Self->{Backend} = $GenericModule->new(
         %{$Self},
         MappingConfig => $Param{MappingConfig},
     );
-    return { ErrorMessage => "Could not create backend object for $GenericModule!" }
-        if ref $Self->{Backend} ne $GenericModule;
+    if ( ref $Self->{Backend} ne $GenericModule ) {
+        $Self->{DebuggerObject}->DebugLog(
+            DebugLevel => 'debug',
+            Title      => 'Could not create backend object.',
+            Data       => $GenericModule,
+        );
+        return { ErrorMessage => "Could not create backend object for $GenericModule!" }
+    }
     return $Self->{Backend} if ref $Self->{Backend} eq 'HASH';
 
     return $Self;
@@ -142,7 +158,14 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    return { ErrorMessage => 'Need Data!' } if !$Param{Data};
+    if ( !$Param{Data} ) {
+        $Self->{DebuggerObject}->DebugLog(
+            DebugLevel => 'debug',
+            Title      => 'Need Data!',
+            Data       => 'No data',
+        );
+        return { ErrorMessage => 'Need Data!' }
+    }
 
     # map on backend
     return $Self->{Backend}->Map(%Param);
@@ -164,6 +187,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-08 13:25:16 $
+$Revision: 1.5 $ $Date: 2011-02-08 18:24:09 $
 
 =cut
