@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.58 2010-11-25 10:09:47 mg Exp $
+# $Id: InterfaceAgent.pm,v 1.59 2011-02-08 15:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -52,7 +52,10 @@ create agent web interface object
     use Kernel::System::Web::InterfaceAgent;
 
     my $Debug = 0;
-    my $InterfaceAgent = Kernel::System::Web::InterfaceAgent->new(Debug => $Debug);
+    my $InterfaceAgent = Kernel::System::Web::InterfaceAgent->new(
+        Debug      => $Debug,
+        WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used, the CGI object is already provided
+    );
 
 =cut
 
@@ -908,6 +911,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2010-11-25 10:09:47 $
+$Revision: 1.59 $ $Date: 2011-02-08 15:57:38 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.37 2010-06-17 22:14:28 cr Exp $
+# $Id: Request.pm,v 1.38 2011-02-08 15:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -61,7 +61,7 @@ create param object
         LogObject    => $LogObject,
         EncodeObject => $EncodeObject,
         MainObject   => $MainObject,
-
+        WebRequest   => CGI::Fast->new(), # optional, e. g. if fast cgi is used
     );
 
 =cut
@@ -369,6 +369,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-06-17 22:14:28 $
+$Revision: 1.38 $ $Date: 2011-02-08 15:57:38 $
 
 =cut

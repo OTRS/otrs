@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.3 2011-02-08 15:21:08 martin Exp $
+# $Id: Provider.pm,v 1.4 2011-02-08 15:58:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -45,7 +45,9 @@ create an object
 
     use Kernel::GenericInterface::Provider;
 
-    my $Provider = Kernel::GenericInterface::Provider->new();
+    my $Provider = Kernel::GenericInterface::Provider->new(
+        WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used, the CGI object is already provided
+    );
 
 =cut
 
@@ -66,6 +68,9 @@ sub new {
     $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
     $Self->{DBObject}     = Kernel::System::DB->new( %{$Self} );
+
+    # take already existing CGI object e. g. fast CGI is used
+    $Self->{ParamObject} = $Param{WebRequest};
 
     return $Self;
 }
@@ -133,6 +138,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-08 15:21:08 $
+$Revision: 1.4 $ $Date: 2011-02-08 15:58:41 $
 
 =cut

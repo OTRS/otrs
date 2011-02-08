@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.56 2010-11-25 10:09:47 mg Exp $
+# $Id: InterfaceCustomer.pm,v 1.57 2011-02-08 15:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -52,7 +52,10 @@ create customer web interface object
     use Kernel::System::Web::InterfaceCustomer;
 
     my $Debug = 0;
-    my $InterfaceCustomer = Kernel::System::Web::InterfaceCustomer->new(Debug => $Debug);
+    my $InterfaceCustomer = Kernel::System::Web::InterfaceCustomer->new(
+        Debug      => $Debug,
+        WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used, the CGI object is already provided
+    );
 
 =cut
 
@@ -1027,6 +1030,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2010-11-25 10:09:47 $
+$Revision: 1.57 $ $Date: 2011-02-08 15:57:38 $
 
 =cut

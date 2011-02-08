@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.3 2011-02-08 15:14:26 mg Exp $
+# $Id: Transport.pm,v 1.4 2011-02-08 15:58:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -75,12 +75,14 @@ create an object.
         DebuggerObject => $DebuggerObject,
     );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
+        ConfigObject  => $ConfigObject,
+        LogObject     => $LogObject,
+        DBObject      => $DBObject,
+        MainObject    => $MainObject,
+        TimeObject    => $TimeObject,
+        EncodeObject  => $EncodeObject,
+
+        WebRequest    => CGI::Fast->new(), # optional, e. g. if fast cgi is used, the CGI object is already provided
 
         TransportConfig => {
             Type => 'HTTP::SOAP',
@@ -226,6 +228,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-08 15:14:26 $
+$Revision: 1.4 $ $Date: 2011-02-08 15:58:41 $
 
 =cut
