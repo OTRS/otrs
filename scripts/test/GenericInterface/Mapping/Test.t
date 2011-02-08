@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.2 2011-02-08 16:41:23 cg Exp $
+# $Id: Test.t,v 1.3 2011-02-08 17:11:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,7 @@ my @MappingTests = (
     {
         Name          => 'Test with wrong Data',
         Config        => { TestOption => 'no data' },
-        Data          => 'something for data',
+        Data          => {},
         ResultData    => undef,
         ResultSuccess => 0,
     },
