@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.1 2011-02-08 16:36:08 cg Exp $
+# $Id: Test.t,v 1.2 2011-02-08 16:41:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,14 +165,14 @@ for my $Test (@MappingTests) {
     $Self->Is(
         $MappingResult->{Success},
         $Test->{ResultSuccess},
-        $Test->{Name} . " (Success).",
+        $Test->{Name} . ' (Success).',
     );
 
     # check if function return correct data
     $Self->IsDeeply(
         $MappingResult->{Data},
         $Test->{ResultData},
-        $Test->{Name} . " (Data Structure).",
+        $Test->{Name} . ' (Data Structure).',
     );
 
     if ( !$Test->{ResultSuccess} ) {
@@ -185,7 +185,7 @@ for my $Test (@MappingTests) {
     else {
         $Self->False(
             $MappingObject->{ErrorMessage},
-            $Test->{Name} . " (Not Error Message).",
+            $Test->{Name} . ' (Not Error Message).',
         );
     }
 }
