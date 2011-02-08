@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.78 2010-12-01 12:16:09 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.78.2.1 2011-02-08 22:07:33 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.78.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1052,10 +1052,6 @@ sub AgentMove {
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
-        # make sure body is rich text
-        $Param{Body} = $Self->{LayoutObject}->Ascii2RichText(
-            String => $Param{Body},
-        );
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
