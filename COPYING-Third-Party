@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.12 2011-01-20 13:37:57 mb Exp $
+# $Id: COPYING-Third-Party,v 1.13 2011-02-08 16:43:30 cr Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -175,3 +175,7 @@ o Name:    CPAN JavaScript::Minifier
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    Copyright (C) 2007 by Peter Michaux
 
+o Name:    CPAN Proc::Daemon
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (C) 1997-2011 by Earl Hood and Detlef Pilzecker
