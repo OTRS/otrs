@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Provider.pm,v 1.2 2011-02-08 09:10:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,15 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
+
+# all framework needed modules
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Encode;
+use Kernel::System::Time;
+use Kernel::System::DB;
 
 =head1 NAME
 
@@ -35,45 +43,10 @@ GenericInterface handler for incoming web service requests.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::GenericInterface::Provider;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $ProviderObject = Kernel::GenericInterface::Provider->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
+    my $Debug = 0;
+    my $Provider = Kernel::GenericInterface::Provider->new( Debug => $Debug );
 
 =cut
 
@@ -84,10 +57,19 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get debug level
+    $Self->{Debug} = $Param{Debug} || 0;
+
+    # create common framework objects 1/2
+    $Self->{ConfigObject} = Kernel::Config->new();
+    $Self->{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'GenericInterfaceProvider',
+        %{$Self},
+    );
+    $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
+    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
+    $Self->{DBObject}     = Kernel::System::DB->new( %{$Self} );
 
     return $Self;
 }
@@ -155,6 +137,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-08 09:10:02 $
 
 =cut
