@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simle data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.2 2011-02-08 10:06:36 sb Exp $
+# $Id: Simple.pm,v 1.3 2011-02-08 10:15:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -78,14 +78,18 @@ we require the config to be in the following format
                                   # 'MapTo' (use provided value as default)
             MapTo => 'new_value', # only used if 'MapType' is 'MapTo'
         },
-        ValueMapExact => {        # key/value pairs for direct replacement
-            'old_value'         => 'new_value',
-            'another_old_value' => 'another_new_value',
-            'maps_to_same_value => 'another_new_value',
-        },
-        ValueMapRegEx => {        # replace keys with value if current key matches regex
-            'Stat(e|us)'  => 'state',
-            '[pP]riority' => 'prio',
+        ValueMap => {
+            'new_key_name' => {
+                ValueMapExact => {        # key/value pairs for direct replacement
+                    'old_value'         => 'new_value',
+                    'another_old_value' => 'another_new_value',
+                    'maps_to_same_value => 'another_new_value',
+                },
+                ValueMapRegEx => {        # replace keys with value if current key matches regex
+                    'Stat(e|us)'  => 'state',
+                    '[pP]riority' => 'prio',
+                },
+            },
         },
         ValueMapDefault => {      # optional. If not set, values will remain unchanged
             MapType => 'keep',    # possible values are
@@ -261,6 +265,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-08 10:06:36 $
+$Revision: 1.3 $ $Date: 2011-02-08 10:15:35 $
 
 =cut
