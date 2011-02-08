@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Debugger.pm,v 1.2 2011-02-08 09:21:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -85,6 +85,8 @@ create an object.
         },
 
         WebserviceID    => 12,
+
+        TestMode        => 0,       # optional, in testing mode the data will not be written to the DB
     );
 
 =cut
@@ -95,19 +97,22 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
+    for my $Needed (qw(DebuggerConfig WebserviceID)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     # TODO: implement
 
-    return;
+    return $Self;
 }
 
 =item DebugLog()
 
-add one piece of data to the logging of this communication process
+add one piece of data to the logging of this communication process.
 
     $DebuggerObject->DebugLog(
         DebugLevel  => 'debug',
@@ -115,12 +120,28 @@ add one piece of data to the logging of this communication process
         Data        => $Data,
     );
 
+Available debug levels are: 'debug', 'info', 'notice' and 'error'.
+Any messages with 'erorr' priority will also be written to Kernel::System::Log.
+
 =cut
 
 sub DebugLog {
     my ( $Self, %Param ) = @_;
 
+    for my $Needed (qw(DebugLevel Title Data)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
     #TODO: implement
+
+    print STDERR "DebugLog ($Param{DebugLevel}): Title '$Param{Title}', Data '$Param{Data}'\n";
+}
+
+sub DESTROY {
+    my ($Self) = @_;
+
+    #TODO: implement storing of the debug messages
+
 }
 
 1;
@@ -139,6 +160,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-08 09:21:57 $
 
 =cut
