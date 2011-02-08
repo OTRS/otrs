@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2010-08-03 10:09:05
+--  driver: postgresql, generated: 2011-02-08 17:05:18
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -492,10 +492,10 @@ CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 CREATE TABLE ticket_index (
     ticket_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (70) NOT NULL,
+    queue VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
-    s_lock VARCHAR (70) NOT NULL,
-    s_state VARCHAR (70) NOT NULL,
+    s_lock VARCHAR (200) NOT NULL,
+    s_state VARCHAR (200) NOT NULL,
     create_time_unix INTEGER NOT NULL
 );
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
@@ -1153,5 +1153,31 @@ CREATE TABLE package_repository (
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table gi_webservice_config
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config TEXT NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table gi_webservice_config_history
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config_history (
+    id serial NOT NULL,
+    config_id INTEGER NOT NULL,
+    config TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

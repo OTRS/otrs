@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-08-03 10:09:03
+--  driver: db2, generated: 2011-02-08 17:05:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -565,10 +565,10 @@ CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (70) NOT NULL,
+    queue VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
-    s_lock VARCHAR (70) NOT NULL,
-    s_state VARCHAR (70) NOT NULL,
+    s_lock VARCHAR (200) NOT NULL,
+    s_state VARCHAR (200) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 
@@ -1311,5 +1311,33 @@ CREATE TABLE package_repository (
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+-- ----------------------------------------------------------
+--  create table gi_webservice_config
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    name VARCHAR (200) NOT NULL,
+    config BLOB (30M) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_name UNIQUE (name)
+);
+
+-- ----------------------------------------------------------
+--  create table gi_webservice_config_history
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config_history (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    config_id INTEGER NOT NULL,
+    config BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-08-03 10:09:04
+#  driver: mysql, generated: 2011-02-08 17:05:17
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -492,10 +492,10 @@ CREATE TABLE ticket_watcher (
 CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (70) NOT NULL,
+    queue VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
-    s_lock VARCHAR (70) NOT NULL,
-    s_state VARCHAR (70) NOT NULL,
+    s_lock VARCHAR (200) NOT NULL,
+    s_state VARCHAR (200) NOT NULL,
     create_time_unix BIGINT NOT NULL,
     INDEX ticket_index_group_id (group_id),
     INDEX ticket_index_queue_id (queue_id),
@@ -1153,5 +1153,31 @@ CREATE TABLE package_repository (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table gi_webservice_config
+# ----------------------------------------------------------
+CREATE TABLE gi_webservice_config (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    config LONGBLOB NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX gi_webservice_config_name (name)
+);
+# ----------------------------------------------------------
+#  create table gi_webservice_config_history
+# ----------------------------------------------------------
+CREATE TABLE gi_webservice_config_history (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    config_id INTEGER NOT NULL,
+    config LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2010-08-03 10:09:04
+--  driver: oracle, generated: 2011-02-08 17:05:18
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -798,10 +798,10 @@ CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 CREATE TABLE ticket_index (
     ticket_id NUMBER (20, 0) NOT NULL,
     queue_id NUMBER (12, 0) NOT NULL,
-    queue VARCHAR2 (70) NOT NULL,
+    queue VARCHAR2 (200) NOT NULL,
     group_id NUMBER (12, 0) NOT NULL,
-    s_lock VARCHAR2 (70) NOT NULL,
-    s_state VARCHAR2 (70) NOT NULL,
+    s_lock VARCHAR2 (200) NOT NULL,
+    s_state VARCHAR2 (200) NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL
 );
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
@@ -1870,3 +1870,62 @@ end;
 --;
 CREATE INDEX FK_package_repository_changed7 ON package_repository (change_by);
 CREATE INDEX FK_package_repository_create99 ON package_repository (create_by);
+-- ----------------------------------------------------------
+--  create table gi_webservice_config
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT gi_webservice_config_name UNIQUE (name)
+);
+ALTER TABLE gi_webservice_config ADD CONSTRAINT PK_gi_webservice_config PRIMARY KEY (id);
+DROP SEQUENCE SE_gi_webservice_config;
+CREATE SEQUENCE SE_gi_webservice_config;
+CREATE OR REPLACE TRIGGER SE_gi_webservice_config_t
+before insert on gi_webservice_config
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_gi_webservice_config.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_gi_webservice_config_chan16 ON gi_webservice_config (change_by);
+CREATE INDEX FK_gi_webservice_config_crea62 ON gi_webservice_config (create_by);
+CREATE INDEX FK_gi_webservice_config_vali90 ON gi_webservice_config (valid_id);
+-- ----------------------------------------------------------
+--  create table gi_webservice_config_history
+-- ----------------------------------------------------------
+CREATE TABLE gi_webservice_config_history (
+    id NUMBER (20, 0) NOT NULL,
+    config_id NUMBER (12, 0) NOT NULL,
+    config CLOB NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
+DROP SEQUENCE SE_gi_webservice_config_hi2f;
+CREATE SEQUENCE SE_gi_webservice_config_hi2f;
+CREATE OR REPLACE TRIGGER SE_gi_webservice_config_hi2f_t
+before insert on gi_webservice_config_history
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_gi_webservice_config_hi2f.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_gi_webservice_config_histeb ON gi_webservice_config_history (config_id);
+CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (create_by);

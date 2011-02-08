@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.2 2011-02-07 16:22:47 mg Exp $
+# $Id: Webservice.pm,v 1.3 2011-02-08 16:08:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,8 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
-
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -94,9 +91,8 @@ sub new {
 add new Webservices
 
     my $ID = $WebserviceObject->WebserviceAdd(
-        Config  => {
-            ...
-        },
+        Name    => 'some name',
+        Config  => $ConfigHashRef,
         ValidID => 1,
         UserID  => 123,
     );
@@ -106,6 +102,41 @@ add new Webservices
 sub WebserviceAdd {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(Name Config ValidID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # dump config as string
+    $Param{Config} = $Self->{MainObject}->Dump(
+        $Param{Config},
+        'ascii',
+    );
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL =>
+            'INSERT INTO gi_webservice_config (name, config, valid_id, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{Config}, \$Param{ValidID},
+            \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM gi_webservice_config WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
+    }
+    return $ID;
 }
 
 =item WebserviceGet()
@@ -119,7 +150,12 @@ get Webservices attributes
 Returns:
 
     %Webservice = (
-        ...
+        ID         => 123,
+        Name       => 'some name',
+        Config     => $ConfigHashRef,
+        ValidID    => 123,
+        CreateTime => '2011-02-08 15:08:00',
+        ChangeTime => '2011-02-08 15:08:00',
     );
 
 =cut
@@ -127,17 +163,41 @@ Returns:
 sub WebserviceGet {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        return;
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT name, config, valid_id, create_time, change_time '
+            . 'FROM gi_webservice_config WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    my %Data;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        my $VAR1;
+        eval $Data[1];
+        %Data = (
+            ID         => $Param{ID},
+            Name       => $Data[0],
+            Config     => $VAR1,
+            ValidID    => $Data[2],
+            CreateTime => $Data[3],
+            ChangeTime => $Data[4],
+        );
+    }
+    return %Data;
 }
 
 =item WebserviceUpdate()
 
 update Webservice attributes
 
-    $WebserviceObject->WebserviceUpdate(
+    my $Success = $WebserviceObject->WebserviceUpdate(
         ID      => 123,
-        Config  => {
-            ...
-        },
+        Config  => $ConfigHashRef,
         ValidID => 1,
         UserID  => 123,
     );
@@ -147,6 +207,61 @@ update Webservice attributes
 sub WebserviceUpdate {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(ID Name Config ValidID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # dump config as string
+    $Param{Config} = $Self->{MainObject}->Dump(
+        $Param{Config},
+        'ascii',
+    );
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE gi_webservice_config SET name = ?, config = ?, '
+            . ' valid_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Config}, \$Param{ValidID}, \$Param{UserID},
+            \$Param{ID},
+        ],
+    );
+    return 1;
+}
+
+=item WebserviceDelete()
+
+delete Webservice attributes
+
+    my $Success = $WebserviceObject->WebserviceDelete(
+        ID      => 123,
+        UserID  => 123,
+    );
+
+=cut
+
+sub WebserviceDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(ID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM gi_webservice_config WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    return 1;
 }
 
 =item WebserviceList()
@@ -166,6 +281,12 @@ get Webservice list
 sub WebserviceList {
     my ( $Self, %Param ) = @_;
 
+    my $Valid = $Param{Valid} || 0;
+    return $Self->{DBObject}->GetTableData(
+        What  => 'id, name',
+        Valid => $Valid,
+        Table => 'gi_webservice_config',
+    );
 }
 
 1;
@@ -184,6 +305,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-07 16:22:47 $
+$Revision: 1.3 $ $Date: 2011-02-08 16:08:39 $
 
 =cut
