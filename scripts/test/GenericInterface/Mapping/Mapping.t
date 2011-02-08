@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.2 2011-02-08 11:13:03 sb Exp $
+# $Id: Mapping.t,v 1.3 2011-02-08 13:25:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,16 +63,49 @@ $Self->True(
     'MappingObject mapping type check',
 );
 
-# correct call (with empty config)
+# call without config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
     %{$Self},
     MappingConfig => {
         Type => 'Test',
     },
 );
+$Self->True(
+    $MappingObject->{ErrorMessage},
+    'MappingObject creation check without config',
+);
+
+# correct call (with empty config)
+$MappingObject = Kernel::GenericInterface::Mapping->new(
+    %{$Self},
+    MappingConfig => {
+        Type   => 'Test',
+        Config => {},
+    },
+);
 $Self->False(
     $MappingObject->{ErrorMessage},
     'MappingObject creation check',
+);
+
+# map without data
+my $ReturnData = $MappingObject->Map();
+$Self->True(
+    ref $ReturnData eq 'HASH',
+    'MappingObject call response type',
+);
+$Self->True(
+    $ReturnData->{ErrorMessage},
+    'MappingObject call no data provided',
+);
+
+# map with empty data (should be ok)
+$ReturnData = $MappingObject->Map(
+    Data => {},
+);
+$Self->False(
+    $ReturnData->{ErrorMessage},
+    'MappingObject call data provided',
 );
 
 1;
