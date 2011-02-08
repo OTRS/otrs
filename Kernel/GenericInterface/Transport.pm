@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.2 2011-02-08 08:31:58 mg Exp $
+# $Id: Transport.pm,v 1.3 2011-02-08 15:14:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -41,6 +41,7 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Transport;
 
     my $ConfigObject = Kernel::Config->new();
@@ -66,6 +67,13 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        ConfigObject   => $ConfigObject,
+        EncodeObject   => $EncodeObject,
+        LogObject      => $LogObject,
+        MainObject     => $MainObject,
+        DebuggerObject => $DebuggerObject,
+    );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
@@ -74,7 +82,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        TransportConfig   => {
+        TransportConfig => {
             Type => 'HTTP::SOAP',
             Config => {
                 ...
@@ -90,12 +98,23 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (
+        qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject DebuggerObject TransportConfig)
+        )
+    {
+        $Self->{$Needed} = $Param{$Needed} || return { ErrorMessage => "Got no $Needed!" };
     }
 
-    return;
+    # select and instantiate the backend
+    my $Backend = 'Kernel::GenericInterface::Transport::' . $Self->{TransportConfig}->{Type};
+    $Self->{MainObject}->Require($Backend)
+        || return { ErrorMessage => "Backend $Backend not found." };
+    $Self->{BackendObject} = $Backend->new(%$Self);
+
+    # if the backend constructor failed, it returns an error hash, pass it on in this casd
+    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
+
+    return $Self;
 }
 
 =item ProviderProcessRequest()
@@ -119,7 +138,7 @@ from from the web server process.
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    return $Self->{BackendObject}->RequesterPerformRequest(%Param);
 }
 
 =item ProviderGenerateResponse()
@@ -146,7 +165,7 @@ generate response for an incoming web service request.
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    return $Self->{BackendObject}->RequesterPerformRequest(%Param);
 }
 
 =item RequesterPerformRequest()
@@ -173,7 +192,22 @@ generate an outgoing web service request, receive the response and return its da
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    for my $Needed (qw(Operation Data)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{DebuggerObject}->DebugLog(
+                DebugLevel => 'error',
+                Title      => "Got no $Needed!",
+                Data =>
+                    "Missing parameter $Needed in Kernel::GenericInterface::Transport::RequesterPerformRequest()",
+            );
+
+            return {
+                ErrorMessage => "Got no $Needed!",
+            };
+        }
+    }
+
+    return $Self->{BackendObject}->RequesterPerformRequest(%Param);
 }
 
 1;
@@ -192,6 +226,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-08 08:31:58 $
+$Revision: 1.3 $ $Date: 2011-02-08 15:14:26 $
 
 =cut
