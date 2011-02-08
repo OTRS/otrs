@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.4 2011-02-08 15:58:41 martin Exp $
+# $Id: Transport.pm,v 1.5 2011-02-08 19:59:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -111,7 +111,10 @@ sub new {
     my $Backend = 'Kernel::GenericInterface::Transport::' . $Self->{TransportConfig}->{Type};
     $Self->{MainObject}->Require($Backend)
         || return { ErrorMessage => "Backend $Backend not found." };
-    $Self->{BackendObject} = $Backend->new(%$Self);
+    $Self->{BackendObject} = $Backend->new(
+        %$Self,
+        WebRequest => $Param{WebRequest},
+    );
 
     # if the backend constructor failed, it returns an error hash, pass it on in this casd
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
@@ -140,7 +143,7 @@ from from the web server process.
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{BackendObject}->RequesterPerformRequest(%Param);
+    return $Self->{BackendObject}->ProviderProcessRequest(%Param);
 }
 
 =item ProviderGenerateResponse()
@@ -167,7 +170,7 @@ generate response for an incoming web service request.
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{BackendObject}->RequesterPerformRequest(%Param);
+    return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }
 
 =item RequesterPerformRequest()
@@ -228,6 +231,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-08 15:58:41 $
+$Revision: 1.5 $ $Date: 2011-02-08 19:59:08 $
 
 =cut
