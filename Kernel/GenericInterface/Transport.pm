@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Transport.pm,v 1.2 2011-02-08 08:31:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -100,11 +100,10 @@ sub new {
 
 =item ProviderProcessRequest()
 
-process an incoming web service request.
+process an incoming web service request. This function has to read the request data
+from from the web server process.
 
-    my $Result = $TransportObject->ProviderProcessRequest(
-        Request => $Request,    # complete request, such as HTTP request
-    );
+    my $Result = $TransportObject->ProviderProcessRequest();
 
     $Result = {
         Success         => 1,                   # 0 or 1
@@ -150,11 +149,11 @@ sub ProviderGenerateResponse {
     #TODO: implement
 }
 
-=item RequesterGenerateRequest()
+=item RequesterPerformRequest()
 
-generate an outgoing web service request.
+generate an outgoing web service request, receive the response and return its data..
 
-    my $Result = $TransportObject->RequesterGenerateRequest(
+    my $Result = $TransportObject->RequesterPerformRequest(
         Operation       => 'remote_op', # name of remote operation to perform
         Data            => {            # data payload for request
             ...
@@ -164,36 +163,14 @@ generate an outgoing web service request.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Request        => $Request,             # complete request
-    };
-
-=cut
-
-sub RequesterGenerateRequest {
-    my ( $Self, %Param ) = @_;
-
-    #TODO: implement
-}
-
-=item RequesterProcessResponse()
-
-process response of an incoming web service request.
-
-    my $Result = $TransportObject->RequesterProcessResponse(
-        Response => $Response,    # complete response, such as HTTP response
-    );
-
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload of response
+        Data            => {
             ...
         },
     };
 
 =cut
 
-sub RequesterProcessResponse {
+sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
     #TODO: implement
@@ -215,6 +192,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-08 08:31:58 $
 
 =cut
