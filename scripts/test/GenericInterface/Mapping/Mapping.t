@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.3 2011-02-08 13:25:42 sb Exp $
+# $Id: Mapping.t,v 1.4 2011-02-08 15:53:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,9 +99,20 @@ $Self->True(
     'MappingObject call no data provided',
 );
 
-# map with empty data (should be ok)
+# map with empty data
 $ReturnData = $MappingObject->Map(
     Data => {},
+);
+$Self->True(
+    $ReturnData->{ErrorMessage},
+    'MappingObject call empty data provided',
+);
+
+# map with empty data
+$ReturnData = $MappingObject->Map(
+    Data => {
+        'from' => 'to',
+    },
 );
 $Self->False(
     $ReturnData->{ErrorMessage},
