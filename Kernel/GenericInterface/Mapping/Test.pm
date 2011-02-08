@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.5 2011-02-08 15:17:19 sb Exp $
+# $Id: Test.pm,v 1.6 2011-02-08 15:29:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -83,7 +83,7 @@ sub Map {
     }
 
     # just return the input data if we have no test instructions otherwise
-    if ( !%{ $Self->{MappingConfig}->{Config}->{TestOption} } ) {
+    if ( !$Self->{MappingConfig}->{Config}->{TestOption} ) {
         return {
             Success => 1,
             Data    => $Param{Data},
@@ -162,6 +162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-08 15:17:19 $
+$Revision: 1.6 $ $Date: 2011-02-08 15:29:59 $
 
 =cut
