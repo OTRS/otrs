@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.3 2011-02-08 08:25:10 sb Exp $
+# $Id: Test.pm,v 1.4 2011-02-08 11:11:03 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -40,7 +40,7 @@ sub new {
 
     # check needed params
     for my $Needed (qw(MappingConfig)) {
-        return { ErrorMessage => "Got no $Needed!" } if !$Param{Needed};
+        return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
     }
@@ -51,7 +51,7 @@ sub new {
     return { ErrorMessage => 'Got no Config param in MappingConfig!' }
         if ref $Self->{MappingConfig}->{Config} ne 'HASH';
 
-    return;
+    return $Self;
 }
 
 sub Map {
@@ -142,6 +142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-08 08:25:10 $
+$Revision: 1.4 $ $Date: 2011-02-08 11:11:03 $
 
 =cut
