@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Mapping.pm,v 1.2 2011-02-08 09:40:51 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -87,15 +87,31 @@ create an object. This will return the Mapping backend for the current web servi
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
+    for (qw(DBObject MainObject MappingConfig)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    return;
+    # load backend module
+    if ( $Param{MappingConfig}->{'Type'} ) {
+        my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
+        return if !$Self->{MainObject}->Require($GenericModule);
+        $Self->{Backend} = $GenericModule->new( %{$Self}, MappingConfig => \$Param{MappingConfig} );
+    }
+    else {
+        $Self->{DebuggerObject}->DebugLog(
+            DebugLevel => 'debug',
+            Title      => 'Unknown Mapping type!.',
+            Data       => $Param{MappingConfig}->{'Type'},
+        );
+        return;
+    }
+
+    return $Self;
 }
 
 =item Map()
@@ -121,7 +137,13 @@ perform data mapping
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    # check needed stuff
+    if ( !$Param{Data} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        return;
+    }
+    return $Self->{Backend}->Map(%Param)
+
 }
 
 1;
@@ -140,6 +162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-08 09:40:51 $
 
 =cut
