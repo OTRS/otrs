@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.2 2011-02-09 10:00:09 cr Exp $
+# $Id: WebserviceHistory.pm,v 1.3 2011-02-09 14:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,10 @@ package Kernel::System::GenericInterface::WebserviceHistory;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
+use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -96,10 +95,9 @@ add new WebserviceHistorys
 
     my $ID = $WebserviceHistoryObject->WebserviceHistoryAdd(
         WebserviceID => 2134,
-        Config  => {
+        Config       => {
             ...
         },
-        ValidID => 1,
         UserID  => 123,
     );
 
@@ -108,6 +106,39 @@ add new WebserviceHistorys
 sub WebserviceHistoryAdd {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for my $Key (qw(WebserviceID Config UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # dump config as string
+    my $Config = YAML::Dump( $Param{Config} );
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL =>
+            'INSERT INTO gi_webservice_config_history (config_id, config, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL =>
+            'SELECT id FROM gi_webservice_config_history WHERE config_id = ? ORDER BY create_time DESC',
+        Bind  => [ \$Param{WebserviceID} ],
+        Limit => 1,
+    );
+    my $ID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
+    }
+    return $ID;
 }
 
 =item WebserviceHistoryGet()
@@ -121,7 +152,10 @@ get WebserviceHistorys attributes
 Returns:
 
     %WebserviceHistory = (
-        ...
+        Config       => $ConfigRef,
+        WebserviceID => 123,
+        CreateTime   => '2011-02-08 15:08:00',
+        ChangeTime   => '2011-02-08 15:08:00',
     );
 
 =cut
@@ -129,19 +163,42 @@ Returns:
 sub WebserviceHistoryGet {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        return;
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT config_id, config, create_time, change_time '
+            . 'FROM gi_webservice_config_history WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    my %Data;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        my $Config = YAML::Load( $Data[1] );
+
+        %Data = (
+            ID           => $Param{ID},
+            WebserviceID => $Data[0],
+            Config       => $Config,
+            CreateTime   => $Data[3],
+            ChangeTime   => $Data[4],
+        );
+    }
+    return %Data;
 }
 
 =item WebserviceHistoryUpdate()
 
-update WebserviceHistory attributes
+update Webservice history attributes
 
-    $WebserviceHistoryObject->WebserviceHistoryUpdate(
-        ID      => 123,
-        Config  => {
-            ...
-        },
-        ValidID => 1,
-        UserID  => 123,
+    my $Success = $WebserviceObject->WebserviceHistoryUpdate(
+        ID           => 123,
+        WebserviceID => 123
+        Config       => $ConfigHashRef,
+        UserID       => 123,
     );
 
 =cut
@@ -149,11 +206,61 @@ update WebserviceHistory attributes
 sub WebserviceHistoryUpdate {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for my $Key (qw(ID WebserviceID Config UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # dump config as string
+    my $Config = YAML::Dump( $Param{Config} );
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE gi_webservice_config_history SET config_id = ?, config = ?, '
+            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{ID},
+        ],
+    );
+    return 1;
+}
+
+=item WebserviceHistoryDelete()
+
+delete WebserviceHistory
+
+    $WebserviceHistoryObject->WebserviceHistoryDelete(
+        WebserviceID => 123,
+        UserID       => 123,
+    );
+
+=cut
+
+sub WebserviceHistoryDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(WebserviceID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM gi_webservice_config_history WHERE config_id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    return 1;
 }
 
 =item WebserviceHistoryList()
 
-get WebserviceHistory list for a GenericInterfaceven web service
+get WebserviceHistory list for a GenericInterface web service
 
     my @List = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => 1243,
@@ -170,6 +277,24 @@ get WebserviceHistory list for a GenericInterfaceven web service
 sub WebserviceHistoryList {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for my $Key (qw(WebserviceID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM gi_webservice_config_hisotry WHERE config_id = ?',
+        Bind => [ \$Param{WebserviceID} ],
+    );
+
+    my @List;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @List, $Row[0];
+    }
+    return @List;
 }
 
 1;
@@ -188,6 +313,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-09 10:00:09 $
+$Revision: 1.3 $ $Date: 2011-02-09 14:16:34 $
 
 =cut

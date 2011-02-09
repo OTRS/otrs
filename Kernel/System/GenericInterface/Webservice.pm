@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.8 2011-02-09 13:51:46 cr Exp $
+# $Id: Webservice.pm,v 1.9 2011-02-09 14:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use YAML;
 use Kernel::System::Valid;
+use Kernel::System::GenericInterface::WebserviceHistory;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -87,6 +88,8 @@ sub new {
     }
 
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    $Self->{WebserviceHistoryObject}
+        = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
 
     return $Self;
 }
@@ -116,7 +119,7 @@ sub WebserviceAdd {
     }
 
     # dump config as string
-    $Param{Config} = YAML::Dump( $Param{Config} );
+    my $Config = YAML::Dump( $Param{Config} );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -125,7 +128,7 @@ sub WebserviceAdd {
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{Config}, \$Param{ValidID},
+            \$Param{Name}, \$Config, \$Param{ValidID},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -138,6 +141,14 @@ sub WebserviceAdd {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
+    # add history
+    $Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+        WebserviceID => $ID,
+        Config       => $Param{Config},
+        UserID       => $Param{UserID},
+    );
+
     return $ID;
 }
 
@@ -219,7 +230,20 @@ sub WebserviceUpdate {
     }
 
     # dump config as string
-    $Param{Config} = YAML::Dump( $Param{Config} );
+    my $Config = YAML::Dump( $Param{Config} );
+
+    # check if config and valid_id is the same
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT config, valid_id FROM gi_webservice_config WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    my $ConfigCurrent;
+    my $ValidIDCurrent;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $ConfigCurrent  = $Data[0];
+        $ValidIDCurrent = $Data[1];
+    }
+    return 1 if $ValidIDCurrent eq $Param{ValidID} && $Config eq $ConfigCurrent;
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -227,9 +251,16 @@ sub WebserviceUpdate {
             . ' valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Config}, \$Param{ValidID}, \$Param{UserID},
+            \$Param{Name}, \$Config, \$Param{ValidID}, \$Param{UserID},
             \$Param{ID},
         ],
+    );
+
+    # add history
+    $Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+        WebserviceID => $Param{ID},
+        Config       => $Param{Config},
+        UserID       => $Param{UserID},
     );
     return 1;
 }
@@ -256,7 +287,13 @@ sub WebserviceDelete {
         }
     }
 
-    # sql
+    # delete history
+    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryDelete(
+        WebserviceID => $Param{ID},
+        UserID       => $Param{UserID},
+    );
+
+    # delete web service
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM gi_webservice_config WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -311,6 +348,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-09 13:51:46 $
+$Revision: 1.9 $ $Date: 2011-02-09 14:16:34 $
 
 =cut
