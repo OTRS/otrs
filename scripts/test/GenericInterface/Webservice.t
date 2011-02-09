@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.2 2011-02-08 16:34:07 martin Exp $
+# $Id: Webservice.t,v 1.3 2011-02-09 08:54:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,212 +19,231 @@ my @Tests = (
         Name          => 'test 1',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
-        Config        => {
-            Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios.',
-            Provider    => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
-                    Config => {
-                        NameSpace  => '',
-                        SOAPAction => '',
-                        Encoding   => '',
-                        Endpoint   => '',
+        Add           => {
+            Config => {
+                Name        => 'Nagios',
+                Description => 'Connector to send and recive date from Nagios.',
+                Provider    => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Config => {
+                            NameSpace  => '',
+                            SOAPAction => '',
+                            Encoding   => '',
+                            Endpoint   => '',
+                        },
                     },
+                    Operation => [
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                        },
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                        },
+                    ],
                 },
-                Operation => [
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
-                            },
+                Requester => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Config => {
+                            NameSpace  => '',
+                            SOAPAction => '',
+                            Encoding   => '',
+                            Endpoint   => '',
                         },
                     },
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
+                    Invokers => [
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
                             },
                         },
-                    },
-                ],
-            },
-            Requester => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
-                    Config => {
-                        NameSpace  => '',
-                        SOAPAction => '',
-                        Encoding   => '',
-                        Endpoint   => '',
-                    },
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                        },
+                    ],
                 },
-                Invokers => [
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
-                            },
-                        },
-                    },
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
-                            },
-                        },
-                    },
-                ],
             },
+            ValidID => 1,
+            UserID  => 1,
         },
-        ValidID => 1,
-        UserID  => 1,
     },
     {
         Name          => 'test 2',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
-        Config        => {
-            Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios 2.',
-            Provider    => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
-                    Config => {
-                        NameSpace  => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
-                        SOAPAction => '',
-                        Encoding   => '',
-                        Endpoint =>
-                            'iojfoiwjeofjweoj ojerojgv oiaejroitjvaioejhtioja viorjhiojgijairogj aiovtq348tu 08qrujtio juortu oquejrtwoiajdoifhaois hnaeruoigbo eghjiob jaer89ztuio45u603u4i9tj340856u903 jvipojziopeji',
+        Add           => {
+            Config => {
+                Name        => 'Nagios',
+                Description => 'Connector to send and recive date from Nagios 2.',
+                Provider    => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Config => {
+                            NameSpace  => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
+                            SOAPAction => '',
+                            Encoding   => '',
+                            Endpoint =>
+                                'iojfoiwjeofjweoj ojerojgv oiaejroitjvaioejhtioja viorjhiojgijairogj aiovtq348tu 08qrujtio juortu oquejrtwoiajdoifhaois hnaeruoigbo eghjiob jaer89ztuio45u603u4i9tj340856u903 jvipojziopeji',
+                        },
                     },
+                    Operation => [
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                        },
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                        },
+                    ],
                 },
-                Operation => [
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
-                            },
+                Requester => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Config => {
+                            NameSpace => '',
+                            Encoding  => '',
+                            Endpoint  => '',
                         },
                     },
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
+                    Invokers => [
+                        {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
                             },
                         },
-                    },
-                ],
-            },
-            Requester => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
-                    Config => {
-                        NameSpace => '',
-                        Encoding  => '',
-                        Endpoint  => '',
-                    },
+                    ],
                 },
-                Invokers => [
-                    {
-                        Mapping => {
-                            Inbound => {
-                                1 => 2,
-                                2 => 4,
-                            },
-                            Outbound => {
-                                1 => 2,
-                                2 => 5,
-                            },
-                        },
-                    },
-                ],
             },
+            ValidID => 2,
+            UserID  => 1,
         },
-        ValidID => 2,
-        UserID  => 1,
     },
     {
         Name          => 'test 3',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
-        ValidID       => 1,
-        UserID        => 1,
+        Add           => {
+            Config  => {},
+            ValidID => 1,
+            UserID  => 1,
+        },
     },
     {
         Name          => 'test 4',
         SuccessAdd    => 1,
         SuccessUpdate => 0,
-        Config        => {
-            Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios 2.',
-            Provider    => {},
-            Requester   => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
-                    Config => {
-                        NameSpace => '',
-                        Encoding  => '',
-                        Endpoint  => '',
+        Add           => {
+            Config => {
+                Name        => 'Nagios',
+                Description => 'Connector to send and recive date from Nagios 2.',
+                Provider    => {},
+                Requester   => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Config => {
+                            NameSpace => '',
+                            Encoding  => '',
+                            Endpoint  => '',
+                        },
                     },
                 },
             },
+            ValidID => 2,
+            UserID  => 1,
         },
-        ValidID => 2,
-        UserID  => 1,
-        Update  => undef,
+        Update => {
+            Config  => undef,
+            ValidID => 1,
+            UserID  => 1,
+        },
     },
     {
         Name          => 'test 4',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
-        Config        => {
-            Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios 2.',
-            Provider    => {},
-            Requester   => {
-                Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
-                    Config => {
-                        NameSpace => '',
-                        Encoding  => '',
-                        Endpoint  => '',
+        Add           => {
+            Config => {
+                Name        => 'Nagios',
+                Description => 'Connector to send and recive date from Nagios 2.',
+                Provider    => {},
+                Requester   => {
+                    Transport => {
+                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Config => {
+                            NameSpace => '',
+                            Encoding  => '',
+                            Endpoint  => '',
+                        },
                     },
                 },
             },
+            ValidID => 2,
+            UserID  => 1,
         },
-        ValidID => 2,
-        UserID  => 1,
-        Update  => undef,
+        Update => {
+            Config  => undef,
+            ValidID => 1,
+            UserID  => 1,
+        },
     },
 );
 
@@ -233,10 +252,8 @@ for my $Test (@Tests) {
 
     # add config
     my $WebServiceID = $WebserviceObject->WebserviceAdd(
-        Name    => $Test->{Name},
-        Config  => $Test->{Config},
-        ValidID => $Test->{ValidID},
-        UserID  => $Test->{UserID},
+        Name => $Test->{Name},
+        %{ $Test->{Add} }
     );
     if ( !$Test->{SuccessAdd} ) {
         $Self->False(
@@ -268,21 +285,19 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
-        $Test->{Config},
+        $Test->{Add}->{Config},
         $Webservice{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
     # update config with a modification
     if ( exists $Test->{Update} ) {
-        $Test->{Config} = $Test->{Update};
+        $Test->{Add} = $Test->{Update};
     }
     my $Success = $WebserviceObject->WebserviceUpdate(
-        ID      => $WebServiceID,
-        Name    => $Test->{Name},
-        Config  => $Test->{Config},
-        ValidID => $Test->{ValidID},
-        UserID  => $Test->{UserID},
+        ID   => $WebServiceID,
+        Name => $Test->{Name},
+        %{ $Test->{Add} }
     );
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
@@ -311,7 +326,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
-        $Test->{Config},
+        $Test->{Add}->{Config},
         $Webservice{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
