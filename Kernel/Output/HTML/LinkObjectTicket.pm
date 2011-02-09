@@ -1,8 +1,8 @@
 # --
-# Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module for link object 'Ticket'.
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.19 2009-11-25 15:49:32 mg Exp $
+# $Id: LinkObjectTicket.pm,v 1.20 2011-02-09 11:12:20 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -26,7 +26,7 @@ Kernel::Output::HTML::LinkObjectTicket - layout backend module
 
 =head1 SYNOPSIS
 
-All layout functions of link object (ticket)
+All layout functions of link object (ticket).
 
 =over 4
 
@@ -130,7 +130,7 @@ Return
         },
     );
 
-    @BlockData = $LinkObject->TableCreateComplex(
+    @BlockData = $BackendObject->TableCreateComplex(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
@@ -282,7 +282,7 @@ Return
         },
     );
 
-    %LinkOutputData = $LinkObject->TableCreateSimple(
+    %LinkOutputData = $BackendObject->TableCreateSimple(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
@@ -376,7 +376,7 @@ Return
         },
     );
 
-    @SelectableObjectList = $LinkObject->SelectableObjectList(
+    @SelectableObjectList = $BackendObject->SelectableObjectList(
         Selected => $Identifier,  # (optional)
     );
 
@@ -423,7 +423,7 @@ Return
         },
     );
 
-    @SearchOptionList = $LinkObject->SearchOptionList(
+    @SearchOptionList = $BackendObject->SearchOptionList(
         SubObject => 'Bla',  # (optional)
     );
 
@@ -530,12 +530,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2009-11-25 15:49:32 $
+$Revision: 1.20 $ $Date: 2011-02-09 11:12:20 $
 
 =cut
