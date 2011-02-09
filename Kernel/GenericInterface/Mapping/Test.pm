@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.8 2011-02-09 11:12:05 sb Exp $
+# $Id: Test.pm,v 1.9 2011-02-09 13:40:56 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -111,8 +111,11 @@ sub new {
     }
 
     # check mapping config
-    return $Self->_LogAndExit( ErrorMessage => 'Got no MappingConfig as hash ref with content!' )
-        if !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} );
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got no MappingConfig as hash ref with content!',
+        );
+    }
 
     # check config - if we have a map config, it has to be a non-empty hash ref
     if (
@@ -131,6 +134,13 @@ sub new {
 =item Map()
 
 perform data mapping
+
+possible config options for value mapping are
+- 'ToUpper', turns all characters into upper case
+- 'ToLower', turns all characters into lower case
+- 'Empty', sets to empty string
+
+if no config option is provided or one that does not match the options above, the original data will be returned
 
     my $Result = $MappingObject->Map(
         Data => {              # data payload before mapping
@@ -152,10 +162,11 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' )
-        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+    }
 
-    # no config, just return input data
+    # no config means that we just return input data
     if (
         !defined $Self->{MappingConfig}->{Config}
         || !defined $Self->{MappingConfig}->{Config}->{TestOption}
@@ -165,8 +176,9 @@ sub Map {
     }
 
     # check TestOption format
-    return $Self->_LogAndExit( ErrorMessage => 'Got no TestOption as string with value!' )
-        if !$Self->_IsNonEmptyString( Data => $Self->{MappingConfig}->{Config}->{TestOption} );
+    if ( !$Self->_IsNonEmptyString( Data => $Self->{MappingConfig}->{Config}->{TestOption} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no TestOption as string with value!' );
+    }
 
     # parse data according to configuration
     my $ReturnData = {};
@@ -247,8 +259,9 @@ sub _CleanExit {
     my ( $Self, %Param ) = @_;
 
     # check data
-    return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' )
-        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' );
+    }
 
     # return
     return {
@@ -407,6 +420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-09 11:12:05 $
+$Revision: 1.9 $ $Date: 2011-02-09 13:40:56 $
 
 =cut
