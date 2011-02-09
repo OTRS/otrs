@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.6 2011-02-09 09:59:29 cr Exp $
+# $Id: Webservice.pm,v 1.7 2011-02-09 13:13:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -82,6 +84,8 @@ sub new {
     for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -282,12 +286,18 @@ get Webservice list
 sub WebserviceList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
-    return $Self->{DBObject}->GetTableData(
-        What  => 'id, name',
-        Valid => $Valid,
-        Table => 'gi_webservice_config',
-    );
+    my $SQL = "SELECT id, name FROM gi_webservice_config";
+    if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
+        $SQL .= " WHERE valid_id IN (" . join ', ', $Self->{ValidObject}->ValidIDsGet() . ")";
+    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
+    }
+    return %Data;
 }
 
 1;
@@ -306,6 +316,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-09 09:59:29 $
+$Revision: 1.7 $ $Date: 2011-02-09 13:13:01 $
 
 =cut
