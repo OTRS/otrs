@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.4 2011-02-09 09:17:57 martin Exp $
+# $Id: Webservice.t,v 1.5 2011-02-09 12:53:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,8 +179,8 @@ my @Tests = (
     },
     {
         Name          => 'test 3',
-        SuccessAdd    => 0,
-        SuccessUpdate => 0,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
         Add           => {
             Config  => {},
             ValidID => 1,
@@ -245,6 +245,16 @@ my @Tests = (
             UserID  => 1,
         },
     },
+    {
+        Name          => 'test 5',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config  => undef,
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
 );
 
 my @WebServiceIDs;
@@ -291,13 +301,13 @@ for my $Test (@Tests) {
     );
 
     # update config with a modification
-    if ( exists $Test->{Update} ) {
-        $Test->{Add} = $Test->{Update};
+    if ( !$Test->{Update} ) {
+        $Test->{Update} = $Test->{Add};
     }
     my $Success = $WebserviceObject->WebserviceUpdate(
         ID   => $WebServiceID,
         Name => $Test->{Name},
-        %{ $Test->{Add} }
+        %{ $Test->{Update} }
     );
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
@@ -326,7 +336,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
-        $Test->{Add}->{Config},
+        $Test->{Update}->{Config},
         $Webservice{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
