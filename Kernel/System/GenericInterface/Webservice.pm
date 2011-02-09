@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.3 2011-02-08 16:08:39 martin Exp $
+# $Id: Webservice.pm,v 1.4 2011-02-09 09:22:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -103,9 +103,9 @@ sub WebserviceAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name Config ValidID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Key (qw(Name Config ValidID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -197,6 +197,7 @@ update Webservice attributes
 
     my $Success = $WebserviceObject->WebserviceUpdate(
         ID      => 123,
+        Name    => 'some name',
         Config  => $ConfigHashRef,
         ValidID => 1,
         UserID  => 123,
@@ -208,9 +209,9 @@ sub WebserviceUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name Config ValidID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Key (qw(ID Name Config ValidID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -249,9 +250,9 @@ sub WebserviceDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Key (qw(ID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -305,6 +306,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-08 16:08:39 $
+$Revision: 1.4 $ $Date: 2011-02-09 09:22:48 $
 
 =cut
