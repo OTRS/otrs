@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.3 2011-02-08 17:11:18 sb Exp $
+# $Id: Test.t,v 1.4 2011-02-09 11:08:48 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,8 +31,7 @@ $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
 my $MappingObject = Kernel::GenericInterface::Mapping->new(
     %{$Self},
     MappingConfig => {
-        Type   => 'Test',
-        Config => {},
+        Type => 'Test',
     },
 );
 $Self->Is(
@@ -102,6 +101,19 @@ my @MappingTests = (
     {
         Name   => 'Test without TestOption',
         Config => { TestOption => '' },
+        Data   => {
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+            four  => 'four',
+            five  => 'five',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test with unknown TestOption',
+        Config => { TestOption => 'blah' },
         Data   => {
             one   => 'one',
             two   => 'two',

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2011-02-08 15:29:59 cg Exp $
+# $Id: Test.pm,v 1.7 2011-02-09 11:08:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -40,55 +40,71 @@ sub new {
 
     # check needed params
     for my $Needed (qw(DebuggerObject MainObject MappingConfig)) {
-        return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!",
+        } if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
     }
 
     # check mapping config
-    return { ErrorMessage => 'MappingConfig is no hash reference!' }
-        if ref $Self->{MappingConfig} ne 'HASH';
-    return { ErrorMessage => 'Config param in MappingConfig is no hash reference!' }
-        if ref $Self->{MappingConfig}->{Config} ne 'HASH';
+    return $Self->_LogAndExit( ErrorMessage => 'Got no MappingConfig as hash ref with content!' )
+        if !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} );
+
+    # check config - if we have a map config, it has to be a non-empty hash ref
+    if (
+        defined $Param{MappingConfig}->{Config}
+        && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
+        )
+    {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        );
+    }
 
     return $Self;
 }
 
+=item Map()
+
+perform data mapping
+
+    my $Result = $MappingObject->Map(
+        Data => {              # data payload before mapping
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,  # 0 or 1
+        ErrorMessage    => '', # in case of error
+        Data            => {   # data payload of after mapping
+            ...
+        },
+    };
+
+=cut
+
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check needed params
-    if ( ref $Param{Data} ne 'HASH' ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Data is not a hash reference!',
-        };
-    }
-    if ( !%{ $Param{Data} } ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Got no Data!',
-        };
-    }
+    # check data - we need a hash ref with at least one entry
+    return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' )
+        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
 
+    # no config, just return input data
     if (
-        $Self->{MappingConfig}->{Config}->{TestOption}
-        && ref $Self->{MappingConfig}->{Config}->{TestOption}
+        !defined $Self->{MappingConfig}->{Config}
+        || !defined $Self->{MappingConfig}->{Config}->{TestOption}
         )
     {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Config param TestOption is not a string!',
-        };
+        return $Self->_CleanExit( Data => $Param{Data} );
     }
 
-    # just return the input data if we have no test instructions otherwise
-    if ( !$Self->{MappingConfig}->{Config}->{TestOption} ) {
-        return {
-            Success => 1,
-            Data    => $Param{Data},
-        };
-    }
+    # check TestOption format
+    return $Self->_LogAndExit( ErrorMessage => 'Got no TestOption as string with value!' )
+        if !$Self->_IsNonEmptyString( Data => $Self->{MappingConfig}->{Config}->{TestOption} );
 
     # parse data according to configuration
     my $ReturnData = {};
@@ -106,12 +122,96 @@ sub Map {
     }
 
     # return result
-    my $Return = {
-        Success => 1,
-        Data    => $ReturnData,
-    };
-    return $Return;
+    return $Self->_CleanExit( Data => $ReturnData );
 }
+
+=item _LogAndExit()
+
+log specified error message to debug log and return error hash ref
+
+    my $Result = $MappingObject->_LogAndExit(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'An error occured!',
+    };
+
+=cut
+
+sub _LogAndExit {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'error',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return error
+    return {
+        Success      => 0,
+        ErrorMessage => $ErrorMessage,
+    };
+}
+
+=item _CleanExit()
+
+return hash reference indicating success and containing return data
+
+    my $Result = $MappingObject->_CleanExit(
+        Data => {
+            ...
+        },
+    );
+
+    $Result = {
+        Success => 1,
+        Data    => {
+            ...
+        },
+    };
+
+=cut
+
+sub _CleanExit {
+    my ( $Self, %Param ) = @_;
+
+    # check data
+    return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' )
+        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
+
+    # return
+    return {
+        Success => 1,
+        Data    => $Param{Data},
+    };
+}
+
+=item _ToUpper()
+
+change all characters in values to upper case
+
+    my $ReturnData => $MappingObject->_ToUpper(
+        Data => { # data payload before mapping
+            'abc' => 'Def,
+            'ghi' => 'jkl',
+        },
+    );
+
+    $ReturnData = { # data payload after mapping
+        'abc' => 'DEF',
+        'ghi' => 'JKL',
+    };
+
+=cut
 
 sub _ToUpper {
     my ( $Self, %Param ) = @_;
@@ -124,6 +224,24 @@ sub _ToUpper {
     return $ReturnData;
 }
 
+=item _ToLower()
+
+change all characters in values to lower case
+
+    my $ReturnData => $MappingObject->_ToLower(
+        Data => { # data payload before mapping
+            'abc' => 'Def,
+            'ghi' => 'JKL',
+        },
+    );
+
+    $ReturnData = { # data payload after mapping
+        'abc' => 'def',
+        'ghi' => 'jkl',
+    };
+
+=cut
+
 sub _ToLower {
     my ( $Self, %Param ) = @_;
 
@@ -135,6 +253,24 @@ sub _ToLower {
     return $ReturnData;
 }
 
+=item _Empty()
+
+set all values to empty string
+
+    my $ReturnData => $MappingObject->_Empty(
+        Data => { # data payload before mapping
+            'abc' => 'Def,
+            'ghi' => 'JKL',
+        },
+    );
+
+    $ReturnData = { # data payload after mapping
+        'abc' => '',
+        'ghi' => '',
+    };
+
+=cut
+
 sub _Empty {
     my ( $Self, %Param ) = @_;
 
@@ -144,6 +280,53 @@ sub _Empty {
     }
 
     return $ReturnData;
+}
+
+=item _IsNonEmptyString()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyHashRef()
+
+test supplied data to determine if it is a hash reference containing data
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyHashRef(
+        Data => { 'key' => 'value' } # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyHashRef {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData ne 'HASH';
+    return if !%{$TestData};
+
+    return 1;
 }
 
 1;
@@ -162,6 +345,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-08 15:29:59 $
+$Revision: 1.7 $ $Date: 2011-02-09 11:08:49 $
 
 =cut
