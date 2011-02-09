@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.100 2010-12-01 13:41:07 bes Exp $
+# $Id: Stats.pm,v 1.101 2011-02-09 11:30:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 SYNOPSIS
 
@@ -336,7 +336,7 @@ sub StatsGet {
                         );
                     }
 
-                    # stettings for working with time elements
+                    # settings for working with time elements
                     for (
                         qw(TimeStop TimeStart TimeRelativeUnit
                         TimeRelativeCount TimeScaleCount
@@ -425,7 +425,7 @@ sub StatsUpdate {
                     $StatXML{$Key}->[$Index]->{SelectedValues}->[$SubIndex]->{Content} = $Value;
                 }
 
-                # stettings for working with time elements
+                # stetting for working with time elements
                 for (qw(TimeStop TimeStart TimeRelativeUnit TimeRelativeCount TimeScaleCount)) {
                     if ( $Ref->{$_} ) {
                         $StatXML{$Key}->[$Index]->{$_} = $Ref->{$_};
@@ -781,7 +781,7 @@ sub GenerateGraph {
     }
 
     # remove first y/x position
-    my $XLable = shift @{$HeadArrayRef};
+    my $Xlabel = shift @{$HeadArrayRef};
 
     # get first col for legend
     my @YLine;
@@ -795,9 +795,9 @@ sub GenerateGraph {
     my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
     my $graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
     $graph->set(
-        x_label => $XLable,
+        x_label => $Xlabel,
 
-        #        y_label => 'YLable',
+        #        y_label => 'Ylabel',
         title => $Param{Title},
 
         #        y_max_value => 20,
@@ -3300,6 +3300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2010-12-01 13:41:07 $
+$Revision: 1.101 $ $Date: 2011-02-09 11:30:19 $
 
 =cut
