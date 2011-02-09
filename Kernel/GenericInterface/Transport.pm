@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.6 2011-02-09 11:08:09 mg Exp $
+# $Id: Transport.pm,v 1.7 2011-02-09 19:40:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -157,13 +157,27 @@ generate response for an incoming web service request.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Response        => $Response,           # complete response
     };
 
 =cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Success Data)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{DebuggerObject}->DebugLog(
+                DebugLevel => 'error',
+                Title      => "Got no $Needed!",
+                Data =>
+                    "Missing parameter $Needed in Kernel::GenericInterface::Transport::RequesterPerformRequest()",
+            );
+
+            return {
+                ErrorMessage => "Got no $Needed!",
+            };
+        }
+    }
 
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }
@@ -226,6 +240,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-09 11:08:09 $
+$Revision: 1.7 $ $Date: 2011-02-09 19:40:33 $
 
 =cut
