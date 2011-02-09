@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.4 2011-02-09 11:08:09 mg Exp $
+# $Id: Test.pm,v 1.5 2011-02-09 15:52:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use LWP::Protocol;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -119,6 +119,14 @@ sub new {
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
+    if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "HTTP status code: 500",
+            Data         => {},
+        };
+    }
+
     my $ParamObject = Kernel::System::Web::Request->new(%$Self);
 
     my %Result;
@@ -127,9 +135,17 @@ sub ProviderProcessRequest {
         $Result{$ParamName} = $ParamObject->GetParam( Param => $ParamName );
     }
 
+    if ( !%Result ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'No request data found',
+        };
+    }
+
     return {
-        Success => 1,
-        Data    => \%Result,
+        Success   => 1,
+        Data      => \%Result,
+        Operation => 'test_operation',
     };
 
 }
@@ -247,6 +263,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-09 11:08:09 $
+$Revision: 1.5 $ $Date: 2011-02-09 15:52:27 $
 
 =cut
