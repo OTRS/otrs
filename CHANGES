@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1769 2011-02-09 09:05:05 mn Exp $
+# $Id: CHANGES,v 1.1770 2011-02-09 23:36:42 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
+    in database and session.
  - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.
@@ -23,6 +25,8 @@
     of > 70 characters exists.
 
 3.0.6 2011-??-??
+ - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
+    in database and session.
  - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.

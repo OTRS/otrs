@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.59 2011-02-08 15:57:38 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.60 2011-02-09 23:36:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -276,14 +276,29 @@ sub Run {
             }
         }
 
-        # create new session id
-        my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-            _UserLogin => $PostUser,
-            _UserPw    => $PostPw,
-            %UserData,
-            UserLastRequest => $Self->{TimeObject}->SystemTime(),
-            UserType        => 'User',
-        );
+        my $NewSessionID;
+
+        # verify if the login and password should be saved in the session
+        if ( $Self->{ConfigObject}->Get("SessionSaveLoginPasswd") ) {
+
+            # create new session id
+            $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+                _UserLogin => $PostUser,
+                _UserPw    => $PostPw,
+                %UserData,
+                UserLastRequest => $Self->{TimeObject}->SystemTime(),
+                UserType        => 'User',
+            );
+        }
+        else {
+
+            # create new session id
+            $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+                %UserData,
+                UserLastRequest => $Self->{TimeObject}->SystemTime(),
+                UserType        => 'User',
+            );
+        }
 
         # set time zone offset if TimeZoneFeature is active
         if (
@@ -911,6 +926,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2011-02-08 15:57:38 $
+$Revision: 1.60 $ $Date: 2011-02-09 23:36:43 $
 
 =cut
