@@ -2,7 +2,7 @@
 # 100-AdminSelectBox.t - frontend tests for AdminSQL
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-AdminSelectBox.t,v 1.4.2.1 2011-02-02 09:20:07 mg Exp $
+# $Id: 100-AdminSelectBox.t,v 1.4.2.2 2011-02-09 15:45:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 
 use vars qw($Self);
 
-use Kernel::System::UnitTest::Selenium;
 use Kernel::System::UnitTest::Helper;
 use Time::HiRes qw(sleep);
 
@@ -22,6 +21,8 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     $Self->True( 1, 'Selenium testing is not active' );
     return 1;
 }
+
+require Kernel::System::UnitTest::Selenium;
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,

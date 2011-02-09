@@ -1,8 +1,8 @@
 # --
-# 100-AdminState.t - frontend tests for AdminState
+# 100-AdminQueue.t - frontend tests for AdminState
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-AdminState.t,v 1.1.2.2 2011-02-09 15:45:46 mg Exp $
+# $Id: 100-AdminQueue.t,v 1.2.2.2 2011-02-09 15:45:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,21 +52,26 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
             my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
-            $sel->open_ok("${ScriptAlias}index.pl?Action=AdminState");
+            $sel->open_ok("${ScriptAlias}index.pl?Action=AdminQueue");
             $sel->wait_for_page_to_load_ok("30000");
 
-            $sel->is_text_present_ok('closed successful');
+            $sel->is_text_present_ok('Junk');
             $sel->is_element_present_ok("css=table");
             $sel->is_element_present_ok("css=table thead tr th");
             $sel->is_element_present_ok("css=table tbody tr td");
 
-            # click 'add new state' link
+            # click 'add new queue' link
             $sel->click_ok("css=a.Plus");
             $sel->wait_for_page_to_load_ok("30000");
 
             # check add page
             $sel->is_editable_ok("Name");
-            $sel->is_element_present_ok("css=#TypeID");
+            $sel->is_element_present_ok("css=#GroupID");
+            $sel->is_element_present_ok("css=#FollowUpID");
+            $sel->is_element_present_ok("css=#FollowUpLock");
+            $sel->is_element_present_ok("css=#SalutationID");
+            $sel->is_element_present_ok("css=#SystemAddressID");
+            $sel->is_element_present_ok("css=#SignatureID");
             $sel->is_element_present_ok("css=#ValidID");
 
             # check client side validation
@@ -80,35 +85,44 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 'Client side validation correctly detected missing input value',
             );
 
-            # create a real test state
+            # create a real test queue
             my $RandomID = $Helper->GetRandomID();
 
             $sel->type_ok( "Name", $RandomID );
-            $sel->select_ok( "TypeID",  "value=1" );    # new
-            $sel->select_ok( "ValidID", "value=1" );    # valid
-            $sel->type_ok( "Comment", 'Selenium test state' );
+            $sel->select_ok( "GroupID",         "value=1" );
+            $sel->select_ok( "FollowUpID",      "value=1" );
+            $sel->select_ok( "FollowUpLock",    "value=0" );
+            $sel->select_ok( "SalutationID",    "value=1" );
+            $sel->select_ok( "SystemAddressID", "value=1" );
+            $sel->select_ok( "SignatureID",     "value=1" );
+            $sel->select_ok( "ValidID",         "value=1" );
+            $sel->type_ok( "Comment", 'Selenium test queue' );
             $sel->click_ok("css=button#Submit");
             $sel->wait_for_page_to_load_ok("30000");
 
-            # check overview page
+            # check Queue - Responses page
             $sel->is_text_present_ok($RandomID);
-            $sel->is_text_present_ok('closed successful');
             $sel->is_element_present_ok("css=table");
             $sel->is_element_present_ok("css=table thead tr th");
             $sel->is_element_present_ok("css=table tbody tr td");
 
-            # go to new state again
+            # go to new queue again
             $sel->click_ok("link=$RandomID");
             $sel->wait_for_page_to_load_ok("30000");
 
-            # check new state values
-            $sel->value_is( 'Name',    $RandomID );
-            $sel->value_is( 'TypeID',  1 );
-            $sel->value_is( 'ValidID', 1 );
-            $sel->value_is( 'Comment', 'Selenium test state' );
+            # check new queue values
+            $sel->value_is( 'Name',            $RandomID );
+            $sel->value_is( 'GroupID',         1 );
+            $sel->value_is( 'FollowUpID',      1 );
+            $sel->value_is( 'FollowUpLock',    0 );
+            $sel->value_is( 'SalutationID',    1 );
+            $sel->value_is( 'SystemAddressID', 1 );
+            $sel->value_is( 'SignatureID',     1 );
+            $sel->value_is( 'ValidID',         1 );
+            $sel->value_is( 'Comment',         'Selenium test queue' );
 
-            # set test state to invalid
-            $sel->select_ok( "TypeID",  "value=2" );
+            # set test queue to invalid
+            $sel->select_ok( "GroupID", "value=2" );
             $sel->select_ok( "ValidID", "value=2" );
             $sel->type_ok( "Comment", '' );
             $sel->click_ok("css=button#Submit");
@@ -116,7 +130,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
             # check overview page
             $sel->is_text_present_ok($RandomID);
-            $sel->is_text_present_ok('closed successful');
+            $sel->is_text_present_ok('admin');
             $sel->is_element_present_ok("css=table");
             $sel->is_element_present_ok("css=table thead tr th");
             $sel->is_element_present_ok("css=table tbody tr td");
@@ -127,11 +141,12 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
             # check new state values
             $sel->value_is( 'Name',    $RandomID );
-            $sel->value_is( 'TypeID',  2 );
+            $sel->value_is( 'GroupID', 2 );
             $sel->value_is( 'ValidID', 2 );
             $sel->value_is( 'Comment', '' );
 
             return 1;
+
         } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );
 
         return 1;
