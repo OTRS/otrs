@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.6 2011-02-09 09:46:07 sb Exp $
+# $Id: Mapping.pm,v 1.7 2011-02-09 10:08:32 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -91,8 +91,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed params - DebuggerObject needs to go first because it is used for logging errors
-    for my $Needed (qw(DebuggerObject DBObject MainObject MappingConfig)) {
+    # check needed params
+    for my $Needed (qw(DBObject DebuggerObject MainObject MappingConfig)) {
         return {
             Success      => 0,
             ErrorMessage => "Got no $Needed!",
@@ -102,13 +102,25 @@ sub new {
     }
 
     # check config - we need at least a config type
-    return $Self->_LogAndExit( ErrorMessage => 'MappingConfig is no hash ref!' )
+    return $Self->_LogAndExit( ErrorMessage => 'Got no MappingConfig as hash ref with content!' )
         if !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} );
-    return $Self->_LogAndExit( ErrorMessage => 'Need Type as string in MappingConfig!' )
-        if !$Self->_IsNonEmptyString( Data => $Param{MappingConfig}->{'Type'} );
+    return $Self->_LogAndExit(
+        ErrorMessage => 'Got no MappingConfig with Type as string with value!',
+    ) if !$Self->_IsNonEmptyString( Data => $Param{MappingConfig}->{Type} );
+
+    # check config - if we have a map config, it has to be a non-empty hash ref
+    if (
+        defined $Param{MappingConfig}->{Config}
+        && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
+        )
+    {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        );
+    }
 
     # load backend module
-    my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
+    my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{Type};
     return $Self->_LogAndExit( ErrorMessage => "Can't load mapping backend module!" )
         if !$Self->{MainObject}->Require($GenericModule);
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
@@ -143,7 +155,7 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    return $Self->_LogAndExit( ErrorMessage => 'Need Data hash ref with content!' )
+    return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' )
         if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
 
     # start map on backend
@@ -273,6 +285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-09 09:46:07 $
+$Revision: 1.7 $ $Date: 2011-02-09 10:08:32 $
 
 =cut
