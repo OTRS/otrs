@@ -2,7 +2,7 @@
 # 000-Login.t - frontend tests for login
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 000-Login.t,v 1.3 2011-02-02 09:20:20 mg Exp $
+# $Id: 000-Login.t,v 1.4 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,6 @@ use vars qw($Self);
 use Kernel::Config;
 use Kernel::System::User;
 
-use Kernel::System::UnitTest::Selenium;
 use Kernel::System::UnitTest::Helper;
 use Time::HiRes qw(sleep);
 
@@ -25,6 +24,8 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     $Self->True( 1, 'Selenium testing is not active' );
     return 1;
 }
+
+require Kernel::System::UnitTest::Selenium;
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,

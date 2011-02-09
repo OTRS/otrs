@@ -2,7 +2,7 @@
 # 100-AdminQueue.t - frontend tests for AdminState
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 100-AdminQueue.t,v 1.1 2011-02-03 19:28:03 mp Exp $
+# $Id: 100-AdminQueue.t,v 1.2 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 
 use vars qw($Self);
 
-use Kernel::System::UnitTest::Selenium;
 use Kernel::System::UnitTest::Helper;
 use Time::HiRes qw(sleep);
 
@@ -22,6 +21,8 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     $Self->True( 1, 'Selenium testing is not active' );
     return 1;
 }
+
+require Kernel::System::UnitTest::Selenium;
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -41,114 +42,116 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             %{$SeleniumScenario},
         );
 
-        $sel->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
+        eval {
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+            $sel->Login(
+                Type     => 'Agent',
+                User     => $TestUserLogin,
+                Password => $TestUserLogin,
+            );
 
-        $sel->open_ok("${ScriptAlias}index.pl?Action=AdminQueue");
-        $sel->wait_for_page_to_load_ok("30000");
+            my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
-        $sel->is_text_present_ok('Junk');
-        $sel->is_element_present_ok("css=table");
-        $sel->is_element_present_ok("css=table thead tr th");
-        $sel->is_element_present_ok("css=table tbody tr td");
+            $sel->open_ok("${ScriptAlias}index.pl?Action=AdminQueue");
+            $sel->wait_for_page_to_load_ok("30000");
 
-        # click 'add new queue' link
-        $sel->click_ok("css=a.Plus");
-        $sel->wait_for_page_to_load_ok("30000");
+            $sel->is_text_present_ok('Junk');
+            $sel->is_element_present_ok("css=table");
+            $sel->is_element_present_ok("css=table thead tr th");
+            $sel->is_element_present_ok("css=table tbody tr td");
 
-        # check add page
-        $sel->is_editable_ok("Name");
-        $sel->is_element_present_ok("css=#GroupID");
-        $sel->is_element_present_ok("css=#FollowUpID");
-        $sel->is_element_present_ok("css=#FollowUpLock");
-        $sel->is_element_present_ok("css=#SalutationID");
-        $sel->is_element_present_ok("css=#SystemAddressID");
-        $sel->is_element_present_ok("css=#SignatureID");
-        $sel->is_element_present_ok("css=#ValidID");
+            # click 'add new queue' link
+            $sel->click_ok("css=a.Plus");
+            $sel->wait_for_page_to_load_ok("30000");
 
-        # check client side validation
-        $sel->type_ok( "Name", "" );
-        $sel->click_ok("css=button#Submit");
-        $Self->Is(
-            $sel->get_eval(
-                "this.browserbot.getCurrentWindow().\$('#Name').hasClass('Error')"
-            ),
-            'true',
-            'Client side validation correctly detected missing input value',
-        );
+            # check add page
+            $sel->is_editable_ok("Name");
+            $sel->is_element_present_ok("css=#GroupID");
+            $sel->is_element_present_ok("css=#FollowUpID");
+            $sel->is_element_present_ok("css=#FollowUpLock");
+            $sel->is_element_present_ok("css=#SalutationID");
+            $sel->is_element_present_ok("css=#SystemAddressID");
+            $sel->is_element_present_ok("css=#SignatureID");
+            $sel->is_element_present_ok("css=#ValidID");
 
-        # create a real test queue
-        my $RandomID = $Helper->GetRandomID();
+            # check client side validation
+            $sel->type_ok( "Name", "" );
+            $sel->click_ok("css=button#Submit");
+            $Self->Is(
+                $sel->get_eval(
+                    "this.browserbot.getCurrentWindow().\$('#Name').hasClass('Error')"
+                ),
+                'true',
+                'Client side validation correctly detected missing input value',
+            );
 
-        $sel->type_ok( "Name", $RandomID );
-        $sel->select_ok( "GroupID",         "value=1" );
-        $sel->select_ok( "FollowUpID",      "value=1" );
-        $sel->select_ok( "FollowUpLock",    "value=0" );
-        $sel->select_ok( "SalutationID",    "value=1" );
-        $sel->select_ok( "SystemAddressID", "value=1" );
-        $sel->select_ok( "SignatureID",     "value=1" );
-        $sel->select_ok( "ValidID",         "value=1" );
-        $sel->type_ok( "Comment", 'Selenium test queue' );
-        $sel->click_ok("css=button#Submit");
-        $sel->wait_for_page_to_load_ok("30000");
+            # create a real test queue
+            my $RandomID = $Helper->GetRandomID();
 
-        # check Queue - Responses page
-        $sel->is_text_present_ok($RandomID);
-        $sel->is_element_present_ok("css=table");
-        $sel->is_element_present_ok("css=table thead tr th");
-        $sel->is_element_present_ok("css=table tbody tr td");
+            $sel->type_ok( "Name", $RandomID );
+            $sel->select_ok( "GroupID",         "value=1" );
+            $sel->select_ok( "FollowUpID",      "value=1" );
+            $sel->select_ok( "FollowUpLock",    "value=0" );
+            $sel->select_ok( "SalutationID",    "value=1" );
+            $sel->select_ok( "SystemAddressID", "value=1" );
+            $sel->select_ok( "SignatureID",     "value=1" );
+            $sel->select_ok( "ValidID",         "value=1" );
+            $sel->type_ok( "Comment", 'Selenium test queue' );
+            $sel->click_ok("css=button#Submit");
+            $sel->wait_for_page_to_load_ok("30000");
 
-        # go to new queue again
-        $sel->click_ok("link=$RandomID");
-        $sel->wait_for_page_to_load_ok("30000");
+            # check Queue - Responses page
+            $sel->is_text_present_ok($RandomID);
+            $sel->is_element_present_ok("css=table");
+            $sel->is_element_present_ok("css=table thead tr th");
+            $sel->is_element_present_ok("css=table tbody tr td");
 
-        # check new queue values
-        $sel->value_is( 'Name',            $RandomID );
-        $sel->value_is( 'GroupID',         1 );
-        $sel->value_is( 'FollowUpID',      1 );
-        $sel->value_is( 'FollowUpLock',    0 );
-        $sel->value_is( 'SalutationID',    1 );
-        $sel->value_is( 'SystemAddressID', 1 );
-        $sel->value_is( 'SignatureID',     1 );
-        $sel->value_is( 'ValidID',         1 );
-        $sel->value_is( 'Comment',         'Selenium test queue' );
+            # go to new queue again
+            $sel->click_ok("link=$RandomID");
+            $sel->wait_for_page_to_load_ok("30000");
 
-        # set test queue to invalid
-        $sel->select_ok( "GroupID", "value=2" );
-        $sel->select_ok( "ValidID", "value=2" );
-        $sel->type_ok( "Comment", '' );
-        $sel->click_ok("css=button#Submit");
-        $sel->wait_for_page_to_load_ok("30000");
+            # check new queue values
+            $sel->value_is( 'Name',            $RandomID );
+            $sel->value_is( 'GroupID',         1 );
+            $sel->value_is( 'FollowUpID',      1 );
+            $sel->value_is( 'FollowUpLock',    0 );
+            $sel->value_is( 'SalutationID',    1 );
+            $sel->value_is( 'SystemAddressID', 1 );
+            $sel->value_is( 'SignatureID',     1 );
+            $sel->value_is( 'ValidID',         1 );
+            $sel->value_is( 'Comment',         'Selenium test queue' );
 
-        # check overview page
-        $sel->is_text_present_ok($RandomID);
-        $sel->is_text_present_ok('admin');
-        $sel->is_element_present_ok("css=table");
-        $sel->is_element_present_ok("css=table thead tr th");
-        $sel->is_element_present_ok("css=table tbody tr td");
+            # set test queue to invalid
+            $sel->select_ok( "GroupID", "value=2" );
+            $sel->select_ok( "ValidID", "value=2" );
+            $sel->type_ok( "Comment", '' );
+            $sel->click_ok("css=button#Submit");
+            $sel->wait_for_page_to_load_ok("30000");
 
-        # go to new state again
-        $sel->click_ok("link=$RandomID");
-        $sel->wait_for_page_to_load_ok("30000");
+            # check overview page
+            $sel->is_text_present_ok($RandomID);
+            $sel->is_text_present_ok('admin');
+            $sel->is_element_present_ok("css=table");
+            $sel->is_element_present_ok("css=table thead tr th");
+            $sel->is_element_present_ok("css=table tbody tr td");
 
-        # check new state values
-        $sel->value_is( 'Name',    $RandomID );
-        $sel->value_is( 'GroupID', 2 );
-        $sel->value_is( 'ValidID', 2 );
-        $sel->value_is( 'Comment', '' );
+            # go to new state again
+            $sel->click_ok("link=$RandomID");
+            $sel->wait_for_page_to_load_ok("30000");
+
+            # check new state values
+            $sel->value_is( 'Name',    $RandomID );
+            $sel->value_is( 'GroupID', 2 );
+            $sel->value_is( 'ValidID', 2 );
+            $sel->value_is( 'Comment', '' );
+
+            return 1;
+
+        } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );
 
         return 1;
 
-    }
-        || $Self->True(
-        0,
-        "Exception occurred in Selenium scenario '$SeleniumScenario->{ID}': $@",
-        );
+    } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );
 }
 
 1;

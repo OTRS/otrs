@@ -2,7 +2,7 @@
 # 010-Language.t - frontend tests for admin area
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: 010-Language.t,v 1.7 2011-02-02 09:20:20 mg Exp $
+# $Id: 010-Language.t,v 1.8 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 
 use vars qw($Self);
 
-use Kernel::System::UnitTest::Selenium;
 use Kernel::System::UnitTest::Helper;
 use Kernel::Language;
 
@@ -24,6 +23,8 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     $Self->True( 1, 'Selenium testing is not active' );
     return 1;
 }
+
+require Kernel::System::UnitTest::Selenium;
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
