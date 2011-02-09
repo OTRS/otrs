@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.1 2011-02-09 17:06:52 cg Exp $
+# $Id: Invoker.t,v 1.2 2011-02-09 18:45:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,10 @@ use vars (qw($Self));
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
-my $DBObject       = Kernel::System::DB->new( %{$Self} );
-my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
-    DBObject       => $DBObject,
+my %CommonObject = %{$Self};
+$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
+    %CommonObject,
     DebuggerConfig => {
         DebugLevel => 'debug',
     },
@@ -28,19 +28,46 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     TestMode     => 1,
 );
 
-# correct call (with empty config)
-my $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{$Self},
-    DebuggerObject => $DebuggerObject,
-    Invoker        => 'Test::Test',
+my $InvokerObject;
+
+# provide no objects
+$InvokerObject = Kernel::GenericInterface::Invoker->new();
+$Self->True(
+    ref $InvokerObject eq 'HASH',
+    'InvokerObject response check',
+);
+$Self->False(
+    $InvokerObject->{Success},
+    'InvokerObject required objects check',
+);
+
+# correct call (without invoker info)
+$InvokerObject = Kernel::GenericInterface::Invoker->new(%CommonObject);
+$Self->True(
+    ref $InvokerObject eq 'HASH',
+    'InvokerObject call without invoker info',
+);
+
+# provide incorrect invoker
+$InvokerObject = Kernel::GenericInterface::Invoker->new(
+    %CommonObject,
+    Invoker => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
+);
+$Self->False(
+    $InvokerObject->{Success},
+    'InvokerObject invoker check',
+);
+
+# correct call
+$InvokerObject = Kernel::GenericInterface::Invoker->new(
+    %CommonObject,
+    Invoker => 'Test::Test',
 );
 $Self->Is(
     ref $InvokerObject,
     'Kernel::GenericInterface::Invoker',
     'InvokerObject was correctly instantiated',
 );
-
-#print STDERR $Self->{MainObject}->Dump(\$InvokerObject);
 
 # PrepareRequest without data
 my $ReturnData = $InvokerObject->PrepareRequest();
@@ -103,9 +130,5 @@ $Self->True(
     $ReturnData->{Success},
     'HandleResponse call data provided',
 );
-
-#HandleResponse
-#print STDERR $ReturnData->{ErrorMessage};
-#print STDERR $Self->{MainObject}->Dump(\$ReturnData);
 
 1;
