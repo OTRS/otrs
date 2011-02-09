@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.8 2011-02-09 10:21:19 sb Exp $
+# $Id: Mapping.pm,v 1.9 2011-02-09 13:31:33 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -112,8 +112,11 @@ sub new {
     }
 
     # check config - we need at least a config type
-    return $Self->_LogAndExit( ErrorMessage => 'Got no MappingConfig as hash ref with content!' )
-        if !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} );
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got no MappingConfig as hash ref with content!'    #
+        );
+    }
     return $Self->_LogAndExit(
         ErrorMessage => 'Got no MappingConfig with Type as string with value!',
     ) if !$Self->_IsNonEmptyString( Data => $Param{MappingConfig}->{Type} );
@@ -131,8 +134,9 @@ sub new {
 
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{Type};
-    return $Self->_LogAndExit( ErrorMessage => "Can't load mapping backend module!" )
-        if !$Self->{MainObject}->Require($GenericModule);
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        return $Self->_LogAndExit( ErrorMessage => "Can't load mapping backend module!" );
+    }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
 
     # pass back error message from backend if backend module could not be executed
@@ -165,8 +169,9 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' )
-        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+    }
 
     # start map on backend
     return $Self->{BackendObject}->Map( Data => $Param{Data} );
@@ -295,6 +300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-09 10:21:19 $
+$Revision: 1.9 $ $Date: 2011-02-09 13:31:33 $
 
 =cut
