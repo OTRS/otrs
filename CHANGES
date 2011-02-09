@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1768 2011-02-08 22:10:20 mp Exp $
+# $Id: CHANGES,v 1.1769 2011-02-09 09:05:05 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.
  - 2011-02-07 Fixed Bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS.
@@ -22,6 +23,7 @@
     of > 70 characters exists.
 
 3.0.6 2011-??-??
+ - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
