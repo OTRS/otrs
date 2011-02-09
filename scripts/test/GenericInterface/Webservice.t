@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.3 2011-02-09 08:54:08 martin Exp $
+# $Id: Webservice.t,v 1.4 2011-02-09 09:17:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -329,6 +329,21 @@ for my $Test (@Tests) {
         $Test->{Add}->{Config},
         $Webservice{Config},
         "$Test->{Name} - WebserviceGet() - Config",
+    );
+}
+
+# list check
+my %List = $WebserviceObject->WebserviceList( Valid => 0 );
+for my $WebServiceIDFromList ( keys %List ) {
+    my $Exists;
+    for my $WebServiceID (@WebServiceIDs) {
+        $Exists = 1;
+        last;
+    }
+
+    $Self->True(
+        $Exists,
+        "WebserviceList()",
     );
 }
 
