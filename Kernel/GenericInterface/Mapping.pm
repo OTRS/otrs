@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.5 2011-02-08 18:24:09 cg Exp $
+# $Id: Mapping.pm,v 1.6 2011-02-09 09:46:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -91,55 +91,40 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed params
-    for my $Needed (qw(DBObject DebuggerObject MainObject MappingConfig)) {
-        return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
+    # check needed params - DebuggerObject needs to go first because it is used for logging errors
+    for my $Needed (qw(DebuggerObject DBObject MainObject MappingConfig)) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!",
+        } if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # load backend module
-    if ( !$Param{MappingConfig}->{'Type'} ) {
-        $Self->{DebuggerObject}->DebugLog(
-            DebugLevel => 'debug',
-            Title      => 'No type was supplied in MappingConfig.',
-            Data       => 'Empty string',
-        );
-        return { ErrorMessage => 'No type was supplied in MappingConfig!' };
-    }
+    # check config - we need at least a config type
+    return $Self->_LogAndExit( ErrorMessage => 'MappingConfig is no hash ref!' )
+        if !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} );
+    return $Self->_LogAndExit( ErrorMessage => 'Need Type as string in MappingConfig!' )
+        if !$Self->_IsNonEmptyString( Data => $Param{MappingConfig}->{'Type'} );
 
+    # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{'Type'};
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        $Self->{DebuggerObject}->DebugLog(
-            DebugLevel => 'debug',
-            Title      => 'Can\'t load mapping backend module.',
-            Data       => $Param{MappingConfig}->{'Type'},
-        );
-        return { ErrorMessage => "Can't load mapping backend module $GenericModule! $@" };
-    }
-    $Self->{Backend} = $GenericModule->new(
-        %{$Self},
-        MappingConfig => $Param{MappingConfig},
-    );
-    if ( ref $Self->{Backend} ne $GenericModule ) {
-        $Self->{DebuggerObject}->DebugLog(
-            DebugLevel => 'debug',
-            Title      => 'Could not create backend object.',
-            Data       => $GenericModule,
-        );
-        return { ErrorMessage => "Could not create backend object for $GenericModule!" }
-    }
-    return $Self->{Backend} if ref $Self->{Backend} eq 'HASH';
+    return $Self->_LogAndExit( ErrorMessage => "Can't load mapping backend module!" )
+        if !$Self->{MainObject}->Require($GenericModule);
+    $Self->{BackendObject} = $GenericModule->new( %{$Self} );
+
+    # pass back error message from backend if backend module could not be executed
+    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
 
     return $Self;
 }
 
 =item Map()
 
-perform data mapping
+perform data mapping in backend
 
     my $Result = $MappingObject->Map(
-        Data => {                               # data payload before mapping
+        Data => {              # data payload before mapping
             ...
         },
     );
@@ -157,18 +142,119 @@ perform data mapping
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{Data} ) {
-        $Self->{DebuggerObject}->DebugLog(
-            DebugLevel => 'debug',
-            Title      => 'Need Data!',
-            Data       => 'No data',
-        );
-        return { ErrorMessage => 'Need Data!' }
-    }
+    # check data - we need a hash ref with at least one entry
+    return $Self->_LogAndExit( ErrorMessage => 'Need Data hash ref with content!' )
+        if !$Self->_IsNonEmptyHashRef( Data => $Param{Data} );
 
-    # map on backend
-    return $Self->{Backend}->Map(%Param);
+    # start map on backend
+    return $Self->{BackendObject}->Map( Data => $Param{Data} );
+}
+
+=item _LogAndExit()
+
+log specified error message to debug log and return error hash ref
+
+    my $Result = $MappingObject->_LogAndExit(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'An error occured!',
+    };
+
+=cut
+
+sub _LogAndExit {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'error',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return error
+    return {
+        Success      => 0,
+        ErrorMessage => $ErrorMessage,
+    };
+}
+
+=item _IsString()
+
+test supplied data to determine if it is a string - an empty string is valid
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !defined $TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyString()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyHashRef()
+
+test supplied data to determine if it is a hash reference containing data
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyHashRef(
+        Data => { 'key' => 'value' } # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyHashRef {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData ne 'HASH';
+    return if !%{$TestData};
+
+    return 1;
 }
 
 1;
@@ -187,6 +273,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-08 18:24:09 $
+$Revision: 1.6 $ $Date: 2011-02-09 09:46:07 $
 
 =cut
