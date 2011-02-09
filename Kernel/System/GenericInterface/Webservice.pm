@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.7 2011-02-09 13:13:01 martin Exp $
+# $Id: Webservice.pm,v 1.8 2011-02-09 13:51:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,11 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
+use YAML;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -115,10 +116,7 @@ sub WebserviceAdd {
     }
 
     # dump config as string
-    $Param{Config} = $Self->{MainObject}->Dump(
-        $Param{Config},
-        'ascii',
-    );
+    $Param{Config} = YAML::Dump( $Param{Config} );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -181,12 +179,12 @@ sub WebserviceGet {
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $VAR1;
-        eval $Data[1];
+        my $Config = YAML::Load( $Data[1] );
+
         %Data = (
             ID         => $Param{ID},
             Name       => $Data[0],
-            Config     => $VAR1,
+            Config     => $Config,
             ValidID    => $Data[2],
             CreateTime => $Data[3],
             ChangeTime => $Data[4],
@@ -221,10 +219,7 @@ sub WebserviceUpdate {
     }
 
     # dump config as string
-    $Param{Config} = $Self->{MainObject}->Dump(
-        $Param{Config},
-        'ascii',
-    );
+    $Param{Config} = YAML::Dump( $Param{Config} );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -316,6 +311,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-09 13:13:01 $
+$Revision: 1.8 $ $Date: 2011-02-09 13:51:46 $
 
 =cut
