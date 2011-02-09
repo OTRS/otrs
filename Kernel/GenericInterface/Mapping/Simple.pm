@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.5 2011-02-08 15:59:51 sb Exp $
+# $Id: Simple.pm,v 1.6 2011-02-09 15:46:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -31,6 +31,68 @@ GenericInterface simple data mapping backend
 
 =cut
 
+=item new()
+
+create a Mapping backend object.
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Time;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
+    use Kernel::GenericInterface::Mapping::Simple;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        ConfigObject       => $ConfigObject,
+        EncodeObject       => $EncodeObject,
+        LogObject          => $LogObject,
+        MainObject         => $MainObject,
+        DBObject           => $DBObject,
+        TimeObject         => $TimeObject,
+    );
+    my $MappingObject = Kernel::GenericInterface::Mapping::Simple->new(
+        ConfigObject       => $ConfigObject,
+        EncodeObject       => $EncodeObject,
+        LogObject          => $LogObject,
+        MainObject         => $MainObject,
+        DBObject           => $DBObject,
+        TimeObject         => $TimeObject,
+        DebuggerObject     => $DebuggerObject,
+
+        MappingConfig   => {
+            Config => {
+                ...
+            },
+        },
+    );
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -40,16 +102,31 @@ sub new {
 
     # check needed params
     for my $Needed (qw(DebuggerObject MainObject MappingConfig)) {
-        return { ErrorMessage => "Got no $Needed!" } if !$Param{$Needed};
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!",
+        } if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
     }
 
     # check mapping config
-    return { ErrorMessage => 'MappingConfig is no hash reference!' }
-        if ref $Self->{MappingConfig} ne 'HASH';
-    return { ErrorMessage => 'Config param in MappingConfig is no hash reference!' }
-        if ref $Self->{MappingConfig}->{Config} ne 'HASH';
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got no MappingConfig as hash ref with content!'
+        );
+    }
+
+    # check config - if we have a map config, it has to be a non-empty hash ref
+    if (
+        defined $Param{MappingConfig}->{Config}
+        && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
+        )
+    {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        );
+    }
 
     return $Self;
 }
@@ -62,41 +139,41 @@ also the use of a default for unmapped keys and values is possible
 we require the config to be in the following format
 
     $Self->{MappingConfig}->{Config} = {
-        KeyMapExact => {          # key/value pairs for direct replacement
+        KeyMapExact => {           # optional. key/value pairs for direct replacement
             'old_value'         => 'new_value',
             'another_old_value' => 'another_new_value',
             'maps_to_same_value => 'another_new_value',
         },
-        KeyMapRegEx => {          # replace keys with value if current key matches regex
+        KeyMapRegEx => {           # optional. replace keys with value if current key matches regex
             'Stat(e|us)'  => 'state',
             '[pP]riority' => 'prio',
         },
-        KeyMapDefault => {        # optional. If not set, keys will remain unchanged
-            MapType => 'Keep',    # possible values are
-                                  # 'Keep' (leave unchanged)
-                                  # 'Ignore' (drop key/value pair)
-                                  # 'MapTo' (use provided value as default)
-            MapTo => 'new_value', # only used if 'MapType' is 'MapTo'
+        KeyMapDefault => {         # required. replace keys if the have not been replaced before
+            MapType => 'Keep',     # possible values are
+                                   # 'Keep' (leave unchanged)
+                                   # 'Ignore' (drop key/value pair)
+                                   # 'MapTo' (use provided value as default)
+            MapTo => 'new_value',  # only used if 'MapType' is 'MapTo'. then required
         },
         ValueMap => {
-            'new_key_name' => {
-                ValueMapExact => {        # key/value pairs for direct replacement
+            'new_key_name' => {    # optional. Replacement for a specific key
+                ValueMapExact => { # optional. key/value pairs for direct replacement
                     'old_value'         => 'new_value',
                     'another_old_value' => 'another_new_value',
                     'maps_to_same_value => 'another_new_value',
                 },
-                ValueMapRegEx => {        # replace keys with value if current key matches regex
+                ValueMapRegEx => { # optional. replace keys with value if current key matches regex
                     'Stat(e|us)'  => 'state',
                     '[pP]riority' => 'prio',
                 },
             },
         },
-        ValueMapDefault => {      # optional. If not set, values will remain unchanged
-            MapType => 'Keep',    # possible values are
-                                  # 'Keep' (leave unchanged)
-                                  # 'Ignore' (drop key/value pair)
-                                  # 'MapTo' (use provided value as default)
-            MapTo => 'new_value', # only used if 'MapType' is 'MapTo'
+        ValueMapDefault => {       # required. replace keys if the have not been replaced before
+            MapType => 'Keep',     # possible values are
+                                   # 'Keep' (leave unchanged)
+                                   # 'Ignore' (drop key/value pair)
+                                   # 'MapTo' (use provided value as default)
+            MapTo => 'new_value',  # only used if 'MapType' is 'MapTo'. then required
         },
     };
 
@@ -119,177 +196,20 @@ we require the config to be in the following format
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check needed params
-    if ( ref $Param{Data} ne 'HASH' ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Data is not a hash reference!',
-        };
-    }
-    if ( !%{ $Param{Data} } ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Got no Data!',
-        };
+    # check data - we need a hash ref with at least one entry
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
     }
 
-    # do no replacements if we have no config
-    if ( !%{ $Self->{MappingConfig}->{Config} } ) {
-        return {
-            Success => 1,
-            Data    => $Param{Data},
-        };
-    }
+    # no config means we just return input data
+    return $Self->_CleanExit( Data => $Param{Data} ) if !$Self->{MappingConfig}->{Config};
 
-    # check if config is valid
+    # prepare short config variable
     my $Config = $Self->{MappingConfig}->{Config};
 
-    CONFIGTYPE:
-    for my $ConfigType (qw(KeyMapExact KeyMapRegEx KeyMapDefault ValueMap ValueMapDefault)) {
-
-        # check top level
-        if (
-            $Config->{$ConfigType}
-            && (
-                ref $Config->{$ConfigType} ne 'HASH'
-                || !%{ $Config->{$ConfigType} }
-            )
-            )
-        {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    "Config type $ConfigType is defined but not a hash reference or empty!",
-            };
-        }
-        next CONFIGTYPE if !$Config->{$ConfigType};
-
-        # check keys and values of these config types
-        if (
-            $ConfigType =~ m{
-                \A (?: KeyMapExact | KeyMapRegEx | KeyMapDefault | ValueMapDefault ) \z
-            }xms
-            )
-        {
-            for my $ConfigKey ( %{ $Config->{$ConfigType} } ) {
-                if ( ref $ConfigKey ) {
-                    return {
-                        Success => 0,
-                        ErrorMessage =>
-                            "Config key $ConfigKey in config type $ConfigType is not a string!",
-                    };
-                }
-                if ( ref $Config->{$ConfigType}->{$ConfigKey} ) {
-                    return {
-                        Success => 0,
-                        ErrorMessage =>
-                            "Config value of key $ConfigKey"
-                            . " in config type $ConfigType is not a string!",
-                    };
-                }
-            }
-        }
-    }
-
-    # check valid values for MapType in KeyMapDefault and ValueMapDefault
-    CONFIGTYPE:
-    for my $ConfigType (qw(KeyMapDefault ValueMapDefault)) {
-        next CONFIGTYPE if !$Config->{$ConfigType};
-
-        if ( !$Config->{$ConfigType}->{MapType} ) {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    "Config value of key MapType must be set if config type $ConfigType exists!",
-            };
-        }
-
-        if ( ref $Config->{$ConfigType}->{MapType} ) {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    "Config value of key MapType"
-                    . " in config type $ConfigType is not a string!",
-            };
-        }
-
-        next CONFIGTYPE if $Config->{$ConfigType}->{MapType} =~ m{
-            \A (?: Keep | Ignore | MapTo ) \z
-        }xms;
-
-        return {
-            Success => 0,
-            ErrorMessage =>
-                "Value of config key MapType ($Config->{$ConfigType}->{MapType})"
-                . " in config type $ConfigType is not allowed!",
-        };
-    }
-
-    # check valid value in MapTo of KeyMapDefault
-    if (
-        $Config->{KeyMapDefault}
-        && $Config->{KeyMapDefault}->{MapType}
-        && $Config->{KeyMapDefault}->{MapType} eq 'MapTo'
-        )
-    {
-        if ( !$Config->{KeyMapDefault}->{MapTo} ) {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    'Value of config value MapTo in config type KeyMapDefault must not be empty!',
-            };
-        }
-        elsif ( ref $Config->{KeyMapDefault}->{MapTo} ) {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    'Value of config value MapTo in config type KeyMapDefault is not a string!',
-            };
-        }
-    }
-
-    # check ValueMap
-    for my $KeyName ( keys %{ $Config->{ValueMap} } ) {
-        if ( ref $Config->{ValueMap}->{$KeyName} ne 'HASH' ) {
-            return {
-                Success => 0,
-                ErrorMessage =>
-                    "Value of config value $KeyName in config type ValueMap"
-                    . ' is not a hash reference!',
-            };
-        }
-        SUBKEY:
-        for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
-            next if !$Config->{ValueMap}->{$KeyName}->{$SubKeyName};
-            if ( ref $Config->{ValueMap}->{$KeyName}->{$SubKeyName} ne 'HASH' ) {
-                return {
-                    Success => 0,
-                    ErrorMessage =>
-                        "Value of config value $KeyName->$SubKeyName in config type ValueMap"
-                        . ' is not a hash reference!',
-                };
-            }
-
-            for my $ConfigKey ( %{ $Config->{ValueMap}->{$KeyName}->{$SubKeyName} } ) {
-                if ( ref $ConfigKey ) {
-                    return {
-                        Success => 0,
-                        ErrorMessage =>
-                            "Config key $KeyName->$SubKeyName->$ConfigKey in config type ValueMap"
-                            . ' is not a string!',
-                    };
-                }
-                if ( ref $Config->{ValueMap}->{$KeyName}->{$SubKeyName}->{$ConfigKey} ) {
-                    return {
-                        Success => 0,
-                        ErrorMessage =>
-                            "Config value of key $KeyName->$SubKeyName->$ConfigKey"
-                            . ' in config type ValueMap is not a string!',
-                    };
-                }
-            }
-        }
-    }
+    # check configuration
+    my $ConfigCheck = $Self->_ConfigCheck( Config => $Self->{MappingConfig}->{Config} );
+    return $ConfigCheck if !$ConfigCheck->{Success};
 
     # go through keys for replacement
     my %ReturnData;
@@ -297,29 +217,17 @@ sub Map {
     for my $OldKey ( sort keys %{ $Param{Data} } ) {
 
         # check if key is valid
-        if (
-            !$OldKey
-            || ref $OldKey
-            )
-        {
-            return {
-                Success      => 0,
-                ErrorMessage => "Original key is invalid!",
-            };
+        if ( !$Self->_IsNonEmptyString( Data => $OldKey ) ) {
+            $Self->_Log( ErrorMessage => 'Got an original key that is not valid!' );
+            next CONFIGKEY;
         }
 
-        # check mapping for key
+        # map key
         my $NewKey;
 
         # first check in exact (1:1) map
-        if ( $Config->{KeyMapExact} ) {
-            KEYMAPEXACT:
-            for my $ConfigKey ( sort keys %{ $Config->{KeyMapExact} } ) {
-                next KEYMAPEXACT if $OldKey ne $ConfigKey;
-
-                $NewKey = $Config->{KeyMapExact}->{$ConfigKey};
-                last KEYMAPEXACT;
-            }
+        if ( $Config->{KeyMapExact} && $Config->{KeyMapExact}->{$OldKey} ) {
+            $NewKey = $Config->{KeyMapExact}->{$OldKey};
         }
 
         # if we have no match from exact map, try regex map
@@ -327,7 +235,6 @@ sub Map {
             KEYMAPREGEX:
             for my $ConfigKey ( sort keys %{ $Config->{KeyMapRegEx} } ) {
                 next KEYMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
-
                 $NewKey = $Config->{KeyMapRegEx}->{$ConfigKey};
                 last KEYMAPREGEX;
             }
@@ -335,12 +242,6 @@ sub Map {
 
         # if we still have no match, apply default
         if ( !$NewKey ) {
-
-            # FIXME is this the way to go or shall we throw an error?
-            # use fallback if there is no default config
-            if ( !$Config->{KeyMapDefault} ) {
-                $NewKey = $OldKey;
-            }
 
             # check map type options
             if ( $Config->{KeyMapDefault}->{MapType} eq 'Keep' ) {
@@ -353,10 +254,8 @@ sub Map {
 
                 # check if we already have a key with the same name
                 if ( $ReturnData{ $Config->{KeyMapDefault}->{MapTo} } ) {
-                    $Self->{DebuggerObject}->DebugLog(
-                        DebugLevel => 'notice',
-                        Title      => 'Duplicate data key',
-                        Data =>
+                    $Self->_Log(
+                        ErrorMessage =>
                             "The data key $Config->{KeyMapDefault}->{MapTo} already exists!",
                     );
                     next CONFIGKEY;
@@ -366,71 +265,394 @@ sub Map {
             }
         }
 
-        # now we have mapped $OldKey to $NewKey we map $OldValue to $NewValue
+        # sanity check - we should have a translated key now
+        return $Self->_LogAndExit( ErrorMessage => "Could not map data key $NewKey!" ) if !$NewKey;
+
+        # map value
         my $OldValue = $Param{Data}->{$OldKey};
 
         # check if value is valid
-        if ( ref $OldValue ) {
-            return {
-                Success      => 0,
-                ErrorMessage => "Original value is not a string!",
-            };
+        if ( !$Self->_IsString( Data => $OldValue ) ) {
+            $Self->_Log( ErrorMessage => "Value for data key $OldKey is invalid!", );
+            $ReturnData{$NewKey} = undef;
+            next CONFIGKEY;
         }
 
-        # check if we have a value mapping for the key
-        if ( $Config->{ValueMap}->{$NewKey} ) {
-            my $ValueMap = $Config->{ValueMap}->{$NewKey};
+        # check if we have a value mapping for the specific key
+        my $ValueMap = $Config->{ValueMap}->{$NewKey};
+        if ($ValueMap) {
 
             # first check in exact (1:1) map
-            if ( $ValueMap->{KeyMapExact} ) {
-                KEYMAPEXACT:
-                for my $ConfigKey ( sort keys %{ $ValueMap->{KeyMapExact} } ) {
-                    next KEYMAPEXACT if $OldKey ne $ConfigKey;
-
-                    $ReturnData{$NewKey} = $ValueMap->{KeyMapExact}->{$ConfigKey};
-                    next CONFIGKEY;
-                }
+            if ( $ValueMap->{KeyMapExact} && $ValueMap->{KeyMapExact}->{$OldValue} ) {
+                $ReturnData{$NewKey} = $ValueMap->{KeyMapExact}->{$OldValue};
+                next CONFIGKEY;
             }
 
             # if we have no match from exact map, try regex map
-            if ( !$NewKey && $ValueMap->{KeyMapRegEx} ) {
-                KEYMAPREGEX:
+            if ( $ValueMap->{KeyMapRegEx} ) {
+                VALUEMAPREGEX:
                 for my $ConfigKey ( sort keys %{ $ValueMap->{KeyMapRegEx} } ) {
-                    next KEYMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
-
+                    next VALUEMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
                     $ReturnData{$NewKey} = $ValueMap->{KeyMapRegEx}->{$ConfigKey};
-                    next CONFIGKEY;
+                    next VALUEMAPREGEX;
                 }
             }
         }
 
         # if we had no mapping, apply default
-        if ( $Config->{ValueMapDefault} ) {
 
-            # keep current value
-            if ( $Config->{ValueMapDefault}->{MapType} eq 'Keep' ) {
-                $ReturnData{$NewKey} = $OldValue;
-                next CONFIGKEY;
-            }
-
-            # map to default value
-            if ( $Config->{ValueMapDefault}->{MapType} eq 'MapTo' ) {
-                $ReturnData{$NewKey} = $Config->{ValueMapDefault}->{MapTo};
-                next CONFIGKEY;
-            }
-
-            # implicit ignore
+        # keep current value
+        if ( $Config->{ValueMapDefault}->{MapType} eq 'Keep' ) {
+            $ReturnData{$NewKey} = $OldValue;
             next CONFIGKEY;
         }
 
-        # otherwise use current value
-        $ReturnData{$NewKey} = $OldValue;
+        # map to default value
+        if ( $Config->{ValueMapDefault}->{MapType} eq 'MapTo' ) {
+            $ReturnData{$NewKey} = $Config->{ValueMapDefault}->{MapTo};
+            next CONFIGKEY;
+        }
+
+        # implicit ignore
+        next CONFIGKEY;
     }
 
     return {
         Success => 1,
         Data    => \%ReturnData,
     };
+}
+
+=item _ConfigCheck()
+
+does checks to make sure the config is sane
+
+    my $Return = $MappingObject->_ConfigCheck(
+        Config => { # config as defined for Map
+            ...
+        },
+    );
+
+in case of an error
+
+    $Return => {
+        Success      => 0,
+        ErrorMessage => 'An error occured',
+    };
+
+in case of a success
+
+    $Return = {
+        Success => 1,
+    };
+
+=cut
+
+sub _ConfigCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get required param
+    my $Config = $Param{Config};
+    if ( !$Config ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Need Config!',
+        };
+    }
+
+    # parse config options for validity
+    my %OnlyStringConfigTypes = (
+        KeyMapExact     => 1,
+        KeyMapRegEx     => 1,
+        KeyMapDefault   => 1,
+        ValueMapDefault => 1,
+    );
+    my %RequiredConfigTypes = (
+        KeyMapDefault   => 1,
+        ValueMapDefault => 1,
+    );
+    CONFIGTYPE:
+    for my $ConfigType (qw(KeyMapExact KeyMapRegEx KeyMapDefault ValueMap ValueMapDefault)) {
+
+        # require some types
+        if ( !defined $Config->{$ConfigType} ) {
+            next CONFIGTYPE if !$RequiredConfigTypes{$ConfigType};
+            return $Self->_LogAndExit(
+                ErrorMessage => "Got no $ConfigType, but it is required!",
+            );
+        }
+
+        # check type definition
+        if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{$ConfigType} ) ) {
+            return $Self->_LogAndExit(
+                ErrorMessage => "Got $ConfigType with Data, but Data is no hash ref with content!",
+            );
+        }
+
+        # check keys and values of these config types
+        next CONFIGTYPE if !$OnlyStringConfigTypes{$ConfigType};
+        for my $ConfigKey ( sort keys %{ $Config->{$ConfigType} } ) {
+            if ( !$Self->_IsString( Data => $ConfigKey ) ) {
+                return $Self->_LogAndExit(
+                    ErrorMessage => "Got key in $ConfigType which is not a string!",
+                );
+            }
+            if ( !$Self->_IsString( Data => $Config->{$ConfigType}->{$ConfigKey} ) ) {
+                return $Self->_LogAndExit(
+                    ErrorMessage =>
+                        "Got value for $ConfigKey in $ConfigType which is not a string!",
+                );
+            }
+        }
+    }
+
+    # check default configuration in KeyMapDefault and ValueMapDefault
+    my %ValidMapTypes = (
+        Keep   => 1,
+        Ignore => 1,
+        MapTo  => 1,
+    );
+    CONFIGTYPE:
+    for my $ConfigType (qw(KeyMapDefault ValueMapDefault)) {
+
+        # require MapType as a string with a valid value
+        if (
+            !$Self->_IsNonEmptyString( Data => $Config->{$ConfigType}->{MapType} )
+            || !$ValidMapTypes{ $Config->{$ConfigType}->{MapType} }
+            )
+        {
+            return $Self->_LogAndExit( ErrorMessage => "Got no valid MapType in $ConfigType!" );
+        }
+
+        # check MapTo if MapType is set to 'MapTo'
+        if (
+            $Config->{$ConfigType}->{MapType} eq 'MapTo'
+            && !$Self->_IsNonEmptyString( Data => $Config->{$ConfigType}->{MapTo} )
+            )
+        {
+            return $Self->_LogAndExit(
+                ErrorMessage => "Got MapType 'MapTo', but MapTo value is not valid in $ConfigType!",
+            );
+        }
+    }
+
+    # check ValueMap
+    for my $KeyName ( keys %{ $Config->{ValueMap} } ) {
+
+        # require values to be hash ref
+        if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{ValueMap}->{$KeyName} ) ) {
+            return $Self->_LogAndExit(
+                ErrorMessage => "Got $KeyName in ValueMap, but it is no hash ref with content!",
+            );
+        }
+
+        # possible subvalues are ValueMapExact or ValueMapRegEx and need to be hash ref if defined
+        SUBKEY:
+        for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
+            my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
+            next SUBKEY if !defined $ValueMapType;
+            if ( !$Self->_IsNonEmptyHashRef( Data => $ValueMapType ) ) {
+                return $Self->_LogAndExit(
+                    ErrorMessage =>
+                        "Got $SubKeyName in $KeyName in ValueMap,"
+                        . ' but it is no hash ref with content!',
+                );
+            }
+
+            # key/value pairs of ValueMapExact and ValueMapRegEx must be strings
+            for my $ValueMapTypeKey ( sort keys %{$ValueMapType} ) {
+                if ( !$Self->_IsString( Data => $ValueMapTypeKey ) ) {
+                    return $Self->_LogAndExit(
+                        ErrorMessage =>
+                            "Got key in $SubKeyName in $KeyName in ValueMap which is not a string!",
+                    );
+                }
+                if ( !$Self->_IsString( Data => $ValueMapType->{$ValueMapTypeKey} ) ) {
+                    return $Self->_LogAndExit(
+                        ErrorMessage =>
+                            "Got value for $ValueMapTypeKey in $SubKeyName in $KeyName in ValueMap"
+                            . ' which is not a string!',
+                    );
+                }
+            }
+        }
+    }
+
+    # if we arrive here, all checks were ok
+    return {
+        Success => 1,
+    };
+}
+
+=item _LogAndExit()
+
+logs specified error message to debug log (DebugLevel 'error') and returns error hash ref
+
+    my $Result = $MappingObject->_LogAndExit(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'An error occured!',
+    };
+
+=cut
+
+sub _LogAndExit {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'error',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return error
+    return {
+        Success      => 0,
+        ErrorMessage => $ErrorMessage,
+    };
+}
+
+=item _Log()
+
+logs specified error message to debug log (DebugLevel 'notice')
+returns 1 if log was successful, undef otherwise
+
+    my $Result = $MappingObject->_Log(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+=cut
+
+sub _Log {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    return if !$Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'notice',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return
+    return 1;
+}
+
+=item _CleanExit()
+
+return hash reference indicating success and containing return data
+
+    my $Result = $MappingObject->_CleanExit(
+        Data => {
+            ...
+        },
+    );
+
+    $Result = {
+        Success => 1,
+        Data    => {
+            ...
+        },
+    };
+
+=cut
+
+sub _CleanExit {
+    my ( $Self, %Param ) = @_;
+
+    # check data
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' );
+    }
+
+    # return
+    return {
+        Success => 1,
+        Data    => $Param{Data},
+    };
+}
+
+=item _IsString()
+
+test supplied data to determine if it is a string - an empty string is valid
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !defined $TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyString()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyHashRef()
+
+test supplied data to determine if it is a hash reference containing data
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyHashRef(
+        Data => { 'key' => 'value' } # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyHashRef {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData ne 'HASH';
+    return if !%{$TestData};
+
+    return 1;
 }
 
 1;
@@ -449,6 +671,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-08 15:59:51 $
+$Revision: 1.6 $ $Date: 2011-02-09 15:46:08 $
 
 =cut
