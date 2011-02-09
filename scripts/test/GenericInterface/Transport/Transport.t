@@ -2,7 +2,7 @@
 # Transport.t - GenericInterface transport interface tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.4 2011-02-09 15:52:27 mg Exp $
+# $Id: Transport.t,v 1.5 2011-02-09 19:41:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,8 +94,19 @@ for my $Fail ( 0 .. 1 ) {
                 A => 'A',
                 b => 'b',
             },
-            ResultData => 'A=A&b=b',
-            Success    => 1,
+            ResultData    => 'A=A&b=b',
+            ResultSuccess => 1,
+        },
+        {
+            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() UTF-8 data",
+            Operation => 'test_operation',
+            Data      => {
+                A                    => 'A',
+                '使用下列语言' => 'معلومات',
+            },
+            ResultData =>
+                '%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%97%E8%AF%AD%E8%A8%80=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA&A=A',
+            ResultSuccess => 1,
         },
         {
             Name => "TransportObject (Fail $Fail) RequesterPerformRequest() missing operation",
@@ -103,12 +114,12 @@ for my $Fail ( 0 .. 1 ) {
                 A => 'A',
                 b => 'b',
             },
-            Success => 0,
+            ResultSuccess => 0,
         },
         {
-            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() missing data",
-            Operation => 'test_operation',
-            Success   => 0,
+            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() missing data",
+            Operation     => 'test_operation',
+            ResultSuccess => 0,
         },
     );
 
@@ -118,7 +129,7 @@ for my $Fail ( 0 .. 1 ) {
             Data      => $TestEntry->{Data},
         );
 
-        if ( !$Fail && $TestEntry->{Success} ) {
+        if ( !$Fail && $TestEntry->{ResultSuccess} ) {
             $Self->True(
                 $Result->{Success},
                 "$TestEntry->{Name} success",
@@ -141,7 +152,6 @@ for my $Fail ( 0 .. 1 ) {
                 "$TestEntry->{Name} error message found",
             );
         }
-
     }
 
     #
@@ -155,8 +165,8 @@ for my $Fail ( 0 .. 1 ) {
             ResultData     => {
                 A => 'A',
             },
-            Operation => 'test_operation',
-            Success   => 1,
+            Operation     => 'test_operation',
+            ResultSuccess => 1,
         },
         {
             Name           => "TransportObject (Fail $Fail) ProviderProcessRequest()",
@@ -165,8 +175,8 @@ for my $Fail ( 0 .. 1 ) {
                 A => 'A',
                 b => 'b',
             },
-            Operation => 'test_operation',
-            Success   => 1,
+            Operation     => 'test_operation',
+            ResultSuccess => 1,
         },
         {
             Name           => "TransportObject (Fail $Fail) ProviderProcessRequest() UTF-8 data",
@@ -175,34 +185,39 @@ for my $Fail ( 0 .. 1 ) {
                 A                    => 'A',
                 '使用下列语言' => 'معلومات',
             },
-            Operation => 'test_operation',
-            Success   => 1,
+            Operation     => 'test_operation',
+            ResultSuccess => 1,
         },
         {
             Name           => "TransportObject (Fail $Fail) ProviderProcessRequest() empty request",
             RequestContent => '',
-            Success        => 0,
+            ResultSuccess  => 0,
         },
     );
 
     for my $TestEntry (@PPRTestData) {
 
-        # prepare CGI environment variables
-        local $ENV{REQUEST_METHOD} = 'POST';
-        local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
-        local $ENV{CONTENT_TYPE}
-            = 'application/x-www-form-urlencoded; charset=utf-8;';
+        my $Result;
 
-        # redirect STDIN from String so that the transport layer will use this data
-        local *STDIN;
-        open STDIN, '<:utf8', \$TestEntry->{RequestContent};
+        {
 
-        # reset CGI object from previous runs
-        CGI::initialize_globals();
+            # prepare CGI environment variables
+            local $ENV{REQUEST_METHOD} = 'POST';
+            local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
+            local $ENV{CONTENT_TYPE}
+                = 'application/x-www-form-urlencoded; charset=utf-8;';
 
-        my $Result = $TransportObject->ProviderProcessRequest();
+            # redirect STDIN from String so that the transport layer will use this data
+            local *STDIN;
+            open STDIN, '<:utf8', \$TestEntry->{RequestContent};
 
-        if ( !$Fail && $TestEntry->{Success} ) {
+            # reset CGI object from previous runs
+            CGI::initialize_globals();
+
+            $Result = $TransportObject->ProviderProcessRequest();
+        }
+
+        if ( !$Fail && $TestEntry->{ResultSuccess} ) {
             $Self->True(
                 $Result->{Success},
                 "$TestEntry->{Name} success",
@@ -233,6 +248,99 @@ for my $Fail ( 0 .. 1 ) {
         }
     }
 
+    #
+    # ProviderGenerateResponse()
+    #
+
+    my @PGRTestData = (
+        {
+            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse()",
+            Data => {
+                A => 'A',
+                b => 'b',
+            },
+            ResultData    => 'A=A&b=b',
+            ResultSuccess => 1,
+        },
+        {
+            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() UTF-8 data",
+            Data => {
+                A                    => 'A',
+                '使用下列语言' => 'معلومات',
+            },
+            ResultData =>
+                '%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%97%E8%AF%AD%E8%A8%80=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA&A=A',
+            ResultSuccess => 1,
+        },
+        {
+            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() missing data",
+            Operation     => 'test_operation',
+            ResultSuccess => 0,
+        },
+    );
+
+    for my $OptionSuccess ( 0 .. 1 ) {
+        for my $TestEntry (@PGRTestData) {
+            my $ResultData = '';
+
+            my $Result;
+            {
+
+                # redirect STDOUT from String so that the transport layer will write there
+                local *STDOUT;
+                open STDOUT, '>:utf8', \$ResultData;
+
+                $Result = $TransportObject->ProviderGenerateResponse(
+                    Success      => $OptionSuccess,
+                    ErrorMessage => 'Custom Test Error',
+                    Data         => $TestEntry->{Data},
+                );
+            }
+
+            if ( !$Fail && $TestEntry->{ResultSuccess} ) {
+                $Self->True(
+                    $Result->{Success},
+                    "$TestEntry->{Name} success",
+                );
+
+                if ($OptionSuccess) {
+                    $Self->True(
+                        index( $ResultData, $TestEntry->{ResultData} ) > -1,
+                        "$TestEntry->{Name} result",
+                    );
+
+                    $Self->True(
+                        index( $ResultData, '200 OK' ) > -1,
+                        "$TestEntry->{Name} result",
+                    );
+                }
+                else {
+                    $Self->False(
+                        index( $ResultData, $TestEntry->{ResultData} ) > -1,
+                        "$TestEntry->{Name} result",
+                    );
+
+                    $Self->True(
+                        index( $ResultData, '500 Custom Test Error' ) > -1,
+                        "$TestEntry->{Name} result",
+                    );
+                }
+            }
+            else {
+                $Self->False(
+                    $Result->{Success},
+                    "$TestEntry->{Name} fail detected",
+                );
+
+                $Self->True(
+                    $Result->{ErrorMessage},
+                    "$TestEntry->{Name} error message found",
+                );
+
+            }
+
+        }
+    }
 }
 
 1;
