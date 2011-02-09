@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.1 2011-02-09 09:07:49 cg Exp $
+# $Id: Simple.t,v 1.2 2011-02-09 13:34:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,11 @@ use warnings;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Mapping;
-
-# create a debbuger object
 use Kernel::GenericInterface::Debugger;
 
-$Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
+# create a debbuger object
+
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %$Self,
     DebuggerConfig => {
         DebugLevel => 'debug',
@@ -30,7 +30,8 @@ $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
 # create a mapping instance
 my $MappingObject = Kernel::GenericInterface::Mapping->new(
     %{$Self},
-    MappingConfig => {
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type   => 'Simple',
         Config => {},
     },
@@ -40,6 +41,45 @@ $Self->Is(
     'Kernel::GenericInterface::Mapping',
     'MappingObject was correctly instantiated',
 );
+
+# long hash
+my $Limit    = 100000;
+my $LimitSub = 10;
+my %LargeHash;
+my %LargeHashNewValue;
+for my $Key ( 0 .. $Limit ) {
+    $LargeHash{ 'Key_' . $Key }         = 'Value_' . $Key;
+    $LargeHashNewValue{ 'Key_' . $Key } = 'new_value';
+}
+
+# large content
+my %Attachments;
+
+# file checks
+for my $File (qw(xls txt doc png pdf)) {
+    my $Content = '';
+    open( IN,
+        "< "
+            . $Self->{ConfigObject}->Get('Home')
+            . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File"
+        )
+        || die $!;
+    binmode(IN);
+    while (<IN>) {
+        $Content .= $_;
+    }
+    $Attachments{$File} = $Content;
+    close(IN);
+}
+my $AttachmentsLimit = 5000;    # take note is this number * 5 (types files)
+my %LargeHashAttachments;
+my %LargeHashAttachmentsResult;
+for my $Key ( 0 .. $AttachmentsLimit ) {
+    for my $File (qw(xls txt doc png pdf)) {
+        $LargeHashAttachments{ 'Attachment_' . $Key . $File }       = $Attachments{$File};
+        $LargeHashAttachmentsResult{ 'Attachment_' . $Key . $File } = $Attachments{txt};
+    }
+}
 
 my @MappingTests = (
     {
@@ -61,7 +101,7 @@ my @MappingTests = (
         Name   => 'Test KeyMapExact',
         Config => {
             TestOption  => 'KeyMapExact',
-            KeyMapExact => {                # key/value pairs for direct replacement
+            KeyMapExact => {
                 one  => 'new_value',
                 two  => 'another_new_value',
                 four => 'new_value_gain',
@@ -77,16 +117,14 @@ my @MappingTests = (
         ResultData => {
             new_value         => 'one',
             another_new_value => 'two',
-            three             => 'three',
             new_value_gain    => 'four',
-            five              => 'five',
         },
         ResultSuccess => 1,
     },
     {
         Name   => 'Test KeyMapRegEx',
         Config => {
-            KeyMapRegEx => {    # replace keys with value if current key matches regex
+            KeyMapRegEx => {
                 'Stat(e|us)'  => 'state',
                 '[pP]riority' => 'prio',
             },
@@ -99,21 +137,17 @@ my @MappingTests = (
             priority => 'without capital letter',
         },
         ResultData => {
-            'state'   => 'Open',
-            'Stadium' => 'Allianz Arena',
-            prio      => 'without capital letter',
+            'state' => 'Open',
+            prio    => 'without capital letter',
         },
         ResultSuccess => 1,
     },
     {
         Name   => 'Test KeyMapDefault (Keep)',
         Config => {
-            KeyMapDefault => {    # optional. If not set, keys will remain unchanged
-                MapType => 'Keep',         # possible values are
-                                           # 'Keep' (leave unchanged)
-                                           # 'Ignore' (drop key/value pair)
-                                           # 'MapTo' (use provided value as default)
-                MapTo   => 'new_value',    # only used if 'MapType' is 'MapTo'
+            KeyMapDefault => {
+                MapType => 'Keep',
+                MapTo   => 'new_value',
             },
         },
         Data => {
@@ -131,12 +165,9 @@ my @MappingTests = (
     {
         Name   => 'Test KeyMapDefault (Ignore)',
         Config => {
-            KeyMapDefault => {    # optional. If not set, keys will remain unchanged
-                MapType => 'Ignore',       # possible values are
-                                           # 'Keep' (leave unchanged)
-                                           # 'Ignore' (drop key/value pair)
-                                           # 'MapTo' (use provided value as default)
-                MapTo   => 'new_value',    # only used if 'MapType' is 'MapTo'
+            KeyMapDefault => {
+                MapType => 'Ignore',
+                MapTo   => 'new_value',
             },
         },
         Data => {
@@ -150,12 +181,9 @@ my @MappingTests = (
     {
         Name   => 'Test KeyMapDefault (MapTo)',
         Config => {
-            KeyMapDefault => {    # optional. If not set, keys will remain unchanged
-                MapType => 'MapTo',      # possible values are
-                                         # 'Keep' (leave unchanged)
-                                         # 'Ignore' (drop key/value pair)
-                                         # 'MapTo' (use provided value as default)
-                MapTo   => 'new_key',    # only used if 'MapType' is 'MapTo'
+            KeyMapDefault => {
+                MapType => 'MapTo',
+                MapTo   => 'new_key',
             },
         },
         Data => {
@@ -172,17 +200,14 @@ my @MappingTests = (
         Name   => 'Test KeyMapExact & KeyMapDefault',
         Config => {
             TestOption  => 'KeyMapExact',
-            KeyMapExact => {                # key/value pairs for direct replacement
+            KeyMapExact => {
                 one  => 'new_value',
                 two  => 'another_new_value',
                 four => 'new_value_gain',
             },
-            KeyMapDefault => {              # optional. If not set, keys will remain unchanged
-                MapType => 'MapTo',         # possible values are
-                                            # 'Keep' (leave unchanged)
-                                            # 'Ignore' (drop key/value pair)
-                                            # 'MapTo' (use provided value as default)
-                MapTo   => 'new_key',       # only used if 'MapType' is 'MapTo'
+            KeyMapDefault => {
+                MapType => 'MapTo',
+                MapTo   => 'new_key',
             },
         },
         Data => {
@@ -204,16 +229,13 @@ my @MappingTests = (
     {
         Name   => 'Test KeyMapRegEx & KeyMapDefault',
         Config => {
-            KeyMapRegEx => {    # replace keys with value if current key matches regex
+            KeyMapRegEx => {
                 'Stat(e|us)'  => 'state',
                 '[pP]riority' => 'prio',
             },
-            KeyMapDefault => {    # optional. If not set, keys will remain unchanged
-                MapType => 'Keep',       # possible values are
-                                         # 'Keep' (leave unchanged)
-                                         # 'Ignore' (drop key/value pair)
-                                         # 'MapTo' (use provided value as default)
-                MapTo   => 'new_key',    # only used if 'MapType' is 'MapTo'
+            KeyMapDefault => {
+                MapType => 'Keep',
+                MapTo   => 'new_key',
             },
         },
         Data => {
@@ -234,14 +256,56 @@ my @MappingTests = (
         },
         ResultSuccess => 1,
     },
+    {
+        Name   => 'Test KeyMapDefault ValueMapDefault large hash',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMapDefault => {
+                MapType => 'MapTo',
+                MapTo   => 'new_value',
+            },
+        },
+        Data          => \%LargeHash,
+        ResultData    => \%LargeHashNewValue,
+        ResultSuccess => 1,
+        CheckTime     => 1,
+    },
+    {
+        Name   => 'Test KeyMapDefault & ValueMapDefault large atachments hash',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMapDefault => {
+                MapType => 'MapTo',
+                MapTo   => $Attachments{txt},
+            },
+        },
+        Data          => \%LargeHashAttachments,
+        ResultData    => \%LargeHashAttachmentsResult,
+        ResultSuccess => 1,
+        CheckTime     => 1,
+    },
 );
 
 for my $Test (@MappingTests) {
+
+    my $StartSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
+
     $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
     my $MappingResult = $MappingObject->Map(
         %{$Self},
         Data => $Test->{Data},
     );
+    my $EndSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
+    $Self->True(
+        ( $EndSeconds - $StartSeconds ) < 5,
+        'Mapping - Performance on large data set: ' .
+            ( $EndSeconds - $StartSeconds ) . ' second(s)',
+        )
+        if ( $Test->{CheckTime} );
 
     # check if function return correct status
     $Self->Is(
@@ -261,7 +325,8 @@ for my $Test (@MappingTests) {
         $Self->True(
             $MappingResult->{ErrorMessage},
             $Test->{Name} . ' (Error Message: ' .
-                $MappingResult->{ErrorMessage} . ')',
+                $MappingResult->{ErrorMessage} . ')' .
+                ' for ' . $Limit . 'hash entries',
         );
     }
     else {
