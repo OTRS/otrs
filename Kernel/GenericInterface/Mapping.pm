@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.9 2011-02-09 13:31:33 sb Exp $
+# $Id: Mapping.pm,v 1.10 2011-02-09 15:23:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -214,29 +214,6 @@ sub _LogAndExit {
     };
 }
 
-=item _IsString()
-
-test supplied data to determine if it is a string - an empty string is valid
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsString(
-        Data => 'abc' # data to be tested
-    );
-
-=cut
-
-sub _IsString {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !defined $TestData;
-    return if ref $TestData;
-
-    return 1;
-}
-
 =item _IsNonEmptyString()
 
 test supplied data to determine if it is a non zero-length string
@@ -300,6 +277,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-09 13:31:33 $
+$Revision: 1.10 $ $Date: 2011-02-09 15:23:53 $
 
 =cut
