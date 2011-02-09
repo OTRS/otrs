@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.38 2011-02-08 15:57:38 martin Exp $
+# $Id: Request.pm,v 1.39 2011-02-09 13:48:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -63,6 +63,16 @@ create param object
         MainObject   => $MainObject,
         WebRequest   => CGI::Fast->new(), # optional, e. g. if fast cgi is used
     );
+
+If Kernel::System::Web::Request is instantiated several times, they will share the
+same CGI data (this can be helpful in filters which do not have access to the
+ParamObject, for example.
+
+If you need to reset the CGI data before creating a new instance, use
+
+    CGI::initialize_globals();
+
+before calling Kernel::System::Web::Request->new();
 
 =cut
 
@@ -369,6 +379,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2011-02-08 15:57:38 $
+$Revision: 1.39 $ $Date: 2011-02-09 13:48:00 $
 
 =cut
