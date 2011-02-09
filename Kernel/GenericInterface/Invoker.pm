@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Invoker.pm,v 1.2 2011-02-09 17:04:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -94,15 +94,35 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    # check needed params
+    for my $Needed (qw(DBObject DebuggerObject MainObject Invoker)) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!",
+        } if !$Param{$Needed};
+
+        $Self->{$Needed} = $Param{$Needed};
     }
 
-    return;
+    return $Self->_LogAndExit(
+        ErrorMessage => 'Got no Invoker Type as string with value!',
+    ) if !$Self->_IsNonEmptyString( Data => $Param{Invoker} );
+
+    # load backend module
+    my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{Invoker};
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        return $Self->_LogAndExit( ErrorMessage => "Can't load invoker backend module!" );
+    }
+    $Self->{BackendObject} = $GenericModule->new( %{$Self} );
+
+    # pass back error message from backend if backend module could not be executed
+    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
+
+    return $Self;
 }
 
 =item PrepareRequest()
@@ -129,6 +149,13 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     #TODO implement
+    # check data - we need a hash ref with at least one entry
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+    }
+
+    # start map on backend
+    return $Self->{BackendObject}->PrepareRequest( Data => $Param{Data} );
 
 }
 
@@ -158,7 +185,98 @@ sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
     #TODO implement
+    # check data - we need a hash ref with at least one entry
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+    }
 
+    # start map on backend
+    return $Self->{BackendObject}->HandleResponse( Data => $Param{Data} );
+
+}
+
+=item _LogAndExit()
+
+log specified error message to debug log and return error hash ref
+
+    my $Result = $MappingObject->_LogAndExit(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'An error occured!',
+    };
+
+=cut
+
+sub _LogAndExit {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'error',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return error
+    return {
+        Success      => 0,
+        ErrorMessage => $ErrorMessage,
+    };
+}
+
+=item _IsNonEmptyString()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyHashRef()
+
+test supplied data to determine if it is a hash reference containing data
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $MappingObject->_IsNonEmptyHashRef(
+        Data => { 'key' => 'value' } # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyHashRef {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData ne 'HASH';
+    return if !%{$TestData};
+
+    return 1;
 }
 
 1;
@@ -177,6 +295,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-09 17:04:26 $
 
 =cut
