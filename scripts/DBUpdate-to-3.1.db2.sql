@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-08 17:04:36
+--  driver: db2, generated: 2011-02-09 14:56:02
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -68,6 +68,8 @@ CREATE TABLE gi_webservice_config_history (
     config BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
 
@@ -80,3 +82,5 @@ ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valid_id
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_config_id_id FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+
+ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

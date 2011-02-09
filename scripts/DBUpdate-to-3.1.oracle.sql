@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-08 17:04:36
+--  driver: oracle, generated: 2011-02-09 14:56:02
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -45,7 +45,9 @@ CREATE TABLE gi_webservice_config_history (
     config_id NUMBER (12, 0) NOT NULL,
     config CLOB NOT NULL,
     create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
 DROP SEQUENCE SE_gi_webservice_config_hi2f;
@@ -62,6 +64,7 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_gi_webservice_config_histe6 ON gi_webservice_config_history (change_by);
 CREATE INDEX FK_gi_webservice_config_histeb ON gi_webservice_config_history (config_id);
 CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (create_by);
 SET DEFINE OFF;
@@ -70,3 +73,4 @@ ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_chan93 F
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valife FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_hist66 FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_hist54 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_histeb FOREIGN KEY (change_by) REFERENCES users (id);
