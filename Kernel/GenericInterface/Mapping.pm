@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.7 2011-02-09 10:08:32 sb Exp $
+# $Id: Mapping.pm,v 1.8 2011-02-09 10:21:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -41,6 +41,7 @@ create an object. This will return the Mapping backend for the current web servi
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Mapping;
 
     my $ConfigObject = Kernel::Config->new();
@@ -66,13 +67,22 @@ create an object. This will return the Mapping backend for the current web servi
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        ConfigObject       => $ConfigObject,
+        EncodeObject       => $EncodeObject,
+        LogObject          => $LogObject,
+        MainObject         => $MainObject,
+        DBObject           => $DBObject,
+        TimeObject         => $TimeObject,
+    );
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
         ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
+        LogObject          => $LogObject,
+        MainObject         => $MainObject,
+        DBObject           => $DBObject,
+        TimeObject         => $TimeObject,
+        DebuggerObject     => $DebuggerObject,
 
         MappingConfig   => {
             Type => 'MappingSimple',
@@ -285,6 +295,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-09 10:08:32 $
+$Revision: 1.8 $ $Date: 2011-02-09 10:21:19 $
 
 =cut
