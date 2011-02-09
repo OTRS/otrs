@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.45.2.2 2011-02-07 16:14:57 mg Exp $
+# $Id: UnitTest.pm,v 1.45.2.3 2011-02-09 15:34:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45.2.2 $) [1];
+$VERSION = qw($Revision: 1.45.2.3 $) [1];
 
 =head1 NAME
 
@@ -149,7 +149,7 @@ sub Run {
 
     my @Files = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
-        Filter => [ '*.t', '*/*.t', '*/*/*.t*', '*/*/*/*.t' ],
+        Filter => [ '*\.t', '*/*\.t', '*/*/*\.t*', '*/*/*/*\.t' ],
     );
 
     my $StartTime = $Self->{TimeObject}->SystemTime();
@@ -864,6 +864,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45.2.2 $ $Date: 2011-02-07 16:14:57 $
+$Revision: 1.45.2.3 $ $Date: 2011-02-09 15:34:49 $
 
 =cut
