@@ -2,7 +2,7 @@
 # Transport.t - GenericInterface transport interface tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.2 2011-02-08 20:01:28 mg Exp $
+# $Id: Transport.t,v 1.3 2011-02-09 11:08:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,19 +141,14 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     #
 
     my $RequestContent = 'A=A&b=b';
-    my $WebRequest     = new CGI($RequestContent);
 
-    $TransportObject = Kernel::GenericInterface::Transport->new(
-        %$Self,
-        DebuggerObject  => $DebuggerObject,
-        TransportConfig => {
-            Type   => 'HTTP::Test',
-            Config => {
-                Fail => 0,
-            },
-        },
-        WebRequest => $WebRequest,
-    );
+    # prepare CGI environment variables
+    local $ENV{REQUEST_METHOD} = 'POST';
+    local $ENV{CONTENT_LENGTH} = length($RequestContent);
+
+    # redirect STDIN from String so that the transport layer will use this data
+    local *STDIN;
+    open STDIN, '<', \$RequestContent;
 
     $Self->Is(
         ref $TransportObject,
