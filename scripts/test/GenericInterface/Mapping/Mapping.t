@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.4 2011-02-08 15:53:59 sb Exp $
+# $Id: Mapping.t,v 1.5 2011-02-09 13:07:50 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use vars (qw($Self));
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
-$Self->{DBObject}       = Kernel::System::DB->new( %{$Self} );
-$Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
+my %CommonObject = %{$Self};
+$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
+    %CommonObject,
     DebuggerConfig => {
         DebugLevel => 'debug',
     },
@@ -36,56 +37,96 @@ $Self->True(
     ref $MappingObject eq 'HASH',
     'MappingObject response check',
 );
-$Self->True(
-    $MappingObject->{ErrorMessage},
+$Self->False(
+    $MappingObject->{Success},
     'MappingObject required objects check',
 );
 
 # provide empty mapping config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
+    %CommonObject,
     MappingConfig => {},
 );
-$Self->True(
-    $MappingObject->{ErrorMessage},
+$Self->False(
+    $MappingObject->{Success},
     'MappingObject required config check',
 );
 
 # provide incorrect mapping type
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
+    %CommonObject,
     MappingConfig => {
         Type => 'ThisIsCertainlyNotBeingUsed',
     },
 );
-$Self->True(
-    $MappingObject->{ErrorMessage},
+$Self->False(
+    $MappingObject->{Success},
     'MappingObject mapping type check',
 );
 
-# call without config
+# call with empty config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
-    MappingConfig => {
-        Type => 'Test',
-    },
-);
-$Self->True(
-    $MappingObject->{ErrorMessage},
-    'MappingObject creation check without config',
-);
-
-# correct call (with empty config)
-$MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
+    %CommonObject,
     MappingConfig => {
         Type   => 'Test',
         Config => {},
     },
 );
 $Self->False(
-    $MappingObject->{ErrorMessage},
-    'MappingObject creation check',
+    $MappingObject->{Success},
+    'MappingObject creation check with empty config',
+);
+
+# call with invalid config
+$MappingObject = Kernel::GenericInterface::Mapping->new(
+    %CommonObject,
+    MappingConfig => {
+        Type   => 'Test',
+        Config => 'invalid',
+    },
+);
+$Self->False(
+    $MappingObject->{Success},
+    'MappingObject creation check with config as string',
+);
+
+# call with invalid config
+$MappingObject = Kernel::GenericInterface::Mapping->new(
+    %CommonObject,
+    MappingConfig => {
+        Type   => 'Test',
+        Config => [],
+    },
+);
+$Self->False(
+    $MappingObject->{Success},
+    'MappingObject creation check with config as array ref',
+);
+
+# call with invalid config
+$MappingObject = Kernel::GenericInterface::Mapping->new(
+    %CommonObject,
+    MappingConfig => {
+        Type   => 'Test',
+        Config => '',
+    },
+);
+$Self->False(
+    $MappingObject->{Success},
+    'MappingObject creation check with config as empty string',
+);
+
+# call without config
+$MappingObject = Kernel::GenericInterface::Mapping->new(
+    %CommonObject,
+    MappingConfig => {
+        Type => 'Test',
+    },
+);
+$Self->Is(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'MappingObject creation check without config',
 );
 
 # map without data
@@ -94,8 +135,8 @@ $Self->True(
     ref $ReturnData eq 'HASH',
     'MappingObject call response type',
 );
-$Self->True(
-    $ReturnData->{ErrorMessage},
+$Self->False(
+    $ReturnData->{Success},
     'MappingObject call no data provided',
 );
 
@@ -103,19 +144,19 @@ $Self->True(
 $ReturnData = $MappingObject->Map(
     Data => {},
 );
-$Self->True(
-    $ReturnData->{ErrorMessage},
+$Self->False(
+    $ReturnData->{Success},
     'MappingObject call empty data provided',
 );
 
-# map with empty data
+# map with some data
 $ReturnData = $MappingObject->Map(
     Data => {
         'from' => 'to',
     },
 );
-$Self->False(
-    $ReturnData->{ErrorMessage},
+$Self->True(
+    $ReturnData->{Success},
     'MappingObject call data provided',
 );
 

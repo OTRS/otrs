@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.4 2011-02-09 11:08:48 sb Exp $
+# $Id: Test.t,v 1.5 2011-02-09 13:07:50 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,13 +13,14 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::GenericInterface::Mapping;
-
-# create a debbuger object
+# create needed objects
+use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
-
-$Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %$Self,
+use Kernel::GenericInterface::Mapping;
+my %CommonObject = %{$Self};
+$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
+    %CommonObject,
     DebuggerConfig => {
         DebugLevel => 'debug',
     },
@@ -29,7 +30,7 @@ $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
 
 # create a mapping instance
 my $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
+    %CommonObject,
     MappingConfig => {
         Type => 'Test',
     },
@@ -169,7 +170,6 @@ my @MappingTests = (
 for my $Test (@MappingTests) {
     $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
     my $MappingResult = $MappingObject->Map(
-        %{$Self},
         Data => $Test->{Data},
     );
 
@@ -188,15 +188,16 @@ for my $Test (@MappingTests) {
     );
 
     if ( !$Test->{ResultSuccess} ) {
-        $Self->True(
-            $MappingResult->{ErrorMessage},
+        $Self->False(
+            $MappingResult->{Success},
             $Test->{Name} . ' (Error Message: ' .
                 $MappingResult->{ErrorMessage} . ')',
         );
     }
     else {
-        $Self->False(
-            $MappingObject->{ErrorMessage},
+        $Self->Is(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
             $Test->{Name} . ' (Not Error Message).',
         );
     }
