@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.5 2011-02-09 09:57:20 cr Exp $
+# $Id: Webservice.pm,v 1.6 2011-02-09 09:59:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub new {
 
     # check needed objects
     for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $_!";
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
     return $Self;
@@ -306,6 +306,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-09 09:57:20 $
+$Revision: 1.6 $ $Date: 2011-02-09 09:59:29 $
 
 =cut
