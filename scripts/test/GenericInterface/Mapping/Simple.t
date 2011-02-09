@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.2 2011-02-09 13:34:14 cg Exp $
+# $Id: Simple.t,v 1.3 2011-02-09 15:45:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,8 +32,7 @@ my $MappingObject = Kernel::GenericInterface::Mapping->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
-        Type   => 'Simple',
-        Config => {},
+        Type => 'Simple',
     },
 );
 $Self->Is(
@@ -84,7 +83,7 @@ for my $Key ( 0 .. $AttachmentsLimit ) {
 my @MappingTests = (
     {
         Name   => 'Test whitout config',
-        Config => {},
+        Config => undef,
         Data   => {
             one   => 'one',
             two   => 'two',
@@ -100,11 +99,16 @@ my @MappingTests = (
     {
         Name   => 'Test KeyMapExact',
         Config => {
-            TestOption  => 'KeyMapExact',
             KeyMapExact => {
                 one  => 'new_value',
                 two  => 'another_new_value',
                 four => 'new_value_gain',
+            },
+            KeyMapDefault => {
+                MapType => 'Ignore',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
             },
         },
         Data => {
@@ -128,6 +132,12 @@ my @MappingTests = (
                 'Stat(e|us)'  => 'state',
                 '[pP]riority' => 'prio',
             },
+            KeyMapDefault => {
+                MapType => 'Ignore',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
         },
         Data => {
             State    => 'A lost state',
@@ -149,6 +159,9 @@ my @MappingTests = (
                 MapType => 'Keep',
                 MapTo   => 'new_value',
             },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
         },
         Data => {
             one   => 'one',
@@ -169,6 +182,9 @@ my @MappingTests = (
                 MapType => 'Ignore',
                 MapTo   => 'new_value',
             },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
         },
         Data => {
             one   => 'one',
@@ -185,6 +201,9 @@ my @MappingTests = (
                 MapType => 'MapTo',
                 MapTo   => 'new_key',
             },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
         },
         Data => {
             one   => 'one',
@@ -199,7 +218,6 @@ my @MappingTests = (
     {
         Name   => 'Test KeyMapExact & KeyMapDefault',
         Config => {
-            TestOption  => 'KeyMapExact',
             KeyMapExact => {
                 one  => 'new_value',
                 two  => 'another_new_value',
@@ -208,6 +226,9 @@ my @MappingTests = (
             KeyMapDefault => {
                 MapType => 'MapTo',
                 MapTo   => 'new_key',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
             },
         },
         Data => {
@@ -236,6 +257,9 @@ my @MappingTests = (
             KeyMapDefault => {
                 MapType => 'Keep',
                 MapTo   => 'new_key',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
             },
         },
         Data => {
