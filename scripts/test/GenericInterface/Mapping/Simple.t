@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.3 2011-02-09 15:45:11 sb Exp $
+# $Id: Simple.t,v 1.4 2011-02-10 08:48:16 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,55 @@ for my $Key ( 0 .. $AttachmentsLimit ) {
 
 my @MappingTests = (
     {
-        Name   => 'Test whitout config',
+        Name          => 'Test without config and data',
+        Config        => undef,
+        Data          => undef,
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name          => 'Test without data',
+        Config        => {},
+        Data          => undef,
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test without data',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data          => undef,
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test with wrong data',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => {
+            ''  => 'one',
+            two => 'two',
+            ''  => 'three',
+        },
+        ResultData => {
+            two => 'two',
+        },
+        ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test with undef config',
         Config => undef,
         Data   => {
             one   => 'one',
@@ -95,6 +143,32 @@ my @MappingTests = (
             three => 'three',
         },
         ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test without config',
+        Config => {},
+        Data   => {
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test with wrong config',
+        Config => {
+            NoValidValue => {
+                Invalid => 'value',
+            },
+        },
+        Data => {
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
     },
     {
         Name   => 'Test KeyMapExact',
@@ -349,8 +423,7 @@ for my $Test (@MappingTests) {
         $Self->True(
             $MappingResult->{ErrorMessage},
             $Test->{Name} . ' (Error Message: ' .
-                $MappingResult->{ErrorMessage} . ')' .
-                ' for ' . $Limit . 'hash entries',
+                $MappingResult->{ErrorMessage} . ')',
         );
     }
     else {
