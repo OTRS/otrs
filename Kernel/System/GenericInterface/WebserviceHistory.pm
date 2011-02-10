@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.3 2011-02-09 14:16:34 martin Exp $
+# $Id: WebserviceHistory.pm,v 1.4 2011-02-10 14:52:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -253,8 +253,9 @@ sub WebserviceHistoryDelete {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM gi_webservice_config_history WHERE config_id = ?',
-        Bind => [ \$Param{ID} ],
+        Bind => [ \$Param{WebserviceID} ],
     );
+
     return 1;
 }
 
@@ -286,7 +287,7 @@ sub WebserviceHistoryList {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM gi_webservice_config_hisotry WHERE config_id = ?',
+        SQL  => 'SELECT id FROM gi_webservice_config_history WHERE config_id = ?',
         Bind => [ \$Param{WebserviceID} ],
     );
 
@@ -313,6 +314,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-09 14:16:34 $
+$Revision: 1.4 $ $Date: 2011-02-10 14:52:33 $
 
 =cut
