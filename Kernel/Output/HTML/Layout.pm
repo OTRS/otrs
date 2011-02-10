@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.352 2011-02-03 21:40:56 cg Exp $
+# $Id: Layout.pm,v 1.353 2011-02-10 15:59:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.352 $) [1];
+$VERSION = qw($Revision: 1.353 $) [1];
 
 =head1 NAME
 
@@ -957,7 +957,7 @@ sub Login {
         for my $CSSStatement ( keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
-                if ( $AgentLogo{$CSSStatement} !~ /http:\/\// ) {
+                if ( $AgentLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
                     $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
                 }
                 $Data{'URL'} = 'url(' . $WebPath . $AgentLogo{$CSSStatement} . ')';
@@ -1332,7 +1332,7 @@ sub Header {
         for my $CSSStatement ( keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
-                if ( $AgentLogo{$CSSStatement} !~ /http:\/\// ) {
+                if ( $AgentLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
                     $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
                 }
                 $Data{'URL'} = 'url(' . $WebPath . $AgentLogo{$CSSStatement} . ')';
@@ -3112,7 +3112,7 @@ sub CustomerLogin {
         for my $CSSStatement ( keys %CustomerLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
-                if ( $CustomerLogo{$CSSStatement} !~ /http:\/\// ) {
+                if ( $CustomerLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
                     $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
                 }
                 $Data{'URL'} = 'url(' . $WebPath . $CustomerLogo{$CSSStatement} . ')';
@@ -3229,7 +3229,7 @@ sub CustomerHeader {
         for my $CSSStatement ( keys %CustomerLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
-                if ( $CustomerLogo{$CSSStatement} !~ /http:\/\// ) {
+                if ( $CustomerLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
                     $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
                 }
                 $Data{'URL'} = 'url(' . $WebPath . $CustomerLogo{$CSSStatement} . ')';
@@ -4902,6 +4902,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.352 $ $Date: 2011-02-03 21:40:56 $
+$Revision: 1.353 $ $Date: 2011-02-10 15:59:27 $
 
 =cut
