@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.6 2011-02-10 14:51:46 mg Exp $
+# $Id: Webservice.t,v 1.7 2011-02-10 17:08:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,7 @@ my @Tests = (
         Name          => 'test 1',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
+        HistoryCount  => 1,
         Add           => {
             Config => {
                 Name        => 'Nagios',
@@ -120,6 +121,7 @@ my @Tests = (
         Name          => 'test 2',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
+        HistoryCount  => 1,
         Add           => {
             Config => {
                 Name        => 'Nagios',
@@ -195,8 +197,14 @@ my @Tests = (
         Name          => 'test 3',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
+        HistoryCount  => 2,
         Add           => {
             Config  => {},
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config => { 1 => 1 },
             ValidID => 1,
             UserID  => 1,
         },
@@ -205,12 +213,14 @@ my @Tests = (
         Name          => 'test 4',
         SuccessAdd    => 1,
         SuccessUpdate => 0,
+        HistoryCount  => 2,
         Add           => {
             Config => {
                 Name        => 'Nagios',
-                Description => 'Connector to send and recive date from Nagios 2.',
-                Provider    => {},
-                Requester   => {
+                Description => 'Connector to send and recive date from Nagios 2.'
+                    . "\nasdkaosdkoa\tsada\n",
+                Provider  => {},
+                Requester => {
                     Transport => {
                         Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
                         Config => {
@@ -234,6 +244,7 @@ my @Tests = (
         Name          => 'test 4',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
+        HistoryCount  => 0,
         Add           => {
             Config => {
                 Name        => 'Nagios',
@@ -263,6 +274,7 @@ my @Tests = (
         Name          => 'test 5',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
+        HistoryCount  => 0,
         Add           => {
             Config  => undef,
             ValidID => 1,
@@ -354,6 +366,38 @@ for my $Test (@Tests) {
         $Webservice{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
+
+    # history check
+    my @History = $WebserviceHistoryObject->WebserviceHistoryList(
+        WebserviceID => $WebserviceID,
+        UserID       => 1,
+    );
+    $Self->Is(
+        scalar @History,
+        $Test->{HistoryCount},
+        "$Test->{Name} - WebserviceHistoryList()",
+    );
+
+    for my $Count ( 0 .. 1 ) {
+        next if !$History[$Count];
+        my %WebserviceHistoryGet = $WebserviceHistoryObject->WebserviceHistoryGet(
+            ID => $History[$Count],
+        );
+        if ( $Count == 1 ) {
+            $Self->IsDeeply(
+                $Test->{Add}->{Config},
+                $WebserviceHistoryGet{Config},
+                "$Test->{Name} - WebserviceHistoryGet() - Config",
+            );
+        }
+        else {
+            $Self->IsDeeply(
+                $Test->{Update}->{Config},
+                $WebserviceHistoryGet{Config},
+                "$Test->{Name} - WebserviceHistoryGet() - Config",
+            );
+        }
+    }
 }
 
 # list check
@@ -401,6 +445,15 @@ for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
         scalar @WebserviceHistoryList == 0,
         "WebserviceHistoryList() found entries for Webservice $WebserviceID",
+    );
+    my @History = $WebserviceHistoryObject->WebserviceHistoryList(
+        WebserviceID => $WebserviceID,
+        UserID       => 1,
+    );
+    $Self->Is(
+        scalar @History,
+        0,
+        'WebserviceHistoryList()',
     );
 }
 
