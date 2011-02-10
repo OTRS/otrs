@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.5 2011-02-10 09:53:11 sb Exp $
+# $Id: Debugger.pm,v 1.6 2011-02-10 10:40:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -130,6 +130,13 @@ sub DebugLog {
 
     for my $Needed (qw(DebugLevel Summary)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
+    if ( $Param{DebugLevel} eq 'error' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Param{Summary},
+        );
     }
 
     #TODO: implement
@@ -274,6 +281,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-10 09:53:11 $
+$Revision: 1.6 $ $Date: 2011-02-10 10:40:35 $
 
 =cut
