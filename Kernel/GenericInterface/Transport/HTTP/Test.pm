@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2011-02-09 19:41:27 mg Exp $
+# $Id: Test.pm,v 1.7 2011-02-10 10:46:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use LWP::Protocol;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -110,7 +110,10 @@ sub new {
         qw(LogObject EncodeObject ConfigObject MainObject DebuggerObject TransportConfig)
         )
     {
-        $Self->{$Needed} = $Param{$Needed} || return { ErrorMessage => "Got no $Needed!" };
+        $Self->{$Needed} = $Param{$Needed} || return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!"
+        };
     }
 
     return $Self;
@@ -160,32 +163,32 @@ sub ProviderGenerateResponse {
         };
     }
 
+    my $Response;
+
     if ( !$Param{Success} ) {
-        my $Response
+        $Response
             = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
         $Response->content_type("text/plain");
         $Response->date(time);
+    }
+    else {
 
-        print STDOUT $Response->as_string();
+        # generate a request string from the data
+        my $Request
+            = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
-        return {
-            Success => 1,
-            }
+        $Response = HTTP::Response->new( 200 => "OK" );
+        $Response->content( $Request->content );
+        $Response->content_type("text/plain");
+        $Response->date(time);
     }
 
-    # generate a request string from the data
-    my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
-
-    my $Response = HTTP::Response->new( 200 => "OK" );
-    $Response->content( $Request->content );
-    $Response->content_type("text/plain");
-    $Response->date(time);
-
+    # now send response to client
     print STDOUT $Response->as_string();
 
     return {
         Success => 1,
-        }
+    };
 }
 
 =item RequesterPerformRequest()
@@ -222,11 +225,12 @@ sub RequesterPerformRequest {
         };
     }
 
+    # use custom protocol handler to avoid sending out real network requests
     LWP::Protocol::implementor(
         testhttp => 'Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol'
     );
     my $UserAgent = LWP::UserAgent->new();
-    my $Response = $UserAgent->post( 'testhttp://testhost.local/', Content => $Param{Data} );
+    my $Response = $UserAgent->post( 'testhttp://localhost.local/', Content => $Param{Data} );
 
     return {
         Success => 1,
@@ -295,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-09 19:41:27 $
+$Revision: 1.7 $ $Date: 2011-02-10 10:46:42 $
 
 =cut
