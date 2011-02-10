@@ -2,17 +2,31 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.5 2011-02-09 12:53:28 martin Exp $
+# $Id: Webservice.t,v 1.6 2011-02-10 14:51:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
+use strict;
+use warnings;
 use utf8;
-use Kernel::System::GenericInterface::Webservice;
+use vars (qw($Self));
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::GenericInterface::WebserviceHistory;
+use Kernel::System::UnitTest::Helper;
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %$Self,
+    UnitTestObject => $Self,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+my $WebserviceObject        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceHistoryObject = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
 
 my @Tests = (
     {
@@ -257,40 +271,40 @@ my @Tests = (
     },
 );
 
-my @WebServiceIDs;
+my @WebserviceIDs;
 for my $Test (@Tests) {
 
     # add config
-    my $WebServiceID = $WebserviceObject->WebserviceAdd(
-        Name => $Test->{Name},
+    my $WebserviceID = $WebserviceObject->WebserviceAdd(
+        Name => $Test->{Name} . ' ' . $RandomID,
         %{ $Test->{Add} }
     );
     if ( !$Test->{SuccessAdd} ) {
         $Self->False(
-            $WebServiceID,
+            $WebserviceID,
             "$Test->{Name} - WebserviceAdd()",
         );
         next;
     }
     else {
         $Self->True(
-            $WebServiceID,
+            $WebserviceID,
             "$Test->{Name} - WebserviceAdd()",
         );
     }
 
     # remember id to delete it later
-    push @WebServiceIDs, $WebServiceID;
+    push @WebserviceIDs, $WebserviceID;
 
     # get config
     my %Webservice = $WebserviceObject->WebserviceGet(
-        ID     => $WebServiceID,
+        ID     => $WebserviceID,
         UserID => 1,
     );
 
     # verify config
     $Self->Is(
-        $Test->{Name},
+        $Test->{Name} . ' ' . $RandomID,
         $Webservice{Name},
         "$Test->{Name} - WebserviceGet()",
     );
@@ -305,8 +319,8 @@ for my $Test (@Tests) {
         $Test->{Update} = $Test->{Add};
     }
     my $Success = $WebserviceObject->WebserviceUpdate(
-        ID   => $WebServiceID,
-        Name => $Test->{Name},
+        ID   => $WebserviceID,
+        Name => $Test->{Name} . ' ' . $RandomID,
         %{ $Test->{Update} }
     );
     if ( !$Test->{SuccessUpdate} ) {
@@ -325,13 +339,13 @@ for my $Test (@Tests) {
 
     # get config
     %Webservice = $WebserviceObject->WebserviceGet(
-        ID     => $WebServiceID,
+        ID     => $WebserviceID,
         UserID => 1,
     );
 
     # verify config
     $Self->Is(
-        $Test->{Name},
+        $Test->{Name} . ' ' . $RandomID,
         $Webservice{Name},
         "$Test->{Name} - WebserviceGet()",
     );
@@ -344,28 +358,49 @@ for my $Test (@Tests) {
 
 # list check
 my %List = $WebserviceObject->WebserviceList( Valid => 0 );
-for my $WebServiceIDFromList ( keys %List ) {
-    my $Exists;
-    for my $WebServiceID (@WebServiceIDs) {
-        $Exists = 1;
-        last;
-    }
+for my $WebserviceID (@WebserviceIDs) {
+    $Self->True(
+        scalar $List{$WebserviceID},
+        "WebserviceList() found Webservice $WebserviceID",
+    );
+
+    my @WebserviceHistoryList = $WebserviceHistoryObject->WebserviceHistoryList(
+        WebserviceID => $WebserviceID,
+    );
 
     $Self->True(
-        $Exists,
-        "WebserviceList()",
+        scalar @WebserviceHistoryList > 0,
+        "WebserviceHistoryList() found entries for Webservice $WebserviceID",
     );
 }
 
 # delete config
-for my $WebServiceID (@WebServiceIDs) {
+for my $WebserviceID (@WebserviceIDs) {
     my $Success = $WebserviceObject->WebserviceDelete(
-        ID     => $WebServiceID,
+        ID     => $WebserviceID,
         UserID => 1,
     );
     $Self->True(
         $Success,
-        'WebserviceDelete()',
+        "WebserviceDelete() deleted Webservice $WebserviceID",
+    );
+}
+
+# list check
+%List = $WebserviceObject->WebserviceList( Valid => 0 );
+for my $WebserviceID (@WebserviceIDs) {
+    $Self->False(
+        scalar $List{$WebserviceID},
+        "WebserviceList() did not find webservice $WebserviceID",
+    );
+
+    my @WebserviceHistoryList = $WebserviceHistoryObject->WebserviceHistoryList(
+        WebserviceID => $WebserviceID,
+    );
+
+    $Self->True(
+        scalar @WebserviceHistoryList == 0,
+        "WebserviceHistoryList() found entries for Webservice $WebserviceID",
     );
 }
 
