@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/PerformTest.pm - GenericInterface test operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PerformTest.pm,v 1.3 2011-02-10 13:08:20 sb Exp $
+# $Id: PerformTest.pm,v 1.4 2011-02-10 15:19:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -46,7 +46,8 @@ create an object.
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GenericInterface::Operation;
+    use Kernel::GenericInterface::Debugger;
+    use Kernel::GenericInterface::Operation::Test::PerformTest;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -71,13 +72,22 @@ create an object.
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $OperationObject = Kernel::GenericInterface::Operation->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
+    );
+    my $OperationObject = Kernel::GenericInterface::Operation::Test::PerformTest->new(
+        ConfigObject   => $ConfigObject,
+        EncodeObject   => $EncodeObject,
+        LogObject      => $LogObject,
+        MainObject     => $MainObject,
+        DBObject       => $DBObject,
+        TimeObject     => $TimeObject,
+        DebuggerObject => $DebuggerObject,
 
         Operation => 'Ticket::TicketCreate',    # the local operation to use
     );
@@ -188,6 +198,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-10 13:08:20 $
+$Revision: 1.4 $ $Date: 2011-02-10 15:19:49 $
 
 =cut
