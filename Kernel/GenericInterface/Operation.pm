@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.2 2011-02-10 08:44:31 cr Exp $
+# $Id: Operation.pm,v 1.3 2011-02-10 10:28:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -196,13 +196,13 @@ sub _Auth {
     }
 
     # assing correct AuthObject and User Object
-    $Self->{AuthObject} = Kernel::System::Auth->new( %{$Self} );
+    my $AuthObject = Kernel::System::Auth->new( %{$Self} );
     if ( $Param{Type} eq 'Customer' ) {
-        $Self->{AuthObject} = Kernel::System::CustomerAuth->new( %{$Self} );
+        $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
     }
 
     # perform authentication
-    my $UserLogin = $Self->{AuthObject}->Auth( User => $Param{Username}, Pw => $Param{Password} );
+    my $UserLogin = $AuthObject->Auth( User => $Param{Username}, Pw => $Param{Password} );
 
     if ( !$UserLogin ) {
         $Self->{LogObject}->Log(
@@ -219,18 +219,18 @@ sub _Auth {
     if ( $Param{Type} eq 'Agent' ) {
 
         # set user id
-        $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
-        $UserID = $Self->{UserObject}->UserLookup(
+        my $UserObject = Kernel::System::User->new( %{$Self} );
+        $UserID = $UserObject->UserLookup(
             UserLogin => $UserLogin,
         );
     }
     else {
 
         # set customer user id
-        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+        my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
 
-        my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => '$UserLogin',
+        my %User = $CustomerUserObject->CustomerUserDataGet(
+            User => $UserLogin,
         );
         $UserID = $User{CustomerUserID},
     }
@@ -242,7 +242,7 @@ sub _Auth {
             Type  => $Self->{CacheType},
             Key   => "Auth::$Param{Type}::$Param{Username}",
             Value => {$UserID},
-            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
+            TTL   => $Param{TTL},
         );
     }
 
@@ -350,6 +350,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-10 08:44:31 $
+$Revision: 1.3 $ $Date: 2011-02-10 10:28:13 $
 
 =cut
