@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.1 2011-02-07 16:06:05 mg Exp $
+# $Id: Operation.pm,v 1.2 2011-02-10 08:44:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -89,11 +89,36 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (
+        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject Operation)
+        )
+    {
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no $Needed!",
+        } if !$Param{$Needed};
+
+        $Self->{$Needed} = $Param{$Needed};
     }
 
-    return;
+    # check operation
+    if ( !$Self->_IsNonEmptyString( Data => $Param{Operation} ) ) {
+        return $Self->_LogAndExit(
+            ErrorMessage => 'Got no Operation with content!'
+        );
+    }
+
+    # load backend module
+    my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{Operation};
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        return $Self->_LogAndExit( ErrorMessage => "Can't load operation backend module!" );
+    }
+    $Self->{BackendObject} = $GenericModule->new( %{$Self} );
+
+    # pass back error message from backend if backend module could not be executed
+    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
+
+    return $Self;
 }
 
 =item Run()
@@ -119,8 +144,13 @@ perform the selected Operation.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    #TODO implement
+    # check data - we need a hash ref with at least one entry
+    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+    }
 
+    # start map on backend
+    return $Self->{BackendObject}->Run( Data => $Param{Data} );
 }
 
 =item _Auth()
@@ -145,8 +175,163 @@ sub _Auth {
 
     # TODO move this function somewhere else, e. g. Kernel/System/GenericInterface/*.pm
 
-    # TODO implement
+    # check all parameters are present
+    for my $Key (qw(Type Username Password TTL)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
 
+    # check if type is correct
+    return if ( $Param{Type} ne 'Agent' || $Param{Type} ne 'Customer' );
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => "Auth::$Param{Type}::$Param{Username}",
+        );
+        return $Data if $Data;
+    }
+
+    # assing correct AuthObject and User Object
+    $Self->{AuthObject} = Kernel::System::Auth->new( %{$Self} );
+    if ( $Param{Type} eq 'Customer' ) {
+        $Self->{AuthObject} = Kernel::System::CustomerAuth->new( %{$Self} );
+    }
+
+    # perform authentication
+    my $UserLogin = $Self->{AuthObject}->Auth( User => $Param{Username}, Pw => $Param{Password} );
+
+    if ( !$UserLogin ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Auth for user $Param{Username} failed!",
+        );
+        return;
+    }
+
+    # to store the UserID or CustomerUserID
+    my $UserID;
+
+    # check either User or Customer in order to obtain the ID
+    if ( $Param{Type} eq 'Agent' ) {
+
+        # set user id
+        $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+        $UserID = $Self->{UserObject}->UserLookup(
+            UserLogin => $UserLogin,
+        );
+    }
+    else {
+
+        # set customer user id
+        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+
+        my %User = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => '$UserLogin',
+        );
+        $UserID = $User{CustomerUserID},
+    }
+    return if !$UserID;
+
+    # cache request
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Set(
+            Type  => $Self->{CacheType},
+            Key   => "Auth::$Param{Type}::$Param{Username}",
+            Value => {$UserID},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
+        );
+    }
+
+    # return the Agent ot Customer UserID
+    return $UserID;
+}
+
+=item _LogAndExit()
+
+log specified error message to debug log and return error hash ref
+
+    my $Result = $OperationObject->_LogAndExit(
+        ErrorMessage => 'An error occured!', # optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'An error occured!',
+    };
+
+=cut
+
+sub _LogAndExit {
+    my ( $Self, %Param ) = @_;
+
+    # get message
+    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
+
+    # log error
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => 'error',
+        Title      => $ErrorMessage,
+
+        # FIXME this should be optional
+        Data => $ErrorMessage,
+    );
+
+    # return error
+    return {
+        Success      => 0,
+        ErrorMessage => $ErrorMessage,
+    };
+}
+
+=item _IsNonEmptyString()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $OperationObject->_IsNonEmptyString(
+        Data => 'abc' # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyString {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData;
+
+    return 1;
+}
+
+=item _IsNonEmptyHashRef()
+
+test supplied data to determine if it is a hash reference containing data
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = $OperationObject->_IsNonEmptyHashRef(
+        Data => { 'key' => 'value' } # data to be tested
+    );
+
+=cut
+
+sub _IsNonEmptyHashRef {
+    my ( $Self, %Param ) = @_;
+
+    my $TestData = $Param{Data};
+
+    return if !$TestData;
+    return if ref $TestData ne 'HASH';
+    return if !%{$TestData};
+
+    return 1;
 }
 
 1;
@@ -165,6 +350,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-07 16:06:05 $
+$Revision: 1.2 $ $Date: 2011-02-10 08:44:31 $
 
 =cut
