@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.1 2011-02-10 19:57:09 cg Exp $
+# $Id: Test.t,v 1.2 2011-02-10 19:58:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,6 @@ use vars (qw($Self));
 
 # create needed objects
 use Kernel::System::DB;
-use Kernel::System::Time;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
 my %CommonObject = %{$Self};
@@ -82,16 +81,6 @@ my @InvokerPrepareRequestTests = (
         ResultData    => undef,
         ResultSuccess => 0,
     },
-
-    # Ask if is valid
-    #    {
-    #        Name   => 'Test TicketID parameter wrong value',
-    #        Data   => {
-    #            TicketID => 'asdf0987opiu',
-    #        },
-    #        ResultData => undef,
-    #        ResultSuccess => 0,
-    #    },
     {
         Name => 'Test Action parameter empty value',
         Data => {
