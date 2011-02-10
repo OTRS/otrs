@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-08 17:05:16
+--  driver: db2, generated: 2011-02-10 17:12:49
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1337,6 +1337,19 @@ CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     config_id INTEGER NOT NULL,
     config BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+-- ----------------------------------------------------------
+--  create table scheduler_task_list
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_task_list (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    task_data BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     PRIMARY KEY(id)

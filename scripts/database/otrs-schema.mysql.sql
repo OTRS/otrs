@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-08 17:05:17
+#  driver: mysql, generated: 2011-02-10 17:12:50
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1177,6 +1177,18 @@ CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL AUTO_INCREMENT,
     config_id INTEGER NOT NULL,
     config LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table scheduler_task_list
+# ----------------------------------------------------------
+CREATE TABLE scheduler_task_list (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    task_data LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     PRIMARY KEY(id)

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-08 17:05:17
+#  driver: mysql, generated: 2011-02-10 17:12:50
 # ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -194,3 +194,5 @@ ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_b
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_config_id_id FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE scheduler_task_list ADD CONSTRAINT FK_scheduler_task_list_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

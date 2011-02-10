@@ -44,4 +44,14 @@
     </ForeignKey>
 </TableCreate>
 
+<TableCreate Name="scheduler_task_list">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="task_data" Required="true" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
 </database>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-02-09 14:56:02
+--  driver: mssql, generated: 2011-02-10 17:12:59
 -- ----------------------------------------------------------
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_queue' )
@@ -50,9 +50,20 @@ CREATE TABLE gi_webservice_config_history (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  create table scheduler_task_list
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_task_list (
+    id BIGINT NOT NULL IDENTITY(1,1) ,
+    task_data TEXT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_config_id_id FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE scheduler_task_list ADD CONSTRAINT FK_scheduler_task_list_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

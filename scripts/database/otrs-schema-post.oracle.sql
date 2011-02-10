@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-08 17:05:18
+--  driver: oracle, generated: 2011-02-10 17:12:50
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -195,3 +195,5 @@ ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_chan93 F
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valife FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_hist66 FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_hist54 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_histeb FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE scheduler_task_list ADD CONSTRAINT FK_scheduler_task_list_creat68 FOREIGN KEY (create_by) REFERENCES users (id);
