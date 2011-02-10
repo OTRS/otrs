@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.2 2011-02-09 18:45:15 cg Exp $
+# $Id: Invoker.t,v 1.3 2011-02-10 16:21:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,9 @@ use warnings;
 use vars (qw($Self));
 
 # create needed objects
-use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
 my %CommonObject = %{$Self};
-$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     %CommonObject,
     DebuggerConfig => {
@@ -92,7 +90,7 @@ $Self->True(
 # PrepareRequest with some data
 $ReturnData = $InvokerObject->PrepareRequest(
     Data => {
-        'from' => 'to',
+        'TicketID' => '1',
     },
 );
 $Self->True(
@@ -123,7 +121,7 @@ $Self->True(
 # HandleResponse with some data
 $ReturnData = $InvokerObject->HandleResponse(
     Data => {
-        'from' => 'to',
+        'TicketNumber' => '20110210171399',
     },
 );
 $Self->True(
