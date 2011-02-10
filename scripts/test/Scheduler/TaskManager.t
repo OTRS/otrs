@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.1 2011-02-10 16:28:38 martin Exp $
+# $Id: TaskManager.t,v 1.2 2011-02-10 16:36:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,18 +110,24 @@ for my $Test (@Tests) {
 }
 
 # list check
-my %List = $TaskManagerObject->TaskList( Valid => 0 );
-for my $TaskIDFromList ( keys %List ) {
-    my $Exists;
-    for my $TaskID (@TaskIDs) {
-        $Exists = 1;
-        last;
-    }
-
-    $Self->True(
-        $Exists,
-        "TaskList()",
+my @List  = $TaskManagerObject->TaskList();
+my $Count = 0;
+for my $TaskIDFromList (@List) {
+    $Self->Is(
+        $TaskIDFromList,
+        $TaskIDs[$Count],
+        "TaskList() Is",
     );
+    $Count++;
+}
+$Count = 0;
+for my $TaskIDFromList ( reverse @List ) {
+    $Self->IsNot(
+        $TaskIDFromList,
+        $TaskIDs[$Count],
+        "TaskList() - IsNot",
+    );
+    $Count++;
 }
 
 # delete config
