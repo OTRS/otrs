@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.4 2011-02-08 15:08:04 mg Exp $
+# $Id: Debugger.pm,v 1.5 2011-02-10 09:53:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -115,9 +115,9 @@ sub new {
 add one piece of data to the logging of this communication process.
 
     $DebuggerObject->DebugLog(
-        DebugLevel  => 'debug',
-        Title       => 'Short summary, one line',
-        Data        => $Data,
+        DebugLevel => 'debug',
+        Summary    => 'Short summary, one line',
+        Data       => $Data, # optional, $Data can be a string or a scalar reference
     );
 
 Available debug levels are: 'debug', 'info', 'notice' and 'error'.
@@ -128,13 +128,115 @@ Any messages with 'error' priority will also be written to Kernel::System::Log.
 sub DebugLog {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(DebugLevel Title Data)) {
+    for my $Needed (qw(DebugLevel Summary)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     #TODO: implement
+    if ( ref $Param{Data} ) {
+        my $Data = $Self->{MainObject}->Dump( $Param{Data} );
+        print STDERR "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '$Data'\n";
+    }
+    elsif ( $Param{Data} ) {
+        print STDERR
+            "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '$Param{Data}'\n";
+    }
+    else {
+        print STDERR "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '-'\n";
+    }
+    return 1;
+}
 
-    print STDERR "DebugLog ($Param{DebugLevel}): Title '$Param{Title}', Data '$Param{Data}'\n";
+=item Debug()
+
+passes data to DebugLog with debug level 'debug'
+
+    $DebuggerObject->Debug(
+        Summary => 'Short summary, one line',
+        Data    => $Data, # optional, $Data can be a string or a scalar reference
+    );
+
+=cut
+
+sub Debug {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->DebugLog(
+        %Param,
+        DebugLevel => 'debug',
+    );
+
+    return 1;
+}
+
+=item Info()
+
+passes data to DebugLog with debug level 'info'
+
+    $DebuggerObject->Info(
+        Summary => 'Short summary, one line',
+        Data    => $Data, # optional, $Data can be a string or a scalar reference
+    );
+
+=cut
+
+sub Info {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->DebugLog(
+        %Param,
+        DebugLevel => 'info',
+    );
+
+    return 1;
+}
+
+=item Notice()
+
+passes data to DebugLog with debug level 'notice'
+
+    $DebuggerObject->Notice(
+        Summary => 'Short summary, one line',
+        Data    => $Data, # optional, $Data can be a string or a scalar reference
+    );
+
+=cut
+
+sub Notice {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->DebugLog(
+        %Param,
+        DebugLevel => 'notice',
+    );
+
+    return 1;
+}
+
+=item Error()
+
+passes data to DebugLog with debug level 'error'
+then returns data structure to be used as return value in calling function
+
+    $DebuggerObject->Error(
+        Summary => 'Short summary, one line',
+        Data    => $Data, # optional, $Data can be a string or a scalar reference
+    );
+
+=cut
+
+sub Error {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->DebugLog(
+        %Param,
+        DebugLevel => 'error',
+    );
+
+    return {
+        Success      => 0,
+        ErrorMessage => $Param{Summary},
+    };
 }
 
 =begin Internal:
@@ -172,6 +274,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-08 15:08:04 $
+$Revision: 1.5 $ $Date: 2011-02-10 09:53:11 $
 
 =cut
