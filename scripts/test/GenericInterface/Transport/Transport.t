@@ -2,7 +2,7 @@
 # Transport.t - GenericInterface transport interface tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.5 2011-02-09 19:41:27 mg Exp $
+# $Id: Transport.t,v 1.6 2011-02-10 10:41:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,19 @@ for my $Fail ( 0 .. 1 ) {
         {
             Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() missing data",
             Operation     => 'test_operation',
+            ResultData    => '',
+            ResultSuccess => 1,
+        },
+        {
+            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data scalar",
+            Operation => 'test_operation',
+            Data      => 'testdata',
+            ResultSuccess => 0,
+        },
+        {
+            Name => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data listref",
+            Operation     => 'test_operation',
+            Data          => ['testdata'],
             ResultSuccess => 0,
         },
     );
@@ -274,7 +287,17 @@ for my $Fail ( 0 .. 1 ) {
         },
         {
             Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() missing data",
-            Operation     => 'test_operation',
+            ResultData    => '',
+            ResultSuccess => 1,
+        },
+        {
+            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data scalar",
+            Data => 'testdata',
+            ResultSuccess => 0,
+        },
+        {
+            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data listref",
+            Data => ['testdata'],
             ResultSuccess => 0,
         },
     );
@@ -297,6 +320,9 @@ for my $Fail ( 0 .. 1 ) {
                 );
             }
 
+            use Data::Dumper;
+            print STDERR "Dump: " . Dumper( $Result, $ResultData ) . "\n";
+
             if ( !$Fail && $TestEntry->{ResultSuccess} ) {
                 $Self->True(
                     $Result->{Success},
@@ -305,25 +331,29 @@ for my $Fail ( 0 .. 1 ) {
 
                 if ($OptionSuccess) {
                     $Self->True(
-                        index( $ResultData, $TestEntry->{ResultData} ) > -1,
-                        "$TestEntry->{Name} result",
+                        index( $ResultData, '200 OK' ) > -1,
+                        "$TestEntry->{Name} result status 200",
                     );
 
-                    $Self->True(
-                        index( $ResultData, '200 OK' ) > -1,
-                        "$TestEntry->{Name} result",
-                    );
+                    if ( $TestEntry->{ResultData} ) {
+                        $Self->True(
+                            index( $ResultData, $TestEntry->{ResultData} ) > -1,
+                            "$TestEntry->{Name} result",
+                        );
+                    }
                 }
                 else {
-                    $Self->False(
-                        index( $ResultData, $TestEntry->{ResultData} ) > -1,
-                        "$TestEntry->{Name} result",
-                    );
-
                     $Self->True(
                         index( $ResultData, '500 Custom Test Error' ) > -1,
-                        "$TestEntry->{Name} result",
+                        "$TestEntry->{Name} result status 500",
                     );
+
+                    if ( $TestEntry->{ResultData} ) {
+                        $Self->False(
+                            index( $ResultData, $TestEntry->{ResultData} ) > -1,
+                            "$TestEntry->{Name} result",
+                        );
+                    }
                 }
             }
             else {

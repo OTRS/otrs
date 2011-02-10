@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.7 2011-02-09 19:40:33 mg Exp $
+# $Id: Transport.pm,v 1.8 2011-02-10 10:41:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -102,13 +102,18 @@ sub new {
         qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject DebuggerObject TransportConfig)
         )
     {
-        $Self->{$Needed} = $Param{$Needed} || return { ErrorMessage => "Got no $Needed!" };
+        $Self->{$Needed} = $Param{$Needed} || return {
+            Success => 0,
+            Summary => "Got no $Needed!",
+            }
     }
 
     # select and instantiate the backend
     my $Backend = 'Kernel::GenericInterface::Transport::' . $Self->{TransportConfig}->{Type};
-    $Self->{MainObject}->Require($Backend)
-        || return { ErrorMessage => "Backend $Backend not found." };
+
+    if ( !$Self->{MainObject}->Require($Backend) ) {
+        return $Self->{DebuggerObject}->Error( Summary => "Backend $Backend not found." );
+    }
     $Self->{BackendObject} = $Backend->new(%$Self);
 
     # if the backend constructor failed, it returns an error hash, pass it on in this casd
@@ -147,8 +152,8 @@ generate response for an incoming web service request.
 
     my $Result = $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
-        ErrorMessage    => '',      # in case of an error
-        Data            => {        # data payload for response
+        ErrorMessage    => '',      # in case of an error, optional
+        Data            => {        # data payload for response, optional
             ...
         },
 
@@ -164,19 +169,16 @@ generate response for an incoming web service request.
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Success Data)) {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{DebuggerObject}->DebugLog(
-                DebugLevel => 'error',
-                Title      => "Got no $Needed!",
-                Data =>
-                    "Missing parameter $Needed in Kernel::GenericInterface::Transport::RequesterPerformRequest()",
-            );
+    if ( !defined $Param{Success} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Missing parameter Success.',
+        );
+    }
 
-            return {
-                ErrorMessage => "Got no $Needed!",
-            };
-        }
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Data is not a hash reference.',
+        );
     }
 
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
@@ -206,19 +208,16 @@ generate an outgoing web service request, receive the response and return its da
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Operation Data)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{DebuggerObject}->DebugLog(
-                DebugLevel => 'error',
-                Title      => "Got no $Needed!",
-                Data =>
-                    "Missing parameter $Needed in Kernel::GenericInterface::Transport::RequesterPerformRequest()",
-            );
+    if ( !$Param{Operation} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Missing parameter Operation.',
+        );
+    }
 
-            return {
-                ErrorMessage => "Got no $Needed!",
-            };
-        }
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Data is not a hash reference.',
+        );
     }
 
     return $Self->{BackendObject}->RequesterPerformRequest(%Param);
@@ -240,6 +239,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-09 19:40:33 $
+$Revision: 1.8 $ $Date: 2011-02-10 10:41:44 $
 
 =cut
