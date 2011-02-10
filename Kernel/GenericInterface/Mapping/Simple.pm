@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.6 2011-02-09 15:46:08 sb Exp $
+# $Id: Simple.pm,v 1.7 2011-02-10 10:46:14 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -112,8 +112,8 @@ sub new {
 
     # check mapping config
     if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
-        return $Self->_LogAndExit(
-            ErrorMessage => 'Got no MappingConfig as hash ref with content!'
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no MappingConfig as hash ref with content!',
         );
     }
 
@@ -123,8 +123,8 @@ sub new {
         && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
         )
     {
-        return $Self->_LogAndExit(
-            ErrorMessage => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got MappingConfig with Data, but Data is no hash ref with content!',
         );
     }
 
@@ -198,11 +198,16 @@ sub Map {
 
     # check data - we need a hash ref with at least one entry
     if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
     # no config means we just return input data
-    return $Self->_CleanExit( Data => $Param{Data} ) if !$Self->{MappingConfig}->{Config};
+    if ( !$Self->{MappingConfig}->{Config} ) {
+        return {
+            Success => 1,
+            Data    => $Param{Data},
+        };
+    }
 
     # prepare short config variable
     my $Config = $Self->{MappingConfig}->{Config};
@@ -218,7 +223,7 @@ sub Map {
 
         # check if key is valid
         if ( !$Self->_IsNonEmptyString( Data => $OldKey ) ) {
-            $Self->_Log( ErrorMessage => 'Got an original key that is not valid!' );
+            $Self->{DebuggerObject}->Notice( Summary => 'Got an original key that is not valid!' );
             next CONFIGKEY;
         }
 
@@ -254,9 +259,8 @@ sub Map {
 
                 # check if we already have a key with the same name
                 if ( $ReturnData{ $Config->{KeyMapDefault}->{MapTo} } ) {
-                    $Self->_Log(
-                        ErrorMessage =>
-                            "The data key $Config->{KeyMapDefault}->{MapTo} already exists!",
+                    $Self->{DebuggerObject}->Notice(
+                        Summary => "The data key $Config->{KeyMapDefault}->{MapTo} already exists!",
                     );
                     next CONFIGKEY;
                 }
@@ -266,14 +270,16 @@ sub Map {
         }
 
         # sanity check - we should have a translated key now
-        return $Self->_LogAndExit( ErrorMessage => "Could not map data key $NewKey!" ) if !$NewKey;
+        if ( !$NewKey ) {
+            return $Self->{DebuggerObject}->Error( Summary => "Could not map data key $NewKey!" );
+        }
 
         # map value
         my $OldValue = $Param{Data}->{$OldKey};
 
         # check if value is valid
         if ( !$Self->_IsString( Data => $OldValue ) ) {
-            $Self->_Log( ErrorMessage => "Value for data key $OldKey is invalid!", );
+            $Self->{DebuggerObject}->Notice( Summary => "Value for data key $OldKey is invalid!" );
             $ReturnData{$NewKey} = undef;
             next CONFIGKEY;
         }
@@ -377,15 +383,15 @@ sub _ConfigCheck {
         # require some types
         if ( !defined $Config->{$ConfigType} ) {
             next CONFIGTYPE if !$RequiredConfigTypes{$ConfigType};
-            return $Self->_LogAndExit(
-                ErrorMessage => "Got no $ConfigType, but it is required!",
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Got no $ConfigType, but it is required!",
             );
         }
 
         # check type definition
         if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{$ConfigType} ) ) {
-            return $Self->_LogAndExit(
-                ErrorMessage => "Got $ConfigType with Data, but Data is no hash ref with content!",
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Got $ConfigType with Data, but Data is no hash ref with content!",
             );
         }
 
@@ -393,14 +399,13 @@ sub _ConfigCheck {
         next CONFIGTYPE if !$OnlyStringConfigTypes{$ConfigType};
         for my $ConfigKey ( sort keys %{ $Config->{$ConfigType} } ) {
             if ( !$Self->_IsString( Data => $ConfigKey ) ) {
-                return $Self->_LogAndExit(
-                    ErrorMessage => "Got key in $ConfigType which is not a string!",
+                return $Self->{DebuggerObject}->Error(
+                    Summary => "Got key in $ConfigType which is not a string!",
                 );
             }
             if ( !$Self->_IsString( Data => $Config->{$ConfigType}->{$ConfigKey} ) ) {
-                return $Self->_LogAndExit(
-                    ErrorMessage =>
-                        "Got value for $ConfigKey in $ConfigType which is not a string!",
+                return $Self->{DebuggerObject}->Error(
+                    Summary => "Got value for $ConfigKey in $ConfigType which is not a string!",
                 );
             }
         }
@@ -421,7 +426,9 @@ sub _ConfigCheck {
             || !$ValidMapTypes{ $Config->{$ConfigType}->{MapType} }
             )
         {
-            return $Self->_LogAndExit( ErrorMessage => "Got no valid MapType in $ConfigType!" );
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Got no valid MapType in $ConfigType!",
+            );
         }
 
         # check MapTo if MapType is set to 'MapTo'
@@ -430,8 +437,8 @@ sub _ConfigCheck {
             && !$Self->_IsNonEmptyString( Data => $Config->{$ConfigType}->{MapTo} )
             )
         {
-            return $Self->_LogAndExit(
-                ErrorMessage => "Got MapType 'MapTo', but MapTo value is not valid in $ConfigType!",
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Got MapType 'MapTo', but MapTo value is not valid in $ConfigType!",
             );
         }
     }
@@ -441,8 +448,8 @@ sub _ConfigCheck {
 
         # require values to be hash ref
         if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{ValueMap}->{$KeyName} ) ) {
-            return $Self->_LogAndExit(
-                ErrorMessage => "Got $KeyName in ValueMap, but it is no hash ref with content!",
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Got $KeyName in ValueMap, but it is no hash ref with content!",
             );
         }
 
@@ -452,8 +459,8 @@ sub _ConfigCheck {
             my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
             next SUBKEY if !defined $ValueMapType;
             if ( !$Self->_IsNonEmptyHashRef( Data => $ValueMapType ) ) {
-                return $Self->_LogAndExit(
-                    ErrorMessage =>
+                return $Self->{DebuggerObject}->Error(
+                    Summary =>
                         "Got $SubKeyName in $KeyName in ValueMap,"
                         . ' but it is no hash ref with content!',
                 );
@@ -462,14 +469,14 @@ sub _ConfigCheck {
             # key/value pairs of ValueMapExact and ValueMapRegEx must be strings
             for my $ValueMapTypeKey ( sort keys %{$ValueMapType} ) {
                 if ( !$Self->_IsString( Data => $ValueMapTypeKey ) ) {
-                    return $Self->_LogAndExit(
-                        ErrorMessage =>
+                    return $Self->{DebuggerObject}->Error(
+                        Summary =>
                             "Got key in $SubKeyName in $KeyName in ValueMap which is not a string!",
                     );
                 }
                 if ( !$Self->_IsString( Data => $ValueMapType->{$ValueMapTypeKey} ) ) {
-                    return $Self->_LogAndExit(
-                        ErrorMessage =>
+                    return $Self->{DebuggerObject}->Error(
+                        Summary =>
                             "Got value for $ValueMapTypeKey in $SubKeyName in $KeyName in ValueMap"
                             . ' which is not a string!',
                     );
@@ -481,107 +488,6 @@ sub _ConfigCheck {
     # if we arrive here, all checks were ok
     return {
         Success => 1,
-    };
-}
-
-=item _LogAndExit()
-
-logs specified error message to debug log (DebugLevel 'error') and returns error hash ref
-
-    my $Result = $MappingObject->_LogAndExit(
-        ErrorMessage => 'An error occured!', # optional
-    );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'An error occured!',
-    };
-
-=cut
-
-sub _LogAndExit {
-    my ( $Self, %Param ) = @_;
-
-    # get message
-    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
-
-    # log error
-    $Self->{DebuggerObject}->DebugLog(
-        DebugLevel => 'error',
-        Title      => $ErrorMessage,
-
-        # FIXME this should be optional
-        Data => $ErrorMessage,
-    );
-
-    # return error
-    return {
-        Success      => 0,
-        ErrorMessage => $ErrorMessage,
-    };
-}
-
-=item _Log()
-
-logs specified error message to debug log (DebugLevel 'notice')
-returns 1 if log was successful, undef otherwise
-
-    my $Result = $MappingObject->_Log(
-        ErrorMessage => 'An error occured!', # optional
-    );
-
-=cut
-
-sub _Log {
-    my ( $Self, %Param ) = @_;
-
-    # get message
-    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
-
-    # log error
-    return if !$Self->{DebuggerObject}->DebugLog(
-        DebugLevel => 'notice',
-        Title      => $ErrorMessage,
-
-        # FIXME this should be optional
-        Data => $ErrorMessage,
-    );
-
-    # return
-    return 1;
-}
-
-=item _CleanExit()
-
-return hash reference indicating success and containing return data
-
-    my $Result = $MappingObject->_CleanExit(
-        Data => {
-            ...
-        },
-    );
-
-    $Result = {
-        Success => 1,
-        Data    => {
-            ...
-        },
-    };
-
-=cut
-
-sub _CleanExit {
-    my ( $Self, %Param ) = @_;
-
-    # check data
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' );
-    }
-
-    # return
-    return {
-        Success => 1,
-        Data    => $Param{Data},
     };
 }
 
@@ -671,6 +577,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-09 15:46:08 $
+$Revision: 1.7 $ $Date: 2011-02-10 10:46:14 $
 
 =cut

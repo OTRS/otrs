@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/PerformTest.pm - GenericInterface test operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PerformTest.pm,v 1.1 2011-02-10 08:45:20 cr Exp $
+# $Id: PerformTest.pm,v 1.2 2011-02-10 10:46:14 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -129,83 +129,15 @@ sub Run {
 
     # check data - we need a hash ref with at least one entry
     if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
     my $ReturnData = $Self->_Test( Data => $Param{Data} );
 
     # return result
-    return $Self->_CleanExit( Data => $ReturnData );
-}
-
-=item _LogAndExit()
-
-log specified error message to debug log and return error hash ref
-
-    my $Result = $OperationObject->_LogAndExit(
-        ErrorMessage => 'An error occured!', # optional
-    );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'An error occured!',
-    };
-
-=cut
-
-sub _LogAndExit {
-    my ( $Self, %Param ) = @_;
-
-    # get message
-    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
-
-    # log error
-    $Self->{DebuggerObject}->DebugLog(
-        DebugLevel => 'error',
-        Title      => $ErrorMessage,
-
-        # FIXME this should be optional
-        Data => $ErrorMessage,
-    );
-
-    # return error
-    return {
-        Success      => 0,
-        ErrorMessage => $ErrorMessage,
-    };
-}
-
-=item _CleanExit()
-
-return hash reference indicating success and containing return data
-
-    my $Result = $OperationObject->_CleanExit(
-        Data => {
-            ...
-        },
-    );
-
-    $Result = {
-        Success => 1,
-        Data    => {
-            ...
-        },
-    };
-
-=cut
-
-sub _CleanExit {
-    my ( $Self, %Param ) = @_;
-
-    # check data
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' );
-    }
-
-    # return
     return {
         Success => 1,
-        Data    => $Param{Data},
+        Data    => $ReturnData,
     };
 }
 
@@ -301,6 +233,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-10 08:45:20 $
+$Revision: 1.2 $ $Date: 2011-02-10 10:46:14 $
 
 =cut

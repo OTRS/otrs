@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2011-02-09 13:40:56 sb Exp $
+# $Id: Test.pm,v 1.10 2011-02-10 10:46:14 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -112,8 +112,8 @@ sub new {
 
     # check mapping config
     if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
-        return $Self->_LogAndExit(
-            ErrorMessage => 'Got no MappingConfig as hash ref with content!',
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no MappingConfig as hash ref with content!',
         );
     }
 
@@ -123,8 +123,8 @@ sub new {
         && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
         )
     {
-        return $Self->_LogAndExit(
-            ErrorMessage => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got MappingConfig with Data, but Data is no hash ref with content!',
         );
     }
 
@@ -163,7 +163,7 @@ sub Map {
 
     # check data - we need a hash ref with at least one entry
     if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
     # no config means that we just return input data
@@ -172,12 +172,17 @@ sub Map {
         || !defined $Self->{MappingConfig}->{Config}->{TestOption}
         )
     {
-        return $Self->_CleanExit( Data => $Param{Data} );
+        return {
+            Success => 1,
+            Data    => $Param{Data},
+        };
     }
 
     # check TestOption format
     if ( !$Self->_IsNonEmptyString( Data => $Self->{MappingConfig}->{Config}->{TestOption} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no TestOption as string with value!' );
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no TestOption as string with value!',
+        );
     }
 
     # parse data according to configuration
@@ -196,77 +201,9 @@ sub Map {
     }
 
     # return result
-    return $Self->_CleanExit( Data => $ReturnData );
-}
-
-=item _LogAndExit()
-
-log specified error message to debug log and return error hash ref
-
-    my $Result = $MappingObject->_LogAndExit(
-        ErrorMessage => 'An error occured!', # optional
-    );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'An error occured!',
-    };
-
-=cut
-
-sub _LogAndExit {
-    my ( $Self, %Param ) = @_;
-
-    # get message
-    my $ErrorMessage = $Param{ErrorMessage} || 'Unspecified error!';
-
-    # log error
-    $Self->{DebuggerObject}->DebugLog(
-        DebugLevel => 'error',
-        Title      => $ErrorMessage,
-
-        # FIXME this should be optional
-        Data => $ErrorMessage,
-    );
-
-    # return error
-    return {
-        Success      => 0,
-        ErrorMessage => $ErrorMessage,
-    };
-}
-
-=item _CleanExit()
-
-return hash reference indicating success and containing return data
-
-    my $Result = $MappingObject->_CleanExit(
-        Data => {
-            ...
-        },
-    );
-
-    $Result = {
-        Success => 1,
-        Data    => {
-            ...
-        },
-    };
-
-=cut
-
-sub _CleanExit {
-    my ( $Self, %Param ) = @_;
-
-    # check data
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
-        return $Self->_LogAndExit( ErrorMessage => 'Got no Data as hash ref with content!' );
-    }
-
-    # return
     return {
         Success => 1,
-        Data    => $Param{Data},
+        Data    => $ReturnData,
     };
 }
 
@@ -420,6 +357,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-09 13:40:56 $
+$Revision: 1.10 $ $Date: 2011-02-10 10:46:14 $
 
 =cut
