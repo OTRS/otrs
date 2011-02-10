@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/PerformTest.pm - GenericInterface test operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PerformTest.pm,v 1.4 2011-02-10 15:19:49 sb Exp $
+# $Id: PerformTest.pm,v 1.5 2011-02-10 15:34:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -105,10 +105,12 @@ sub new {
         qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)
         )
     {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no $Needed!",
-        } if !$Param{$Needed};
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Got no $Needed!"
+                }
+        }
 
         $Self->{$Needed} = $Param{$Needed};
     }
@@ -198,6 +200,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-10 15:19:49 $
+$Revision: 1.5 $ $Date: 2011-02-10 15:34:31 $
 
 =cut

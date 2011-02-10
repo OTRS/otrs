@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.12 2011-02-10 13:08:20 sb Exp $
+# $Id: Mapping.pm,v 1.13 2011-02-10 15:34:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -105,10 +105,12 @@ sub new {
 
     # check needed params
     for my $Needed (qw(DBObject DebuggerObject MainObject MappingConfig)) {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no $Needed!",
-        } if !$Param{$Needed};
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Got no $Needed!"
+                }
+        }
 
         $Self->{$Needed} = $Param{$Needed};
     }
@@ -197,6 +199,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-10 13:08:20 $
+$Revision: 1.13 $ $Date: 2011-02-10 15:34:31 $
 
 =cut
