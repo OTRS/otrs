@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.106 2011-01-12 10:29:16 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.107 2011-02-10 09:59:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,26 +43,12 @@
 <!-- dtl:block:Queue -->
                 <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
 <!-- dtl:block:Queue -->
-# use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
 <!-- dtl:block:TicketFreeText -->
                 <li><span class="Key">$QData{"TicketFreeKey","20"}:</span> <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</span></li>
 <!-- dtl:block:TicketFreeText -->
-#<!-- dtl:block:TicketFreeText1 -->
-#                    <li><span class="Key">$QData{"TicketFreeKey1","20"}:</span> <span title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</span></li>
-#<!-- dtl:block:TicketFreeText1 -->
-#<!-- dtl:block:TicketFreeText2 -->
-#                    <li><span class="Key">$QData{"TicketFreeKey2","20"}:</span> <span title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","20"}</span></li>
-#<!-- dtl:block:TicketFreeText2 -->
-# use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
                 <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
 <!-- dtl:block:TicketFreeTime -->
-#<!-- dtl:block:TicketFreeTime1 -->
-#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
-#<!-- dtl:block:TicketFreeTime1 -->
-#<!-- dtl:block:TicketFreeTime2 -->
-#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
-#<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$LQData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
 <!-- dtl:block:Print -->
@@ -105,7 +91,6 @@
                                 <div class="Clear"></div>
                             </div>
 
-# show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
                             <div>
                                 <div class="Label" title="$QData{"Key"}">$QData{"Key", "11"}:</div> <span title="$QData{"Value"}">$QData{"Value","160"}</span>
