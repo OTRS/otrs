@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.7 2011-02-10 10:46:14 sb Exp $
+# $Id: Simple.pm,v 1.8 2011-02-10 10:47:17 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -136,7 +136,7 @@ sub new {
 provides 1:1 and regex mapping for keys and values
 also the use of a default for unmapped keys and values is possible
 
-we require the config to be in the following format
+we need the config to be in the following format
 
     $Self->{MappingConfig}->{Config} = {
         KeyMapExact => {           # optional. key/value pairs for direct replacement
@@ -577,6 +577,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-10 10:46:14 $
+$Revision: 1.8 $ $Date: 2011-02-10 10:47:17 $
 
 =cut
