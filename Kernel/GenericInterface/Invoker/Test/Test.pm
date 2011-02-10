@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.3 2011-02-10 16:21:54 sb Exp $
+# $Id: Test.pm,v 1.4 2011-02-10 16:33:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -155,6 +155,11 @@ sub PrepareRequest {
         $ReturnData{Action} = $Param{Data}->{Action} . 'Test';
     }
 
+    # check request for system time
+    if ( IsStringWithData( $Param{Data}->{GetSystemTime} ) && $Param{Data}->{GetSystemTime} ) {
+        $ReturnData{SystemTime} = $Self->{TimeObject}->SystemTime();
+    }
+
     return {
         Success => 1,
         Data    => \%ReturnData,
@@ -186,7 +191,20 @@ handle response data of the configured remote webservice.
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    # we need TicketNumber
+    # if there was an error in the response, forward it
+    if ( IsString( $Param{Data}->{ResponseSuccess} ) && $Param{Data}->{ResponseSuccess} ) {
+        if ( !IsStringWithData( $Param{Data}->{ResponseErrorMessage} ) ) {
+            return $Self->{DebuggerObject}->Error(
+                Subject => 'Got response error, but no response error message!',
+            );
+        }
+        return {
+            Success      => 0,
+            ErrorMessage => $Param{Data}->{ResponseErrorMessage},
+        };
+    }
+
+    # we need a TicketNumber
     if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
     }
@@ -254,6 +272,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-10 16:21:54 $
+$Revision: 1.4 $ $Date: 2011-02-10 16:33:00 $
 
 =cut
