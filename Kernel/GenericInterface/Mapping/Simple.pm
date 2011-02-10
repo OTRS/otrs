@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.8 2011-02-10 10:47:17 sb Exp $
+# $Id: Simple.pm,v 1.9 2011-02-10 13:08:20 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::GenericInterface::Mapping::Simple;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -111,7 +113,7 @@ sub new {
     }
 
     # check mapping config
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
+    if ( !IsHashRefWithData( $Param{MappingConfig} ) ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no MappingConfig as hash ref with content!',
         );
@@ -120,7 +122,7 @@ sub new {
     # check config - if we have a map config, it has to be a non-empty hash ref
     if (
         defined $Param{MappingConfig}->{Config}
-        && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
+        && !IsHashRefWithData( $Param{MappingConfig}->{Config} )
         )
     {
         return $Self->{DebuggerObject}->Error(
@@ -197,7 +199,7 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
@@ -222,7 +224,7 @@ sub Map {
     for my $OldKey ( sort keys %{ $Param{Data} } ) {
 
         # check if key is valid
-        if ( !$Self->_IsNonEmptyString( Data => $OldKey ) ) {
+        if ( !IsStringWithData($OldKey) ) {
             $Self->{DebuggerObject}->Notice( Summary => 'Got an original key that is not valid!' );
             next CONFIGKEY;
         }
@@ -278,7 +280,7 @@ sub Map {
         my $OldValue = $Param{Data}->{$OldKey};
 
         # check if value is valid
-        if ( !$Self->_IsString( Data => $OldValue ) ) {
+        if ( !IsString($OldValue) ) {
             $Self->{DebuggerObject}->Notice( Summary => "Value for data key $OldKey is invalid!" );
             $ReturnData{$NewKey} = undef;
             next CONFIGKEY;
@@ -389,7 +391,7 @@ sub _ConfigCheck {
         }
 
         # check type definition
-        if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{$ConfigType} ) ) {
+        if ( !IsHashRefWithData( $Config->{$ConfigType} ) ) {
             return $Self->{DebuggerObject}->Error(
                 Summary => "Got $ConfigType with Data, but Data is no hash ref with content!",
             );
@@ -398,12 +400,12 @@ sub _ConfigCheck {
         # check keys and values of these config types
         next CONFIGTYPE if !$OnlyStringConfigTypes{$ConfigType};
         for my $ConfigKey ( sort keys %{ $Config->{$ConfigType} } ) {
-            if ( !$Self->_IsString( Data => $ConfigKey ) ) {
+            if ( !IsString($ConfigKey) ) {
                 return $Self->{DebuggerObject}->Error(
                     Summary => "Got key in $ConfigType which is not a string!",
                 );
             }
-            if ( !$Self->_IsString( Data => $Config->{$ConfigType}->{$ConfigKey} ) ) {
+            if ( !IsString( $Config->{$ConfigType}->{$ConfigKey} ) ) {
                 return $Self->{DebuggerObject}->Error(
                     Summary => "Got value for $ConfigKey in $ConfigType which is not a string!",
                 );
@@ -422,7 +424,7 @@ sub _ConfigCheck {
 
         # require MapType as a string with a valid value
         if (
-            !$Self->_IsNonEmptyString( Data => $Config->{$ConfigType}->{MapType} )
+            !IsStringWithData( $Config->{$ConfigType}->{MapType} )
             || !$ValidMapTypes{ $Config->{$ConfigType}->{MapType} }
             )
         {
@@ -434,7 +436,7 @@ sub _ConfigCheck {
         # check MapTo if MapType is set to 'MapTo'
         if (
             $Config->{$ConfigType}->{MapType} eq 'MapTo'
-            && !$Self->_IsNonEmptyString( Data => $Config->{$ConfigType}->{MapTo} )
+            && !IsStringWithData( $Config->{$ConfigType}->{MapTo} )
             )
         {
             return $Self->{DebuggerObject}->Error(
@@ -447,7 +449,7 @@ sub _ConfigCheck {
     for my $KeyName ( keys %{ $Config->{ValueMap} } ) {
 
         # require values to be hash ref
-        if ( !$Self->_IsNonEmptyHashRef( Data => $Config->{ValueMap}->{$KeyName} ) ) {
+        if ( !IsHashRefWithData( $Config->{ValueMap}->{$KeyName} ) ) {
             return $Self->{DebuggerObject}->Error(
                 Summary => "Got $KeyName in ValueMap, but it is no hash ref with content!",
             );
@@ -458,7 +460,7 @@ sub _ConfigCheck {
         for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
             my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
             next SUBKEY if !defined $ValueMapType;
-            if ( !$Self->_IsNonEmptyHashRef( Data => $ValueMapType ) ) {
+            if ( !IsHashRefWithData($ValueMapType) ) {
                 return $Self->{DebuggerObject}->Error(
                     Summary =>
                         "Got $SubKeyName in $KeyName in ValueMap,"
@@ -468,13 +470,13 @@ sub _ConfigCheck {
 
             # key/value pairs of ValueMapExact and ValueMapRegEx must be strings
             for my $ValueMapTypeKey ( sort keys %{$ValueMapType} ) {
-                if ( !$Self->_IsString( Data => $ValueMapTypeKey ) ) {
+                if ( !IsString($ValueMapTypeKey) ) {
                     return $Self->{DebuggerObject}->Error(
                         Summary =>
                             "Got key in $SubKeyName in $KeyName in ValueMap which is not a string!",
                     );
                 }
-                if ( !$Self->_IsString( Data => $ValueMapType->{$ValueMapTypeKey} ) ) {
+                if ( !IsString( $ValueMapType->{$ValueMapTypeKey} ) ) {
                     return $Self->{DebuggerObject}->Error(
                         Summary =>
                             "Got value for $ValueMapTypeKey in $SubKeyName in $KeyName in ValueMap"
@@ -489,76 +491,6 @@ sub _ConfigCheck {
     return {
         Success => 1,
     };
-}
-
-=item _IsString()
-
-test supplied data to determine if it is a string - an empty string is valid
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsString(
-        Data => 'abc' # data to be tested
-    );
-
-=cut
-
-sub _IsString {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !defined $TestData;
-    return if ref $TestData;
-
-    return 1;
-}
-
-=item _IsNonEmptyString()
-
-test supplied data to determine if it is a non zero-length string
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsNonEmptyString(
-        Data => 'abc' # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyString {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData;
-
-    return 1;
-}
-
-=item _IsNonEmptyHashRef()
-
-test supplied data to determine if it is a hash reference containing data
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsNonEmptyHashRef(
-        Data => { 'key' => 'value' } # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyHashRef {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData ne 'HASH';
-    return if !%{$TestData};
-
-    return 1;
 }
 
 1;
@@ -577,6 +509,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-10 10:47:17 $
+$Revision: 1.9 $ $Date: 2011-02-10 13:08:20 $
 
 =cut

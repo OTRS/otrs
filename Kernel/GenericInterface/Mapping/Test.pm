@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.10 2011-02-10 10:46:14 sb Exp $
+# $Id: Test.pm,v 1.11 2011-02-10 13:08:20 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::GenericInterface::Mapping::Test;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -111,7 +113,7 @@ sub new {
     }
 
     # check mapping config
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig} ) ) {
+    if ( !IsHashRefWithData( $Param{MappingConfig} ) ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no MappingConfig as hash ref with content!',
         );
@@ -120,7 +122,7 @@ sub new {
     # check config - if we have a map config, it has to be a non-empty hash ref
     if (
         defined $Param{MappingConfig}->{Config}
-        && !$Self->_IsNonEmptyHashRef( Data => $Param{MappingConfig}->{Config} )
+        && !IsHashRefWithData( $Param{MappingConfig}->{Config} )
         )
     {
         return $Self->{DebuggerObject}->Error(
@@ -162,7 +164,7 @@ sub Map {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
@@ -179,7 +181,7 @@ sub Map {
     }
 
     # check TestOption format
-    if ( !$Self->_IsNonEmptyString( Data => $Self->{MappingConfig}->{Config}->{TestOption} ) ) {
+    if ( !IsStringWithData( $Self->{MappingConfig}->{Config}->{TestOption} ) ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no TestOption as string with value!',
         );
@@ -294,53 +296,6 @@ sub _Empty {
     return $ReturnData;
 }
 
-=item _IsNonEmptyString()
-
-test supplied data to determine if it is a non zero-length string
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsNonEmptyString(
-        Data => 'abc' # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyString {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData;
-
-    return 1;
-}
-
-=item _IsNonEmptyHashRef()
-
-test supplied data to determine if it is a hash reference containing data
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $MappingObject->_IsNonEmptyHashRef(
-        Data => { 'key' => 'value' } # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyHashRef {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData ne 'HASH';
-    return if !%{$TestData};
-
-    return 1;
-}
-
 1;
 
 =back
@@ -357,6 +312,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-10 10:46:14 $
+$Revision: 1.11 $ $Date: 2011-02-10 13:08:20 $
 
 =cut

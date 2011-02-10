@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.1 2011-02-09 17:05:02 cg Exp $
+# $Id: Test.pm,v 1.2 2011-02-10 13:08:20 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,16 +14,18 @@ package Kernel::GenericInterface::Invoker::Test::Test;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsStringWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Invoker::Test
+Kernel::GenericInterface::Invoker::Test::Test
 
 =head1 SYNOPSIS
 
-GenericInterface test data Invoker backend
+GenericInterface test Invoker backend
 
 =head1 PUBLIC INTERFACE
 
@@ -39,7 +41,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw(DebuggerObject MainObject Invoker)) {
+    for my $Needed (qw(DebuggerObject MainObject)) {
         return {
             Success      => 0,
             ErrorMessage => "Got no $Needed!"
@@ -75,11 +77,9 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO implement
-    return {
-        Success      => 1,
-        ErrorMessage => "From PrepareRequest"
-        }
+    if ( !IsStringWithData( $Param{TicketID} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
+    }
 }
 
 =item HandleResponse()
@@ -131,6 +131,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-09 17:05:02 $
+$Revision: 1.2 $ $Date: 2011-02-10 13:08:20 $
 
 =cut

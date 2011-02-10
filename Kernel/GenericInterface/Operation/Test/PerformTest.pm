@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/PerformTest.pm - GenericInterface test operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PerformTest.pm,v 1.2 2011-02-10 10:46:14 sb Exp $
+# $Id: PerformTest.pm,v 1.3 2011-02-10 13:08:20 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::GenericInterface::Operation::Test::PerformTest;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -128,7 +130,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check data - we need a hash ref with at least one entry
-    if ( !$Self->_IsNonEmptyHashRef( Data => $Param{Data} ) ) {
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
     }
 
@@ -139,53 +141,6 @@ sub Run {
         Success => 1,
         Data    => $ReturnData,
     };
-}
-
-=item _IsNonEmptyString()
-
-test supplied data to determine if it is a non zero-length string
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $OperationObject->_IsNonEmptyString(
-        Data => 'abc' # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyString {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData;
-
-    return 1;
-}
-
-=item _IsNonEmptyHashRef()
-
-test supplied data to determine if it is a hash reference containing data
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = $OperationObject->_IsNonEmptyHashRef(
-        Data => { 'key' => 'value' } # data to be tested
-    );
-
-=cut
-
-sub _IsNonEmptyHashRef {
-    my ( $Self, %Param ) = @_;
-
-    my $TestData = $Param{Data};
-
-    return if !$TestData;
-    return if ref $TestData ne 'HASH';
-    return if !%{$TestData};
-
-    return 1;
 }
 
 =item _Test()
@@ -233,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-10 10:46:14 $
+$Revision: 1.3 $ $Date: 2011-02-10 13:08:20 $
 
 =cut
