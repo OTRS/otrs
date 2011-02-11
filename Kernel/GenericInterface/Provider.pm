@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.6 2011-02-11 10:34:07 mg Exp $
+# $Id: Provider.pm,v 1.7 2011-02-11 11:08:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -89,12 +89,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my ($WebserviceID)
-        = $ENV{REQUEST_URI} =~ m{ genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
+        = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
     if ( !$WebserviceID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Could not determine WebserviceID from query string $ENV{QUERY_STRING}",
+            Message  => "Could not determine WebserviceID from query string $ENV{REQUEST_URI}",
         );
 
         # bail out
@@ -335,6 +335,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-11 10:34:07 $
+$Revision: 1.7 $ $Date: 2011-02-11 11:08:00 $
 
 =cut
