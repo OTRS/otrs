@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.5 2011-02-10 16:34:51 sb Exp $
+# $Id: Test.pm,v 1.6 2011-02-11 08:59:04 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -192,10 +192,11 @@ sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
     # if there was an error in the response, forward it
-    if ( IsString( $Param{Data}->{ResponseSuccess} ) && $Param{Data}->{ResponseSuccess} ) {
+    if ( !IsStringWithData( $Param{Data}->{ResponseSuccess} ) || !$Param{Data}->{ResponseSuccess} )
+    {
         if ( !IsStringWithData( $Param{Data}->{ResponseErrorMessage} ) ) {
             return $Self->{DebuggerObject}->Error(
-                Subject => 'Got response error, but no response error message!',
+                Summary => 'Got response error, but no response error message!',
             );
         }
         return {
@@ -272,6 +273,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-10 16:34:51 $
+$Revision: 1.6 $ $Date: 2011-02-11 08:59:04 $
 
 =cut
