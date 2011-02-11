@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.1 2011-02-11 10:34:07 mg Exp $
+# $Id: Provider.t,v 1.2 2011-02-11 11:08:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,81 +30,125 @@ my $ProviderObject   = Kernel::GenericInterface::Provider->new( %{$Self} );
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $WebserviceConfig = {
-    Provider => {
-        Transport => {
-            Module => 'Kernel::GenericInterface::Transport::HTTP::Test',
-            Config => {
-                Fail => 0,
+my @Tests = (
+    {
+        Name             => 'HTTP request',
+        WebserviceConfig => {
+            Provider => {
+                Transport => {
+                    Module => 'Kernel::GenericInterface::Transport::HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    Test => {
+                        Type           => 'Test::PerformTest',
+                        MappingInbound => {
+                            Type => 'Test',
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
             },
         },
-        Operation => {
-            Test => {
-                Type           => 'Test::PerformTest',
-                MappingInbound => {
-                    Type => 'Test',
-                },
-                MappingOutbound => {
-                    Type => 'Test',
-                },
-            },
-        },
+        RequestData     => 'A=A&b=b',
+        ResponseData    => 'A=A&b=B',
+        ResponseSuccess => 1,
     },
-};
-
-# add config
-my $WebServiceID = $WebserviceObject->WebserviceAdd(
-    Config  => $WebserviceConfig,
-    Name    => "Test $RandomID",
-    ValidID => 1,
-    UserID  => 1,
 );
 
-$Self->True(
-    $WebServiceID,
-    "WebserviceAdd() successful",
-);
+for my $Test (@Tests) {
 
-my $Request = "A=A&b=b";
-my $ResultData;
+    # add config
+    my $WebServiceID = $WebserviceObject->WebserviceAdd(
+        Config  => $Test->{WebserviceConfig},
+        Name    => "$Test->{Name} $RandomID",
+        ValidID => 1,
+        UserID  => 1,
+    );
 
-{
+    $Self->True(
+        $WebServiceID,
+        "$Test->{Name} WebserviceAdd()",
+    );
 
-    # prepare CGI environment variables
-    local $ENV{REQUEST_URI}
-        = "http://localhost/otrs/genericinterface.pl/WebserviceID/$WebServiceID";
-    local $ENV{REQUEST_METHOD} = 'POST';
-    local $ENV{CONTENT_LENGTH} = length($Request);
-    local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
+    for my $RequestMethod (qw(GET POST)) {
 
-    # redirect STDIN from String so that the transport layer will use this data
-    local *STDIN;
-    open STDIN, '<:utf8', \$Request;
+        my $RequestData;
+        my $ResponseData;
+        {
 
-    # redirect STDOUT from String so that the transport layer will write there
-    local *STDOUT;
-    open STDOUT, '>:utf8', \$ResultData;
+            local %ENV;
 
-    # reset CGI object from previous runs
-    CGI::initialize_globals();
+            if ( $RequestMethod eq 'POST' ) {
 
-    $ProviderObject->Run();
+                # prepare CGI environment variables
+                $ENV{REQUEST_URI}
+                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID";
+                $ENV{REQUEST_METHOD} = 'POST';
+                $RequestData = $Test->{RequestData};
+            }
+            else {    # GET
+
+                # prepare CGI environment variables
+                $ENV{REQUEST_URI}
+                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID?$Test->{RequestData}";
+                $ENV{QUERY_STRING}   = $Test->{RequestData};
+                $ENV{REQUEST_METHOD} = 'GET';
+
+            }
+
+            $ENV{CONTENT_LENGTH} = length( $Test->{RequestData} );
+            $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
+
+            # redirect STDIN from String so that the transport layer will use this data
+            local *STDIN;
+            open STDIN, '<:utf8', \$RequestData;
+
+            # redirect STDOUT from String so that the transport layer will write there
+            local *STDOUT;
+            open STDOUT, '>:utf8', \$ResponseData;
+
+            # reset CGI object from previous runs
+            CGI::initialize_globals();
+
+            $ProviderObject->Run();
+        }
+
+        if ( $Test->{ResponseSuccess} ) {
+            $Self->True(
+                index( $ResponseData, $Test->{ResponseData} ) > -1,
+                "$Test->{Name} Provider Run() HTTP $RequestMethod result data",
+            );
+
+            $Self->True(
+                index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
+                "$Test->{Name} Provider Run() HTTP $RequestMethod result success status",
+            );
+        }
+        else {
+            $Self->True(
+                index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
+                "$Test->{Name} Provider Run() HTTP $RequestMethod result error status",
+            );
+
+        }
+    }
+
+    # delete config
+    my $Success = $WebserviceObject->WebserviceDelete(
+        ID     => $WebServiceID,
+        UserID => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "$Test->{Name} WebserviceDelete()",
+    );
+
 }
-
-$Self->True(
-    scalar $ResultData =~ m/A=A&b=B/smx,
-    'Provider Run() result',
-);
-
-# delete config
-my $Success = $WebserviceObject->WebserviceDelete(
-    ID     => $WebServiceID,
-    UserID => 1,
-);
-
-$Self->True(
-    $Success,
-    'WebserviceDelete()',
-);
 
 1;
