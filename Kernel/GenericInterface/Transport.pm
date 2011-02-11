@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.8 2011-02-10 10:41:44 mg Exp $
+# $Id: Transport.pm,v 1.9 2011-02-11 09:21:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -143,7 +143,16 @@ from from the web server process.
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{BackendObject}->ProviderProcessRequest(%Param);
+    my $Result = $Self->{BackendObject}->ProviderProcessRequest(%Param);
+
+    # make sure an operation is provided in success case
+    if ( $Result->{Success} && !$Result->{Operation} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'TransportObject backend did not return an operation',
+        );
+    }
+
+    return $Result;
 }
 
 =item ProviderGenerateResponse()
@@ -239,6 +248,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-10 10:41:44 $
+$Revision: 1.9 $ $Date: 2011-02-11 09:21:07 $
 
 =cut
