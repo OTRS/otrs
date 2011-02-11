@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-11 11:38:23
+--  driver: db2, generated: 2011-02-11 11:45:22
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -78,7 +78,7 @@ CREATE TABLE gi_webservice_config_history (
 -- ----------------------------------------------------------
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    task_data BLOB (30M) NOT NULL,
+    task_data CLOB (62K) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
