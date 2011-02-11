@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-10 17:12:50
+--  driver: postgresql, generated: 2011-02-11 11:38:29
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1189,7 +1189,7 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id serial NOT NULL,
     task_data TEXT NOT NULL,
+    task_type VARCHAR (200) NOT NULL,
     create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

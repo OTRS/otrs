@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-02-10 17:12:49
+--  driver: mssql, generated: 2011-02-11 11:38:28
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1190,7 +1190,7 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     task_data TEXT NOT NULL,
+    task_type VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-10 17:13:00
+--  driver: postgresql, generated: 2011-02-11 11:38:23
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket_index
@@ -56,8 +56,8 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id serial NOT NULL,
     task_data TEXT NOT NULL,
+    task_type VARCHAR (200) NOT NULL,
     create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -66,4 +66,3 @@ ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valid_id
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_config_id_id FOREIGN KEY (config_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE scheduler_task_list ADD CONSTRAINT FK_scheduler_task_list_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.2 2011-02-10 16:36:09 martin Exp $
+# $Id: TaskManager.t,v 1.3 2011-02-11 10:43:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,7 @@ my @Tests = (
                 Config => {},
             },
         },
+        Type => 'SomeType',
     },
     {
         Name    => 'test 2',
@@ -47,11 +48,13 @@ my @Tests = (
                 },
             },
         },
+        Type => 'SomeType',
     },
     {
         Name    => 'test 3',
         Success => 1,
         Data    => {},
+        Type    => 'SomeType',
     },
     {
         Name    => 'test 4',
@@ -62,11 +65,13 @@ my @Tests = (
                 . "\nasdkaosdkoa\tsada\n",
             Provider => {},
         },
+        Type => 'SomeType',
     },
     {
         Name    => 'test 5',
         Success => 0,
         Data    => undef,
+        Type    => 'SomeType',
     },
 );
 
@@ -75,8 +80,8 @@ for my $Test (@Tests) {
 
     # add config
     my $TaskID = $TaskManagerObject->TaskAdd(
-        Data   => $Test->{Data},
-        UserID => 1,
+        Data => $Test->{Data},
+        Type => $Test->{Type},
     );
     if ( !$Test->{Success} ) {
         $Self->False(
@@ -97,11 +102,15 @@ for my $Test (@Tests) {
 
     # get config
     my %Task = $TaskManagerObject->TaskGet(
-        ID     => $TaskID,
-        UserID => 1,
+        ID => $TaskID,
     );
 
     # verify config
+    $Self->Is(
+        $Test->{Type},
+        $Task{Type},
+        "$Test->{Name} - TaskGet() - Type",
+    );
     $Self->IsDeeply(
         $Test->{Data},
         $Task{Data},
@@ -114,7 +123,7 @@ my @List  = $TaskManagerObject->TaskList();
 my $Count = 0;
 for my $TaskIDFromList (@List) {
     $Self->Is(
-        $TaskIDFromList,
+        $TaskIDFromList->{ID},
         $TaskIDs[$Count],
         "TaskList() Is",
     );
@@ -123,7 +132,7 @@ for my $TaskIDFromList (@List) {
 $Count = 0;
 for my $TaskIDFromList ( reverse @List ) {
     $Self->IsNot(
-        $TaskIDFromList,
+        $TaskIDFromList->{ID},
         $TaskIDs[$Count],
         "TaskList() - IsNot",
     );
@@ -133,8 +142,7 @@ for my $TaskIDFromList ( reverse @List ) {
 # delete config
 for my $TaskID (@TaskIDs) {
     my $Success = $TaskManagerObject->TaskDelete(
-        ID     => $TaskID,
-        UserID => 1,
+        ID => $TaskID,
     );
     $Self->True(
         $Success,

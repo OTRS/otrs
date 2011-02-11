@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.2 2011-02-10 16:36:09 martin Exp $
+# $Id: TaskManager.pm,v 1.3 2011-02-11 10:43:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -93,10 +93,10 @@ sub new {
 add new Tasks
 
     my $ID = $TaskObject->TaskAdd(
+        Type => 'GenericInterface', # e. g. GenericInterface, Test
         Data => {
             ...
         },
-        UserID  => 123,
     );
 
 =cut
@@ -105,7 +105,7 @@ sub TaskAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(Data UserID)) {
+    for my $Key (qw(Type Data)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -118,16 +118,17 @@ sub TaskAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO scheduler_task_list (task_data, create_time, create_by)'
-            . ' VALUES (?, current_timestamp, ?)',
+            'INSERT INTO scheduler_task_list (task_data, task_type, create_time)'
+            . ' VALUES (?, ?, current_timestamp)',
         Bind => [
-            \$Data, \$Param{UserID}, \$Param{UserID},
+            \$Data, \$Param{Type},
         ],
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL   => 'SELECT id FROM scheduler_task_list WHERE task_data = ? ORDER BY create_time DESC',
-        Bind  => [ \$Data ],
+        SQL =>
+            'SELECT id FROM scheduler_task_list WHERE task_data = ? AND task_type = ? ORDER BY create_time DESC',
+        Bind => [ \$Data, \$Param{Type} ],
         Limit => 1,
     );
     my $ID;
@@ -149,6 +150,7 @@ Returns:
 
     %Task = (
         Data         => $DataRef,
+        Type         => 'GenericInterface',
         CreateTime   => '2011-02-08 15:08:00',
     );
 
@@ -165,7 +167,7 @@ sub TaskGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT task_data, create_time FROM scheduler_task_list WHERE id = ?',
+        SQL  => 'SELECT task_data, task_type, create_time FROM scheduler_task_list WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data;
@@ -175,7 +177,8 @@ sub TaskGet {
         %Data = (
             ID         => $Param{ID},
             Data       => $DataParam,
-            CreateTime => $Data[1],
+            Type       => $Data[1],
+            CreateTime => $Data[2],
         );
     }
     return %Data;
@@ -187,7 +190,6 @@ delete Task
 
     $TaskObject->TaskDelete(
         ID     => 123,
-        UserID => 123,
     );
 
 =cut
@@ -196,7 +198,7 @@ sub TaskDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID UserID)) {
+    for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -217,18 +219,32 @@ get Task list for a Scheduler
 
     my @List = $TaskObject->TaskList();
 
+Returns:
+
+    @List = (
+        {
+            ID  => 123,
+            Type => 'GenericInterface',
+        }
+    );
+
 =cut
 
 sub TaskList {
     my ( $Self, %Param ) = @_;
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM scheduler_task_list ORDER BY create_time, id ASC',
+        SQL => 'SELECT id, task_type FROM scheduler_task_list ORDER BY create_time, id ASC',
     );
 
     my @List;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @List, $Row[0];
+        push @List,
+            {
+            ID   => $Row[0],
+            Type => $Row[1],
+            }
+            ;
     }
     return @List;
 }
@@ -249,6 +265,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-10 16:36:09 $
+$Revision: 1.3 $ $Date: 2011-02-11 10:43:10 $
 
 =cut

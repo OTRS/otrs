@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-10 17:12:50
+--  driver: oracle, generated: 2011-02-11 11:38:28
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1938,8 +1938,8 @@ CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (cre
 CREATE TABLE scheduler_task_list (
     id NUMBER (20, 0) NOT NULL,
     task_data CLOB NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL
+    task_type VARCHAR2 (200) NOT NULL,
+    create_time DATE NOT NULL
 );
 ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
 DROP SEQUENCE SE_scheduler_task_list;
@@ -1956,4 +1956,3 @@ begin
 end;
 /
 --;
-CREATE INDEX FK_scheduler_task_list_creat79 ON scheduler_task_list (create_by);
