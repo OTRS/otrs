@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-02-10 17:12:49
+--  driver: ingres, generated: 2011-02-11 11:45:16
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -195,4 +195,3 @@ ALTER TABLE gi_webservice_config ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (config_id) REFERENCES gi_webservice_config(id);\g
 ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
-ALTER TABLE scheduler_task_list ADD FOREIGN KEY (create_by) REFERENCES users(id);\g

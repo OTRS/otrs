@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-10 17:12:49
+--  driver: db2, generated: 2011-02-11 11:45:16
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
@@ -388,5 +388,3 @@ ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-
-ALTER TABLE scheduler_task_list ADD CONSTRAINT FK_scheduler_task_list_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
