@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/cgi-bin/genericinterface.pl - the global generic interface handle file
+# bin/cgi-bin/nph-genericinterface.pl - the global generic interface handle file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nph-genericinterface.pl,v 1.1 2011-02-11 10:07:02 mg Exp $
+# $Id: nph-genericinterface.pl,v 1.2 2011-02-11 10:07:28 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 # load agent web interface
 use Kernel::GenericInterface::Provider;
