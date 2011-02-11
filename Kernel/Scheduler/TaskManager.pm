@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.3 2011-02-11 10:43:10 martin Exp $
+# $Id: TaskManager.pm,v 1.1 2011-02-11 10:51:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
@@ -265,6 +265,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-11 10:43:10 $
+$Revision: 1.1 $ $Date: 2011-02-11 10:51:20 $
 
 =cut
