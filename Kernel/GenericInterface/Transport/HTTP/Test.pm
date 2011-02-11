@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.8 2011-02-11 09:20:53 mg Exp $
+# $Id: Test.pm,v 1.9 2011-02-11 10:20:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use HTTP::Request::Common;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -140,10 +140,9 @@ sub ProviderProcessRequest {
     }
 
     if ( !%Result ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'No request data found',
-        };
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'No request data found.',
+        );
     }
 
     return {
@@ -169,6 +168,7 @@ sub ProviderGenerateResponse {
     if ( !$Param{Success} ) {
         $Response
             = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
+        $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain");
         $Response->date(time);
     }
@@ -179,8 +179,9 @@ sub ProviderGenerateResponse {
             = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
         $Response = HTTP::Response->new( 200 => "OK" );
-        $Response->content( $Request->content );
+        $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain");
+        $Response->content( $Request->content );
         $Response->date(time);
     }
 
@@ -274,8 +275,9 @@ sub request {
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;
 
     my $Response = HTTP::Response->new( 200 => "OK" );
-    $Response->content( $Request->content );
+    $Response->protocol('HTTP/1.0');
     $Response->content_type("text/plain");
+    $Response->content( $Request->content );
     $Response->date(time);
 
     #print $Request->as_string;
@@ -300,6 +302,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-11 09:20:53 $
+$Revision: 1.9 $ $Date: 2011-02-11 10:20:22 $
 
 =cut
