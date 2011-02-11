@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.48 2010-12-07 11:09:19 mb Exp $
+# $Id: State.pm,v 1.49 2011-02-11 14:42:13 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -92,6 +92,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # create addititional objects
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
@@ -134,7 +136,7 @@ sub StateAdd {
 
     # store data
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO ticket_state (name, valid_id, type_id, comments, '
+        SQL => 'INSERT INTO ticket_state (name, valid_id, type_id, comments,'
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
@@ -210,8 +212,8 @@ sub StateGet {
 
     # sql
     my @Bind;
-    my $SQL = 'SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name, '
-        . ' ts.change_time, ts.create_time '
+    my $SQL = 'SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name,'
+        . ' ts.change_time, ts.create_time'
         . ' FROM ticket_state ts, ticket_state_type tst WHERE ts.type_id = tst.id AND ';
     if ( $Param{Name} ) {
         $SQL .= ' ts.name = ?';
@@ -323,7 +325,7 @@ sub StateUpdate {
 
 =item StateGetStatesByType()
 
-get list of state types
+get list of states for a type or a list of state types
 
     get all states with state type open and new
     (available: new, open, closed, pending reminder, pending auto,
@@ -514,11 +516,11 @@ sub StateList {
 returns the id or the name of a state
 
     my $StateID = $StateObject->StateLookup(
-        State => '3 normal',
+        State => 'closed successful',
     );
 
     my $State = $StateObject->StateLookup(
-        StateID => 1,
+        StateID => 2,
     );
 
 =cut
@@ -714,6 +716,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2010-12-07 11:09:19 $
+$Revision: 1.49 $ $Date: 2011-02-11 14:42:13 $
 
 =cut
