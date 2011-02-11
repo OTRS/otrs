@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.24 2010-09-28 09:30:43 mg Exp $
+# $Id: Type.pm,v 1.25 2011-02-11 14:43:01 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -97,7 +97,7 @@ sub new {
 
 =item TypeAdd()
 
-add new types
+add a new ticket type
 
     my $ID = $TypeObject->TypeAdd(
         Name    => 'New Type',
@@ -303,7 +303,7 @@ get type list
 
     my %List = $TypeObject->TypeList();
 
-    or
+or
 
     my %List = $TypeObject->TypeList(
         Valid => 0,
@@ -356,7 +356,7 @@ sub TypeList {
 
 =item TypeLookup()
 
-get id or name for queue
+get id or name for a ticket type
 
     my $Type = $TypeObject->TypeLookup( TypeID => $TypeID );
 
@@ -451,6 +451,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2010-09-28 09:30:43 $
+$Revision: 1.25 $ $Date: 2011-02-11 14:43:01 $
 
 =cut
