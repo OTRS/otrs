@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.1 2011-02-11 09:51:01 cr Exp $
+# $Id: Scheduler.pm,v 1.2 2011-02-11 12:05:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,15 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::System::Scheduler::TaskManager;
+use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
-Kernel::System::Scheduler - otrs Scheduler lib
+Kernel::Scheduler - otrs Scheduler lib
 
 =head1 SYNOPSIS
 
@@ -85,6 +87,9 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
+    # create aditional objects
+    $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+
     return $Self;
 }
 
@@ -109,24 +114,51 @@ sub Run {
 
 =item TaskRegister()
 
-    my $Result = $SchadulerObject->TaskRegister(
-        TaskType => 'GenericInterface'
+    my $TaskID = $SchadulerObject->TaskRegister(
+        Type => 'GenericInterface'
         Data     => {                               # task data
             ...
         },
     );
-
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-    };
 
 =cut
 
 sub TaskRegister {
     my ( $Self, %Param ) = @_;
 
-    #TODO Impement
+    # check task type
+    if ( !IsStringWithData( $Param{Type} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Task Type with content!',
+        );
+        return;
+    }
+
+    # check if task data is undefined
+    if ( !defined $Param{Data} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got undefined Task Data!',
+        );
+        return;
+    }
+
+    # register task
+    my $TaskID = $Self->{TaskManagerObject}->TaskAdd(
+        Type => $Param{Type},
+        Data => $Param{Data},
+    );
+
+    # check if task was registered
+    if ( !$TaskID ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Task could not be registered',
+        );
+        return;
+    }
+    return $TaskID;
 }
 
 1;
@@ -145,6 +177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-11 09:51:01 $
+$Revision: 1.2 $ $Date: 2011-02-11 12:05:07 $
 
 =cut
