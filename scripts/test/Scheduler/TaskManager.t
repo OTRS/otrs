@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.3 2011-02-11 10:43:10 martin Exp $
+# $Id: TaskManager.t,v 1.4 2011-02-11 12:41:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -145,6 +145,13 @@ for my $TaskID (@TaskIDs) {
         ID => $TaskID,
     );
     $Self->True(
+        $Success,
+        'TaskDelete()',
+    );
+    $Success = $TaskManagerObject->TaskDelete(
+        ID => $TaskID,
+    );
+    $Self->False(
         $Success,
         'TaskDelete()',
     );

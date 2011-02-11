@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.7 2011-02-10 17:08:14 martin Exp $
+# $Id: Webservice.t,v 1.8 2011-02-11 12:41:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -425,6 +425,14 @@ for my $WebserviceID (@WebserviceIDs) {
         UserID => 1,
     );
     $Self->True(
+        $Success,
+        "WebserviceDelete() deleted Webservice $WebserviceID",
+    );
+    $Success = $WebserviceObject->WebserviceDelete(
+        ID     => $WebserviceID,
+        UserID => 1,
+    );
+    $Self->False(
         $Success,
         "WebserviceDelete() deleted Webservice $WebserviceID",
     );
