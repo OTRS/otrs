@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.7 2011-02-11 08:56:15 cr Exp $
+# $Id: Operation.pm,v 1.8 2011-02-11 09:04:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -92,7 +92,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DebuggerObject MainObject DBObject Operation)
+        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject Operation)
         )
     {
         if ( !$Param{$Needed} ) {
@@ -270,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-11 08:56:15 $
+$Revision: 1.8 $ $Date: 2011-02-11 09:04:06 $
 
 =cut
