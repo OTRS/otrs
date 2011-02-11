@@ -1,15 +1,15 @@
 # --
-# Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
+# Kernel/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.1 2011-02-11 10:51:20 martin Exp $
+# $Id: TaskManager.pm,v 1.2 2011-02-11 10:57:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Scheduler::TaskManager;
+package Kernel::Scheduler::TaskManager;
 
 use strict;
 use warnings;
@@ -17,11 +17,11 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
-Kernel::System::TaskManager
+Kernel::Scheduler::TaskManager
 
 =head1 SYNOPSIS
 
@@ -42,7 +42,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::Scheduler::TaskManager;
+    use Kernel::Scheduler::TaskManager;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -63,7 +63,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new(
+    my $TaskManagerObject = Kernel::Scheduler::TaskManager->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
@@ -265,6 +265,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-11 10:51:20 $
+$Revision: 1.2 $ $Date: 2011-02-11 10:57:45 $
 
 =cut
