@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.7 2011-02-11 11:08:00 mg Exp $
+# $Id: Provider.pm,v 1.8 2011-02-11 12:28:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -28,6 +28,8 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
+
+use Kernel::System::GenericInterface::Webservice;
 
 =head1 NAME
 
@@ -70,6 +72,8 @@ sub new {
     $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
     $Self->{DBObject}     = Kernel::System::DB->new( %{$Self} );
+    $Self->{WebserviceObject}
+        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     return $Self;
 }
@@ -101,12 +105,24 @@ sub Run {
         return;
     }
 
+    my %Webservice = $Self->{WebserviceObject}->WebserviceGet(
+        ID => $WebserviceID,
+    );
+
+    if ( !%Webservice ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Could not load web service configuration for web service $WebserviceID",
+        );
+
+        # bail out
+        return;
+    }
+
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
         %$Self,
-        DebuggerConfig => {
-            DebugLevel => 'debug',
-        },
-        WebserviceID => 1,
+        DebuggerConfig => $Webservice{Config}->{Debugger},
+        WebserviceID   => 1,
     );
 
     $Self->{DebuggerObject}->Debug(
@@ -114,18 +130,10 @@ sub Run {
         Data    => \%ENV,
     );
 
-    #TODO: implement
-    # get webservice config
-
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
         %$Self,
         DebuggerObject  => $Self->{DebuggerObject},
-        TransportConfig => {
-            Type   => 'HTTP::Test',
-            Config => {
-                Fail => 0,
-            },
-        },
+        TransportConfig => $Webservice{Config}->{Provider}->{Transport},
     );
 
     # bail out if transport init failed
@@ -171,12 +179,8 @@ sub Run {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
-            MappingConfig  => {
-                Type   => 'Test',
-                Config => {
-                    TestOption => 'ToUpper',
-                },
-            },
+            MappingConfig =>
+                $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingInbound},
         );
 
         # if mapping init failed, bail out
@@ -239,10 +243,8 @@ sub Run {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
-            MappingConfig  => {
-                Type   => 'Test',
-                Config => undef,
-            },
+            MappingConfig =>
+                $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingOutbound},
         );
 
         # if mapping init failed, bail out
@@ -335,6 +337,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-11 11:08:00 $
+$Revision: 1.8 $ $Date: 2011-02-11 12:28:00 $
 
 =cut

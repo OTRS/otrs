@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.2 2011-02-11 11:08:30 mg Exp $
+# $Id: Provider.t,v 1.3 2011-02-11 12:28:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,18 +34,24 @@ my @Tests = (
     {
         Name             => 'HTTP request',
         WebserviceConfig => {
+            Debugger => {
+                DebugLevel => 'debug',
+            },
             Provider => {
                 Transport => {
-                    Module => 'Kernel::GenericInterface::Transport::HTTP::Test',
+                    Type   => 'HTTP::Test',
                     Config => {
                         Fail => 0,
                     },
                 },
                 Operation => {
-                    Test => {
+                    test_operation => {
                         Type           => 'Test::PerformTest',
                         MappingInbound => {
-                            Type => 'Test',
+                            Type   => 'Test',
+                            Config => {
+                                TestOption => 'ToUpper',
+                                }
                         },
                         MappingOutbound => {
                             Type => 'Test',
@@ -57,6 +63,36 @@ my @Tests = (
         RequestData     => 'A=A&b=b',
         ResponseData    => 'A=A&b=B',
         ResponseSuccess => 1,
+    },
+    {
+        Name             => 'HTTP request',
+        WebserviceConfig => {
+            Debugger => {
+                DebugLevel => 'debug',
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::PerformTest',
+                        MappingInbound => {
+                            Type => 'Test',
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        RequestData     => '',
+        ResponseData    => '',
+        ResponseSuccess => 0,
     },
 );
 
