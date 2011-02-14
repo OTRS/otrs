@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.1 2011-02-11 09:58:42 cr Exp $
+# $Id: TaskHandler.pm,v 1.2 2011-02-14 10:33:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -76,7 +76,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        TaskType           => 'GenericInterface'
+        Type               => 'GenericInterface'
     );
 
 =cut
@@ -88,19 +88,30 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(DebuggerObject MainObject ConfigObject LogObject DBObject TaskType)
-        )
-    {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no $Needed!",
-        } if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
+    for my $Needed (qw(MainObject ConfigObject LogObject DBObject Type)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    #TODO Implement
+    # check operation
+    if ( !IsStringWithData( $Param{Type} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Task Type with content!',
+        );
+        return;
+    }
+
+    # load backend module
+    my $GenericModule = 'Kernel::Scheduler::TaskHandler::' . $Param{Type};
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        return $Self->{DebuggerObject}
+            ->Error( Summary => "Can't load task handler backend module!" );
+    }
+    $Self->{BackendObject} = $GenericModule->new( %{$Self} );
+
+    # pass back error message from backend if backend module could not be executed
+    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
+
     return $Self;
 }
 
@@ -114,9 +125,7 @@ perform the selected Task
         },
     );
 
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
+    $Result = 1;                                    # 0 or 1
     };
 
 =cut
@@ -124,7 +133,17 @@ perform the selected Task
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    #TODO Impement
+    # check data - we need a hash ref with at least one entry
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Task Type with content!',
+        );
+        return;
+    }
+
+    # start task handler on backend
+    return $Self->{BackendObject}->Run( Data => $Param{Data} );
 }
 
 1;
@@ -143,6 +162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-11 09:58:42 $
+$Revision: 1.2 $ $Date: 2011-02-14 10:33:08 $
 
 =cut
