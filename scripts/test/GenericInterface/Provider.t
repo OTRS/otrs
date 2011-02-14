@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.4 2011-02-14 14:40:22 mg Exp $
+# $Id: Provider.t,v 1.5 2011-02-14 15:18:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ my @Tests = (
         ResponseSuccess => 1,
     },
     {
-        Name             => 'HTTP request',
+        Name             => 'HTTP request umlaut',
         WebserviceConfig => {
             Debugger => {
                 DebugLevel => 'debug',
@@ -106,7 +106,7 @@ my @Tests = (
     },
 
     #    {
-    #        Name             => 'HTTP request',
+    #        Name             => 'HTTP request unicode',
     #        WebserviceConfig => {
     #            Debugger => {
     #                DebugLevel => 'debug',
@@ -143,7 +143,7 @@ my @Tests = (
     #        ResponseSuccess => 1,
     #    },
     {
-        Name             => 'HTTP request',
+        Name             => 'HTTP request without data',
         WebserviceConfig => {
             Debugger => {
                 DebugLevel => 'debug',
@@ -280,19 +280,19 @@ for my $Test (@Tests) {
 
                 $Self->True(
                     index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} Provider Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
                 );
             }
 
             $Self->True(
                 index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                "$Test->{Name} Provider Run() HTTP $RequestMethod result success status",
+                "$Test->{Name} Run() HTTP $RequestMethod result success status",
             );
         }
         else {
             $Self->True(
                 index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                "$Test->{Name} Provider Run() HTTP $RequestMethod result error status",
+                "$Test->{Name} Run() HTTP $RequestMethod result error status",
             );
         }
     }
@@ -332,21 +332,21 @@ for my $Test (@Tests) {
 
                 $Self->True(
                     index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} Provider Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
                 );
             }
 
             $Self->Is(
                 $Response->code,
                 200,
-                "$Test->{Name} Provider real HTTP $RequestMethod request result success status",
+                "$Test->{Name} real HTTP $RequestMethod request result success status",
             );
         }
         else {
             $Self->Is(
                 $Response->code,
                 500,
-                "$Test->{Name} Provider real HTTP $RequestMethod request result error status",
+                "$Test->{Name} real HTTP $RequestMethod request result error status",
             );
         }
     }
@@ -361,7 +361,26 @@ for my $Test (@Tests) {
         $Success,
         "$Test->{Name} WebserviceDelete()",
     );
+}
 
+#
+# Test nonexisting webservice
+#
+for my $RequestMethod (qw(get post)) {
+
+    my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+
+    my $URL = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/undefined";
+    my $ResponseData;
+
+    my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
+    chomp( $ResponseData = $Response->decoded_content );
+
+    $Self->Is(
+        $Response->code,
+        500,
+        "Nonexisting Webservice real HTTP $RequestMethod request result error status",
+    );
 }
 
 1;
