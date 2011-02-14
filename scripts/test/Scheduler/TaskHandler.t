@@ -2,7 +2,7 @@
 # TaskHandler.t - TaskHandler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.t,v 1.1 2011-02-14 15:38:09 martin Exp $
+# $Id: TaskHandler.t,v 1.2 2011-02-14 19:09:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,10 +74,12 @@ for my $Test (@Tests) {
             "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - false",
         );
     }
-    $Self->True(
-        $Success,
-        "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - true",
-    );
+    else {
+        $Self->True(
+            $Success,
+            "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - true",
+        );
+    }
 }
 
 1;
