@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.8 2011-02-14 12:19:16 cg Exp $
+# $Id: Invoker.pm,v 1.9 2011-02-14 17:25:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -88,7 +88,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Invoker            => 'Nagios::TicketLock',    # the Invoker to use
+        InvokerType        => 'Nagios::TicketLock',    # the Invoker backend to use
     );
 
 =cut
@@ -103,7 +103,7 @@ sub new {
     # check needed params
     for my $Needed (
         qw(
-        ConfigObject DBObject DebuggerObject EncodeObject LogObject MainObject Invoker TimeObject
+        ConfigObject DBObject DebuggerObject EncodeObject LogObject MainObject InvokerType TimeObject
         )
         )
     {
@@ -117,14 +117,14 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    if ( !IsStringWithData( $Param{Invoker} ) ) {
+    if ( !IsStringWithData( $Param{InvokerType} ) ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no Invoker Type as string with value!',
         );
     }
 
     # load backend module
-    my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{Invoker};
+    my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{InvokerType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
         return $Self->{DebuggerObject}->Error( Summary => "Can't load invoker backend module!" );
     }
@@ -220,6 +220,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-14 12:19:16 $
+$Revision: 1.9 $ $Date: 2011-02-14 17:25:17 $
 
 =cut

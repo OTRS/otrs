@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.4 2011-02-11 10:00:50 cg Exp $
+# $Id: Invoker.t,v 1.5 2011-02-14 17:25:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@ $Self->True(
 # provide incorrect invoker
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     %CommonObject,
-    Invoker => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
+    InvokerType => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
 );
 $Self->False(
     $InvokerObject->{Success},
@@ -68,7 +68,7 @@ $Self->False(
 # correct call
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
     %CommonObject,
-    Invoker => 'Test::Test',
+    InvokerType => 'Test::Test',
 );
 $Self->Is(
     ref $InvokerObject,
