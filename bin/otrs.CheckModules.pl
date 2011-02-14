@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.14 2011-01-07 12:29:16 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.15 2011-02-14 16:25:20 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -314,6 +314,11 @@ my @NeededModules = (
                 Comment  => 'Optional, install it for faster CSV handling.',
             },
         ],
+    },
+    {
+        Module   => 'URI::Escape',
+        Required => 1,
+        Comment  => 'Handles encoding and decoding of URLs.',
     },
     {
         Module   => 'XML::Parser',
