@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2011-02-11 08:59:04 sb Exp $
+# $Id: Test.pm,v 1.7 2011-02-14 09:22:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -144,11 +144,12 @@ sub PrepareRequest {
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
+    $Sec   = sprintf "%02d", '00';
     $Min   = sprintf "%02d", $Min;
     $Hour  = sprintf "%02d", $Hour;
     $Day   = sprintf "%02d", $Day;
     $Month = sprintf "%02d", $Month;
-    $ReturnData{TicketNumber} = "$Year$Month$Day$Hour$Min$Param{Data}->{TicketID}";
+    $ReturnData{TicketNumber} = "$Year$Month$Day$Hour$Min$Sec$Param{Data}->{TicketID}";
 
     # check Action
     if ( IsStringWithData( $Param{Data}->{Action} ) ) {
@@ -213,7 +214,7 @@ sub HandleResponse {
     # test TicketNumberValue
     if (
         $Param{Data}->{TicketNumber} !~ m{
-            \A ( \d{4} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d+ ) \z
+            \A ( \d{4} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d+ ) \z
         }xms
         )
     {
@@ -221,7 +222,7 @@ sub HandleResponse {
             Summary => 'Got TicketNumber, but it is not in required format!',
         );
     }
-    my ( $Year, $Month, $Day, $Hour, $Minute, $TicketID ) = ( $1, $2, $3, $4, $5, $6 );
+    my ( $Year, $Month, $Day, $Hour, $Minute, $Second, $TicketID ) = ( $1, $2, $3, $4, $5, $6, $7 );
     my $SystemTime      = $Self->{TimeObject}->SystemTime();
     my $InputSystemTime = $Self->{TimeObject}->Date2SystemTime(
         Year   => $Year,
@@ -229,12 +230,8 @@ sub HandleResponse {
         Day    => $Day,
         Hour   => $Hour,
         Minute => $Minute,
+        Second => $Second,
     );
-    if ( !$InputSystemTime || $InputSystemTime < $SystemTime + 60 ) {
-        $Self->{DebuggerObject}->Notice(
-            Summary => 'Got TicketNumber in required format, but the date/time does not match!',
-        );
-    }
 
     # prepare TicketID
     my %ReturnData = (
@@ -273,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-11 08:59:04 $
+$Revision: 1.7 $ $Date: 2011-02-14 09:22:37 $
 
 =cut
