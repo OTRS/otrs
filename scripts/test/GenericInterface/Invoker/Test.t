@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.2 2011-02-10 19:58:50 cg Exp $
+# $Id: Test.t,v 1.3 2011-02-14 09:24:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,11 +33,12 @@ my $CurrentTime = $Self->{TimeObject}->SystemTime();
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $CurrentTime,
 );
+$Sec   = sprintf "%02d", '00';
 $Min   = sprintf "%02d", $Min;
 $Hour  = sprintf "%02d", $Hour;
 $Day   = sprintf "%02d", $Day;
 $Month = sprintf "%02d", $Month;
-my $ReturnedTicketNumber = "$Year$Month$Day$Hour$Min";
+my $ReturnedTicketNumber = "$Year$Month$Day$Hour$Min$Sec";
 
 # create a Invoker instance
 my $InvokerObject = Kernel::GenericInterface::Invoker->new(
@@ -217,16 +218,62 @@ my @InvokerHandleResponseTests = (
         Data => {
             TicketNumber => $ReturnedTicketNumber . '12345',
         },
-        ResultData => {
-            TicketID => '12345',
-        },
-        ResultSuccess => 1,
+        ResultData    => undef,
+        ResultSuccess => 0,
     },
     {
         Name => 'Test correct call TicketNumber and Action',
         Data => {
             TicketNumber => $ReturnedTicketNumber . '12345',
             Action       => 'AddTest',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name => 'Test just ResponseSucces param.',
+        Data => {
+            ResponseSuccess => '1',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name => 'Test just ResponseErrorMessage param.',
+        Data => {
+            ResponseErrorMessage => 'Just an error message.',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name => 'Test correct params from Response',
+        Data => {
+            ResponseSuccess      => '1',
+            ResponseErrorMessage => 'Just an error message.',
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name => 'Test correct call without Action',
+        Data => {
+            TicketNumber         => $ReturnedTicketNumber . '12345',
+            ResponseSuccess      => '1',
+            ResponseErrorMessage => 'Just an error message.',
+        },
+        ResultData => {
+            TicketID => '12345',
+        },
+        ResultSuccess => 1,
+    },
+    {
+        Name => 'Test correct call with all params',
+        Data => {
+            TicketNumber         => $ReturnedTicketNumber . '12345',
+            Action               => 'AddTest',
+            ResponseSuccess      => '1',
+            ResponseErrorMessage => 'Just an error message.',
         },
         ResultData => {
             TicketID => '12345',
@@ -298,12 +345,17 @@ $Self->IsDeeply(
         },
         'Success' => 1
     },
-    'Returned data should match with expected data.A',
+    'Returned data should match with expected data.',
 );
 
 # handleresponse call
 $InvokerResult = $InvokerObject->HandleResponse(
-    %{$InvokerResult},
+    Data => {
+        Action               => $InvokerResult->{Data}->{Action},
+        TicketNumber         => $InvokerResult->{Data}->{TicketNumber},
+        ResponseSuccess      => $InvokerResult->{Success},
+        ResponseErrorMessage => $InvokerResult->{ErrorMessage} || 'error',
+    },
 );
 
 # checkhandleresponse call success
