@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.7 2011-02-14 20:55:41 cg Exp $
+# $Id: Debugger.pm,v 1.8 2011-02-14 22:25:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -133,10 +133,11 @@ sub new {
 
     # check correct DebugLevel
     my @DebugLevels = qw(debug info notice error);
-    if ( !map ( $Param{DebugLevel}, @DebugLevels ) ) {
+    if ( !grep { $_ eq $Param{DebuggerConfig}->{DebugLevel} } @DebugLevels ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
+    $Self->{DebugLevel} = $Param{DebuggerConfig}->{DebugLevel};
 
     # TestMode
     $Self->{TestMode} = $Param{TestMode} || 0;
@@ -195,7 +196,7 @@ sub DebugLog {
 
     # check correct DebugLevel
     my @DebugLevels = qw(debug info notice error);
-    if ( !map ( $Param{DebugLevel}, @DebugLevels ) ) {
+    if ( !grep { $_ eq $Param{DebugLevel} } @DebugLevels ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
@@ -366,6 +367,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-14 20:55:41 $
+$Revision: 1.8 $ $Date: 2011-02-14 22:25:30 $
 
 =cut
