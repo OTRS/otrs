@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.2 2011-02-11 09:51:53 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.3 2011-02-14 10:33:51 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -96,7 +96,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     # log daemon stop
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon Stop!",
+        Message  => "Scheduler Daemon Stop $PID{PID}!",
     );
 
     exit 1;
@@ -106,29 +106,39 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # check for force to start option
-    if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' ) ) {
-        print "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it ";
-        print "forced)!\n";
+    # check if PID is already there
+    if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
+        if ( !$Opts{f} ) {
+            print
+                "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it ";
+            print "forced)!\n";
 
-        # log daemon already running
-        $CommonObject{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Scheduler Daemon tries to start but there is a running Daemon already!",
-        );
-        exit 1;
-    }
-    elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' ) ) {
-        print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+            # log daemon already running
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message => "Scheduler Daemon tries to start but there is a running Daemon already!",
+            );
+            exit 1;
+        }
+        elsif ( $Opts{f} ) {
+            print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
 
-        # log daemon forced start
-        $CommonObject{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Scheduler Daemon is forced to Start!",
-        );
+            # log daemon forced start
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Scheduler Daemon is forced to Start!",
+            );
+        }
     }
 
     # demonize itself
     Proc::Daemon::Init();
+
+    # refresh database conection
+    $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+
+    # create new PID on the Database
+    $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
 
     # Log deamon startup
     $CommonObject{LogObject}->Log(
@@ -154,7 +164,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         exit if $Interrupt;
 
         # Call Scheduler
-        # Calls to $CommonObject{SchedulerObject} must be placed here!
+        $CommonObject{SchedulerObject}->Run();
     }
 }
 
