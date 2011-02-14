@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.3 2011-02-14 10:20:33 martin Exp $
+# $Id: Scheduler.pm,v 1.4 2011-02-14 10:34:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -27,7 +27,7 @@ Kernel::Scheduler - otrs Scheduler lib
 
 =head1 SYNOPSIS
 
-All salutation functions.
+All scheduler functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -83,7 +83,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(MainObject ConfigObject LogObject DBObject)) {
+    for my $Object (qw(MainObject ConfigObject LogObject DBObject EncodeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
@@ -99,17 +99,36 @@ Find and dispatch a Task
 
     my $Result = $SchedulerObject->Run();
 
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-    };
+    $Result = 1                   # 0 or 1;
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    #TODO Impement
+    # get all tasks
+    my @TaskList = $Self->{TaskManagerObject}->TaskList();
+
+    # check if there are task to do
+    if ( scalar @TaskList > 0 ) {
+
+        # get the first task details
+        my %FirstTask = %{ $TaskList[0] };
+        my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
+
+        # create task handler object
+        my %TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
+            %{$Self},
+            Type => $TaskData{Type},
+        );
+
+        # call run method on task handler object
+        my $TaskResult = %TaskHandlerObject->Run( Data => $TaskData{Data} );
+
+        # return $Self->{TaskManager}->DeleteTask(ID => ID => $FirstTask{ID} ) if ($TaskResult);
+
+        return;
+    }
 }
 
 =item TaskRegister()
@@ -177,6 +196,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-14 10:20:33 $
+$Revision: 1.4 $ $Date: 2011-02-14 10:34:54 $
 
 =cut
