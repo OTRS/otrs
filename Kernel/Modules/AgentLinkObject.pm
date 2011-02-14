@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.58 2010-11-16 18:13:02 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.58.2.1 2011-02-14 11:10:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.58.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,7 +212,7 @@ sub Run {
             TemplateFile => 'AgentLinkObject',
         );
 
-        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
+        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
 
         return $Output;
     }
@@ -226,7 +226,7 @@ sub Run {
         my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
 
         # output header
-        my $Output = $Self->{LayoutObject}->Header( Type => 'Small', );
+        my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
 
         # add new links
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitLink' ) ) {
@@ -385,6 +385,16 @@ sub Run {
                 TargetObjectStrg   => $TargetObjectStrg,
             },
         );
+
+        # output special block for temporary links
+        # to close the popup without reloading the parent window
+        if ( $Form{Mode} eq 'Temporary' ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'TemporaryLink',
+                Data => {},
+            );
+        }
 
         # get search option list
         my @SearchOptionList = $Self->{LayoutObject}->LinkObjectSearchOptionList(

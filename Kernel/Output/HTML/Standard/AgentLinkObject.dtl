@@ -1,8 +1,8 @@
 # --
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.48 2010-11-05 17:38:16 ub Exp $
+# $Id: AgentLinkObject.dtl,v 1.48.2.1 2011-02-14 11:10:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,18 @@
             $Text{"Link Object: %s", "$Data{"SourceObjectLong"}"}
         </h1>
         <p>
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close">$Text{"Close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close" id="CloseLink">$Text{"Close window"}</a>
+
+<!-- dtl:block:TemporaryLink -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#CloseLink').bind('click', function (Event) {
+        window.close();
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:TemporaryLink -->
 
 <!-- dtl:block:LinkMenuDelete -->
             $Text{"or"}
