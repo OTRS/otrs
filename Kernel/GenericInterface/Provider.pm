@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.12 2011-02-14 15:54:46 mg Exp $
+# $Id: Provider.pm,v 1.13 2011-02-14 19:32:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -92,7 +92,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     #
-    # First, we need to locate the desired webservice and get its data.
+    # First, we need to locate the desired webservice and load its configuration data.
     #
 
     my ($WebserviceID)
@@ -128,7 +128,7 @@ sub Run {
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
         %$Self,
         DebuggerConfig => $Webservice{Config}->{Debugger},
-        WebserviceID   => 1,
+        WebserviceID   => $WebserviceID,
     );
 
     $Self->{DebuggerObject}->Debug(
@@ -144,7 +144,6 @@ sub Run {
 
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
         %$Self,
-        DebuggerObject  => $Self->{DebuggerObject},
         TransportConfig => $ProviderConfig->{Transport},
     );
 
@@ -193,7 +192,6 @@ sub Run {
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
-            DebuggerObject => $Self->{DebuggerObject},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
@@ -229,8 +227,7 @@ sub Run {
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
         %$Self,
-        DebuggerObject => $Self->{DebuggerObject},
-        Operation      => 'Test::PerformTest',
+        Operation => 'Test::PerformTest',
     );
 
     # if operation init failed, bail out
@@ -270,7 +267,6 @@ sub Run {
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
-            DebuggerObject => $Self->{DebuggerObject},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
@@ -293,12 +289,12 @@ sub Run {
         }
 
         $DataOut = $FunctionResult->{Data};
-    }
 
-    $Self->{DebuggerObject}->Debug(
-        Summary => "Outgoing data after mapping",
-        Data    => $DataOut,
-    );
+        $Self->{DebuggerObject}->Debug(
+            Summary => "Outgoing data after mapping",
+            Data    => $DataOut,
+        );
+    }
 
     #
     # Generate the actual response
@@ -363,6 +359,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-14 15:54:46 $
+$Revision: 1.13 $ $Date: 2011-02-14 19:32:39 $
 
 =cut

@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.5 2011-02-14 15:18:59 mg Exp $
+# $Id: Provider.t,v 1.6 2011-02-14 19:32:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,7 +199,7 @@ sub _CreateQueryString {
 for my $Test (@Tests) {
 
     # add config
-    my $WebServiceID = $WebserviceObject->WebserviceAdd(
+    my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Config  => $Test->{WebserviceConfig},
         Name    => "$Test->{Name} $RandomID",
         ValidID => 1,
@@ -207,7 +207,7 @@ for my $Test (@Tests) {
     );
 
     $Self->True(
-        $WebServiceID,
+        $WebserviceID,
         "$Test->{Name} WebserviceAdd()",
     );
 
@@ -226,7 +226,7 @@ for my $Test (@Tests) {
 
                 # prepare CGI environment variables
                 $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID";
+                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID";
                 $ENV{REQUEST_METHOD} = 'POST';
                 $RequestData = $Self->_CreateQueryString(
                     Data   => $Test->{RequestData},
@@ -237,7 +237,7 @@ for my $Test (@Tests) {
 
                 # prepare CGI environment variables
                 $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID?$Test->{RequestData}";
+                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID?$Test->{RequestData}";
                 $ENV{QUERY_STRING} = $Self->_CreateQueryString(
                     Data   => $Test->{RequestData},
                     Encode => 1,
@@ -305,7 +305,7 @@ for my $Test (@Tests) {
         my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
         my $URL
-            = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/$WebServiceID";
+            = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/$WebserviceID";
         my $Response;
         my $ResponseData;
         my $QueryString = $Self->_CreateQueryString(
@@ -353,7 +353,7 @@ for my $Test (@Tests) {
 
     # delete config
     my $Success = $WebserviceObject->WebserviceDelete(
-        ID     => $WebServiceID,
+        ID     => $WebserviceID,
         UserID => 1,
     );
 
