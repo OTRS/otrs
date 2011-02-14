@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.10 2011-02-14 15:18:39 mg Exp $
+# $Id: Provider.pm,v 1.11 2011-02-14 15:54:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -34,11 +34,9 @@ use Kernel::System::GenericInterface::Webservice;
 
 =head1 NAME
 
-Kernel::GenericInterface::Provider
+Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
 =head1 SYNOPSIS
-
-GenericInterface handler for incoming web service requests.
 
 =head1 PUBLIC INTERFACE
 
@@ -93,6 +91,10 @@ web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    #
+    # First, we need to locate the desired webservice and get its data.
+    #
+
     my ($WebserviceID)
         = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
@@ -102,8 +104,7 @@ sub Run {
             Message  => "Could not determine WebserviceID from query string $ENV{REQUEST_URI}",
         );
 
-        # bail out
-        return;
+        return;    # bail out without Transport, Apache will generate 500 Error
     }
 
     my %Webservice = $Self->{WebserviceObject}->WebserviceGet(
@@ -116,9 +117,13 @@ sub Run {
             Message  => "Could not load web service configuration for web service $WebserviceID",
         );
 
-        # bail out
-        return;
+        return;    # bail out without Transport, Apache will generate 500 Error
     }
+
+    #
+    # Create a debugger instance which will log the details of this
+    #   communication entry.
+    #
 
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
         %$Self,
@@ -131,6 +136,10 @@ sub Run {
         Data    => \%ENV,
     );
 
+    #
+    # Create the network transport backend and read the network request.
+    #
+
     my $ProviderConfig = $Webservice{Config}->{Provider};
 
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
@@ -141,20 +150,16 @@ sub Run {
 
     # bail out if transport init failed
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
-        $Self->{DebuggerObject}->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'TransportObject could not be initialized',
             Data    => $Self->{TransportObject},
         );
-
-        return;
     }
 
-    my $FunctionResult;
+    # read request content
+    my $FunctionResult = $Self->{TransportObject}->ProviderProcessRequest();
 
-    $FunctionResult = $Self->{TransportObject}->ProviderProcessRequest();
-
-    # If the request was not processed correctly,
-    #   send error to client
+    # If the request was not processed correctly, send error to client.
     if ( !$FunctionResult->{Success} ) {
         $Self->{DebuggerObject}->Error(
             Summary => 'Request could not be processed',
@@ -169,6 +174,10 @@ sub Run {
     $Self->{DebuggerObject}->Debug(
         Summary => "Detected operation '$Operation'",
     );
+
+    #
+    # Map the incoming data based on the configured mapping
+    #
 
     my $DataIn = $FunctionResult->{Data};
 
@@ -207,12 +216,16 @@ sub Run {
         }
 
         $DataIn = $FunctionResult->{Data};
+
+        $Self->{DebuggerObject}->Debug(
+            Summary => "Incoming data after mapping",
+            Data    => $DataIn,
+        );
     }
 
-    $Self->{DebuggerObject}->Debug(
-        Summary => "Incoming data after mapping",
-        Data    => $DataIn,
-    );
+    #
+    # Execute actual operation.
+    #
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
         %$Self,
@@ -220,7 +233,7 @@ sub Run {
         Operation      => 'Test::PerformTest',
     );
 
-    # if mapping init failed, bail out
+    # if operation init failed, bail out
     if ( ref $OperationObject ne 'Kernel::GenericInterface::Operation' ) {
         $Self->{DebuggerObject}->Error(
             Summary => 'Operation could not be initialized',
@@ -236,6 +249,10 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
         return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
     }
+
+    #
+    # Map the outgoing data based on configured mapping.
+    #
 
     my $DataOut = $FunctionResult->{Data};
 
@@ -348,6 +365,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-14 15:18:39 $
+$Revision: 1.11 $ $Date: 2011-02-14 15:54:04 $
 
 =cut
