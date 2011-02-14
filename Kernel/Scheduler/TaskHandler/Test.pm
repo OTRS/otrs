@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.2 2011-02-14 10:32:56 cr Exp $
+# $Id: Test.pm,v 1.3 2011-02-14 13:51:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -26,9 +26,6 @@ Kernel::Scheduler::TaskHandler::Test
 =head1 SYNOPSIS
 
 Scheduler Task Handler testing backend.
-
-Operations are called by web service requests from remote
-systems.
 
 =head1 PUBLIC INTERFACE
 
@@ -113,11 +110,11 @@ perform the selected Task
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
+    # check data - we need a hash ref
+    if ( $Param{Data} && ref $Param{Data} eq 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got no Task Type with content!',
+            Message  => 'Got no valid Data!',
         );
         return;
     }
@@ -148,6 +145,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-14 10:32:56 $
+$Revision: 1.3 $ $Date: 2011-02-14 13:51:41 $
 
 =cut
