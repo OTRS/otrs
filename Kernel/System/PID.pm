@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.24 2010-10-19 18:17:43 ep Exp $
+# $Id: PID.pm,v 1.25 2011-02-14 10:49:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -83,7 +83,6 @@ sub new {
 
     # get common config options
     $Self->{Host} = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{PID}  = $$;
 
     return $Self;
 }
@@ -134,7 +133,8 @@ sub PIDCreate {
     }
 
     # do nothing if PID is the same
-    return 1 if $ProcessID{PID} && $Self->{PID} eq $ProcessID{PID};
+    my $PIDCurrent = $$;
+    return 1 if $ProcessID{PID} && $PIDCurrent eq $ProcessID{PID};
 
     # delete if exists
     $Self->PIDDelete(%Param);
@@ -145,7 +145,7 @@ sub PIDCreate {
         SQL => 'INSERT INTO process_id'
             . ' (process_name, process_id, process_host, process_create)'
             . ' VALUES (?, ?, ?, ?)',
-        Bind => [ \$Param{Name}, \$Self->{PID}, \$Self->{Host}, \$Time ],
+        Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time ],
     );
     return 1;
 }
@@ -230,6 +230,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2010-10-19 18:17:43 $
+$Revision: 1.25 $ $Date: 2011-02-14 10:49:54 $
 
 =cut
