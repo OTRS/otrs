@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.4 2011-02-14 14:09:45 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.5 2011-02-14 17:25:48 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -96,7 +96,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     # log daemon stop
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon Stop $PID{PID}!",
+        Message  => "Scheduler Daemon Stop! PID $PID{PID}",
     );
 
     exit 1;
@@ -148,10 +148,15 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
 
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
     # Log deamon startup
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon Start!",
+        Message  => "Scheduler Daemon Start! PID $PID{PID}",
     );
 
     my $Interrupt;
