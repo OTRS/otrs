@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.4 2011-02-14 10:34:54 cr Exp $
+# $Id: Scheduler.pm,v 1.5 2011-02-14 13:47:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -117,18 +117,19 @@ sub Run {
         my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
 
         # create task handler object
-        my %TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
+        my $TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
             %{$Self},
-            Type => $TaskData{Type},
+            Type => $FirstTask{Type},
         );
 
         # call run method on task handler object
-        my $TaskResult = %TaskHandlerObject->Run( Data => $TaskData{Data} );
+        my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
 
-        # return $Self->{TaskManager}->DeleteTask(ID => ID => $FirstTask{ID} ) if ($TaskResult);
+        return $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} ) if ($TaskResult);
 
         return;
     }
+    return 1;
 }
 
 =item TaskRegister()
@@ -196,6 +197,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-14 10:34:54 $
+$Revision: 1.5 $ $Date: 2011-02-14 13:47:06 $
 
 =cut
