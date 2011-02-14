@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2011-02-11 10:20:22 mg Exp $
+# $Id: Test.pm,v 1.10 2011-02-14 10:45:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use HTTP::Request::Common;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -169,7 +169,7 @@ sub ProviderGenerateResponse {
         $Response
             = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
         $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain");
+        $Response->content_type("text/plain; charset=UTF-8");
         $Response->date(time);
     }
     else {
@@ -180,8 +180,8 @@ sub ProviderGenerateResponse {
 
         $Response = HTTP::Response->new( 200 => "OK" );
         $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain");
-        $Response->content( $Request->content );
+        $Response->content_type("text/plain; charset=UTF-8");
+        $Response->add_content_utf8( $Request->content );
         $Response->date(time);
     }
 
@@ -276,8 +276,8 @@ sub request {
 
     my $Response = HTTP::Response->new( 200 => "OK" );
     $Response->protocol('HTTP/1.0');
-    $Response->content_type("text/plain");
-    $Response->content( $Request->content );
+    $Response->content_type("text/plain; charset=UTF-8");
+    $Response->add_content_utf8( $Request->content );
     $Response->date(time);
 
     #print $Request->as_string;
@@ -302,6 +302,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-11 10:20:22 $
+$Revision: 1.10 $ $Date: 2011-02-14 10:45:18 $
 
 =cut
