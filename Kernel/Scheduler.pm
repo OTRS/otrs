@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.8 2011-02-14 18:34:28 cr Exp $
+# $Id: Scheduler.pm,v 1.9 2011-02-14 19:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -119,6 +119,8 @@ sub Run {
                 Priority => 'error',
                 Message  => 'Got invalid task list!',
             );
+
+            # retrun failure if can't get the first task
             return;
         }
 
@@ -129,6 +131,8 @@ sub Run {
                 Message  => "Task $FirstTask{ID} will be deleted bacause type is not set!",
             );
             $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
+
+            # retrun failure if no task has no type
             return;
         }
 
@@ -139,6 +143,8 @@ sub Run {
                 Priority => 'error',
                 Message  => 'Got invalid task data!',
             );
+
+            # return failure if cant get task data
             return;
         }
 
@@ -156,16 +162,22 @@ sub Run {
                 Priority => 'error',
                 Message  => "Can't create task handler object!",
             );
+
+            # retrun failure if can't create task handler
             return;
         }
 
         # call run method on task handler object
         my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
 
+        # return task result (successful or failure)
         return $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} ) if ($TaskResult);
 
+        # otherwise retrun failure
         return;
     }
+
+    # if there are no task to execute return succesfull
     return 1;
 }
 
@@ -234,6 +246,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-14 18:34:28 $
+$Revision: 1.9 $ $Date: 2011-02-14 19:21:57 $
 
 =cut
