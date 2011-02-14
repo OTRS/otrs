@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.2 2011-02-14 13:52:28 cr Exp $
+# $Id: GenericInterface.pm,v 1.3 2011-02-14 14:59:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -119,8 +119,6 @@ sub Run {
         return;
     }
 
-    #
-
     # log and exit succesfully
     $Self->{LogObject}->Log(
         Priority => 'notice',
@@ -145,6 +143,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-14 13:52:28 $
+$Revision: 1.3 $ $Date: 2011-02-14 14:59:57 $
 
 =cut
