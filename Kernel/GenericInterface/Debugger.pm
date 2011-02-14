@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.6 2011-02-10 10:40:35 mg Exp $
+# $Id: Debugger.pm,v 1.7 2011-02-14 20:55:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::GenericInterface::Debugger;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -84,9 +86,11 @@ create an object.
             ...
         },
 
-        WebserviceID    => 12,
+        WebserviceID        => 12,
+        CommunicationType   => 12,
 
-        TestMode        => 0,       # optional, in testing mode the data will not be written to the DB
+        TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
+        RemoteIP        => 192.168.1.1, # optional
     );
 
 =cut
@@ -97,15 +101,68 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    # check for needed object
     for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
+    # check for needede params
     for my $Needed (qw(DebuggerConfig WebserviceID)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # TODO: implement
+    # check DebuggerConfig - we need a hash ref with at least one entry
+    if ( !IsHashRefWithData( $Param{DebuggerConfig} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebuggerConfig!' );
+        return;
+    }
+
+    # check for mandatory values
+    for my $Needed (qw(WebserviceID CommunicationType)) {
+        if ( !IsStringWithData( $Param{$Needed} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check for DebugLevel
+    if ( !IsStringWithData( $Param{DebuggerConfig}->{DebugLevel} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebugLevel!' );
+        return;
+    }
+
+    # check correct DebugLevel
+    my @DebugLevels = qw(debug info notice error);
+    if ( !map ( $Param{DebugLevel}, @DebugLevels ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+        return;
+    }
+
+    # TestMode
+    $Self->{TestMode} = $Param{TestMode} || 0;
+
+    # remote ip optional
+    if ( !$Param{RemoteIP} ) {
+        $Self->{RemoteIP} = '';
+    }
+    else {
+        if ( !IsStringWithData( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need RemoteIP address!' );
+            return;
+        }
+        $Self->{RemoteIP} = $Param{RemoteIP};
+    }
+
+    # comminication ID md5 (system time + random #)
+    my $CurrentTime = $Self->{TimeObject}->SystemTime();
+    my $MD5String   = $Self->{MainObject}->MD5sum(
+        String => $CurrentTime . int( rand(1000000) ),
+    );
+    $Self->{CommunicationID} = $MD5String;
+
+    # create DebugLog object
+    $Self->{DebugLogObject}
+        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 
     return $Self;
 }
@@ -128,29 +185,57 @@ Any messages with 'error' priority will also be written to Kernel::System::Log.
 sub DebugLog {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(DebugLevel Summary)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    if ( !$Param{Summary} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Summary!' );
+        return;
     }
 
+    # if DebugLevel is not set DebugLevel from constructor is used
+    $Param{DebugLevel} = $Param{DebugLevel} || $Self->{DebugLevel};
+
+    # check correct DebugLevel
+    my @DebugLevels = qw(debug info notice error);
+    if ( !map ( $Param{DebugLevel}, @DebugLevels ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+        return;
+    }
+
+    # create log message
+    my $DataString = 'No data provided';
+    if ( IsHashRefWithData( $Param{Data} ) ) {
+        $DataString = $Self->{MainObject}->Dump( $Param{Data} );
+    }
+    elsif ( IsStringWithData( $Param{Data} ) ) {
+        $DataString = $Param{Data};
+    }
+    my $LogMessage =
+        "DebugLog - $Param{DebugLevel}: \n" .
+        "   -Summary - $Param{Summary},\n" .
+        "   -Data - $DataString.\n\n";
+
+    if ( !$Self->{TestMode} ) {
+
+        # call AddLog function
+        $Self->{DebugLogObject}->AddLog(
+            DebugLevel => $Param{DebugLevel},
+            Summary    => $Param{Summary},
+            Data       => $Param{Data},
+        );
+    }
+    else {
+        print STDERR $LogMessage;
+    }
+
+    # Any messages with 'error' priority will
+    # also be written to Kernel::System::Log.
     if ( $Param{DebugLevel} eq 'error' ) {
+        $LogMessage =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => $Param{Summary},
+            Message  => $LogMessage,
         );
     }
 
-    #TODO: implement
-    if ( ref $Param{Data} ) {
-        my $Data = $Self->{MainObject}->Dump( $Param{Data} );
-        print STDERR "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '$Data'\n";
-    }
-    elsif ( $Param{Data} ) {
-        print STDERR
-            "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '$Param{Data}'\n";
-    }
-    else {
-        print STDERR "DebugLog ($Param{DebugLevel}): Summary '$Param{Summary}', Data '-'\n";
-    }
     return 1;
 }
 
@@ -281,6 +366,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-10 10:40:35 $
+$Revision: 1.7 $ $Date: 2011-02-14 20:55:41 $
 
 =cut
