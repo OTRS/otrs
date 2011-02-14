@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.9 2011-02-14 10:45:42 mg Exp $
+# $Id: Provider.pm,v 1.10 2011-02-14 15:18:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -131,10 +131,12 @@ sub Run {
         Data    => \%ENV,
     );
 
+    my $ProviderConfig = $Webservice{Config}->{Provider};
+
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
         %$Self,
         DebuggerObject  => $Self->{DebuggerObject},
-        TransportConfig => $Webservice{Config}->{Provider}->{Transport},
+        TransportConfig => $ProviderConfig->{Transport},
     );
 
     # bail out if transport init failed
@@ -177,16 +179,14 @@ sub Run {
 
     # decide if mapping needs to be used or not
     if (
-        IsHashRefWithData(
-            $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingInbound}
-        )
+        IsHashRefWithData( $ProviderConfig->{Operation}->{$Operation}->{MappingInbound} )
         )
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
             MappingConfig =>
-                $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingInbound},
+                $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
         # if mapping init failed, bail out
@@ -247,7 +247,7 @@ sub Run {
     # decide if mapping needs to be used or not
     if (
         IsHashRefWithData(
-            $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingOutbound}
+            $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound}
         )
         )
     {
@@ -255,7 +255,7 @@ sub Run {
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
             MappingConfig =>
-                $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingOutbound},
+                $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 
         # if mapping init failed, bail out
@@ -348,6 +348,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-14 10:45:42 $
+$Revision: 1.10 $ $Date: 2011-02-14 15:18:39 $
 
 =cut
