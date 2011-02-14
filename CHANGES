@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1770 2011-02-09 23:36:42 en Exp $
+# $Id: CHANGES,v 1.1771 2011-02-14 11:13:11 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@
     of > 70 characters exists.
 
 3.0.6 2011-??-??
+ - 2011-02-14 Fixed bug#6869 - ITSM 3 Link Object "close window" refreshes and settings lost
  - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
     in database and session.
  - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
