@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.5 2011-02-14 13:47:06 cr Exp $
+# $Id: Scheduler.pm,v 1.6 2011-02-14 14:20:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -114,7 +114,23 @@ sub Run {
 
         # get the first task details
         my %FirstTask = %{ $TaskList[0] };
+        if ( !%FirstTask ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Got invalid task list!',
+            );
+            return;
+        }
+
+        # get task data
         my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
+        if ( !%TaskData ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Got invalid task data!',
+            );
+            return;
+        }
 
         # create task handler object
         my $TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
@@ -197,6 +213,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-14 13:47:06 $
+$Revision: 1.6 $ $Date: 2011-02-14 14:20:33 $
 
 =cut
