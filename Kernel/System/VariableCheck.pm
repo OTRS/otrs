@@ -2,7 +2,7 @@
 # Kernel/System/VariableCheck.pm - helpers to check variables
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.pm,v 1.1 2011-02-10 13:08:20 sb Exp $
+# $Id: VariableCheck.pm,v 1.2 2011-02-14 12:45:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,15 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Exporter;
 %EXPORT_TAGS = (
     all => [
+        'IsArrayRefWithData',
         'IsHashRefWithData',
+        'IsInteger',
+        'IsNumber',
         'IsString',
         'IsStringWithData',
     ],
@@ -53,7 +56,7 @@ test supplied data to determine if it is a string - an empty string is valid
 returns 1 if data matches criteria or undef otherwise
 
     my $Result = IsString(
-        Data => 'abc' # data to be tested
+        'abc', # data to be tested
     );
 
 =cut
@@ -61,6 +64,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsString {
     my $TestData = $_[0];
 
+    return if scalar @_ ne 1;
     return if ref $TestData;
     return if !defined $TestData;
 
@@ -74,7 +78,7 @@ test supplied data to determine if it is a non zero-length string
 returns 1 if data matches criteria or undef otherwise
 
     my $Result = IsStringWithData(
-        Data => 'abc' # data to be tested
+        'abc', # data to be tested
     );
 
 =cut
@@ -82,8 +86,53 @@ returns 1 if data matches criteria or undef otherwise
 sub IsStringWithData {
     my $TestData = $_[0];
 
-    return if ref $TestData;
-    return if !$TestData;
+    return if !IsString(@_);
+    return if $TestData eq '';
+
+    return 1;
+}
+
+=item IsInteger()
+
+test supplied data to determine if it is an integer (only digits, positive or negative)
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsInteger(
+        999, # data to be tested
+    );
+
+=cut
+
+sub IsInteger {
+    my $TestData = $_[0];
+
+    return if !IsStringWithData(@_);
+    return if $TestData !~ m{ \A [-]? \d+ \z }xms;
+
+    return 1;
+}
+
+=item IsNumber()
+
+test supplied data to determine if it is a number
+(integer, floating point, possible exponent, positive or negative)
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsInteger(
+        999, # data to be tested
+    );
+
+=cut
+
+sub IsNumber {
+    my $TestData = $_[0];
+
+    return if !IsStringWithData(@_);
+    return if $TestData !~ m{
+        \A [-]? (?: \d+ | \d* [.] \d+ | (?: \d+ [.]? \d* | \d* [.] \d+ ) [eE] [-+]? \d* ) \z
+    }xms;
 
     return 1;
 }
@@ -95,7 +144,7 @@ test supplied data to deterine if it is a hash reference and contains at least o
 returns 1 if data matches criteria or undef otherwise
 
     my $Result = IsHashRefWithData(
-        Data => { # data to be tested
+        { # data to be tested
             'key' => 'value',
             ...
         },
@@ -106,8 +155,34 @@ returns 1 if data matches criteria or undef otherwise
 sub IsHashRefWithData {
     my $TestData = $_[0];
 
+    return if scalar @_     ne 1;
     return if ref $TestData ne 'HASH';
     return if !%{$TestData};
+
+    return 1;
+}
+
+=item IsArrayRefWithData()
+
+test supplied data to deterine if it is an array reference and contains at least one key
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsArrayRefWithData(
+        [ # data to be tested
+            'key',
+            ...
+        ],
+    );
+
+=cut
+
+sub IsArrayRefWithData {
+    my $TestData = $_[0];
+
+    return if scalar @_     ne 1;
+    return if ref $TestData ne 'ARRAY';
+    return if !@{$TestData};
 
     return 1;
 }
@@ -128,6 +203,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-10 13:08:20 $
+$Revision: 1.2 $ $Date: 2011-02-14 12:45:13 $
 
 =cut
