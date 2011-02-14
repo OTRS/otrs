@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.3 2011-02-11 12:28:00 mg Exp $
+# $Id: Provider.t,v 1.4 2011-02-14 14:40:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,8 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use CGI;
+use CGI ();
+use URI::Escape();
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Provider;
@@ -60,10 +61,87 @@ my @Tests = (
                 },
             },
         },
-        RequestData     => 'A=A&b=b',
-        ResponseData    => 'A=A&b=B',
+        RequestData => {
+            A => 'A',
+            b => 'b',
+        },
+        ResponseData => {
+            A => 'A',
+            b => 'B',
+        },
         ResponseSuccess => 1,
     },
+    {
+        Name             => 'HTTP request',
+        WebserviceConfig => {
+            Debugger => {
+                DebugLevel => 'debug',
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::PerformTest',
+                        MappingInbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        RequestData => {
+            A => 'A',
+            b => 'ö',
+        },
+        ResponseData => {
+            A => 'A',
+            b => 'ö',
+        },
+        ResponseSuccess => 1,
+    },
+
+    #    {
+    #        Name             => 'HTTP request',
+    #        WebserviceConfig => {
+    #            Debugger => {
+    #                DebugLevel => 'debug',
+    #            },
+    #            Provider => {
+    #                Transport => {
+    #                    Type   => 'HTTP::Test',
+    #                    Config => {
+    #                        Fail => 0,
+    #                    },
+    #                },
+    #                Operation => {
+    #                    test_operation => {
+    #                        Type           => 'Test::PerformTest',
+    #                        MappingInbound => {
+    #                            Type   => 'Test',
+    #                        },
+    #                    },
+    #                },
+    #            },
+    #        },
+    #        RequestData => {
+    #            A => 'A',
+    #            b => '使用下列语言',
+    #            c => 'Языковые',
+    #            d => 'd',
+    #        },
+    #        ResponseData => {
+    #            A => 'A',
+    #            b => '使用下列语言',
+    #            c => 'Языковые',
+    #            d => 'd',
+    #        },
+    #        ResponseSuccess => 1,
+    #    },
     {
         Name             => 'HTTP request',
         WebserviceConfig => {
@@ -90,11 +168,33 @@ my @Tests = (
                 },
             },
         },
-        RequestData     => '',
-        ResponseData    => '',
+        RequestData     => {},
+        ResponseData    => {},
         ResponseSuccess => 0,
     },
 );
+
+sub _CreateQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $QueryString;
+
+    for my $Key ( sort keys %{ $Param{Data} || {} } ) {
+        $QueryString .= '&' if ($QueryString);
+        $QueryString .= $Param{Encode} ? URI::Escape::uri_escape_utf8($Key) : $Key;
+        if ( $Param{Data}->{$Key} ) {
+            $QueryString
+                .= "="
+                . (
+                $Param{Encode}
+                ? URI::Escape::uri_escape_utf8( $Param{Data}->{$Key} )
+                : $Param{Data}->{$Key}
+                );
+        }
+    }
+
+    return $QueryString;
+}
 
 for my $Test (@Tests) {
 
@@ -111,34 +211,45 @@ for my $Test (@Tests) {
         "$Test->{Name} WebserviceAdd()",
     );
 
-    for my $RequestMethod (qw(GET POST)) {
+    #
+    # Test with IO redirection, no real HTTP request
+    #
+    for my $RequestMethod (qw(get post)) {
 
-        my $RequestData;
-        my $ResponseData;
+        my $RequestData  = '';
+        my $ResponseData = '';
+
         {
-
             local %ENV;
 
-            if ( $RequestMethod eq 'POST' ) {
+            if ( $RequestMethod eq 'post' ) {
 
                 # prepare CGI environment variables
                 $ENV{REQUEST_URI}
                     = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID";
                 $ENV{REQUEST_METHOD} = 'POST';
-                $RequestData = $Test->{RequestData};
+                $RequestData = $Self->_CreateQueryString(
+                    Data   => $Test->{RequestData},
+                    Encode => 0,
+                );
             }
             else {    # GET
 
                 # prepare CGI environment variables
                 $ENV{REQUEST_URI}
                     = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebServiceID?$Test->{RequestData}";
-                $ENV{QUERY_STRING}   = $Test->{RequestData};
+                $ENV{QUERY_STRING} = $Self->_CreateQueryString(
+                    Data   => $Test->{RequestData},
+                    Encode => 1,
+                );
                 $ENV{REQUEST_METHOD} = 'GET';
-
             }
 
             $ENV{CONTENT_LENGTH} = length( $Test->{RequestData} );
             $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
+
+            use Devel::Peek;
+            Devel::Peek::Dump($RequestData);
 
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
@@ -154,11 +265,24 @@ for my $Test (@Tests) {
             $ProviderObject->Run();
         }
 
+        #use Devel::Peek;
+        #Devel::Peek::Dump($ResponseData);
+        #Devel::Peek::Dump($Test->{ResponseData});
+
         if ( $Test->{ResponseSuccess} ) {
-            $Self->True(
-                index( $ResponseData, $Test->{ResponseData} ) > -1,
-                "$Test->{Name} Provider Run() HTTP $RequestMethod result data",
-            );
+
+            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                if ( $Test->{ResponseData}->{$Key} ) {
+                    $QueryStringPart
+                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                }
+
+                $Self->True(
+                    index( $ResponseData, $QueryStringPart ) > -1,
+                    "$Test->{Name} Provider Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                );
+            }
 
             $Self->True(
                 index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
@@ -170,7 +294,60 @@ for my $Test (@Tests) {
                 index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
                 "$Test->{Name} Provider Run() HTTP $RequestMethod result error status",
             );
+        }
+    }
 
+    #
+    # Test real HTTP request
+    #
+    for my $RequestMethod (qw(get post)) {
+
+        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+
+        my $URL
+            = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/$WebServiceID";
+        my $Response;
+        my $ResponseData;
+        my $QueryString = $Self->_CreateQueryString(
+            Data   => $Test->{RequestData},
+            Encode => 1,
+        );
+
+        if ( $RequestMethod eq 'get' ) {
+            $URL .= "?$QueryString";
+            $Response = LWP::UserAgent->new()->$RequestMethod($URL);
+        }
+        else {    # POST
+            $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+        }
+        chomp( $ResponseData = $Response->decoded_content );
+
+        if ( $Test->{ResponseSuccess} ) {
+            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                if ( $Test->{ResponseData}->{$Key} ) {
+                    $QueryStringPart
+                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                }
+
+                $Self->True(
+                    index( $ResponseData, $QueryStringPart ) > -1,
+                    "$Test->{Name} Provider Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                );
+            }
+
+            $Self->Is(
+                $Response->code,
+                200,
+                "$Test->{Name} Provider real HTTP $RequestMethod request result success status",
+            );
+        }
+        else {
+            $Self->Is(
+                $Response->code,
+                500,
+                "$Test->{Name} Provider real HTTP $RequestMethod request result error status",
+            );
         }
     }
 
