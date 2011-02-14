@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.8 2011-02-11 12:28:00 mg Exp $
+# $Id: Provider.pm,v 1.9 2011-02-14 10:45:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -23,6 +23,7 @@ use Kernel::System::Main;
 use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::DB;
+use Kernel::System::VariableCheck (qw(IsHashRefWithData));
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
@@ -174,8 +175,13 @@ sub Run {
         Data    => $DataIn,
     );
 
-    #TODO: decide if mapping needs to be used or not
-    if (1) {
+    # decide if mapping needs to be used or not
+    if (
+        IsHashRefWithData(
+            $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingInbound}
+        )
+        )
+    {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
@@ -238,8 +244,13 @@ sub Run {
         Data    => $DataOut,
     );
 
-    #TODO: decide if mapping needs to be used or not
-    if (1) {
+    # decide if mapping needs to be used or not
+    if (
+        IsHashRefWithData(
+            $Webservice{Config}->{Provider}->{Operation}->{$Operation}->{MappingOutbound}
+        )
+        )
+    {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             %$Self,
             DebuggerObject => $Self->{DebuggerObject},
@@ -337,6 +348,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-11 12:28:00 $
+$Revision: 1.9 $ $Date: 2011-02-14 10:45:42 $
 
 =cut
