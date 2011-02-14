@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.9 2011-02-14 19:21:57 cr Exp $
+# $Id: Scheduler.pm,v 1.10 2011-02-14 19:24:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -201,6 +201,8 @@ sub TaskRegister {
             Priority => 'error',
             Message  => 'Got no Task Type with content!',
         );
+
+        # retrun failure if no task type is sent
         return;
     }
 
@@ -210,6 +212,8 @@ sub TaskRegister {
             Priority => 'error',
             Message  => 'Got undefined Task Data!',
         );
+
+        # retrun error if task data is undefined
         return;
     }
 
@@ -225,8 +229,12 @@ sub TaskRegister {
             Priority => 'error',
             Message  => 'Task could not be registered',
         );
+
+        # retrun failure if task registration fails
         return;
     }
+
+    # otherwise return the task ID
     return $TaskID;
 }
 
@@ -246,6 +254,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-14 19:21:57 $
+$Revision: 1.10 $ $Date: 2011-02-14 19:24:08 $
 
 =cut
