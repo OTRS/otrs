@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.2 2011-02-14 10:33:08 cr Exp $
+# $Id: TaskHandler.pm,v 1.3 2011-02-14 13:48:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -104,8 +104,11 @@ sub new {
     # load backend module
     my $GenericModule = 'Kernel::Scheduler::TaskHandler::' . $Param{Type};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => "Can't load task handler backend module!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't load task handler backend module!",
+        );
+        return;
     }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
 
@@ -133,11 +136,11 @@ perform the selected Task
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
+    # check data - we need a hash ref
+    if ( $Param{Data} && ref $Param{Data} eq 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got no Task Type with content!',
+            Message  => 'Got no valid Data!',
         );
         return;
     }
@@ -162,6 +165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-14 10:33:08 $
+$Revision: 1.3 $ $Date: 2011-02-14 13:48:29 $
 
 =cut
