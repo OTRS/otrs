@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.1 2011-02-14 19:31:14 martin Exp $
+# $Id: Scheduler.t,v 1.2 2011-02-14 20:14:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,7 +137,7 @@ for my $Test (@Tests) {
     my $Success = $SchedulerObject->Run();
     $Self->True(
         $Success,
-        "$Test->{Name} - Kernel::Scheduler->Run() - check result of execution witout tasks",
+        "$Test->{Name} - Kernel::Scheduler->Run() - check result of execution without tasks",
     );
 }
 
