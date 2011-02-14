@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.7 2011-01-14 15:13:59 mg Exp $
+# $Id: Helper.pm,v 1.8 2011-02-14 13:23:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,7 +100,7 @@ creates a random ID that can be used in tests as a unique identifier.
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    return 'selenium-test-' . int( rand(1000000) )
+    return 'test-' . int( rand(1000000) )
 }
 
 =item TestUserCreate()
@@ -259,6 +259,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-01-14 15:13:59 $
+$Revision: 1.8 $ $Date: 2011-02-14 13:23:28 $
 
 =cut
