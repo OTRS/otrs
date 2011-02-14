@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.10 2011-02-14 19:24:08 cr Exp $
+# $Id: Scheduler.pm,v 1.11 2011-02-14 19:31:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -109,76 +109,74 @@ sub Run {
     # get all tasks
     my @TaskList = $Self->{TaskManagerObject}->TaskList();
 
-    # check if there are task to do
-    if ( scalar @TaskList > 0 ) {
+    # if there are no task to execute return succesfull
+    return 1 if !@TaskList;
 
-        # get the first task details
-        my %FirstTask = %{ $TaskList[0] };
-        if ( !%FirstTask ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Got invalid task list!',
-            );
+    # get the first task details
+    my %FirstTask = %{ $TaskList[0] };
+    if ( !%FirstTask ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got invalid task list!',
+        );
 
-            # retrun failure if can't get the first task
-            return;
-        }
-
-        # delete task if no type is set
-        if ( !$FirstTask{Type} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Task $FirstTask{ID} will be deleted bacause type is not set!",
-            );
-            $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
-
-            # retrun failure if no task has no type
-            return;
-        }
-
-        # get task data
-        my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
-        if ( !%TaskData ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Got invalid task data!',
-            );
-
-            # return failure if cant get task data
-            return;
-        }
-
-        # create task handler object
-        my $TaskHandlerObject = eval {
-            Kernel::Scheduler::TaskHandler->new(
-                %{$Self},
-                Type => $FirstTask{Type},
-            );
-        };
-
-        # check if Task Handler object was created
-        if ( !$TaskHandlerObject ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't create task handler object!",
-            );
-
-            # retrun failure if can't create task handler
-            return;
-        }
-
-        # call run method on task handler object
-        my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
-
-        # return task result (successful or failure)
-        return $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} ) if ($TaskResult);
-
-        # otherwise retrun failure
+        # retrun failure if can't get the first task
         return;
     }
 
-    # if there are no task to execute return succesfull
-    return 1;
+    # delete task if no type is set
+    if ( !$FirstTask{Type} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Task $FirstTask{ID} will be deleted bacause type is not set!",
+        );
+        $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
+
+        # retrun failure if no task has no type
+        return;
+    }
+
+    # get task data
+    my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
+    if ( !%TaskData ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got invalid task data!',
+        );
+
+        # return failure if cant get task data
+        return;
+    }
+
+    # create task handler object
+    my $TaskHandlerObject = eval {
+        Kernel::Scheduler::TaskHandler->new(
+            %{$Self},
+            Type => $FirstTask{Type},
+        );
+    };
+
+    # check if Task Handler object was created
+    if ( !$TaskHandlerObject ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't create task handler object!",
+        );
+
+        $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
+
+        # retrun failure if can't create task handler
+        return;
+    }
+
+    # call run method on task handler object
+    my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
+
+    # return task result (successful or failure)
+    return if !$Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
+
+    # otherwise retrun failure
+    return;
 }
 
 =item TaskRegister()
@@ -254,6 +252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-14 19:24:08 $
+$Revision: 1.11 $ $Date: 2011-02-14 19:31:14 $
 
 =cut
