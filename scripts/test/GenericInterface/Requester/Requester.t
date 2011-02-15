@@ -2,7 +2,7 @@
 # Requester.t - Requester tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.t,v 1.3 2011-02-15 15:52:03 mg Exp $
+# $Id: Requester.t,v 1.1 2011-02-15 16:40:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
