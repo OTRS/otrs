@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.6 2011-02-15 16:24:07 mg Exp $
+# $Id: Test.t,v 1.7 2011-02-15 16:50:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -223,7 +223,7 @@ my @InvokerHandleResponseTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test correct call TicketNumber and Action',
+        Name => 'Test correct call without ResponseSuccess',
         Data => {
             TicketNumber => $ReturnedTicketNumber . '12345',
             Action       => 'AddTest',
@@ -234,36 +234,39 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test just ResponseSucces param.',
         Data => {
-            ResponseSuccess => '1',
+            TicketID => '12345',
         },
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResponseSuccess => '1',
+        ResultData      => undef,
+        ResultSuccess   => 0,
     },
     {
         Name => 'Test just ResponseErrorMessage param.',
         Data => {
-            ResponseErrorMessage => 'Just an error message.',
+            TicketID => '12345',
         },
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResponseErrorMessage => 'Just an error message.',
+        ResultData           => undef,
+        ResultSuccess        => 0,
     },
     {
-        Name => 'Test correct params from Response',
+        Name => 'Test just correct params from Response',
         Data => {
-            ResponseSuccess      => '1',
-            ResponseErrorMessage => 'Just an error message.',
+            TicketID => '12345',
         },
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResponseSuccess      => '1',
+        ResponseErrorMessage => 'Just an error message.',
+        ResultData           => undef,
+        ResultSuccess        => 0,
     },
     {
         Name => 'Test correct call without Action',
         Data => {
-            TicketNumber         => $ReturnedTicketNumber . '12345',
-            ResponseSuccess      => '1',
-            ResponseErrorMessage => 'Just an error message.',
+            TicketNumber => $ReturnedTicketNumber . '12345',
         },
-        ResultData => {
+        ResponseSuccess      => '1',
+        ResponseErrorMessage => 'Just an error message.',
+        ResultData           => {
             TicketID => '12345',
         },
         ResultSuccess => 1,
@@ -271,12 +274,12 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test correct call with all params',
         Data => {
-            TicketNumber         => $ReturnedTicketNumber . '12345',
-            Action               => 'AddTest',
-            ResponseSuccess      => '1',
-            ResponseErrorMessage => 'Just an error message.',
+            TicketNumber => $ReturnedTicketNumber . '12345',
+            Action       => 'AddTest',
         },
-        ResultData => {
+        ResponseSuccess      => '1',
+        ResponseErrorMessage => 'Just an error message.',
+        ResultData           => {
             TicketID => '12345',
             Action   => 'Add',
         },
@@ -286,8 +289,12 @@ my @InvokerHandleResponseTests = (
 );
 
 for my $Test (@InvokerHandleResponseTests) {
+    my %InvokerParams = {};
+    $InvokerParams{Data}                 = $Test->{Data}                 || undef;
+    $InvokerParams{ResponseSuccess}      = $Test->{ResponseSuccess}      || undef;
+    $InvokerParams{ResponseErrorMessage} = $Test->{ResponseErrorMessage} || undef;
     my $InvokerResult = $InvokerObject->HandleResponse(
-        Data => $Test->{Data},
+        %InvokerParams,
     );
 
     # check if function return correct status
@@ -344,11 +351,11 @@ $Self->IsDeeply(
 # handleresponse call
 $InvokerResult = $InvokerObject->HandleResponse(
     Data => {
-        Action               => $InvokerResult->{Data}->{Action},
-        TicketNumber         => $InvokerResult->{Data}->{TicketNumber},
-        ResponseSuccess      => $InvokerResult->{Success},
-        ResponseErrorMessage => $InvokerResult->{ErrorMessage} || 'error',
+        Action       => $InvokerResult->{Data}->{Action},
+        TicketNumber => $InvokerResult->{Data}->{TicketNumber},
     },
+    ResponseSuccess      => $InvokerResult->{Success},
+    ResponseErrorMessage => $InvokerResult->{ErrorMessage},
 );
 
 # checkhandleresponse call success
