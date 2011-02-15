@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.14 2011-02-14 10:25:37 martin Exp $
+# $Id: Mapping.pm,v 1.15 2011-02-15 16:01:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Mapping
+Kernel::GenericInterface::Mapping - GenericInterface data mapping interface
 
 =head1 SYNOPSIS
-
-GenericInterface data mapping interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -35,7 +33,7 @@ GenericInterface data mapping interface.
 
 =item new()
 
-create an object. This will return the Mapping backend for the current web service configuration.
+create an object.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -180,7 +178,7 @@ sub Map {
     }
 
     # start map on backend
-    return $Self->{BackendObject}->Map( Data => $Param{Data} );
+    return $Self->{BackendObject}->Map(%Param);
 }
 
 1;
@@ -199,6 +197,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-02-14 10:25:37 $
+$Revision: 1.15 $ $Date: 2011-02-15 16:01:26 $
 
 =cut
