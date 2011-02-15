@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.48 2011-01-13 18:08:47 martin Exp $
+# $Id: Layout.t,v 1.49 2011-02-15 14:04:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1171,6 +1171,29 @@ for my $Test (@Tests) {
         $Output,
         $Test->{Result},
         $Test->{Name},
+    );
+}
+
+my @LinkEncodeTests = (
+    {
+        Name   => 'LinkEncode() on reserved characters',
+        Source => '!*\'();:@&=+$,/?#[]',
+        Target => '%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%23%5B%5D',
+    },
+    {
+        Name   => 'LinkEncode() for space',
+        Source => ' ',
+        Target => '%20',
+
+        # %20 is required for IIS, even though it can be + according to the RFC.
+    },
+);
+
+for my $LinkEncodeTest (@LinkEncodeTests) {
+    $Self->Is(
+        $LayoutObject->LinkEncode( $LinkEncodeTest->{Source} ),
+        $LinkEncodeTest->{Target},
+        $LinkEncodeTest->{Name},
     );
 }
 

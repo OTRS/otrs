@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.353 2011-02-10 15:59:27 cg Exp $
+# $Id: Layout.pm,v 1.354 2011-02-15 14:04:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,12 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+
 use Mail::Address;
+use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.353 $) [1];
+$VERSION = qw($Revision: 1.354 $) [1];
 
 =head1 NAME
 
@@ -1848,43 +1850,22 @@ sub HTMLLinkQuote {
 
 =item LinkEncode()
 
-do some url encoding - e. g. replace + with %2B in links
+perform URL encoding on query string parameter names or values.
 
-    my $URLEncoded = $LayoutObject->LinkEncode($URL);
+    my $ParamValueEncoded = $LayoutObject->LinkEncode($ParamValue);
+
+Don't encode entire URLs, because this will make them invalid
+(?, & and ; will be encoded as well). Only pass one parameter name
+or value at a time.
 
 =cut
-
-#TODO: Use an external perl module from CPAN for this function.
 
 sub LinkEncode {
     my ( $Self, $Link ) = @_;
 
     return if !defined $Link;
 
-    $Link =~ s/%/%25/g;
-    $Link =~ s/&/%26/g;
-    $Link =~ s/=/%3D/g;
-    $Link =~ s/\!/%21/g;
-    $Link =~ s/"/%22/g;
-    $Link =~ s/\#/%23/g;
-    $Link =~ s/\$/%24/g;
-    $Link =~ s/'/%27/g;
-    $Link =~ s/,/%2C/g;
-    $Link =~ s/\+/%2B/g;
-    $Link =~ s/\?/%3F/g;
-    $Link =~ s/\|/%7C/g;
-    $Link =~ s/\//\%2F/g;
-    $Link =~ s/�/\%A7/g;
-
-    # According to the URL encoding RFC, the path segment of an URL must use %20 for space,
-    # while in the query string + is used normally. However, IIS does not understand + in the
-    # path segment, but understands %20 in the query string, like all others do as well.
-    # Therefore we use %20.
-    $Link =~ s/ /%20/g;
-    $Link =~ s/:/\%3A/g;
-    $Link =~ s/;/\%3B/g;
-    $Link =~ s/@/\%40/g;
-    return $Link;
+    return URI::Escape::uri_escape_utf8($Link);
 }
 
 sub CustomerAgeInHours {
@@ -4902,6 +4883,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.353 $ $Date: 2011-02-10 15:59:27 $
+$Revision: 1.354 $ $Date: 2011-02-15 14:04:25 $
 
 =cut
