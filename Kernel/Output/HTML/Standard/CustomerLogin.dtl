@@ -1,8 +1,8 @@
 # --
 # CustomerLogin.dtl - provides customer HTML login screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.55 2010-11-25 10:09:47 mg Exp $
+# $Id: CustomerLogin.dtl,v 1.56 2011-02-15 20:52:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@ $Include{"CustomerHeader"}
             <div id="Signup">
                 <a href="#Login" class="InlineNavigation">&larr; $Text{"Back"}</a>
                 <h2>$Text{"Create Account"}</h2>
-                <p>$Text{"Please fill out this form to recieve login credentials."}</p>
+                <p>$Text{"Please fill out this form to receive login credentials."}</p>
                 <form class="Floating Validate" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
