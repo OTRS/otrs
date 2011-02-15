@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.11 2011-02-14 19:31:14 martin Exp $
+# $Id: Scheduler.pm,v 1.12 2011-02-15 20:46:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -83,7 +83,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(MainObject ConfigObject LogObject DBObject EncodeObject)) {
+    for my $Object (qw(MainObject ConfigObject LogObject DBObject EncodeObject TimeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
@@ -160,7 +160,7 @@ sub Run {
     if ( !$TaskHandlerObject ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't create task handler object!",
+            Message  => "Can't create $FirstTask{Type} task handler object! $@",
         );
 
         $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
@@ -172,17 +172,17 @@ sub Run {
     # call run method on task handler object
     my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
 
-    # return task result (successful or failure)
+    # retrun fail if can't delete task
     return if !$Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
 
-    # otherwise retrun failure
-    return;
+    # return task result (successful or failure)
+    return $TaskResult;
 }
 
 =item TaskRegister()
 
-    my $TaskID = $SchadulerObject->TaskRegister(
-        Type => 'GenericInterface'
+    my $TaskID = $SchedulerObject->TaskRegister(
+        Type => 'GenericInterface',
         Data     => {                               # task data
             ...
         },
@@ -252,6 +252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-14 19:31:14 $
+$Revision: 1.12 $ $Date: 2011-02-15 20:46:08 $
 
 =cut
