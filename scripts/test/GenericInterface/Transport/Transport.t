@@ -2,7 +2,7 @@
 # Transport.t - GenericInterface transport interface tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.6 2011-02-10 10:41:44 mg Exp $
+# $Id: Transport.t,v 1.7 2011-02-15 15:52:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,10 +24,11 @@ use Kernel::System::FileTemp;
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %$Self,
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'debug',
     },
-    WebserviceID => 1,
-    TestMode     => 1,
+    CommunicationType => 'Provider',
+    WebserviceID      => 1,
+    TestMode          => 1,
 );
 
 #

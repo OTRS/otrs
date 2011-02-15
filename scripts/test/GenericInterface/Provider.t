@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.7 2011-02-15 09:18:48 mg Exp $
+# $Id: Provider.t,v 1.8 2011-02-15 15:52:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ my @Tests = (
         Name             => 'HTTP request',
         WebserviceConfig => {
             Debugger => {
-                DebugLevel => 'debug',
+                DebugThreshold => 'debug',
             },
             Provider => {
                 Transport => {
@@ -75,7 +75,7 @@ my @Tests = (
         Name             => 'HTTP request umlaut',
         WebserviceConfig => {
             Debugger => {
-                DebugLevel => 'debug',
+                DebugThreshold => 'debug',
             },
             Provider => {
                 Transport => {
@@ -108,7 +108,7 @@ my @Tests = (
         Name             => 'HTTP request unicode',
         WebserviceConfig => {
             Debugger => {
-                DebugLevel => 'debug',
+                DebugThreshold => 'debug',
             },
             Provider => {
                 Transport => {
@@ -145,7 +145,7 @@ my @Tests = (
         Name             => 'HTTP request without data',
         WebserviceConfig => {
             Debugger => {
-                DebugLevel => 'debug',
+                DebugThreshold => 'debug',
             },
             Provider => {
                 Transport => {

@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.4 2011-02-10 08:48:16 cg Exp $
+# $Id: Simple.t,v 1.5 2011-02-15 15:52:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,10 +21,11 @@ use Kernel::GenericInterface::Debugger;
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %$Self,
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'debug',
     },
-    WebserviceID => 1,
-    TestMode     => 1,
+    WebserviceID      => 1,
+    CommunicationType => 'Provider',
+    TestMode          => 1,
 );
 
 # create a mapping instance
