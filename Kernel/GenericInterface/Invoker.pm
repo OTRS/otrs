@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.10 2011-02-15 09:35:14 mg Exp $
+# $Id: Invoker.pm,v 1.11 2011-02-15 16:25:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Invoker
+Kernel::GenericInterface::Invoker - GenericInterface Invoker interface
 
 =head1 SYNOPSIS
-
-GenericInterface Invoker interface.
 
 Invokers are responsible to prepare for making a remote web service
 request.
@@ -165,7 +163,7 @@ sub PrepareRequest {
     }
 
     # start map on backend
-    return $Self->{BackendObject}->PrepareRequest( Data => $Param{Data} );
+    return $Self->{BackendObject}->PrepareRequest(%Param);
 
 }
 
@@ -220,6 +218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-15 09:35:14 $
+$Revision: 1.11 $ $Date: 2011-02-15 16:25:17 $
 
 =cut
