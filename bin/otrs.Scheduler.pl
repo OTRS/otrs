@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.7 2011-02-15 19:01:00 martin Exp $
+# $Id: otrs.Scheduler.pl,v 1.8 2011-02-15 19:09:28 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -232,9 +232,6 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # main loop
     while (1) {
-
-        #    # refresh needed objects
-        #    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
 
         # check for stop signal
         exit if $Interrupt;
