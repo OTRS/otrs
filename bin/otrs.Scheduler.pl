@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.6 2011-02-15 14:43:03 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.7 2011-02-15 19:01:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -67,11 +67,10 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'otrs.Scheduler',
     %CommonObject,
 );
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}       = Kernel::System::PID->new(%CommonObject);
-$CommonObject{SchedulerObject} = Kernel::Scheduler->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
 
 # check if a stop request is sent
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
@@ -191,7 +190,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # get detault log path from configuration
-    my $LogPath = $CommonObject{ConfigObject}->Get('LogModule::LogPath');
+    my $LogPath = $CommonObject{ConfigObject}->Get('LogModule::LogPath') || '/tmp';
 
     # create a new daemon object
     my $Daemon = Proc::Daemon->new();
@@ -204,8 +203,9 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
     );
 
-    # refresh database conection
-    $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+    # refresh needed objects
+    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
 
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
@@ -233,6 +233,9 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # main loop
     while (1) {
 
+        #    # refresh needed objects
+        #    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+
         # check for stop signal
         exit if $Interrupt;
 
@@ -251,7 +254,8 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         $Hangup = 0;
 
         # Call Scheduler
-        $CommonObject{SchedulerObject}->Run();
+        my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
+        $SchedulerObject->Run();
     }
 }
 
