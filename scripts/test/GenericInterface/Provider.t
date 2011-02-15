@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.6 2011-02-14 19:32:39 mg Exp $
+# $Id: Provider.t,v 1.7 2011-02-15 09:18:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,44 +104,43 @@ my @Tests = (
         },
         ResponseSuccess => 1,
     },
-
-    #    {
-    #        Name             => 'HTTP request unicode',
-    #        WebserviceConfig => {
-    #            Debugger => {
-    #                DebugLevel => 'debug',
-    #            },
-    #            Provider => {
-    #                Transport => {
-    #                    Type   => 'HTTP::Test',
-    #                    Config => {
-    #                        Fail => 0,
-    #                    },
-    #                },
-    #                Operation => {
-    #                    test_operation => {
-    #                        Type           => 'Test::PerformTest',
-    #                        MappingInbound => {
-    #                            Type   => 'Test',
-    #                        },
-    #                    },
-    #                },
-    #            },
-    #        },
-    #        RequestData => {
-    #            A => 'A',
-    #            b => '使用下列语言',
-    #            c => 'Языковые',
-    #            d => 'd',
-    #        },
-    #        ResponseData => {
-    #            A => 'A',
-    #            b => '使用下列语言',
-    #            c => 'Языковые',
-    #            d => 'd',
-    #        },
-    #        ResponseSuccess => 1,
-    #    },
+    {
+        Name             => 'HTTP request unicode',
+        WebserviceConfig => {
+            Debugger => {
+                DebugLevel => 'debug',
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::PerformTest',
+                        MappingInbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        RequestData => {
+            A => 'A',
+            b => '使用下列语言',
+            c => 'Языковые',
+            d => 'd',
+        },
+        ResponseData => {
+            A => 'A',
+            b => '使用下列语言',
+            c => 'Языковые',
+            d => 'd',
+        },
+        ResponseSuccess => 1,
+    },
     {
         Name             => 'HTTP request without data',
         WebserviceConfig => {
@@ -232,6 +231,8 @@ for my $Test (@Tests) {
                     Data   => $Test->{RequestData},
                     Encode => 0,
                 );
+                use bytes;
+                $ENV{CONTENT_LENGTH} = length($RequestData);
             }
             else {    # GET
 
@@ -245,8 +246,7 @@ for my $Test (@Tests) {
                 $ENV{REQUEST_METHOD} = 'GET';
             }
 
-            $ENV{CONTENT_LENGTH} = length( $Test->{RequestData} );
-            $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
+            $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
 
             use Devel::Peek;
             Devel::Peek::Dump($RequestData);
