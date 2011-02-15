@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.5 2011-02-14 17:25:48 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.6 2011-02-15 14:43:03 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ getopt( 'hfa', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
-    print "This program cannot run in Microsoft Windows!, use otrs.Scheduler4win.pl instead.";
+    print "This program cannot run in Microsoft Windows!, use otrs.Scheduler4win.pl instead.\n";
     exit 1;
 }
 
@@ -102,6 +102,64 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     exit 1;
 }
 
+# check if a status request is sent
+if ( $Opts{a} && $Opts{a} eq "status" ) {
+
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # no proces ID means that is not running
+    if ( !%PID ) {
+        print "Not Running!\n";
+        exit 1;
+    }
+
+    # log daemon stop
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon status request! PID $PID{PID}",
+    );
+
+    # create a new Daemon object
+    my $Daemon = Proc::Daemon->new();
+
+    # Get the process status
+    if ( $Daemon->Status( $PID{PID} ) ) {
+        print "Running $PID{PID}\n"
+    }
+    else {
+        print "Not Running!\n";
+    }
+    exit 1;
+}
+
+# check if a reload request is sent
+if ( $Opts{a} && $Opts{a} eq "reload" ) {
+
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # no proces ID means that is not running
+    if ( !%PID ) {
+        print "Can't get OTRS Scheduler status because is not running!\n";
+        exit 1;
+    }
+
+    # send interrupt signal to the proces ID to stop it
+    kill( 1, $PID{PID} );
+
+    # log daemon stop
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon reload request! PID $PID{PID}",
+    );
+    exit 1;
+}
+
 # check if start request is sent
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
@@ -110,13 +168,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
         if ( !$Opts{f} ) {
             print
-                "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it ";
+                "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it\n";
             print "forced)!\n";
 
             # log daemon already running
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
-                Message => "Scheduler Daemon tries to start but there is a running Daemon already!",
+                Message =>
+                    "Scheduler Daemon tries to start but there is a running Daemon already!\n",
             );
             exit 1;
         }
@@ -134,8 +193,11 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # get detault log path from configuration
     my $LogPath = $CommonObject{ConfigObject}->Get('LogModule::LogPath');
 
+    # create a new daemon object
+    my $Daemon = Proc::Daemon->new();
+
     # demonize itself
-    Proc::Daemon::Init(
+    $Daemon->Init(
         {
             child_STDOUT => $LogPath . '/SchedulerOUT.log',
             child_STDERR => $LogPath . '/SchedulerERR.log',
@@ -160,9 +222,13 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     );
 
     my $Interrupt;
+    my $Hangup;
 
     # when we get a INT signal, set the exit flag
     $SIG{INT} = sub { $Interrupt = 1 };
+
+    # when get a HUP signal, set HUP flag
+    $SIG{HUP} = sub { $Hangup = 1 };
 
     # main loop
     while (1) {
@@ -170,11 +236,19 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         # check for stop signal
         exit if $Interrupt;
 
+        # check for hangup signal
+        _Hangup() if $Hangup;
+        $Hangup = 0;
+
         # sleep to don't overload the processor
         sleep 5;
 
         # check for stop signal (again)
         exit if $Interrupt;
+
+        # check for hangup signal
+        _Hangup() if $Hangup;
+        $Hangup = 0;
 
         # Call Scheduler
         $CommonObject{SchedulerObject}->Run();
@@ -190,5 +264,10 @@ else {
 sub _help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop) [-f force] ";
+    print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f force]\n";
+}
+
+sub _Hangup {
+
+    # TODO Implement
 }
