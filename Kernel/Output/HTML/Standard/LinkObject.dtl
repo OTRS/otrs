@@ -1,8 +1,8 @@
 # --
 # LinkObject.dtl - provides HTML elements for link object lists
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.29 2010-12-08 19:20:52 en Exp $
+# $Id: LinkObject.dtl,v 1.30 2011-02-15 16:31:02 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ $Data{"Content"}
 <!-- dtl:block:TextTranslate -->
 
 <!-- dtl:block:Link -->
-<a class="AsBlock" href="$Data{"Link"}" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
+<a class="LinkZoomView AsBlock" href="$Data{"Link"}" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
 <!-- dtl:block:Link -->
 
 <!-- dtl:block:TimeLong -->
@@ -133,5 +133,13 @@ $Text{"none"}
         $(this).closest('.WidgetBox').find('table input[type=checkbox]').attr('checked', Status);
     });
 
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('a.LinkZoomView').bind('click', function () {
+        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
+        window.close();
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
