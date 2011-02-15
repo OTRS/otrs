@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.2 2011-02-15 16:50:05 mg Exp $
+# $Id: Provider.t,v 1.3 2011-02-15 16:55:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -248,9 +248,6 @@ for my $Test (@Tests) {
 
             $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
 
-            use Devel::Peek;
-            Devel::Peek::Dump($RequestData);
-
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
             open STDIN, '<:utf8', \$RequestData;
@@ -264,10 +261,6 @@ for my $Test (@Tests) {
 
             $ProviderObject->Run();
         }
-
-        #use Devel::Peek;
-        #Devel::Peek::Dump($ResponseData);
-        #Devel::Peek::Dump($Test->{ResponseData});
 
         if ( $Test->{ResponseSuccess} ) {
 
