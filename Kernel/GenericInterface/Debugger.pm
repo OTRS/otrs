@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.10 2011-02-15 09:11:29 cg Exp $
+# $Id: Debugger.pm,v 1.11 2011-02-15 12:22:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 #use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -84,14 +84,14 @@ create an object.
         EncodeObject       => $EncodeObject,
 
         DebuggerConfig   => {
-            DebugLevel => 'debug',
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
             ...
         },
 
         WebserviceID        => 12,
         CommunicationType   => Requester, # Requester or Provider
 
-        TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
         RemoteIP        => 192.168.1.1, # optional
     );
 
@@ -108,40 +108,39 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # check for needede params
-    for my $Needed (qw(DebuggerConfig WebserviceID)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
     # check DebuggerConfig - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{DebuggerConfig} ) ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebuggerConfig!' );
         return;
     }
 
+    # DebugThreshold
+    $Param{DebugThreshold} = $Param{DebuggerConfig}->{DebugThreshold} || '';
+
     # check for mandatory values
-    for my $Needed (qw(WebserviceID CommunicationType)) {
+    for my $Needed (qw(WebserviceID CommunicationType DebugThreshold)) {
         if ( !IsStringWithData( $Param{$Needed} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
+        $Self->{$Needed} = $Param{$Needed};
     }
 
-    # check for DebugLevel
-    if ( !IsStringWithData( $Param{DebuggerConfig}->{DebugLevel} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebugLevel!' );
+    # check correct DebugLevel
+    if ( $Self->{DebugThreshold} !~ /^(debug|info|notice|error)/i ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
 
     # check correct DebugLevel
-    if ( $Param{DebuggerConfig}->{DebugLevel} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+    if ( $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'CommunicationType is not allowed.' );
         return;
     }
-    $Self->{DebugLevel} = $Param{DebuggerConfig}->{DebugLevel};
 
     # TestMode
-    $Self->{TestMode} = $Param{TestMode} || 0;
+    $Self->{TestMode} = $Param{DebuggerConfig}->{TestMode} || 0;
 
     # remote ip optional
     if ( !$Param{RemoteIP} ) {
@@ -200,15 +199,17 @@ sub DebugLog {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
-
+    my %DebugLevels = ( 'debug', 1, 'info', 2, 'notice', 3, 'error', 4 );
     if ( !$Self->{TestMode} ) {
+        if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
 
-        # call AddLog function
-        #        $Self->{DebugLogObject}->LogAdd(
-        #            DebugLevel => $Param{DebugLevel},
-        #            Summary    => $Param{Summary},
-        #            Data       => $Param{Data},
-        #        );
+            # call AddLog function
+            #        $Self->{DebugLogObject}->LogAdd(
+            #            DebugLevel => $Param{DebugLevel},
+            #            Summary    => $Param{Summary},
+            #            Data       => $Param{Data},
+            #        );
+        }
         return 1 if $Param{DebugLevel} ne 'error';
     }
 
@@ -234,7 +235,8 @@ sub DebugLog {
             Priority => 'error',
             Message  => $LogMessage,
         );
-        return 1 if !$Self->{TestMode}
+        return 1 if !$Self->{TestMode};
+        $LogMessage .= "\n";
     }
     print STDERR $LogMessage;
 
@@ -368,6 +370,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-15 09:11:29 $
+$Revision: 1.11 $ $Date: 2011-02-15 12:22:29 $
 
 =cut

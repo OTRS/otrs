@@ -2,7 +2,7 @@
 # Debugger.t - GenericInterface debugger tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.t,v 1.4 2011-02-15 09:10:33 cg Exp $
+# $Id: Debugger.t,v 1.5 2011-02-15 12:21:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,11 +97,11 @@ $Self->False(
 $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'notice',
+        TestMode       => 1,
     },
     WebserviceID      => 1,
     CommunicationType => 'Provider',
-    TestMode          => 1,
 );
 $Self->Is(
     ref $DebuggerObject,
