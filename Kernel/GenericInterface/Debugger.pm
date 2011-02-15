@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.8 2011-02-14 22:25:30 cg Exp $
+# $Id: Debugger.pm,v 1.9 2011-02-15 08:59:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -132,8 +132,7 @@ sub new {
     }
 
     # check correct DebugLevel
-    my @DebugLevels = qw(debug info notice error);
-    if ( !grep { $_ eq $Param{DebuggerConfig}->{DebugLevel} } @DebugLevels ) {
+    if ( $Param{DebuggerConfig}->{DebugLevel} !~ /^(debug|info|notice|error)/i ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
@@ -162,8 +161,8 @@ sub new {
     $Self->{CommunicationID} = $MD5String;
 
     # create DebugLog object
-    $Self->{DebugLogObject}
-        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
+    #    $Self->{DebugLogObject}
+    #        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 
     return $Self;
 }
@@ -195,47 +194,47 @@ sub DebugLog {
     $Param{DebugLevel} = $Param{DebugLevel} || $Self->{DebugLevel};
 
     # check correct DebugLevel
-    my @DebugLevels = qw(debug info notice error);
-    if ( !grep { $_ eq $Param{DebugLevel} } @DebugLevels ) {
+    if ( $Param{DebugLevel} !~ /^(debug|info|notice|error)/i ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
 
+    if ( !$Self->{TestMode} ) {
+
+        # call AddLog function
+        $Self->{DebugLogObject}->LogAdd(
+            DebugLevel => $Param{DebugLevel},
+            Summary    => $Param{Summary},
+            Data       => $Param{Data},
+        );
+        return 1 if $Param{DebugLevel} ne 'error';
+    }
+
     # create log message
-    my $DataString = 'No data provided';
+    my $DataString = '';
     if ( IsHashRefWithData( $Param{Data} ) ) {
         $DataString = $Self->{MainObject}->Dump( $Param{Data} );
     }
     elsif ( IsStringWithData( $Param{Data} ) ) {
         $DataString = $Param{Data};
     }
+    else {
+        $DataString = 'No data provided';
+    }
     my $LogMessage =
         "DebugLog - $Param{DebugLevel}: \n" .
         "   -Summary - $Param{Summary},\n" .
         "   -Data - $DataString.\n\n";
 
-    if ( !$Self->{TestMode} ) {
-
-        # call AddLog function
-        $Self->{DebugLogObject}->AddLog(
-            DebugLevel => $Param{DebugLevel},
-            Summary    => $Param{Summary},
-            Data       => $Param{Data},
-        );
-    }
-    else {
-        print STDERR $LogMessage;
-    }
-
-    # Any messages with 'error' priority will
-    # also be written to Kernel::System::Log.
     if ( $Param{DebugLevel} eq 'error' ) {
         $LogMessage =~ s/\n//g;
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => $LogMessage,
         );
+        return 1 if !$Self->{TestMode}
     }
+    print STDERR $LogMessage;
 
     return 1;
 }
@@ -367,6 +366,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-14 22:25:30 $
+$Revision: 1.9 $ $Date: 2011-02-15 08:59:38 $
 
 =cut
