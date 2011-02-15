@@ -1797,4 +1797,42 @@
     <Column Name="create_time" Required="true" Type="DATE"/>
 </Table>
 
+<!-- gi_debugger_entry -->
+<Table Name="gi_debugger_entry">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="communication_id" Required="true" Size="32" Type="VARCHAR"/>
+    <Column Name="communication_type" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="remote_ip" Required="false" Size="50" Type="VARCHAR"/>
+    <Column Name="webservice_id" Required="true" Type="INTEGER"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Unique Name="gi_debugger_entry_communication_id">
+        <UniqueColumn Name="communication_id"/>
+    </Unique>
+    <Index Name="gi_debugger_entry_create_time">
+        <IndexColumn Name="create_time"/>
+    </Index>
+    <ForeignKey ForeignTable="gi_webservice_config">
+        <Reference Local="webservice_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- gi_debugger_entry_content -->
+<Table Name="gi_debugger_entry_content">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="gi_debugger_entry_id" Required="true" Type="BIGINT"/>
+    <Column Name="debug_level" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="subject" Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="content" Required="false" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Index Name="gi_debugger_entry_content_create_time">
+        <IndexColumn Name="create_time"/>
+    </Index>
+    <Index Name="gi_debugger_entry_content_debug_level">
+        <IndexColumn Name="debug_level"/>
+    </Index>
+    <ForeignKey ForeignTable="gi_debugger_entry">
+        <Reference Local="gi_debugger_entry_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 </database>

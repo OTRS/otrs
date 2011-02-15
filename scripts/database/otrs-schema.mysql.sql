@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-11 11:45:17
+#  driver: mysql, generated: 2011-02-15 16:20:42
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1192,4 +1192,32 @@ CREATE TABLE scheduler_task_list (
     task_type VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table gi_debugger_entry
+# ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    communication_id VARCHAR (32) NOT NULL,
+    communication_type VARCHAR (50) NOT NULL,
+    remote_ip VARCHAR (50) NULL,
+    webservice_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX gi_debugger_entry_communication_id (communication_id),
+    INDEX gi_debugger_entry_create_time (create_time)
+);
+# ----------------------------------------------------------
+#  create table gi_debugger_entry_content
+# ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry_content (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    gi_debugger_entry_id BIGINT NOT NULL,
+    debug_level VARCHAR (50) NOT NULL,
+    subject VARCHAR (255) NOT NULL,
+    content LONGBLOB NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    INDEX gi_debugger_entry_content_create_time (create_time),
+    INDEX gi_debugger_entry_content_debug_level (debug_level)
 );

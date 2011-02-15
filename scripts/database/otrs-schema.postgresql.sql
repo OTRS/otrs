@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-11 11:45:18
+--  driver: postgresql, generated: 2011-02-15 16:20:43
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1193,3 +1193,31 @@ CREATE TABLE scheduler_task_list (
     create_time timestamp(0) NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry (
+    id serial NOT NULL,
+    communication_id VARCHAR (32) NOT NULL,
+    communication_type VARCHAR (50) NOT NULL,
+    remote_ip VARCHAR (50) NULL,
+    webservice_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT gi_debugger_entry_communication_id UNIQUE (communication_id)
+);
+CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry_content
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry_content (
+    id serial NOT NULL,
+    gi_debugger_entry_id INTEGER NOT NULL,
+    debug_level VARCHAR (50) NOT NULL,
+    subject VARCHAR (255) NOT NULL,
+    content TEXT NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX gi_debugger_entry_content_create_time ON gi_debugger_entry_content (create_time);
+CREATE INDEX gi_debugger_entry_content_debug_level ON gi_debugger_entry_content (debug_level);

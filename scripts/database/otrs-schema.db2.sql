@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-11 11:45:16
+--  driver: db2, generated: 2011-02-15 16:20:41
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1354,3 +1354,36 @@ CREATE TABLE scheduler_task_list (
     create_time TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
 );
+
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    communication_id VARCHAR (32) NOT NULL,
+    communication_type VARCHAR (50) NOT NULL,
+    remote_ip VARCHAR (50),
+    webservice_id INTEGER NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT gi_debugger_entry_communication_id UNIQUE (communication_id)
+);
+
+CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);
+
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry_content
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry_content (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    gi_debugger_entry_id BIGINT NOT NULL,
+    debug_level VARCHAR (50) NOT NULL,
+    subject VARCHAR (255) NOT NULL,
+    content BLOB (30M),
+    create_time TIMESTAMP NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE INDEX gi_debugger_entry_content_crea4e ON gi_debugger_entry_content (create_time);
+
+CREATE INDEX gi_debugger_entry_content_debua1 ON gi_debugger_entry_content (debug_level);

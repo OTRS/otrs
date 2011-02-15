@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-11 11:45:17
+--  driver: oracle, generated: 2011-02-15 16:20:42
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1956,3 +1956,61 @@ begin
 end;
 /
 --;
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry (
+    id NUMBER (20, 0) NOT NULL,
+    communication_id VARCHAR2 (32) NOT NULL,
+    communication_type VARCHAR2 (50) NOT NULL,
+    remote_ip VARCHAR2 (50) NULL,
+    webservice_id NUMBER (12, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    CONSTRAINT gi_debugger_entry_communicat94 UNIQUE (communication_id)
+);
+ALTER TABLE gi_debugger_entry ADD CONSTRAINT PK_gi_debugger_entry PRIMARY KEY (id);
+DROP SEQUENCE SE_gi_debugger_entry;
+CREATE SEQUENCE SE_gi_debugger_entry;
+CREATE OR REPLACE TRIGGER SE_gi_debugger_entry_t
+before insert on gi_debugger_entry
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_gi_debugger_entry.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_gi_debugger_entry_webserv43 ON gi_debugger_entry (webservice_id);
+CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);
+-- ----------------------------------------------------------
+--  create table gi_debugger_entry_content
+-- ----------------------------------------------------------
+CREATE TABLE gi_debugger_entry_content (
+    id NUMBER (20, 0) NOT NULL,
+    gi_debugger_entry_id NUMBER (20, 0) NOT NULL,
+    debug_level VARCHAR2 (50) NOT NULL,
+    subject VARCHAR2 (255) NOT NULL,
+    content CLOB NULL,
+    create_time DATE NOT NULL
+);
+ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT PK_gi_debugger_entry_content PRIMARY KEY (id);
+DROP SEQUENCE SE_gi_debugger_entry_content;
+CREATE SEQUENCE SE_gi_debugger_entry_content;
+CREATE OR REPLACE TRIGGER SE_gi_debugger_entry_content_t
+before insert on gi_debugger_entry_content
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_gi_debugger_entry_content.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_gi_debugger_entry_contentc3 ON gi_debugger_entry_content (gi_debugger_entry_id);
+CREATE INDEX gi_debugger_entry_content_cr4e ON gi_debugger_entry_content (create_time);
+CREATE INDEX gi_debugger_entry_content_dea1 ON gi_debugger_entry_content (debug_level);
