@@ -1,8 +1,8 @@
 # --
-# Requester.t - Provider tests
+# Requester.t - Requester tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.t,v 1.1 2011-02-15 10:27:50 mg Exp $
+# $Id: Requester.t,v 1.2 2011-02-15 10:28:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,8 +15,7 @@ use utf8;
 use vars (qw($Self));
 
 use CGI ();
-
-#use URI::Escape();
+use URI::Escape();
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Requester;
