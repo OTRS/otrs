@@ -1,0 +1,765 @@
+# --
+# Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: DebugLog.pm,v 1.1 2011-02-15 18:46:23 sb Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::System::GenericInterface::DebugLog;
+
+use strict;
+use warnings;
+
+use Kernel::System::VariableCheck
+    qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.1 $) [1];
+
+=head1 NAME
+
+Kernel::System::GenericInterface::DebugLog - log interface for generic interface
+
+=head1 SYNOPSIS
+
+All log functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a debug log object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::GenericInterface::DebugLog;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        DBObject     => $DBObject,
+    );
+
+=cut
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # get needed objects
+    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
+        die "Got no $Needed!" if !$Param{$Needed};
+
+        $Self->{$Needed} = $Param{$Needed};
+    }
+
+    return $Self;
+}
+
+=item LogAdd()
+
+add a communication bit to database
+if we don't already have a communication chain, create it
+
+returns 1 on success or undef on error
+
+    my $Success = $DebugLobObject->LogAdd(
+        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
+        CommunicationType => 'Provider',        # 'Provider' or 'Requester'
+        Data              => 'additional data' # optional
+        DebugLevel        => 'info',           # 'debug', 'info', 'notice', 'error'
+        RemoteIP          => '192.168.0.1',    # optional, must be valid IPv4 or IPv6 address
+        Subject           => 'description of log entry',
+        WebserviceID      => 1,
+    );
+
+=cut
+
+sub LogAdd {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    NEEDED:
+    for my $Needed (qw(CommunicationID CommunicationType DebugLevel Subject WebserviceID)) {
+        next NEEDED if IsStringWithData( $Param{$Needed} );
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need $Needed as a string!",
+        );
+        return;
+    }
+
+    # param syntax check
+    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+    if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
+        );
+        return;
+    }
+    if ( defined $Param{RemoteIP} ) {
+        if ( !IsStringWithData( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+    }
+    if ( !IsPositiveInteger( $Param{WebserviceID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'WebserviceID is not a positive integer!',
+        );
+        return;
+    }
+    KEY:
+    for my $Key (qw(Data DebugLevel Subject)) {
+        next KEY if !defined $Param{$Key};
+        if ( !IsString( $Param{$Key} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Key is not a string!",
+            );
+            return;
+        }
+    }
+
+    # check if we have a communication chain already
+    my $LogData = $Self->LogGet(
+        CommunicationID => $Param{CommunicationID},
+    );
+    if ( !IsHashRefWithData($LogData) ) {
+
+        # no entry yet, create one
+        return if !$Self->_LogAddChain(
+            CommunicationID   => $Param{CommunicationID},
+            CommunicationType => $Param{CommunicationType},
+            RemoteIP          => $Param{RemoteIP},
+            WebserviceID      => $Param{WebserviceID},
+        );
+    }
+    else {
+
+        # match param against existing chain
+        KEY:
+        for my $Key (qw(CommunicationType RemoteIP WebserviceID)) {
+            next KEY if !defined $Param{$Key};
+            next KEY if $Param{$Key} eq $LogData->{$Key};
+
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Key does not match current value for this CommunicationID!",
+            );
+            return;
+        }
+    }
+
+    # create entry
+    if (
+        !$Self->{DBObject}->Do(
+            SQL =>
+                'INSERT INTO gi_debugger_entry_content'
+                . ' (content, create_time, debug_level, gi_debugger_entry_id, subject)'
+                . ' (gi_debugger_entry_id, debug_level, subject, content, create_time)'
+                . ' VALUES (?, current_timestamp, ?, ?, ?)',
+            Bind => [
+                \$Param{Content}, \$Param{DebugLevel}, \$LogData->{LogID}, \$Param{Subject},
+            ],
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not create debug entry in db!',
+        );
+        return;
+    }
+
+    return 1;
+}
+
+=item LogGet()
+
+get communication chain data
+
+    my $LogData = $DebugLobObject->LogGet(
+        CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
+    );
+
+    $LogData = {
+        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
+        CommunicationType => 'Provider',
+        Created           => '2011-02-15 16:47:28',
+        LogID             => 1,
+        RemoteIP          => '192.168.0.1', # optional
+        WebserviceID      => 1,
+    };
+
+=cut
+
+sub LogGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed param
+    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+
+    # prepare db request
+    if (
+        !$Self->{DBObject}->Prepare(
+            SQL =>
+                'SELECT communication_id, communication_type, create_time, id, remote_ip,'
+                . ' webservice_id FROM gi_debugger_entry WHERE communication_id = ?',
+            Bind  => [ \$Param{CommunicationID} ],
+            Limit => 1,
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not prepare db query!',
+        );
+        return;
+    }
+
+    # read data
+    my %LogData;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        %LogData = (
+            CommunicationID   => $Row[0],
+            CommunicationType => $Row[1],
+            Created           => $Row[2],
+            LogID             => $Row[3],
+            RemoteIP          => $Row[4] || '',
+            WebserviceID      => $Row[5],
+        );
+    }
+
+    return if !%LogData;
+    return \%LogData;
+}
+
+=item LogGetWithData()
+
+get all individual entries for a communication chain
+
+    my $LogData = $DebugLobObject->LogGetWithData(
+        CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
+    );
+
+    $LogData = {
+        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
+        CommunicationType => 'Provider',
+        Created           => '2011-02-15 16:47:28',
+        LogID             => 1,
+        RemoteIP          => '192.168.0.1', # optional
+        WebserviceID      => 1,
+        Data              => [
+            {
+                Created    => '2011-02-15 17:00:06',
+                Data       => 'some logging specific data or structure', # optional
+                DebugLevel => 'info',
+                Subject    => 'a log bit',
+            },
+            ...
+        ],
+    };
+
+=cut
+
+sub LogGetWithData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed param
+    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+
+    # check if we have data for this communication id
+    my $LogData = $Self->LogGet(
+        CommunicationID => $Param{CommunicationID},
+    );
+    if ( !IsHashRefWithData($LogData) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not get communication chain!',
+        );
+        return;
+    }
+
+    # prepare db request
+    if (
+        !$Self->{DBObject}->Prepare(
+            SQL =>
+                'SELECT create_time, content, debug_level, subject'
+                . ' FROM gi_debugger_entry_content WHERE gi_debugger_entry_id = ?'
+                . ' ORDER BY create_time ASC',
+            Bind => [ \$LogData->{LogID} ],
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not prepare db query!',
+        );
+        return;
+    }
+
+    # read data
+    my @LogDataEntries;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my %SingleEntry = (
+            Created    => $Row[0],
+            Data       => $Row[1] || '',
+            DebugLevel => $Row[2],
+            Subject    => $Row[3],
+        );
+        push @LogDataEntries, \%SingleEntry;
+    }
+
+    $LogData->{Data} = \@LogDataEntries;
+    return $LogData;
+}
+
+=item LogDelete()
+
+delete a complete communication chain
+
+returns 1 if successful or undef otherwise
+
+    my $Success = $DebugLobObject->LogDelete(
+        CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
+    );
+
+=cut
+
+sub LogDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed param
+    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+
+    # check if we have data for this communication id
+    my $LogData = $Self->LogGet(
+        CommunicationID => $Param{CommunicationID},
+    );
+    if ( !IsHashRefWithData($LogData) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Communication chain does not exist!',
+        );
+        return;
+    }
+
+    # delete individual entries first
+    if (
+        !$Self->{DBObject}->Do(
+            SQL  => 'DELETE FROM gi_debugger_entry_content WHERE gi_debugger_entry_id = ?',
+            Bind => [ \$LogData->{LogID} ],
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not remove entries of communication chain in db!',
+        );
+        return;
+    }
+
+    # delete main entry
+    if (
+        !$Self->{DBObject}->Do(
+            SQL  => 'DELETE FROM gi_debugger_entry WHERE communication_id = ?',
+            Bind => [ \$Param{CommunicationID} ],
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not remove communication chain in db!',
+        );
+        return;
+    }
+
+    return 1;
+}
+
+=item LogSearch()
+
+search for log chains based on several criteria
+when the parameter 'WithData' is set, the complete communication chains will be returned
+
+    my $LogData = $DebugLobObject->LogSearch(
+        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9', # optional
+        CommunicationType => 'Provider',     # optional, 'Provider' or 'Requester'
+        CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
+        CreatedArOrBefore => '2011-12-31 23:59:59', # optional
+        RemoteIP          => '192.168.0.1', # optional, must be valid IPv4 or IPv6 address
+        WebserviceID      => 1, # optional
+        WithData          => 0, # optional
+    );
+
+    $LogData = [
+        {
+            CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
+            CommunicationType => 'Provider',
+            Created           => '2011-02-15 16:47:28',
+            LogID             => 1,
+            RemoteIP          => '192.168.0.1', # optional
+            WebserviceID      => 1,
+            Data              => [ # only when 'WithData' is set
+                {
+                    Created    => '2011-02-15 17:00:06',
+                    Data       => 'some logging specific data or structure', # optional
+                    DebugLevel => 'info',
+                    Subject    => 'a log bit',
+                },
+                ...
+            ],
+        },
+        ...
+    ];
+
+=cut
+
+sub LogSearch {
+    my ( $Self, %Param ) = @_;
+
+    # param check
+    KEY:
+    for my $Key (
+        qw(CommunicationID CommunicationType CreatedAtOrAfter CreatedAtOrBefore RemoteIP WebserviceID WithData)
+        )
+    {
+        next KEY if !defined $Param{$Key};
+        next KEY if IsStringWithData( $Param{$Key} );
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need $Key as a string!",
+        );
+        return;
+    }
+
+    # param syntax check
+    if ( $Param{CommunicationID} && !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+    if (
+        $Param{CommunicationType}
+        && $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
+        );
+        return;
+    }
+    KEY:
+    for my $Key (qw(CreatedAtOrAfter CreatedAtOrBefore)) {
+        next KEY if !$Param{$Key};
+        next KEY if $Param{$Key} =~ m{
+                \A \d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} : \d{2} \z
+            }xms;
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "$Key '$Param{$Key}' is not valid!",
+        );
+        return;
+    }
+    if ( $Param{RemoteIP} ) {
+        if ( !IsStringWithData( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+    }
+    if ( $Param{WebserviceID} && !IsPositiveInteger( $Param{WebserviceID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'WebserviceID is not a positive integer!',
+        );
+        return;
+    }
+    if ( $Param{WithData} && $Param{WithData} !~ m{ \A [01] \z }xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'WebserviceID is not a positive integer!',
+        );
+        return;
+    }
+
+    # prepare db request
+    my $SQL =
+        'SELECT communication_id, communication_type, id, remote_ip, webservice_id, create_time'
+        . ' FROM gi_debugger_entry';
+    my @Bind     = ();
+    my $SQLExt   = '';
+    my %NameToDB = (
+        CommunicationID   => 'communication_id',
+        CommunicationType => 'communication_type',
+        RemoteIP          => 'remote_ip',
+        WebserviceID      => 'webservice_id',
+    );
+    OPTION:
+    for my $Option (qw(CommunicationID CommunicationType RemoteIP WebserviceID)) {
+        next OPTION if !$Param{$Option};
+        my $Type = $SQLExt ? 'AND' : 'WHERE';
+        $SQLExt .= " $Type $NameToDB{$Option} = ?";
+        push @Bind, \$Param{$Option};
+    }
+    if ( $Param{CreatedAtOrAfter} ) {
+        my $Type = $SQLExt ? 'AND' : 'WHERE';
+        $SQLExt .= " $Type create_time >= ?";
+        push @Bind, \$Param{CreatedAtOrAfter};
+    }
+    if ( $Param{CreatedAtOrBefore} ) {
+        my $Type = $SQLExt ? 'AND' : 'WHERE';
+        $SQLExt .= " $Type create_time <= ?";
+        push @Bind, \$Param{CreatedAtOrBefore};
+    }
+    $SQLExt .= ' ORDER BY create_time ASC';
+
+    if (
+        !$Self->{DBObject}->Prepare(
+            SQL  => $SQL . $SQLExt,
+            Bind => \@Bind,
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not prepare db query!',
+        );
+        return;
+    }
+
+    # read data
+    my @LogEntries;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my %SingleEntry = (
+            CommunicationID   => $Row[0],
+            CommunicationType => $Row[1],
+            Created           => $Row[2],
+            LogID             => $Row[3],
+            RemoteIP          => $Row[4] || '',
+            WebserviceID      => $Row[5],
+        );
+        push @LogEntries, \%SingleEntry;
+    }
+
+    # done if we only need main entries
+    return \@LogEntries if !$Param{WithData};
+
+    # we need individual entries
+    my @LogEntriesWithData;
+    for my $Entry (@LogEntries) {
+        my $LogData = $Self->LogGetWithData(
+            CommunicationID => $Entry->{CommunicationID},
+        );
+        return if !$LogData;
+        push @LogEntriesWithData, $LogData;
+    }
+
+    return \@LogEntriesWithData;
+}
+
+=begin Internal:
+
+=cut
+
+=item _LogAddChain()
+
+establish communication chain in database
+
+returns 1 on success or undef on error
+
+    my $Success = $DebugLobObject->_LogAddChain(
+        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
+        CommunicationType => 'Provider',     # 'Provider' or 'Requester'
+        RemoteIP          => '192.168.0.1', # optional, must be valid IPv4 or IPv6 address
+        WebserviceID      => 1,
+    );
+
+=cut
+
+sub _LogAddChain {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    NEEDED:
+    for my $Needed (qw(CommunicationID CommunicationType WebserviceID)) {
+        next NEEDED if IsStringWithData( $Param{$Needed} );
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need $Needed as a string!",
+        );
+        return;
+    }
+
+    # param syntax check
+    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationID is not an md5sum!',
+        );
+        return;
+    }
+    if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
+        );
+        return;
+    }
+    if ( defined $Param{RemoteIP} ) {
+        if ( !IsStringWithData( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
+            );
+            return;
+        }
+    }
+    if ( !IsPositiveInteger( $Param{WebserviceID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'WebserviceID is not a positive integer!',
+        );
+        return;
+    }
+
+    if (
+        !$Self->{DBObject}->Do(
+            SQL =>
+                'INSERT INTO gi_debugger_entry'
+                . ' (communication_id, communication_type, create_time, remote_ip,'
+                . '  webservice_id)'
+                . ' VALUES (?, ?, current_timestamp, ?, ?)',
+            Bind => [
+                \$Param{CommunicationID}, \$Param{CommunicationType},
+                \$Param{RemoteIP},        \$Param{WebserviceID},
+            ],
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Could not create debug entry chain in db!',
+        );
+        return;
+    }
+
+    return 1;
+}
+
+=end Internal:
+
+1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.1 $ $Date: 2011-02-15 18:46:23 $
+
+=cut
