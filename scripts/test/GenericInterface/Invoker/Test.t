@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.4 2011-02-15 09:35:14 mg Exp $
+# $Id: Test.t,v 1.5 2011-02-15 14:14:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,11 +22,11 @@ $CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     %CommonObject,
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'debug',
+        TestMode       => 1,
     },
     WebserviceID      => 1,
     CommunicationType => 'Requester',
-    TestMode          => 1,
 );
 
 # get the current time

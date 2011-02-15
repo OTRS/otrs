@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.6 2011-02-15 09:35:14 mg Exp $
+# $Id: Invoker.t,v 1.7 2011-02-15 14:11:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,21 +20,22 @@ my %CommonObject = %{$Self};
 $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     %CommonObject,
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'debug',
+        TestMode       => 1,
     },
     WebserviceID      => 1,
     CommunicationType => 'Requester',
-    TestMode          => 1,
 );
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $Self->{TimeObject}->SystemTime(),
 );
+$Sec   = sprintf "%02d", '00';
 $Min   = sprintf "%02d", $Min;
 $Hour  = sprintf "%02d", $Hour;
 $Day   = sprintf "%02d", $Day;
 $Month = sprintf "%02d", $Month;
-my $CurrentTime = "$Year$Month$Day$Hour$Min";
+my $CurrentTime = "$Year$Month$Day$Hour$Min$Sec";
 
 my $InvokerObject;
 
@@ -137,7 +138,7 @@ $ReturnData = $InvokerObject->HandleResponse(
 );
 $Self->False(
     $ReturnData->{Success},
-    'HandleResponse call data provided and false success',
+    'HandleResponse call, not ResponseErrorMessage data provided',
 );
 
 $ReturnData = $InvokerObject->HandleResponse(
@@ -161,43 +162,18 @@ $ReturnData = $InvokerObject->HandleResponse(
 $Self->False(
     $ReturnData->{Success},
     'HandleResponse call not ticket number false success',
-    )
-
-    ;
+);
 
 # HandleResponse with some data (Success)
 $ReturnData = $InvokerObject->HandleResponse(
     Data => {
-        TicketNumber    => $CurrentTime,
+        TicketNumber    => $CurrentTime . '1',
         ResponseSuccess => '1',
     },
 );
 $Self->True(
     $ReturnData->{Success},
-    'HandleResponse call data provided and response success',
-);
-
-$ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        TicketNumber         => $CurrentTime,
-        ResponseSuccess      => '1',
-        ResponseErrorMessage => 'Just an error message.',
-    },
-);
-$Self->True(
-    $ReturnData->{Success},
-    'HandleResponse call data provided and false success',
-);
-
-$ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        ResponseSuccess      => '1',
-        ResponseErrorMessage => 'Just an error message.',
-    },
-);
-$Self->False(
-    $ReturnData->{Success},
-    'HandleResponse call not ticket number false success',
+    'HandleResponse call with response success',
 );
 
 1;
