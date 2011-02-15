@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.1 2011-02-15 16:40:47 mg Exp $
+# $Id: Provider.t,v 1.2 2011-02-15 16:50:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ my @Tests = (
                 },
                 Operation => {
                     test_operation => {
-                        Type           => 'Test::PerformTest',
+                        Type           => 'Test::Test',
                         MappingInbound => {
                             Type   => 'Test',
                             Config => {
@@ -86,7 +86,7 @@ my @Tests = (
                 },
                 Operation => {
                     test_operation => {
-                        Type           => 'Test::PerformTest',
+                        Type           => 'Test::Test',
                         MappingInbound => {
                             Type => 'Test',
                         },
@@ -119,7 +119,7 @@ my @Tests = (
                 },
                 Operation => {
                     test_operation => {
-                        Type           => 'Test::PerformTest',
+                        Type           => 'Test::Test',
                         MappingInbound => {
                             Type => 'Test',
                         },
@@ -156,7 +156,7 @@ my @Tests = (
                 },
                 Operation => {
                     test_operation => {
-                        Type           => 'Test::PerformTest',
+                        Type           => 'Test::Test',
                         MappingInbound => {
                             Type => 'Test',
                         },
