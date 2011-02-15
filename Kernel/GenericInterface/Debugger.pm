@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.11 2011-02-15 12:22:29 cg Exp $
+# $Id: Debugger.pm,v 1.12 2011-02-15 13:42:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 #use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -199,7 +199,12 @@ sub DebugLog {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
         return;
     }
-    my %DebugLevels = ( 'debug', 1, 'info', 2, 'notice', 3, 'error', 4 );
+    my %DebugLevels = (
+        debug  => 1,
+        info   => 2,
+        notice => 3,
+        error  => 4
+    );
     if ( !$Self->{TestMode} ) {
         if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
 
@@ -370,6 +375,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-15 12:22:29 $
+$Revision: 1.12 $ $Date: 2011-02-15 13:42:37 $
 
 =cut
