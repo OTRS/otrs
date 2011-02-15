@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.3 2011-02-15 16:55:55 mg Exp $
+# $Id: Provider.t,v 1.4 2011-02-15 19:14:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -325,21 +325,22 @@ for my $Test (@Tests) {
 
                 $Self->True(
                     index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                    "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart",
                 );
             }
 
             $Self->Is(
                 $Response->code,
                 200,
-                "$Test->{Name} real HTTP $RequestMethod request result success status",
+                "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result success status",
             );
         }
         else {
             $Self->Is(
                 $Response->code,
                 500,
-                "$Test->{Name} real HTTP $RequestMethod request result error status",
+                "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result error status"
+                ,
             );
         }
     }
