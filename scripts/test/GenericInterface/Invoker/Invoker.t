@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.7 2011-02-15 14:11:35 cg Exp $
+# $Id: Invoker.t,v 1.8 2011-02-15 16:24:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,20 +41,18 @@ my $InvokerObject;
 
 # provide no objects
 $InvokerObject = Kernel::GenericInterface::Invoker->new();
-$Self->True(
-    ref $InvokerObject eq 'HASH',
-    'InvokerObject response check',
-);
-$Self->False(
-    $InvokerObject->{Success},
-    'InvokerObject required objects check',
+$Self->IsNot(
+    ref $InvokerObject,
+    'Kernel::GenericInterface::Invoker',
+    'Invoker::new() constructor failure, no arguments',
 );
 
 # correct call (without invoker info)
 $InvokerObject = Kernel::GenericInterface::Invoker->new(%CommonObject);
-$Self->True(
-    ref $InvokerObject eq 'HASH',
-    'InvokerObject call without invoker info',
+$Self->IsNot(
+    ref $InvokerObject,
+    'Kernel::GenericInterface::Invoker',
+    'Invoker::new() constructor failure, no InvokerType',
 );
 
 # provide incorrect invoker
@@ -62,9 +60,10 @@ $InvokerObject = Kernel::GenericInterface::Invoker->new(
     %CommonObject,
     InvokerType => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
 );
-$Self->False(
-    $InvokerObject->{Success},
-    'InvokerObject invoker check',
+$Self->IsNot(
+    ref $InvokerObject,
+    'Kernel::GenericInterface::Invoker',
+    'Invoker::new() constructor failure, wrong InvokerType',
 );
 
 # correct call
@@ -80,22 +79,36 @@ $Self->Is(
 
 # PrepareRequest without data
 my $ReturnData = $InvokerObject->PrepareRequest();
-$Self->True(
-    ref $ReturnData eq 'HASH',
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
     'PrepareRequest call without arguments',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'PrepareRequest call without arguments success',
 );
 $Self->True(
     $ReturnData->{ErrorMessage},
-    'PrepareRequest call without arguments',
+    'PrepareRequest call without arguments error message',
 );
 
 # PrepareRequest with empty data
 $ReturnData = $InvokerObject->PrepareRequest(
     Data => {},
 );
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'PrepareRequest call empty data',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'PrepareRequest call empty data success',
+);
 $Self->True(
     $ReturnData->{ErrorMessage},
-    'PrepareRequest call empty data provided',
+    'PrepareRequest call empty data error message',
 );
 
 # PrepareRequest with some data
@@ -111,64 +124,85 @@ $Self->True(
 
 # HandleResponse without data
 $ReturnData = $InvokerObject->HandleResponse();
-$Self->True(
-    ref $ReturnData eq 'HASH',
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
     'HandleResponse without arguments',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'HandleResponse call without arguments success',
 );
 $Self->True(
     $ReturnData->{ErrorMessage},
-    'HandleResponse call without arguments',
+    'HandleResponse call without arguments error message',
 );
 
 # HandleResponse with empty data
 $ReturnData = $InvokerObject->HandleResponse(
     Data => {},
 );
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'HandleResponse empty data',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'HandleResponse call empty data success',
+);
 $Self->True(
     $ReturnData->{ErrorMessage},
-    'HandleResponse call empty data provided',
+    'HandleResponse call empty data error message',
 );
 
 # HandleResponse with some data
 $ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        TicketNumber    => $CurrentTime,
-        ResponseSuccess => '0',
+    ResponseSuccess => '0',
+    Data            => {
+        TicketNumber => $CurrentTime,
     },
+);
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'HandleResponse response failure without error message',
 );
 $Self->False(
     $ReturnData->{Success},
-    'HandleResponse call, not ResponseErrorMessage data provided',
+    'HandleResponse response failure without error message success',
+);
+$Self->True(
+    $ReturnData->{ErrorMessage},
+    'HandleResponse call response failure without error message error message',
 );
 
 $ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        TicketNumber         => $CurrentTime,
-        ResponseSuccess      => '0',
-        ResponseErrorMessage => 'Just an error message.',
+    ResponseSuccess      => '0',
+    ResponseErrorMessage => 'Just an error message.',
+    Data                 => {
+        TicketNumber => $CurrentTime,
     },
+);
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'HandleResponse response failure ',
 );
 $Self->False(
     $ReturnData->{Success},
-    'HandleResponse call data provided and false success',
+    'HandleResponse response failure success',
 );
-
-$ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        ResponseSuccess      => '0',
-        ResponseErrorMessage => 'Just an error message.',
-    },
-);
-$Self->False(
-    $ReturnData->{Success},
-    'HandleResponse call not ticket number false success',
+$Self->True(
+    $ReturnData->{ErrorMessage},
+    'HandleResponse call response failure error message',
 );
 
 # HandleResponse with some data (Success)
 $ReturnData = $InvokerObject->HandleResponse(
-    Data => {
-        TicketNumber    => $CurrentTime . '1',
-        ResponseSuccess => '1',
+    ResponseSuccess => '1',
+    Data            => {
+        TicketNumber => $CurrentTime . '1',
     },
 );
 $Self->True(

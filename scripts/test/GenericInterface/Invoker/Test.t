@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.5 2011-02-15 14:14:59 cg Exp $
+# $Id: Test.t,v 1.6 2011-02-15 16:24:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -305,17 +305,9 @@ for my $Test (@InvokerHandleResponseTests) {
     );
 
     if ( !$Test->{ResultSuccess} ) {
-        $Self->False(
-            $InvokerResult->{Success},
-            $Test->{Name} . ' (Error Message: ' .
-                $InvokerResult->{ErrorMessage} . ')',
-        );
-    }
-    else {
-        $Self->Is(
-            ref $InvokerObject,
-            'Kernel::GenericInterface::Invoker',
-            $Test->{Name} . ' (Not Error Message).',
+        $Self->True(
+            $InvokerResult->{ErrorMessage},
+            $Test->{Name} . ' error message',
         );
     }
 }
