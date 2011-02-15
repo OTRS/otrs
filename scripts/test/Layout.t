@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.49 2011-02-15 14:04:25 mg Exp $
+# $Id: Layout.t,v 1.50 2011-02-15 14:46:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1186,6 +1186,11 @@ my @LinkEncodeTests = (
         Target => '%20',
 
         # %20 is required for IIS, even though it can be + according to the RFC.
+    },
+    {
+        Name   => 'LinkEncode() on common characters',
+        Source => '<>"{}|\`^% ',
+        Target => '%3C%3E%22%7B%7D%7C%5C%60%5E%25%20',
     },
 );
 
