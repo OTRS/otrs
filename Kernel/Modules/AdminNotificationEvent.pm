@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.28 2010-10-07 07:20:16 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.29 2011-02-15 23:08:05 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,9 +34,9 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -85,16 +85,16 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        for my $Parameter (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
-        for (
+        for my $Parameter (
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
             )
         {
-            my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
+            my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
             next if !@Data;
-            $GetParam{Data}->{$_} = \@Data;
+            $GetParam{Data}->{$Parameter} = \@Data;
         }
 
         # get free field params
@@ -131,10 +131,10 @@ sub Run {
             return $Output;
         }
         else {
-            for (qw(Name Events Subject Body)) {
-                $GetParam{ $_ . "ServerError" } = "";
-                if ( $GetParam{$_} eq '' ) {
-                    $GetParam{ $_ . "ServerError" } = "ServerError";
+            for my $Needed (qw(Name Events Subject Body)) {
+                $GetParam{ $Needed . "ServerError" } = "";
+                if ( $GetParam{$Needed} eq '' ) {
+                    $GetParam{ $Needed . "ServerError" } = "ServerError";
                 }
             }
             my $Output = $Self->{LayoutObject}->Header();
@@ -157,15 +157,11 @@ sub Run {
     # add
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
-        my %GetParam = ();
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
-            %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminNotificationEvent',
@@ -184,16 +180,16 @@ sub Run {
         #        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
-        for (qw(Name Subject Body Comment ValidID Events)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        for my $Parameter (qw(Name Subject Body Comment ValidID Events)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
-        for (
-            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
+        for my $Parameter (
+            qw(Recipients RecipientAgents RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
             )
         {
-            my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
+            my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
             next if !@Data;
-            $GetParam{Data}->{$_} = \@Data;
+            $GetParam{Data}->{$Parameter} = \@Data;
         }
 
         # get free field params
@@ -231,10 +227,10 @@ sub Run {
             return $Output;
         }
         else {
-            for (qw(Name Events Subject Body)) {
-                $GetParam{ $_ . "ServerError" } = "";
-                if ( $GetParam{$_} eq '' ) {
-                    $GetParam{ $_ . "ServerError" } = "ServerError";
+            for my $Needed (qw(Name Events Subject Body)) {
+                $GetParam{ $Needed . "ServerError" } = "";
+                if ( $GetParam{$Needed} eq '' ) {
+                    $GetParam{ $Needed . "ServerError" } = "ServerError";
                 }
             }
             my $Output = $Self->{LayoutObject}->Header();
@@ -259,8 +255,8 @@ sub Run {
     if ( $Self->{Subaction} eq 'Delete' ) {
 
         my %GetParam;
-        for (qw(ID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        for my $Parameter (qw(ID)) {
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
         my $Delete = $Self->{NotificationEventObject}->NotificationDelete(
