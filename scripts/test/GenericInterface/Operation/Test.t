@@ -1,8 +1,8 @@
 # --
-# PerformTest.t - Operations tests
+# Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PerformTest.t,v 1.1 2011-02-10 08:45:20 cr Exp $
+# $Id: Test.t,v 1.1 2011-02-15 15:42:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,16 +22,17 @@ $CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     %CommonObject,
     DebuggerConfig => {
-        DebugLevel => 'debug',
+        DebugThreshold => 'debug',
     },
-    WebserviceID => 1,
-    TestMode     => 1,
+    WebserviceID      => 1,
+    CommunicationType => 'Provider',
+    TestMode          => 1,
 );
 
 # create a operation instance
 my $OperationObject = Kernel::GenericInterface::Operation->new(
     %CommonObject,
-    Operation => 'Test::PerformTest',
+    OperationType => 'Test::Test',
 );
 $Self->Is(
     ref $OperationObject,
@@ -85,20 +86,11 @@ for my $Test (@OperationTests) {
         'Test data set ' . $Counter . ' Test: Data Structure.',
     );
 
-    if ( !$Test->{ResultSuccess} ) {
-        $Self->False(
-            $OperationResult->{Success},
-            'Test data set ' . $Counter . ' (Error Message: ' .
-                $OperationResult->{ErrorMessage} . ')',
-        );
-    }
-    else {
-        $Self->Is(
-            ref $OperationObject,
-            'Kernel::GenericInterface::Operation',
-            'Test data set ' . $Counter . ' Test: Not Error Message.',
-        );
-    }
+    $Self->Is(
+        $OperationResult->{Success},
+        $Test->{ResultSuccess},
+        'Test data set ' . $Counter . ' success status',
+    );
 }
 
 1;

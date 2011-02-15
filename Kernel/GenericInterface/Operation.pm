@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.8 2011-02-11 09:04:06 cr Exp $
+# $Id: Operation.pm,v 1.9 2011-02-15 15:42:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation
+Kernel::GenericInterface::Operation - GenericInterface Operation interface
 
 =head1 SYNOPSIS
-
-GenericInterface Operation interface.
 
 Operations are called by web service requests from remote
 systems.
@@ -79,7 +77,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Operation => 'Ticket::TicketCreate',    # the local operation to use
+        OperationType      => 'Ticket::TicketCreate',    # the local operation backend to use
     );
 
 =cut
@@ -92,7 +90,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject Operation)
+        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject OperationType)
         )
     {
         if ( !$Param{$Needed} ) {
@@ -106,16 +104,17 @@ sub new {
     }
 
     # check operation
-    if ( !IsStringWithData( $Param{Operation} ) ) {
+    if ( !IsStringWithData( $Param{OperationType} ) ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no Operation with content!',
         );
     }
 
     # load backend module
-    my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{Operation};
+    my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        return $Self->{DebuggerObject}->Error( Summary => "Can't load operation backend module!" );
+        return $Self->{DebuggerObject}
+            ->Error( Summary => "Can't load operation backend module $GenericModule!" );
     }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
 
@@ -154,105 +153,106 @@ sub Run {
     }
 
     # start map on backend
-    return $Self->{BackendObject}->Run( Data => $Param{Data} );
+    return $Self->{BackendObject}->Run(%Param);
 }
 
-=item _Auth()
-
-helper function which authenticates Agents or Customers.
-This function is used by the different Operations.
-
-    my $UserID = $ControllerObject->_Auth(
-        Type     => 'Agent',    # Agent or Customer
-        Username => 'User',
-        Password => 'PW',
-        TTL      => 60*60*24,   # TTL for caching of successful logins
-    );
-
-Returns UserID (for Agents), CustomerUserID (for Customers), or undef
-(on authentication failure).
-
-=cut
-
-sub _Auth {
-    my ( $Self, %Param ) = @_;
-
-    # TODO move this function somewhere else, e. g. Kernel/System/GenericInterface/*.pm
-
-    # check all parameters are present
-    for my $Key (qw(Type Username Password TTL)) {
-        if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
-            return;
-        }
-    }
-
-    # check if type is correct
-    return if ( $Param{Type} ne 'Agent' || $Param{Type} ne 'Customer' );
-
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Data = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => "Auth::$Param{Type}::$Param{Username}",
-        );
-        return $Data if $Data;
-    }
-
-    # assing correct AuthObject and User Object
-    my $AuthObject = Kernel::System::Auth->new( %{$Self} );
-    if ( $Param{Type} eq 'Customer' ) {
-        $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
-    }
-
-    # perform authentication
-    my $UserLogin = $AuthObject->Auth( User => $Param{Username}, Pw => $Param{Password} );
-
-    if ( !$UserLogin ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Auth for user $Param{Username} failed!",
-        );
-        return;
-    }
-
-    # to store the UserID or CustomerUserID
-    my $UserID;
-
-    # check either User or Customer in order to obtain the ID
-    if ( $Param{Type} eq 'Agent' ) {
-
-        # set user id
-        my $UserObject = Kernel::System::User->new( %{$Self} );
-        $UserID = $UserObject->UserLookup(
-            UserLogin => $UserLogin,
-        );
-    }
-    else {
-
-        # set customer user id
-        my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
-
-        my %User = $CustomerUserObject->CustomerUserDataGet(
-            User => $UserLogin,
-        );
-        $UserID = $User{CustomerUserID},
-    }
-    return if !$UserID;
-
-    # cache request
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => "Auth::$Param{Type}::$Param{Username}",
-            Value => {$UserID},
-            TTL   => $Param{TTL},
-        );
-    }
-
-    # return the Agent ot Customer UserID
-    return $UserID;
-}
+#TODO: check implementation and move somewhere else
+#=item _Auth()
+#
+#helper function which authenticates Agents or Customers.
+#This function is used by the different Operations.
+#
+#    my $UserID = $ControllerObject->_Auth(
+#        Type     => 'Agent',    # Agent or Customer
+#        Username => 'User',
+#        Password => 'PW',
+#        TTL      => 60*60*24,   # TTL for caching of successful logins
+#    );
+#
+#Returns UserID (for Agents), CustomerUserID (for Customers), or undef
+#(on authentication failure).
+#
+#=cut
+#
+#sub _Auth {
+#    my ( $Self, %Param ) = @_;
+#
+#    # TODO move this function somewhere else, e. g. Kernel/System/GenericInterface/*.pm
+#
+#    # check all parameters are present
+#    for my $Key (qw(Type Username Password TTL)) {
+#        if ( !$Param{$Key} ) {
+#            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+#            return;
+#        }
+#    }
+#
+#    # check if type is correct
+#    return if ( $Param{Type} ne 'Agent' || $Param{Type} ne 'Customer' );
+#
+#    # check cache
+#    if ( $Self->{CacheObject} ) {
+#        my $Data = $Self->{CacheObject}->Get(
+#            Type => $Self->{CacheType},
+#            Key  => "Auth::$Param{Type}::$Param{Username}",
+#        );
+#        return $Data if $Data;
+#    }
+#
+#    # assing correct AuthObject and User Object
+#    my $AuthObject = Kernel::System::Auth->new( %{$Self} );
+#    if ( $Param{Type} eq 'Customer' ) {
+#        $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
+#    }
+#
+#    # perform authentication
+#    my $UserLogin = $AuthObject->Auth( User => $Param{Username}, Pw => $Param{Password} );
+#
+#    if ( !$UserLogin ) {
+#        $Self->{LogObject}->Log(
+#            Priority => 'notice',
+#            Message  => "Auth for user $Param{Username} failed!",
+#        );
+#        return;
+#    }
+#
+#    # to store the UserID or CustomerUserID
+#    my $UserID;
+#
+#    # check either User or Customer in order to obtain the ID
+#    if ( $Param{Type} eq 'Agent' ) {
+#
+#        # set user id
+#        my $UserObject = Kernel::System::User->new( %{$Self} );
+#        $UserID = $UserObject->UserLookup(
+#            UserLogin => $UserLogin,
+#        );
+#    }
+#    else {
+#
+#        # set customer user id
+#        my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
+#
+#        my %User = $CustomerUserObject->CustomerUserDataGet(
+#            User => $UserLogin,
+#        );
+#        $UserID = $User{CustomerUserID},
+#    }
+#    return if !$UserID;
+#
+#    # cache request
+#    if ( $Self->{CacheObject} ) {
+#        $Self->{CacheObject}->Set(
+#            Type  => $Self->{CacheType},
+#            Key   => "Auth::$Param{Type}::$Param{Username}",
+#            Value => {$UserID},
+#            TTL   => $Param{TTL},
+#        );
+#    }
+#
+#    # return the Agent ot Customer UserID
+#    return $UserID;
+#}
 
 1;
 
@@ -270,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-11 09:04:06 $
+$Revision: 1.9 $ $Date: 2011-02-15 15:42:02 $
 
 =cut
