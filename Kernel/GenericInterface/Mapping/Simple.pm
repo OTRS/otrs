@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.11 2011-02-14 10:25:37 martin Exp $
+# $Id: Simple.pm,v 1.12 2011-02-15 15:43:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Mapping::Simple
+Kernel::GenericInterface::Mapping::Simple - GenericInterface simple data mapping backend
 
 =head1 SYNOPSIS
-
-GenericInterface simple data mapping backend
 
 =head1 PUBLIC INTERFACE
 
@@ -35,63 +33,8 @@ GenericInterface simple data mapping backend
 
 =item new()
 
-create a Mapping backend object.
-
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::GenericInterface::Debugger;
-    use Kernel::GenericInterface::Mapping::Simple;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject       => $ConfigObject,
-        EncodeObject       => $EncodeObject,
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
-        DBObject           => $DBObject,
-        TimeObject         => $TimeObject,
-    );
-    my $MappingObject = Kernel::GenericInterface::Mapping::Simple->new(
-        ConfigObject       => $ConfigObject,
-        EncodeObject       => $EncodeObject,
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
-        DBObject           => $DBObject,
-        TimeObject         => $TimeObject,
-        DebuggerObject     => $DebuggerObject,
-
-        MappingConfig   => {
-            Config => {
-                ...
-            },
-        },
-    );
+usually, you want to create an instance of this
+by using L<Kernel::GenericInterface::Mapping->new()>;
 
 =cut
 
@@ -510,6 +453,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-14 10:25:37 $
+$Revision: 1.12 $ $Date: 2011-02-15 15:43:22 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2011-02-15 09:37:03 mg Exp $
+# $Id: Test.pm,v 1.10 2011-02-15 15:43:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Invoker::Test::Test
+Kernel::GenericInterface::Invoker::Test::Test - GenericInterface test Invoker backend
 
 =head1 SYNOPSIS
-
-GenericInterface test Invoker backend
 
 =head1 PUBLIC INTERFACE
 
@@ -35,57 +33,8 @@ GenericInterface test Invoker backend
 
 =item new()
 
-create an object.
-
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::GenericInterface::Debugger;
-    use Kernel::GenericInterface::Invoker::Test::Test;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $InvokerObject = Kernel::GenericInterface::Invoker::Test::Test->new(
-        ConfigObject   => $ConfigObject,
-        LogObject      => $LogObject,
-        DBObject       => $DBObject,
-        MainObject     => $MainObject,
-        TimeObject     => $TimeObject,
-        EncodeObject   => $EncodeObject,
-        DebuggerObject => $DebuggerObject,
-    );
+usually, you want to create an instance of this
+by using L<Kernel::GenericInterface::Invoker->new()>;
 
 =cut
 
@@ -269,6 +218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-15 09:37:03 $
+$Revision: 1.10 $ $Date: 2011-02-15 15:43:22 $
 
 =cut
