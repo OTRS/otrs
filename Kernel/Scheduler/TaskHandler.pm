@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.4 2011-02-14 15:36:34 cr Exp $
+# $Id: TaskHandler.pm,v 1.5 2011-02-15 20:49:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -88,7 +88,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(MainObject ConfigObject LogObject DBObject Type)) {
+    for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
@@ -106,7 +106,7 @@ sub new {
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't load task handler backend module!",
+            Message  => "Can't load $Param{Type} task handler backend module!",
         );
         return;
     }
@@ -146,7 +146,10 @@ sub Run {
     }
 
     # start task handler on backend
-    return $Self->{BackendObject}->Run( Data => $Param{Data} );
+    my $Success = $Self->{BackendObject}->Run( Data => $Param{Data} );
+
+    # retrun id backend could execute the task correcly or not
+    return $Success;
 }
 
 1;
@@ -165,6 +168,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-14 15:36:34 $
+$Revision: 1.5 $ $Date: 2011-02-15 20:49:04 $
 
 =cut
