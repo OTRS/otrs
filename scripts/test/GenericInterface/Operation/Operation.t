@@ -2,7 +2,7 @@
 # Operation.t - Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.t,v 1.2 2011-02-15 15:42:02 mg Exp $
+# $Id: Operation.t,v 1.3 2011-02-15 15:57:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,10 +23,10 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     %CommonObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
+        TestMode       => 1,
     },
-    WebserviceID => 1,
+    WebserviceID      => 1,
     CommunicationType => 'Provider',
-    TestMode     => 1,
 );
 
 # create object with false options
