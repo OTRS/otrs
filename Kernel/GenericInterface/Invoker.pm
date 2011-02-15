@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.9 2011-02-14 17:25:17 mg Exp $
+# $Id: Invoker.pm,v 1.10 2011-02-15 09:35:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -200,7 +200,7 @@ sub HandleResponse {
     }
 
     # start map on backend
-    return $Self->{BackendObject}->HandleResponse( Data => $Param{Data} );
+    return $Self->{BackendObject}->HandleResponse(%Param);
 
 }
 
@@ -220,6 +220,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-14 17:25:17 $
+$Revision: 1.10 $ $Date: 2011-02-15 09:35:14 $
 
 =cut

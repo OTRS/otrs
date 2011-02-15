@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.3 2011-02-14 09:24:22 cg Exp $
+# $Id: Test.t,v 1.4 2011-02-15 09:35:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,9 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
         DebugLevel => 'debug',
     },
-    WebserviceID => 1,
-    TestMode     => 1,
+    WebserviceID      => 1,
+    CommunicationType => 'Requester',
+    TestMode          => 1,
 );
 
 # get the current time
@@ -43,7 +44,7 @@ my $ReturnedTicketNumber = "$Year$Month$Day$Hour$Min$Sec";
 # create a Invoker instance
 my $InvokerObject = Kernel::GenericInterface::Invoker->new(
     %CommonObject,
-    Invoker => 'Test::Test',
+    InvokerType => 'Test::Test',
 );
 $Self->Is(
     ref $InvokerObject,

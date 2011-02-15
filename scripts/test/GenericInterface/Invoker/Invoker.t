@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.5 2011-02-14 17:25:17 mg Exp $
+# $Id: Invoker.t,v 1.6 2011-02-15 09:35:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,8 +22,9 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
         DebugLevel => 'debug',
     },
-    WebserviceID => 1,
-    TestMode     => 1,
+    WebserviceID      => 1,
+    CommunicationType => 'Requester',
+    TestMode          => 1,
 );
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
