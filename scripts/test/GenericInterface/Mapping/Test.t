@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.7 2011-02-15 15:57:37 mg Exp $
+# $Id: Test.t,v 1.8 2011-02-15 16:09:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -188,18 +188,16 @@ for my $Test (@MappingTests) {
         $Test->{Name} . ' (Data Structure).',
     );
 
+    $Self->Is(
+        $MappingResult->{Success},
+        $Test->{ResultSuccess},
+        $Test->{Name} . ' success status',
+    );
+
     if ( !$Test->{ResultSuccess} ) {
-        $Self->False(
-            $MappingResult->{Success},
-            $Test->{Name} . ' (Error Message: ' .
-                $MappingResult->{ErrorMessage} . ')',
-        );
-    }
-    else {
-        $Self->Is(
-            ref $MappingObject,
-            'Kernel::GenericInterface::Mapping',
-            $Test->{Name} . ' (Not Error Message).',
+        $Self->True(
+            $MappingResult->{ErrorMessage},
+            $Test->{Name} . ' error message found',
         );
     }
 }

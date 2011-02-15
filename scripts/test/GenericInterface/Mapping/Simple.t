@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.6 2011-02-15 15:57:37 mg Exp $
+# $Id: Simple.t,v 1.7 2011-02-15 16:09:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -420,17 +420,16 @@ for my $Test (@MappingTests) {
         $Test->{Name} . ' (Data Structure).',
     );
 
+    $Self->Is(
+        $MappingResult->{Success},
+        $Test->{ResultSuccess},
+        $Test->{Name} . ' success status',
+    );
+
     if ( !$Test->{ResultSuccess} ) {
         $Self->True(
             $MappingResult->{ErrorMessage},
-            $Test->{Name} . ' (Error Message: ' .
-                $MappingResult->{ErrorMessage} . ')',
-        );
-    }
-    else {
-        $Self->False(
-            $MappingObject->{ErrorMessage},
-            $Test->{Name} . ' (Not Error Message).',
+            $Test->{Name} . ' error message found',
         );
     }
 }

@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.7 2011-02-15 15:57:37 mg Exp $
+# $Id: Mapping.t,v 1.8 2011-02-15 16:09:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,37 +32,33 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
 # create object with false options
 my $MappingObject;
 
-# provide no objects
 $MappingObject = Kernel::GenericInterface::Mapping->new();
-$Self->True(
-    ref $MappingObject eq 'HASH',
-    'MappingObject response check',
-);
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject required objects check',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - no arguments',
 );
 
-# provide empty mapping config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
     %CommonObject,
     MappingConfig => {},
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject required config check',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - no MappingType',
 );
 
-# provide incorrect mapping type
 $MappingObject = Kernel::GenericInterface::Mapping->new(
     %CommonObject,
     MappingConfig => {
         Type => 'ThisIsCertainlyNotBeingUsed',
     },
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject mapping type check',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - wrong MappingType',
 );
 
 # call with empty config
@@ -73,9 +69,10 @@ $MappingObject = Kernel::GenericInterface::Mapping->new(
         Config => {},
     },
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject creation check with empty config',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - empty config',
 );
 
 # call with invalid config
@@ -86,9 +83,10 @@ $MappingObject = Kernel::GenericInterface::Mapping->new(
         Config => 'invalid',
     },
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject creation check with config as string',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - invalid config, string',
 );
 
 # call with invalid config
@@ -99,9 +97,10 @@ $MappingObject = Kernel::GenericInterface::Mapping->new(
         Config => [],
     },
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject creation check with config as array ref',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - invalid config, array',
 );
 
 # call with invalid config
@@ -112,9 +111,10 @@ $MappingObject = Kernel::GenericInterface::Mapping->new(
         Config => '',
     },
 );
-$Self->False(
-    $MappingObject->{Success},
-    'MappingObject creation check with config as empty string',
+$Self->IsNot(
+    ref $MappingObject,
+    'Kernel::GenericInterface::Mapping',
+    'Mapping::new() constructor failure - invalid config, empty string',
 );
 
 # call without config
@@ -132,8 +132,9 @@ $Self->Is(
 
 # map without data
 my $ReturnData = $MappingObject->Map();
-$Self->True(
-    ref $ReturnData eq 'HASH',
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
     'MappingObject call response type',
 );
 $Self->False(
@@ -144,6 +145,11 @@ $Self->False(
 # map with empty data
 $ReturnData = $MappingObject->Map(
     Data => {},
+);
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'MappingObject call response type',
 );
 $Self->False(
     $ReturnData->{Success},
