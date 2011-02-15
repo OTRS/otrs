@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.12 2011-02-15 13:42:37 cg Exp $
+# $Id: Debugger.pm,v 1.13 2011-02-15 15:47:46 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 #use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -115,7 +115,7 @@ sub new {
     }
 
     # DebugThreshold
-    $Param{DebugThreshold} = $Param{DebuggerConfig}->{DebugThreshold} || '';
+    $Param{DebugThreshold} = $Param{DebuggerConfig}->{DebugThreshold} || 'error';
 
     # check for mandatory values
     for my $Needed (qw(WebserviceID CommunicationType DebugThreshold)) {
@@ -375,6 +375,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-15 13:42:37 $
+$Revision: 1.13 $ $Date: 2011-02-15 15:47:46 $
 
 =cut
