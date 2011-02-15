@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.4 2011-02-14 15:36:34 cr Exp $
+# $Id: GenericInterface.pm,v 1.5 2011-02-15 20:50:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -86,9 +87,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(MainObject ConfigObject LogObject DBObject)) {
+    for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
+
+    # create aditional objects
+    $Self->{RequesterObject} = Kernel::GenericInterface::Requester->new( %{$Self} );
 
     return $Self;
 }
@@ -119,12 +123,43 @@ sub Run {
         return;
     }
 
-    # log and exit succesfully
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => 'GenericInterface task execuded correctly!',
+    # to store task data locally
+    my %TaskData = %{ $Param{Data} };
+
+    # check needed paramters inside task data
+    for my $Needed (qw(WebserviceID Invoker Data)) {
+        if ( !$TaskData{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Got no $Needed!",
+            );
+            return;
+        }
+    }
+
+    # run requester
+    my $Result = $Self->{RequesterObject}->Run(
+        WebserviceID => $TaskData{WebserviceID},
+        Invoker      => $TaskData{Invoker},
+        Data         => $TaskData{Data},
     );
-    return 1;
+
+    if ( $Result->{Success} ) {
+
+        # log and exit succesfully
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => 'GenericInterface task execuded correctly!',
+        );
+        return 1;
+    }
+
+    # log and fail exit
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'GenericInterface task execution failed!',
+    );
+    return;
 }
 
 1;
@@ -143,6 +178,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-14 15:36:34 $
+$Revision: 1.5 $ $Date: 2011-02-15 20:50:21 $
 
 =cut
