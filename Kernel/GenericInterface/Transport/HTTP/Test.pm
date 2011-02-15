@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.12 2011-02-15 15:43:22 mg Exp $
+# $Id: Test.pm,v 1.13 2011-02-15 16:32:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use HTTP::Request::Common;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -82,6 +82,13 @@ sub new {
     return $Self;
 }
 
+=item ProviderProcessRequest()
+
+this will read the incoming HTTP request via CGI and
+return the HTTP parameters in the data hash.
+
+=cut
+
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
@@ -114,6 +121,15 @@ sub ProviderProcessRequest {
     };
 
 }
+
+=item ProviderGenerateResponse()
+
+this will generate a query string from the passed data hash
+and generate an HTTP response with this string as the body.
+This response will be printed so that the web server will
+send it to the client.
+
+=cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
@@ -269,6 +285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-15 15:43:22 $
+$Revision: 1.13 $ $Date: 2011-02-15 16:32:41 $
 
 =cut

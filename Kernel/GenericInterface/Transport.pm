@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.10 2011-02-14 10:25:37 martin Exp $
+# $Id: Transport.pm,v 1.11 2011-02-15 16:32:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,13 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Transport
+Kernel::GenericInterface::Transport - GenericInterface network transport interface
 
 =head1 SYNOPSIS
-
-GenericInterface network transport interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -248,6 +246,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-14 10:25:37 $
+$Revision: 1.11 $ $Date: 2011-02-15 16:32:41 $
 
 =cut
