@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.4 2011-02-11 12:41:17 martin Exp $
+# $Id: TaskManager.t,v 1.5 2011-02-15 20:54:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ my @Tests = (
         Success => 1,
         Data    => {
             Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios.',
+            Description => 'Connector to send and receive date from Nagios.',
             Provider    => {
                 Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
                 Config => {},
@@ -37,7 +37,7 @@ my @Tests = (
         Success => 1,
         Data    => {
             Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios 2.',
+            Description => 'Connector to send and receive date from Nagios 2.',
             Provider    => {
                 Config => {
                     NameSpace  => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
@@ -61,7 +61,7 @@ my @Tests = (
         Success => 1,
         Data    => {
             Name        => 'Nagios',
-            Description => 'Connector to send and recive date from Nagios 2.'
+            Description => 'Connector to send and receive date from Nagios 2.'
                 . "\nasdkaosdkoa\tsada\n",
             Provider => {},
         },

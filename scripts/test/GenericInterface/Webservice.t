@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.8 2011-02-11 12:41:17 martin Exp $
+# $Id: Webservice.t,v 1.9 2011-02-15 20:54:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ my @Tests = (
         Add           => {
             Config => {
                 Name        => 'Nagios',
-                Description => 'Connector to send and recive date from Nagios.',
+                Description => 'Connector to send and receive date from Nagios.',
                 Provider    => {
                     Transport => {
                         Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
@@ -125,7 +125,7 @@ my @Tests = (
         Add           => {
             Config => {
                 Name        => 'Nagios',
-                Description => 'Connector to send and recive date from Nagios 2.',
+                Description => 'Connector to send and receive date from Nagios 2.',
                 Provider    => {
                     Transport => {
                         Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
@@ -217,7 +217,7 @@ my @Tests = (
         Add           => {
             Config => {
                 Name        => 'Nagios',
-                Description => 'Connector to send and recive date from Nagios 2.'
+                Description => 'Connector to send and receive date from Nagios 2.'
                     . "\nasdkaosdkoa\tsada\n",
                 Provider  => {},
                 Requester => {
@@ -248,7 +248,7 @@ my @Tests = (
         Add           => {
             Config => {
                 Name        => 'Nagios',
-                Description => 'Connector to send and recive date from Nagios 2.',
+                Description => 'Connector to send and receive date from Nagios 2.',
                 Provider    => {},
                 Requester   => {
                     Transport => {
