@@ -2,7 +2,7 @@
 # Debugger.t - GenericInterface debugger tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.t,v 1.5 2011-02-15 12:21:25 cg Exp $
+# $Id: Debugger.t,v 1.6 2011-02-15 16:29:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,9 +43,9 @@ eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         %{$Self},
         DebuggerConfig => {
-            DebugLevel => 'debug',
+            DebugThreshold => 'debug',
+            TestMode       => 1,
         },
-        TestMode => 1,
     );
 };
 $Self->False(
@@ -57,7 +57,6 @@ eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         %{$Self},
         WebserviceID => 1,
-        TestMode     => 1,
     );
 };
 $Self->False(
@@ -68,29 +67,32 @@ $Self->False(
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         %{$Self},
-        DebuggerConfig => {},
-        WebserviceID   => 1,
-        TestMode       => 1,
+        DebuggerConfig => {
+            TestMode => 1,
+        },
+        CommunicationType => 'Provider',
+        WebserviceID      => 1,
     );
 };
-$Self->False(
+$Self->True(
     ref $DebuggerObject,
-    'DebuggerObject instanciate without DebugLevel',
+    'DebuggerObject instanciate without DebugThreshold',
 );
 
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         %{$Self},
         DebuggerConfig => {
-            DebugLevel => 'nonexistinglevel',
+            DebugThreshold => 'nonexistinglevel',
+            TestMode       => 1,
         },
-        WebserviceID => 1,
-        TestMode     => 1,
+        CommunicationType => 'Provider',
+        WebserviceID      => 1,
     );
 };
 $Self->False(
     ref $DebuggerObject,
-    'DebuggerObject instanciate with non existing DebugLevel',
+    'DebuggerObject instanciate with non existing DebugThreshold',
 );
 
 # correctly now
