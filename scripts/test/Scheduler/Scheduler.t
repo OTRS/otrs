@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.2 2011-02-14 20:14:59 cr Exp $
+# $Id: Scheduler.t,v 1.3 2011-02-15 19:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,22 +22,25 @@ my @Tests = (
         Name  => 'test 1',
         Tasks => [
             {
-                Type    => 'Test',
-                Success => 1,
-                Input   => { Success => 0 },
-                Result  => 0,
+                Type      => 'Test',
+                Success   => 1,
+                FileCheck => 1,
+                Input     => { Success => 0 },
+                Result    => 0,
             },
             {
-                Type    => 'TestNotExisting',
-                Success => 1,
-                Input   => { Success => 1 },
-                Result  => 0,
+                Type      => 'TestNotExisting',
+                Success   => 1,
+                FileCheck => 0,
+                Input     => { Success => 1 },
+                Result    => 0,
             },
             {
-                Type    => 'Test',
-                Success => 1,
-                Input   => { Success => 0 },
-                Result  => 0,
+                Type      => 'Test',
+                Success   => 1,
+                FileCheck => 1,
+                Input     => { Success => 0 },
+                Result    => 0,
             },
         ],
     },
@@ -48,10 +51,11 @@ my @Tests = (
         Name  => 'test 3',
         Tasks => [
             {
-                Type    => 'Test',
-                Success => 1,
-                Input   => { Success => 0 },
-                Result  => 0,
+                Type      => 'Test',
+                Success   => 1,
+                FileCheck => 1,
+                Input     => { Success => 0 },
+                Result    => 0,
             },
         ],
     },
@@ -59,14 +63,26 @@ my @Tests = (
         Name  => 'test 4',
         Tasks => [
             {
-                Type    => 'TestNotExisting',
-                Success => 1,
-                Input   => { Success => 1 },
-                Result  => 0,
+                Type      => 'TestNotExisting',
+                Success   => 1,
+                FileCheck => 0,
+                Input     => { Success => 1 },
+                Result    => 0,
             },
         ],
     },
 );
+
+# check if scheduler is running (in case start)
+my $Home      = $Self->{ConfigObject}->Get('Home');
+my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+if ( $^O =~ /^win/i ) {
+    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+}
+my $SchedulerStatus = `$Scheduler -a status`;
+if ( $SchedulerStatus =~ /not running/i ) {
+    `$Scheduler -a start`;
+}
 
 for my $Test (@Tests) {
 
@@ -87,7 +103,16 @@ for my $Test (@Tests) {
 
     # register tasks
     if ( $Test->{Tasks} ) {
+        my @FileRemember;
         for my $Task ( @{ $Test->{Tasks} } ) {
+            if ( $Task->{FileCheck} ) {
+                my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1234);
+                if ( -e $File ) {
+                    unlink $File;
+                }
+                push @FileRemember, $File;
+                $Task->{Input}->{File} = $File;
+            }
             my $TaskID = $SchedulerObject->TaskRegister(
                 Type => $Task->{Type},
                 Data => $Task->{Input}
@@ -105,22 +130,23 @@ for my $Test (@Tests) {
                 );
             }
         }
-    }
 
-    # run tasks
-    if ( $Test->{Tasks} ) {
-        for my $Task ( @{ $Test->{Tasks} } ) {
-            my $Success = $SchedulerObject->Run();
-            if ( $Task->{Result} ) {
-                $Self->False(
-                    $Success,
-                    "$Test->{Name} - Kernel::Scheduler->Run()",
+        # run tasks via Scheduler
+        sleep 8 * scalar @{ $Test->{Tasks} };
+
+        # check if files are there
+        for my $FileToCheck (@FileRemember) {
+            if ( -e $FileToCheck ) {
+                unlink $FileToCheck;
+                $Self->True(
+                    1,
+                    "$Test->{Name} - test backend is executed correctly",
                 );
             }
             else {
-                $Self->False(
-                    $Success,
-                    "$Test->{Name} - Kernel::Scheduler->Run()",
+                $Self->True(
+                    0,
+                    "$Test->{Name} - test backend is executed not correctly",
                 );
             }
         }
@@ -128,17 +154,16 @@ for my $Test (@Tests) {
 
     # check if tasks are dropped from task list
     my @List = $TaskManagerObject->TaskList();
-    $Self->False(
+    $Self->Is(
         scalar @List,
+        0,
         "$Test->{Name} - check if tasks are dropped from task list",
     );
+}
 
-    # check result of execution witout tasks
-    my $Success = $SchedulerObject->Run();
-    $Self->True(
-        $Success,
-        "$Test->{Name} - Kernel::Scheduler->Run() - check result of execution without tasks",
-    );
+# in case stop scheduler
+if ( $SchedulerStatus =~ /not running/i ) {
+    `$Scheduler -a stop`;
 }
 
 1;

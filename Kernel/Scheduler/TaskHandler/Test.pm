@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2011-02-14 15:38:09 martin Exp $
+# $Id: Test.pm,v 1.7 2011-02-15 19:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -119,6 +119,15 @@ sub Run {
         return;
     }
 
+    # create tmp file
+    if ( $Param{Data}->{File} ) {
+        my $Content = 123;
+        return if !$Self->{MainObject}->FileWrite(
+            Location => $Param{Data}->{File},
+            Content  => \$Content,
+        );
+    }
+
     if ( !$Param{Data}->{Success} ) {
 
         # log and exit succesfully
@@ -153,6 +162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-14 15:38:09 $
+$Revision: 1.7 $ $Date: 2011-02-15 19:39:02 $
 
 =cut
