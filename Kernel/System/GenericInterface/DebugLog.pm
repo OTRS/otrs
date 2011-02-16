@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.3 2011-02-16 13:41:20 sb Exp $
+# $Id: DebugLog.pm,v 1.4 2011-02-16 17:00:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck
     qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -156,7 +156,11 @@ sub LogAdd {
         );
         return;
     }
-    if ( defined $Param{RemoteIP} ) {
+    if (
+        defined $Param{RemoteIP} &&
+        $Param{RemoteIP} ne ''
+        )
+    {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -203,6 +207,9 @@ sub LogAdd {
             CommunicationType => $Param{CommunicationType},
             RemoteIP          => $Param{RemoteIP},
             WebserviceID      => $Param{WebserviceID},
+        );
+        $LogData = $Self->LogGet(
+            CommunicationID => $Param{CommunicationID},
         );
     }
     else {
@@ -312,13 +319,14 @@ sub LogGet {
         );
     }
 
+    return if !%LogData;
+
     # set cache
     $Self->{CacheInternalObject}->Set(
         Key   => 'LogGet::' . $Param{CommunicationID},
         Value => \%LogData,
     );
 
-    return if !%LogData;
     return \%LogData;
 }
 
@@ -571,7 +579,11 @@ sub LogSearch {
         );
         return;
     }
-    if ( $Param{RemoteIP} ) {
+    if (
+        defined $Param{RemoteIP} &&
+        $Param{RemoteIP} ne ''
+        )
+    {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -653,10 +665,10 @@ sub LogSearch {
         my %SingleEntry = (
             CommunicationID   => $Row[0],
             CommunicationType => $Row[1],
-            Created           => $Row[2],
-            LogID             => $Row[3],
-            RemoteIP          => $Row[4] || '',
-            WebserviceID      => $Row[5],
+            LogID             => $Row[2],
+            RemoteIP          => $Row[3] || '',
+            WebserviceID      => $Row[4],
+            Created           => $Row[5],
         );
         push @LogEntries, \%SingleEntry;
     }
@@ -726,7 +738,11 @@ sub _LogAddChain {
         );
         return;
     }
-    if ( defined $Param{RemoteIP} ) {
+    if (
+        defined $Param{RemoteIP} &&
+        $Param{RemoteIP} ne ''
+        )
+    {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -792,6 +808,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-16 13:41:20 $
+$Revision: 1.4 $ $Date: 2011-02-16 17:00:53 $
 
 =cut
