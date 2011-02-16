@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationUIDCheck.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationUIDCheck.pm,v 1.9 2010-03-28 18:13:13 martin Exp $
+# $Id: NotificationUIDCheck.pm,v 1.10 2011-02-16 14:15:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,8 @@ sub Run {
     return $Self->{LayoutObject}->Notify(
         Priority => 'Error',
         Link     => '$Env{"Baselink"}Action=AdminUser',
-        Data     => '$Text{"Don\'t work with UserID 1 (System account)! Create new users!"}',
+        Data =>
+            '$Text{"Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."}',
     );
 }
 

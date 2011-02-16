@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265 2011-01-26 13:19:28 martin Exp $
+# $Id: de.pm,v 1.266 2011-02-16 14:15:47 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265 $) [1];
+$VERSION = qw($Revision: 1.266 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -246,7 +246,7 @@ sub Data {
         'Facility' => 'Einrichtung',
         'Time Zone' => 'Zeit Zone',
         'Pending till' => 'Warten bis',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Bitte nicht mit UserID 1 (System Account) arbeiten! Erstelle neue Benutzer!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => 'Bitte nicht mit dem Superuser-Account in OTRS arbeiten! Bitte neue Agenten anlegen und mit diesen arbeiten!',
         'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
         'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
         'No entry found!' => 'Kein Eintrag gefunden!',
@@ -3182,6 +3182,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Soll das Paket wirklich erneut installiert werden (manuelle Änderungen gehen verloren)?',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ein neuer Benutzer muss einer Gruppe und/oder Rollen zugewiesen werden!',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Bitte nicht mit UserID 1 (System Account) arbeiten! Erstelle neue Benutzer!',
         'Download Settings' => 'Einstellungen herunterladen',
         'Download all system config changes.' => 'Herunterladen aller Änderungen der Konfiguration.',
         'Drop Database' => 'Datenbank löschen',
