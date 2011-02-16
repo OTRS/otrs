@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.12 2011-02-15 20:46:08 cr Exp $
+# $Id: Scheduler.pm,v 1.13 2011-02-16 19:34:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -152,7 +152,7 @@ sub Run {
     my $TaskHandlerObject = eval {
         Kernel::Scheduler::TaskHandler->new(
             %{$Self},
-            Type => $FirstTask{Type},
+            TaskHandlerType => $FirstTask{Type},
         );
     };
 
@@ -252,6 +252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-15 20:46:08 $
+$Revision: 1.13 $ $Date: 2011-02-16 19:34:48 $
 
 =cut

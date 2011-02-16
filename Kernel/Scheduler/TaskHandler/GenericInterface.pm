@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.5 2011-02-15 20:50:21 cr Exp $
+# $Id: GenericInterface.pm,v 1.6 2011-02-16 19:34:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,15 +18,11 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
-Kernel::Scheduler::TaskHandler::GenericInterface
-
-=head1 SYNOPSIS
-
-Scheduler Task Handler Generic Interface backend.
+Kernel::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of the TaskHandler for the Scheduler
 
 =head1 PUBLIC INTERFACE
 
@@ -36,47 +32,8 @@ Scheduler Task Handler Generic Interface backend.
 
 =item new()
 
-create an object.
-
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::Scheduler::TaskHandler::GenericInterface;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $OperationObject = Kernel::Scheduler::TaskHandler::GenericInterface->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
+usually, you want to create an instance of this
+by using L<Kernel::Scheduler::TaskHandler>->new();
 
 =cut
 
@@ -106,6 +63,8 @@ perform the selected Task
             ...
         },
     );
+
+returns
 
     $Result = 1;                                    # 0 or 1
 
@@ -144,22 +103,23 @@ sub Run {
         Data         => $TaskData{Data},
     );
 
-    if ( $Result->{Success} ) {
+    if ( !$Result->{Success} ) {
 
-        # log and exit succesfully
+        # log and fail exit
         $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => 'GenericInterface task execuded correctly!',
+            Priority => 'error',
+            Message  => 'GenericInterface task execution failed!',
         );
-        return 1;
+        return;
     }
 
-    # log and fail exit
+    # log and exit succesfully
     $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => 'GenericInterface task execution failed!',
+        Priority => 'notice',
+        Message  => 'GenericInterface task execuded correctly!',
     );
-    return;
+
+    return 1;
 }
 
 1;
@@ -178,6 +138,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-15 20:50:21 $
+$Revision: 1.6 $ $Date: 2011-02-16 19:34:48 $
 
 =cut

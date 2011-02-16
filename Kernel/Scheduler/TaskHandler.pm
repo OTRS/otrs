@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.5 2011-02-15 20:49:04 cr Exp $
+# $Id: TaskHandler.pm,v 1.6 2011-02-16 19:34:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,15 +17,13 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
-Kernel::Scheduler::TaskHandler
+Kernel::Scheduler::TaskHandler - Scheduler Task Handler interface
 
 =head1 SYNOPSIS
-
-Scheduler Task Handler interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -76,7 +74,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
-        Type               => 'GenericInterface'
+        TaskHandlerType    => 'GenericInterface'    # Type of the TaskHandler backend to use
     );
 
 =cut
@@ -93,7 +91,7 @@ sub new {
     }
 
     # check operation
-    if ( !IsStringWithData( $Param{Type} ) ) {
+    if ( !IsStringWithData( $Param{TaskHandlerType} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Got no Task Type with content!',
@@ -102,7 +100,7 @@ sub new {
     }
 
     # load backend module
-    my $GenericModule = 'Kernel::Scheduler::TaskHandler::' . $Param{Type};
+    my $GenericModule = 'Kernel::Scheduler::TaskHandler::' . $Param{TaskHandlerType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -120,7 +118,7 @@ sub new {
 
 =item Run()
 
-perform the selected Task
+perform the selected Task.
 
     my $Result = $TaskHandlerObject->Run(
         Data     => {                               # task data
@@ -128,8 +126,9 @@ perform the selected Task
         },
     );
 
+returns
+
     $Result = 1;                                    # 0 or 1
-    };
 
 =cut
 
@@ -145,11 +144,7 @@ sub Run {
         return;
     }
 
-    # start task handler on backend
-    my $Success = $Self->{BackendObject}->Run( Data => $Param{Data} );
-
-    # retrun id backend could execute the task correcly or not
-    return $Success;
+    return $Self->{BackendObject}->Run(%Param);
 }
 
 1;
@@ -168,6 +163,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-15 20:49:04 $
+$Revision: 1.6 $ $Date: 2011-02-16 19:34:48 $
 
 =cut

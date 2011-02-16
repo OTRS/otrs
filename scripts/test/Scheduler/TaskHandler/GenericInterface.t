@@ -2,7 +2,7 @@
 # GenericInterface.t - Generic Interface Scheduler Task Handler Backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.t,v 1.2 2011-02-16 08:26:44 cr Exp $
+# $Id: GenericInterface.t,v 1.3 2011-02-16 19:34:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,16 +16,19 @@ use vars (qw($Self));
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::UnitTest::Helper;
-use Kernel::Scheduler;
+use Kernel::Scheduler::TaskHandler;
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %$Self,
     UnitTestObject => $Self,
 );
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $RequesterObject  = Kernel::GenericInterface::Requester->new( %{$Self} );
-my $SchedulerObject  = Kernel::Scheduler->new( %{$Self} );
+my $WebserviceObject  = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $RequesterObject   = Kernel::GenericInterface::Requester->new( %{$Self} );
+my $TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
+    %{$Self},
+    TaskHandlerType => 'GenericInterface',
+);
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -58,9 +61,8 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
     UserID  => 1,
 );
 
-$Self->IsNot(
+$Self->True(
     $WebserviceID,
-    undef,
     "WebserviceAdd()",
 );
 
@@ -73,7 +75,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 1,
+        Result => 1,
     },
     {
         Name         => 'Empty Data',
@@ -81,7 +83,7 @@ my @TaskList = (
         Invoker      => 'test_operation',
         Data         => {
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'Empty Invoker',
@@ -90,7 +92,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'No WebService',
@@ -99,14 +101,14 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'Undefined Data',
         WebserviceID => $WebserviceID,
         Invoker      => 'test_operation',
         Data         => undef,
-        Execute      => 0,
+        Result       => undef,
     },
     {
         Name         => 'Undefined Invoker',
@@ -115,7 +117,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'Undefined WebService',
@@ -124,7 +126,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'Wrong invoker',
@@ -133,7 +135,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
         Name         => 'Wrong Service ID',
@@ -142,43 +144,24 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Execute => 0,
+        Result => undef,
     },
     {
-        Name    => 'Empty task data',
-        Execute => 0,
+        Name   => 'Empty task data',
+        Result => undef,
     },
 );
 
 for my $TaskData (@TaskList) {
 
-    # register task
-    my $TaskID = $SchedulerObject->TaskRegister(
-        Type => 'GenericInterface',
-        Data => $TaskData,
-    );
-    $Self->True(
-        $TaskID,
-        "$TaskData->{Name} Test TaskRegister()",
-    );
+    # Result task
+    my $Result = $TaskHandlerObject->Run( Data => $TaskData );
 
-    # execute task
-    my $Result = $SchedulerObject->Run();
-
-    if ( $TaskData->{Execute} ) {
-        $Self->IsNot(
-            $Result,
-            undef,
-            "$TaskData->{Name} Test SchedulerRun()",
-        );
-    }
-    else {
-        $Self->Is(
-            $Result,
-            undef,
-            "$TaskData->{Name} Test SchedulerRun()",
-        );
-    }
+    $Self->Is(
+        $Result,
+        $TaskData->{Result},
+        "$TaskData->{Name} execution result",
+    );
 }
 
 # delete webserice config
@@ -187,9 +170,8 @@ my $Success = $WebserviceObject->WebserviceDelete(
     UserID => 1,
 );
 
-$Self->IsNot(
+$Self->True(
     $Success,
-    undef,
     "WebserviceDelete()",
 );
 

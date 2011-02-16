@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.3 2011-02-15 19:39:02 martin Exp $
+# $Id: Scheduler.t,v 1.4 2011-02-16 19:34:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ for my $Test (@Tests) {
         my @FileRemember;
         for my $Task ( @{ $Test->{Tasks} } ) {
             if ( $Task->{FileCheck} ) {
-                my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1234);
+                my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
                 if ( -e $File ) {
                     unlink $File;
                 }
