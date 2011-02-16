@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.7 2011-02-15 16:09:19 mg Exp $
+# $Id: Simple.t,v 1.8 2011-02-16 11:15:01 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -386,6 +386,236 @@ my @MappingTests = (
         ResultData    => \%LargeHashAttachmentsResult,
         ResultSuccess => 1,
         CheckTime     => 1,
+    },
+    {
+        Name   => 'Test ValueMap no ValueMapDefault',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap empty ValueMapDefault',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap invalid ValueMapDefault',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'ThisIsNotAValidMapType',
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap no MapTo for MapType MapTo',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'MapTo',
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap invalid MapTo for MapType MapTo',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'MapTo',
+                MapTo   => {},
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap invalid ValueMapExact',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => 'ThisShouldNotBeAString',
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap invalid ValueMapRegEx',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => {},
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => {
+        },
+        ResultData    => undef,
+        ResultSuccess => 0,
+    },
+    {
+        Name   => 'Test ValueMap all correct',
+        Config => {
+            KeyMapDefault => {
+                MapType => 'Keep',
+            },
+            ValueMap => {
+                first => {
+                    ValueMapExact => {
+                        1 => 'one',
+                        2 => 'two',
+                        3 => 'three',
+                    },
+                },
+                second => {
+                    ValueMapRegEx => {
+                        '[rR]eg[eE]x' => 'regular expression',
+                    },
+                },
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => {
+            first  => 2,
+            second => 'regex',
+        },
+        ResultData => {
+            first  => 'two',
+            second => 'regular expression',
+        },
+        ResultSuccess => 1,
     },
 );
 

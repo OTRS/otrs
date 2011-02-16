@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.13 2011-02-15 16:01:26 mg Exp $
+# $Id: Simple.pm,v 1.14 2011-02-16 11:15:01 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -235,18 +235,18 @@ sub Map {
         if ($ValueMap) {
 
             # first check in exact (1:1) map
-            if ( $ValueMap->{KeyMapExact} && $ValueMap->{KeyMapExact}->{$OldValue} ) {
-                $ReturnData{$NewKey} = $ValueMap->{KeyMapExact}->{$OldValue};
+            if ( $ValueMap->{ValueMapExact} && $ValueMap->{ValueMapExact}->{$OldValue} ) {
+                $ReturnData{$NewKey} = $ValueMap->{ValueMapExact}->{$OldValue};
                 next CONFIGKEY;
             }
 
             # if we have no match from exact map, try regex map
-            if ( $ValueMap->{KeyMapRegEx} ) {
+            if ( $ValueMap->{ValueMapRegEx} ) {
                 VALUEMAPREGEX:
-                for my $ConfigKey ( sort keys %{ $ValueMap->{KeyMapRegEx} } ) {
-                    next VALUEMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
-                    $ReturnData{$NewKey} = $ValueMap->{KeyMapRegEx}->{$ConfigKey};
-                    next VALUEMAPREGEX;
+                for my $ConfigKey ( sort keys %{ $ValueMap->{ValueMapRegEx} } ) {
+                    next VALUEMAPREGEX if $OldValue !~ m{ \A $ConfigKey \z }xms;
+                    $ReturnData{$NewKey} = $ValueMap->{ValueMapRegEx}->{$ConfigKey};
+                    next CONFIGKEY;
                 }
             }
         }
@@ -457,6 +457,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-02-15 16:01:26 $
+$Revision: 1.14 $ $Date: 2011-02-16 11:15:01 $
 
 =cut
