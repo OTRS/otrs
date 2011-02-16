@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.1 2011-02-15 18:46:23 sb Exp $
+# $Id: DebugLog.pm,v 1.2 2011-02-16 09:06:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,12 @@ package Kernel::System::GenericInterface::DebugLog;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck
     qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -42,6 +43,7 @@ create a debug log object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
+    use Kernel::System::CacheInternal;
     use Kernel::System::DB;
     use Kernel::System::GenericInterface::DebugLog;
 
@@ -58,6 +60,12 @@ create a debug log object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
+    my $CacheInternalObject = Kernel::System::CacheInternal->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -65,11 +73,12 @@ create a debug log object
         MainObject   => $MainObject,
     );
     my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        DBObject     => $DBObject,
+        ConfigObject        => $ConfigObject,
+        EncodeObject        => $EncodeObject,
+        LogObject           => $LogObject,
+        MainObject          => $MainObject,
+        CacheInternalObject => $CacheInternalObject,
+        DBObject            => $DBObject,
     );
 
 =cut
@@ -87,6 +96,13 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    # create additional objects
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'GenericInterface',
+        TTL  => 60 * 60,
+    );
 
     return $Self;
 }
@@ -260,6 +276,12 @@ sub LogGet {
         return;
     }
 
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => 'LogGet::' . $Param{CommunicationID},
+    );
+    return $Cache if $Cache;
+
     # prepare db request
     if (
         !$Self->{DBObject}->Prepare(
@@ -290,6 +312,12 @@ sub LogGet {
             WebserviceID      => $Row[5],
         );
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => 'LogGet::' . $Param{CommunicationID},
+        Value => \%LogData,
+    );
 
     return if !%LogData;
     return \%LogData;
@@ -446,6 +474,11 @@ sub LogDelete {
         );
         return;
     }
+
+    # clean cache
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'LogGet::' . $Param{CommunicationID},
+    );
 
     return 1;
 }
@@ -760,6 +793,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-15 18:46:23 $
+$Revision: 1.2 $ $Date: 2011-02-16 09:06:00 $
 
 =cut
