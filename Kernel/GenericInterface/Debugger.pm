@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.14 2011-02-16 13:01:19 cg Exp $
+# $Id: Debugger.pm,v 1.15 2011-02-16 13:42:38 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -143,16 +143,11 @@ sub new {
     $Self->{TestMode} = $Param{DebuggerConfig}->{TestMode} || 0;
 
     # remote ip optional
-    if ( !$Param{RemoteIP} ) {
-        $Self->{RemoteIP} = '';
+    if ( defined $Param{RemoteIP} && !IsStringWithData( $Param{RemoteIP} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need RemoteIP address!' );
+        return;
     }
-    else {
-        if ( !IsStringWithData( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need RemoteIP address!' );
-            return;
-        }
-        $Self->{RemoteIP} = $Param{RemoteIP};
-    }
+    $Self->{RemoteIP} = $Param{RemoteIP};
 
     # comminication ID md5 (system time + random #)
     my $CurrentTime = $Self->{TimeObject}->SystemTime();
@@ -162,8 +157,7 @@ sub new {
     $Self->{CommunicationID} = $MD5String;
 
     # create DebugLog object
-    $Self->{DebugLogObject}
-        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
+    $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 
     return $Self;
 }
@@ -216,9 +210,9 @@ sub DebugLog {
                 CommunicationID   => $Self->{CommunicationID},
                 CommunicationType => $Self->{CommunicationType},
                 RemoteIP          => $Self->{RemoteIP},
+                Summary           => $Param{Summary},
                 WebserviceID      => $Self->{WebserviceID},
                 DebugLevel        => $Param{DebugLevel},
-                Subject           => $Param{Summary},
                 Data              => $Param{Data},
             );
         }
@@ -382,6 +376,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-02-16 13:01:19 $
+$Revision: 1.15 $ $Date: 2011-02-16 13:42:38 $
 
 =cut
