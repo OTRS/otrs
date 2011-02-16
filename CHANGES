@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1772 2011-02-15 16:53:14 mp Exp $
+# $Id: CHANGES,v 1.1773 2011-02-16 10:03:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-16 Updated Brazilian Portugese translation, thanks to Humberto Diogenes!
  - 2011-02-15 Fixed bug#6861 - Navigation should be disabled when linking an object.
  - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
     in database and session.
@@ -26,6 +27,7 @@
     of > 70 characters exists.
 
 3.0.6 2011-??-??
+ - 2011-02-16 Updated Brazilian Portugese translation, thanks to Humberto Diogenes!
  - 2011-02-15 Fixed bug#6861 - Navigation should be disabled when linking an object.
  - 2011-02-14 Fixed bug#6869 - ITSM 3 Link Object "close window" refreshes and settings lost
  - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
