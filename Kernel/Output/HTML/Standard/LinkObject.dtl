@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.29.2.2 2011-02-16 22:56:08 mp Exp $
+# $Id: LinkObject.dtl,v 1.29.2.3 2011-02-16 23:15:56 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,13 +133,5 @@ $Text{"none"}
         $(this).closest('.WidgetBox').find('table input[type=checkbox]').attr('checked', Status);
     });
 
-//]]></script>
-<!--dtl:js_on_document_complete-->
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    $('a.LinkZoomView').bind('click', function () {
-        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
-        window.close();
-    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
