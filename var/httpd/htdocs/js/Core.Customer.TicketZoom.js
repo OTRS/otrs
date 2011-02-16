@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.9 2011-02-16 07:55:18 mb Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.10 2011-02-16 08:59:37 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
