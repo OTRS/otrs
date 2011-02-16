@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.8 2011-02-16 11:15:01 sb Exp $
+# $Id: Simple.t,v 1.9 2011-02-16 17:24:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -222,8 +222,8 @@ my @MappingTests = (
             priority => 'without capital letter',
         },
         ResultData => {
-            'state' => 'Open',
-            prio    => 'without capital letter',
+            'state' => 'A lost state',
+            prio    => 'with capital letter',
         },
         ResultSuccess => 1,
     },
@@ -347,9 +347,9 @@ my @MappingTests = (
             other_key    => 'an empty string',
         },
         ResultData => {
-            'state'      => 'Open',
+            'state'      => 'A lost state',
             'Stadium'    => 'Allianz Arena',
-            prio         => 'without capital letter',
+            prio         => 'with capital letter',
             one_more_key => 'some value',
             other_key    => 'an empty string',
         },

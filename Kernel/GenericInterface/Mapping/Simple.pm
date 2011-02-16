@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.14 2011-02-16 11:15:01 sb Exp $
+# $Id: Simple.pm,v 1.15 2011-02-16 17:24:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -186,6 +186,13 @@ sub Map {
             KEYMAPREGEX:
             for my $ConfigKey ( sort keys %{ $Config->{KeyMapRegEx} } ) {
                 next KEYMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
+                if ( $ReturnData{ $Config->{KeyMapRegEx}->{$ConfigKey} } ) {
+                    $Self->{DebuggerObject}->Notice(
+                        Summary =>
+                            "The data key '$Config->{KeyMapRegEx}->{$ConfigKey}' already exists!",
+                    );
+                    next CONFIGKEY;
+                }
                 $NewKey = $Config->{KeyMapRegEx}->{$ConfigKey};
                 last KEYMAPREGEX;
             }
@@ -392,7 +399,7 @@ sub _ConfigCheck {
     }
 
     # check ValueMap
-    for my $KeyName ( keys %{ $Config->{ValueMap} } ) {
+    for my $KeyName ( sort keys %{ $Config->{ValueMap} } ) {
 
         # require values to be hash ref
         if ( !IsHashRefWithData( $Config->{ValueMap}->{$KeyName} ) ) {
@@ -457,6 +464,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-02-16 11:15:01 $
+$Revision: 1.15 $ $Date: 2011-02-16 17:24:18 $
 
 =cut
