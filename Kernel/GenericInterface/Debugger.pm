@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.13 2011-02-15 15:47:46 cg Exp $
+# $Id: Debugger.pm,v 1.14 2011-02-16 13:01:19 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,10 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
 
-#use Kernel::System::GenericInterface::DebugLog;
+use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -126,14 +126,14 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # check correct DebugLevel
+    # check correct DebugThreshold
     if ( $Self->{DebugThreshold} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugThreshold is not allowed.' );
         return;
     }
 
-    # check correct DebugLevel
-    if ( $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
+    # check correct CommunicationType
+    if ( lc $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
         $Self->{LogObject}
             ->Log( Priority => 'error', Message => 'CommunicationType is not allowed.' );
         return;
@@ -162,8 +162,8 @@ sub new {
     $Self->{CommunicationID} = $MD5String;
 
     # create DebugLog object
-    #    $Self->{DebugLogObject}
-    #        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
+    $Self->{DebugLogObject}
+        = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 
     return $Self;
 }
@@ -206,14 +206,21 @@ sub DebugLog {
         error  => 4
     );
     if ( !$Self->{TestMode} ) {
-        if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
+        my $LevelsResult =
+            scalar $DebugLevels{ $Param{DebugLevel} }
+            - scalar $DebugLevels{ $Self->{DebugThreshold} };
+        if ( scalar $LevelsResult > 0 ) {
 
             # call AddLog function
-            #        $Self->{DebugLogObject}->LogAdd(
-            #            DebugLevel => $Param{DebugLevel},
-            #            Summary    => $Param{Summary},
-            #            Data       => $Param{Data},
-            #        );
+            $Self->{DebugLogObject}->LogAdd(
+                CommunicationID   => $Self->{CommunicationID},
+                CommunicationType => $Self->{CommunicationType},
+                RemoteIP          => $Self->{RemoteIP},
+                WebserviceID      => $Self->{WebserviceID},
+                DebugLevel        => $Param{DebugLevel},
+                Subject           => $Param{Summary},
+                Data              => $Param{Data},
+            );
         }
         return 1 if $Param{DebugLevel} ne 'error';
     }
@@ -375,6 +382,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-02-15 15:47:46 $
+$Revision: 1.14 $ $Date: 2011-02-16 13:01:19 $
 
 =cut
