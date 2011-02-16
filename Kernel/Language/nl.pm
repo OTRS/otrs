@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152 2011-01-20 14:52:11 mb Exp $
+# $Id: nl.pm,v 1.153 2011-02-16 09:47:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1264,7 +1264,7 @@ sub Data {
 
         # Template: AdminSysConfig
         'SysConfig' => 'Systeemconfiguratie',
-        'Navigate by searching in %s settings' => 'Zoek in %s configuratie',
+        'Navigate by searching in %s settings' => 'Doorzoek %s instellingen',
         'Navigate by selecting config groups' => 'Navigeer door groepen te kiezen',
         'Download all system config changes' => 'Download alle aanpassingen in de systeemconfiguratie',
         'Export settings' => 'Exporteer configuratie',
@@ -1399,7 +1399,7 @@ sub Data {
 
         # Template: AgentInfo
         'Info' => 'Informatie',
-        'To accept some news, a license or some changes.' => 'Om te accepteren.',
+        'To accept some news, a license or some changes.' => 'Om een tekst te tonen, zoals nieuws of een licentie, die de agent moet accepteren.',
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Koppel object: %s',
@@ -1717,7 +1717,7 @@ sub Data {
         'Your User Name' => 'Uw gebruikersnaam',
         'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mailadres verzonden.',
         'Create Account' => 'Maak account',
-        'Please fill out this form to recieve login credentials.' => 'Vul dit formulier in om een gebruikersnaam aan te maken.',
+        'Please fill out this form to receive login credentials.' => 'Vul dit formulier in om een gebruikersnaam aan te maken.',
         'How we should address you' => 'Hoe moeten we u adresseren?',
         'Your First Name' => 'Uw voornaam',
         'Please supply a first name' => 'Voer uw voornaam in',
