@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.52 2011-02-16 08:35:10 mg Exp $
+# $Id: Layout.t,v 1.53 2011-02-16 13:02:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1199,6 +1199,23 @@ my @LinkEncodeTests = (
     { Source => ';', Target => '%3B', },
     { Source => '@', Target => '%40', },
 
+    # LinkEncode() on reserved characters
+    {
+        Source => '!*\'();:@&=+$,/?#[]',
+        Target => '%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%23%5B%5D',
+    },
+
+    # LinkEncode() on common characters
+    {
+        Source => '<>"{}|\`^% ',
+        Target => '%3C%3E%22%7B%7D%7C%5C%60%5E%25%20',
+    },
+
+    # LinkEncode() on normal characters
+    {
+        Source => 'normaltext123',
+        Target => 'normaltext123',
+    },
 );
 
 for my $LinkEncodeTest (@LinkEncodeTests) {
