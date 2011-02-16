@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.2 2011-02-16 09:06:00 sb Exp $
+# $Id: DebugLog.pm,v 1.3 2011-02-16 13:41:20 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck
     qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -120,7 +120,7 @@ returns 1 on success or undef on error
         Data              => 'additional data' # optional
         DebugLevel        => 'info',           # 'debug', 'info', 'notice', 'error'
         RemoteIP          => '192.168.0.1',    # optional, must be valid IPv4 or IPv6 address
-        Subject           => 'description of log entry',
+        Summary           => 'description of log entry',
         WebserviceID      => 1,
     );
 
@@ -131,7 +131,7 @@ sub LogAdd {
 
     # check needed params
     NEEDED:
-    for my $Needed (qw(CommunicationID CommunicationType DebugLevel Subject WebserviceID)) {
+    for my $Needed (qw(CommunicationID CommunicationType DebugLevel Summary WebserviceID)) {
         next NEEDED if IsStringWithData( $Param{$Needed} );
 
         $Self->{LogObject}->Log(
@@ -180,7 +180,7 @@ sub LogAdd {
         return;
     }
     KEY:
-    for my $Key (qw(Data DebugLevel Subject)) {
+    for my $Key (qw(Data DebugLevel Summary)) {
         next KEY if !defined $Param{$Key};
         if ( !IsString( $Param{$Key} ) ) {
             $Self->{LogObject}->Log(
@@ -227,10 +227,9 @@ sub LogAdd {
             SQL =>
                 'INSERT INTO gi_debugger_entry_content'
                 . ' (content, create_time, debug_level, gi_debugger_entry_id, subject)'
-                . ' (gi_debugger_entry_id, debug_level, subject, content, create_time)'
                 . ' VALUES (?, current_timestamp, ?, ?, ?)',
             Bind => [
-                \$Param{Content}, \$Param{DebugLevel}, \$LogData->{LogID}, \$Param{Subject},
+                \$Param{Content}, \$Param{DebugLevel}, \$LogData->{LogID}, \$Param{Summary},
             ],
         )
         )
@@ -343,7 +342,7 @@ get all individual entries for a communication chain
                 Created    => '2011-02-15 17:00:06',
                 Data       => 'some logging specific data or structure', # optional
                 DebugLevel => 'info',
-                Subject    => 'a log bit',
+                Summary    => 'a log bit',
             },
             ...
         ],
@@ -400,7 +399,7 @@ sub LogGetWithData {
             Created    => $Row[0],
             Data       => $Row[1] || '',
             DebugLevel => $Row[2],
-            Subject    => $Row[3],
+            Summary    => $Row[3],
         );
         push @LogDataEntries, \%SingleEntry;
     }
@@ -511,7 +510,7 @@ when the parameter 'WithData' is set, the complete communication chains will be 
                     Created    => '2011-02-15 17:00:06',
                     Data       => 'some logging specific data or structure', # optional
                     DebugLevel => 'info',
-                    Subject    => 'a log bit',
+                    Summary    => 'a log bit',
                 },
                 ...
             ],
@@ -793,6 +792,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-16 09:06:00 $
+$Revision: 1.3 $ $Date: 2011-02-16 13:41:20 $
 
 =cut
