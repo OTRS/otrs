@@ -1,8 +1,9 @@
 // --
 // Core.Form.js - provides functions for form handling
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+";
 // --
-// $Id: Core.Form.js,v 1.9 2010-08-12 13:46:08 mg Exp $
+// $Id: Core.Form.js,v 1.10 2011-02-16 20:01:19 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
