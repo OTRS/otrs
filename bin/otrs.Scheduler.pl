@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.8 2011-02-15 19:09:28 martin Exp $
+# $Id: otrs.Scheduler.pl,v 1.9 2011-02-16 11:06:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -203,9 +203,18 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
     );
 
-    # refresh needed objects
-    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
+    # refresh all needed objects after fork
+    %CommonObject               = ();
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'otrs.Scheduler',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
 
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
