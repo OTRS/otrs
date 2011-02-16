@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.8 2011-01-07 13:32:10 ub Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.9 2011-02-16 07:55:18 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * @function
      * @param {DOMObject} an iframe
      * @description
-     *      This function contains some workarounds for all browsers to get resize the iframe
+     *      This function contains some workarounds for all browsers to get re-size the iframe
      * @see http://sonspring.com/journal/jquery-iframe-sizing
      */
     function CheckIframe(Iframe, callback){
@@ -150,10 +150,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function checkes the value of a hidden input field containing the state of the article:
-     *      untouched (= not yet loaded), true or false. If the article is allready loaded (-> true), and
-     *      user calles this function by clicking on the messagehead, the article gets hidden by removing
-     *      the class 'Visible' and the status changes to false. If the messagehead is clicked while the
+     *      This function checks the value of a hidden input field containing the state of the article:
+     *      untouched (= not yet loaded), true or false. If the article is already loaded (-> true), and
+     *      user calls this function by clicking on the message head, the article gets hidden by removing
+     *      the class 'Visible' and the status changes to false. If the message head is clicked while the
      *      status is false (e.g. the article is hidden), the article gets the class 'Visible' again and
      *      the status gets changed to true.
      */
@@ -180,7 +180,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * @description
      *      This function binds functions to the 'MessageHeader' and the 'Reply' button
      *      to toggle the visibility of the MessageBody and the reply form.
-     *      Also it checks the iframes to resize them to their full (inner) size
+     *      Also it checks the iframes to re-size them to their full (inner) size
      *      and hides the quotes inside the iframes + adds an anchor to toggle the visibility of the quotes
      */
     TargetNS.Init = function(){
