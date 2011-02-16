@@ -2,14 +2,22 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.69 2011-02-04 23:59:40 en Exp $
+# $Id: Ticket.t,v 1.70 2011-02-16 15:01:54 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+
 use utf8;
+
+use vars (qw($Self));
+
+use Time::HiRes qw( usleep );
+
 use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
@@ -5768,6 +5776,180 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             "$NamePrefix - TicketDelete()",
         );
     }
+}
+
+# run test for ticket number creator
+# to test on race conditions
+$Self->TicketNumberGeneratorTest();
+
+sub TicketNumberGeneratorTest {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = Kernel::Config->new();
+
+    # set AutoIncrement number generator to have easier checks
+    $ConfigObject->Set(
+        Key   => 'Ticket::NumberGenerator',
+        Value => 'Kernel::System::Ticket::Number::AutoIncrement',
+    );
+
+    # create objects locally to prevent runtime issues
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+    );
+
+    # get initial value for checking
+    my $InitialTicketNumber = $TicketObject->TicketCreateNumber() || 0;
+    $Self->True(
+        $InitialTicketNumber,
+        'Initial value of TicketNumberGenerator ' . $InitialTicketNumber,
+    );
+
+    # clean up local objects
+    $TicketObject = undef;
+    $DBObject     = undef;
+
+    # be sure garbage collector can run
+    usleep(100);
+
+    # define number of childs to be created
+    my $ChildCount = 100;
+
+    my @Childs;
+    for my $ChildNumber ( 1 .. $ChildCount ) {
+        my $Pid = fork();
+
+        if ($Pid) {
+            push @Childs, $Pid;
+        }
+        else {
+
+            # run ticket number worker function
+            TicketNumberGeneratorTestWorker($ChildNumber);
+
+            # exit child in clean manner
+            exit 0;
+        }
+    }
+
+    # wait for childs to get no zombies
+    for my $Child (@Childs) {
+        my $Pid = waitpid( $Child, 0 );
+    }
+
+    # create the objects again
+    $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    $TicketObject = Kernel::System::Ticket->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+    );
+
+    # compare the values
+    $Self->Is(
+        $TicketObject->TicketCreateNumber() || 0,
+        $InitialTicketNumber + ( $ChildCount + 1 ),
+        'Compare expected Ticket numbers.',
+    );
+
+    return 1;
+}
+
+sub TicketNumberGeneratorTestWorker {
+    my $WorkerNumber = shift;
+
+    # wait to get entropic run of threads
+    my $Wait = int( rand 1_000 );
+    usleep $Wait;
+
+    # create local objects
+    my $ConfigObject = Kernel::Config->new();
+    $ConfigObject->Set(
+        Key   => 'Ticket::NumberGenerator',
+        Value => 'Kernel::System::Ticket::Number::AutoIncrement',
+    );
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+    );
+
+    # actual create a ticket number
+    $TicketObject->TicketCreateNumber();
+
+    # destroy objects in creation order
+    $TicketObject = undef;
+    $DBObject     = undef;
+    $MainObject   = undef;
+    $TimeObject   = undef;
+    $LogObject    = undef;
+    $EncodeObject = undef;
+    $ConfigObject = undef;
+
+    # be sure garbage collector can run
+    usleep(100);
+
+    return 1;
 }
 
 1;
