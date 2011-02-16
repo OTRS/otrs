@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.9 2011-02-16 11:06:50 martin Exp $
+# $Id: otrs.Scheduler.pl,v 1.10 2011-02-16 17:03:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -59,21 +59,11 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'otrs.Scheduler',
-    %CommonObject,
-);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
-
 # check if a stop request is sent
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
@@ -103,6 +93,9 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
 # check if a status request is sent
 if ( $Opts{a} && $Opts{a} eq "status" ) {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
@@ -137,6 +130,9 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
 # check if a reload request is sent
 if ( $Opts{a} && $Opts{a} eq "reload" ) {
 
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
         Name => 'otrs.Scheduler',
@@ -162,59 +158,55 @@ if ( $Opts{a} && $Opts{a} eq "reload" ) {
 # check if start request is sent
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
-    # check for force to start option
-    # check if PID is already there
-    if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
-        if ( !$Opts{f} ) {
-            print
-                "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it\n";
-            print "forced)!\n";
+    {
 
-            # log daemon already running
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Scheduler Daemon tries to start but there is a running Daemon already!\n",
-            );
-            exit 1;
-        }
-        elsif ( $Opts{f} ) {
-            print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+        # create common objects
+        my %CommonObject = _CommonObjects();
 
-            # log daemon forced start
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Scheduler Daemon is forced to Start!",
-            );
+        # check for force to start option
+        # check if PID is already there
+        if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
+            if ( !$Opts{f} ) {
+                print
+                    "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it\n";
+                print "forced)!\n";
+
+                # log daemon already running
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Scheduler Daemon tries to start but there is a running Daemon already!\n",
+                );
+                exit 1;
+            }
+            elsif ( $Opts{f} ) {
+                print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+
+                # log daemon forced start
+                $CommonObject{LogObject}->Log(
+                    Priority => 'notice',
+                    Message  => "Scheduler Daemon is forced to Start!",
+                );
+            }
         }
+
+        # get detault log path from configuration
+        my $LogPath = $CommonObject{ConfigObject}->Get('LogModule::LogPath') || '/tmp';
+
+        # create a new daemon object
+        my $Daemon = Proc::Daemon->new();
+
+        # demonize itself
+        $Daemon->Init(
+            {
+                child_STDOUT => $LogPath . '/SchedulerOUT.log',
+                child_STDERR => $LogPath . '/SchedulerERR.log',
+            }
+        );
     }
 
-    # get detault log path from configuration
-    my $LogPath = $CommonObject{ConfigObject}->Get('LogModule::LogPath') || '/tmp';
-
-    # create a new daemon object
-    my $Daemon = Proc::Daemon->new();
-
-    # demonize itself
-    $Daemon->Init(
-        {
-            child_STDOUT => $LogPath . '/SchedulerOUT.log',
-            child_STDERR => $LogPath . '/SchedulerERR.log',
-        }
-    );
-
-    # refresh all needed objects after fork
-    %CommonObject               = ();
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'otrs.Scheduler',
-        %CommonObject,
-    );
-    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
@@ -241,6 +233,9 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # main loop
     while (1) {
+
+        # create common objects
+        my %CommonObject = _CommonObjects();
 
         # check for stop signal
         exit if $Interrupt;
@@ -280,4 +275,19 @@ sub _help {
 sub _Hangup {
 
     # TODO Implement
+}
+
+sub _CommonObjects {
+    my %CommonObject;
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'otrs.Scheduler',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
+    return %CommonObject;
 }
