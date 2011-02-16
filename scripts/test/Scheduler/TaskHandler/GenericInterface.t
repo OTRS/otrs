@@ -2,7 +2,7 @@
 # GenericInterface.t - Generic Interface Scheduler Task Handler Backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.t,v 1.1 2011-02-15 20:51:33 cr Exp $
+# $Id: GenericInterface.t,v 1.2 2011-02-16 08:26:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,8 +58,9 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
     UserID  => 1,
 );
 
-$Self->True(
+$Self->IsNot(
     $WebserviceID,
+    undef,
     "WebserviceAdd()",
 );
 
@@ -165,16 +166,17 @@ for my $TaskData (@TaskList) {
     my $Result = $SchedulerObject->Run();
 
     if ( $TaskData->{Execute} ) {
-        $Self->True(
+        $Self->IsNot(
             $Result,
-            "$TaskData->{Name} Test SchedulerRun() True",
+            undef,
+            "$TaskData->{Name} Test SchedulerRun()",
         );
     }
     else {
         $Self->Is(
             $Result,
             undef,
-            "$TaskData->{Name} Test SchedulerRun() Is",
+            "$TaskData->{Name} Test SchedulerRun()",
         );
     }
 }
@@ -185,8 +187,9 @@ my $Success = $WebserviceObject->WebserviceDelete(
     UserID => 1,
 );
 
-$Self->True(
+$Self->IsNot(
     $Success,
+    undef,
     "WebserviceDelete()",
 );
 
