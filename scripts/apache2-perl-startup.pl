@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.47 2010-09-03 07:10:35 martin Exp $
+# $Id: apache2-perl-startup.pl,v 1.48 2011-02-17 21:23:40 en Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,6 +32,7 @@ $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 BEGIN {
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 }
+
 use ModPerl::Util;
 
 # set otrs lib path!
