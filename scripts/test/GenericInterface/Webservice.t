@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.9 2011-02-15 20:54:29 mb Exp $
+# $Id: Webservice.t,v 1.10 2011-02-17 09:59:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -380,20 +380,20 @@ for my $Test (@Tests) {
 
     for my $Count ( 0 .. 1 ) {
         next if !$History[$Count];
-        my %WebserviceHistoryGet = $WebserviceHistoryObject->WebserviceHistoryGet(
+        my $WebserviceHistoryGet = $WebserviceHistoryObject->WebserviceHistoryGet(
             ID => $History[$Count],
         );
         if ( $Count == 1 ) {
             $Self->IsDeeply(
                 $Test->{Add}->{Config},
-                $WebserviceHistoryGet{Config},
+                $WebserviceHistoryGet->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }
         else {
             $Self->IsDeeply(
                 $Test->{Update}->{Config},
-                $WebserviceHistoryGet{Config},
+                $WebserviceHistoryGet->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }

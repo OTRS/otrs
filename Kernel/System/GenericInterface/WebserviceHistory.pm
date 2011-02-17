@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.5 2011-02-10 17:08:14 martin Exp $
+# $Id: WebserviceHistory.pm,v 1.6 2011-02-17 09:59:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -120,9 +120,9 @@ sub WebserviceHistoryAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO gi_webservice_config_history (config_id, config, '
-            . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+            'INSERT INTO gi_webservice_config_history
+                (config_id, config, create_time, create_by, change_time, change_by)
+            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{UserID},
         ],
@@ -130,8 +130,10 @@ sub WebserviceHistoryAdd {
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
-            'SELECT id FROM gi_webservice_config_history WHERE config_id = ? ORDER BY create_time DESC',
-        Bind  => [ \$Param{WebserviceID} ],
+            'SELECT id FROM gi_webservice_config_history
+            WHERE config_id = ? AND create_by = ? AND change_by = ?
+            ORDER BY id DESC',
+        Bind => [ \$Param{WebserviceID}, \$Param{UserID}, \$Param{UserID}, ],
         Limit => 1,
     );
     my $ID;
@@ -151,12 +153,12 @@ get WebserviceHistorys attributes
 
 Returns:
 
-    %WebserviceHistory = (
+    $WebserviceHistory = {
         Config       => $ConfigRef,
         WebserviceID => 123,
         CreateTime   => '2011-02-08 15:08:00',
         ChangeTime   => '2011-02-08 15:08:00',
-    );
+    };
 
 =cut
 
@@ -171,9 +173,11 @@ sub WebserviceHistoryGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT config_id, config, create_time, change_time '
-            . 'FROM gi_webservice_config_history WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+        SQL => 'SELECT config_id, config, create_time, change_time
+                FROM gi_webservice_config_history
+                WHERE id = ?',
+        Bind  => [ \$Param{ID} ],
+        LIMIT => 1,
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -187,7 +191,7 @@ sub WebserviceHistoryGet {
             ChangeTime   => $Data[4],
         );
     }
-    return %Data;
+    return \%Data;
 }
 
 =item WebserviceHistoryUpdate()
@@ -219,8 +223,9 @@ sub WebserviceHistoryUpdate {
 
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE gi_webservice_config_history SET config_id = ?, config = ?, '
-            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        SQL => 'UPDATE gi_webservice_config_history
+                SET config_id = ?, config = ?, hange_time = current_timestamp, change_by = ?
+                WHERE id = ?',
         Bind => [
             \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{ID},
         ],
@@ -252,7 +257,8 @@ sub WebserviceHistoryDelete {
 
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM gi_webservice_config_history WHERE config_id = ?',
+        SQL => 'DELETE FROM gi_webservice_config_history
+                WHERE config_id = ?',
         Bind => [ \$Param{WebserviceID} ],
     );
 
@@ -288,7 +294,8 @@ sub WebserviceHistoryList {
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
-            'SELECT id FROM gi_webservice_config_history WHERE config_id = ? ORDER BY create_time, id DESC',
+            'SELECT id FROM gi_webservice_config_history
+            WHERE config_id = ? ORDER BY id DESC',
         Bind => [ \$Param{WebserviceID} ],
     );
 
@@ -315,6 +322,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-10 17:08:14 $
+$Revision: 1.6 $ $Date: 2011-02-17 09:59:29 $
 
 =cut
