@@ -1,8 +1,8 @@
 // --
 // Core.Form.Validate.js - provides functions for validating form inputs
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.32 2011-01-27 11:56:58 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.33 2011-02-17 21:30:59 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

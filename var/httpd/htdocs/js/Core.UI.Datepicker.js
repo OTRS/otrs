@@ -1,8 +1,8 @@
 // --
 // Core.UI.Datepicker.js - Datepicker
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Datepicker.js,v 1.7 2011-01-06 14:39:11 mn Exp $
+// $Id: Core.UI.Datepicker.js,v 1.8 2011-02-17 21:30:59 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

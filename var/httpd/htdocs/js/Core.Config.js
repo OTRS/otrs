@@ -1,8 +1,8 @@
 // --
 // Core.Config.js - provides the JS config
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Config.js,v 1.3 2010-11-24 11:05:24 mn Exp $
+// $Id: Core.Config.js,v 1.4 2011-02-17 21:30:59 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
