@@ -1,8 +1,8 @@
 # --
 # scripts/test/Performance.t - a performance testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.16 2010-11-01 19:05:34 en Exp $
+# $Id: Performance.t,v 1.17 2011-02-17 13:10:42 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -205,5 +205,17 @@ $Self->True(
 # Output() some redesign is done but no performance actions
 #          it seems that the PrasedBlockTemplatePreferences don't work
 #          further more ther is a problem with the classic and modern block in navigation bar
+
+# FIXME:
+# rewrite entire test file to not use $Self to prevent
+# issue with other test files!
+# cleanup locally created objects in reverse creation order
+$AgentTicketQueueObject = undef;
+$Self->{LayoutObject}   = undef;
+$Self->{TicketObject}   = undef;
+$Self->{UserObject}     = undef;
+$Self->{GroupObject}    = undef;
+$ParamObject            = undef;
+$SessionObject          = undef;
 
 1;
