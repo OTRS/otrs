@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.14 2010-07-09 20:22:55 en Exp $
+# $Id: AgentTicketLock.pm,v 1.15 2011-02-17 10:07:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,7 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please change the owner first.',
+                Comment => 'Please become the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
@@ -90,7 +90,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
 
-        # redirekt
+        # redirect
         if ( $Self->{QueueID} ) {
             return $Self->{LayoutObject}->Redirect( OP => "QueueID=$Self->{QueueID}" );
         }
@@ -98,7 +98,7 @@ sub Run {
     }
     else {
 
-        # check if the agent is ablee to lock
+        # check if the agent is able to lock the ticket
         if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
             my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
@@ -108,7 +108,7 @@ sub Run {
                 Type  => 'Small',
             );
             $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Ticket (ID=$Self->{TicketID}) is locked for $OwnerLogin!",
+                Message => "Ticket (ID=$Self->{TicketID}) is locked by $OwnerLogin!",
                 Comment => "Change the owner!",
             );
             $Output .= $Self->{LayoutObject}->Footer(
@@ -137,7 +137,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
 
-        # redirekt
+        # redirect
         if ( $Self->{QueueID} ) {
             return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
         }
