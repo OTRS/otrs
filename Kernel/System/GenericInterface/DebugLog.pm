@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.4 2011-02-16 17:00:53 cg Exp $
+# $Id: DebugLog.pm,v 1.5 2011-02-17 10:00:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck
     qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -236,7 +236,7 @@ sub LogAdd {
                 . ' (content, create_time, debug_level, gi_debugger_entry_id, subject)'
                 . ' VALUES (?, current_timestamp, ?, ?, ?)',
             Bind => [
-                \$Param{Content}, \$Param{DebugLevel}, \$LogData->{LogID}, \$Param{Summary},
+                \$Param{Data}, \$Param{DebugLevel}, \$LogData->{LogID}, \$Param{Summary},
             ],
         )
         )
@@ -808,6 +808,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-16 17:00:53 $
+$Revision: 1.5 $ $Date: 2011-02-17 10:00:00 $
 
 =cut
