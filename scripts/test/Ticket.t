@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.71 2011-02-17 12:36:36 mae Exp $
+# $Id: Ticket.t,v 1.72 2011-02-17 13:19:11 mae Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5785,9 +5785,14 @@ $Self->TicketNumberGeneratorTest();
 sub TicketNumberGeneratorTest {
     my ( $Self, %Param ) = @_;
 
-    # FIXME:
-    # exit here to let UnitTest run
-    return;
+    # check for Windows version to abort test
+    if ( $^O eq "MSWin32" ) {
+        $Self->False(
+            $^O,
+            'Test is not implemented for Windows!',
+        );
+        return;
+    }
 
     my $ConfigObject = Kernel::Config->new();
 
@@ -5871,6 +5876,19 @@ sub TicketNumberGeneratorTest {
         for my $Child (@Childs) {
             my $Pid = waitpid( $Child, 0 );
         }
+    }
+
+    # create DB object again, due to childs connection has been closed
+    $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+
+    # substitue the already used DB objects
+    OBJECT:
+    for my $Object ( keys %{$Self} ) {
+        next OBJECT if $Object eq 'DBObject';
+        next OBJECT if $Object !~ m{ Object \z}xmsi;
+        next OBJECT if !defined $Self->{$Object}->{DBObject};
+
+        $Self->{$Object}->{DBObject} = $Self->{DBObject};
     }
 
     # create the objects again
