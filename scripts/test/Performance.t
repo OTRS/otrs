@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.18 2011-02-17 14:55:52 mg Exp $
+# $Id: Performance.t,v 1.19 2011-02-17 19:45:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,6 @@ use Time::HiRes qw(gettimeofday tv_interval);
 #----------------------------------#
 # use - load classes
 #----------------------------------#
-my $StartUse = [ gettimeofday() ];
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
@@ -31,11 +30,8 @@ use Kernel::System::Ticket;
 use Kernel::Output::HTML::Layout;
 use Kernel::Modules::AgentTicketQueue;
 
-my $DiffTime = tv_interval($StartUse);
-$Self->True(
-    1,
-    "$DiffTime seconds - for all 'use' calls.",
-);
+my $StartUse = [ gettimeofday() ];
+my $DiffTime;
 
 #-----------------------------------#
 # generate new objects - first part
