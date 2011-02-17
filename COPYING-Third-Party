@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.15 2011-02-14 16:25:20 mg Exp $
+# $Id: COPYING-Third-Party,v 1.16 2011-02-17 10:01:15 mg Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -186,12 +186,6 @@ o Name:    CPAN YAML
   Note:    # Copyright (c) 2005, 2006, 2008. Ingy döt Net.
            # Copyright (c) 2001, 2002, 2005. Brian Ingerson.
            # Some parts copyright (c) 2009 - 2010 Adam Kennedy
-
-o Name:    CPAN LWP::UserAgent
-  Web:     n/a
-  License: # This library is free software; you can redistribute it
-           # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright 1995-2009 Gisle Aas.
 
 o Name:    CPAN URI::Escape
   Web:     n/a
