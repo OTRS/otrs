@@ -2,7 +2,7 @@
 # TaskHandler.t - TaskHandler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.t,v 1.1 2011-02-16 19:34:48 mg Exp $
+# $Id: TaskHandler.t,v 1.2 2011-02-17 12:21:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,29 +21,37 @@ my @Tests = (
         Name               => 'Normal, success',
         TaskHandlerType    => 'Test',
         ConstructorSuccess => 1,
-        TaskData           => { Success => 1 },
-        Result             => 1,
+        TaskData           => {
+            Success => 1
+        },
+        Result => 1,
     },
     {
         Name               => 'Normal, fail',
         TaskHandlerType    => 'Test',
         ConstructorSuccess => 1,
-        TaskData           => { Success => 0 },
-        Result             => undef,
+        TaskData           => {
+            Success => 0
+        },
+        Result => undef,
     },
     {
         Name               => 'Nonexisting backend',
         TaskHandlerType    => 'TestNotExisting',
         ConstructorSuccess => 0,
-        TaskData           => { Success => 1 },
-        Result             => undef,
+        TaskData           => {
+            Success => 1
+        },
+        Result => undef,
     },
     {
         Name               => 'Empty backend',
         TaskHandlerType    => '',
         ConstructorSuccess => 0,
-        TaskData           => { Success => 1 },
-        Result             => undef,
+        TaskData           => {
+            Success => 1
+        },
+        Result => undef,
     },
 );
 
