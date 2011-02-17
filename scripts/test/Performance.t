@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.17 2011-02-17 13:10:42 mae Exp $
+# $Id: Performance.t,v 1.18 2011-02-17 14:55:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,23 +49,27 @@ my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
-$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
-$Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-$Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
+
+my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+my $GroupObject = Kernel::System::Group->new( %{$Self} );
+my $UserObject  = Kernel::System::User->new(
+    %{$Self},
+    GroupObject => $GroupObject,
+);
 
 #-----------------------------------------#
 # find the user with the most privileges
 #-----------------------------------------#
 
 my $StartMostImportantUser = [ gettimeofday() ];
-my %UserList               = $Self->{UserObject}->UserList(
+my %UserList               = $UserObject->UserList(
     Type  => 'Short',
     Valid => 1,
 );
 
 my $GroupsCount = 0;
 for my $UserID ( keys %UserList ) {
-    my %Groups = $Self->{GroupObject}->GroupMemberList(
+    my %Groups = $GroupObject->GroupMemberList(
         UserID => $UserID,
         Type   => 'rw',
         Result => 'HASH',
@@ -85,40 +89,33 @@ $Self->True(
 # generate new objects - second part
 #-----------------------------------#
 
-$Self->{TicketObject} = Kernel::System::Ticket->new(
-    EncodeObject => $Self->{EncodeObject},
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    TimeObject   => $Self->{TimeObject},
-    MainObject   => $Self->{MainObject},
-    DBObject     => $Self->{DBObject},
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
 );
 
-$Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    EncodeObject  => $Self->{EncodeObject},
-    ConfigObject  => $Self->{ConfigObject},
-    LogObject     => $Self->{LogObject},
-    TimeObject    => $Self->{TimeObject},
-    MainObject    => $Self->{MainObject},
-    EncodeObject  => $Self->{EncodeObject},
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    %{$Self},
     SessionObject => $SessionObject,
-    DBObject      => $Self->{DBObject},
     ParamObject   => $ParamObject,
-    TicketObject  => $Self->{TicketObject},
-    GroupObject   => $Self->{GroupObject},
-    QueueObject   => $Self->{QueueObject},
-    UserObject    => $Self->{UserObject},
+    TicketObject  => $TicketObject,
+    GroupObject   => $GroupObject,
+    QueueObject   => $QueueObject,
+    UserObject    => $UserObject,
     SessionID     => 1234,
     Action        => 'AgentTicketQueue',
     UserID        => 2,
     Lang          => 'de',
 );
 
-$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+#$QueueObject = Kernel::System::Queue->new( %{$Self} );
 
 my $AgentTicketQueueObject = Kernel::Modules::AgentTicketQueue->new(
     %{$Self},
-    ParamObject => $ParamObject,
+    ParamObject  => $ParamObject,
+    LayoutObject => $LayoutObject,
+    QueueObject  => $QueueObject,
+    GroupObject  => $GroupObject,
+    UserObject   => $UserObject,
 );
 
 #$DiffTime = tv_interval($StartNew);
@@ -131,7 +128,7 @@ my $AgentTicketQueueObject = Kernel::Modules::AgentTicketQueue->new(
 # GetOverTimeTickets
 #----------------------------------#
 my $StartGetOverTimeTickets = [ gettimeofday() ];
-my @EscalationTickets = $Self->{TicketObject}->GetOverTimeTickets( UserID => 1 );
+my @EscalationTickets = $TicketObject->GetOverTimeTickets( UserID => 1 );
 
 # this check is only to display how long it had take
 $DiffTime = tv_interval($StartGetOverTimeTickets);
@@ -144,7 +141,7 @@ $Self->True(
 # NavigationBar
 #----------------------------------#
 my $StartNavigationBar = [ gettimeofday() ];
-my $Output             = $Self->{LayoutObject}->NavigationBar();
+my $Output             = $LayoutObject->NavigationBar();
 $DiffTime = tv_interval($StartNavigationBar);
 $Self->True(
     1,
@@ -154,7 +151,7 @@ $Self->True(
 #-----------------------------------------------------#
 # ShowTicket - especially to test the pre module time
 #-----------------------------------------------------#
-my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+my @TicketIDs = $TicketObject->TicketSearch(
     Result    => 'ARRAY',
     Limit     => 15,
     StateType => 'Open',
@@ -162,16 +159,32 @@ my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 );
 my $StartShowTicket = [ gettimeofday() ];
 
-$Self->{LayoutObject}->TicketListShow(
-    TicketIDs  => \@TicketIDs,
-    Total      => 40,
-    Env        => $Self,
-    View       => 'Preview',
-    TitleName  => 'Queue',
-    TitleValue => 'SelectedQueue',
-    LinkPage   => 'LinkPage',
-    LinkSort   => 'LinkSort',
-);
+{
+    my $STDOUT;
+
+    # redirect STDOUT to empty variable, it is not needed
+    local *STDOUT;
+    open STDOUT, '>:utf8', \$STDOUT;
+
+    $LayoutObject->TicketListShow(
+        TicketIDs => \@TicketIDs,
+        Total     => 40,
+        Env       => {
+            %{$Self},
+            ParamObject  => $ParamObject,
+            LayoutObject => $LayoutObject,
+            QueueObject  => $QueueObject,
+            GroupObject  => $GroupObject,
+            UserObject   => $UserObject,
+            TicketObject => $TicketObject,
+        },
+        View       => 'Preview',
+        TitleName  => 'Queue',
+        TitleValue => 'SelectedQueue',
+        LinkPage   => 'LinkPage',
+        LinkSort   => 'LinkSort',
+    );
+}
 
 $DiffTime = tv_interval($StartShowTicket);
 
@@ -188,34 +201,5 @@ $Self->True(
     1,
     "$DiffTime seconds - to handle all functions.",
 );
-
-# Stopped workink at Layout.pm to simplify the Output and ASCI2HTML function
-
-# code artefact to get the needed outputtime for the $TicketObject->ShownTicket function
-# use Time::HiRes qw(gettimeofday tv_interval);
-#my $StartUse = [gettimeofday()];
-#        my $Output = $Self->{LayoutObject}->Output(
-#            TemplateFile => 'AgentTicketQueueTicketView',
-#            Data         => { %Param, %Article, %AclAction },
-#        );
-#$Self->{DiffTime} += tv_interval($StartUse);
-#        return $Output;
-
-# ASCI2HTML() no redesign is done till now
-# Output() some redesign is done but no performance actions
-#          it seems that the PrasedBlockTemplatePreferences don't work
-#          further more ther is a problem with the classic and modern block in navigation bar
-
-# FIXME:
-# rewrite entire test file to not use $Self to prevent
-# issue with other test files!
-# cleanup locally created objects in reverse creation order
-$AgentTicketQueueObject = undef;
-$Self->{LayoutObject}   = undef;
-$Self->{TicketObject}   = undef;
-$Self->{UserObject}     = undef;
-$Self->{GroupObject}    = undef;
-$ParamObject            = undef;
-$SessionObject          = undef;
 
 1;
