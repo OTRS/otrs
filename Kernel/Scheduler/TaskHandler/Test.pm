@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.8 2011-02-16 19:34:48 mg Exp $
+# $Id: Test.pm,v 1.9 2011-02-17 12:21:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ Kernel::Scheduler::TaskHandler::Test - test backend of the TaskHandler for the S
 =item new()
 
 usually, you want to create an instance of this
-by using L<Kernel::Scheduler::TaskHandler>->new();
+by using Kernel::Scheduler::TaskHandler->new();
 
 =cut
 
@@ -54,15 +54,16 @@ sub new {
 
 =item Run()
 
-perform the selected Task
+performs the selected test task.
 
     my $Result = $TaskHandlerObject->Run(
-        Data     => {                               # task data
-            ...
+        Data     => {
+            File => $Filename,              # optional, create file $FileName
+            Success => 1,                   # 0 or 1, controls return value
         },
     );
 
-returns
+Returns:
 
     $Result = 1;                                    # 0 or 1
 
@@ -123,6 +124,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-16 19:34:48 $
+$Revision: 1.9 $ $Date: 2011-02-17 12:21:15 $
 
 =cut

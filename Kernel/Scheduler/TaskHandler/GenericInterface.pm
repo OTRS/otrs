@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.6 2011-02-16 19:34:48 mg Exp $
+# $Id: GenericInterface.pm,v 1.7 2011-02-17 12:21:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -33,7 +33,7 @@ Kernel::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of t
 =item new()
 
 usually, you want to create an instance of this
-by using L<Kernel::Scheduler::TaskHandler>->new();
+by using Kernel::Scheduler::TaskHandler->new();
 
 =cut
 
@@ -56,15 +56,19 @@ sub new {
 
 =item Run()
 
-perform the selected Task
+performs the selected Task, causing an Invoker call via GenericInterface.
 
     my $Result = $TaskHandlerObject->Run(
-        Data     => {                               # task data
-            ...
+        Data     => {
+            WebserviceID => $WebserviceID,
+            Invoker      => 'configured_invoker',
+            Data         => {                       # data payload for the Invoker
+                ...
+            },
         },
     );
 
-returns
+Returns:
 
     $Result = 1;                                    # 0 or 1
 
@@ -138,6 +142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-16 19:34:48 $
+$Revision: 1.7 $ $Date: 2011-02-17 12:21:15 $
 
 =cut
