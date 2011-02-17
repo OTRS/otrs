@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/TestSimple.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TestSimple.pm,v 1.2 2011-02-15 15:43:22 mg Exp $
+# $Id: TestSimple.pm,v 1.3 2011-02-17 12:30:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ Kernel::GenericInterface::Invoker::Test::Test - GenericInterface test Invoker ba
 =item new()
 
 usually, you want to create an instance of this
-by using L<Kernel::GenericInterface::Invoker->new()>;
+by using Kernel::GenericInterface::Invoker->new();
 
 =cut
 
@@ -63,6 +63,7 @@ sub new {
 =item PrepareRequest()
 
 prepare the invocation of the configured remote webservice.
+This will just return the data that was passed to the function.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => {                               # data payload
@@ -92,6 +93,7 @@ sub PrepareRequest {
 =item HandleResponse()
 
 handle response data of the configured remote webservice.
+This will just return the data that was passed to the function.
 
     my $Result = $InvokerObject->HandleResponse(
         ResponseSuccess      => 1,              # success status of the remote webservice
@@ -144,6 +146,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-15 15:43:22 $
+$Revision: 1.3 $ $Date: 2011-02-17 12:30:03 $
 
 =cut

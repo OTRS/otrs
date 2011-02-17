@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.10 2011-02-15 15:43:22 mg Exp $
+# $Id: Test.pm,v 1.11 2011-02-17 12:30:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ Kernel::GenericInterface::Invoker::Test::Test - GenericInterface test Invoker ba
 =item new()
 
 usually, you want to create an instance of this
-by using L<Kernel::GenericInterface::Invoker->new()>;
+by using Kernel::GenericInterface::Invoker->new();
 
 =cut
 
@@ -218,6 +218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-15 15:43:22 $
+$Revision: 1.11 $ $Date: 2011-02-17 12:30:03 $
 
 =cut

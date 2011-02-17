@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.15 2011-02-15 16:01:26 mg Exp $
+# $Id: Test.pm,v 1.16 2011-02-17 12:30:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ Kernel::GenericInterface::Mapping::Test - GenericInterface test data mapping bac
 =item new()
 
 usually, you want to create an instance of this
-by using L<Kernel::GenericInterface::Mapping->new()>;
+by using Kernel::GenericInterface::Mapping->new();
 
 =cut
 
@@ -260,6 +260,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-02-15 16:01:26 $
+$Revision: 1.16 $ $Date: 2011-02-17 12:30:03 $
 
 =cut
