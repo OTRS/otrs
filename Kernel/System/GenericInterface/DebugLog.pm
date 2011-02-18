@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.5 2011-02-17 10:00:00 cg Exp $
+# $Id: DebugLog.pm,v 1.6 2011-02-18 10:29:16 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,10 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck
-    qw(IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
+    qw(IsArrayRefWithData IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -100,7 +100,7 @@ sub new {
     # create additional objects
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
-        Type => 'GenericInterface',
+        Type => 'GenericInterface::DebugLog',
         TTL  => 60 * 60,
     );
 
@@ -423,7 +423,10 @@ delete a complete communication chain
 returns 1 if successful or undef otherwise
 
     my $Success = $DebugLobObject->LogDelete(
-        CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
+        NoErrorIfEmpty  => 1,                                  # optional
+        CommunicationID => '6f1ed002ab5595859014ebf0951522d9', # optional
+        WebserviceID    => 1,                                  # optional
+                                                               # exactly one id parameter required
     );
 
 =cut
@@ -431,32 +434,81 @@ returns 1 if successful or undef otherwise
 sub LogDelete {
     my ( $Self, %Param ) = @_;
 
-    # check needed param
-    if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
+    # check needed params
+    my $CommunicationIDValid = IsMD5Sum( $Param{CommunicationID} );
+    if ( $Param{CommunicationID} && !$CommunicationIDValid ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'CommunicationID is not an md5sum!',
+            Message  => 'CommunicationID is not a valid md5sum!',
+        );
+        return;
+    }
+    my $WebserviceIDValid = IsPositiveInteger( $Param{WebserviceID} );
+    if ( $Param{WebserviceID} && !$WebserviceIDValid ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'WebserviceID is not a positive integer!',
+        );
+        return;
+    }
+    if (
+        ( !$CommunicationIDValid && !$WebserviceIDValid )
+        ||
+        ( $CommunicationIDValid && $WebserviceIDValid )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need exactly one of CommunicationID or WebserviceID!',
         );
         return;
     }
 
-    # check if we have data for this communication id
-    my $LogData = $Self->LogGet(
-        CommunicationID => $Param{CommunicationID},
-    );
-    if ( !IsHashRefWithData($LogData) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Communication chain does not exist!',
+    # check if we have data for this param
+    if ($CommunicationIDValid) {
+        my $LogData = $Self->LogGet(
+            CommunicationID => $Param{CommunicationID},
         );
-        return;
+        if ( !IsHashRefWithData($LogData) ) {
+            return 1 if $Param{NoErrorIfEmpty};
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Communication chain does not exist!',
+            );
+            return;
+        }
+    }
+    else {
+        my $LogData = $Self->LogSearch(
+            WebserviceID => $Param{WebserviceID},
+        );
+        if ( !IsArrayRefWithData($LogData) ) {
+            return 1 if $Param{NoErrorIfEmpty};
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Communication chain does not exist!',
+            );
+            return;
+        }
     }
 
     # delete individual entries first
+    my $SQLIndividual =
+        'DELETE gdec FROM gi_debugger_entry_content gdec, gi_debugger_entry gde'
+        . ' WHERE gdec.gi_debugger_entry_id = gde.id AND';
+    my @BindIndividual;
+    if ($CommunicationIDValid) {
+        $SQLIndividual .= ' gde.communication_id = ?';
+        push @BindIndividual, \$Param{CommunicationID};
+    }
+    else {
+        $SQLIndividual .= ' gde.webservice_id = ?';
+        push @BindIndividual, \$Param{WebserviceID};
+    }
     if (
         !$Self->{DBObject}->Do(
-            SQL  => 'DELETE FROM gi_debugger_entry_content WHERE gi_debugger_entry_id = ?',
-            Bind => [ \$LogData->{LogID} ],
+            SQL  => $SQLIndividual,
+            Bind => \@BindIndividual,
         )
         )
     {
@@ -468,10 +520,20 @@ sub LogDelete {
     }
 
     # delete main entry
+    my $SQLMain = 'DELETE FROM gi_debugger_entry WHERE';
+    my @BindMain;
+    if ($CommunicationIDValid) {
+        $SQLMain .= ' communication_id = ?';
+        push @BindMain, \$Param{CommunicationID};
+    }
+    else {
+        $SQLMain .= ' webservice_id = ?';
+        push @BindMain, \$Param{WebserviceID};
+    }
     if (
         !$Self->{DBObject}->Do(
-            SQL  => 'DELETE FROM gi_debugger_entry WHERE communication_id = ?',
-            Bind => [ \$Param{CommunicationID} ],
+            SQL  => $SQLMain,
+            Bind => \@BindMain,
         )
         )
     {
@@ -483,8 +545,8 @@ sub LogDelete {
     }
 
     # clean cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'LogGet::' . $Param{CommunicationID},
+    $Self->{CacheInternalObject}->CleanUp(
+        Key => 'GenericInterface::DebugLog',
     );
 
     return 1;
@@ -808,6 +870,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-02-17 10:00:00 $
+$Revision: 1.6 $ $Date: 2011-02-18 10:29:16 $
 
 =cut
