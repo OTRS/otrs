@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.65 2011-02-04 12:32:56 mb Exp $
+# $Id: AAATicket.dtl,v 1.66 2011-02-18 08:47:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,6 +126,10 @@ $Text{"Ticket "%s" created!"}
 $Text{"Ticket Number"}
 $Text{"Ticket Object"}
 $Text{"No such Ticket Number "%s"! Can't link it!"}
+$Text{"You don\'t have write access to this ticket."}
+$Text{"Ticket selected."}
+$Text{"Ticket is locked by another agent."}
+$Text{"Ticket locked."}
 
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
