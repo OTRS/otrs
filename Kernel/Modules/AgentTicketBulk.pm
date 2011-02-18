@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.75 2011-01-26 22:54:54 cg Exp $
+# $Id: AgentTicketBulk.pm,v 1.76 2011-02-18 08:47:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -179,7 +179,8 @@ sub Run {
 
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber} . ': $Text{"No access to ticket!"}',
+                Data => $Ticket{TicketNumber}
+                    . ': $Text{"You don\'t have write access to this ticket."}',
             );
             next TICKET_ID;
         }
@@ -189,7 +190,7 @@ sub Run {
         # check if it's already locked by somebody else
         if ( !$Self->{Config}->{RequiredLock} ) {
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber} . ': $Text{"Ticket is used!"}',
+                Data => $Ticket{TicketNumber} . ': $Text{"Ticket selected."}',
             );
         }
         else {
@@ -201,7 +202,7 @@ sub Run {
                 if ( !$AccessOk ) {
                     $Output .= $Self->{LayoutObject}->Notify(
                         Data => $Ticket{TicketNumber}
-                            . ': $Text{"Ticket is locked for another agent!"}',
+                            . ': $Text{"Ticket is locked by another agent."}',
                     );
                     next TICKET_ID;
                 }
@@ -224,7 +225,7 @@ sub Run {
                 NewUserID => $Self->{UserID},
             );
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+                Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked."}',
             );
         }
 
