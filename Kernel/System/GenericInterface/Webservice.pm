@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.11 2011-02-11 12:41:17 martin Exp $
+# $Id: Webservice.pm,v 1.12 2011-02-18 10:37:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,13 @@ use warnings;
 
 use YAML;
 use Kernel::System::Valid;
+use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::GenericInterface::WebserviceHistory;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -44,6 +47,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::System::GenericInterface::DebugLog;
     use Kernel::System::GenericInterface::Webservice;
 
     my $ConfigObject = Kernel::Config->new();
@@ -65,12 +69,20 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
+    my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
+        ConfigObject        => $ConfigObject,
+        EncodeObject        => $EncodeObject,
+        LogObject           => $LogObject,
+        MainObject          => $MainObject,
+        DBObject            => $DBObject,
+    );
     my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
+        ConfigObject   => $ConfigObject,
+        LogObject      => $LogObject,
+        DBObject       => $DBObject,
+        MainObject     => $MainObject,
+        EncodeObject   => $EncodeObject,
+        DebugLogObject => $DebugLogObject,
     );
 
 =cut
@@ -87,7 +99,8 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
     $Self->{WebserviceHistoryObject}
         = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
 
@@ -97,6 +110,8 @@ sub new {
 =item WebserviceAdd()
 
 add new Webservices
+
+returns id of new webservice if successful or undef otherwise
 
     my $ID = $WebserviceObject->WebserviceAdd(
         Name    => 'some name',
@@ -143,7 +158,7 @@ sub WebserviceAdd {
     }
 
     # add history
-    $Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
         WebserviceID => $ID,
         Config       => $Param{Config},
         UserID       => $Param{UserID},
@@ -156,20 +171,20 @@ sub WebserviceAdd {
 
 get Webservices attributes
 
-    my %Webservice = $WebserviceObject->WebserviceGet(
+    my $Webservice = $WebserviceObject->WebserviceGet(
         ID => 123,
     );
 
 Returns:
 
-    %Webservice = (
+    $Webservice = {
         ID         => 123,
         Name       => 'some name',
         Config     => $ConfigHashRef,
         ValidID    => 123,
         CreateTime => '2011-02-08 15:08:00',
         ChangeTime => '2011-02-08 15:08:00',
-    );
+    };
 
 =cut
 
@@ -201,12 +216,14 @@ sub WebserviceGet {
             ChangeTime => $Data[4],
         );
     }
-    return %Data;
+    return \%Data;
 }
 
 =item WebserviceUpdate()
 
 update Webservice attributes
+
+returns 1 if successful or undef otherwise
 
     my $Success = $WebserviceObject->WebserviceUpdate(
         ID      => 123,
@@ -257,7 +274,7 @@ sub WebserviceUpdate {
     );
 
     # add history
-    $Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
         WebserviceID => $Param{ID},
         Config       => $Param{Config},
         UserID       => $Param{UserID},
@@ -267,7 +284,9 @@ sub WebserviceUpdate {
 
 =item WebserviceDelete()
 
-delete Webservice attributes
+delete a Webservice
+
+returns 1 if successful or undef otherwise
 
     my $Success = $WebserviceObject->WebserviceDelete(
         ID      => 123,
@@ -288,10 +307,10 @@ sub WebserviceDelete {
     }
 
     # check if exists
-    my %Webservice = $Self->WebserviceGet(
+    my $Webservice = $Self->WebserviceGet(
         ID => $Param{ID},
     );
-    return if !%Webservice;
+    return if !IsHashRefWithData($Webservice);
 
     # delete history
     return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryDelete(
@@ -304,6 +323,13 @@ sub WebserviceDelete {
         SQL  => 'DELETE FROM gi_webservice_config WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
+    # delete debug log entries
+    return if !$Self->{DebugLogObject}->LogDelete(
+        NoErrorIfEmpty => 1,
+        WebserviceID   => $Param{ID},
+    );
+
     return 1;
 }
 
@@ -311,11 +337,11 @@ sub WebserviceDelete {
 
 get Webservice list
 
-    my %List = $WebserviceObject->WebserviceList();
+    my $List = $WebserviceObject->WebserviceList();
 
     or
 
-    my %List = $WebserviceObject->WebserviceList(
+    my $List = $WebserviceObject->WebserviceList(
         Valid => 0, # optional, defaults to 1
     );
 
@@ -335,7 +361,7 @@ sub WebserviceList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
-    return %Data;
+    return \%Data;
 }
 
 1;
@@ -354,6 +380,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-11 12:41:17 $
+$Revision: 1.12 $ $Date: 2011-02-18 10:37:42 $
 
 =cut

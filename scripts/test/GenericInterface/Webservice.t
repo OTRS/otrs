@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.10 2011-02-17 09:59:29 mg Exp $
+# $Id: Webservice.t,v 1.11 2011-02-18 10:37:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -309,7 +309,7 @@ for my $Test (@Tests) {
     push @WebserviceIDs, $WebserviceID;
 
     # get config
-    my %Webservice = $WebserviceObject->WebserviceGet(
+    my $Webservice = $WebserviceObject->WebserviceGet(
         ID     => $WebserviceID,
         UserID => 1,
     );
@@ -317,12 +317,12 @@ for my $Test (@Tests) {
     # verify config
     $Self->Is(
         $Test->{Name} . ' ' . $RandomID,
-        $Webservice{Name},
+        $Webservice->{Name},
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
         $Test->{Add}->{Config},
-        $Webservice{Config},
+        $Webservice->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -350,7 +350,7 @@ for my $Test (@Tests) {
     }
 
     # get config
-    %Webservice = $WebserviceObject->WebserviceGet(
+    $Webservice = $WebserviceObject->WebserviceGet(
         ID     => $WebserviceID,
         UserID => 1,
     );
@@ -358,12 +358,12 @@ for my $Test (@Tests) {
     # verify config
     $Self->Is(
         $Test->{Name} . ' ' . $RandomID,
-        $Webservice{Name},
+        $Webservice->{Name},
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
         $Test->{Update}->{Config},
-        $Webservice{Config},
+        $Webservice->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -401,10 +401,10 @@ for my $Test (@Tests) {
 }
 
 # list check
-my %List = $WebserviceObject->WebserviceList( Valid => 0 );
+my $List = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
-        scalar $List{$WebserviceID},
+        scalar $List->{$WebserviceID},
         "WebserviceList() found Webservice $WebserviceID",
     );
 
@@ -439,10 +439,10 @@ for my $WebserviceID (@WebserviceIDs) {
 }
 
 # list check
-%List = $WebserviceObject->WebserviceList( Valid => 0 );
+$List = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
-        scalar $List{$WebserviceID},
+        scalar $List->{$WebserviceID},
         "WebserviceList() did not find webservice $WebserviceID",
     );
 
