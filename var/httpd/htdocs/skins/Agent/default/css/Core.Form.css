@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.29 $
+ * @version     $Revision: 1.30 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -77,7 +77,7 @@ button.Remove,
 a.Remove,
 button.TrashCan,
 a.TrashCan,
-a.VieweAttachment,
+a.ViewAttachment,
 button.Reset,
 a.Reset {
     height: 16px;
@@ -133,7 +133,7 @@ a.Reset{
     background: transparent url(../img/icons/undo.png) no-repeat center;
 }
 
-a.VieweAttachment {
+a.ViewAttachment {
     background: url(../img/icons/screen.png) no-repeat center;
 }
 

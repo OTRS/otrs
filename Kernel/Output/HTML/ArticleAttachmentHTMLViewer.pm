@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleAttachmentHTMLViewer.pm,v 1.10 2011-02-18 23:02:51 mp Exp $
+# $Id: ArticleAttachmentHTMLViewer.pm,v 1.11 2011-02-18 23:43:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,7 @@ sub Run {
                     Link =>
                         "\$Env{\"Baselink\"}Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
                     Target => 'target="attachment"',
-                    Class  => 'Viewer',
+                    Class  => 'ViewAttachment',
                 );
             }
         }
