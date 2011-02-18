@@ -2,7 +2,7 @@
 # Debugger.t - GenericInterface debugger tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.t,v 1.6 2011-02-15 16:29:32 cg Exp $
+# $Id: Debugger.t,v 1.7 2011-02-18 08:59:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,29 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::UnitTest::Helper;
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %$Self,
+    UnitTestObject => $Self,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => {},
+    Name    => "$RandomID webservice",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
 
 # first test the debugger in general
 
@@ -56,7 +79,7 @@ $Self->False(
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         %{$Self},
-        WebserviceID => 1,
+        WebserviceID => $WebserviceID,
     );
 };
 $Self->False(
@@ -71,7 +94,7 @@ eval {
             TestMode => 1,
         },
         CommunicationType => 'Provider',
-        WebserviceID      => 1,
+        WebserviceID      => $WebserviceID,
     );
 };
 $Self->True(
@@ -87,7 +110,7 @@ eval {
             TestMode       => 1,
         },
         CommunicationType => 'Provider',
-        WebserviceID      => 1,
+        WebserviceID      => $WebserviceID,
     );
 };
 $Self->False(
@@ -102,7 +125,7 @@ $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         DebugThreshold => 'notice',
         TestMode       => 1,
     },
-    WebserviceID      => 1,
+    WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
 $Self->Is(
@@ -176,6 +199,17 @@ $Result = $DebuggerObject->Notice(
 $Self->True(
     $Result,
     'DebuggerObject call to custom function debug',
+);
+
+# delete config
+my $Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
 );
 
 1;

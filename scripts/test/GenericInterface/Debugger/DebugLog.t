@@ -2,7 +2,7 @@
 # DebugLog.t - DebugLog tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.t,v 1.1 2011-02-17 10:03:04 cg Exp $
+# $Id: DebugLog.t,v 1.2 2011-02-18 08:59:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,18 +13,37 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-# create needed objects
 use Kernel::System::GenericInterface::DebugLog;
-use Kernel::System::DB;
-my %CommonObject = %{$Self};
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::UnitTest::Helper;
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %$Self,
+    UnitTestObject => $Self,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => {},
+    Name    => "$RandomID webservice",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
 
 # provide no objects
 
 my $DebugLogObject;
 
 # with just objects
-$DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(%CommonObject);
+$DebugLogObject = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 $Self->Is(
     ref $DebugLogObject,
     'Kernel::System::GenericInterface::DebugLog',
@@ -54,7 +73,7 @@ my @Tests = (
     {
         Name   => 'Without CommunicationID',
         Config => {
-            WebserviceID      => 1,
+            WebserviceID      => $WebserviceID,
             CommunicationType => 'Provider',       # 'Provider' or 'Requester'
             RemoteIP          => '192.168.0.1',    # optional
             DebugLevel        => 'info',
@@ -73,7 +92,7 @@ my @Tests = (
             CommunicationID => $Self->{MainObject}->MD5sum(
                 String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
             ),
-            WebserviceID => 1,
+            WebserviceID => $WebserviceID,
             RemoteIP     => '192.168.0.1',
             DebugLevel   => 'info',
             Summary      => 'log Summary',
@@ -91,7 +110,7 @@ my @Tests = (
             CommunicationID => $Self->{MainObject}->MD5sum(
                 String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
             ),
-            WebserviceID      => 1,
+            WebserviceID      => $WebserviceID,
             CommunicationType => 'Provider',
             DebugLevel        => 'info',
             Summary           => 'log Summary',
@@ -112,7 +131,7 @@ my @Tests = (
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
-            WebserviceID      => 1,
+            WebserviceID      => $WebserviceID,
             DebugLevel        => 'info',
             Summary           => 'log Summary',
         },
@@ -129,7 +148,7 @@ my @Tests = (
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
-            WebserviceID      => 1,
+            WebserviceID      => $WebserviceID,
             DebugLevel        => 'info',
             Summary           => 'log Summary',
         },
@@ -259,5 +278,16 @@ for my $DebugLogID (@DebugLogIDs) {
         "LogDelete() deleted Log confirmation $DebugLogID",
     );
 }
+
+# delete config
+my $Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
+);
 
 1;
