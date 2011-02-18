@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleAttachmentDownload.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleAttachmentDownload.pm,v 1.13 2011-02-18 23:02:10 mp Exp $
+# $Id: ArticleAttachmentDownload.pm,v 1.14 2011-02-18 23:43:47 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
         Link =>
             "\$Env{\"CGIHandle\"}/$EncodedFilename?Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
         Target => $Target,
-        Class  => 'Download',
+        Class  => 'DownloadAttachment',
     );
 }
 
