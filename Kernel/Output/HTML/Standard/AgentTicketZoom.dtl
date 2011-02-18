@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.182 2011-01-27 08:50:20 mb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.182.2.1 2011-02-18 23:56:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -575,12 +575,10 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
                     <label>$Text{"Attachment"}:</label>
                     <p class="Value">
 <!-- dtl:block:ArticleAttachmentRow -->
-<!-- dtl:block:ArticleAttachmentRowLink -->
-                        <a href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$QData{"Filename"}</a>, $QData{"Filesize"}
-<!-- dtl:block:ArticleAttachmentRowLink -->
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
                         $QData{"Filename"}, $QData{"Filesize"}
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
+<!-- dtl:block:ArticleAttachmentRowLink -->
+                        <a class="$QData{"Class"}" href="$Data{"Link"}" $Data{"Target"} title="$Text{"$Data{"Action"}"}">$Text{"$Data{"Action"}"}</a>
+<!-- dtl:block:ArticleAttachmentRowLink -->
                         <br />
 <!-- dtl:block:ArticleAttachmentRow -->
                     </p>
