@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.66 2011-02-18 08:47:50 mb Exp $
+# $Id: AAATicket.dtl,v 1.67 2011-02-18 11:10:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,10 @@ $Text{"Queues"}
 $Text{"Priority"}
 $Text{"Priorities"}
 $Text{"Priority Update"}
+$Text{"Priority added!"}
+$Text{"Priority updated!"}
+$Text{"Signature added!"}
+$Text{"Signature updated!"}
 $Text{"SLA"}
 $Text{"Service Level Agreement"}
 $Text{"Service Level Agreements"}
