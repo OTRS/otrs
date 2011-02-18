@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.15 2011-02-15 16:50:05 mg Exp $
+# $Id: Provider.pm,v 1.16 2011-02-18 10:43:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -107,11 +107,11 @@ sub Run {
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
-    my %Webservice = $Self->{WebserviceObject}->WebserviceGet(
+    my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
         ID => $WebserviceID,
     );
 
-    if ( !%Webservice ) {
+    if ( ref $Webservice ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not load web service configuration for web service $WebserviceID",
@@ -127,7 +127,7 @@ sub Run {
 
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
         %$Self,
-        DebuggerConfig    => $Webservice{Config}->{Debugger},
+        DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Provider',
     );
@@ -141,7 +141,7 @@ sub Run {
     # Create the network transport backend and read the network request.
     #
 
-    my $ProviderConfig = $Webservice{Config}->{Provider};
+    my $ProviderConfig = $Webservice->{Config}->{Provider};
 
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
         %$Self,
@@ -360,6 +360,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-02-15 16:50:05 $
+$Revision: 1.16 $ $Date: 2011-02-18 10:43:40 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.2 2011-02-15 10:27:50 mg Exp $
+# $Id: Requester.pm,v 1.3 2011-02-18 10:43:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -147,11 +147,11 @@ sub Run {
 
     my $WebserviceID = $Param{WebserviceID};
 
-    my %Webservice = $Self->{WebserviceObject}->WebserviceGet(
+    my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
         ID => $WebserviceID,
     );
 
-    if ( !%Webservice ) {
+    if ( ref $Webservice ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
@@ -165,7 +165,7 @@ sub Run {
         };
     }
 
-    my $RequesterConfig = $Webservice{Config}->{Requester};
+    my $RequesterConfig = $Webservice->{Config}->{Requester};
 
     #
     # Create a debugger instance which will log the details of this
@@ -174,7 +174,7 @@ sub Run {
 
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
         %$Self,
-        DebuggerConfig    => $Webservice{Config}->{Debugger},
+        DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Requester',
     );
@@ -386,6 +386,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-15 10:27:50 $
+$Revision: 1.3 $ $Date: 2011-02-18 10:43:40 $
 
 =cut
