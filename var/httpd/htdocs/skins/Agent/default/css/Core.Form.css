@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.28 $
+ * @version     $Revision: 1.29 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -72,12 +72,12 @@ button.Primary {
 
 button.Add,
 a.Add,
-a.Download,
+a.DownloadAttachment,
 button.Remove,
 a.Remove,
 button.TrashCan,
 a.TrashCan,
-a.Viewer,
+a.VieweAttachment,
 button.Reset,
 a.Reset {
     height: 16px;
@@ -104,7 +104,7 @@ a.Add:focus {
     background: url(../img/filter_add_hover.png) no-repeat center;
 }
 
-a.Download {
+a.DownloadAttachment {
     background: url(../img/icons/drive-download.png) no-repeat center;
 }
 
@@ -133,7 +133,7 @@ a.Reset{
     background: transparent url(../img/icons/undo.png) no-repeat center;
 }
 
-a.Viewer {
+a.VieweAttachment {
     background: url(../img/icons/screen.png) no-repeat center;
 }
 
