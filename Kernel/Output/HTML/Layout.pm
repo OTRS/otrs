@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.354 2011-02-15 14:04:25 mg Exp $
+# $Id: Layout.pm,v 1.355 2011-02-18 11:48:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.354 $) [1];
+$VERSION = qw($Revision: 1.355 $) [1];
 
 =head1 NAME
 
@@ -2245,7 +2245,7 @@ returns browser output to display/download a attachment
         Content     => $Content,
     );
 
-    or for AJAX html snipps
+    or for AJAX html snippets
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2719,7 +2719,7 @@ sub NavigationBar {
     return $Output;
 }
 
-sub TransfromDateSelection {
+sub TransformDateSelection {
     my ( $Self, %Param ) = @_;
 
     # get key prefix
@@ -4867,6 +4867,12 @@ sub _RemoveScriptTags {
     return $Code;
 }
 
+#COMPAT: to 3.0.x and lower (can be removed later)
+sub TransfromDateSelection {
+    my $Self = shift;
+    return $Self->TransformDateSelection(@_);
+}
+
 1;
 
 =end Internal:
@@ -4883,6 +4889,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.354 $ $Date: 2011-02-15 14:04:25 $
+$Revision: 1.355 $ $Date: 2011-02-18 11:48:00 $
 
 =cut
