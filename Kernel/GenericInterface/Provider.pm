@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.16 2011-02-18 10:43:40 mg Exp $
+# $Id: Provider.pm,v 1.17 2011-02-21 11:19:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -131,6 +131,10 @@ sub Run {
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Provider',
     );
+
+    if ( ref $Self->{DebuggerObject} ne 'Kernel::GenericInterface::Debugger' ) {
+        return;    # bail out without Transport, Apache will generate 500 Error
+    }
 
     $Self->{DebuggerObject}->Debug(
         Summary => 'Communication sequence started',
@@ -360,6 +364,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-02-18 10:43:40 $
+$Revision: 1.17 $ $Date: 2011-02-21 11:19:52 $
 
 =cut

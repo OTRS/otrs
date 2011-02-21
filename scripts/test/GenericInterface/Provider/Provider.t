@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.4 2011-02-15 19:14:11 mg Exp $
+# $Id: Provider.t,v 1.5 2011-02-21 11:19:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -171,6 +171,43 @@ my @Tests = (
         ResponseData    => {},
         ResponseSuccess => 0,
     },
+    {
+        Name             => 'Webservice without debugger config',
+        WebserviceConfig => {
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::Test',
+                        MappingInbound => {
+                            Type   => 'Test',
+                            Config => {
+                                TestOption => 'ToUpper',
+                                }
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        RequestData => {
+            A => 'A',
+            b => 'b',
+        },
+        ResponseData => {
+            A => 'A',
+            b => 'B',
+        },
+        ResponseSuccess => 0,
+        EarlyError      => 1,
+    },
 );
 
 sub _CreateQueryString {
@@ -283,10 +320,16 @@ for my $Test (@Tests) {
             );
         }
         else {
-            $Self->True(
-                index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                "$Test->{Name} Run() HTTP $RequestMethod result error status",
-            );
+
+            # If an early error occurred, GI cannot generate a valid HTTP error response yet,
+            #   because the transport object was not yet initialized. In these cases, apache will
+            #   generate this response, but here we do not use apache.
+            if ( !$Test->{EarlyError} ) {
+                $Self->True(
+                    index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
+                    "$Test->{Name} Run() HTTP $RequestMethod result error status",
+                );
+            }
         }
     }
 

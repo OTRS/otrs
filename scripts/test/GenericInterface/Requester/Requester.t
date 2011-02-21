@@ -2,7 +2,7 @@
 # Requester.t - Requester tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.t,v 1.1 2011-02-15 16:40:47 mg Exp $
+# $Id: Requester.t,v 1.2 2011-02-21 11:19:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,6 +173,40 @@ my @Tests = (
             TicketID => 123,
         },
         ReturnData      => {},
+        ResponseSuccess => 0,
+    },
+    {
+        Name             => 'webservice without debugger config',
+        WebserviceConfig => {
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type           => 'Test::TestSimple',
+                        MappingInbound => {
+                            Type   => 'Test',
+                            Config => {
+                                TestOption => 'ToUpper',
+                            },
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        InputData => {
+            TicketID => 123,
+        },
+        ReturnData => {
+            TICKETID => 123,
+        },
         ResponseSuccess => 0,
     },
 );
