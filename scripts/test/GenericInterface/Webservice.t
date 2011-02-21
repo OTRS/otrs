@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.11 2011-02-18 10:37:42 sb Exp $
+# $Id: Webservice.t,v 1.12 2011-02-21 20:54:02 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -321,8 +321,8 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
-        $Test->{Add}->{Config},
         $Webservice->{Config},
+        $Test->{Add}->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -362,8 +362,8 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet()",
     );
     $Self->IsDeeply(
-        $Test->{Update}->{Config},
         $Webservice->{Config},
+        $Test->{Update}->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -385,15 +385,15 @@ for my $Test (@Tests) {
         );
         if ( $Count == 1 ) {
             $Self->IsDeeply(
-                $Test->{Add}->{Config},
                 $WebserviceHistoryGet->{Config},
+                $Test->{Add}->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }
         else {
             $Self->IsDeeply(
-                $Test->{Update}->{Config},
                 $WebserviceHistoryGet->{Config},
+                $Test->{Update}->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }
@@ -401,10 +401,10 @@ for my $Test (@Tests) {
 }
 
 # list check
-my $List = $WebserviceObject->WebserviceList( Valid => 0 );
+my $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
-        scalar $List->{$WebserviceID},
+        scalar $WebserviceList->{$WebserviceID},
         "WebserviceList() found Webservice $WebserviceID",
     );
 
@@ -439,10 +439,10 @@ for my $WebserviceID (@WebserviceIDs) {
 }
 
 # list check
-$List = $WebserviceObject->WebserviceList( Valid => 0 );
+$WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
-        scalar $List->{$WebserviceID},
+        scalar $WebserviceList->{$WebserviceID},
         "WebserviceList() did not find webservice $WebserviceID",
     );
 
@@ -450,17 +450,16 @@ for my $WebserviceID (@WebserviceIDs) {
         WebserviceID => $WebserviceID,
     );
 
-    $Self->True(
-        scalar @WebserviceHistoryList == 0,
+    $Self->False(
+        scalar @WebserviceHistoryList,
         "WebserviceHistoryList() found entries for Webservice $WebserviceID",
     );
     my @History = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => $WebserviceID,
         UserID       => 1,
     );
-    $Self->Is(
+    $Self->False(
         scalar @History,
-        0,
         'WebserviceHistoryList()',
     );
 }
