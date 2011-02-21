@@ -6,10 +6,10 @@
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # Copyright (C) 2010 Denis Kot <denis.kot at gmail.com>
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
-# Copyright (C) 2010 Eugene Kungurov <ekungurov83 at ya.ru>
+# Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.114 2011-01-20 14:52:11 mb Exp $
+# $Id: ru.pm,v 1.114.2.1 2011-02-21 12:05:12 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.114.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -65,7 +65,7 @@ sub Data {
         'Next Week' => 'На неделе',
         'day' => 'день',
         'days' => 'дней',
-        'day(s)' => 'день/дней',
+        'day(s)' => 'день(дней)',
         'd' => 'дн',
         'hour' => 'час',
         'hours' => 'часов',
@@ -74,18 +74,18 @@ sub Data {
         'h' => 'ч',
         'minute' => 'минута',
         'minutes' => 'минут',
-        'minute(s)' => 'минут(a)',
+        'minute(s)' => 'минут(а)',
         'Minutes' => 'Минуты',
         'm' => 'мин',
         'month' => 'месяц',
         'months' => 'месяцев',
         'month(s)' => 'месяц(ев)',
         'week' => 'неделя',
-        'week(s)' => 'неделя(-ль)',
+        'week(s)' => 'неделя(ль)',
         'year' => 'год',
         'years' => 'лет',
-        'year(s)' => 'год/лет',
-        'second(s)' => 'секунд(a)',
+        'year(s)' => 'год(лет)',
+        'second(s)' => 'секунд(а)',
         'seconds' => 'секунд',
         'second' => 'секунда',
         's' => '',
@@ -232,7 +232,7 @@ sub Data {
         'There is no account with that login name.' => 'Нет пользователя с таким именем.',
         'Login failed! Your user name or password was entered incorrectly.' => '',
         'There is no acount with that user name.' => '',
-        'Please contact your administrator' => '',
+        'Please contact your administrator' => 'Свяжитесь с администратором',
         'Logout' => 'Выход',
         'Logout successful. Thank you for using OTRS!' => 'Вы успешно вышли из системы. Благодарим за пользование системой OTRS !',
         'Invalid SessionID!' => 'Неверный идентификатор сессии!',
@@ -436,7 +436,7 @@ sub Data {
         'The selected time period is larger than the allowed time period!' => 'Выбранный период времени больше, чем разрешенный период!',
         'Common Specification' => 'Общая спецификация',
         'X-axis' => 'Ось X',
-        'Value Series' => 'Ряд значений',
+        'Value Series' => 'Группы значений',
         'Restrictions' => 'Ограничения',
         'graph-lines' => 'График',
         'graph-bars' => 'Гистограмма',
@@ -543,9 +543,9 @@ sub Data {
         'Responsible Tickets Total' => 'Ответственные заявки: Всего',
         'Responsible Tickets New' => 'Ответственные заявки: Новые',
         'Responsible Tickets Reminder Reached' => 'Ответственные заявки: Напоминание истекло',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
+        'Watched Tickets Total' => 'Наблюдаемые заявки: Всего',
+        'Watched Tickets New' => 'Наблюдаемые заявки: Новые',
+        'Watched Tickets Reminder Reached' => 'Наблюдаемые заявки: Напоминание истекло',
         'All tickets' => 'Все заявки',
         'Tickets available' => 'Доступные заявки',
         'Escalation' => 'Эскалация',
@@ -590,8 +590,8 @@ sub Data {
         'Show closed Tickets' => 'Показывать закрытые заявки',
         'New Article' => 'Новое сообщение',
         'Unread article(s) available' => '',
-        'Remove from list of watched tickets' => '',
-        'Add to list of watched tickets' => '',
+        'Remove from list of watched tickets' => 'Удалить из списка наблюдаемых заявок',
+        'Add to list of watched tickets' => 'Добавить в список наблюдаемых заявок',
         'Email-Ticket' => 'Письмо',
         'Create new Email Ticket' => 'Создать новую заявку',
         'Phone-Ticket' => 'Телефонный звонок',
@@ -606,12 +606,12 @@ sub Data {
         'Overview of all open Tickets' => 'Обзор всех открытых заявок',
         'Locked Tickets' => 'Заблокированные заявки',
         'My Locked Tickets' => 'Мои заблокированные заявки',
-        'My Watched Tickets' => '',
-        'My Responsible Tickets' => '',
-        'Watched Tickets' => 'Отслеживаемые заявки',
-        'Watched' => 'Отслеживаемые',
-        'Watch' => '',
-        'Unwatch' => '',
+        'My Watched Tickets' => 'Мои наблюдаемые заявки',
+        'My Responsible Tickets' => 'Мои ответственные заявки',
+        'Watched Tickets' => 'Наблюдаемые заявки',
+        'Watched' => 'Наблюдаемые',
+        'Watch' => 'Наблюдать',
+        'Unwatch' => 'Не наблюдать',
         'Lock it to work on it!' => 'Заблокировать, чтобы рассмотреть заявку!',
         'Unlock to give it back to the queue!' => 'Разблокировать и вернуть в очередь!',
         'Shows the ticket history!' => 'Показать историю заявки!',
@@ -670,9 +670,9 @@ sub Data {
         'Ticket limit per page for Ticket Overview "Medium"' => '',
         'Ticket Overview "Preview" Limit' => '',
         'Ticket limit per page for Ticket Overview "Preview"' => '',
-        'Ticket watch notification' => '',
-        'Send me the same notifications for my watched tickets that the ticket owners will get.' => '',
-        'Send ticket watch notifications' => '',
+        'Ticket watch notification' => 'Уведомление по наблюдаемым заявкам',
+        'Send me the same notifications for my watched tickets that the ticket owners will get.' => 'Прислать мне те же уведомления для наблюдаемых заявок, которые получают владельцы заявок.',
+        'Send ticket watch notifications' => 'Отправлять уведомления по наблюдаемым заявкам',
         'Out Of Office Time' => 'Период отсутствия в офисе',
         'New Ticket' => 'Новая заявка',
         'Create new Ticket' => 'Создать новую заявку',
@@ -684,10 +684,10 @@ sub Data {
         'Escalated Tickets' => 'Эскалированные заявки',
         'New Tickets' => 'Новые заявки',
         'Open Tickets / Need to be answered' => 'Открытые заявки (требуется ответить)',
-        'All open tickets, these tickets have already been worked on, but need a response' => '',
-        'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
-        'All tickets with a reminder set where the reminder date has been reached' => '',
+        'All open tickets, these tickets have already been worked on, but need a response' => 'Все открытые заявки; с этими заявками уже работали, но они нуждаются в ответе',
+        'All new tickets, these tickets have not been worked on yet' => 'Все новые заявки; с этими заявками еще никто не работал',
+        'All escalated tickets' => 'Все эскалированные заявки',
+        'All tickets with a reminder set where the reminder date has been reached' => 'Все заявки с напоминанием, у которых назначенная дата напоминания наступила',
         'History::Move' => 'Заявка перемещена в очередь «%s» (%s) из очереди «%s» (%s).',
         'History::TypeUpdate' => 'Тип изменен на %s (ID=%s).',
         'History::ServiceUpdate' => 'Сервис изменен на %s (ID=%s).',
@@ -747,7 +747,7 @@ sub Data {
         'Delete this attachment' => 'Удалить это вложение',
         'Add Attachment' => 'Добавить вложение',
         'Edit Attachment' => 'Редактировать вложение',
-        'This field is required.' => '',
+        'This field is required.' => 'Это поле обязательно.',
         'or' => 'или',
 
         # Template: AdminAutoResponse
@@ -1420,11 +1420,11 @@ sub Data {
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s' => '',
-        'General Specifications' => '',
-        'Select the element that will be used at the X-axis' => '',
-        'Select the elements for the value series' => 'Выберите элементы для последовательности значений',
-        'Select the restrictions to characterize the stat' => '',
+        'Step %s' => 'Шаг %s',
+        'General Specifications' => 'Общие характеристики',
+        'Select the element that will be used at the X-axis' => 'Выберите элемент для использования по горизонтали',
+        'Select the elements for the value series' => 'Выберите элементы для группировки значений',
+        'Select the restrictions to characterize the stat' => 'Выберите ограничения для конкретизации отчета',
         'Here you can make restrictions to your stat.' => 'Здесь вы можете внести ограничения в вашу статистику',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Если вы снимите флажок параметра «Фиксировано», пользователь, который будет создавать отчеты, сможет менять параметры соответствующего элемента',
         'Fixed' => 'Фиксировано',
@@ -1444,8 +1444,8 @@ sub Data {
         'If you use a graph as output format you have to select at least one graph size.' => 'Если вы используете графики, вам необходимо выбрать хотя бы один размер графика.',
         'Sum rows' => 'Сумма строк',
         'Sum columns' => 'Сумма столбцов',
-        'Use cache' => 'Использовать кеш',
-        'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'Большинство отчетов могут кешироваться. Это увеличит скорость показа отчетов.',
+        'Use cache' => 'Использовать кэш',
+        'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'Большинство отчетов могут кэшироваться. Это увеличит скорость показа отчетов.',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -1456,7 +1456,7 @@ sub Data {
         'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => '',
         'Scale' => 'Масштаб',
         'minimal' => 'Минимальный',
-        'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Помните, что масштаб для последовательности значений должен быть больше, чем масштаб для оси X (например, ось Х — месяц, последовательность значений — год).',
+        'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Помните, что масштаб для групп значений должен быть больше, чем масштаб для оси X (например, ось Х — месяц, группы значений — год).',
 
         # Template: AgentStatsEditXaxis
         'Here you can define the x-axis. You can select one element via the radio button.' => '',
@@ -1483,7 +1483,7 @@ sub Data {
         'Stat Details' => 'Подробнее об отчете',
         'Format' => 'Формат',
         'Graphsize' => 'Размер графика',
-        'Cache' => 'Кеш',
+        'Cache' => 'Кэш',
         'Exchange Axis' => 'Поменять оси',
         'Configurable params of static stat' => 'Конфигурируемые параметры статического отчета',
         'No element selected.' => 'Элементы не выбраны',
@@ -1578,7 +1578,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMedium
         'Select all' => '',
-        'No ticket data found.' => '',
+        'No ticket data found.' => 'Не найдено данных о заявках.',
         'First Response Time' => 'Время до первого ответа',
         'Service Time' => 'Время обслуживания',
         'Update Time' => 'Время до изменения заявки',
@@ -1588,7 +1588,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Изменить параметры поиска',
-        'Tickets per page' => '',
+        'Tickets per page' => 'Заявок на страницу',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1638,7 +1638,7 @@ sub Data {
         'Customer User Login' => 'Логин клиента',
         'Created in Queue' => 'Создана в очереди',
         'Lock state' => 'Состояние блокировки',
-        'Watcher' => '',
+        'Watcher' => 'Наблюдатель',
         'Article Create Time (before/after)' => 'Время создания сообщения (до/после)',
         'Article Create Time (between)' => 'Время создания сообщения (между)',
         'Ticket Create Time (before/after)' => 'Время создания заявки (до/после)',
@@ -1692,7 +1692,7 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => 'Используется',
-        'One or more errors occurred!' => '',
+        'One or more errors occurred!' => 'Произошла одна или несколько ошибок!',
         'Close this dialog' => 'Закрыть этот диалог',
         'Could not open popup window. Please disable any popup blockers for this application.' => '',
 
@@ -1788,11 +1788,11 @@ sub Data {
         'Open date selection' => 'Открыть выбор даты',
 
         # Template: Error
-        'Oops! An Error occurred.' => '',
-        'Error Message' => '',
-        'You can' => '',
+        'Oops! An Error occurred.' => 'Ой! Возникла ошибка.',
+        'Error Message' => 'Текст ошибки',
+        'You can' => 'Вы можете',
         'Send a bugreport' => 'Отправить сообщение об ошибке',
-        'go back to the previous page' => '',
+        'go back to the previous page' => 'перейти на предыдущую страницу',
         'Error Details' => 'Детали ошибки',
 
         # Template: Footer
@@ -1955,7 +1955,7 @@ sub Data {
         'Counter' => 'Счетчик',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => 'Перейти на предыдущую страницу',
 
         # SysConfig
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' => '',
@@ -2626,7 +2626,7 @@ sub Data {
         'Link queues to auto responses.' => 'Связать очереди с автоответами.',
         'Link responses to queues.' => 'Связать ответы с очередями.',
         'Link roles to groups.' => 'Связать роли с группами.',
-        'Link this ticket to other objects!' => '',
+        'Link this ticket to other objects!' => 'Связать заявку с другими объектами!',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' => '',
@@ -3029,6 +3029,15 @@ sub Data {
         'Your language' => 'Язык',
 
         #
+        # NOT OBSOLETE, DO NOT DELETE! SORT THEM INSTEAD.
+        #
+        'ReminderReached' => 'Напоминание истекло',
+        'My Responsible' => 'Моя ответственность',
+        'Ticket Merged' => 'Заявка объединена',
+        'Sorry, you need to be the owner to do this action!' => 'Вы должны быть владельцем для выполнения этого действия!',
+        'Please change the owner first.' => 'Пожалуйста, сначала измените владельца',
+
+        #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (рабочие единицы)',
@@ -3216,7 +3225,7 @@ sub Data {
         'Hash' => 'Хэш',
         'Have a lot of fun!' => 'Развлекайтесь!',
         'Help' => 'Помощь',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить последовательность значений. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать атрибуты элементов. Значения каждого атрибута будет показаны как отдельная последовательность значений. Если вы не выберите ни одного атрибута, в отчете будут использованы все доступные атрибуты.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить группы значений. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать атрибуты элементов. Значения каждого атрибута будет показаны как отдельная группа значений. Если вы не выберите ни одного атрибута, в отчете будут использованы все доступные атрибуты.',
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить значения для оси X. Выберите один элемент, используя переключатель. Если вы не выберите ни одного атрибута, в отчете будут использованы все доступные атрибуты.',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать атрибуты элементов. Значения каждого атрибута будет показаны как отдельная последовательность значений. Если вы не выберите ни одного атрибута, в отчете будут использованы все доступные атрибуты.',
         'Here you can insert a description of the stat.' => 'Здесь вы можете написать описание отчета',
@@ -3271,7 +3280,6 @@ sub Data {
         'Modules' => 'Модули',
         'Move notification' => 'Уведомление о перемещении',
         'Multiple selection of the output format.' => 'Выбор форматов вывода.',
-        'My Responsible' => 'Моя ответственные заявки',
         'MyTickets' => 'Мои заявки',
         'Name is required!' => 'Название обязательно!',
         'New Agent' => 'Новый агент',
@@ -3358,7 +3366,6 @@ sub Data {
         'Refresh' => 'Обновить',
         'Reminder' => 'Отложенное напоминание',
         'Reminder messages' => 'Сообщения с напоминаниями',
-        'ReminderReached' => 'Напоминание истекло',
         'Required Field' => 'Обязательное поле',
         'Response Management' => 'Управление ответами',
         'Responses <-> Attachments Management' => 'Управление приложенными файлами в ответах',
