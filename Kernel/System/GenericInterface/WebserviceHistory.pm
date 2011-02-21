@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.7 2011-02-21 13:24:43 martin Exp $
+# $Id: WebserviceHistory.pm,v 1.8 2011-02-21 20:24:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -91,7 +91,7 @@ sub new {
 
 =item WebserviceHistoryAdd()
 
-add new WebserviceHistorys
+add new WebserviceHistory entry
 
     my $ID = $WebserviceHistoryObject->WebserviceHistoryAdd(
         WebserviceID => 2134,
@@ -134,8 +134,9 @@ sub WebserviceHistoryAdd {
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM gi_webservice_config_history WHERE config_md5 = ?',
-        Bind => [ \$MD5 ],
+        SQL   => 'SELECT id FROM gi_webservice_config_history WHERE config_md5 = ?',
+        Bind  => [ \$MD5 ],
+        Limit => 1,
     );
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -146,9 +147,9 @@ sub WebserviceHistoryAdd {
 
 =item WebserviceHistoryGet()
 
-get WebserviceHistorys attributes
+get WebserviceHistory attributes
 
-    my %WebserviceHistory = $WebserviceHistoryObject->WebserviceHistoryGet(
+    my $WebserviceHistory = $WebserviceHistoryObject->WebserviceHistoryGet(
         ID => 123,
     );
 
@@ -178,7 +179,7 @@ sub WebserviceHistoryGet {
                 FROM gi_webservice_config_history
                 WHERE id = ?',
         Bind  => [ \$Param{ID} ],
-        LIMIT => 1,
+        Limit => 1,
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -197,7 +198,7 @@ sub WebserviceHistoryGet {
 
 =item WebserviceHistoryUpdate()
 
-update Webservice history attributes
+update WebserviceHistory attributes
 
     my $Success = $WebserviceObject->WebserviceHistoryUpdate(
         ID           => 123,
@@ -238,7 +239,7 @@ sub WebserviceHistoryUpdate {
 
 delete WebserviceHistory
 
-    $WebserviceHistoryObject->WebserviceHistoryDelete(
+    my $Success = $WebserviceHistoryObject->WebserviceHistoryDelete(
         WebserviceID => 123,
         UserID       => 123,
     );
@@ -269,12 +270,6 @@ sub WebserviceHistoryDelete {
 =item WebserviceHistoryList()
 
 get WebserviceHistory list for a GenericInterface web service
-
-    my @List = $WebserviceHistoryObject->WebserviceHistoryList(
-        WebserviceID => 1243,
-    );
-
-    or
 
     my @List = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => 1243,
@@ -323,6 +318,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-21 13:24:43 $
+$Revision: 1.8 $ $Date: 2011-02-21 20:24:26 $
 
 =cut
