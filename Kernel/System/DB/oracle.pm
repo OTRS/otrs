@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.62 2010-11-25 11:03:52 mg Exp $
+# $Id: oracle.pm,v 1.62.2.1 2011-02-21 18:27:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.62.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,14 +31,15 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}            = 0;
-    $Self->{'DB::DirectBlob'}       = 0;
-    $Self->{'DB::QuoteSingle'}      = '\'';
-    $Self->{'DB::QuoteBack'}        = 0;
-    $Self->{'DB::QuoteSemicolon'}   = '';
-    $Self->{'DB::QuoteUnderscore'}  = '\\';
-    $Self->{'DB::CaseInsensitive'}  = 0;
-    $Self->{'DB::LikeEscapeString'} = q{ESCAPE '\\'};
+    $Self->{'DB::Limit'}                = 0;
+    $Self->{'DB::DirectBlob'}           = 0;
+    $Self->{'DB::QuoteSingle'}          = '\'';
+    $Self->{'DB::QuoteBack'}            = 0;
+    $Self->{'DB::QuoteSemicolon'}       = '';
+    $Self->{'DB::QuoteUnderscoreStart'} = '\\';
+    $Self->{'DB::QuoteUnderscoreEnd'}   = '';
+    $Self->{'DB::CaseInsensitive'}      = 0;
+    $Self->{'DB::LikeEscapeString'}     = q{ESCAPE '\\'};
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {
@@ -77,8 +78,9 @@ sub Quote {
             ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
         }
         if ( $Type && $Type eq 'Like' ) {
-            if ( $Self->{'DB::QuoteUnderscore'} ) {
-                ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
+            if ( $Self->{'DB::QuoteUnderscoreStart'} || $Self->{'DB::QuoteUnderscoreEnd'} ) {
+                ${$Text}
+                    =~ s/_/$Self->{'DB::QuoteUnderscoreStart'}_$Self->{'DB::QuoteUnderscoreEnd'}/g;
             }
         }
     }
