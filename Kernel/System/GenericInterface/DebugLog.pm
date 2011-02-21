@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.6 2011-02-18 10:29:16 sb Exp $
+# $Id: DebugLog.pm,v 1.7 2011-02-21 10:53:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::VariableCheck
-    qw(IsArrayRefWithData IsHashRefWithData IsIPv4 IsIPv6 IsMD5Sum IsPositiveInteger IsString IsStringWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -494,8 +493,8 @@ sub LogDelete {
 
     # delete individual entries first
     my $SQLIndividual =
-        'DELETE gdec FROM gi_debugger_entry_content gdec, gi_debugger_entry gde'
-        . ' WHERE gdec.gi_debugger_entry_id = gde.id AND';
+        'DELETE FROM gi_debugger_entry_content AS gdec USING gi_debugger_entry AS gde
+        WHERE gdec.gi_debugger_entry_id = gde.id AND ';
     my @BindIndividual;
     if ($CommunicationIDValid) {
         $SQLIndividual .= ' gde.communication_id = ?';
@@ -870,6 +869,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-18 10:29:16 $
+$Revision: 1.7 $ $Date: 2011-02-21 10:53:44 $
 
 =cut
