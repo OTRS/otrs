@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.3 2011-02-18 10:43:40 mg Exp $
+# $Id: Requester.pm,v 1.4 2011-02-21 11:03:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -151,7 +151,7 @@ sub Run {
         ID => $WebserviceID,
     );
 
-    if ( ref $Webservice ne 'HASH' ) {
+    if ( !IsHashRefWithData($Webservice) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
@@ -178,6 +178,13 @@ sub Run {
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Requester',
     );
+
+    if ( ref $Self->{DebuggerObject} ne 'Kernel::GenericInterface::Debugger' ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Could not initialize debugger",
+        };
+    }
 
     $Self->{DebuggerObject}->Debug(
         Summary => 'Communication sequence started',
@@ -386,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-18 10:43:40 $
+$Revision: 1.4 $ $Date: 2011-02-21 11:03:15 $
 
 =cut
