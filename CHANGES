@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1776 2011-02-21 12:05:27 mn Exp $
+# $Id: CHANGES,v 1.1777 2011-02-21 18:14:44 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-21 Fixed bug#6822. Underscore in username problem in 3.0.5.
  - 2011-02-21 Updated Russian translation, thanks to Eugene Kungurov!
  - 2011-02-18 Fixed bug#6912 - MIME-Viewer (PDF Preview) is not properly displayed in 3.x UI.
  - 2011-02-16 Changed UserID 1 notification
