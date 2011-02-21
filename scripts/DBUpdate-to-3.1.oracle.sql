@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-15 16:20:47
+--  driver: oracle, generated: 2011-02-21 14:12:53
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -12,6 +12,7 @@ CREATE TABLE gi_webservice_config (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     config CLOB NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -44,6 +45,7 @@ CREATE TABLE gi_webservice_config_history (
     id NUMBER (20, 0) NOT NULL,
     config_id NUMBER (12, 0) NOT NULL,
     config CLOB NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -73,6 +75,7 @@ CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (cre
 CREATE TABLE scheduler_task_list (
     id NUMBER (20, 0) NOT NULL,
     task_data CLOB NOT NULL,
+    task_data_md5 VARCHAR2 (32) NOT NULL,
     task_type VARCHAR2 (200) NOT NULL,
     create_time DATE NOT NULL
 );

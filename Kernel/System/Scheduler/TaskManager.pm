@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.7 2011-02-17 13:17:09 cr Exp $
+# $Id: TaskManager.pm,v 1.8 2011-02-21 13:24:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -113,21 +113,24 @@ sub TaskAdd {
     # dump config as string
     my $Data = YAML::Dump( $Param{Data} );
 
+    # md5 of content
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Data,
+    );
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO scheduler_task_list (task_data, task_type, create_time)'
-            . ' VALUES (?, ?, current_timestamp)',
+            'INSERT INTO scheduler_task_list (task_data, task_data_md5, task_type, create_time)'
+            . ' VALUES (?, ?, ?, current_timestamp)',
         Bind => [
-            \$Data, \$Param{Type},
+            \$Data, \$MD5, \$Param{Type},
         ],
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL =>
-            'SELECT id FROM scheduler_task_list WHERE task_data = ? AND task_type = ? ORDER BY create_time DESC',
-        Bind => [ \$Data, \$Param{Type} ],
-        Limit => 1,
+        SQL  => 'SELECT id FROM scheduler_task_list WHERE task_data_md5 = ?',
+        Bind => [ \$MD5 ],
     );
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -269,6 +272,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-17 13:17:09 $
+$Revision: 1.8 $ $Date: 2011-02-21 13:24:43 $
 
 =cut

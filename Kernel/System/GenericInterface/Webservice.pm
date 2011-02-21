@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.13 2011-02-21 10:57:00 mg Exp $
+# $Id: Webservice.pm,v 1.14 2011-02-21 13:24:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::WebserviceHistory;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -136,21 +136,26 @@ sub WebserviceAdd {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
+    # md5 of content
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Config,
+    );
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO gi_webservice_config (name, config, valid_id, '
+            'INSERT INTO gi_webservice_config (name, config, config_md5, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Config, \$Param{ValidID},
+            \$Param{Name}, \$Config, \$MD5, \$Param{ValidID},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM gi_webservice_config WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL  => 'SELECT id FROM gi_webservice_config WHERE config_md5 = ?',
+        Bind => [ \$MD5 ],
     );
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -386,6 +391,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-02-21 10:57:00 $
+$Revision: 1.14 $ $Date: 2011-02-21 13:24:43 $
 
 =cut

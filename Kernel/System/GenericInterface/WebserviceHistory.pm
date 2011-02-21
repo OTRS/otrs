@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.6 2011-02-17 09:59:29 mg Exp $
+# $Id: WebserviceHistory.pm,v 1.7 2011-02-21 13:24:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -117,24 +117,25 @@ sub WebserviceHistoryAdd {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
+    # md5 of content
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Config,
+    );
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
             'INSERT INTO gi_webservice_config_history
-                (config_id, config, create_time, create_by, change_time, change_by)
-            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+                (config_id, config, config_md5, create_time, create_by, change_time, change_by)
+            VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{UserID},
+            \$Param{WebserviceID}, \$Config, \$MD5, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL =>
-            'SELECT id FROM gi_webservice_config_history
-            WHERE config_id = ? AND create_by = ? AND change_by = ?
-            ORDER BY id DESC',
-        Bind => [ \$Param{WebserviceID}, \$Param{UserID}, \$Param{UserID}, ],
-        Limit => 1,
+        SQL  => 'SELECT id FROM gi_webservice_config_history WHERE config_md5 = ?',
+        Bind => [ \$MD5 ],
     );
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -322,6 +323,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-02-17 09:59:29 $
+$Revision: 1.7 $ $Date: 2011-02-21 13:24:43 $
 
 =cut

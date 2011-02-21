@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-02-15 16:20:41
+--  driver: ingres, generated: 2011-02-21 14:09:49
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g

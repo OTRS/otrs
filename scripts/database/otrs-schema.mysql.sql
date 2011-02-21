@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-15 16:20:42
+#  driver: mysql, generated: 2011-02-21 14:09:50
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1162,6 +1162,7 @@ CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     config LONGBLOB NOT NULL,
+    config_md5 VARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1177,6 +1178,7 @@ CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL AUTO_INCREMENT,
     config_id INTEGER NOT NULL,
     config LONGBLOB NOT NULL,
+    config_md5 VARCHAR (32) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1189,6 +1191,7 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL AUTO_INCREMENT,
     task_data TEXT NOT NULL,
+    task_data_md5 VARCHAR (32) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
