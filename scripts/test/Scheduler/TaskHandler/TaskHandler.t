@@ -2,7 +2,7 @@
 # TaskHandler.t - TaskHandler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.t,v 1.2 2011-02-17 12:21:36 mg Exp $
+# $Id: TaskHandler.t,v 1.3 2011-02-22 23:47:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ my @Tests = (
         TaskData           => {
             Success => 0
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name               => 'Nonexisting backend',
@@ -42,7 +42,7 @@ my @Tests = (
         TaskData           => {
             Success => 1
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name               => 'Empty backend',
@@ -51,7 +51,7 @@ my @Tests = (
         TaskData           => {
             Success => 1
         },
-        Result => undef,
+        Result => 0,
     },
 );
 
@@ -72,7 +72,7 @@ for my $Test (@Tests) {
 
     my $Result = $Object->Run( Data => $Test->{TaskData} );
     $Self->Is(
-        $Result,
+        $Result->{Success},
         $Test->{Result},
         "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - false",
     );

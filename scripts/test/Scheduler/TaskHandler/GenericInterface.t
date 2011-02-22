@@ -2,7 +2,7 @@
 # GenericInterface.t - Generic Interface Scheduler Task Handler Backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.t,v 1.3 2011-02-16 19:34:48 mg Exp $
+# $Id: GenericInterface.t,v 1.4 2011-02-22 23:47:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@ my @TaskList = (
         Invoker      => 'test_operation',
         Data         => {
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'Empty Invoker',
@@ -92,7 +92,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'No WebService',
@@ -101,14 +101,14 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'Undefined Data',
         WebserviceID => $WebserviceID,
         Invoker      => 'test_operation',
         Data         => undef,
-        Result       => undef,
+        Result       => 0,
     },
     {
         Name         => 'Undefined Invoker',
@@ -117,7 +117,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'Undefined WebService',
@@ -126,7 +126,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'Wrong invoker',
@@ -135,7 +135,7 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name         => 'Wrong Service ID',
@@ -144,11 +144,11 @@ my @TaskList = (
         Data         => {
             var1 => 'a',
         },
-        Result => undef,
+        Result => 0,
     },
     {
         Name   => 'Empty task data',
-        Result => undef,
+        Result => 0,
     },
 );
 
@@ -158,7 +158,7 @@ for my $TaskData (@TaskList) {
     my $Result = $TaskHandlerObject->Run( Data => $TaskData );
 
     $Self->Is(
-        $Result,
+        $Result->{Success},
         $TaskData->{Result},
         "$TaskData->{Name} execution result",
     );
