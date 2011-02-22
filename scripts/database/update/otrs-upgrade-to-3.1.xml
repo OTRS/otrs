@@ -57,6 +57,7 @@
     <Column Name="task_data" Required="true" Size="8000" Type="VARCHAR"/>
     <Column Name="task_data_md5" Required="true" Size="32" Type="VARCHAR"/>
     <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="due_time" Required="true" Type="DATE"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Unique Name="scheduler_task_list_task_data_md5">
         <UniqueColumn Name="task_data_md5"/>
