@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-22 11:11:27
+#  driver: mysql, generated: 2011-02-17 16:57:22
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket_index
@@ -62,6 +62,7 @@ CREATE TABLE scheduler_task_list (
     task_data TEXT NOT NULL,
     task_data_md5 VARCHAR (32) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
+    due_time DATETIME NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX scheduler_task_list_task_data_md5 (task_data_md5)

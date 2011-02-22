@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-22 11:11:27
+--  driver: oracle, generated: 2011-02-17 16:57:22
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -79,6 +79,7 @@ CREATE TABLE scheduler_task_list (
     task_data CLOB NOT NULL,
     task_data_md5 VARCHAR2 (32) NOT NULL,
     task_type VARCHAR2 (200) NOT NULL,
+    due_time DATE NOT NULL,
     create_time DATE NOT NULL,
     CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
 );

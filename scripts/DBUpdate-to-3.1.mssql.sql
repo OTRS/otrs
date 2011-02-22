@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-02-22 11:11:27
+--  driver: mssql, generated: 2011-02-17 16:57:22
 -- ----------------------------------------------------------
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_queue' )
@@ -62,6 +62,7 @@ CREATE TABLE scheduler_task_list (
     task_data VARCHAR (8000) NOT NULL,
     task_data_md5 VARCHAR (32) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
+    due_time DATETIME NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT scheduler_task_list_task_data_md5 UNIQUE (task_data_md5)
