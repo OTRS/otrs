@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.5 2011-02-15 20:54:29 mb Exp $
+# $Id: TaskManager.t,v 1.6 2011-02-22 23:10:34 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,8 @@ use vars (qw($Self));
 use Kernel::System::Scheduler::TaskManager;
 
 my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+
+my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
 
 my @Tests = (
     {
@@ -73,6 +75,27 @@ my @Tests = (
         Data    => undef,
         Type    => 'SomeType',
     },
+    {
+        Name    => 'test 6',
+        Success => 1,
+        Data    => {},
+        Type    => 'SomeType',
+        DueTime => $CurrentTime,
+    },
+    {
+        Name    => 'test 7',
+        Success => 0,
+        Data    => {},
+        Type    => 'SomeType',
+        DueTime => 'today',
+    },
+    {
+        Name    => 'test 8',
+        Success => 1,
+        Data    => {},
+        Type    => 'SomeType',
+        DueTime => undef,
+    },
 );
 
 my @TaskIDs;
@@ -80,8 +103,9 @@ for my $Test (@Tests) {
 
     # add config
     my $TaskID = $TaskManagerObject->TaskAdd(
-        Data => $Test->{Data},
-        Type => $Test->{Type},
+        Data    => $Test->{Data},
+        Type    => $Test->{Type},
+        DueTime => $Test->{DueTime},
     );
     if ( !$Test->{Success} ) {
         $Self->False(
@@ -116,6 +140,20 @@ for my $Test (@Tests) {
         $Task{Data},
         "$Test->{Name} - TaskGet() - Data",
     );
+
+    if ( $Test->{DueTime} ) {
+        $Self->Is(
+            $Test->{DueTime},
+            $Task{DueTime},
+            "$Test->{Name} - TaskGet() - DueTime",
+        );
+    }
+    else {
+        $Self->True(
+            $Task{DueTime},
+            "$Test->{Name} - TaskGet() - DueTime",
+        );
+    }
 }
 
 # list check
