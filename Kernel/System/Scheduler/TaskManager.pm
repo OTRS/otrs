@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.12 2011-02-22 20:31:11 cr Exp $
+# $Id: TaskManager.pm,v 1.13 2011-02-22 20:51:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -117,16 +117,21 @@ sub TaskAdd {
         }
     }
 
+    # check if DueTime parameter is a valid date
+    if ( $Param{DueTime} ) {
+        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{DueTime},
+        );
+        if ( !$SystemTime ) {
+            return;
+        }
+    }
+
     # check if DueTime parameter is present, otherwise set to current time
     if ( !$Param{DueTime} ) {
 
-        # get current time stamp
-        my $CurrentTimeStasmp = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
-
         # set current time stamp to DueTime parameter
-        $Param{DueTime} = $CurrentTimeStasmp
+        $Param{DueTime} = $Self->{TimeObject}->CurrentTimestamp();
     }
 
     # dump config as string
@@ -297,6 +302,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-02-22 20:31:11 $
+$Revision: 1.13 $ $Date: 2011-02-22 20:51:25 $
 
 =cut
