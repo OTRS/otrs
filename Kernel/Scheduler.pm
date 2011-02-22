@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.13 2011-02-16 19:34:48 mg Exp $
+# $Id: Scheduler.pm,v 1.14 2011-02-22 23:52:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -175,14 +175,43 @@ sub Run {
     # retrun fail if can't delete task
     return if !$Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
 
+    # check if need to re-schedule
+    if ( !$TaskResult->{Success} && $TaskResult->{ReSchedule} ) {
+
+        # set new due time
+        $TaskData{DueTime} = $TaskResult->{DueTime} || '';
+
+        # set new task data if needed
+        if ( $TaskResult->{Data} ) {
+            $TaskData{Data} = $TaskResult->{Data}
+        }
+
+        # create a ne task
+        my $TaskID = $Self->TaskRegister(%TaskData);
+
+        # check if task was re scheduled successfuly
+        if ( !$TaskID ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't re-schedule task",
+            );
+            return;
+        }
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "task is re-scheduled!",
+        );
+    }
+
     # return task result (successful or failure)
-    return $TaskResult;
+    return $TaskResult->{Success};
 }
 
 =item TaskRegister()
 
     my $TaskID = $SchedulerObject->TaskRegister(
-        Type => 'GenericInterface',
+        Type     => 'GenericInterface',
+        DueTime  => '2006-01-19 23:59:59',          # optional (default current time)
         Data     => {                               # task data
             ...
         },
@@ -217,8 +246,7 @@ sub TaskRegister {
 
     # register task
     my $TaskID = $Self->{TaskManagerObject}->TaskAdd(
-        Type => $Param{Type},
-        Data => $Param{Data},
+        %Param,
     );
 
     # check if task was registered
@@ -252,6 +280,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-02-16 19:34:48 $
+$Revision: 1.14 $ $Date: 2011-02-22 23:52:28 $
 
 =cut
