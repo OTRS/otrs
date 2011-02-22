@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="1.0" init="Application">
+    <CVS>$Id: Scheduler.xml,v 1.1 2011-02-22 10:27:41 mg Exp $</CVS>
+    <ConfigItem Name="Scheduler::LogPath" Required="1" Valid="1">
+        <Description Translatable="1">Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core::Log</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log</String>
+        </Setting>
+    </ConfigItem>
+</otrs_config>
