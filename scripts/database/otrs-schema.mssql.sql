@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-02-21 14:09:49
+--  driver: mssql, generated: 2011-02-22 10:37:57
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1163,13 +1163,14 @@ CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name VARCHAR (200) NOT NULL,
     config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config_md5 VARCHAR (42) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_config_md5 UNIQUE (config_md5),
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
@@ -1179,12 +1180,13 @@ CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     config_id INTEGER NOT NULL,
     config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config_md5 VARCHAR (42) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_history_config_md5 UNIQUE (config_md5)
 );
 -- ----------------------------------------------------------
 --  create table scheduler_task_list
@@ -1192,10 +1194,11 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     task_data VARCHAR (8000) NOT NULL,
-    task_data_md5 VARCHAR (32) NOT NULL,
+    task_data_md5 VARCHAR (42) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    CONSTRAINT scheduler_task_list_task_data_md5 UNIQUE (task_data_md5)
 );
 -- ----------------------------------------------------------
 --  create table gi_debugger_entry

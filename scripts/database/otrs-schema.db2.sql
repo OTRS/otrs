@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-21 14:09:48
+--  driver: db2, generated: 2011-02-22 10:37:56
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1321,13 +1321,14 @@ CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (200) NOT NULL,
     config BLOB (30M) NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config_md5 VARCHAR (42) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_config_md5 UNIQUE (config_md5),
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 
@@ -1338,12 +1339,13 @@ CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     config_id INTEGER NOT NULL,
     config BLOB (30M) NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config_md5 VARCHAR (42) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    CONSTRAINT gi_webservice_config_history_config_md5 UNIQUE (config_md5)
 );
 
 -- ----------------------------------------------------------
@@ -1352,10 +1354,11 @@ CREATE TABLE gi_webservice_config_history (
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     task_data CLOB (62K) NOT NULL,
-    task_data_md5 VARCHAR (32) NOT NULL,
+    task_data_md5 VARCHAR (42) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
     create_time TIMESTAMP NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    CONSTRAINT scheduler_task_list_task_data_md5 UNIQUE (task_data_md5)
 );
 
 -- ----------------------------------------------------------

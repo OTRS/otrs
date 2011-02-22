@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.8 2011-02-21 20:24:26 sb Exp $
+# $Id: WebserviceHistory.pm,v 1.9 2011-02-22 09:48:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -41,6 +41,7 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::GenericInterface::WebserviceHistory;
@@ -52,6 +53,10 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -70,6 +75,7 @@ create an object
         DBObject     => $DBObject,
         MainObject   => $MainObject,
         EncodeObject => $EncodeObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -82,7 +88,7 @@ sub new {
     bless( $Self, $WebserviceHistory );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
+    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
@@ -121,6 +127,7 @@ sub WebserviceHistoryAdd {
     my $MD5 = $Self->{MainObject}->MD5sum(
         String => $Config,
     );
+    $MD5 .= $Self->{TimeObject}->SystemTime();
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -223,13 +230,19 @@ sub WebserviceHistoryUpdate {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
+    # md5 of content
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Config,
+    );
+    $MD5 .= $Self->{TimeObject}->SystemTime();
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE gi_webservice_config_history
-                SET config_id = ?, config = ?, hange_time = current_timestamp, change_by = ?
+                SET config_id = ?, config = ?, config_md5 = ?, hange_time = current_timestamp, change_by = ?
                 WHERE id = ?',
         Bind => [
-            \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{ID},
+            \$Param{WebserviceID}, \$Config, \$MD5, \$Param{UserID}, \$Param{ID},
         ],
     );
     return 1;
@@ -318,6 +331,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-21 20:24:26 $
+$Revision: 1.9 $ $Date: 2011-02-22 09:48:16 $
 
 =cut

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-21 14:12:53
+--  driver: oracle, generated: 2011-02-22 10:35:28
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -12,12 +12,13 @@ CREATE TABLE gi_webservice_config (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     config CLOB NOT NULL,
-    config_md5 VARCHAR2 (32) NOT NULL,
+    config_md5 VARCHAR2 (42) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT gi_webservice_config_config_89 UNIQUE (config_md5),
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT PK_gi_webservice_config PRIMARY KEY (id);
@@ -45,11 +46,12 @@ CREATE TABLE gi_webservice_config_history (
     id NUMBER (20, 0) NOT NULL,
     config_id NUMBER (12, 0) NOT NULL,
     config CLOB NOT NULL,
-    config_md5 VARCHAR2 (32) NOT NULL,
+    config_md5 VARCHAR2 (42) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT gi_webservice_config_history8b UNIQUE (config_md5)
 );
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
 DROP SEQUENCE SE_gi_webservice_config_hi2f;
@@ -75,9 +77,10 @@ CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (cre
 CREATE TABLE scheduler_task_list (
     id NUMBER (20, 0) NOT NULL,
     task_data CLOB NOT NULL,
-    task_data_md5 VARCHAR2 (32) NOT NULL,
+    task_data_md5 VARCHAR2 (42) NOT NULL,
     task_type VARCHAR2 (200) NOT NULL,
-    create_time DATE NOT NULL
+    create_time DATE NOT NULL,
+    CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
 );
 ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
 DROP SEQUENCE SE_scheduler_task_list;

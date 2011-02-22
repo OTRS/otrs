@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-21 14:09:51
+--  driver: postgresql, generated: 2011-02-22 10:37:58
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

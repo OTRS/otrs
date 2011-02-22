@@ -1754,7 +1754,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="config" Required="true" Type="LONGBLOB"/>
-    <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"/>
+    <Column Name="config_md5" Required="true" Size="42" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1762,6 +1762,9 @@
     <Column Name="change_by" Required="true" Type="INTEGER"/>
     <Unique Name="gi_webservice_config_name">
         <UniqueColumn Name="name"/>
+    </Unique>
+    <Unique Name="gi_webservice_config_config_md5">
+        <UniqueColumn Name="config_md5"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
@@ -1777,11 +1780,14 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="config_id" Required="true" Type="INTEGER"/>
     <Column Name="config" Required="true" Type="LONGBLOB"/>
-    <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"/>
+    <Column Name="config_md5" Required="true" Size="42" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="gi_webservice_config_history_config_md5">
+        <UniqueColumn Name="config_md5"/>
+    </Unique>
     <ForeignKey ForeignTable="gi_webservice_config">
         <Reference Local="config_id" Foreign="id"/>
     </ForeignKey>
@@ -1795,9 +1801,12 @@
 <Table Name="scheduler_task_list">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="task_data" Required="true" Size="8000" Type="VARCHAR"/>
-    <Column Name="task_data_md5" Required="true" Size="32" Type="VARCHAR"/>
+    <Column Name="task_data_md5" Required="true" Size="42" Type="VARCHAR"/>
     <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
+    <Unique Name="scheduler_task_list_task_data_md5">
+        <UniqueColumn Name="task_data_md5"/>
+    </Unique>
 </Table>
 
 <!-- gi_debugger_entry -->

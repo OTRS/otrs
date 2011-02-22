@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.14 2011-02-21 13:24:43 martin Exp $
+# $Id: Webservice.pm,v 1.15 2011-02-22 09:48:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::WebserviceHistory;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -45,6 +45,7 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::GenericInterface::DebugLog;
@@ -57,6 +58,10 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -81,6 +86,7 @@ create an object
         LogObject      => $LogObject,
         DBObject       => $DBObject,
         MainObject     => $MainObject,
+        TimeObject     => $TimeObject,
         EncodeObject   => $EncodeObject,
         DebugLogObject => $DebugLogObject,
     );
@@ -95,7 +101,7 @@ sub new {
     bless( $Self, $Webservice );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
+    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
@@ -140,6 +146,7 @@ sub WebserviceAdd {
     my $MD5 = $Self->{MainObject}->MD5sum(
         String => $Config,
     );
+    $MD5 .= $Self->{TimeObject}->SystemTime();
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -254,6 +261,12 @@ sub WebserviceUpdate {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
+    # md5 of content
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Config,
+    );
+    $MD5 .= $Self->{TimeObject}->SystemTime();
+
     # check if config and valid_id is the same
     return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT config, valid_id FROM gi_webservice_config WHERE id = ?',
@@ -270,10 +283,10 @@ sub WebserviceUpdate {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE gi_webservice_config SET name = ?, config = ?, '
-            . ' valid_id = ?, change_time = current_timestamp, '
+            . ' config_md5 = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Config, \$Param{ValidID}, \$Param{UserID},
+            \$Param{Name}, \$Config, \$MD5, \$Param{ValidID}, \$Param{UserID},
             \$Param{ID},
         ],
     );
@@ -391,6 +404,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-02-21 13:24:43 $
+$Revision: 1.15 $ $Date: 2011-02-22 09:48:16 $
 
 =cut
