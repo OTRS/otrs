@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.7 2011-02-17 12:19:48 mg Exp $
+# $Id: TaskHandler.pm,v 1.8 2011-02-22 23:45:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -126,15 +126,21 @@ performs the selected Task. This will be delegated to the TaskHandler
 backend for the specific TaskHandlerType selected in the constructor.
 
     my $Result = $TaskHandlerObject->Run(
-        Data     => {                               # task data, depends on TaskType
+        Data     => {                          # task data, depends on TaskType
             ...
         },
     );
 
 Returns:
 
-    $Result = 1;                                    # 0 or 1
-
+    $Result = {
+        Success    => 1,                       # 0 or 1
+        ReSchedule => 0,                       # 0 or 1 # if task need to be re scheduled
+        DueTime    => '2011-01-19 23:59:59',   # only apply if ReSchedule is equals to 1
+        Data       => {                        # optional only apply if ReSchedule is equals to 1
+            ...
+        },
+    };
 =cut
 
 sub Run {
@@ -168,6 +174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-17 12:19:48 $
+$Revision: 1.8 $ $Date: 2011-02-22 23:45:56 $
 
 =cut

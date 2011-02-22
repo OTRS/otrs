@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.7 2011-02-17 12:21:15 mg Exp $
+# $Id: GenericInterface.pm,v 1.8 2011-02-22 23:45:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -70,7 +70,14 @@ performs the selected Task, causing an Invoker call via GenericInterface.
 
 Returns:
 
-    $Result = 1;                                    # 0 or 1
+    $Result = {
+        Success    => 1,                       # 0 or 1
+        ReSchedule => 0,                       # 0 or 1 # if task need to be re scheduled
+        DueTime    => '2011-01-19 23:59:59',   # only apply if ReSchedule is equals to 1
+        Data       => {                        # optional only apply if ReSchedule is equals to 1
+            ...
+        },
+    };
 
 =cut
 
@@ -83,7 +90,11 @@ sub Run {
             Priority => 'error',
             Message  => 'Got no valid Data!',
         );
-        return;
+        return {
+            Success    => 0,
+            ReSchedule => 0,
+            DueTime    => '',
+        };
     }
 
     # to store task data locally
@@ -96,7 +107,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Got no $Needed!",
             );
-            return;
+            return {
+                Success    => 0,
+                ReSchedule => 0,
+                DueTime    => '',
+            };
         }
     }
 
@@ -114,7 +129,11 @@ sub Run {
             Priority => 'error',
             Message  => 'GenericInterface task execution failed!',
         );
-        return;
+        return {
+            Success    => 0,
+            ReSchedule => 0,
+            DueTime    => '',
+        };
     }
 
     # log and exit succesfully
@@ -123,7 +142,11 @@ sub Run {
         Message  => 'GenericInterface task execuded correctly!',
     );
 
-    return 1;
+    return {
+        Success    => 1,
+        ReSchedule => 0,
+        DueTime    => '',
+    };
 }
 
 1;
@@ -142,6 +165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-17 12:21:15 $
+$Revision: 1.8 $ $Date: 2011-02-22 23:45:56 $
 
 =cut
