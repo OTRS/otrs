@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.11 2011-02-22 10:38:30 martin Exp $
+# $Id: TaskManager.pm,v 1.12 2011-02-22 20:31:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -97,8 +97,9 @@ sub new {
 add new Tasks
 
     my $ID = $TaskObject->TaskAdd(
-        Type => 'GenericInterface', # e. g. GenericInterface, Test
-        Data => {
+        Type    => 'GenericInterface',     # e. g. GenericInterface, Test
+        DueTime => '2006-01-19 23:59:59',  # optional (default current time)
+        Data    => {
             ...
         },
     );
@@ -116,6 +117,18 @@ sub TaskAdd {
         }
     }
 
+    # check if DueTime parameter is present, otherwise set to current time
+    if ( !$Param{DueTime} ) {
+
+        # get current time stamp
+        my $CurrentTimeStasmp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+
+        # set current time stamp to DueTime parameter
+        $Param{DueTime} = $CurrentTimeStasmp
+    }
+
     # dump config as string
     my $Data = YAML::Dump( $Param{Data} );
 
@@ -127,10 +140,11 @@ sub TaskAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO scheduler_task_list (task_data, task_data_md5, task_type, create_time)'
-            . ' VALUES (?, ?, ?, current_timestamp)',
+            'INSERT INTO scheduler_task_list '
+            . '(task_data, task_data_md5, task_type, due_time, create_time)'
+            . ' VALUES (?, ?, ?, ?, current_timestamp)',
         Bind => [
-            \$Data, \$MD5, \$Param{Type},
+            \$Data, \$MD5, \$Param{Type}, \$Param{DueTime},
         ],
     );
 
@@ -158,6 +172,7 @@ Returns:
     %Task = (
         Data         => $DataRef,
         Type         => 'GenericInterface',
+        DueTime      => '2011-02-08 15:10:00'
         CreateTime   => '2011-02-08 15:08:00',
     );
 
@@ -174,7 +189,8 @@ sub TaskGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT task_data, task_type, create_time FROM scheduler_task_list WHERE id = ?',
+        SQL => 'SELECT task_data, task_type, due_time, create_time '
+            . 'FROM scheduler_task_list WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data;
@@ -185,7 +201,8 @@ sub TaskGet {
             ID         => $Param{ID},
             Data       => $DataParam,
             Type       => $Data[1],
-            CreateTime => $Data[2],
+            DueTime    => $Data[2],
+            CreateTime => $Data[3],
         );
     }
     return %Data;
@@ -236,8 +253,9 @@ Returns:
 
     @List = (
         {
-            ID   => 123,
-            Type => 'GenericInterface',
+            ID      => 123,
+            Type    => 'GenericInterface',
+            DueTime => '2006-01-19 23:59:59',
         }
     );
 
@@ -247,15 +265,17 @@ sub TaskList {
     my ( $Self, %Param ) = @_;
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, task_type FROM scheduler_task_list ORDER BY create_time, id ASC',
+        SQL => 'SELECT id, task_type, due_time '
+            . 'FROM scheduler_task_list ORDER BY create_time, id ASC',
     );
 
     my @List;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @List,
             {
-            ID   => $Row[0],
-            Type => $Row[1],
+            ID      => $Row[0],
+            Type    => $Row[1],
+            DueTime => $Row[2],
             };
     }
     return @List;
@@ -277,6 +297,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-22 10:38:30 $
+$Revision: 1.12 $ $Date: 2011-02-22 20:31:11 $
 
 =cut
