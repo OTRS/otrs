@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.89 2011-01-26 06:51:36 mp Exp $
+# $Id: AdminCustomerUser.pm,v 1.90 2011-02-22 13:12:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -294,8 +294,15 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
         my $Note = '';
         my ( %GetParam, %Errors );
+
+        my $AutoLoginCreation = $Self->{ConfigObject}->Get($Source)->{AutoLoginCreation};
+
+        ENTRY:
         for my $Entry ( @{ $Self->{ConfigObject}->Get($Source)->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
+
+            # don't validate UserLogin if AutoLoginCreation is configured
+            next ENTRY if ( $AutoLoginCreation && $Entry->[0] eq 'UserLogin' );
 
             # check mandatory fields
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
@@ -626,7 +633,7 @@ sub _Edit {
         # check if login auto creation
         if (
             $Self->{ConfigObject}->Get( $Param{Source} )->{AutoLoginCreation}
-            && $Entry->[0] =~ /^UserLogin$/
+            && $Entry->[0] eq 'UserLogin'
             )
         {
             $Block = 'InputHidden';
