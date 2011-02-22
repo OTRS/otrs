@@ -63,7 +63,7 @@
     </Unique>
 </TableCreate>
 
-<Table Name="gi_debugger_entry">
+<TableCreate Name="gi_debugger_entry">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="communication_id" Required="true" Size="32" Type="VARCHAR"/>
     <Column Name="communication_type" Required="true" Size="50" Type="VARCHAR"/>
@@ -79,9 +79,9 @@
     <ForeignKey ForeignTable="gi_webservice_config">
         <Reference Local="webservice_id" Foreign="id"/>
     </ForeignKey>
-</Table>
+</TableCreate>
 
-<Table Name="gi_debugger_entry_content">
+<TableCreate Name="gi_debugger_entry_content">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="gi_debugger_entry_id" Required="true" Type="BIGINT"/>
     <Column Name="debug_level" Required="true" Size="50" Type="VARCHAR"/>
@@ -97,6 +97,6 @@
     <ForeignKey ForeignTable="gi_debugger_entry">
         <Reference Local="gi_debugger_entry_id" Foreign="id"/>
     </ForeignKey>
-</Table>
+</TableCreate>
 
 </database>
