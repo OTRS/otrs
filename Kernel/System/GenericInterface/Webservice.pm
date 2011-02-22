@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.16 2011-02-22 10:13:11 martin Exp $
+# $Id: Webservice.pm,v 1.17 2011-02-22 10:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::WebserviceHistory;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -144,7 +144,7 @@ sub WebserviceAdd {
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Config . $Self->{TimeObject}->SystemTime(),
+        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
     );
 
     # sql
@@ -262,7 +262,7 @@ sub WebserviceUpdate {
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Config . $Self->{TimeObject}->SystemTime(),
+        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
     );
 
     # check if config and valid_id is the same
@@ -402,6 +402,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-02-22 10:13:11 $
+$Revision: 1.17 $ $Date: 2011-02-22 10:38:30 $
 
 =cut

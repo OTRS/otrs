@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.10 2011-02-22 10:13:11 martin Exp $
+# $Id: TaskManager.pm,v 1.11 2011-02-22 10:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -121,7 +121,7 @@ sub TaskAdd {
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Data . $Self->{TimeObject}->SystemTime(),
+        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
     );
 
     # sql
@@ -277,6 +277,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-22 10:13:11 $
+$Revision: 1.11 $ $Date: 2011-02-22 10:38:30 $
 
 =cut
