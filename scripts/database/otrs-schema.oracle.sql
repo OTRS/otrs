@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-22 11:11:22
+--  driver: oracle, generated: 2011-02-17 15:21:21
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1944,6 +1944,7 @@ CREATE TABLE scheduler_task_list (
     task_data CLOB NOT NULL,
     task_data_md5 VARCHAR2 (32) NOT NULL,
     task_type VARCHAR2 (200) NOT NULL,
+    due_time DATE NOT NULL,
     create_time DATE NOT NULL,
     CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
 );

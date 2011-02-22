@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-22 11:11:23
+--  driver: postgresql, generated: 2011-02-17 15:21:21
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1195,6 +1195,7 @@ CREATE TABLE scheduler_task_list (
     task_data VARCHAR (8000) NOT NULL,
     task_data_md5 VARCHAR (32) NOT NULL,
     task_type VARCHAR (200) NOT NULL,
+    due_time timestamp(0) NOT NULL,
     create_time timestamp(0) NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT scheduler_task_list_task_data_md5 UNIQUE (task_data_md5)
