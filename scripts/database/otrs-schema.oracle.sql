@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-22 10:37:58
+--  driver: oracle, generated: 2011-02-22 11:11:22
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1877,7 +1877,7 @@ CREATE TABLE gi_webservice_config (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     config CLOB NOT NULL,
-    config_md5 VARCHAR2 (42) NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1911,7 +1911,7 @@ CREATE TABLE gi_webservice_config_history (
     id NUMBER (20, 0) NOT NULL,
     config_id NUMBER (12, 0) NOT NULL,
     config CLOB NOT NULL,
-    config_md5 VARCHAR2 (42) NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1942,7 +1942,7 @@ CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (cre
 CREATE TABLE scheduler_task_list (
     id NUMBER (20, 0) NOT NULL,
     task_data CLOB NOT NULL,
-    task_data_md5 VARCHAR2 (42) NOT NULL,
+    task_data_md5 VARCHAR2 (32) NOT NULL,
     task_type VARCHAR2 (200) NOT NULL,
     create_time DATE NOT NULL,
     CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)

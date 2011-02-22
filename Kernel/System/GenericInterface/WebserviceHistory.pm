@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.9 2011-02-22 09:48:16 martin Exp $
+# $Id: WebserviceHistory.pm,v 1.10 2011-02-22 10:13:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -125,9 +125,8 @@ sub WebserviceHistoryAdd {
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Config,
+        String => $Config . $Self->{TimeObject}->SystemTime(),
     );
-    $MD5 .= $Self->{TimeObject}->SystemTime();
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -232,9 +231,8 @@ sub WebserviceHistoryUpdate {
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Config,
+        String => $Config . $Self->{TimeObject}->SystemTime(),
     );
-    $MD5 .= $Self->{TimeObject}->SystemTime();
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -331,6 +329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-22 09:48:16 $
+$Revision: 1.10 $ $Date: 2011-02-22 10:13:11 $
 
 =cut
