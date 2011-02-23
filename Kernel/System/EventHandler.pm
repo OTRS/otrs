@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.8 2011-02-23 11:46:31 mg Exp $
+# $Id: EventHandler.pm,v 1.9 2011-02-23 11:52:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -28,6 +28,17 @@ Inherit from this class if you want to use events there.
     use vars qw(@ISA);
     use Kernel::System::EventHandler;
     push @ISA, 'Kernel::System::EventHandler';
+
+In your class, have to call L<EventHandlerInit()> first.
+
+Then, to register events as they occur, use the L<EventHandler()>
+method. It will call the event handler modules which are registered
+for the given event, or queue them for later execution (so-called
+'Transaction' events).
+
+In the destructor, you should add a call to L<EventHandlerTransaction()>
+to make sure that also 'Transaction' events will be executed correctly.
+This is only neccessary if you use 'Transaction' events in your class.
 
 =head1 PUBLIC INTERFACE
 
@@ -291,6 +302,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-23 11:46:31 $
+$Revision: 1.9 $ $Date: 2011-02-23 11:52:52 $
 
 =cut
