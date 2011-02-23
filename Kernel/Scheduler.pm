@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.14 2011-02-22 23:52:28 cr Exp $
+# $Id: Scheduler.pm,v 1.15 2011-02-23 03:50:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -112,99 +112,109 @@ sub Run {
     # if there are no task to execute return succesfull
     return 1 if !@TaskList;
 
-    # get the first task details
-    my %FirstTask = %{ $TaskList[0] };
-    if ( !%FirstTask ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Got invalid task list!',
-        );
-
-        # retrun failure if can't get the first task
-        return;
-    }
-
-    # delete task if no type is set
-    if ( !$FirstTask{Type} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Task $FirstTask{ID} will be deleted bacause type is not set!",
-        );
-        $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
-
-        # retrun failure if no task has no type
-        return;
-    }
-
-    # get task data
-    my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $FirstTask{ID} );
-    if ( !%TaskData ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Got invalid task data!',
-        );
-
-        # return failure if cant get task data
-        return;
-    }
-
-    # create task handler object
-    my $TaskHandlerObject = eval {
-        Kernel::Scheduler::TaskHandler->new(
-            %{$Self},
-            TaskHandlerType => $FirstTask{Type},
-        );
-    };
-
-    # check if Task Handler object was created
-    if ( !$TaskHandlerObject ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't create $FirstTask{Type} task handler object! $@",
-        );
-
-        $Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
-
-        # retrun failure if can't create task handler
-        return;
-    }
-
-    # call run method on task handler object
-    my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
-
-    # retrun fail if can't delete task
-    return if !$Self->{TaskManagerObject}->TaskDelete( ID => $FirstTask{ID} );
-
-    # check if need to re-schedule
-    if ( !$TaskResult->{Success} && $TaskResult->{ReSchedule} ) {
-
-        # set new due time
-        $TaskData{DueTime} = $TaskResult->{DueTime} || '';
-
-        # set new task data if needed
-        if ( $TaskResult->{Data} ) {
-            $TaskData{Data} = $TaskResult->{Data}
-        }
-
-        # create a ne task
-        my $TaskID = $Self->TaskRegister(%TaskData);
-
-        # check if task was re scheduled successfuly
-        if ( !$TaskID ) {
+    # get the task details
+    TASKITEM:
+    for my $TaskItem (@TaskList) {
+        ;
+        if ( !$TaskItem ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't re-schedule task",
+                Message  => 'Got invalid task list!',
             );
-            return;
+
+            # skip if can't get task
+            next TASKITEM;
         }
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "task is re-scheduled!",
+
+        # delete task if no type is set
+        if ( !$TaskItem->{Type} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Task $TaskItem->{ID} will be deleted bacause type is not set!",
+            );
+            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
+            # skip if no task has no type
+            next TASKITEM;
+        }
+
+        # do not execute if task is schedule for future
+        my $SystemTime  = $Self->{TimeObject}->SystemTime();
+        my $TaskDueTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $TaskItem->{DueTime},
         );
+        next TASKITEM if ( $TaskDueTime gt $SystemTime );
+
+        # get task data
+        my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $TaskItem->{ID} );
+        if ( !%TaskData ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Got invalid task data!',
+            );
+            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
+            # skip if cant get task data
+            next TASKITEM;
+        }
+
+        # create task handler object
+        my $TaskHandlerObject = eval {
+            Kernel::Scheduler::TaskHandler->new(
+                %{$Self},
+                TaskHandlerType => $TaskItem->{Type},
+            );
+        };
+
+        # check if Task Handler object was created
+        if ( !$TaskHandlerObject ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't create $TaskItem->{Type} task handler object! $@",
+            );
+
+            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
+            # skip if can't create task handler
+            next TASKITEM;
+        }
+
+        # call run method on task handler object
+        my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
+
+        # skip if can't delete task
+        next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
+        # check if need to re-schedule
+        if ( !$TaskResult->{Success} && $TaskResult->{ReSchedule} ) {
+
+            # set new due time
+            $TaskData{DueTime} = $TaskResult->{DueTime} || '';
+
+            # set new task data if needed
+            if ( $TaskResult->{Data} ) {
+                $TaskData{Data} = $TaskResult->{Data}
+            }
+
+            # create a ne task
+            my $TaskID = $Self->TaskRegister(%TaskData);
+
+            # check if task was re scheduled successfuly
+            if ( !$TaskID ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't re-schedule task",
+                );
+                next TASKITEM;
+            }
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "task is re-scheduled!",
+            );
+        }
     }
 
-    # return task result (successful or failure)
-    return $TaskResult->{Success};
+    return 1;
 }
 
 =item TaskRegister()
@@ -280,6 +290,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-02-22 23:52:28 $
+$Revision: 1.15 $ $Date: 2011-02-23 03:50:59 $
 
 =cut
