@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.7 2010-11-25 13:52:47 bes Exp $
+# $Id: EventHandler.pm,v 1.8 2011-02-23 11:46:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,19 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
-Kernel::System::EventHandler - event handler lib
+Kernel::System::EventHandler - event handler interface
 
 =head1 SYNOPSIS
 
-All event handler functions.
+Inherit from this class if you want to use events there.
+
+    use vars qw(@ISA);
+    use Kernel::System::EventHandler;
+    push @ISA, 'Kernel::System::EventHandler';
 
 =head1 PUBLIC INTERFACE
 
@@ -33,9 +37,8 @@ All event handler functions.
 
 =item EventHandlerInit()
 
-use vars qw(@ISA);
-use Kernel::System::EventHandler;
-push @ISA, 'Kernel::System::EventHandler';
+Call this to initialize the event handling mechanisms to work
+correctly with your object.
 
     $Self->EventHandlerInit(
 
@@ -52,7 +55,7 @@ push @ISA, 'Kernel::System::EventHandler';
         },
     );
 
-e. g.
+Example 1:
 
     $Self->EventHandlerInit(
         Config     => 'Ticket::EventModule',
@@ -63,7 +66,7 @@ e. g.
         },
     );
 
-Example XML config:
+Example 1 XML config:
 
     <ConfigItem Name="Example::EventModule###99-EscalationIndex" Required="0" Valid="1">
         <Description Lang="en">Example event module updates the example escalation index.</Description>
@@ -80,30 +83,7 @@ Example XML config:
         </Setting>
     </ConfigItem>
 
-=cut
-
-=item EventHandlerInit()
-
-use vars qw(@ISA);
-use Kernel::System::EventHandler;
-push @ISA, 'Kernel::System::EventHandler';
-
-    $Self->EventHandlerInit(
-
-        # name of configured event modules
-        Config     => 'ITSM::EventModule',
-
-        # current object, $Self, used in events as "ExampleObject"
-        BaseObject => 'ExampleObject',
-
-        # served default objects in any event backend
-        Objects    => {
-            UserObject => $UserObject,
-            XYZ        => $XYZ,
-        },
-    );
-
-e. g.
+Example 2:
 
     $Self->EventHandlerInit(
         Config     => 'ITSM::EventModule',
@@ -111,7 +91,7 @@ e. g.
         Objects    => {},
     );
 
-Example XML config:
+Example 2 XML config:
 
     <ConfigItem Name="ITSM::EventModule###01-HistoryAdd" Required="0" Valid="1">
         <Description Lang="en">ITSM event module updates the history for Change and WorkOrder objects..</Description>
@@ -154,23 +134,25 @@ sub EventHandlerInit {
 
 =item EventHandler()
 
-call event handler, returns true if it's executed successfully
+call event handler, returns true if it was executed successfully.
 
-    $EventHandler->EventHandler(
-        Event => 'TicketStateUpdate',
-        Data  => {
+Example 1:
+
+    my $Success = $EventHandler->EventHandler(
+        Event => 'TicketStateUpdate',   # event classification, passed to the configured event handlers
+        Data  => {                      # data payload for the event, passed to the configured event handlers
             TicketID => 123,
         },
         UserID => 123,
+        Transaction => 1,               # optional, 0 or 1
     );
 
-=cut
+In 'Transaction' mode, all events will be collected and executed together,
+usually in the destructor of your object.
 
-=item EventHandler()
+Example 2:
 
-call event handler, returns true if it's executed successfully
-
-    $EventHandler->EventHandler(
+    my $Success = $EventHandler->EventHandler(
         Event => 'ChangeUpdate',
         Data  => {
             ChangeID => 123,
@@ -249,20 +231,21 @@ sub EventHandler {
 
 =item EventHandlerTransaction()
 
-call all transaction backends for all triggered events till now
+handle all queued 'Transaction' events which were collected up to this point.
 
     $EventHandler->EventHandlerTransaction();
 
-usually it's done in DESTROY of ExampleObject (e. g. Kernel::System::ExampleObject)
+Call this method in the destructor of your object which inherits from
+Kernel::System::EventHandler, like this:
 
-sub DESTROY {
-    my $Self = shift;
+    sub DESTROY {
+        my $Self = shift;
 
-    # execute all transaction events
-    $Self->EventHandlerTransaction();
+        # execute all transaction events
+        $Self->EventHandlerTransaction();
 
-    return 1;
-};
+        return 1;
+    }
 
 =cut
 
@@ -308,6 +291,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-11-25 13:52:47 $
+$Revision: 1.8 $ $Date: 2011-02-23 11:46:31 $
 
 =cut
