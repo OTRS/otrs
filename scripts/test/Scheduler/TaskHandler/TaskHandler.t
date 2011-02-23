@@ -2,7 +2,7 @@
 # TaskHandler.t - TaskHandler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.t,v 1.3 2011-02-22 23:47:40 cr Exp $
+# $Id: TaskHandler.t,v 1.4 2011-02-23 21:36:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,15 @@ my @Tests = (
         ConstructorSuccess => 1,
         TaskData           => {
             Success => 0
+        },
+        Result => 0,
+    },
+    {
+        Name               => 'Normal, re-schedule',
+        TaskHandlerType    => 'Test',
+        ConstructorSuccess => 1,
+        TaskData           => {
+            ReSchedule => 1
         },
         Result => 0,
     },
@@ -76,6 +85,18 @@ for my $Test (@Tests) {
         $Test->{Result},
         "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - false",
     );
+
+    if ( $Test->{TaskData}->{ReSchedule} ) {
+        $Self->True(
+            $Result->{ReSchedule},
+            "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - re schedule",
+        );
+
+        $Self->True(
+            $Result->{DueTime},
+            "$Test->{Name} - Kernel::Scheduler::TaskHandler->Run() - DueTime $Result->{DueTime}",
+        );
+    }
 }
 
 1;
