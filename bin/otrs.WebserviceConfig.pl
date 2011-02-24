@@ -3,7 +3,7 @@
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.WebserviceConfig.pl,v 1.1 2011-02-22 13:31:51 martin Exp $
+# $Id: otrs.WebserviceConfig.pl,v 1.2 2011-02-24 14:48:12 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -149,7 +149,7 @@ if ( lc( $Opts{a} ) eq 'write' ) {
             print STDERR "ERROR: Unable to update webservice!\n";
             exit 1;
         }
-        print STDERR "NOTICE: Webservice updated (ID:$Webservice->{ID})!\n";
+        print "NOTICE: Webservice updated (ID:$Webservice->{ID})!\n";
         exit 0;
     }
 
@@ -164,7 +164,7 @@ if ( lc( $Opts{a} ) eq 'write' ) {
         print STDERR "ERROR: Unable to create webservice!\n";
         exit 1;
     }
-    print STDERR "NOTICE: Webservice created (ID:$ID)!\n";
+    print "NOTICE: Webservice created (ID:$ID)!\n";
     exit 0;
 }
 
