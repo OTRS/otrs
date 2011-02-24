@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.7.2.3 2011-02-24 11:10:45 mn Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.7.2.4 2011-02-24 11:16:57 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -309,7 +309,7 @@ Core.AJAX = (function (Namespace) {
                     });
                 }
                 catch (Error) {
-                    equals(true, false, 'Error catched, Exception was thrown');
+                    equals(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -337,15 +337,16 @@ Core.AJAX = (function (Namespace) {
         $.each(ContentUpdateTests, function () {
             var Test = this;
 
-            asyncTest(Test.Name, Test.Expect, function () {
+            asyncTest(Test.Name, Test.Expect + 1, function () {
                 ChangeErrorHandlingForTest();
                 try {
                     Core.AJAX.ContentUpdate($('#ContentUpdateErrorHandling'), Test.URL, function () {
+                        ok(true, 'Complete callback called');
                         RestoreOrignal();
                     });
                 }
                 catch (Error) {
-                    equals(true, false, 'Error catched, Exception was thrown');
+                    equals(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -377,7 +378,7 @@ Core.AJAX = (function (Namespace) {
                     Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback);
                 }
                 catch (Error) {
-                    equals(true, false, 'Error catched, Exception was thrown');
+                    equals(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -411,7 +412,7 @@ Core.AJAX = (function (Namespace) {
                     Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback);
                 }
                 catch (Error) {
-                    equals(true, false, 'Error catched, Exception was thrown');
+                    equals(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
