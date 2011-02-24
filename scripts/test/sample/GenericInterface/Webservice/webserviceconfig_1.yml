@@ -1,0 +1,155 @@
+Add:
+  Config:
+    Description: Connector to send and recive date from Nagios.
+    Name: Nagios
+    Provider:
+      Operation:
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: ''
+          NameSpace: ''
+          SOAPAction: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::SOAP
+    Requester:
+      Invokers:
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: ''
+          NameSpace: ''
+          SOAPAction: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::SOAP
+  UserID: 1
+  ValidID: 1
+Name: test 1
+SuccessAdd: 1
+SuccessUpdate: 1
+---
+Add:
+  Config:
+    Description: Connector to send and recive date from Nagios 2.
+    Name: Nagios
+    Provider:
+      Operation:
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: iojfoiwjeofjweoj ojerojgv oiaejroitjvaioejhtioja viorjhiojgijairogj aiovtq348tu 08qrujtio juortu oquejrtwoiajdoifhaois hnaeruoigbo eghjiob jaer89ztuio45u603u4i9tj340856u903 jvipojziopeji
+          NameSpace: '!"ยง$%&/()=?ร*รรL:L@,.-'
+          SOAPAction: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::SOAP
+    Requester:
+      Invokers:
+        - Mapping:
+            Inbound:
+              1: 2
+              2: 4
+            Outbound:
+              1: 2
+              2: 5
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: ''
+          NameSpace: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::REST
+  UserID: 1
+  ValidID: 2
+Name: test 2
+SuccessAdd: 1
+SuccessUpdate: 1
+---
+Add:
+  Config: {}
+  UserID: 1
+  ValidID: 1
+Name: test 3
+SuccessAdd: 0
+SuccessUpdate: 0
+---
+Add:
+  Config:
+    Description: Connector to send and recive date from Nagios 2.
+    Name: Nagios
+    Provider: {}
+    Requester:
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: ''
+          NameSpace: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::REST
+  UserID: 1
+  ValidID: 2
+Name: test 4
+SuccessAdd: 1
+SuccessUpdate: 0
+Update:
+  Config: ~
+  UserID: 1
+  ValidID: 1
+---
+Add:
+  Config:
+    Description: Connector to send and recive date from Nagios 2.
+    Name: Nagios
+    Provider: {}
+    Requester:
+      Transport:
+        Config:
+          Encoding: ''
+          Endpoint: ''
+          NameSpace: ''
+        Module: Kernel::GenericInterface::Transport::HTTP::REST
+  UserID: 1
+  ValidID: 2
+Name: test 4
+SuccessAdd: 0
+SuccessUpdate: 0
+Update:
+  Config: ~
+  UserID: 1
+  ValidID: 1
