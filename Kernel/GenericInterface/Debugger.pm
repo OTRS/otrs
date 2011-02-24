@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.16 2011-02-18 09:13:20 mg Exp $
+# $Id: Debugger.pm,v 1.17 2011-02-24 14:38:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -199,25 +199,6 @@ sub DebugLog {
         notice => 3,
         error  => 4
     );
-    if ( !$Self->{TestMode} ) {
-        my $LevelsResult =
-            scalar $DebugLevels{ $Param{DebugLevel} }
-            - scalar $DebugLevels{ $Self->{DebugThreshold} };
-        if ( scalar $LevelsResult > 0 ) {
-
-            # call AddLog function
-            $Self->{DebugLogObject}->LogAdd(
-                CommunicationID   => $Self->{CommunicationID},
-                CommunicationType => $Self->{CommunicationType},
-                RemoteIP          => $Self->{RemoteIP},
-                Summary           => $Param{Summary},
-                WebserviceID      => $Self->{WebserviceID},
-                DebugLevel        => $Param{DebugLevel},
-                Data              => $Param{Data},
-            );
-        }
-        return 1 if $Param{DebugLevel} ne 'error';
-    }
 
     # create log message
     my $DataString = '';
@@ -230,6 +211,25 @@ sub DebugLog {
     else {
         $DataString = 'No data provided';
     }
+
+    if ( !$Self->{TestMode} ) {
+
+        if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
+
+            # call AddLog function
+            $Self->{DebugLogObject}->LogAdd(
+                CommunicationID   => $Self->{CommunicationID},
+                CommunicationType => $Self->{CommunicationType},
+                RemoteIP          => $Self->{RemoteIP},
+                Summary           => $Param{Summary},
+                WebserviceID      => $Self->{WebserviceID},
+                DebugLevel        => $Param{DebugLevel},
+                Data              => $DataString,
+            );
+        }
+        return 1 if $Param{DebugLevel} ne 'error';
+    }
+
     my $LogMessage = <<"EOF";
 DebugLog $Param{DebugLevel}:
   Summary: $Param{Summary}
@@ -378,6 +378,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-02-18 09:13:20 $
+$Revision: 1.17 $ $Date: 2011-02-24 14:38:06 $
 
 =cut
