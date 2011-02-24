@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.22 2010-10-04 21:42:27 mb Exp $
+# $Id: CustomerCompany.pm,v 1.23 2011-02-24 09:27:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -134,6 +134,10 @@ sub new {
         $Self->{NotParentDBObject} = 1;
     }
 
+# this setting specifies if the table has the create_time, create_by, change_time and change_by fields of OTRS
+    $Self->{ForeignDB}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
+
     return $Self;
 }
 
@@ -171,20 +175,33 @@ sub CustomerCompanyAdd {
 
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
+    my $FieldInserted;
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-        $SQL .= " $Entry->[2], ";
+        $SQL .= ', ' if ($FieldInserted);
+        $SQL .= " $Entry->[2] ";
+        $FieldInserted = 1;
     }
-    $SQL .= "create_time, create_by, change_time, change_by)";
-    $SQL .= " VALUES (";
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= ', ' if ($FieldInserted);
+        $SQL .= 'create_time, create_by, change_time, change_by';
+    }
+    $SQL .= ") VALUES (";
+    my $ValueInserted;
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
+        $SQL .= ', ' if ($ValueInserted);
         if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . ", ";
+            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
         }
         else {
-            $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "', ";
+            $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
         }
+        $ValueInserted = 1;
     }
-    $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= ', ' if ($ValueInserted);
+        $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}";
+    }
+    $SQL .= ")";
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
         # log notice
@@ -245,8 +262,13 @@ sub CustomerCompanyGet {
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         $SQL .= " $Entry->[2], ";
     }
-    $SQL .= $Self->{CustomerCompanyKey}
-        . ", change_time, create_time FROM $Self->{CustomerCompanyTable} WHERE ";
+    $SQL .= $Self->{CustomerCompanyKey};
+
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= ", change_time, create_time";
+    }
+
+    $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     if ( $Param{Name} ) {
         $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('"
             . $Self->{DBObject}->Quote( $Param{Name} ) . "')";
@@ -310,16 +332,20 @@ sub CustomerCompanyUpdate {
 
     # update db
     my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
+    my $FieldInserted;
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
+        $SQL .= ', ' if $FieldInserted;
         if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . ", ";
+            $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
         }
         elsif ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2] = '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "', ";
+            $SQL .= " $Entry->[2] = '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
         }
+        $FieldInserted = 1;
     }
-    $SQL .= " change_time = current_timestamp, ";
-    $SQL .= " change_by = $Param{UserID} ";
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
+    }
     $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('"
         . $Self->{DBObject}->Quote( $Param{CustomerCompanyID} ) . "')";
 
@@ -477,6 +503,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-10-04 21:42:27 $
+$Revision: 1.23 $ $Date: 2011-02-24 09:27:51 $
 
 =cut
