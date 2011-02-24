@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.8 2011-02-14 13:23:28 cg Exp $
+# $Id: Helper.pm,v 1.9 2011-02-24 08:21:32 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ sub GetRandomID {
 =item TestUserCreate()
 
 creates a test user that can be used in the Selenium tests. It will
-be set to invalid automatically during the constructor. Returns
+be set to invalid automatically during the destructor. Returns
 the login name of the new user, the password is the same.
 
     my $TestUserLogin = $sel->TestUserCreate(
@@ -259,6 +259,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-14 13:23:28 $
+$Revision: 1.9 $ $Date: 2011-02-24 08:21:32 $
 
 =cut
