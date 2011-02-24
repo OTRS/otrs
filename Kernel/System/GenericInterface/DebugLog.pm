@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.7 2011-02-21 10:53:44 mg Exp $
+# $Id: DebugLog.pm,v 1.8 2011-02-24 14:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -130,7 +130,8 @@ sub LogAdd {
 
     # check needed params
     NEEDED:
-    for my $Needed (qw(CommunicationID CommunicationType DebugLevel Summary WebserviceID)) {
+    for my $Needed (qw(CommunicationID CommunicationType DebugLevel Summary WebserviceID))
+    {
         next NEEDED if IsStringWithData( $Param{$Needed} );
 
         $Self->{LogObject}->Log(
@@ -556,7 +557,7 @@ sub LogDelete {
 search for log chains based on several criteria
 when the parameter 'WithData' is set, the complete communication chains will be returned
 
-    my $LogData = $DebugLobObject->LogSearch(
+    my $LogData = $DebugLogObject->LogSearch(
         CommunicationID   => '6f1ed002ab5595859014ebf0951522d9', # optional
         CommunicationType => 'Provider',     # optional, 'Provider' or 'Requester'
         CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
@@ -869,6 +870,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-02-21 10:53:44 $
+$Revision: 1.8 $ $Date: 2011-02-24 14:38:49 $
 
 =cut
