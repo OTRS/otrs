@@ -1,8 +1,8 @@
 // --
 // Core.AJAX.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.7 2010-12-10 14:21:56 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.7.2.1 2011-02-24 10:35:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -11,14 +11,17 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 Core.AJAX = Core.AJAX || {};
 
 Core.AJAX = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         var SerializeFormTests,
             ContentUpdateTests,
-            FunctionCallTests;
+            FunctionCallTests,
+            FormUpdateTests,
+            ErrorHandlingFunc,
+            OldBaselink;
 
         module('Core.AJAX');
 
@@ -253,6 +256,63 @@ Core.AJAX = (function (Namespace) {
             }, 'text');
         });
 
+        /*
+         * Tests for error handling
+         */
+
+        function ChangeErrorHandlingForTest() {
+            ErrorHandlingFunc = Core.Exception.HandleFinalError;
+            Core.Exception.HandleFinalError = function (Exception) {
+                equals(Exception.GetType(), 'CommunicationError', 'Error handling called');
+                start();
+                RestoreOrignal();
+            };
+
+            OldBaselink = Core.Config.Get('Baselink');
+        }
+
+        function RestoreOrignal() {
+            Core.Exception.HandleFinalError = ErrorHandlingFunc;
+            Core.Config.Set('Baselink', OldBaselink);
+        }
+
+        // FormUpdate
+        $('body').append('<div id="FormUpdateErrorHandling"><form id="FormUpdateErrorHandlingForm"><input type="text" value="Test1" name="Test1" id="Test1" /><input type="text" value="Test2" name="Test2" id="Test2" /></form></div>');
+
+        FormUpdateTests =
+        [
+            {
+                Expect: 1,
+                Name: 'FormUpdate error handling - wrong url',
+                URL: 'sample/Core.AJAX.FormUpdate0.html'
+            },
+            {
+                Expect: 1,
+                Name: 'FormUpdate error handling - empty response',
+                URL: 'sample/Core.AJAX.FormUpdate1.html'
+            }
+        ];
+
+        $.each(FormUpdateTests, function () {
+            var Test = this;
+
+            asyncTest(Test.Name, Test.Expect, function () {
+                ChangeErrorHandlingForTest();
+                Core.Config.Set('Baselink', Test.URL);
+                try {
+                    Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', ['Test2'], function () {
+                        start();
+                        RestoreOrignal();
+                    });
+                }
+                catch (Error) {
+                    start();
+                    RestoreOrignal();
+                }
+            });
+        });
+
+        $('#FormUpdateErrorHandling').remove();
     };
 
     return Namespace;
