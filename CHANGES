@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1781 2011-02-25 07:52:57 martin Exp $
+# $Id: CHANGES,v 1.1782 2011-02-25 10:26:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,9 @@
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
  - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed.
     of > 70 characters exists.
+
+3.0.7 2011-??-??
+ - 2011-02-25 Added Hindi translation, thanks to Chetan Nagaonkar!
 
 3.0.6 2011-02-29
  - 2011-02-21 Fixed bug#6938. CustomerUser AutoLoginCreation doesn't work.
