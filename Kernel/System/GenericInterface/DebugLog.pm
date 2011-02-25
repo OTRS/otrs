@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.9 2011-02-24 18:41:13 cg Exp $
+# $Id: DebugLog.pm,v 1.10 2011-02-25 08:39:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -494,7 +494,7 @@ sub LogDelete {
 
     # delete individual entries first
     my $SQLIndividual =
-        'DELETE gdec FROM gi_debugger_entry_content AS gdec, gi_debugger_entry AS gde
+        'DELETE FROM gi_debugger_entry_content AS gdec USING gi_debugger_entry AS gde
         WHERE gdec.gi_debugger_entry_id = gde.id AND ';
     my @BindIndividual;
     if ($CommunicationIDValid) {
@@ -870,6 +870,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-24 18:41:13 $
+$Revision: 1.10 $ $Date: 2011-02-25 08:39:50 $
 
 =cut
