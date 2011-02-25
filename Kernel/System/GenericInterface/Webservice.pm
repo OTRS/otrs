@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.17 2011-02-22 10:38:30 martin Exp $
+# $Id: Webservice.pm,v 1.18 2011-02-25 15:03:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::WebserviceHistory;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -346,12 +346,6 @@ sub WebserviceDelete {
         Bind => [ \$Param{ID} ],
     );
 
-    # delete debug log entries
-    return if !$Self->{DebugLogObject}->LogDelete(
-        NoErrorIfEmpty => 1,
-        WebserviceID   => $Param{ID},
-    );
-
     return 1;
 }
 
@@ -402,6 +396,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-02-22 10:38:30 $
+$Revision: 1.18 $ $Date: 2011-02-25 15:03:28 $
 
 =cut
