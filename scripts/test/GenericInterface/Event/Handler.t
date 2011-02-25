@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.1 2011-02-25 11:22:31 mg Exp $
+# $Id: Handler.t,v 1.2 2011-02-25 11:32:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@ $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###1000-GenericInterface',
     Value => {
         Module      => 'Kernel::GenericInterface::Event::Handler',
-        Event       => '(.*)',
+        Event       => '.*',
         Transaction => 1,
     },
 );
