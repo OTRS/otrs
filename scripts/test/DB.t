@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.78 2011-02-21 18:06:43 en Exp $
+# $Id: DB.t,v 1.79 2011-02-25 08:30:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -478,7 +478,7 @@ for my $Count ( 1 .. 6 ) {
     $String .= $String . $Count . "abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz";
     my $Length = length($String);
     my $Size   = $Length;
-    my $Key    = 'Some216_' . $Count;
+    my $Key    = 'Some216' . $Count;
     if ( $Size > ( 1024 * 1024 ) ) {
         $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
     }
