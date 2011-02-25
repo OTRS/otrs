@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="1.0" init="Application">
+    <CVS>$Id: GenericInterface.xml,v 1.1 2011-02-25 11:22:31 mg Exp $</CVS>
+    <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Forces to unlock tickets after being moved to another queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Event">.*</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+</otrs_config>
