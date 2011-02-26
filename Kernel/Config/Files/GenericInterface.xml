@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.2 2011-02-26 01:42:41 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.3 2011-02-26 02:30:43 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>Ticket</Group>
@@ -10,6 +10,14 @@
                 <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
                 <Item Key="Event">.*</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Webservice::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in minutes for Webservices.</Description>
+        <Group>Webservice</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <String Regex="">180</String>
         </Setting>
     </ConfigItem>
 </otrs_config>
