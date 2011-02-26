@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.18 2011-02-25 15:03:28 mg Exp $
+# $Id: Webservice.pm,v 1.19 2011-02-26 02:25:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,11 +18,12 @@ use YAML;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::GenericInterface::WebserviceHistory;
+use Kernel::System::Cache;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -105,10 +106,15 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
+    # create additional objects
+    $Self->{CacheObject}    = Kernel::System::Cache->new( %{$Self} );
     $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
     $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
     $Self->{WebserviceHistoryObject}
         = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+
+    # get the cache TTL (in seconds)
+    $Self->{CacheTTL} = $Self->{ConfigObject}->Get('Webservice::CacheTTL') * 60;
 
     return $Self;
 }
@@ -168,6 +174,12 @@ sub WebserviceAdd {
         $ID = $Row[0];
     }
 
+    # delete cache
+    $Self->{CacheObject}->Delete(
+        Type => 'Webservice',
+        Key  => 'WebserviceGet::ID::' . $ID,
+    );
+
     # add history
     return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
         WebserviceID => $ID,
@@ -208,23 +220,48 @@ sub WebserviceGet {
         return;
     }
 
-    # sql
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, config, valid_id, create_time, change_time '
-            . 'FROM gi_webservice_config WHERE id = ?',
-        Bind => [ \$Param{ID} ],
-    );
     my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[1] );
 
-        %Data = (
-            ID         => $Param{ID},
-            Name       => $Data[0],
-            Config     => $Config,
-            ValidID    => $Data[2],
-            CreateTime => $Data[3],
-            ChangeTime => $Data[4],
+    # check cache
+    my $CacheKey = 'WebserviceGet::ID::' . $Param{ID};
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'Webservice',
+        Key  => $CacheKey,
+    );
+
+    if ($Cache) {
+
+        # get data from cache
+        %Data = %{$Cache};
+    }
+
+    else {
+
+        # sql
+        return if !$Self->{DBObject}->Prepare(
+            SQL => 'SELECT name, config, valid_id, create_time, change_time '
+                . 'FROM gi_webservice_config WHERE id = ?',
+            Bind => [ \$Param{ID} ],
+        );
+        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+            my $Config = YAML::Load( $Data[1] );
+
+            %Data = (
+                ID         => $Param{ID},
+                Name       => $Data[0],
+                Config     => $Config,
+                ValidID    => $Data[2],
+                CreateTime => $Data[3],
+                ChangeTime => $Data[4],
+            );
+        }
+
+        # set cache
+        $Self->{CacheObject}->Set(
+            Type  => 'Webservice',
+            Key   => $CacheKey,
+            Value => \%Data,
+            TTL   => $Self->{CacheTTL},
         );
     }
     return \%Data;
@@ -289,6 +326,12 @@ sub WebserviceUpdate {
         ],
     );
 
+    # delete cache
+    $Self->{CacheObject}->Delete(
+        Type => 'Webservice',
+        Key  => 'WebserviceGet::ID::' . $Param{ID},
+    );
+
     # add history
     return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
         WebserviceID => $Param{ID},
@@ -346,6 +389,12 @@ sub WebserviceDelete {
         Bind => [ \$Param{ID} ],
     );
 
+    # delete cache
+    $Self->{CacheObject}->Delete(
+        Type => 'Webservice',
+        Key  => 'WebserviceGet::ID::' . $Param{ID},
+    );
+
     return 1;
 }
 
@@ -396,6 +445,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-02-25 15:03:28 $
+$Revision: 1.19 $ $Date: 2011-02-26 02:25:26 $
 
 =cut
