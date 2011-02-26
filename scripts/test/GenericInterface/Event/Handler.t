@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.2 2011-02-25 11:32:50 mg Exp $
+# $Id: Handler.t,v 1.3 2011-02-26 01:41:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,8 @@ my @Tests = (
             },
         },
         Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 1,
     },
     {
         Name             => 'Asynchronous event call via scheduler',
@@ -88,6 +90,128 @@ my @Tests = (
             },
         },
         Asynchronous => 1,
+        ValidID      => 1,
+        Success      => 1,
+    },
+    {
+        Name             => 'Synchronous event call - Webservice set to invald',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => [
+                            {
+                                Event        => 'TicketCreate',
+                                Asynchronous => 0,
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 2,
+        Success      => 0,
+    },
+    {
+        Name             => 'Synchronous event call - Empty Requester configuration',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {},
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 0,
+    },
+    {
+        Name             => 'Synchronous event call - Empty Invoker configuration',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {},
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 0,
+    },
+    {
+        Name             => 'Synchronous event call - Invalid Invoker events (not a hash ref)',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => {
+                            Event        => 'TicketCreate',
+                            Asynchronous => 0,
+                        },
+                    },
+                },
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 0,
+    },
+    {
+        Name             => 'Synchronous event call - Different Event',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => [
+                            {
+                                Event        => 'TicketMove',
+                                Asynchronous => 0,
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 0,
     },
 );
 
@@ -130,7 +254,7 @@ for my $Test (@Tests) {
     my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Config  => $Test->{WebserviceConfig},
         Name    => "$Test->{Name} $RandomID",
-        ValidID => 1,
+        ValidID => $Test->{ValidID},
         UserID  => 1,
     );
 
@@ -180,32 +304,41 @@ for my $Test (@Tests) {
         WithData          => 1,
     );
 
-    $Self->Is(
-        scalar @{$LogData},
-        1,
-        "$Test->{Name} log data found",
-    );
+    if ( $Test->{Success} ) {
+        $Self->Is(
+            scalar @{$LogData},
+            1,
+            "$Test->{Name} log data found",
+        );
 
-    $Self->Is(
-        ref $LogData->[0],
-        'HASH',
-        "$Test->{Name} log data found entry",
-    );
+        $Self->Is(
+            ref $LogData->[0],
+            'HASH',
+            "$Test->{Name} log data found entry",
+        );
 
-    $Self->Is(
-        ref $LogData->[0]->{Data},
-        'ARRAY',
-        "$Test->{Name} log data found data entry",
-    );
+        $Self->Is(
+            ref $LogData->[0]->{Data},
+            'ARRAY',
+            "$Test->{Name} log data found data entry",
+        );
 
-    $Self->Is(
-        scalar(
-            grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'TicketID=$TicketID'/smx }
-                @{ $LogData->[0]->{Data} }
-        ),
-        1,
-        "$Test->{Name} event handler communication result data found ('ResponseContent' => 'TicketID=$TicketID')",
-    );
+        $Self->Is(
+            scalar(
+                grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'TicketID=$TicketID'/smx }
+                    @{ $LogData->[0]->{Data} }
+            ),
+            1,
+            "$Test->{Name} event handler communication result data found ('ResponseContent' => 'TicketID=$TicketID')",
+        );
+    }
+    else {
+        $Self->Is(
+            scalar @{$LogData},
+            0,
+            "$Test->{Name} no log data found",
+        );
+    }
 
     # delete config
     my $Success = $WebserviceObject->WebserviceDelete(
