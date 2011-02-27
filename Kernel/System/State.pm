@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.49 2011-02-11 14:42:13 bes Exp $
+# $Id: State.pm,v 1.50 2011-02-27 13:57:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -325,20 +325,18 @@ sub StateUpdate {
 
 =item StateGetStatesByType()
 
-get list of states for a type or a list of state types
+get list of states for a type or a list of state types.
 
-    get all states with state type open and new
-    (available: new, open, closed, pending reminder, pending auto,
-    removed, merged)
+Get all states with state type open and new:
+(available: new, open, closed, pending reminder, pending auto, removed, merged)
 
     my @List = $StateObject->StateGetStatesByType(
         StateType => ['open', 'new'],
         Result    => 'ID', # HASH|ID|Name
     );
 
-    get all state types used by config option named like
-
-    Ticket::ViewableStateType for "Viewable" state types
+Get all state types used by config option named like
+Ticket::ViewableStateType for "Viewable" state types.
 
     my %List = $StateObject->StateGetStatesByType(
         Type   => 'Viewable',
@@ -634,6 +632,8 @@ returns the id or the name of a state type
         StateType => 'pending auto',
     );
 
+or
+
     my $StateType = $StateTypeObject->StateTypeLookup(
         StateTypeID => 1,
     );
@@ -716,6 +716,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2011-02-11 14:42:13 $
+$Revision: 1.50 $ $Date: 2011-02-27 13:57:03 $
 
 =cut
