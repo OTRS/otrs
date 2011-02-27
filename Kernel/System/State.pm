@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.50 2011-02-27 13:57:03 bes Exp $
+# $Id: State.pm,v 1.51 2011-02-27 14:01:50 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -413,11 +413,12 @@ sub StateGetStatesByType {
             push @StateType, $Param{StateType};
         }
     }
-    my $SQL = "SELECT ts.id, ts.name, tst.name  "
-        . " FROM ticket_state ts, ticket_state_type tst WHERE "
-        . " tst.id = ts.type_id AND "
-        . " tst.name IN ('${\(join '\', \'', sort @StateType)}' ) AND "
-        . " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    my $SQL = ''
+        . 'SELECT ts.id, ts.name, tst.name'
+        . ' FROM ticket_state ts, ticket_state_type tst'
+        . ' WHERE tst.id = ts.type_id'
+        . " AND tst.name IN ('${\(join '\', \'', sort @StateType)}' )"
+        . " AND ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -716,6 +717,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2011-02-27 13:57:03 $
+$Revision: 1.51 $ $Date: 2011-02-27 14:01:50 $
 
 =cut
