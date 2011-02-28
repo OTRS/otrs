@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.4 2011-02-21 11:03:15 mg Exp $
+# $Id: Requester.pm,v 1.5 2011-02-28 12:12:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -173,7 +173,7 @@ sub Run {
     #
 
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-        %$Self,
+        %{$Self},
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Requester',
@@ -196,7 +196,7 @@ sub Run {
     #
 
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
-        %$Self,
+        %{$Self},
         InvokerType => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
     );
 
@@ -238,7 +238,7 @@ sub Run {
         )
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
-            %$Self,
+            %{$Self},
             MappingConfig =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
@@ -273,7 +273,7 @@ sub Run {
     }
 
     my $TransportObject = Kernel::GenericInterface::Transport->new(
-        %$Self,
+        %{$Self},
         TransportConfig => $RequesterConfig->{Transport},
     );
 
@@ -319,7 +319,7 @@ sub Run {
         )
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
-            %$Self,
+            %{$Self},
             MappingConfig =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
@@ -393,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-02-21 11:03:15 $
+$Revision: 1.5 $ $Date: 2011-02-28 12:12:26 $
 
 =cut

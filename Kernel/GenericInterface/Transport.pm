@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.pm,v 1.11 2011-02-15 16:32:41 mg Exp $
+# $Id: Transport.pm,v 1.12 2011-02-28 12:12:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -112,7 +112,7 @@ sub new {
     if ( !$Self->{MainObject}->Require($Backend) ) {
         return $Self->{DebuggerObject}->Error( Summary => "Backend $Backend not found." );
     }
-    $Self->{BackendObject} = $Backend->new(%$Self);
+    $Self->{BackendObject} = $Backend->new( %{$Self} );
 
     # if the backend constructor failed, it returns an error hash, pass it on in this casd
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
@@ -246,6 +246,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-15 16:32:41 $
+$Revision: 1.12 $ $Date: 2011-02-28 12:12:42 $
 
 =cut
