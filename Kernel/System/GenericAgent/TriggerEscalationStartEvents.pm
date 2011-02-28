@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/TriggerEscalationStartEvents.pm - trigger escalation start events
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TriggerEscalationStartEvents.pm,v 1.1 2011-02-28 09:41:24 bes Exp $
+# $Id: TriggerEscalationStartEvents.pm,v 1.2 2011-02-28 12:06:25 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use List::Util qw(first);
 
@@ -106,23 +106,7 @@ sub Run {
 
         # emit the event
         push @Events, $TicketAttr2Event{$Attr};
-
-        # for deciding whether EscalationStart or EscalationNotifyBefore should be emitted
-        #if ( $Attr =~ m{ TimeEscalation }xms ) {
-        #    $FoundEscalation++;
-        #}
-        #elsif ( $Attr =~ m{ TimeNotification }xms ) {
-        #    $FoundNotifyBefore++;
-        #}
     }
-
-    # add special summary events
-    #if ($FoundEscalation) {
-    #    unshift @Events, 'EscalationStart';
-    #}
-    #elsif ($FoundNotifyBefore) {
-    #    unshift @Events, 'EscalationNotifyBefore';
-    #}
 
     for my $Event (@Events) {
 
