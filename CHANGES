@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1786 2011-02-28 19:05:35 ub Exp $
+# $Id: CHANGES,v 1.1787 2011-02-28 19:54:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
  - 2011-02-28 Added feature bug#6894. Events for escalations.
  - 2011-02-25 Fixed bug#6822. Underscore in username problem in 3.0.5.
  - 2011-02-24 Fixed bug#6867. CustomerCompany external source requires
@@ -34,6 +35,7 @@
     of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
  - 2011-02-28 Fixed bug#6974 - Ticket Search does not find tickets if searching by
     in between 2 dates, and the ticket time is 00:00:00.
  - 2011-02-28 Fixed bug#6930 - en_GB (united kingdom) notification events blank.

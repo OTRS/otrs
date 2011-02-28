@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.5 2009-11-26 10:37:29 bes Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.6 2011-02-28 19:54:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -985,7 +985,9 @@ sub _ReportingValues {
         )
         )
     {
-        $Reporting{$Key} = int( $Reporting{$Key} / 60 + 0.5 );
+        if ( defined $Reporting{$Key} ) {
+            $Reporting{$Key} = int( $Reporting{$Key} / 60 + 0.5 );
+        }
     }
 
     # convert min in hh:mm
