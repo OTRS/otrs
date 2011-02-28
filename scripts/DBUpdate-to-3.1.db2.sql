@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-17 16:57:22
+--  driver: db2, generated: 2011-02-28 12:48:59
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -124,6 +124,85 @@ CREATE INDEX gi_debugger_entry_content_crea4e ON gi_debugger_entry_content (crea
 
 CREATE INDEX gi_debugger_entry_content_debua1 ON gi_debugger_entry_content (debug_level);
 
+-- ----------------------------------------------------------
+--  create table gi_object_lock_state
+-- ----------------------------------------------------------
+CREATE TABLE gi_object_lock_state (
+    webservice_id INTEGER NOT NULL,
+    object_type VARCHAR (30) NOT NULL,
+    object_id BIGINT NOT NULL,
+    lock_state VARCHAR (30) NOT NULL,
+    lock_state_counter INTEGER NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    CONSTRAINT gi_object_lock_state_U_588 UNIQUE (webservice_id, object_type, object_id)
+);
+
+CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -139,3 +218,5 @@ ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT FK_gi_debugger_entry_webservice_id_id FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_content_gi_debugger_entry_id_id FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry (id);
+
+ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_webservice_id_id FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
