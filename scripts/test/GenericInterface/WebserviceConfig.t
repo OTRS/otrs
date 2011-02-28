@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.2 2011-02-28 15:32:44 cg Exp $
+# $Id: WebserviceConfig.t,v 1.3 2011-02-28 18:22:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,9 @@ use strict;
 use warnings;
 use utf8;
 use vars (qw($Self));
+use Kernel::System::GenericInterface::Webservice;
+
+use YAML;
 
 my $Home = $Self->{ConfigObject}->Get('Home');
 my $PathToTest =
@@ -188,6 +191,20 @@ for my $Test (@Tests) {
         );
     }
 
+    # compare result with original file
+    my $Content = $Self->{MainObject}->FileRead(
+        Location => $Test->{FileAdd},
+    );
+    my $OriginalContent = eval { YAML::Load( ${$Content} ) };
+    my $ResultContent   = eval { YAML::Load($WebserviceConfigResult) };
+    $OriginalContent = YAML::Dump($OriginalContent);
+    $ResultContent   = YAML::Dump($ResultContent);
+    $Self->Is(
+        $OriginalContent,
+        $ResultContent,
+        "$Test->{Name} - Compare original file with result",
+    );
+
     # update config with a modification
     $WebserviceConfigResult
         = `$WebserviceConfig $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID`;
@@ -204,6 +221,21 @@ for my $Test (@Tests) {
             "$Test->{Name} - Webservice Update",
         );
     }
+
+    # compare result with original file
+    $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsRead} $WebserviceID`;
+    $Content                = $Self->{MainObject}->FileRead(
+        Location => $Test->{FileUpdate},
+    );
+    $OriginalContent = eval { YAML::Load( ${$Content} ) };
+    $ResultContent   = eval { YAML::Load($WebserviceConfigResult) };
+    $OriginalContent = YAML::Dump($OriginalContent);
+    $ResultContent   = YAML::Dump($ResultContent);
+    $Self->Is(
+        $OriginalContent,
+        $ResultContent,
+        "$Test->{Name} - Compare update file with result",
+    );
 
 }
 
