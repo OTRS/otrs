@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.12 2011-02-21 20:54:02 sb Exp $
+# $Id: Webservice.t,v 1.13 2011-02-28 16:20:51 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,9 +38,13 @@ my @Tests = (
             Config => {
                 Name        => 'Nagios',
                 Description => 'Connector to send and receive date from Nagios.',
-                Provider    => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                    TestMode       => 1,
+                },
+                Provider => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Type   => 'HTTP::SOAP',
                         Config => {
                             NameSpace  => '',
                             SOAPAction => '',
@@ -48,8 +52,21 @@ my @Tests = (
                             Endpoint   => '',
                         },
                     },
-                    Operation => [
-                        {
+                    Operation => {
+                        Operation1 => {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                            Type => 'Test::Test',
+                        },
+                        Operation2 => {
                             Mapping => {
                                 Inbound => {
                                     1 => 2,
@@ -61,23 +78,11 @@ my @Tests = (
                                 },
                             },
                         },
-                        {
-                            Mapping => {
-                                Inbound => {
-                                    1 => 2,
-                                    2 => 4,
-                                },
-                                Outbound => {
-                                    1 => 2,
-                                    2 => 5,
-                                },
-                            },
-                        },
-                    ],
+                    },
                 },
                 Requester => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Type   => 'HTTP::SOAP',
                         Config => {
                             NameSpace  => '',
                             SOAPAction => '',
@@ -85,8 +90,8 @@ my @Tests = (
                             Endpoint   => '',
                         },
                     },
-                    Invokers => [
-                        {
+                    Invokers => {
+                        Invoker1 => {
                             Mapping => {
                                 Inbound => {
                                     1 => 2,
@@ -98,7 +103,7 @@ my @Tests = (
                                 },
                             },
                         },
-                        {
+                        Invoker2 => {
                             Mapping => {
                                 Inbound => {
                                     1 => 2,
@@ -109,8 +114,9 @@ my @Tests = (
                                     2 => 5,
                                 },
                             },
+                            Type => 'Test::Test',
                         },
-                    ],
+                    },
                 },
             },
             ValidID => 1,
@@ -126,9 +132,13 @@ my @Tests = (
             Config => {
                 Name        => 'Nagios',
                 Description => 'Connector to send and receive date from Nagios 2.',
-                Provider    => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                    TestMode       => 1,
+                },
+                Provider => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::SOAP',
+                        Type   => 'HTTP::SOAP',
                         Config => {
                             NameSpace  => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
                             SOAPAction => '',
@@ -137,8 +147,21 @@ my @Tests = (
                                 'iojfoiwjeofjweoj ojerojgv oiaejroitjvaioejhtioja viorjhiojgijairogj aiovtq348tu 08qrujtio juortu oquejrtwoiajdoifhaois hnaeruoigbo eghjiob jaer89ztuio45u603u4i9tj340856u903 jvipojziopeji',
                         },
                     },
-                    Operation => [
-                        {
+                    Operation => {
+                        Operation1 => {
+                            Mapping => {
+                                Inbound => {
+                                    1 => 2,
+                                    2 => 4,
+                                },
+                                Outbound => {
+                                    1 => 2,
+                                    2 => 5,
+                                },
+                            },
+                            Type => 'Test::Test',
+                        },
+                        Operation2 => {
                             Mapping => {
                                 Inbound => {
                                     1 => 2,
@@ -150,31 +173,19 @@ my @Tests = (
                                 },
                             },
                         },
-                        {
-                            Mapping => {
-                                Inbound => {
-                                    1 => 2,
-                                    2 => 4,
-                                },
-                                Outbound => {
-                                    1 => 2,
-                                    2 => 5,
-                                },
-                            },
-                        },
-                    ],
+                    },
                 },
                 Requester => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Type   => 'HTTP::REST',
                         Config => {
                             NameSpace => '',
                             Encoding  => '',
                             Endpoint  => '',
                         },
                     },
-                    Invokers => [
-                        {
+                    Invokers => {
+                        Invoker1 => {
                             Mapping => {
                                 Inbound => {
                                     1 => 2,
@@ -185,8 +196,9 @@ my @Tests = (
                                     2 => 5,
                                 },
                             },
+                            Type => 'Test::Test',
                         },
-                    ],
+                    },
                 },
             },
             ValidID => 2,
@@ -219,10 +231,14 @@ my @Tests = (
                 Name        => 'Nagios',
                 Description => 'Connector to send and receive date from Nagios 2.'
                     . "\nasdkaosdkoa\tsada\n",
+                Debugger => {
+                    DebugThreshold => 'debug',
+                    TestMode       => 1,
+                },
                 Provider  => {},
                 Requester => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Type   => 'HTTP::REST',
                         Config => {
                             NameSpace => '',
                             Encoding  => '',
@@ -249,10 +265,14 @@ my @Tests = (
             Config => {
                 Name        => 'Nagios',
                 Description => 'Connector to send and receive date from Nagios 2.',
-                Provider    => {},
-                Requester   => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                    TestMode       => 1,
+                },
+                Provider  => {},
+                Requester => {
                     Transport => {
-                        Module => 'Kernel::GenericInterface::Transport::HTTP::REST',
+                        Type   => 'HTTP::REST',
                         Config => {
                             NameSpace => '',
                             Encoding  => '',
