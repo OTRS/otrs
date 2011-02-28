@@ -2,7 +2,7 @@
 # ObjectLockState.t - ObjectLockState tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.t,v 1.1 2011-02-25 15:28:52 mg Exp $
+# $Id: ObjectLockState.t,v 1.1 2011-02-28 11:32:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,34 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-use Kernel::System::ObjectLockState;
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::GenericInterface::ObjectLockState;
 
-my $ObjectLockStateObject = Kernel::System::ObjectLockState->new( %{$Self} );
+my $WebserviceObject      = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
 my $RandomNumber     = int rand(10000000);
 my $CustomObjectType = "TestObject$RandomNumber";
 
+# add config
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config => {
+        Debugger => {
+            DebugThreshold => 'debug',
+        },
+    },
+    Name    => "Test$RandomNumber",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
+
 my $Success = $ObjectLockStateObject->ObjectLockStateSet(
+    WebserviceID     => $WebserviceID,
     ObjectType       => $CustomObjectType,
     ObjectID         => $RandomNumber,
     LockState        => 'locked',
@@ -34,8 +54,9 @@ $Self->True(
 );
 
 my $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 my %Check = (
@@ -54,6 +75,7 @@ for my $Key ( sort keys %Check ) {
 }
 
 $Success = $ObjectLockStateObject->ObjectLockStateSet(
+    WebserviceID     => $WebserviceID,
     ObjectType       => $CustomObjectType,
     ObjectID         => $RandomNumber,
     LockState        => 'locked2',
@@ -66,8 +88,9 @@ $Self->True(
 );
 
 $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 %Check = (
@@ -86,8 +109,9 @@ for my $Key ( sort keys %Check ) {
 }
 
 my $ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 $Self->Is(
@@ -105,8 +129,9 @@ for my $Key ( sort keys %Check ) {
 }
 
 $Success = $ObjectLockStateObject->ObjectLockStateDelete(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 $Self->True(
@@ -115,8 +140,9 @@ $Self->True(
 );
 
 $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 $Self->False(
@@ -125,13 +151,25 @@ $Self->False(
 );
 
 $Success = $ObjectLockStateObject->ObjectLockStateDelete(
-    ObjectType => $CustomObjectType,
-    ObjectID   => $RandomNumber,
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
 );
 
 $Self->False(
     defined $Success,
     'ObjectLockStateDelete() for deleted entry',
+);
+
+# delete config
+$Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
 );
 
 1;

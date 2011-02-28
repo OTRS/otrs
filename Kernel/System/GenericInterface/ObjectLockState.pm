@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ObjectLockState.pm - backend for lock state handling
+# Kernel/System/GenericInterface/ObjectLockState.pm - backend for lock state handling
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.pm,v 1.1 2011-02-25 15:28:52 mg Exp $
+# $Id: ObjectLockState.pm,v 1.1 2011-02-28 11:32:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ObjectLockState;
+package Kernel::System::GenericInterface::ObjectLockState;
 
 use strict;
 use warnings;
@@ -19,7 +19,7 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ObjectLockState - lock state backend
+Kernel::System::GenericInterface::ObjectLockState - lock state backend
 
 =head1 SYNOPSIS
 
@@ -95,6 +95,7 @@ sub new {
 set lock state for an object.
 
     my $Success = $ObjectLockStateObject->ObjectLockStateSet(
+        WebserviceID     => 123,
         ObjectType       => 'Ticket',       # type of the object
         ObjectID         => 123,            # ID of the object
         LockState        => 'sync_started', # the state to set
@@ -107,7 +108,7 @@ sub ObjectLockStateSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ObjectType ObjectID LockState)) {
+    for my $Key (qw(WebserviceID ObjectType ObjectID LockState)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -118,10 +119,11 @@ sub ObjectLockStateSet {
     if ( !%{ $Self->ObjectLockStateGet(%Param) } ) {
         return if !$Self->{DBObject}->Do(
             SQL => '
-                INSERT INTO object_lock_state
-                    (object_type, object_id, lock_state, lock_state_counter, create_time, change_time)
-                VALUES (?, ?, ?, ?, current_timestamp, current_timestamp)',
+                INSERT INTO gi_object_lock_state
+                    (webservice_id, object_type, object_id, lock_state, lock_state_counter, create_time, change_time)
+                VALUES (?, ?, ?, ?, ?, current_timestamp, current_timestamp)',
             Bind => [
+                \int( $Param{WebserviceID} ),
                 \$Param{ObjectType},
                 \int( $Param{ObjectID} ),
                 \$Param{LockState},
@@ -133,13 +135,15 @@ sub ObjectLockStateSet {
 
         return if !$Self->{DBObject}->Do(
             SQL => '
-                UPDATE object_lock_state
+                UPDATE gi_object_lock_state
                 SET lock_state = ?, lock_state_counter = ?, change_time = current_timestamp
-                WHERE object_type = ?
+                WHERE webservice_id = ?
+                    AND object_type = ?
                     AND object_id = ?',
             Bind => [
                 \$Param{LockState},
                 \int( $Param{LockStateCounter} || 0 ),
+                \int( $Param{WebserviceID} ),
                 \$Param{ObjectType},
                 \int( $Param{ObjectID} ),
             ],
@@ -155,6 +159,7 @@ sub ObjectLockStateSet {
 gets the lock state of an object
 
     my $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
+        WebserviceID     => 123,
         ObjectType       => 'Ticket',       # type of the object
         ObjectID         => 123,            # ID of the object
     );
@@ -162,6 +167,7 @@ gets the lock state of an object
 If lock state was found, returns:
 
     $ObjectLockState = {
+        WebserviceID     => 123,
         ObjectType       => 'Ticket',
         ObjectID         => 123,
         LockState        => 'sync_started',
@@ -178,7 +184,7 @@ sub ObjectLockStateGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ObjectType ObjectID)) {
+    for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -187,11 +193,16 @@ sub ObjectLockStateGet {
 
     return if !$Self->{DBObject}->Prepare(
         SQL => '
-            SELECT object_type, object_id, lock_state, lock_state_counter, create_time, change_time
-            FROM object_lock_state
-            WHERE object_type = ?
+            SELECT webservice_id, object_type, object_id, lock_state, lock_state_counter, create_time, change_time
+            FROM gi_object_lock_state
+            WHERE webservice_id =?
+                AND object_type = ?
                 AND object_id = ?',
-        Bind => [ \$Param{ObjectType}, \int( $Param{ObjectID} || 0 ), ],
+        Bind => [
+            \int( $Param{WebserviceID} ),
+            \$Param{ObjectType},
+            \int( $Param{ObjectID} ),
+        ],
     );
 
     my %Result;
@@ -199,12 +210,13 @@ sub ObjectLockStateGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         %Result = (
-            ObjectType       => $Data[0],
-            ObjectID         => $Data[1],
-            LockState        => $Data[2],
-            LockStateCounter => $Data[3],
-            CreateTime       => $Data[4],
-            ChangeTime       => $Data[5],
+            WebserviceID     => $Data[0],
+            ObjectType       => $Data[1],
+            ObjectID         => $Data[2],
+            LockState        => $Data[3],
+            LockStateCounter => $Data[4],
+            CreateTime       => $Data[5],
+            ChangeTime       => $Data[6],
         );
     }
 
@@ -216,6 +228,7 @@ sub ObjectLockStateGet {
 deletes lock state of an object.
 
     my $Success = $ObjectLockStateObject->ObjectLockStateDelete(
+        WebserviceID     => 123,
         ObjectType       => 'Ticket',       # type of the object
         ObjectID         => 123,            # ID of the object
     );
@@ -226,7 +239,7 @@ sub ObjectLockStateDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ObjectType ObjectID)) {
+    for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -238,10 +251,15 @@ sub ObjectLockStateDelete {
     # delete web service
     return if !$Self->{DBObject}->Do(
         SQL => '
-            DELETE FROM object_lock_state
-            WHERE object_type = ?
+            DELETE FROM gi_object_lock_state
+            WHERE webservice_id = ?
+                AND object_type = ?
                 AND object_id = ?',
-        Bind => [ \$Param{ObjectType}, \int( $Param{ObjectID} || 0 ) ],
+        Bind => [
+            \int( $Param{WebserviceID} ),
+            \$Param{ObjectType},
+            \int( $Param{ObjectID} ),
+        ],
     );
 
     return 1;
@@ -252,6 +270,7 @@ sub ObjectLockStateDelete {
 gets a list of lock states of an object type.
 
     my $ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
+        WebserviceID     => 123,
         ObjectType       => 'Ticket',       # type of the object
         LockState        => 'sync_started', # optional, only entries with this lock state
     );
@@ -260,6 +279,7 @@ Returns:
 
     $ObjectLockStates = [
         {
+            WebserviceID     => 123,
             ObjectType       => 'Ticket',
             ObjectID         => 123,
             LockState        => 'sync_started',
@@ -284,11 +304,15 @@ sub ObjectLockStateList {
     }
 
     my $SQL = '
-        SELECT object_type, object_id, lock_state, lock_state_counter, create_time, change_time
-        FROM object_lock_state
-        WHERE object_type = ?';
+        SELECT webservice_id, object_type, object_id, lock_state, lock_state_counter, create_time, change_time
+        FROM gi_object_lock_state
+        WHERE webservice_id = ?
+            AND object_type = ?';
 
-    my @Bind = ( \$Param{ObjectType} );
+    my @Bind = (
+        \int( $Param{WebserviceID} ),
+        \$Param{ObjectType},
+    );
 
     if ( $Param{LockState} ) {
         $SQL .= ' AND lock_state = ?';
@@ -309,12 +333,13 @@ sub ObjectLockStateList {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         push @Result, {
-            ObjectType       => $Data[0],
-            ObjectID         => $Data[1],
-            LockState        => $Data[2],
-            LockStateCounter => $Data[3],
-            CreateTime       => $Data[4],
-            ChangeTime       => $Data[5],
+            WebserviceID     => $Data[0],
+            ObjectType       => $Data[1],
+            ObjectID         => $Data[2],
+            LockState        => $Data[3],
+            LockStateCounter => $Data[4],
+            CreateTime       => $Data[5],
+            ChangeTime       => $Data[6],
         };
     }
 
@@ -337,6 +362,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-25 15:28:52 $
+$Revision: 1.1 $ $Date: 2011-02-28 11:32:25 $
 
 =cut
