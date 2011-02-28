@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1784 2011-02-28 09:41:23 bes Exp $
+# $Id: CHANGES,v 1.1785 2011-02-28 18:46:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,6 +34,7 @@
     of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-02-28 en_GB (united kingdom) notification events blank.
  - 2011-02-25 Fixed bug#6822. Underscore in username problem in 3.0.5.
  - 2011-02-25 Added Hindi translation, thanks to Chetan Nagaonkar!
 
