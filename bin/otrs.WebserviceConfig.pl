@@ -3,7 +3,7 @@
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.WebserviceConfig.pl,v 1.2 2011-02-24 14:48:12 cg Exp $
+# $Id: otrs.WebserviceConfig.pl,v 1.3 2011-02-28 15:33:28 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -81,7 +81,7 @@ if ( !$Opts{a} ) {
     print STDERR "ERROR: Need action (-a) param!\n";
     exit 1;
 }
-if ( lc( $Opts{a} ) !~ /^(read|write|list)$/ ) {
+if ( lc( $Opts{a} ) !~ /^(read|write|list|delete)$/ ) {
     print STDERR "ERROR: Unknown action '$Opts{a}'\n";
     exit 1;
 }
@@ -194,6 +194,36 @@ if ( lc( $Opts{a} ) eq 'read' ) {
     # dump config as string
     my $Config = YAML::Dump( $Webservice->{Config} );
     print "$Config\n";
+    exit 0;
+}
+
+# delete webservice
+if ( lc( $Opts{a} ) eq 'delete' ) {
+
+    # validate file
+    if ( !$Opts{i} ) {
+        print STDERR "ERROR: Need id (-i) param!\n";
+        exit 1;
+    }
+
+    # get webservice
+    my $Webservice = $CommonObject{WebserviceObject}->WebserviceGet( ID => $Opts{i} );
+    if ( !$Webservice ) {
+        print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
+        exit 1;
+    }
+
+    # webservice lookup
+    my $Success = $CommonObject{WebserviceObject}->WebserviceDelete(
+        ID     => $Opts{i},
+        UserID => 1,
+    );
+    if ( !$Success ) {
+        print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
+        exit 1;
+    }
+
+    print "NOTICE: Webservice deleted (ID:$Opts{i})!\n";
 
 }
 exit 0;
