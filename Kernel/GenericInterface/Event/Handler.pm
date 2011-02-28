@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Event/Handler.pm - event handler module for the GenericInterface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.pm,v 1.2 2011-02-26 01:40:17 cr Exp $
+# $Id: Handler.pm,v 1.3 2011-02-28 10:02:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
@@ -56,8 +56,8 @@ sub Run {
 
     my %WebserviceList = %{
         $Self->{WebserviceObject}->WebserviceList(
-            Valid => 0,
-            )
+            Valid => 1,
+        ),
         };
 
     # loop over webservices
@@ -68,12 +68,6 @@ sub Run {
             ID => $WebserviceID,
         );
 
-        # get ValidID for valid
-        my $ValidID = $Self->{ValidObject}->ValidLookup(
-            Valid => 'valid',
-        );
-
-        next WEBSERVICE if ( $WebserviceData->{ValidID} ne $ValidID );
         next WEBSERVICE if ( !IsHashRefWithData( $WebserviceData->{Config} ) );
         next WEBSERVICE if ( !IsHashRefWithData( $WebserviceData->{Config}->{Requester} ) );
         next WEBSERVICE
