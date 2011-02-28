@@ -2,7 +2,7 @@
 # Transport.t - GenericInterface transport interface tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.8 2011-02-15 15:57:37 mg Exp $
+# $Id: Transport.t,v 1.9 2011-02-28 12:13:44 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,6 @@ use HTTP::Request::Common;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
-use Kernel::System::FileTemp;
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %$Self,
