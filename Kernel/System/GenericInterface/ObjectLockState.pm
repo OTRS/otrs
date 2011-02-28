@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/ObjectLockState.pm - backend for lock state handling
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.pm,v 1.2 2011-02-28 12:36:49 mg Exp $
+# $Id: ObjectLockState.pm,v 1.3 2011-02-28 12:46:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -248,7 +248,6 @@ sub ObjectLockStateDelete {
 
     return if ( !%{ $Self->ObjectLockStateGet(%Param) || {} } );
 
-    # delete web service
     return if !$Self->{DBObject}->Do(
         SQL => '
             DELETE FROM gi_object_lock_state
@@ -259,6 +258,39 @@ sub ObjectLockStateDelete {
             \int( $Param{WebserviceID} ),
             \$Param{ObjectType},
             \int( $Param{ObjectID} ),
+        ],
+    );
+
+    return 1;
+}
+
+=item ObjectLockStatePurge()
+
+deletes all entries of a given webservice.
+
+    my $Success = $ObjectLockStateObject->ObjectLockStatePurge(
+        WebserviceID     => 123,
+    );
+
+=cut
+
+sub ObjectLockStatePurge {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(WebserviceID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            DELETE FROM gi_object_lock_state
+            WHERE webservice_id = ?',
+        Bind => [
+            \int( $Param{WebserviceID} ),
         ],
     );
 
@@ -362,6 +394,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-02-28 12:36:49 $
+$Revision: 1.3 $ $Date: 2011-02-28 12:46:18 $
 
 =cut

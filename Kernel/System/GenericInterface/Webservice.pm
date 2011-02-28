@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.20 2011-02-28 10:01:05 mg Exp $
+# $Id: Webservice.pm,v 1.21 2011-02-28 12:46:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,13 @@ use YAML;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::GenericInterface::WebserviceHistory;
+use Kernel::System::GenericInterface::ObjectLockState;
 use Kernel::System::Cache;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -112,6 +113,8 @@ sub new {
     $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
     $Self->{WebserviceHistoryObject}
         = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+    $Self->{ObjectLockStateObject}
+        = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Webservice::CacheTTL') || 3600 );
@@ -377,6 +380,11 @@ sub WebserviceDelete {
         UserID       => $Param{UserID},
     );
 
+    # delete remaining entries in ObjectLockState
+    return if !$Self->{ObjectLockStateObject}->ObjectLockStatePurge(
+        WebserviceID => $Param{ID},
+    );
+
     # delete debugging data for webservice
     return if !$Self->{DebugLogObject}->LogDelete(
         WebserviceID   => $Param{ID},
@@ -445,6 +453,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-02-28 10:01:05 $
+$Revision: 1.21 $ $Date: 2011-02-28 12:46:18 $
 
 =cut
