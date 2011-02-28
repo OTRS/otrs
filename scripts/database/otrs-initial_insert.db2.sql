@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-12-21 12:13:36
+--  driver: db2, generated: 2011-02-28 12:37:13
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -728,6 +728,69 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('ArchiveFlagUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeStart', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationSolutionTimeNotifyBefore', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationResponseTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
