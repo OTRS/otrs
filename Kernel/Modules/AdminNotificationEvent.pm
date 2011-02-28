@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.30 2011-02-28 09:41:24 bes Exp $
+# $Id: AdminNotificationEvent.pm,v 1.31 2011-02-28 09:45:01 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,6 +73,7 @@ sub Run {
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -89,7 +90,10 @@ sub Run {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
         for my $Parameter (
-            qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
+            qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail
+            Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
+            CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
+            NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
@@ -128,6 +132,7 @@ sub Run {
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
+
             return $Output;
         }
         else {
@@ -149,6 +154,7 @@ sub Run {
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
+
             return $Output;
         }
     }
@@ -168,6 +174,7 @@ sub Run {
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -224,6 +231,7 @@ sub Run {
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
+
             return $Output;
         }
         else {
@@ -245,6 +253,7 @@ sub Run {
                 Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
+
             return $Output;
         }
     }
@@ -266,6 +275,7 @@ sub Run {
         if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
@@ -281,6 +291,7 @@ sub Run {
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -659,6 +670,7 @@ sub _Overview {
             Data => {},
         );
     }
+
     return 1;
 }
 
