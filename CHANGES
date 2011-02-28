@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1783 2011-02-25 19:30:55 en Exp $
+# $Id: CHANGES,v 1.1784 2011-02-28 09:41:23 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-28 Added feature bug#6894. Events for escalations.
  - 2011-02-25 Fixed bug#6822. Underscore in username problem in 3.0.5.
  - 2011-02-24 Fixed bug#6867. CustomerCompany external source requires
     change_time and create_time columns.

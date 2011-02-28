@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.427 2011-02-09 11:10:58 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.428 2011-02-28 09:41:23 bes Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1383,6 +1383,28 @@
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
                 <Item Key="Event">TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
+        <Description Lang="en">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
+        <Description Lang="de">Die Zeitspanne in Minuten nach der Erzeugung eines Ereignisses, während der neue Vorwarn- und Start-Ereignisse unterdrückt werden.</Description>
+        <Group>OTRSEscalationEvents</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]+$">1440</String>
+        </Setting>
+    </ConfigItem>
+    <!-- 900-EscalationStopEvents must come after 900-EscalationIndex -->
+    <ConfigItem Name="Ticket::EventModulePost###900-EscalationStopEvents" Required="0" Valid="0">
+        <Description Lang="en">Ticket event module that triggers the escalation stop events.</Description>
+        <Description Lang="de">Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TriggerEscalationStopEvents</Item>
+                <Item Key="Event">TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|ArticleCreate</Item>
             </Hash>
         </Setting>
     </ConfigItem>

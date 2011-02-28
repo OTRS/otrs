@@ -1,20 +1,21 @@
 # --
 # Kernel/Language/en_CA.pm - provides en_CA language translation
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: en_CA.pm,v 1.6 2010-01-13 09:34:22 mb Exp $
+# $Id: en_CA.pm,v 1.7 2011-02-28 09:41:24 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 package Kernel::Language::en_CA;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -86,6 +87,15 @@ sub Data {
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'System Request (%s).',
+        'History::EscalationResponseTimeNotifyBefore' => 'Escalation response time forewarned',
+        'History::EscalationUpdateTimeNotifyBefore' => 'Escalation update time forewarned',
+        'History::EscalationSolutionTimeNotifyBefore' => 'Escalation solution time forewarned',
+        'History::EscalationResponseTimeStart' => 'Escalation response time in effect',
+        'History::EscalationUpdateTimeStart' => 'Escalation update time in effect',
+        'History::EscalationSolutionTimeStart' => 'Escalation solution time in effect',
+        'History::EscalationResponseTimeStop' => 'Escalation response time finished',
+        'History::EscalationUpdateTimeStop' => 'Escalation update time finished',
+        'History::EscalationSolutionTimeStop' => 'Escalation solution time finished',
         # There's a difference between May (short) and May (long) in some languages, not in en
         'May_long' => 'May',
         #CustomerUser fields

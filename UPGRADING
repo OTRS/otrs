@@ -2,21 +2,21 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.49 2011-01-04 15:54:48 mb Exp $
+# $Id: UPGRADING,v 1.50 2011-02-28 09:41:23 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-These instructions are for people upgrading OTRS from "2.4" to "3.0",
+These instructions are for people upgrading OTRS from "3.0" to "3.1",
 and applies both for RPM and source code (tarball) upgrades.
 
 If you are running a lower version of OTRS you have to follow the upgrade path
-to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
+to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1 ...)!
 
-If you need to do a "patch level upgrade", which is an upgrade for instance 
-from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
+If you need to do a "patch level upgrade", which is an upgrade for instance
+from OTRS version 3.1.0 to 3.1.1, you should skip steps 8, and 11.
 
 
 1) Stop all relevant services
@@ -72,8 +72,6 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
 6) Own themes
    ----------
 
-   The OTRS themes from 2.4 and 3.0 are _not_ compatible (don't use the old themes)!
-
    Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
 
 
@@ -88,36 +86,19 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
    with the permissions needed for your system setup.
 
 
-8) Apply the database changes (part 1/2):
-   --------------------------------------
+8) Apply the database changes
+   --------------------------
 
      shell> cd /opt/otrs/
 
     MySQL:
-     shell> cat scripts/DBUpdate-to-3.0.mysql.sql | mysql -p -f -u root otrs
+     shell> cat scripts/DBUpdate-to-3.1.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-     shell> cat scripts/DBUpdate-to-3.0.postgresql.sql | psql otrs
+     shell> cat scripts/DBUpdate-to-3.1.postgresql.sql | psql otrs
 
 
-9) Run the migration script (as OTRS user, _not_ as root):
-   -------------------------------------------------------
 
-   You must execute the migration script to migrate some data from the old database
-   structure to the new one. Please run
-
-     shell> scripts/DBUpdate-to-3.0.pl
-
-
-10) Apply the database changes (part 2/2):
-    --------------------------------------
-
-    MySQL:
-     shell> cat scripts/DBUpdate-to-3.0-post.mysql.sql | mysql -p -f -u root otrs
-    PostgreSQL:
-     shell> cat scripts/DBUpdate-to-3.0-post.postgresql.sql | psql otrs
-
-
-11) Refresh the configuration cache and delete caches
+9) Refresh the configuration cache and delete caches
     -------------------------------------------------
 
     Please run:
@@ -126,7 +107,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     shell> bin/otrs.DeleteCache.pl
 
 
-12) Restart your services
+10) Restart your services
     ---------------------
 
     e. g. (depends on used services):
@@ -138,89 +119,14 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     Now you can log into your system.
 
 
-13) Check for encoding issues
+11) Check for encoding issues
     -------------------------
 
-    With OTRS 3.0, the default charset of OTRS was changed from "iso-8859-1" to "utf-8".
-
-    This will only affect you if you didn't specify a charset in Kernel/Config.pm (all
-    installations that were made with the web installer have a custom setting there) or
-    if you didn't change the default charset in the AdminSysConfig.
-
-    If you experience problems with the new charset, add this line to Kernel/Config.pm:
-
-    $Self->{'DefaultCharset'} = 'iso-8859-1'; # use your previous charset setting here
-
-    In General, using "utf-8" is the recommended mode of running OTRS, and switching from
-    other charsets should work well.
-
-    Please note: We recommend to change existing non-UTF-8 installations of OTRS to UTF-8
-    with the upgrade to 3.0. All other encodings are now deprecated.
-
-    OTRS 3.1 will only allow UTF-8 as internal charset.
+    OTRS 3.1 only allow UTF-8 as internal charset.
+    Non-UTF-8 installations of OTRS must switch to UTF-8.
+    All other encodings are now deprecated.
 
 
-14) Check for Custom Frontend Module Registrations
-    ----------------------------------------------
 
-    Starting with OTRS 3.0, application modules may have their own special CSS and/or
-    JavaScript. This is part of the so-called frontend module registration of the
-    modules in the SysConfig. This may cause problems during the upgrade, because
-    locally modified frontend module configuration settings will not catch the updates
-    of the new default configuration.
-
-    To check if you are affected, please look at the file Kernel/Config/Files/ZZZAuto.pm
-    and look for entries like
-
-    $Self->{'Frontend::Module'}->{'AgentStats'} = { ... };
-
-    These settings should be reset to their default value in Admin -> SysConfig
-    (in this case: 'Frontend::Module###AgentStats') with the little "Reset" button
-    next to the "Active" checkbox. Then the settings will be reset with the new
-    module-specific settings and no longer show up in
-    Kernel/Config/Files/ZZZAuto.pm. After this procedure, you may customize these
-    settings again, if needed.
-
-    The same procedure must be executed for the setting
-    "Frontend::ToolBarModule###1-Ticket::TicketSearchFulltext", as this now also uses
-    module specific CSS. If this setting is not activated on your system, you can
-    safely omit this step.
-
-
-15) Customer Database Backend Field Renaming
-    ----------------------------------------
-
-    The field 'salutation' in the built-in customer database has been renamed to
-    the more appropriate 'title'. If you are using the built-in database data
-    source for customers, and you have changed the configuration, for instance
-    because you've added fields to the customer table, or because you've enabled
-    Customer Company support, you should change the mapping in your Kernel/Config.pm:
-
-    Change this line:
-
-     [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var', '', 0 ],
-
-    to:
-
-     [ 'UserTitle',      'Title',      'title',      1, 0, 'var', '', 0 ],
-
-    Please note that this can also affect any salutations or other templates
-    where you've used the string <OTRS_*_UserSalutation>. If you have used this
-    string AND you use the built-in customer table, please replace it with 
-    <OTRS_CURRENT_UserTitle> instead.
-
-16) Optional: Mark Tickets as Read
-    ------------------------------
-
-    In OTRS 3.0 there is a new feature: new tickets and new articles which an Agent
-    did not read yet are highlighted as 'unread'. For all tickets which were created
-    before the upgrade to OTRS 3.0, the 'read' information is missing, and therefore
-    these tickets will be marked as 'unread'. If this bothers you, you can use a script
-    to set all tickets and articles as read for all agents which have read permissions
-    for these tickets. Note that this script may run for a while!
-
-    shell> bin/otrs.MarkTicketAsSeen.pl
-
-
-17) Well done!
+12) Well done!
     ----------

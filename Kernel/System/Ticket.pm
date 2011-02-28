@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.490 2011-02-18 11:42:14 bes Exp $
+# $Id: Ticket.pm,v 1.491 2011-02-28 09:41:24 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.490 $) [1];
+$VERSION = qw($Revision: 1.491 $) [1];
 
 =head1 NAME
 
@@ -1700,11 +1700,12 @@ sub TicketQueueSet {
         }
     }
 
-    # trigger event
+    # trigger event, OldTicketData is needed for escalation events
     $Self->EventHandler(
         Event => 'TicketQueueUpdate',
         Data  => {
-            TicketID => $Param{TicketID},
+            TicketID      => $Param{TicketID},
+            OldTicketData => \%Ticket,
         },
         UserID => $Param{UserID},
     );
@@ -2729,11 +2730,12 @@ sub TicketSLASet {
         CreateUserID => $Param{UserID},
     );
 
-    # trigger event
+    # trigger event, OldTicketData is needed for escalation events
     $Self->EventHandler(
         Event => 'TicketSLAUpdate',
         Data  => {
-            TicketID => $Param{TicketID},
+            TicketID      => $Param{TicketID},
+            OldTicketData => \%Ticket,
         },
         UserID => $Param{UserID},
     );
@@ -5557,11 +5559,12 @@ sub TicketStateSet {
         CreateUserID => $Param{UserID},
     );
 
-    # trigger event
+    # trigger event, OldTicketData is needed for escalation events
     $Self->EventHandler(
         Event => 'TicketStateUpdate',
         Data  => {
-            TicketID => $Param{TicketID},
+            TicketID      => $Param{TicketID},
+            OldTicketData => \%Ticket,
         },
         UserID => $Param{UserID},
     );
@@ -8435,6 +8438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.490 $ $Date: 2011-02-18 11:42:14 $
+$Revision: 1.491 $ $Date: 2011-02-28 09:41:24 $
 
 =cut

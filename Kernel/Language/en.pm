@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/en.pm - provides en_US languag translation
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.37 2010-10-11 16:03:07 mg Exp $
+# $Id: en.pm,v 1.38 2011-02-28 09:41:24 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -78,6 +78,15 @@ sub Data {
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'System Request (%s).',
+        'History::EscalationResponseTimeNotifyBefore' => 'Escalation response time forewarned',
+        'History::EscalationUpdateTimeNotifyBefore' => 'Escalation update time forewarned',
+        'History::EscalationSolutionTimeNotifyBefore' => 'Escalation solution time forewarned',
+        'History::EscalationResponseTimeStart' => 'Escalation response time in effect',
+        'History::EscalationUpdateTimeStart' => 'Escalation update time in effect',
+        'History::EscalationSolutionTimeStart' => 'Escalation solution time in effect',
+        'History::EscalationResponseTimeStop' => 'Escalation response time finished',
+        'History::EscalationUpdateTimeStop' => 'Escalation update time finished',
+        'History::EscalationSolutionTimeStop' => 'Escalation solution time finished',
         #CustomerUser fields
         'Title{CustomerUser}' => 'Title',
         'Firstname{CustomerUser}' => 'First name',

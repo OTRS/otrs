@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.274 2011-01-21 21:39:14 dz Exp $
+# $Id: Article.pm,v 1.275 2011-02-28 09:41:24 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.274 $) [1];
+$VERSION = qw($Revision: 1.275 $) [1];
 
 =head1 NAME
 
@@ -151,6 +151,9 @@ sub ArticleCreate {
             $Param{MimeType} =~ s/"|'//g;
         }
     }
+
+    # for the event handler, before any actions have taken place
+    my %OldTicketData = $Self->TicketGet( TicketID => $Param{TicketID} );
 
     # add 'no body' if there is no body there!
     my @AttachmentConvert;
@@ -292,8 +295,9 @@ sub ArticleCreate {
     $Self->EventHandler(
         Event => 'ArticleCreate',
         Data  => {
-            ArticleID => $ArticleID,
-            TicketID  => $Param{TicketID},
+            ArticleID     => $ArticleID,
+            TicketID      => $Param{TicketID},
+            OldTicketData => \%OldTicketData,
         },
         UserID => $Param{UserID},
     );
@@ -3348,6 +3352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.274 $ $Date: 2011-01-21 21:39:14 $
+$Revision: 1.275 $ $Date: 2011-02-28 09:41:24 $
 
 =cut

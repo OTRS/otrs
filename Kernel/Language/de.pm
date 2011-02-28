@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.266 2011-02-16 14:15:47 mn Exp $
+# $Id: de.pm,v 1.267 2011-02-28 09:41:23 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.266 $) [1];
+$VERSION = qw($Revision: 1.267 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -719,6 +719,15 @@ sub Data {
         'History::Unsubscribe' => 'Abo für Benutzer "%s" ausgetragen.',
         'History::SystemRequest' => 'Systemanfrage (%s).',
         'History::ResponsibleUpdate' => 'Neuer Verantwortlicher ist "%s" (ID=%s).',
+        'History::EscalationResponseTimeNotifyBefore' => 'Escalation Reaktionszeit vorgewarnt',
+        'History::EscalationUpdateTimeNotifyBefore' => 'Escalation Aktualisierungszeit vorgewarnt',
+        'History::EscalationSolutionTimeNotifyBefore' => 'Escalation Lösungszeit vorgewarnt',
+        'History::EscalationResponseTimeStart' => 'Escalation Reaktionszeit eingetreten',
+        'History::EscalationUpdateTimeStart' => 'Escalation Aktualisierungszeit eingetreten',
+        'History::EscalationSolutionTimeStart' => 'Escalation Lösungszeit eingetreten',
+        'History::EscalationResponseTimeStop' => 'Escalation Reaktionszeit beendet',
+        'History::EscalationUpdateTimeStop' => 'Escalation Aktualisierungszeit beendet',
+        'History::EscalationSolutionTimeStop' => 'Escalation Lösungszeit beendet',
 
         # Template: AAAWeekDay
         'Sun' => 'So',
