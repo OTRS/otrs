@@ -2,7 +2,7 @@
 # ObjectLockState.t - ObjectLockState tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.t,v 1.1 2011-02-28 11:32:25 mg Exp $
+# $Id: ObjectLockState.t,v 1.2 2011-02-28 13:10:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,7 @@ my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->n
 
 my $RandomNumber     = int rand(10000000);
 my $CustomObjectType = "TestObject$RandomNumber";
+my $Success;
 
 # add config
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -40,74 +41,86 @@ $Self->True(
     "WebserviceAdd()",
 );
 
-my $Success = $ObjectLockStateObject->ObjectLockStateSet(
-    WebserviceID     => $WebserviceID,
-    ObjectType       => $CustomObjectType,
-    ObjectID         => $RandomNumber,
-    LockState        => 'locked',
-    LockStateCounter => 0,
-);
+sub StateSet {
 
-$Self->True(
-    $Success,
-    'ObjectLockStateSet() for new entry',
-);
-
-my $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
-    WebserviceID => $WebserviceID,
-    ObjectType   => $CustomObjectType,
-    ObjectID     => $RandomNumber,
-);
-
-my %Check = (
-    ObjectType       => $CustomObjectType,
-    ObjectID         => $RandomNumber,
-    LockState        => 'locked',
-    LockStateCounter => 0,
-);
-
-for my $Key ( sort keys %Check ) {
-    $Self->Is(
-        $ObjectLockState->{$Key},
-        $Check{$Key},
-        "ObjectLockStateGet() $Key for new entry",
+    # set initial
+    $Success = $ObjectLockStateObject->ObjectLockStateSet(
+        WebserviceID     => $WebserviceID,
+        ObjectType       => $CustomObjectType,
+        ObjectID         => $RandomNumber,
+        LockState        => 'locked',
+        LockStateCounter => 0,
     );
+
+    $Self->True(
+        $Success,
+        'ObjectLockStateSet() for new entry',
+    );
+
+    # get data
+    my $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
+        WebserviceID => $WebserviceID,
+        ObjectType   => $CustomObjectType,
+        ObjectID     => $RandomNumber,
+    );
+
+    my %Check = (
+        ObjectType       => $CustomObjectType,
+        ObjectID         => $RandomNumber,
+        LockState        => 'locked',
+        LockStateCounter => 0,
+    );
+
+    for my $Key ( sort keys %Check ) {
+        $Self->Is(
+            $ObjectLockState->{$Key},
+            $Check{$Key},
+            "ObjectLockStateGet() $Key for new entry",
+        );
+    }
+
+    # update
+    $Success = $ObjectLockStateObject->ObjectLockStateSet(
+        WebserviceID     => $WebserviceID,
+        ObjectType       => $CustomObjectType,
+        ObjectID         => $RandomNumber,
+        LockState        => 'locked2',
+        LockStateCounter => 3,
+    );
+
+    $Self->True(
+        $Success,
+        'ObjectLockStateSet() for existing entry',
+    );
+
+    # get data
+    $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
+        WebserviceID => $WebserviceID,
+        ObjectType   => $CustomObjectType,
+        ObjectID     => $RandomNumber,
+    );
+
+    %Check = (
+        ObjectType       => $CustomObjectType,
+        ObjectID         => $RandomNumber,
+        LockState        => 'locked2',
+        LockStateCounter => 3,
+    );
+
+    for my $Key ( sort keys %Check ) {
+        $Self->Is(
+            $ObjectLockState->{$Key},
+            $Check{$Key},
+            "ObjectLockStateGet() $Key for existing entry",
+        );
+    }
+
+    return;
 }
 
-$Success = $ObjectLockStateObject->ObjectLockStateSet(
-    WebserviceID     => $WebserviceID,
-    ObjectType       => $CustomObjectType,
-    ObjectID         => $RandomNumber,
-    LockState        => 'locked2',
-    LockStateCounter => 3,
-);
+StateSet();
 
-$Self->True(
-    $Success,
-    'ObjectLockStateSet() for existing entry',
-);
-
-$ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
-    WebserviceID => $WebserviceID,
-    ObjectType   => $CustomObjectType,
-    ObjectID     => $RandomNumber,
-);
-
-%Check = (
-    ObjectType       => $CustomObjectType,
-    ObjectID         => $RandomNumber,
-    LockState        => 'locked2',
-    LockStateCounter => 3,
-);
-
-for my $Key ( sort keys %Check ) {
-    $Self->Is(
-        $ObjectLockState->{$Key},
-        $Check{$Key},
-        "ObjectLockStateGet() $Key for existing entry",
-    );
-}
-
+# check list
 my $ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
     WebserviceID => $WebserviceID,
     ObjectType   => $CustomObjectType,
@@ -120,6 +133,13 @@ $Self->Is(
     "ObjectLockStateList() for ObjectType",
 );
 
+my %Check = (
+    ObjectType       => $CustomObjectType,
+    ObjectID         => $RandomNumber,
+    LockState        => 'locked2',
+    LockStateCounter => 3,
+);
+
 for my $Key ( sort keys %Check ) {
     $Self->Is(
         $ObjectLockStates->[0]->{$Key},
@@ -128,6 +148,7 @@ for my $Key ( sort keys %Check ) {
     );
 }
 
+# delete first time
 $Success = $ObjectLockStateObject->ObjectLockStateDelete(
     WebserviceID => $WebserviceID,
     ObjectType   => $CustomObjectType,
@@ -139,6 +160,56 @@ $Self->True(
     'ObjectLockStateDelete() for existing entry',
 );
 
+# check
+my $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
+);
+
+$Self->False(
+    scalar %{$ObjectLockState},
+    "ObjectLockStateGet() for deleted entry",
+);
+
+# check list
+$ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
+);
+
+$Self->Is(
+    scalar @{$ObjectLockStates},
+    0,
+    "ObjectLockStateList() for ObjectType",
+);
+
+# delete second time - fail
+$Success = $ObjectLockStateObject->ObjectLockStateDelete(
+    WebserviceID => $WebserviceID,
+    ObjectType   => $CustomObjectType,
+    ObjectID     => $RandomNumber,
+);
+
+$Self->False(
+    defined $Success,
+    'ObjectLockStateDelete() for deleted entry',
+);
+
+StateSet();
+
+# purge
+$Success = $ObjectLockStateObject->ObjectLockStatePurge(
+    WebserviceID => $WebserviceID,
+);
+
+$Self->True(
+    $Success,
+    'ObjectLockStatePurge() for existing entry',
+);
+
+# check
 $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
     WebserviceID => $WebserviceID,
     ObjectType   => $CustomObjectType,
@@ -150,16 +221,22 @@ $Self->False(
     "ObjectLockStateGet() for deleted entry",
 );
 
-$Success = $ObjectLockStateObject->ObjectLockStateDelete(
+# check list
+$ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
     WebserviceID => $WebserviceID,
     ObjectType   => $CustomObjectType,
     ObjectID     => $RandomNumber,
 );
 
-$Self->False(
-    defined $Success,
-    'ObjectLockStateDelete() for deleted entry',
+$Self->Is(
+    scalar @{$ObjectLockStates},
+    0,
+    "ObjectLockStateList() for ObjectType",
 );
+
+# Add entries again to check that WebserviceDelete() still works,
+#   deleting all remaining entries.
+StateSet();
 
 # delete config
 $Success = $WebserviceObject->WebserviceDelete(
