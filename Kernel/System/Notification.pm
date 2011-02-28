@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.36 2010-06-17 21:39:40 cr Exp $
+# $Id: Notification.pm,v 1.37 2011-02-28 18:36:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -220,9 +220,6 @@ sub NotificationList {
     my %List;
     for my $Language ( keys %Languages ) {
 
-        # show only 'en' and not en_*
-        next if $Language =~ /^en_.+?$/;
-
         for my $Type ( keys %Types ) {
             $List{ $Language . '::' . $Type } = $Language . '::' . $Type;
         }
@@ -235,9 +232,6 @@ sub NotificationList {
     );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-
-        # show only 'en' and not en_*
-        next if $Data[3] =~ /^en_.+?$/;
 
         # do not use customer notifications this way anymore (done by notification event now)
         next if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
@@ -317,6 +311,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.37 $ $Date: 2011-02-28 18:36:57 $
 
 =cut
