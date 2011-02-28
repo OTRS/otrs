@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/ObjectLockState.pm - backend for lock state handling
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.pm,v 1.1 2011-02-28 11:32:25 mg Exp $
+# $Id: ObjectLockState.pm,v 1.2 2011-02-28 12:36:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -116,7 +116,7 @@ sub ObjectLockStateSet {
     }
 
     # create new
-    if ( !%{ $Self->ObjectLockStateGet(%Param) } ) {
+    if ( !%{ $Self->ObjectLockStateGet(%Param) || {} } ) {
         return if !$Self->{DBObject}->Do(
             SQL => '
                 INSERT INTO gi_object_lock_state
@@ -246,7 +246,7 @@ sub ObjectLockStateDelete {
         }
     }
 
-    return if ( !%{ $Self->ObjectLockStateGet(%Param) } );
+    return if ( !%{ $Self->ObjectLockStateGet(%Param) || {} } );
 
     # delete web service
     return if !$Self->{DBObject}->Do(
@@ -362,6 +362,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-02-28 11:32:25 $
+$Revision: 1.2 $ $Date: 2011-02-28 12:36:49 $
 
 =cut
