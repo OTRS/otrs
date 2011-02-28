@@ -1,8 +1,8 @@
 # --
-# DB-underscore.t - database tests using underscores
+# Underscore.t - database tests using underscores
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB-underscore.t,v 1.1 2011-02-25 19:30:07 en Exp $
+# $Id: Underscore.t,v 1.1 2011-02-28 08:58:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
