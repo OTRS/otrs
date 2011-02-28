@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-02-17 15:21:21
+--  driver: postgresql, generated: 2011-02-28 16:04:30
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1228,3 +1228,17 @@ CREATE TABLE gi_debugger_entry_content (
 );
 CREATE INDEX gi_debugger_entry_content_create_time ON gi_debugger_entry_content (create_time);
 CREATE INDEX gi_debugger_entry_content_debug_level ON gi_debugger_entry_content (debug_level);
+-- ----------------------------------------------------------
+--  create table gi_object_lock_state
+-- ----------------------------------------------------------
+CREATE TABLE gi_object_lock_state (
+    webservice_id INTEGER NOT NULL,
+    object_type VARCHAR (30) NOT NULL,
+    object_id INTEGER NOT NULL,
+    lock_state VARCHAR (30) NOT NULL,
+    lock_state_counter INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    CONSTRAINT gi_object_lock_state_U_765 UNIQUE (webservice_id, object_type, object_id)
+);
+CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);

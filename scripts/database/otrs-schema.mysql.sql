@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-17 15:21:21
+#  driver: mysql, generated: 2011-02-28 16:04:29
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1227,4 +1227,18 @@ CREATE TABLE gi_debugger_entry_content (
     PRIMARY KEY(id),
     INDEX gi_debugger_entry_content_create_time (create_time),
     INDEX gi_debugger_entry_content_debug_level (debug_level)
+);
+# ----------------------------------------------------------
+#  create table gi_object_lock_state
+# ----------------------------------------------------------
+CREATE TABLE gi_object_lock_state (
+    webservice_id INTEGER NOT NULL,
+    object_type VARCHAR (30) NOT NULL,
+    object_id BIGINT NOT NULL,
+    lock_state VARCHAR (30) NOT NULL,
+    lock_state_counter INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL,
+    UNIQUE INDEX gi_object_lock_state_U_850 (webservice_id, object_type, object_id),
+    INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );

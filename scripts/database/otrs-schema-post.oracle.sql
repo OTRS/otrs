@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-22 11:11:22
+--  driver: oracle, generated: 2011-02-28 16:04:29
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -198,3 +198,4 @@ ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_histeb FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT FK_gi_debugger_entry_webserv66 FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_content3b FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry (id);
+ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_websbe FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
