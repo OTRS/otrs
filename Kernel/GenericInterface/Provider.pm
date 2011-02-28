@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.17 2011-02-21 11:19:52 mg Exp $
+# $Id: Provider.pm,v 1.18 2011-02-28 12:12:02 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -111,7 +111,7 @@ sub Run {
         ID => $WebserviceID,
     );
 
-    if ( ref $Webservice ne 'HASH' ) {
+    if ( !IsHashRefWithData($Webservice) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not load web service configuration for web service $WebserviceID",
@@ -126,7 +126,7 @@ sub Run {
     #
 
     $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-        %$Self,
+        %{$Self},
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Provider',
@@ -148,7 +148,7 @@ sub Run {
     my $ProviderConfig = $Webservice->{Config}->{Provider};
 
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
-        %$Self,
+        %{$Self},
         TransportConfig => $ProviderConfig->{Transport},
     );
 
@@ -196,7 +196,7 @@ sub Run {
         )
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
-            %$Self,
+            %{$Self},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
@@ -231,7 +231,7 @@ sub Run {
     #
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
-        %$Self,
+        %{$Self},
         OperationType => $ProviderConfig->{Operation}->{$Operation}->{Type},
     );
 
@@ -271,7 +271,7 @@ sub Run {
         )
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
-            %$Self,
+            %{$Self},
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
@@ -364,6 +364,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-02-21 11:19:52 $
+$Revision: 1.18 $ $Date: 2011-02-28 12:12:02 $
 
 =cut
