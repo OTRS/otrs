@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.1 2011-02-24 14:44:29 cg Exp $
+# $Id: WebserviceConfig.t,v 1.2 2011-02-28 15:32:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,8 +62,8 @@ my @Tests = (
     },
     {
         Name       => 'test 7',
-        ParamsAdd  => "-a write -n webservice_7 -f /this/isa/false/path/tofile",
-        FileAdd    => '',
+        ParamsAdd  => "-a write -n webservice_7 -f ",
+        FileAdd    => '/this/isa/false/path/tofile',
         SuccessAdd => 0,
     },
     {
@@ -86,7 +86,8 @@ my @Tests = (
     },
     {
         Name       => 'test 11',
-        ParamsAdd  => "-a write -i 25 -f /this/isa/false/path/tofile",
+        ParamsAdd  => "-a write -i 25 -f ",
+        FileAdd    => '/this/isa/false/path/tofile',
         SuccessAdd => 0,
     },
     {
@@ -147,7 +148,7 @@ for my $Test (@Tests) {
 
     # add
     my $WebserviceConfigResult
-        = `$WebserviceConfig $Test->{ParamsAdd}$Test->{FileAdd}`;
+        = `$WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}`;
 
     if ( !$Test->{SuccessAdd} ) {
         $Self->True(
@@ -178,7 +179,7 @@ for my $Test (@Tests) {
             $WebserviceConfigResult,
             "$Test->{Name} - Webservice Read",
         );
-
+        next;
     }
     else {
         $Self->True(
@@ -225,5 +226,22 @@ $Self->Is(
     scalar @WebserviceIDs,
     "Final Test - Webservice List",
 );
+
+# delete Webservices
+for my $WebserviceID (@WebserviceIDs) {
+    my $WebserviceConfigDelete
+        = `$WebserviceConfig -a delete -i $WebserviceID`;
+    $Self->True(
+        $WebserviceConfigDelete,
+        "Webservice Delete ID: $WebserviceID",
+    );
+
+    $WebserviceConfigDelete
+        = `$WebserviceConfig -a delete -i $WebserviceID`;
+    $Self->False(
+        $WebserviceConfigDelete,
+        "Webservice Delete ID: $WebserviceID",
+    );
+}
 
 1;
