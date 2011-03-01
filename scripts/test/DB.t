@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.77.2.2 2011-02-25 08:31:27 mg Exp $
+# $Id: DB.t,v 1.77.2.3 2011-03-01 12:56:51 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1126,11 +1126,14 @@ for my $Character (@SpecialCharacters) {
     $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
 
     # proof of concept that oracle needs special treatment
-    # with undescores in LIKE argument, it always needs the ESCAPE parameter
+    # with underscores in LIKE argument, it always needs the ESCAPE parameter
     # if you want to search for a literal _ (underscore)
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
-        $SQL .= q{ ESCAPE '\'};
-    }
+    # get like escape string needed for some databases (e.g. oracle)
+    # this does no harm for other databases, so it should always be used where
+    # a LIKE search is used
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+    $SQL .= $LikeEscapeString;
+
     $Result = $Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Limit => 1,
