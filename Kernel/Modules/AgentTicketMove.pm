@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.80 2011-02-18 12:01:29 mb Exp $
+# $Id: AgentTicketMove.pm,v 1.81 2011-03-01 09:49:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -827,8 +827,11 @@ sub Run {
         UserID   => $Self->{UserID}
     );
 
-    # redirect to last overview if we do not have ro permissions anymore
-    if ( !$AccessNew ) {
+    my $NextScreen = $Self->{Config}->{NextScreen} || 'LastScreenView';
+
+    # redirect to last overview if we do not have ro permissions anymore,
+    # or if SysConfig option is set.
+    if ( !$AccessNew || $NextScreen eq 'LastScreenOverview' ) {
 
         # Module directly called
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'form' ) {
