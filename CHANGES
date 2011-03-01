@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1788 2011-03-01 09:50:03 mb Exp $
+# $Id: CHANGES,v 1.1789 2011-03-01 18:10:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-02-28 Fixed bug#6961. TicketActionsPerTicket - Buttons not localized.
  - 2011-03-01 Added feature bug#6977 - Next Screen after AgentTicketMove should
     be configurable.
  - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
@@ -37,6 +38,7 @@
     of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-02-28 Fixed bug#6961. TicketActionsPerTicket - Buttons not localized.
  - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
  - 2011-02-28 Fixed bug#6974 - Ticket Search does not find tickets if searching by
     in between 2 dates, and the ticket time is 00:00:00.
