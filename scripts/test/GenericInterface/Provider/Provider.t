@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.5 2011-02-21 11:19:52 mg Exp $
+# $Id: Provider.t,v 1.6 2011-03-01 09:05:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,91 +247,91 @@ for my $Test (@Tests) {
         "$Test->{Name} WebserviceAdd()",
     );
 
-    #
-    # Test with IO redirection, no real HTTP request
-    #
-    for my $RequestMethod (qw(get post)) {
-
-        my $RequestData  = '';
-        my $ResponseData = '';
-
-        {
-            local %ENV;
-
-            if ( $RequestMethod eq 'post' ) {
-
-                # prepare CGI environment variables
-                $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID";
-                $ENV{REQUEST_METHOD} = 'POST';
-                $RequestData = $Self->_CreateQueryString(
-                    Data   => $Test->{RequestData},
-                    Encode => 0,
-                );
-                use bytes;
-                $ENV{CONTENT_LENGTH} = length($RequestData);
-            }
-            else {    # GET
-
-                # prepare CGI environment variables
-                $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID?$Test->{RequestData}";
-                $ENV{QUERY_STRING} = $Self->_CreateQueryString(
-                    Data   => $Test->{RequestData},
-                    Encode => 1,
-                );
-                $ENV{REQUEST_METHOD} = 'GET';
-            }
-
-            $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
-
-            # redirect STDIN from String so that the transport layer will use this data
-            local *STDIN;
-            open STDIN, '<:utf8', \$RequestData;
-
-            # redirect STDOUT from String so that the transport layer will write there
-            local *STDOUT;
-            open STDOUT, '>:utf8', \$ResponseData;
-
-            # reset CGI object from previous runs
-            CGI::initialize_globals();
-
-            $ProviderObject->Run();
-        }
-
-        if ( $Test->{ResponseSuccess} ) {
-
-            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
-                if ( $Test->{ResponseData}->{$Key} ) {
-                    $QueryStringPart
-                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
-                }
-
-                $Self->True(
-                    index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
-                );
-            }
-
-            $Self->True(
-                index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                "$Test->{Name} Run() HTTP $RequestMethod result success status",
-            );
-        }
-        else {
-
-            # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-            #   because the transport object was not yet initialized. In these cases, apache will
-            #   generate this response, but here we do not use apache.
-            if ( !$Test->{EarlyError} ) {
-                $Self->True(
-                    index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                    "$Test->{Name} Run() HTTP $RequestMethod result error status",
-                );
-            }
-        }
-    }
+#    #
+#    # Test with IO redirection, no real HTTP request
+#    #
+#    for my $RequestMethod (qw(get post)) {
+#
+#        my $RequestData  = '';
+#        my $ResponseData = '';
+#
+#        {
+#            local %ENV;
+#
+#            if ( $RequestMethod eq 'post' ) {
+#
+#                # prepare CGI environment variables
+#                $ENV{REQUEST_URI}
+#                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID";
+#                $ENV{REQUEST_METHOD} = 'POST';
+#                $RequestData = $Self->_CreateQueryString(
+#                    Data   => $Test->{RequestData},
+#                    Encode => 0,
+#                );
+#                use bytes;
+#                $ENV{CONTENT_LENGTH} = length($RequestData);
+#            }
+#            else {    # GET
+#
+#                # prepare CGI environment variables
+#                $ENV{REQUEST_URI}
+#                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID?$Test->{RequestData}";
+#                $ENV{QUERY_STRING} = $Self->_CreateQueryString(
+#                    Data   => $Test->{RequestData},
+#                    Encode => 1,
+#                );
+#                $ENV{REQUEST_METHOD} = 'GET';
+#            }
+#
+#            $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
+#
+#            # redirect STDIN from String so that the transport layer will use this data
+#            local *STDIN;
+#            open STDIN, '<:utf8', \$RequestData;
+#
+#            # redirect STDOUT from String so that the transport layer will write there
+#            local *STDOUT;
+#            open STDOUT, '>:utf8', \$ResponseData;
+#
+#            # reset CGI object from previous runs
+#            CGI::initialize_globals();
+#
+#            $ProviderObject->Run();
+#        }
+#
+#        if ( $Test->{ResponseSuccess} ) {
+#
+#            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+#                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+#                if ( $Test->{ResponseData}->{$Key} ) {
+#                    $QueryStringPart
+#                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+#                }
+#
+#                $Self->True(
+#                    index( $ResponseData, $QueryStringPart ) > -1,
+#                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
+#                );
+#            }
+#
+#            $Self->True(
+#                index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
+#                "$Test->{Name} Run() HTTP $RequestMethod result success status",
+#            );
+#        }
+#        else {
+#
+#            # If an early error occurred, GI cannot generate a valid HTTP error response yet,
+#            #   because the transport object was not yet initialized. In these cases, apache will
+#            #   generate this response, but here we do not use apache.
+#            if ( !$Test->{EarlyError} ) {
+#                $Self->True(
+#                    index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
+#                    "$Test->{Name} Run() HTTP $RequestMethod result error status",
+#                );
+#            }
+#        }
+#    }
 
     #
     # Test real HTTP request
