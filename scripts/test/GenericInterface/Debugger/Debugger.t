@@ -2,7 +2,7 @@
 # Debugger.t - GenericInterface debugger tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.t,v 1.7 2011-02-18 08:59:08 mg Exp $
+# $Id: Debugger.t,v 1.8 2011-03-01 23:59:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,5 +211,168 @@ $Self->True(
     $Success,
     "WebserviceDelete()",
 );
+
+# Extra tests for check values in DB
+#debug|info|notice|error
+my @Tests = (
+    {
+        Name              => 'Test 1',
+        DebugThreshold    => 'debug',
+        CommunicationType => 'Provider',
+        SuccessDebug      => '1',
+        SuccessInfo       => '1',
+        SuccessNotice     => '1',
+        SuccessError      => '1',
+        Summary           => 'log Summary',
+        Data              => 'specific information',
+    },
+    {
+        Name              => 'Test 2',
+        DebugThreshold    => 'info',
+        CommunicationType => 'Provider',
+        SuccessDebug      => '0',
+        SuccessInfo       => '1',
+        SuccessNotice     => '1',
+        SuccessError      => '1',
+        Summary           => 'log Summary',
+        Data              => 'specific information',
+    },
+    {
+        Name              => 'Test 3',
+        DebugThreshold    => 'notice',
+        CommunicationType => 'Provider',
+        SuccessDebug      => '0',
+        SuccessInfo       => '0',
+        SuccessNotice     => '1',
+        SuccessError      => '1',
+        Summary           => 'log Summary',
+        Data              => 'specific information',
+    },
+    {
+        Name              => 'Test 4',
+        DebugThreshold    => 'error',
+        CommunicationType => 'Provider',
+        SuccessDebug      => '0',
+        SuccessInfo       => '0',
+        SuccessNotice     => '0',
+        SuccessError      => '1',
+        Summary           => 'log Summary',
+        Data              => 'specific information',
+    },
+);
+
+#my @DebugLogIDs;
+for my $Test (@Tests) {
+    my $SuccessCounter = 0;
+
+    # create a Webservice
+    my $RandomID         = $HelperObject->GetRandomID();
+    my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+    my $WebserviceID = $WebserviceObject->WebserviceAdd(
+        Config  => {},
+        Name    => "$RandomID webservice",
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    $Self->True(
+        $WebserviceID,
+        "WebserviceAdd()",
+    );
+
+    # debugger object
+    $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        %{$Self},
+        DebuggerConfig => {
+            DebugThreshold => $Test->{DebugThreshold},
+            TestMode       => 0,
+        },
+        WebserviceID      => $WebserviceID,
+        CommunicationType => $Test->{CommunicationType},
+    );
+
+    for my $DebugLevel (qw( Debug Info Notice Error )) {
+        $Result = $DebuggerObject->$DebugLevel(
+            Summary => $Test->{Summary} . $DebugLevel,
+            Data    => $Test->{Data} . $DebugLevel,
+        ) || 0;
+        $SuccessCounter++ if $Test->{"Success$DebugLevel"};
+    }
+
+    # test LogGetWithData
+    my $LogData = $DebuggerObject->{DebugLogObject}->LogGetWithData(
+        CommunicationID => $DebuggerObject->{CommunicationID},
+    );
+    $Self->Is(
+        ref $LogData,
+        'HASH',
+        "$Test->{Name} - LogGetWithData()",
+    );
+    $Self->Is(
+        ref $LogData->{Data},
+        'ARRAY',
+        "$Test->{Name} - LogGetWithData() - Data",
+    );
+
+    $Self->Is(
+        $LogData->{CommunicationID},
+        $DebuggerObject->{CommunicationID},
+        "$Test->{Name} - LogGet() - CommunicationID",
+    );
+    $Self->Is(
+        $LogData->{WebserviceID},
+        $WebserviceID,
+        "$Test->{Name} - LogGet() - WebserviceID",
+    );
+    $Self->Is(
+        $LogData->{CommunicationType},
+        $Test->{CommunicationType},
+        "$Test->{Name} - LogGet() - CommunicationType",
+    );
+
+    my $Counter = 0;
+    for my $DebugLevel (qw( Debug Info Notice Error )) {
+        my $AuxData        = $Test->{Data} . $DebugLevel,
+            my $AuxSummary = $Test->{Summary} . $DebugLevel;
+        my $AuxDebugLevel = $DebugLevel;
+        for my $DataFromDB ( @{ $LogData->{Data} } ) {
+            if (
+                $DataFromDB->{Data}       eq $AuxData &&
+                $DataFromDB->{Summary}    eq $AuxSummary &&
+                $DataFromDB->{DebugLevel} eq lc $AuxDebugLevel
+                )
+            {
+                $Counter++;
+            }
+        }
+    }
+
+    $Self->Is(
+        scalar @{ $LogData->{Data} },
+        $SuccessCounter,
+        "$Test->{Name} - Expected entries compared with entries from DB.",
+    );
+
+    $Self->Is(
+        scalar @{ $LogData->{Data} },
+        $Counter,
+        "$Test->{Name} - Compare entries from DB with expected data.",
+    );
+
+    # delete config
+    my $Success = $WebserviceObject->WebserviceDelete(
+        ID     => $WebserviceID,
+        UserID => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "WebserviceDelete()",
+    );
+
+}
+
+# end tests
 
 1;
