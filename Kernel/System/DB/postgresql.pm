@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.57.2.2 2011-02-25 07:51:23 martin Exp $
+# $Id: postgresql.pm,v 1.57.2.3 2011-03-01 19:17:30 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57.2.2 $) [1];
+$VERSION = qw($Revision: 1.57.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,14 +31,16 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}            = 'limit';
-    $Self->{'DB::DirectBlob'}       = 0;
-    $Self->{'DB::QuoteSingle'}      = '\'';
-    $Self->{'DB::QuoteBack'}        = '\\';
-    $Self->{'DB::QuoteSemicolon'}   = '\\';
-    $Self->{'DB::QuoteUnderscore'}  = '\\\\';
-    $Self->{'DB::CaseInsensitive'}  = 0;
-    $Self->{'DB::LikeEscapeString'} = '';
+    $Self->{'DB::Limit'}                = 'limit';
+    $Self->{'DB::DirectBlob'}           = 0;
+    $Self->{'DB::QuoteSingle'}          = '\'';
+    $Self->{'DB::QuoteBack'}            = '\\';
+    $Self->{'DB::QuoteSemicolon'}       = '\\';
+    $Self->{'DB::QuoteUnderscore'}      = '\\\\';
+    $Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
+    $Self->{'DB::QuoteUnderscoreEnd'}   = '';
+    $Self->{'DB::CaseInsensitive'}      = 0;
+    $Self->{'DB::LikeEscapeString'}     = '';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
@@ -91,8 +93,9 @@ sub Quote {
             # at the end of a pattern: "LIKE pattern must not end with escape character"
             ${$Text} =~ s{ \A ( \\+ ) \z }{$1%}xms;
 
-            if ( $Self->{'DB::QuoteUnderscore'} ) {
-                ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
+            if ( $Self->{'DB::QuoteUnderscoreStart'} || $Self->{'DB::QuoteUnderscoreEnd'} ) {
+                ${$Text}
+                    =~ s/_/$Self->{'DB::QuoteUnderscoreStart'}_$Self->{'DB::QuoteUnderscoreEnd'}/g;
             }
         }
     }

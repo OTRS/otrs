@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.55.2.3 2011-02-25 19:40:30 en Exp $
+# $Id: mssql.pm,v 1.55.2.4 2011-03-01 19:17:30 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.3 $) [1];
+$VERSION = qw($Revision: 1.55.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,6 +36,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSingle'}          = '\'';
     $Self->{'DB::QuoteBack'}            = 0;
     $Self->{'DB::QuoteSemicolon'}       = '';
+    $Self->{'DB::QuoteUnderscore'}      = '';
     $Self->{'DB::QuoteUnderscoreStart'} = '[';
     $Self->{'DB::QuoteUnderscoreEnd'}   = ']';
     $Self->{'DB::CaseInsensitive'}      = 1;
