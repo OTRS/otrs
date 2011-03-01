@@ -2,7 +2,7 @@
 # CustomerCompany.t - CustomerCompany tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.t,v 1.1 2011-02-28 22:52:26 mp Exp $
+# $Id: CustomerCompany.t,v 1.2 2011-03-01 10:13:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ my $XML = '
     <Column Name="url" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Unique Name="customer_company_name">
+    <Unique Name="customer_company_test_name">
         <UniqueColumn Name="name"/>
     </Unique>
 </Table>
