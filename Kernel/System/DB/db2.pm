@@ -2,7 +2,7 @@
 # Kernel/System/DB/db2.pm - db2 database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.59 2011-02-25 07:52:57 martin Exp $
+# $Id: db2.pm,v 1.60 2011-03-01 18:23:35 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,8 @@ sub LoadPreferences {
     $Self->{'DB::QuoteBack'}            = 0;
     $Self->{'DB::QuoteSemicolon'}       = '';
     $Self->{'DB::CaseInsensitive'}      = 0;
-    $Self->{'DB::QuoteUnderscore'}      = '\\';
+    $Self->{'DB::QuoteUnderscoreStart'} = '\\';
+    $Self->{'DB::QuoteUnderscoreEnd'}   = '';
     $Self->{'DB::LcaseLikeInLargeText'} = 1;
     $Self->{'DB::LikeEscapeString'}     = '';
 
@@ -79,8 +80,9 @@ sub Quote {
             ${$Text} =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
         }
         if ( $Type && $Type eq 'Like' ) {
-            if ( $Self->{'DB::QuoteUnderscore'} ) {
-                ${$Text} =~ s/_/$Self->{'DB::QuoteUnderscore'}_/g;
+            if ( $Self->{'DB::QuoteUnderscoreStart'} || $Self->{'DB::QuoteUnderscoreEnd'} ) {
+                ${$Text}
+                    =~ s/_/$Self->{'DB::QuoteUnderscoreStart'}_$Self->{'DB::QuoteUnderscoreEnd'}/g;
             }
         }
     }
