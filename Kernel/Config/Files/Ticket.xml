@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.430 2011-03-02 13:17:34 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.431 2011-03-02 13:31:31 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1387,8 +1387,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
-        <Description Lang="en">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
-        <Description Lang="de">Die Zeitspanne in Minuten nach der Erzeugung eines Ereignisses, während der neue Vorwarn- und Start-Ereignisse unterdrückt werden.</Description>
+        <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
+Description>
         <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1397,8 +1397,7 @@
     </ConfigItem>
     <!-- 900-EscalationStopEvents must come after 900-EscalationIndex -->
     <ConfigItem Name="Ticket::EventModulePost###900-EscalationStopEvents" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module that triggers the escalation stop events.</Description>
-        <Description Lang="de">Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.</Description>
+        <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
