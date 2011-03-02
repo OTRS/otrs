@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.4 2011-03-01 03:43:13 sb Exp $
+# $Id: SOAP.pm,v 1.5 2011-03-02 00:04:41 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,15 +18,12 @@ use HTTP::Headers;
 use HTTP::Request;
 use HTTP::Response;
 use HTTP::Status;
-use Scalar::Util qw(blessed);
-use SOAP::WSDL::Deserializer::Hash;
-use SOAP::WSDL::Serializer::XSD;
-use Kernel::System::VariableCheck qw(IsString IsStringWithData);
-
-use base qw(SOAP::WSDL::Server);
+use SOAP::Lite;
+use Kernel::System::VariableCheck
+    qw(IsString IsStringWithData IsArrayRefWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -69,8 +66,11 @@ sub new {
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
+    # prepare config
+    # FIXME check if config is ok
+    my $Config = $Self->{TransportConfig}->{Config};
+
     # check basic stuff
-    my $Response;
     my $Length = $ENV{'CONTENT_LENGTH'};
 
     # no length provided
@@ -82,8 +82,7 @@ sub ProviderProcessRequest {
     }
 
     # request bigger than allowed
-    # FIXME, use variable
-    if ( $Length > 10000000 ) {
+    if ( $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => 'HTTP 413 Request Entity Too Large',
             HTTPError => 413,
@@ -129,21 +128,27 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if soap action matches webservice
+    # check soap action for matching namespace and get operation
     my $SOAPAction = $Request->header('SOAPAction');
     $SOAPAction =~ s{ \A (?: " | ' ) ( .+ ) ( ?: " | ' ) \z }{$1}xms;
-    if ( $SOAPAction ne $Self->{TransportConfig}->{Config}->{SOAPAction} ) {
+    my $NameSpace;
+    if ( $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
+        $NameSpace = $1;
+        $Self->{Operation} = $2;
+    }
+    if ( $Config->{NameSpace} ne $NameSpace ) {
+        my $NameSpaceError =
+            "Provided namespace '$NameSpace' does not match"
+            . " configured namespace '$Config->{NameSpace}'";
         return $Self->_Error(
-            Summary     => "No method found for the SOAPAction '$SOAPAction'",
+            Summary     => $NameSpaceError,
             HTTPError   => 500,
-            HTTPMessage => "No method found for the SOAPAction '$SOAPAction'",
+            HTTPMessage => $NameSpaceError,
         );
     }
 
     # deserialize
-    my ( $Body, $Header ) = eval {
-        SOAP::WSDL::Deserializer::Hash->deserialize( $Request->content() );
-    };
+    my $Deserialized = eval { SOAP::Deserializer->deserialize( $Request->content() ); };
     my $DeserializerError = $@;
     if ($DeserializerError) {
         return $Self->_Error(
@@ -153,26 +158,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if method matches soap action
-    my $MethodFromSOAPAction = $1 if $SOAPAction =~ m{ ( [^/]+ ) \z }xms;
-    my $MethodFromBody = ( keys %{ $Body->{Envelope}->{Body} } )[0];
-    if ( $MethodFromSOAPAction ne $MethodFromBody ) {
-        my $MethodError =
-            "Method from SOAPAction '$MethodFromSOAPAction' does not match"
-            . " Method from Body '$MethodFromBody'";
-        return $Self->_Error(
-            Summary     => $MethodError,
-            HTTPError   => 500,
-            HTTPMessage => $MethodError,
-        );
-    }
-
+    my $Body = $Deserialized->body();
     return {
-        Success => 1,
-
-        # FIXME
-        Operation => 'Operation1',
-        Data      => $Body->{Envelope}->{Body}->{$MethodFromBody},
+        Success   => 1,
+        Operation => $Self->{Operation},
+        Data      => $Body->{ $Self->{Operation} },
     };
 }
 
@@ -189,20 +179,16 @@ sub ProviderGenerateResponse {
         );
     }
 
-    # deserialize
-    my $Content = SOAP::WSDL::Serializer::XSD->serialize(
-        {
-
-            # FIXME not working this way
-            body      => $Param{Data},
-            namespace => {
-                'http://schemas.xmlsoap.org/soap/envelope/' =>
-                    $Self->{TransportConfig}->{Config}->{NameSpace},
-                'http://www.w3.org/2001/XMLSchema-instance' => 'xsi',
-                'http://www.w3.org/2001/XMLSchema'          => 'xs',
-            },
-        },
+    # prepare data
+    my @SOAPData = $Self->_SOAPOutputRecursion(
+        Data => $Param{Data},
     );
+
+    # create return structure
+    my $SOAPResult = SOAP::Data->value(@SOAPData);
+    my $Content    = SOAP::Serializer
+        ->autotype(0)
+        ->envelope( response => $Self->{Operation} . 'Response', $SOAPResult, );
 
     return $Self->_Output(
         HTTPCode => 200,
@@ -245,27 +231,17 @@ sub _Error {
 sub _Output {
     my ( $Self, %Param ) = @_;
 
-    # check needed params
-    NEEDED:
-    for my $Needed (qw(HTTPCode Content)) {
-        next NEEDED if IsString( $Param{$Needed} );
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => "Need $Needed!",
-        );
-    }
-
     # imitate nph- cgi for IIS
     my $Status;
 
-   # FIXME is this correct? it seems to break things for apache
-   #    if ( IsStringWithData($ENV{'SERVER_SOFTWARE'}) && $ENV{'SERVER_SOFTWARE'} =~ m{ IIS }xms ) {
+    # FIXME is this correct? it seems to break things for apache
+    # if ( IsStringWithData($ENV{'SERVER_SOFTWARE'}) && $ENV{'SERVER_SOFTWARE'} =~ m{ IIS }xms ) {
     $Status = $ENV{SERVER_PROTOCOL} || 'HTTP/1.0';
 
-    #    }
-    #    else {
-    #        $Status = 'Status:';
-    #    }
+    # }
+    # else {
+    #     $Status = 'Status:';
+    # }
 
     # prepare data
     my $ContentType;
@@ -275,6 +251,7 @@ sub _Output {
     else {
         $ContentType = 'text/plain';
     }
+    $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 200;
     my $Response = HTTP::Response->new( $Param{HTTPCode} );
     $Response->header( 'Content-Type' => $ContentType . '; charset=UTF-8' );
@@ -298,6 +275,40 @@ sub _Output {
     };
 }
 
+sub _SOAPOutputRecursion {
+    my ( $Self, %Param ) = @_;
+
+    my @Result;
+    if ( IsArrayRefWithData( $Param{Data} ) ) {
+        for my $Key ( @{ $Param{Data} } ) {
+            push @Result, \SOAP::Data->value(
+                $Self->_SOAPOutputRecursion( Data => $Key )
+            );
+        }
+        return @Result;
+    }
+    if ( IsHashRefWithData( $Param{Data} ) ) {
+        for my $Key ( sort keys %{ $Param{Data} } ) {
+            my $Value;
+            if ( IsString( $Param{Data}->{$Key} ) ) {
+                $Value = $Param{Data}->{$Key} || '';
+            }
+            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
+                $Value = \SOAP::Data->value(
+                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+                );
+            }
+            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
+                $Value = SOAP::Data->value(
+                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+                );
+            }
+            push @Result, SOAP::Data->name($Key)->value($Value);
+        }
+        return @Result;
+    }
+}
+
 1;
 
 =back
@@ -314,6 +325,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-01 03:43:13 $
+$Revision: 1.5 $ $Date: 2011-03-02 00:04:41 $
 
 =cut
