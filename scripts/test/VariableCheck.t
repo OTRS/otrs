@@ -2,7 +2,7 @@
 # VariableCheck.t - tests for VariableCheck
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.t,v 1.2 2011-02-16 09:25:57 sb Exp $
+# $Id: VariableCheck.t,v 1.3 2011-03-02 09:25:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,7 +52,7 @@ $TestVariables = {
 };
 RunTests( 'IsInteger', $TestVariables, $ExpectedTestResults );
 
-# IsIPv4
+# IsIPv4Address
 $ExpectedTestResults = {
     IPv41 => 1,
     IPv42 => 1,
@@ -63,9 +63,9 @@ $TestVariables = {
     NumberVariables(),
     IPv4Variables(),
 };
-RunTests( 'IsIPv4', $TestVariables, $ExpectedTestResults );
+RunTests( 'IsIPv4Address', $TestVariables, $ExpectedTestResults );
 
-# IsIPv6
+# IsIPv6Address
 $ExpectedTestResults = {
     IPv6Results(),
 };
@@ -74,7 +74,7 @@ $TestVariables = {
     NumberVariables(),
     IPv6Variables(),
 };
-RunTests( 'IsIPv6', $TestVariables, $ExpectedTestResults );
+RunTests( 'IsIPv6Address', $TestVariables, $ExpectedTestResults );
 
 # IsMD5Sum
 $ExpectedTestResults = {

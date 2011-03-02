@@ -2,7 +2,7 @@
 # Kernel/System/VariableCheck.pm - helpers to check variables
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.pm,v 1.3 2011-02-16 09:25:57 sb Exp $
+# $Id: VariableCheck.pm,v 1.4 2011-03-02 09:25:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Exporter;
 %EXPORT_TAGS = (
@@ -23,8 +23,8 @@ use Exporter;
         'IsArrayRefWithData',
         'IsHashRefWithData',
         'IsInteger',
-        'IsIPv4',
-        'IsIPv6',
+        'IsIPv4Address',
+        'IsIPv6Address',
         'IsMD5Sum',
         'IsNotEqual',
         'IsNumber',
@@ -39,20 +39,92 @@ Exporter::export_ok_tags('all');
 
 =head1 NAME
 
-Kernel::System::VariableCheck - helpers to check variables
+Kernel::System::VariableCheck - helper functions to check variables
 
 =head1 SYNOPSIS
 
-Provides several helper functions to check variables.
-E.g. if a variable is a string, a hash ref etc.
+Provides several helper functions to check variables, e.g.
+if a variable is a string, a hash ref etc. This is helpful for
+input data validation, for example.
 
-This module is called directly if needed and is not added to $Self
+Call this module directly without instantiating:
+
+    use Kernel::System::VariableCheck qw(:all);             # export all functions into the calling package
+    use Kernel::System::VariableCheck qw(IsHashRefWitData); # export just one funciton
+
+    if (IsHashRefWithData($HashRef)) {
+        ...
+    }
 
 =head1 PUBLIC INTERFACE
+
+The functions can be grouped as follows:
+
+=head2 Variable type checks
+
+    L<IsString()>
+    L<IsStringWithData()>
+    L<IsArrayRefWithData()>
+    L<IsHashRefWithData()>
+
+=head2 Number checks
+
+    L<IsNumber()>
+    L<IsInteger()>
+    L<IsPositiveInteger()>
+
+=head2 Special data format checks
+
+    L<IsIPv4Address()>
+    L<IsIPv6Address()>
+    L<IsMD5Sum()>
 
 =over 4
 
 =cut
+
+=item IsString()
+
+test supplied data to determine if it is a string - an empty string is valid
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsString(
+        'abc', # data to be tested
+    );
+
+=cut
+
+sub IsString {
+    my $TestData = $_[0];
+
+    return if scalar @_ ne 1;
+    return if ref $TestData;
+    return if !defined $TestData;
+
+    return 1;
+}
+
+=item IsStringWithData()
+
+test supplied data to determine if it is a non zero-length string
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsStringWithData(
+        'abc', # data to be tested
+    );
+
+=cut
+
+sub IsStringWithData {
+    my $TestData = $_[0];
+
+    return if !IsString(@_);
+    return if $TestData eq '';
+
+    return 1;
+}
 
 =item IsArrayRefWithData()
 
@@ -104,6 +176,30 @@ sub IsHashRefWithData {
     return 1;
 }
 
+=item IsNumber()
+
+test supplied data to determine if it is a number
+(integer, floating point, possible exponent, positive or negative)
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsNumber(
+        999, # data to be tested
+    );
+
+=cut
+
+sub IsNumber {
+    my $TestData = $_[0];
+
+    return if !IsStringWithData(@_);
+    return if $TestData !~ m{
+        \A [-]? (?: \d+ | \d* [.] \d+ | (?: \d+ [.]? \d* | \d* [.] \d+ ) [eE] [-+]? \d* ) \z
+    }xms;
+
+    return 1;
+}
+
 =item IsInteger()
 
 test supplied data to determine if it is an integer (only digits, positive or negative)
@@ -125,19 +221,40 @@ sub IsInteger {
     return 1;
 }
 
-=item IsIPv4()
+=item IsPositiveInteger()
+
+test supplied data to determine if it is a positive integer (only digits and positive)
+
+returns 1 if data matches criteria or undef otherwise
+
+    my $Result = IsPositiveInteger(
+        999, # data to be tested
+    );
+
+=cut
+
+sub IsPositiveInteger {
+    my $TestData = $_[0];
+
+    return if !IsStringWithData(@_);
+    return if $TestData !~ m{ \A [1-9] \d* \z }xms;
+
+    return 1;
+}
+
+=item IsIPv4Address()
 
 test supplied data to determine if it is a valid IPv4 address (syntax check only)
 
 returns 1 if data matches criteria or undef otherwise
 
-    my $Result = IsIPv4(
+    my $Result = IsIPv4Address(
         '192.168.0.1', # data to be tested
     );
 
 =cut
 
-sub IsIPv4 {
+sub IsIPv4Address {
     my $TestData = $_[0];
 
     return if !IsStringWithData(@_);
@@ -157,7 +274,7 @@ sub IsIPv4 {
     return 1;
 }
 
-=item IsIPv6()
+=item IsIPv6Address()
 
 test supplied data to determine if it is a valid IPv6 address (syntax check only)
 shorthand notation and mixed IPv6/IPv4 notation allowed
@@ -165,13 +282,13 @@ shorthand notation and mixed IPv6/IPv4 notation allowed
 
 returns 1 if data matches criteria or undef otherwise
 
-    my $Result = IsIPv6(
+    my $Result = IsIPv6Address(
         '0000:1111:2222:3333:4444:5555:6666:7777', # data to be tested
     );
 
 =cut
 
-sub IsIPv6 {
+sub IsIPv6Address {
     my $TestData = $_[0];
 
     return if !IsStringWithData(@_);
@@ -262,94 +379,6 @@ sub IsMD5Sum {
     return 1;
 }
 
-=item IsNumber()
-
-test supplied data to determine if it is a number
-(integer, floating point, possible exponent, positive or negative)
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = IsNumber(
-        999, # data to be tested
-    );
-
-=cut
-
-sub IsNumber {
-    my $TestData = $_[0];
-
-    return if !IsStringWithData(@_);
-    return if $TestData !~ m{
-        \A [-]? (?: \d+ | \d* [.] \d+ | (?: \d+ [.]? \d* | \d* [.] \d+ ) [eE] [-+]? \d* ) \z
-    }xms;
-
-    return 1;
-}
-
-=item IsPositiveInteger()
-
-test supplied data to determine if it is a positive integer (only digits and positive)
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = IsPositiveInteger(
-        999, # data to be tested
-    );
-
-=cut
-
-sub IsPositiveInteger {
-    my $TestData = $_[0];
-
-    return if !IsStringWithData(@_);
-    return if $TestData !~ m{ \A [1-9] \d* \z }xms;
-
-    return 1;
-}
-
-=item IsString()
-
-test supplied data to determine if it is a string - an empty string is valid
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = IsString(
-        'abc', # data to be tested
-    );
-
-=cut
-
-sub IsString {
-    my $TestData = $_[0];
-
-    return if scalar @_ ne 1;
-    return if ref $TestData;
-    return if !defined $TestData;
-
-    return 1;
-}
-
-=item IsStringWithData()
-
-test supplied data to determine if it is a non zero-length string
-
-returns 1 if data matches criteria or undef otherwise
-
-    my $Result = IsStringWithData(
-        'abc', # data to be tested
-    );
-
-=cut
-
-sub IsStringWithData {
-    my $TestData = $_[0];
-
-    return if !IsString(@_);
-    return if $TestData eq '';
-
-    return 1;
-}
-
 1;
 
 =back
@@ -366,6 +395,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-02-16 09:25:57 $
+$Revision: 1.4 $ $Date: 2011-03-02 09:25:51 $
 
 =cut

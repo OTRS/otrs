@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.11 2011-02-25 18:21:53 cg Exp $
+# $Id: DebugLog.pm,v 1.12 2011-03-02 09:25:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -168,7 +168,7 @@ sub LogAdd {
             );
             return;
         }
-        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+        if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
@@ -655,7 +655,7 @@ sub LogSearch {
             );
             return;
         }
-        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+        if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
@@ -814,7 +814,7 @@ sub _LogAddChain {
             );
             return;
         }
-        if ( !IsIPv4( $Param{RemoteIP} ) && !IsIPv6( $Param{RemoteIP} ) ) {
+        if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
@@ -872,6 +872,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-25 18:21:53 $
+$Revision: 1.12 $ $Date: 2011-03-02 09:25:51 $
 
 =cut
