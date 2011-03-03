@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.1 2011-03-03 08:02:12 mg Exp $
+# $Id: Deserialize.t,v 1.2 2011-03-03 17:13:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use vars (qw($Self));
 
 use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 my $SOAPTagIni = '<soap:Envelope ' .
     'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
@@ -81,7 +82,7 @@ for my $Test (@Tests) {
     );
 
     # serializer
-    my @SOAPData = $Self->_SOAPOutputRecursion(
+    my @SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
         Data => $Body,
     );
 
@@ -106,39 +107,39 @@ for my $Test (@Tests) {
 
 }
 
-sub _SOAPOutputRecursion {
-    my ( $Self, %Param ) = @_;
-
-    my @Result;
-    if ( IsArrayRefWithData( $Param{Data} ) ) {
-        for my $Key ( @{ $Param{Data} } ) {
-            push @Result, \SOAP::Data->value(
-                $Self->_SOAPOutputRecursion( Data => $Key )
-            );
-        }
-        return @Result;
-    }
-    if ( IsHashRefWithData( $Param{Data} ) ) {
-        for my $Key ( sort keys %{ $Param{Data} } ) {
-            my $Value;
-            if ( IsString( $Param{Data}->{$Key} ) ) {
-                $Value = $Param{Data}->{$Key} || '';
-            }
-            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
-                $Value = \SOAP::Data->value(
-                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-                );
-            }
-            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
-                $Value = SOAP::Data->value(
-                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-                );
-            }
-            push @Result, SOAP::Data->name($Key)->value($Value);
-        }
-        return @Result;
-    }
-}
+#sub _SOAPOutputRecursion {
+#    my ( $Self, %Param ) = @_;
+#
+#    my @Result;
+#    if ( IsArrayRefWithData( $Param{Data} ) ) {
+#        for my $Key ( @{ $Param{Data} } ) {
+#            push @Result, \SOAP::Data->value(
+#                $Self->_SOAPOutputRecursion( Data => $Key )
+#            );
+#        }
+#        return @Result;
+#    }
+#    if ( IsHashRefWithData( $Param{Data} ) ) {
+#        for my $Key ( sort keys %{ $Param{Data} } ) {
+#            my $Value;
+#            if ( IsString( $Param{Data}->{$Key} ) ) {
+#                $Value = $Param{Data}->{$Key} || '';
+#            }
+#            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
+#                $Value = \SOAP::Data->value(
+#                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+#                );
+#            }
+#            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
+#                $Value = SOAP::Data->value(
+#                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+#                );
+#            }
+#            push @Result, SOAP::Data->name($Key)->value($Value);
+#        }
+#        return @Result;
+#    }
+#}
 
 # end tests
 
