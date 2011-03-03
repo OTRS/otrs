@@ -1,8 +1,8 @@
 # --
 # StdAttachment.t - StdAttachment tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.t,v 1.9 2010-10-29 22:16:59 en Exp $
+# $Id: StdAttachment.t,v 1.10 2011-03-03 13:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,18 +20,15 @@ my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Content = '';
-    open( IN,
-        "< "
-            . $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File"
-        )
-        || die $!;
-    binmode(IN);
-    while (<IN>) {
-        $Content .= $_;
-    }
-    close(IN);
+    my $Location = $Self->{ConfigObject}->Get('Home')
+        . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
+
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+    );
+
+    my $Content = ${$ContentRef};
 
     my $MD5 = $Self->{MainObject}->MD5sum( String => \$Content );
 

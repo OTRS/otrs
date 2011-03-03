@@ -1,8 +1,8 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.26 2010-12-10 15:15:15 martin Exp $
+# $Id: PostMaster.t,v 1.27 2011-03-03 13:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,18 +134,20 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
                 # new ticket check
-                my @Content;
-                my $MailFile = $ConfigObject->Get('Home')
+                my $Location = $ConfigObject->Get('Home')
                     . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
-                open( IN, '<', $MailFile ) || die $!;
-                binmode(IN);
-                while ( my $Line = <IN> ) {
+                my $ContentRef = $Self->{MainObject}->FileRead(
+                    Location => $Location,
+                    Mode     => 'binmode',
+                    Result   => 'ARRAY',
+                );
+                my @Content;
+                for my $Line ( @{$ContentRef} ) {
                     if ( $Line =~ /^From:/ ) {
                         $Line = "From: \"Some Realname\" <$UserRand1>\n";
                     }
                     push @Content, $Line;
                 }
-                close(IN);
 
                 # follow up check
                 my @ContentNew = ();

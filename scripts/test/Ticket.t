@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.74 2011-02-24 09:50:33 mg Exp $
+# $Id: Ticket.t,v 1.75 2011-03-03 13:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3323,14 +3323,13 @@ for my $Backend (qw(DB FS)) {
         Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)
         )
     {
-        my $Content = '';
-        open( IN, '<', $ConfigObject->Get('Home') . "/scripts/test/sample/Ticket/$File" )
-            || die $!;
-        binmode(IN);
-        while (<IN>) {
-            $Content .= $_;
-        }
-        close(IN);
+        my $Location = $Self->{ConfigObject}->Get('Home')
+            . "/scripts/test/sample/Ticket/$File";
+        my $ContentRef = $Self->{MainObject}->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+        );
+        my $Content                = ${$ContentRef};
         my $FileNew                = "ÄÖÜ ? カスタマ-" . $File;
         my $MD5Orig                = $Self->{MainObject}->MD5sum( String => $Content );
         my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
@@ -5648,15 +5647,14 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         my $NamePrefix = "$NamePrefix #$File ";
 
         # new ticket check
-        my @Content;
-        my $MailFile = $ConfigObject->Get('Home')
+        my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
-        open( IN, '<', $MailFile ) || die $!;
-        binmode(IN);
-        while ( my $Line = <IN> ) {
-            push @Content, $Line;
-        }
-        close(IN);
+        my $ContentRef = $Self->{MainObject}->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+            Result   => 'ARRAY',
+        );
+        my @Content = @{$ContentRef};
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
             %{$Self},

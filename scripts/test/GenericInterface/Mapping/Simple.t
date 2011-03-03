@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.9 2011-02-16 17:24:18 sb Exp $
+# $Id: Simple.t,v 1.10 2011-03-03 13:19:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,19 +57,14 @@ my %Attachments;
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Content = '';
-    open( IN,
-        "< "
-            . $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File"
-        )
-        || die $!;
-    binmode(IN);
-    while (<IN>) {
-        $Content .= $_;
-    }
-    $Attachments{$File} = $Content;
-    close(IN);
+    my $Location = $Self->{ConfigObject}->Get('Home')
+        . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
+
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+    );
+    $Attachments{$File} = ${$ContentRef};
 }
 my $AttachmentsLimit = 5000;    # take note is this number * 5 (types files)
 my %LargeHashAttachments;

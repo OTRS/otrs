@@ -2,7 +2,7 @@
 # WebUploadCache.t - test of the web upload cache mechanism
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.17 2011-01-27 18:09:29 en Exp $
+# $Id: WebUploadCache.t,v 1.18 2011-03-03 13:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,18 +47,13 @@ for my $Module (qw(DB FS)) {
 
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
-        my $Content = '';
-        open( IN,
-            "< "
-                . $ConfigObject->Get('Home')
-                . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File"
-            )
-            || die $!;
-        binmode(IN);
-        while (<IN>) {
-            $Content .= $_;
-        }
-        close(IN);
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File";
+        my $ContentRef = $Self->{MainObject}->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+        );
+        my $Content = ${$ContentRef};
         $EncodeObject->EncodeOutput( \$Content );
         my $MD5         = md5_hex($Content);
         my $ContentID   = int rand 1234;
@@ -134,18 +129,13 @@ for my $Module (qw(DB FS)) {
 
     # file checks without ContentID
     for my $File (qw(xls txt doc png pdf)) {
-        my $Content = '';
-        open( IN,
-            "< "
-                . $ConfigObject->Get('Home')
-                . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File"
-            )
-            || die $!;
-        binmode(IN);
-        while (<IN>) {
-            $Content .= $_;
-        }
-        close(IN);
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File";
+        my $ContentRef = $Self->{MainObject}->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+        );
+        my $Content = ${$ContentRef};
         $EncodeObject->EncodeOutput( \$Content );
         my $MD5         = md5_hex($Content);
         my $Disposition = 'inline';
