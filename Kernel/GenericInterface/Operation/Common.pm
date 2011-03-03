@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Common.pm - common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.1 2011-03-03 12:54:50 mg Exp $
+# $Id: Common.pm,v 1.2 2011-03-03 14:55:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::Auth;
 use Kernel::System::User;
@@ -165,12 +165,16 @@ sub CachedAuth {
     # don't cache auth failures
     return if !$Result;
 
+    my $CacheTTL = $Self->{ConfigObject}
+        ->Get("GenericInterface::Operation::Common::CachedAuth::$Param{Type}CacheTTL");
+    $CacheTTL = 300 if !defined $CacheTTL;
+
     # cache successful authentication
     $Self->{CacheObject}->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
         Value => $Result,
-        TTL   => 60 * 5,
+        TTL   => $CacheTTL,
     );
 
     # return the Agent ot Customer UserID
@@ -193,6 +197,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-03 12:54:50 $
+$Revision: 1.2 $ $Date: 2011-03-03 14:55:40 $
 
 =cut

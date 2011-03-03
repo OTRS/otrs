@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.5 2011-03-03 14:49:08 mg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.6 2011-03-03 14:55:40 mg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -18,6 +18,22 @@
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
             <String Regex="">3600</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Common::CachedAuth::AgentCacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for agent authentication in the GenericInterface.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <String Regex="">300</String><!-- default 5 min -->
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Common::CachedAuth::CustomerCacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for customer authentication in the GenericInterface.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <String Regex="">300</String><!-- default 5 min -->
         </Setting>
     </ConfigItem>
 </otrs_config>
