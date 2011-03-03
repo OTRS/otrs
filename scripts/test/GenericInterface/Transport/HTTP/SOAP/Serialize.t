@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.2 2011-03-03 15:48:25 cr Exp $
+# $Id: Serialize.t,v 1.3 2011-03-03 17:10:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,15 +43,35 @@ my @SoapTests = (
             },
         },
     },
+    {
+        Name      => 'Array',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => [ 1, 2, 3 ],
+        },
+    },
+    {
+        Name      => 'Complex',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => [
+                1,
+                Hash => {
+                    Key1 => [ 1, 2 ],
+                    Key3 => 1,
+                    Key4 => {
+                        Key5 => 'Hash',
+                    },
+                },
+                [
+                    1,
+                    2,
+                    3
+                ],
+            ],
+        },
+    },
 
-    # TODO check why arrays are not working
-    #    {
-    #        Name      => 'Array',
-    #        Operation => 'MyOperation',
-    #        Data      => {
-    #            Var => [1,2,3],
-    #        },
-    #    },
 );
 
 # loop trough the tests
