@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.2 2011-03-03 17:13:28 cr Exp $
+# $Id: Deserialize.t,v 1.3 2011-03-03 17:26:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,6 +48,24 @@ my @Tests = (
                 }
         },
     },
+    {
+        Name      => 'Test 3',
+        Data      => '<Simple>Test</NonSimple>',
+        Operation => 'Response',
+        Success   => '0',
+    },
+    {
+        Name      => 'Test 4',
+        Data      => '<Simple>Test<Simple>',
+        Operation => 'Response',
+        Success   => '0',
+    },
+    {
+        Name      => 'Test 5',
+        Data      => '<1>Test</1>',
+        Operation => 'Response',
+        Success   => '0',
+    },
 );
 
 for my $Test (@Tests) {
@@ -63,14 +81,14 @@ for my $Test (@Tests) {
     if ( !$Test->{Success} ) {
         $Self->True(
             $DeserializerError,
-            "$Test->{Name} - SOAP::Deserializer",
+            "$Test->{Name} - SOAP::Deserializer with error $DeserializerError",
         );
         next;
     }
     else {
         $Self->False(
             $DeserializerError,
-            "$Test->{Name} - SOAP::Deserializer",
+            "$Test->{Name} - SOAP::Deserializer Successfull",
         );
     }
 
