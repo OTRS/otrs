@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.21 2011-02-28 12:46:18 mg Exp $
+# $Id: Webservice.pm,v 1.22 2011-03-03 14:49:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -117,7 +117,8 @@ sub new {
         = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Webservice::CacheTTL') || 3600 );
+    $Self->{CacheTTL}
+        = int( $Self->{ConfigObject}->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
 
     return $Self;
 }
@@ -453,6 +454,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-02-28 12:46:18 $
+$Revision: 1.22 $ $Date: 2011-03-03 14:49:07 $
 
 =cut
