@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.7.2.1 2011-02-14 13:24:51 cg Exp $
+# $Id: Helper.pm,v 1.7.2.2 2011-03-03 13:02:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use strict;
 use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::Group;
+use Kernel::System::CustomerUser;
 use Kernel::System::SysConfig;
 
 =head1 NAME
@@ -77,6 +78,11 @@ sub new {
         UserObject   => $Self->{UserObject},
     );
 
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(
+        %{ $Self->{UnitTestObject} },
+        ConfigObject => $Self->{ConfigObject},
+    );
+
     #
     # Make backup of system configuration if needed
     #
@@ -105,8 +111,8 @@ sub GetRandomID {
 
 =item TestUserCreate()
 
-creates a test user that can be used in the Selenium tests. It will
-be set to invalid automatically during the constructor. Returns
+creates a test user that can be used in tests. It will
+be set to invalid automatically during the destructor. Returns
 the login name of the new user, the password is the same.
 
     my $TestUserLogin = $sel->TestUserCreate(
@@ -117,14 +123,6 @@ the login name of the new user, the password is the same.
 
 sub TestUserCreate {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw()) {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{UnitTestObject}->True( 0, "Cannot create test user: need $Needed!" );
-            die "Cannot create test user: need $Needed!";
-        }
-    }
 
     # create test user
     my $TestUserLogin = $Self->GetRandomID();
@@ -170,6 +168,44 @@ sub TestUserCreate {
     }
 
     return $TestUserLogin;
+}
+
+=item TestCustomerUserCreate()
+
+creates a test customer user that can be used in tests. It will
+be set to invalid automatically during the destructor. Returns
+the login name of the new customer user, the password is the same.
+
+    my $TestUserLogin = $sel->TestCustomerUserCreate();
+
+=cut
+
+sub TestCustomerUserCreate {
+    my ( $Self, %Param ) = @_;
+
+    # create test user
+    my $TestUserLogin = $Self->GetRandomID();
+
+    my $TestUser = $Self->{CustomerUserObject}->CustomerUserAdd(
+        Source         => 'CustomerUser',
+        UserFirstname  => $TestUserLogin,
+        UserLastname   => $TestUserLogin,
+        UserCustomerID => $TestUserLogin,
+        UserLogin      => $TestUserLogin,
+        UserPassword   => $TestUserLogin,
+        UserEmail      => $TestUserLogin . '@example.com',
+        ValidID        => 1,
+        UserID         => 1,
+    ) || die "Could not create test user";
+
+    # Remember UserID of the test user to later set it to invalid
+    #   in the destructor.
+    $Self->{TestCustomerUsers} ||= [];
+    push( @{ $Self->{TestCustomerUsers} }, $TestUser );
+
+    $Self->{UnitTestObject}->True( 1, "Created test customer user $TestUser" );
+
+    return $TestUser;
 }
 
 sub SeleniumScenariosGet {
@@ -228,7 +264,7 @@ sub DESTROY {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
 
             # make test user invalid
-            $Self->{UserObject}->UserUpdate(
+            my $Success = $Self->{UserObject}->UserUpdate(
                 UserID        => $TestUser,
                 UserFirstname => 'Firstname Test1',
                 UserLastname  => 'Lastname Test1',
@@ -238,7 +274,29 @@ sub DESTROY {
                 ChangeUserID  => 1,
             ) || die "Could not invalidate test user";
 
-            $Self->{UnitTestObject}->True( 1, "Set test user $TestUser to invalid" );
+            $Self->{UnitTestObject}->True( $Success, "Set test user $TestUser to invalid" );
+        }
+    }
+
+    # invalidate test customer users
+    if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
+        for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
+
+            my $Success = $Self->{CustomerUserObject}->CustomerUserUpdate(
+                Source         => 'CustomerUser',
+                ID             => $TestCustomerUser,
+                UserCustomerID => $TestCustomerUser,
+                UserLogin      => $TestCustomerUser,
+                UserFirstname  => $TestCustomerUser,
+                UserLastname   => $TestCustomerUser,
+                UserPassword   => $TestCustomerUser,
+                UserEmail      => $TestCustomerUser . '@example.com',
+                ValidID        => 2,
+                UserID         => 1,
+            );
+
+            $Self->{UnitTestObject}
+                ->True( $Success, "Set test customer user $TestCustomerUser to invalid" );
         }
     }
 }
@@ -259,6 +317,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7.2.1 $ $Date: 2011-02-14 13:24:51 $
+$Revision: 1.7.2.2 $ $Date: 2011-03-03 13:02:14 $
 
 =cut
