@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.10 2011-03-03 13:19:05 martin Exp $
+# $Id: Simple.t,v 1.11 2011-03-03 15:03:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -620,7 +620,6 @@ for my $Test (@MappingTests) {
 
     $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
     my $MappingResult = $MappingObject->Map(
-        %{$Self},
         Data => $Test->{Data},
     );
     my $EndSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
