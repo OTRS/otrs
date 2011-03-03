@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.1 2011-03-03 08:02:12 mg Exp $
+# $Id: Serialize.t,v 1.2 2011-03-03 15:48:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use vars (qw($Self));
 use SOAP::Lite;
 use XML::TreePP;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 # create needed objects
 my $XMLObject = XML::TreePP->new();
@@ -57,7 +58,7 @@ my @SoapTests = (
 for my $Test (@SoapTests) {
 
     # prepare data
-    my @SOAPData = _SOAPOutputRecursion(
+    my @SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
         Data => $Test->{Data},
     );
 
@@ -174,41 +175,6 @@ for my $Test (@SoapTests) {
         $Test->{Data},
         "Test $Test->{Name}: SOAP Response data parsed as normal SOAP message",
     );
-}
-
-# internal functions
-sub _SOAPOutputRecursion {
-    my %Param = @_;
-
-    my @Result;
-    if ( IsArrayRefWithData( $Param{Data} ) ) {
-        for my $Key ( @{ $Param{Data} } ) {
-            push @Result, \SOAP::Data->value(
-                $Self->_SOAPOutputRecursion( Data => $Key )
-            );
-        }
-        return @Result;
-    }
-    if ( IsHashRefWithData( $Param{Data} ) ) {
-        for my $Key ( sort keys %{ $Param{Data} } ) {
-            my $Value;
-            if ( IsString( $Param{Data}->{$Key} ) ) {
-                $Value = $Param{Data}->{$Key} || '';
-            }
-            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
-                $Value = \SOAP::Data->value(
-                    _SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-                );
-            }
-            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
-                $Value = SOAP::Data->value(
-                    _SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-                );
-            }
-            push @Result, SOAP::Data->name($Key)->value($Value);
-        }
-        return @Result;
-    }
 }
 
 1;
