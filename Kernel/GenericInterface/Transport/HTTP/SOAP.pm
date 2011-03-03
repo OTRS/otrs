@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.6 2011-03-02 09:29:44 mg Exp $
+# $Id: SOAP.pm,v 1.7 2011-03-03 16:23:23 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -279,7 +279,12 @@ sub _SOAPOutputRecursion {
 
     my @Result;
     if ( IsArrayRefWithData( $Param{Data} ) ) {
+        KEY:
         for my $Key ( @{ $Param{Data} } ) {
+            if ( IsString($Key) ) {
+                push @Result, $Key;
+                next KEY;
+            }
             push @Result, \SOAP::Data->value(
                 $Self->_SOAPOutputRecursion( Data => $Key )
             );
@@ -324,6 +329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-02 09:29:44 $
+$Revision: 1.7 $ $Date: 2011-03-03 16:23:23 $
 
 =cut
