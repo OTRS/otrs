@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.6 2011-03-01 09:05:22 mg Exp $
+# $Id: Provider.t,v 1.7 2011-03-03 08:41:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use vars (qw($Self));
 
 use CGI ();
 use URI::Escape();
+use LWP::UserAgent;
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Provider;
@@ -210,7 +211,7 @@ my @Tests = (
     },
 );
 
-sub _CreateQueryString {
+my $CreateQueryString = sub {
     my ( $Self, %Param ) = @_;
 
     my $QueryString;
@@ -230,7 +231,7 @@ sub _CreateQueryString {
     }
 
     return $QueryString;
-}
+};
 
 for my $Test (@Tests) {
 
@@ -264,7 +265,8 @@ for my $Test (@Tests) {
 #                $ENV{REQUEST_URI}
 #                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID";
 #                $ENV{REQUEST_METHOD} = 'POST';
-#                $RequestData = $Self->_CreateQueryString(
+#                $RequestData = $CreateQueryString->(
+#                    $Self,
 #                    Data   => $Test->{RequestData},
 #                    Encode => 0,
 #                );
@@ -276,7 +278,8 @@ for my $Test (@Tests) {
 #                # prepare CGI environment variables
 #                $ENV{REQUEST_URI}
 #                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID?$Test->{RequestData}";
-#                $ENV{QUERY_STRING} = $Self->_CreateQueryString(
+#                $ENV{QUERY_STRING} = $CreateQueryString->(
+#                    $Self,
 #                    Data   => $Test->{RequestData},
 #                    Encode => 1,
 #                );
@@ -344,7 +347,8 @@ for my $Test (@Tests) {
             = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/$WebserviceID";
         my $Response;
         my $ResponseData;
-        my $QueryString = $Self->_CreateQueryString(
+        my $QueryString = $CreateQueryString->(
+            $Self,
             Data   => $Test->{RequestData},
             Encode => 1,
         );

@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.1 2011-02-28 09:57:06 bes Exp $
+# $Id: Escalations.t,v 1.2 2011-03-03 08:36:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,6 +168,44 @@ my $TicketID;
     $Self->True( $Ticket{SolutionTime} < 0, "TicketGet() $TicketTitle - SolutionTime less than 0" );
 }
 
+my $CheckNumEvents = sub {
+    my (%Param) = @_;
+
+    my $JobName = $Param{JobName} || '';
+
+    if ($JobName) {
+        my $JobRun = $Param{GenericAgentObject}->JobRun(
+            Job    => $JobName,
+            Config => {
+                Escalation => 1,
+                Queue      => $Param{QueueName},
+                New        => {
+                    Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
+                },
+            },
+            UserID => 1,
+        );
+        $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
+    }
+
+    my @Lines = $Param{TicketObject}->HistoryGet(
+        TicketID => $Param{TicketID},
+        UserID   => 1,
+    );
+
+    my $Comment = $Param{Comment} || "after $JobName";
+
+    while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
+        my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
+        $Self->Is( scalar(@EventLines), $NumEvents, "check num of $Event events, $Comment" );
+
+        # keep current number for reference
+        $Param{NumEvents}->{$Event} = scalar @EventLines;
+    }
+
+    return;
+};
+
 # Set up the expected number of emitted events.
 my %NumEvents;
 {
@@ -188,7 +226,7 @@ my %NumEvents;
         EscalationUpdateTimeStop           => 0,    # not yet supported
         EscalationSolutionTimeStop         => 0,    # not yet supported
     );
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -205,7 +243,7 @@ my %NumEvents;
     # check whether events were triggered: first response escalation, solution time escalation
     $NumEvents{EscalationSolutionTimeStart}++;
     $NumEvents{EscalationResponseTimeStart}++;
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -223,7 +261,7 @@ my %NumEvents;
     );
 
     # check whether events were triggered
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -243,7 +281,7 @@ my %NumEvents;
     # check whether events were triggered: first response escalation, solution time escalation
     $NumEvents{EscalationSolutionTimeStart}++;
     $NumEvents{EscalationResponseTimeStart}++;
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -282,7 +320,7 @@ my %NumEvents;
     # the first response escalation goes away, update time escalation is triggered
     $NumEvents{EscalationSolutionTimeStart}++;
     $NumEvents{EscalationUpdateTimeStart}++;
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -337,7 +375,7 @@ my %NumEvents;
         NoAgentNotify => 1,    # if you don't want to send agent notifications
     );
 
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -395,7 +433,7 @@ my %NumEvents;
 
     $NumEvents{EscalationSolutionTimeNotifyBefore}++;
     $NumEvents{EscalationUpdateTimeNotifyBefore}++;
-    CheckNumEvents(
+    $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
         TicketID           => $TicketID,
@@ -418,44 +456,6 @@ my %NumEvents;
     # queues can't be deleted
 
     # no need to clean up generic agent job, as it wasn't entered in the database
-}
-
-sub CheckNumEvents {
-    my (%Param) = @_;
-
-    my $JobName = $Param{JobName} || '';
-
-    if ($JobName) {
-        my $JobRun = $Param{GenericAgentObject}->JobRun(
-            Job    => $JobName,
-            Config => {
-                Escalation => 1,
-                Queue      => $Param{QueueName},
-                New        => {
-                    Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
-                },
-            },
-            UserID => 1,
-        );
-        $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
-    }
-
-    my @Lines = $Param{TicketObject}->HistoryGet(
-        TicketID => $Param{TicketID},
-        UserID   => 1,
-    );
-
-    my $Comment = $Param{Comment} || "after $JobName";
-
-    while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
-        my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
-        $Self->Is( scalar(@EventLines), $NumEvents, "check num of $Event events, $Comment" );
-
-        # keep current number for reference
-        $Param{NumEvents}->{$Event} = scalar @EventLines;
-    }
-
-    return;
 }
 
 1;
