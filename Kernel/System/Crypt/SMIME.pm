@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.45 2011-02-24 00:01:45 dz Exp $
+# $Id: SMIME.pm,v 1.46 2011-03-03 13:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -445,9 +445,9 @@ sub CertificateAdd {
     my %Attributes = $Self->CertificateAttributes(%Param);
     if ( $Attributes{Hash} ) {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
-        if ( open( OUT, '>', $File ) ) {
-            print OUT $Param{Certificate};
-            close(OUT);
+        if ( open( my $OUT, '>', $File ) ) {
+            print $OUT $Param{Certificate};
+            close($OUT);
             return 'Certificate uploaded!';
         }
         else {
@@ -693,21 +693,21 @@ sub PrivateGet {
         # no private exists
         return;
     }
-    elsif ( open( IN, '<', $File ) ) {
+    elsif ( open( my $IN, '<', $File ) ) {
         my $Private = '';
-        while (<IN>) {
+        while (<$IN>) {
             $Private .= $_;
         }
-        close(IN);
+        close($IN);
 
         # read secret
         my $File   = "$Self->{PrivatePath}/$Param{Hash}.P";
         my $Secret = '';
-        if ( open( IN, '<', $File ) ) {
-            while (<IN>) {
+        if ( open( my $IN, '<', $File ) ) {
+            while (<$IN>) {
                 $Secret .= $_;
             }
-            close(IN);
+            close($IN);
         }
         return ( $Private, $Secret );
     }
@@ -976,6 +976,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2011-02-24 00:01:45 $
+$Revision: 1.46 $ $Date: 2011-03-03 13:21:30 $
 
 =cut
