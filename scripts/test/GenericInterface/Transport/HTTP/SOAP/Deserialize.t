@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.1 2011-03-03 00:04:01 cg Exp $
+# $Id: Deserialize.t,v 1.1 2011-03-03 08:02:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
