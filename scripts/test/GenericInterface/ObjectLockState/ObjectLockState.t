@@ -2,7 +2,7 @@
 # ObjectLockState.t - ObjectLockState functional tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockState.t,v 1.3 2011-02-28 14:46:41 mg Exp $
+# $Id: ObjectLockState.t,v 1.4 2011-03-03 08:18:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@ $Self->True(
     "WebserviceAdd()",
 );
 
-sub StateSet {
+my $StateSet = sub {
 
     # set initial
     $Success = $ObjectLockStateObject->ObjectLockStateSet(
@@ -116,9 +116,9 @@ sub StateSet {
     }
 
     return;
-}
+};
 
-StateSet();
+$StateSet->();
 
 # check list
 my $ObjectLockStates = $ObjectLockStateObject->ObjectLockStateList(
@@ -197,7 +197,7 @@ $Self->False(
     'ObjectLockStateDelete() for deleted entry',
 );
 
-StateSet();
+$StateSet->();
 
 # purge
 $Success = $ObjectLockStateObject->ObjectLockStatePurge(
@@ -236,7 +236,7 @@ $Self->Is(
 
 # Add entries again to check that WebserviceDelete() still works,
 #   deleting all remaining entries.
-StateSet();
+$StateSet->();
 
 # delete config
 $Success = $WebserviceObject->WebserviceDelete(
