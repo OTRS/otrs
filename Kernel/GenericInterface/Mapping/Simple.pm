@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.16 2011-02-17 12:30:03 mg Exp $
+# $Id: Simple.pm,v 1.17 2011-03-04 20:40:44 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -230,10 +230,9 @@ sub Map {
         # map value
         my $OldValue = $Param{Data}->{$OldKey};
 
-        # check if value is valid
+        # if value is no string, just pass through
         if ( !IsString($OldValue) ) {
-            $Self->{DebuggerObject}->Notice( Summary => "Value for data key $OldKey is invalid!" );
-            $ReturnData{$NewKey} = undef;
+            $ReturnData{$NewKey} = $OldValue;
             next CONFIGKEY;
         }
 
@@ -464,6 +463,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-02-17 12:30:03 $
+$Revision: 1.17 $ $Date: 2011-03-04 20:40:44 $
 
 =cut
