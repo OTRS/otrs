@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.7 2011-03-03 16:23:23 sb Exp $
+# $Id: SOAP.pm,v 1.8 2011-03-04 20:47:36 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -134,6 +134,7 @@ sub ProviderProcessRequest {
     if ( $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
         $NameSpace = $1;
         $Self->{Operation} = $2;
+        $Self->{Operation} =~ s{ \A [#] }{}xms;
     }
     if ( $Config->{NameSpace} ne $NameSpace ) {
         my $NameSpaceError =
@@ -198,7 +199,42 @@ sub ProviderGenerateResponse {
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    # prepare config
+    my $Config = $Self->{TransportConfig}->{Config};
+
+    # prepare connect
+    my $SOAPHandle = SOAP::Lite
+        ->autotype(0)
+        ->default_ns( $Config->{NameSpace} )
+        ->proxy(
+        $Config->{Endpoint},
+        timeout => 60,
+        );
+
+    # prepare data
+    my @SOAPData = $Self->_SOAPOutputRecursion(
+        Data => $Param{Data},
+    );
+
+    # prepare method
+    my $SOAPMethod = SOAP::Data
+        ->name( $Param{Operation} )
+        ->uri( $Config->{NameSpace} );
+
+    # send request to server
+    my $SOAPResult;
+    eval {
+        $SOAPResult = $SOAPHandle->call(
+            $SOAPMethod => @SOAPData,
+        );
+    };
+
+    # return result
+    my $Data = $SOAPResult->body();
+    return {
+        Success => 1,
+        Data    => $Data->{ $Param{Operation} . 'Response' },
+    };
 }
 
 sub _Error {
@@ -278,6 +314,9 @@ sub _SOAPOutputRecursion {
     my ( $Self, %Param ) = @_;
 
     my @Result;
+    if ( IsString( $Param{Data} ) ) {
+        return $Param{Data};
+    }
     if ( IsArrayRefWithData( $Param{Data} ) ) {
         KEY:
         for my $Key ( @{ $Param{Data} } ) {
@@ -329,6 +368,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-03-03 16:23:23 $
+$Revision: 1.8 $ $Date: 2011-03-04 20:47:36 $
 
 =cut
