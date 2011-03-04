@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.3 2011-03-03 17:10:57 cr Exp $
+# $Id: Serialize.t,v 1.4 2011-03-04 02:37:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,11 +23,24 @@ my $XMLObject = XML::TreePP->new();
 
 my @SoapTests = (
     {
+        Name      => 'Undefined data',
+        Operation => 'MyOperation',
+        Data      => undef,
+        Success   => 0,
+    },
+    {
+        Name      => 'Empty',
+        Operation => 'MyOperation',
+        Data      => '',
+        Success   => 0,
+    },
+    {
         Name      => 'Scalar',
         Operation => 'MyOperation',
         Data      => {
             Var => 1,
         },
+        Success => 1,
     },
     {
         Name      => 'Hash',
@@ -42,6 +55,7 @@ my @SoapTests = (
                 },
             },
         },
+        Success => 1,
     },
     {
         Name      => 'Array',
@@ -49,6 +63,7 @@ my @SoapTests = (
         Data      => {
             Var => [ 1, 2, 3 ],
         },
+        Success => 1,
     },
     {
         Name      => 'Complex',
@@ -70,6 +85,7 @@ my @SoapTests = (
                 ],
             ],
         },
+        Success => 0,
     },
 
 );
@@ -174,27 +190,43 @@ for my $Test (@SoapTests) {
         "Test $Test->{Name}: SOAP Envelope component xmlns:soap is not empty",
     );
 
-    $Self->IsDeeply(
-        $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-        $Test->{Data},
-        "Test $Test->{Name}: SOAP Response data parsed as normal XML",
-    );
-
     # deserialize with SOAP::Lite
     my $SOAPObject = eval { SOAP::Deserializer->deserialize($Content); };
-
     my $SOAPError = $@;
+
     $Self->False(
         $SOAPError,
-        "Test $Test->{Name}: SOAP::Lite Deserialize",
+        "Test $Test->{Name}: SOAP::Lite Deserialize with no errors",
     );
 
-    my $SOAPBody = $SOAPObject->body();
-    $Self->IsDeeply(
-        $SOAPBody->{ $Test->{Operation} . 'Response' },
-        $Test->{Data},
-        "Test $Test->{Name}: SOAP Response data parsed as normal SOAP message",
-    );
+    if ( $Test->{Success} ) {
+        $Self->IsDeeply(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            $Test->{Data},
+            "Test $Test->{Name}: SOAP Response data parsed as normal XML IsDeeply",
+        );
+
+        my $SOAPBody = $SOAPObject->body();
+        $Self->IsDeeply(
+            $SOAPBody->{ $Test->{Operation} . 'Response' },
+            $Test->{Data},
+            "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
+        );
+    }
+    else {
+        $Self->IsNotDeeply(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            $Test->{Data},
+            "Test $Test->{Name}: SOAP Response data parsed as normal XML IsNotDeeply",
+        );
+
+        my $SOAPBody = $SOAPObject->body();
+        $Self->IsNotDeeply(
+            $SOAPBody->{ $Test->{Operation} . 'Response' },
+            $Test->{Data},
+            "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsNotDeeply",
+        );
+    }
 }
 
 1;
