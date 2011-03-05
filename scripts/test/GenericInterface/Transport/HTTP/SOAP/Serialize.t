@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.4 2011-03-04 02:37:27 cr Exp $
+# $Id: Serialize.t,v 1.5 2011-03-05 06:19:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,17 +21,31 @@ use Kernel::GenericInterface::Transport::HTTP::SOAP;
 # create needed objects
 my $XMLObject = XML::TreePP->new();
 
+my $SOAPHeader = '<?xml version="1.0" encoding="UTF-8"?>'
+    . '<soap:Envelope '
+    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+    . 'xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
+    . '<soap:Body>';
+
+my $SOAPFooter = '</soap:Body>'
+    . '</soap:Envelope>';
+
 my @SoapTests = (
     {
-        Name      => 'Undefined data',
+        Name      => 'Undefined data Fail',
         Operation => 'MyOperation',
         Data      => undef,
+        XML       => ' ',
         Success   => 0,
     },
     {
-        Name      => 'Empty',
+        Name      => 'Empty Fail',
         Operation => 'MyOperation',
         Data      => '',
+        XML       => ' ',
         Success   => 0,
     },
     {
@@ -40,6 +54,7 @@ my @SoapTests = (
         Data      => {
             Var => 1,
         },
+        XML     => '<Var>1</Var>',
         Success => 1,
     },
     {
@@ -55,6 +70,14 @@ my @SoapTests = (
                 },
             },
         },
+        XML => '<Var>'
+            . '<Hash>'
+            . '<Key1>1</Key1>'
+            . '<Key2>2</Key2>'
+            . '</Hash>'
+            . '<Number>2</Number>'
+            . '<String>foo</String>'
+            . '</Var>',
         Success => 1,
     },
     {
@@ -63,10 +86,40 @@ my @SoapTests = (
         Data      => {
             Var => [ 1, 2, 3 ],
         },
+        XML => '<Var>1</Var>'
+            . '<Var>2</Var>'
+            . '<Var>3</Var>',
         Success => 1,
     },
     {
         Name      => 'Complex',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => [
+                1,
+                Hash => {
+                    Key1 => [ 1, 2 ],
+                    Key3 => 1,
+                    Key4 => {
+                        Key5 => 'Hash',
+                    },
+                },
+            ],
+        },
+        XML => '<Var>1</Var>'
+            . '<Var>Hash</Var>'
+            . '<Var>'
+            . '<Key1>1</Key1>'
+            . '<Key1>2</Key1>'
+            . '<Key3>1</Key3>'
+            . '<Key4>'
+            . '<Key5>Hash</Key5>'
+            . '</Key4>'
+            . '</Var>',
+        Success => 1,
+    },
+    {
+        Name      => 'ArrayRef inside ArrayRef Fail',
         Operation => 'MyOperation',
         Data      => {
             Var => [
@@ -85,9 +138,9 @@ my @SoapTests = (
                 ],
             ],
         },
+        XML     => ' ',
         Success => 0,
     },
-
 );
 
 # loop trough the tests
@@ -102,8 +155,14 @@ for my $Test (@SoapTests) {
     my $SOAPResult = SOAP::Data->value(@SOAPData);
     my $Content    = SOAP::Serializer
         ->autotype(0)
-        ->readable(1)
         ->envelope( response => $Test->{Operation} . 'Response', $SOAPResult, );
+
+    # create an XML file to compare the expected results
+    my $SOAPRawContent = $SOAPHeader
+        . '<' . $Test->{Operation} . 'Response' . '>'
+        . $Test->{XML}
+        . '</' . $Test->{Operation} . 'Response' . '>'
+        . $SOAPFooter;
 
     # convert soap XML back to perl structure for easy handling
     $XMLObject->set( attr_prefix => '' );
@@ -200,6 +259,13 @@ for my $Test (@SoapTests) {
     );
 
     if ( $Test->{Success} ) {
+
+        $Self->IsDeeply(
+            $Content,
+            $SOAPRawContent,
+            "Test $Test->{Name}: SOAP Response data raw as normal XML IsDeeply",
+        );
+
         $Self->IsDeeply(
             $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
             $Test->{Data},
