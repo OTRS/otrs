@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.3 2011-03-03 17:26:08 cr Exp $
+# $Id: Deserialize.t,v 1.4 2011-03-06 19:13:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,117 @@ my @Tests = (
         Operation => 'Response',
         Success   => '0',
     },
+    {
+        Name      => 'Test 6',
+        Data      => '<fooResponse><bar>abcd</bart></fooResponse>',
+        Operation => 'Response',
+        Success   => '0',
+    },
+    {
+        Name => 'Test 7',
+        Data =>
+            '<catalog>' .
+            '<product>' .
+            '<catalog_item>' .
+            '<item_number>QWERTY1</item_number>' .
+            '<price>50.3</price>' .
+            '<size>' .
+            '<color>Red</color>' .
+            '<color>Blue</color>' .
+            '</size>' .
+            '<size>' .
+            '<color>Red</color>' .
+            '<color>Green</color>' .
+            '</size>' .
+            '</catalog_item>' .
+            '<catalog_item>' .
+            '<item_number>QWERTY2</item_number>' .
+            '<price>42.50</price>' .
+            '<size>' .
+            '<color>Red</color>' .
+            '<color>Navy</color>' .
+            '<color>Green</color>' .
+            '</size>' .
+            '<size>' .
+            '<color>Red</color>' .
+            '<color>Navy</color>' .
+            '<color>Green</color>' .
+            '<color>Black</color>' .
+            '</size>' .
+            '<size>' .
+            '<color>Navy</color>' .
+            '<color>Black</color>' .
+            '</size>' .
+            '<size>' .
+            '<color>Green</color>' .
+            '<color>Black</color>' .
+            '</size>' .
+            '</catalog_item>' .
+            '</product>' .
+            '</catalog>',
+        Operation => 'Response',
+        Success   => '1',
+        Result    => {
+            'catalog' => {
+                'product' => {
+                    'catalog_item' => [
+                        {
+                            'item_number' => 'QWERTY1',
+                            'price'       => '50.3',
+                            'size'        => [
+                                {
+                                    'color' => [
+                                        'Red',
+                                        'Blue'
+                                        ]
+                                },
+                                {
+                                    'color' => [
+                                        'Red',
+                                        'Green'
+                                        ]
+                                }
+                                ]
+                        },
+                        {
+                            'item_number' => 'QWERTY2',
+                            'price'       => '42.50',
+                            'size'        => [
+                                {
+                                    'color' => [
+                                        'Red',
+                                        'Navy',
+                                        'Green'
+                                        ]
+                                },
+                                {
+                                    'color' => [
+                                        'Red',
+                                        'Navy',
+                                        'Green',
+                                        'Black'
+                                        ]
+                                },
+                                {
+                                    'color' => [
+                                        'Navy',
+                                        'Black'
+                                        ]
+                                },
+                                {
+                                    'color' => [
+                                        'Green',
+                                        'Black'
+                                        ]
+                                }
+                                ]
+                        }
+                        ]
+                    }
+                }
+
+        },
+    },
 );
 
 for my $Test (@Tests) {
@@ -124,40 +235,6 @@ for my $Test (@Tests) {
     );
 
 }
-
-#sub _SOAPOutputRecursion {
-#    my ( $Self, %Param ) = @_;
-#
-#    my @Result;
-#    if ( IsArrayRefWithData( $Param{Data} ) ) {
-#        for my $Key ( @{ $Param{Data} } ) {
-#            push @Result, \SOAP::Data->value(
-#                $Self->_SOAPOutputRecursion( Data => $Key )
-#            );
-#        }
-#        return @Result;
-#    }
-#    if ( IsHashRefWithData( $Param{Data} ) ) {
-#        for my $Key ( sort keys %{ $Param{Data} } ) {
-#            my $Value;
-#            if ( IsString( $Param{Data}->{$Key} ) ) {
-#                $Value = $Param{Data}->{$Key} || '';
-#            }
-#            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
-#                $Value = \SOAP::Data->value(
-#                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-#                );
-#            }
-#            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
-#                $Value = SOAP::Data->value(
-#                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
-#                );
-#            }
-#            push @Result, SOAP::Data->name($Key)->value($Value);
-#        }
-#        return @Result;
-#    }
-#}
 
 # end tests
 
