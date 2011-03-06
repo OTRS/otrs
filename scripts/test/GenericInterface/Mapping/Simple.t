@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.11 2011-03-03 15:03:36 mg Exp $
+# $Id: Simple.t,v 1.12 2011-03-06 17:26:56 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,29 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Debugger;
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::UnitTest::Helper;
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %$Self,
+    UnitTestObject => $Self,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => {},
+    Name    => "$RandomID webservice",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
 
 # create a debbuger object
 
@@ -24,7 +47,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         DebugThreshold => 'debug',
         TestMode       => 1,
     },
-    WebserviceID      => 1,
+    WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
 
@@ -43,7 +66,7 @@ $Self->Is(
 );
 
 # long hash
-my $Limit    = 100000;
+my $Limit    = 10000;
 my $LimitSub = 10;
 my %LargeHash;
 my %LargeHashNewValue;
@@ -66,7 +89,7 @@ for my $File (qw(xls txt doc png pdf)) {
     );
     $Attachments{$File} = ${$ContentRef};
 }
-my $AttachmentsLimit = 5000;    # take note is this number * 5 (types files)
+my $AttachmentsLimit = 500;    # take note is this number * 5 (types files)
 my %LargeHashAttachments;
 my %LargeHashAttachmentsResult;
 for my $Key ( 0 .. $AttachmentsLimit ) {
@@ -656,6 +679,17 @@ for my $Test (@MappingTests) {
             $Test->{Name} . ' error message found',
         );
     }
-}
+}    # end tests
+
+# delete webservice
+my $Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
+);
 
 1;
