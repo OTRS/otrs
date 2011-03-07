@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PDF.pm - PDF lib
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.33 2009-02-16 11:58:56 tr Exp $
+# $Id: PDF.pm,v 1.33.2.1 2011-03-07 21:27:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.33.2.1 $) [1];
 
 =head1 NAME
 
@@ -56,6 +56,17 @@ sub new {
         return;
     }
     elsif (
+
+        # version 2.x or newer exports a proper version number
+        $PDF::API2::VERSION =~ m{^(\d)\..*}mx
+        && ( $1 > 1 )
+        )
+    {
+        return $Self;
+    }
+    elsif (
+
+        # versions 0.73 and lower have a special Version.pm
         $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
         && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) )
         )
@@ -154,7 +165,11 @@ sub DocumentNew {
             $Self->{Font}->{Testfont1}
                 = $Self->{PDF}->corefont( 'Helvetica', -encode => $Self->{Document}->{Encode}, );
             $Self->{Font}->{Testfont2}
-                = $Self->{PDF}->ttfont( 'DejaVuSans.ttf', -encode => $Self->{Document}->{Encode}, );
+                = $Self->{PDF}->ttfont(
+                'DejaVuSans.ttf',
+                -encode     => $Self->{Document}->{Encode},
+                -unicodemap => 1,
+                );
 
             # get font config
             my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
@@ -162,7 +177,7 @@ sub DocumentNew {
             # set fonts
             for my $FontType ( keys %FontFiles ) {
                 $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
-                    $FontFiles{$FontType}, -encode => $Self->{Document}->{Encode},
+                    $FontFiles{$FontType}, -encode => $Self->{Document}->{Encode}, -unicodemap => 1,
                 );
             }
             return 1;
@@ -3610,10 +3625,10 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.33.2.1 $ $Date: 2011-03-07 21:27:29 $
 
 =cut
