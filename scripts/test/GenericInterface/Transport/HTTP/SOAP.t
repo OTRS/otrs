@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.1 2011-03-04 20:51:19 sb Exp $
+# $Id: SOAP.t,v 1.2 2011-03-07 17:22:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,14 @@ $Self->True(
 );
 
 # prepare webservice config
+my $RemoteSystem =
+    $Self->{ConfigObject}->Get('HttpType')
+    . '://'
+    . $Self->{ConfigObject}->Get('FQDN')
+    . '/'
+    . $Self->{ConfigObject}->Get('ScriptAlias')
+    . '/nph-genericinterface.pl/WebserviceID/'
+    . $WebserviceID;
 my $WebserviceConfig = {
     Name        => 'SOAPTest1',
     Description => 'Basic test for provider and requester using SOAP transport backend.',
@@ -53,8 +61,7 @@ my $WebserviceConfig = {
                 MaxLength => 10000000,
                 NameSpace => 'http://otrs.org/SoapTestInterface/',
                 Encoding  => 'UTF-8',
-                Endpoint =>
-                    'http://server/otrs-cvs/nph-genericinterface.pl/WebserviceID/' . $WebserviceID,
+                Endpoint  => $RemoteSystem,
             },
         },
         Operation => {
@@ -106,8 +113,7 @@ my $WebserviceConfig = {
             Config => {
                 NameSpace => 'http://otrs.org/SoapTestInterface/',
                 Encoding  => 'UTF-8',
-                Endpoint =>
-                    'http://server/otrs-cvs/nph-genericinterface.pl/WebserviceID/' . $WebserviceID,
+                Endpoint  => $RemoteSystem,
             },
         },
         Invoker => {
