@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.24 2011-03-02 19:33:47 en Exp $
+# $Id: CHANGES,v 1.1758.2.25 2011-03-07 11:59:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,13 +10,14 @@
 # --
 
 3.0.7 2011-??-??
- - 2011-03-02 Fixed bug#6936. Click on Customer triggers Wildcard-Search.
- - 2011-02-28 Fixed bug#6961. TicketActionsPerTicket - Buttons not localized.
- - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
+ - 2011-03-07 Fixed bug#7006  - One MainObject unit test fails on Win32.
+ - 2011-03-02 Fixed bug#6936 -  Click on Customer triggers Wildcard-Search.
+ - 2011-02-28 Fixed bug#6961 -  TicketActionsPerTicket - Buttons not localized.
+ - 2011-02-28 Fixed bug#5578 -  TicketSolutionResponseTime.pm fix.
  - 2011-02-28 Fixed bug#6974 - Ticket Search does not find tickets if searching by
     in between 2 dates, and the ticket time is 00:00:00.
  - 2011-02-28 Fixed bug#6930 - en_GB (united kingdom) notification events blank.
- - 2011-02-25 Fixed bug#6822. Underscore in username problem in 3.0.5.
+ - 2011-02-25 Fixed bug#6822 -  Underscore in username problem in 3.0.5.
  - 2011-02-25 Added Hindi translation, thanks to Chetan Nagaonkar!
 
 3.0.6 2011-02-29
@@ -35,7 +36,7 @@
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
  - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#2877 - Licence is "License" in British English.
- - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed
+ - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed.
  - 2011-02-01 Fixed bug#6696 - TicketFreeTime options are line breaked in the
     search window.
  - 2011-01-31 Implemented bug#6824 - Adding system addresses from CLI, via new
