@@ -1,8 +1,8 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.23 2010-10-29 22:16:59 en Exp $
+# $Id: Main.t,v 1.24 2011-03-07 12:00:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,6 +135,13 @@ my %MD5SumOf = (
     txt => '0596f2939525c6bd50fc2b649e40fbb6',
     xls => '39fae660239f62bb0e4a29fe14ff5663',
 );
+
+# on Win32 we have Windows style line endings for the .txt file.
+# this causes a different md5sum then when run on Linux.
+
+if ( $^O =~ 'MSWin' ) {
+    $MD5SumOf{txt} = '930d6f64fb8949ce4ddceb4ab45b1d2e';
+}
 
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
