@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.45 2011-01-31 09:22:08 mb Exp $
+# $Id: PDF.pm,v 1.45.2.1 2011-03-07 21:22:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.45.2.1 $) [1];
 
 =head1 NAME
 
@@ -212,7 +212,8 @@ sub DocumentNew {
         for my $FontType ( keys %FontFiles ) {
             $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
                 $FontFiles{$FontType},
-                -encode => $Self->{Document}->{Encode},
+                -encode     => $Self->{Document}->{Encode},
+                -unicodemap => 1,
             );
         }
     }
@@ -221,11 +222,13 @@ sub DocumentNew {
         # set testfont (only used in unitests)
         $Self->{Font}->{Testfont1} = $Self->{PDF}->corefont(
             'Helvetica',
-            -encode => $Self->{Document}->{Encode},
+            -encode     => $Self->{Document}->{Encode},
+            -unicodemap => 1,
         );
         $Self->{Font}->{Testfont2} = $Self->{PDF}->ttfont(
             'DejaVuSans.ttf',
-            -encode => $Self->{Document}->{Encode},
+            -encode     => $Self->{Document}->{Encode},
+            -unicodemap => 1,
         );
 
         # get font config
@@ -3534,6 +3537,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2011-01-31 09:22:08 $
+$Revision: 1.45.2.1 $ $Date: 2011-03-07 21:22:10 $
 
 =cut
