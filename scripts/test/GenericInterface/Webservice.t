@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.13 2011-02-28 16:20:51 sb Exp $
+# $Id: Webservice.t,v 1.14 2011-03-07 19:54:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -346,6 +346,30 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
+    # get config from cache
+    my $WebserviceFromCache = $WebserviceObject->WebserviceGet(
+        ID     => $WebserviceID,
+        UserID => 1,
+    );
+
+    # verify config from cache
+    $Self->Is(
+        $Test->{Name} . ' ' . $RandomID,
+        $WebserviceFromCache->{Name},
+        "$Test->{Name} - WebserviceGet() from cache",
+    );
+    $Self->IsDeeply(
+        $WebserviceFromCache->{Config},
+        $Test->{Add}->{Config},
+        "$Test->{Name} - WebserviceGet() from cache- Config",
+    );
+
+    $Self->IsDeeply(
+        $Webservice,
+        $WebserviceFromCache,
+        "$Test->{Name} - WebserviceGet() - Cache and DB",
+    );
+
     # update config with a modification
     if ( !$Test->{Update} ) {
         $Test->{Update} = $Test->{Add};
@@ -358,14 +382,14 @@ for my $Test (@Tests) {
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
             $Success,
-            "$Test->{Name} - WebserviceUpdate()",
+            "$Test->{Name} - WebserviceUpdate() False",
         );
         next;
     }
     else {
         $Self->True(
             $Success,
-            "$Test->{Name} - WebserviceUpdate()",
+            "$Test->{Name} - WebserviceUpdate() True",
         );
     }
 
@@ -418,14 +442,34 @@ for my $Test (@Tests) {
             );
         }
     }
+
+    # verify if cache was also updated
+    if ( $Test->{SuccessUpdate} ) {
+        my $WebserviceUpdateFromCache = $WebserviceObject->WebserviceGet(
+            ID     => $WebserviceID,
+            UserID => 1,
+        );
+
+        # verify config from cache
+        $Self->Is(
+            $Test->{Name} . ' ' . $RandomID,
+            $WebserviceUpdateFromCache->{Name},
+            "$Test->{Name} - WebserviceGet() from cache",
+        );
+        $Self->IsDeeply(
+            $WebserviceUpdateFromCache->{Config},
+            $Test->{Update}->{Config},
+            "$Test->{Name} - WebserviceGet() from cache- Config",
+        );
+    }
 }
 
-# list check
+# list check from DB
 my $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
         scalar $WebserviceList->{$WebserviceID},
-        "WebserviceList() found Webservice $WebserviceID",
+        "WebserviceList() from DB found Webservice $WebserviceID",
     );
 
     my @WebserviceHistoryList = $WebserviceHistoryObject->WebserviceHistoryList(
@@ -435,6 +479,15 @@ for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
         scalar @WebserviceHistoryList > 0,
         "WebserviceHistoryList() found entries for Webservice $WebserviceID",
+    );
+}
+
+# list check from cache
+$WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
+for my $WebserviceID (@WebserviceIDs) {
+    $Self->True(
+        scalar $WebserviceList->{$WebserviceID},
+        "WebserviceList() from Cache found Webservice $WebserviceID",
     );
 }
 
@@ -458,7 +511,7 @@ for my $WebserviceID (@WebserviceIDs) {
     );
 }
 
-# list check
+# list check from DB
 $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
@@ -472,7 +525,7 @@ for my $WebserviceID (@WebserviceIDs) {
 
     $Self->False(
         scalar @WebserviceHistoryList,
-        "WebserviceHistoryList() found entries for Webservice $WebserviceID",
+        "WebserviceHistoryList() from DB found entries for Webservice $WebserviceID",
     );
     my @History = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => $WebserviceID,
@@ -481,6 +534,15 @@ for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
         scalar @History,
         'WebserviceHistoryList()',
+    );
+}
+
+# list check from cache
+$WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
+for my $WebserviceID (@WebserviceIDs) {
+    $Self->False(
+        scalar $WebserviceList->{$WebserviceID},
+        "WebserviceList() from cache did not find webservice $WebserviceID",
     );
 }
 
