@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1790 2011-03-02 19:56:51 en Exp $
+# $Id: CHANGES,v 1.1791 2011-03-07 08:39:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-03-07 Added feature bug#6140 - Make the refresh interval of the dashboard
+    configurable.
  - 2011-03-02 Fixed bug#6936. Click on Customer triggers Wildcard-Search.
  - 2011-02-28 Fixed bug#6961. TicketActionsPerTicket - Buttons not localized.
  - 2011-03-01 Added feature bug#6977 - Next Screen after AgentTicketMove should
