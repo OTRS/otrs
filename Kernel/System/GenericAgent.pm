@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.70 2010-12-22 14:02:35 martin Exp $
+# $Id: GenericAgent.pm,v 1.71 2011-03-07 15:37:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -130,6 +130,7 @@ sub new {
         OwnerIDs                => 'ARRAY',
         LockIDs                 => 'ARRAY',
         TypeIDs                 => 'ARRAY',
+        ResponsibleIDs          => 'ARRAY',
         ServiceIDs              => 'ARRAY',
         SLAIDs                  => 'ARRAY',
         NewTitle                => 'SCALAR',
@@ -141,6 +142,7 @@ sub new {
         NewOwnerID              => 'SCALAR',
         NewLockID               => 'SCALAR',
         NewTypeID               => 'SCALAR',
+        NewResponsibleID        => 'SCALAR',
         NewServiceID            => 'SCALAR',
         NewSLAID                => 'SCALAR',
         ScheduleLastRun         => 'SCALAR',
@@ -949,6 +951,30 @@ sub _JobRunTicket {
         );
     }
 
+    # set new responsible
+    if ( $Param{Config}->{New}->{Responsible} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set responsible of Ticket $Ticket to '$Param{Config}->{New}->{Responsible}'\n";
+        }
+        $Self->{TicketObject}->TicketResponsibleSet(
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            NewUser  => $Param{Config}->{New}->{Responsible},
+        );
+    }
+    if ( $Param{Config}->{New}->{ResponsibleID} ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print
+                "  - set responsible id of Ticket $Ticket to '$Param{Config}->{New}->{ResponsibleID}'\n";
+        }
+        $Self->{TicketObject}->TicketResponsibleSet(
+            TicketID  => $Param{TicketID},
+            UserID    => $Param{UserID},
+            NewUserID => $Param{Config}->{New}->{ResponsibleID},
+        );
+    }
+
     # set new lock
     if ( $Param{Config}->{New}->{Lock} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -1165,6 +1191,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2010-12-22 14:02:35 $
+$Revision: 1.71 $ $Date: 2011-03-07 15:37:27 $
 
 =cut

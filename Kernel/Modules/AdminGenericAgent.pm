@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.93 2010-12-01 13:41:06 bes Exp $
+# $Id: AdminGenericAgent.pm,v 1.94 2011-03-07 15:37:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,7 +102,7 @@ sub Run {
             CustomerUserLogin Agent SearchInArchive
             NewTitle
             NewCustomerID NewCustomerUserLogin
-            NewStateID NewQueueID NewPriorityID NewOwnerID
+            NewStateID NewQueueID NewPriorityID NewOwnerID NewResponsibleID
             NewTypeID NewServiceID NewSLAID
             NewNoteFrom NewNoteSubject NewNoteBody NewNoteTimeUnits NewModule
             NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
@@ -193,7 +193,7 @@ sub Run {
 
         # get array params
         for my $Parameter (
-            qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+            qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs ResponsibleIDs
             TypeIDs ServiceIDs SLAIDs
             ScheduleDays ScheduleMinutes ScheduleHours
             )
@@ -899,6 +899,32 @@ sub _MaskUpdate {
         );
         $Self->{LayoutObject}->Block(
             Name => 'NewTicketService',
+            Data => {%JobData},
+        );
+    }
+
+    # ticket responsible string
+    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
+        $JobData{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%ShownUsers,
+            Name       => 'ResponsibleIDs',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $JobData{ResponsibleIDs},
+        );
+        $JobData{NewResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => \%ShownUsers,
+            Name       => 'NewResponsibleID',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $JobData{NewResponsibleID},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketResponsible',
+            Data => {%JobData},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'NewTicketResponsible',
             Data => {%JobData},
         );
     }
