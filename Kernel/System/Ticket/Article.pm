@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.275 2011-02-28 09:41:24 bes Exp $
+# $Id: Article.pm,v 1.276 2011-03-07 15:01:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.275 $) [1];
+$VERSION = qw($Revision: 1.276 $) [1];
 
 =head1 NAME
 
@@ -960,7 +960,7 @@ get a article type list
         Result => 'ARRAY', # optional, ARRAY|HASH
     );
 
-    # to get just customer shown article types
+    # to get only article types visible for customers
     my @ArticleTypeList = $TicketObject->ArticleTypeList(
         Result => 'ARRAY',    # optional, ARRAY|HASH
         Type   => 'Customer', # optional to get only customer viewable article types
@@ -999,7 +999,7 @@ sub ArticleTypeList {
 
 get _possible_ article free text options
 
-Note: the current value is accessible over ArticleGet()
+Note: the current value is accessible using ArticleGet()
 
     my $HashRef = $TicketObject->ArticleFreeTextGet(
         Type      => 'ArticleFreeText3',
@@ -1086,7 +1086,7 @@ sub ArticleFreeTextGet {
 
 =item ArticleFreeTextSet()
 
-set article free text
+set an article free text field
 
     my $Success = $TicketObject->ArticleFreeTextSet(
         TicketID  => 123,
@@ -1221,7 +1221,7 @@ sub ArticleFirstArticle {
 
 =item ArticleIndex()
 
-returns an array with article id's
+returns an array with article IDs
 
     my @ArticleIDs = $TicketObject->ArticleIndex(
         TicketID => 123,
@@ -1298,14 +1298,14 @@ only with given article types
         ArticleType => [ $ArticleType1, $ArticleType2 ],
     );
 
-examplie how to access the hash ref
+example of how to access the hash ref
 
     for my $Article (@ArticleBox) {
         print "From: $Article->{From}\n";
     }
 
-Note: If a attachment with html body content is available, the attachment id
-it's given as 'AttachmentIDOfHTMLBody' in hash ref.
+Note: If an attachment with html body content is available, the attachment id
+is returned as 'AttachmentIDOfHTMLBody' in hash ref.
 
 =cut
 
@@ -1374,7 +1374,7 @@ Article:
     ArticleFreeText-3
 
 Ticket:
-    - see TicketGet() for ticket attributes-
+    - see TicketGet() for ticket attributes -
 
 returns articles in array / hash by given ticket id
 
@@ -1384,7 +1384,7 @@ returns articles in array / hash by given ticket id
     );
 
 returns articles in array / hash by given ticket id but
-only requestet article types
+only requested article types
 
     my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID    => 123,
@@ -1846,9 +1846,9 @@ sub _ArticleGetId {
 
 =item ArticleUpdate()
 
-update a article item
+update an article
 
-Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" is implemented.
+Note: Keys "Body", "Subject", "From", "To", "Cc", "ArticleType" and "SenderType" are implemented.
 
     my $Success = $TicketObject->ArticleUpdate(
         ArticleID => 123,
@@ -3352,6 +3352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.275 $ $Date: 2011-02-28 09:41:24 $
+$Revision: 1.276 $ $Date: 2011-03-07 15:01:08 $
 
 =cut
