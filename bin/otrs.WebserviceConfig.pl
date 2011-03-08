@@ -3,7 +3,7 @@
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.WebserviceConfig.pl,v 1.3 2011-02-28 15:33:28 cg Exp $
+# $Id: otrs.WebserviceConfig.pl,v 1.4 2011-03-08 17:33:16 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,11 +52,13 @@ if ( $Opts{h} ) {
     print
         "usage: otrs.WebserviceConfig.pl -a read  -i \$ID                         (read config, print to STDOUT)\n";
     print
-        "                                -a write -n \$name -f /path/to/yuml/file (create a new config)\n";
+        "                                -a write -n \$name -f /path/to/yaml/file (create a new config)\n";
     print
-        "                                -a write -i \$ID -f /path/to/yuml/file   (update config)\n";
+        "                                -a write -i \$ID -f /path/to/yaml/file   (update config)\n";
     print
         "                                -a list                                  (list available config)\n";
+    print
+        "                                -a delete  -i \$ID                       (delete config)\n";
     exit 1;
 }
 
