@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/rpc.pl - soap handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.14 2009-06-29 21:25:56 martin Exp $
+# $Id: rpc.pl,v 1.14.6.1 2011-03-08 14:06:08 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,6 +28,7 @@ use warnings;
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
 use SOAP::Transport::HTTP;
 use Kernel::Config;
@@ -45,7 +46,7 @@ use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.14.6.1 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
