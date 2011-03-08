@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.23 2011-03-07 23:32:12 dz Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.24 2011-03-08 04:21:06 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,19 +111,6 @@ sub Check {
             && $ContentType !~ /signed/i
             )
         {
-
-            # if this is already decrypted just skip it
-            if ( $Param{Article}->{Body} !~ /\Q- no text message => see attachment -\E/ ) {
-
-                # return info
-                return (
-                    {
-                        Key        => 'Crypted',
-                        Value      => 'This message was successfuly dercypted',
-                        Successful => 1,
-                    }
-                );
-            }
 
             # check sender (don't decrypt sent emails)
             if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
