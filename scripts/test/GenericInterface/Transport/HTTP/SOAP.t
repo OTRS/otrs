@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.2 2011-03-07 17:22:59 sb Exp $
+# $Id: SOAP.t,v 1.3 2011-03-08 16:31:16 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Requester;
 use Kernel::GenericInterface::Transport;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
@@ -26,8 +27,13 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 # add webservice to be used (empty config)
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $WebserviceName   = 'SOAPTest' . $HelperObject->GetRandomID();
-my $WebserviceID     = $WebserviceObject->WebserviceAdd(
+$Self->Is(
+    'Kernel::System::GenericInterface::Webservice',
+    ref $WebserviceObject,
+    "Create webservice object",
+);
+my $WebserviceName = 'SOAPTest' . $HelperObject->GetRandomID();
+my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     Name    => $WebserviceName,
     Config  => {},
     ValidID => 1,
@@ -184,6 +190,11 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
     WebserviceID      => $WebserviceID,
 );
+$Self->Is(
+    'Kernel::GenericInterface::Debugger',
+    ref $DebuggerObject,
+    "Create debugger object",
+);
 
 my $RequestData = {
     PriorityName => '5 very high',
@@ -198,9 +209,15 @@ my $ExpectedReturnData = {
     },
 };
 
-# start requester with webservice
-use Kernel::GenericInterface::Requester;
+# create requester object
 my $RequesterObject = Kernel::GenericInterface::Requester->new( %{$Self} );
+$Self->Is(
+    'Kernel::GenericInterface::Requester',
+    ref $RequesterObject,
+    "Create requester object",
+);
+
+# start requester with our webservice
 my $RequesterResult = $RequesterObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'PriorityIDName',
@@ -208,16 +225,25 @@ my $RequesterResult = $RequesterObject->Run(
 );
 
 # check result
-$Self->True(
-    $RequesterResult->{Success},
-    "Requester success status (needs configured and running webserver)",
+$Self->Is(
+    'HASH',
+    ref $RequesterResult,
+    "Requester result structure is valid",
 );
-if ( $RequesterResult->{Success} ) {
-    $Self->IsDeeply(
-        $ExpectedReturnData,
-        $RequesterResult->{Data},
-        "Requester result match (needs configured and running webserver)",
+if ( ref $RequesterResult eq 'HASH' ) {
+    $Self->True(
+        $RequesterResult->{Success},
+        "Requester success status (needs configured and running webserver)",
     );
+    if ( $RequesterResult->{Success} ) {
+
+        # check returned structure
+        $Self->IsDeeply(
+            $ExpectedReturnData,
+            $RequesterResult->{Data},
+            "Requester result match",
+        );
+    }
 }
 
 # clean up webservice
