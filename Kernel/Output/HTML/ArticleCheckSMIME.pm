@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.20 2009-04-23 13:47:27 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.20.6.1 2011-03-08 04:22:02 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
+use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.6.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,6 +85,15 @@ sub Check {
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
+
+        my @Email = ();
+        my @Lines = split( /\n/, $Message );
+        for my $Line (@Lines) {
+            push( @Email, $Line . "\n" );
+        }
+
+        my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => \@Email, );
+
         use MIME::Parser;
         my $parser = MIME::Parser->new();
         $parser->decode_headers(0);
@@ -115,38 +125,122 @@ sub Check {
                 );
             }
 
-            # decrypt
-            my %Decrypt = $Self->{CryptObject}->Decrypt(
-                Message => $Message,
-                Cert    => 123,
-                Key     => 123,
-            );
-            if ( $Decrypt{Successful} ) {
-                $Entity = $parser->parse_data( $Decrypt{Data} );
-                my $Head = $Entity->head();
-                $Head->unfold();
-                $Head->combine('Content-Type');
-                $ContentType = $Head->get('Content-Type');
+            # get all email addresses on article
+            my %EmailsToSearch;
+            for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
+
+                my @EmailAddressOnField = $ParserObject->SplitAddressLine(
+                    Line => $ParserObject->GetParam( WHAT => $Email ),
+                );
+
+                # filter email addresses avoiding repeated and save on hash to search
+                for my $EmailAddress (@EmailAddressOnField) {
+                    my $CleanEmailAddress
+                        = $ParserObject->GetEmailAddress( Email => $EmailAddress, );
+                    $EmailsToSearch{$CleanEmailAddress} = '1';
+                }
+            }
+
+            # look for private keys for every email address
+            # extract every resulting cert and put it into an hash of hashes avoiding repeated
+            my %PrivateKeys;
+            for my $EmailAddress ( keys %EmailsToSearch ) {
+                my @PrivateKeysResult
+                    = $Self->{CryptObject}->PrivateSearch( Search => $EmailAddress, );
+                for my $Cert (@PrivateKeysResult) {
+                    $PrivateKeys{ $Cert->{Hash} } = $Cert;
+                }
+            }
+
+            # search private cert to decrypt email
+            if ( !%PrivateKeys ) {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
-                        Value => $Decrypt{Message},
+                        Key => 'Crypted',
+                        Value =>
+                            "Impossible to decrypt: private key for email doesn't found",
+                    }
+                );
+                return @Return;
+            }
+
+            my %Decrypt;
+            PRIVATESEARCH:
+            for my $CertResult ( values %PrivateKeys ) {
+
+                # decrypt
+                %Decrypt = $Self->{CryptObject}->Decrypt(
+                    Message => $Message,
+                    %{$CertResult},
+                );
+                last PRIVATESEARCH if ( $Decrypt{Successful} );
+            }
+
+            if ( $Decrypt{Successful} ) {
+
+                # updated article body
+                $Self->{TicketObject}->ArticleUpdate(
+                    TicketID  => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    Key       => 'Body',
+                    Value     => $Decrypt{Data},
+                    UserID    => $Self->{UserID},
+                );
+
+                # delete crypted attachments
+                $Self->{TicketObject}->ArticleDeleteAttachment(
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                push(
+                    @Return,
+                    {
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message} || 'Successfull decryption',
                         %Decrypt,
                     }
                 );
+
+                %SignCheck = $Self->{CryptObject}->Verify( Message => $Decrypt{Data}, );
+                if ( $SignCheck{SignatureFound} ) {
+
+                    if ( $SignCheck{Successful} ) {
+
+                        # updated article body
+                        $Self->{TicketObject}->ArticleUpdate(
+                            TicketID  => $Param{Article}->{TicketID},
+                            ArticleID => $Self->{ArticleID},
+                            Key       => 'Body',
+                            Value     => $SignCheck{Content},
+                            UserID    => $Self->{UserID},
+                        );
+                    }
+
+                    push(
+                        @Return,
+                        {
+                            Key   => 'Signed',
+                            Value => $SignCheck{Message},
+                            %SignCheck,
+                        }
+                    );
+                }
+                return @Return;
             }
             else {
                 push(
                     @Return,
                     {
-                        Key   => 'Crypted',
-                        Value => $Decrypt{Message},
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message} || 'Impossible decrypt, unknown error',
                         %Decrypt,
                     }
                 );
             }
         }
+
         if (
             $ContentType
             && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i
@@ -159,7 +253,6 @@ sub Check {
 
             # parse and update clear content
             if ( %SignCheck && $SignCheck{Successful} && $SignCheck{Content} ) {
-                use Kernel::System::EmailParser;
 
                 my @Email = ();
                 my @Lines = split( /\n/, $SignCheck{Content} );
@@ -197,7 +290,8 @@ sub Check {
             }
         }
     }
-    if (%SignCheck) {
+
+    if ( $SignCheck{SignatureFound} ) {
 
         # return result
         push(
@@ -226,5 +320,4 @@ sub Filter {
     }
     return 1;
 }
-
 1;

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43 2010-11-20 20:50:46 dz Exp $
+# $Id: SMIME.pm,v 1.43.2.1 2011-03-08 04:22:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.43.2.1 $) [1];
 
 =head1 NAME
 
@@ -304,12 +304,6 @@ sub Verify {
     close $FHOutput;
     my ( $FHSigner, $SignerFile ) = $Self->{FileTempObject}->TempFile();
     close $FHSigner;
-    my $SigFile = '';
-    if ( $Param{Sign} ) {
-        ( my $FHSig, $SigFile ) = $Self->{FileTempObject}->TempFile();
-        print $FHSig $Param{Sign};
-        close $FHSig;
-    }
 
     # path to the cert, when self signed certs
     # specially for openssl 1.0
@@ -320,7 +314,7 @@ sub Verify {
 
     my $Options
         = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . "-CApath $Self->{CertPath} $CertificateOption $SigFile $SignedFile";
+        . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
@@ -366,7 +360,7 @@ sub Verify {
     }
     else {
         %Return = (
-            SignatureFound => 1,
+            SignatureFound => 0,
             Successful     => 0,
             Message        => 'OpenSSL: ' . $Message,
             MessageLong    => 'OpenSSL: ' . $MessageLong,
@@ -451,9 +445,9 @@ sub CertificateAdd {
     my %Attributes = $Self->CertificateAttributes(%Param);
     if ( $Attributes{Hash} ) {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
-        if ( open( OUT, '>', $File ) ) {
-            print OUT $Param{Certificate};
-            close(OUT);
+        if ( open( my $OUT, '>', $File ) ) {
+            print $OUT $Param{Certificate};
+            close($OUT);
             return 'Certificate uploaded!';
         }
         else {
@@ -699,21 +693,21 @@ sub PrivateGet {
         # no private exists
         return;
     }
-    elsif ( open( IN, '<', $File ) ) {
+    elsif ( open( my $IN, '<', $File ) ) {
         my $Private = '';
-        while (<IN>) {
+        while (<$IN>) {
             $Private .= $_;
         }
-        close(IN);
+        close($IN);
 
         # read secret
         my $File   = "$Self->{PrivatePath}/$Param{Hash}.P";
         my $Secret = '';
-        if ( open( IN, '<', $File ) ) {
-            while (<IN>) {
+        if ( open( my $IN, '<', $File ) ) {
+            while (<$IN>) {
                 $Secret .= $_;
             }
-            close(IN);
+            close($IN);
         }
         return ( $Private, $Secret );
     }
@@ -848,101 +842,105 @@ sub _Init {
 sub _FetchAttributesFromCert {
     my ( $Self, $Filename, $AttributesRef ) = @_;
 
-    my %Option = (
-        Hash        => '-subject_hash',
-        Issuer      => '-issuer',
-        Fingerprint => '-fingerprint -sha1',
-        Serial      => '-serial',
-        Subject     => '-subject',
-        StartDate   => '-startdate',
-        EndDate     => '-enddate',
-        Email       => '-email',
-        Modulus     => '-modulus',
-    );
-
     # The hash algorithm used in the -subject_hash and -issuer_hash options before OpenSSL 1.0.0
     # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
     # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
     #
     # output the hash of the certificate subject name using the older algorithm as
     # used by OpenSSL versions before 1.0.0.
+
+    # hash
+    my $HashAttribute = '-subject_hash';
+
     if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
-        $Option{Hash} = '-subject_hash_old';
+        $HashAttribute = '-subject_hash_old';
     }
 
-    for my $Key ( keys %Option ) {
-        my $Options = "x509 -in $Filename -noout $Option{$Key}";
-        my $Output  = qx{$Self->{Cmd} $Options 2>&1};
-        $Output =~ tr{\r\n}{}d;
-        if ( $Key eq 'Issuer' ) {
-            $Output =~ s/=/= /g;
-        }
-        elsif ( $Key eq 'Fingerprint' ) {
-            $Output =~ s/SHA1 Fingerprint=//;
-        }
-        elsif ( $Key eq 'StartDate' ) {
-            $Output =~ s/notBefore=//;
-        }
-        elsif ( $Key eq 'EndDate' ) {
-            $Output =~ s/notAfter=//;
-        }
-        elsif ( $Key eq 'Subject' ) {
-            $Output =~ s/subject=//;
-            $Output =~ s/\// /g;
-            $Output =~ s/=/= /g;
-        }
-        elsif ( $Key eq 'Modulus' ) {
-            $Output =~ s/Modulus=//;
-        }
-        if ( $Key =~ /(StartDate|EndDate)/ ) {
-            my $Type = $1;
-            if ( $Output =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
-                my $Day = $2;
-                if ( $Day < 10 ) {
-                    $Day = "0" . int($Day);
-                }
-                my $Month = '';
-                my $Year  = $4;
-                if ( $Output =~ /jan/i ) {
-                    $Month = '01';
-                }
-                elsif ( $Output =~ /feb/i ) {
-                    $Month = '02';
-                }
-                elsif ( $Output =~ /mar/i ) {
-                    $Month = '03';
-                }
-                elsif ( $Output =~ /apr/i ) {
-                    $Month = '04';
-                }
-                elsif ( $Output =~ /mai/i ) {
-                    $Month = '05';
-                }
-                elsif ( $Output =~ /jun/i ) {
-                    $Month = '06';
-                }
-                elsif ( $Output =~ /jul/i ) {
-                    $Month = '07';
-                }
-                elsif ( $Output =~ /aug/i ) {
-                    $Month = '08';
-                }
-                elsif ( $Output =~ /sep/i ) {
-                    $Month = '09';
-                }
-                elsif ( $Output =~ /oct/i ) {
-                    $Month = '10';
-                }
-                elsif ( $Output =~ /nov/i ) {
-                    $Month = '11';
-                }
-                elsif ( $Output =~ /dec/i ) {
-                    $Month = '12';
-                }
-                $AttributesRef->{"Short$Type"} = "$Year-$Month-$Day";
+    # testing new solution
+    my $OptionString = ' '
+        . "$HashAttribute "
+        . '-issuer '
+        . '-fingerprint -sha1 '
+        . '-serial '
+        . '-subject '
+        . '-startdate '
+        . '-enddate '
+        . '-email '
+        . '-modulus '
+        . ' ';
+
+    # call all attributes at same time
+    my $Options = "x509 -in $Filename -noout $OptionString";
+
+    # get the output string
+    my $Output = qx{$Self->{Cmd} $Options 2>&1};
+
+    # filters
+    my %Filters = (
+        Hash        => '(\w{8})',
+        Issuer      => '(issuer=\s.*)',
+        Fingerprint => 'SHA1\sFingerprint=(.*)',
+        Serial      => '(serial=.*)',
+        Subject     => 'subject=(.*)',
+        StartDate   => 'notBefore=(.*)',
+        EndDate     => 'notAfter=(.*)',
+        Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
+        Modulus     => 'Modulus=(.*)',
+    );
+
+    # parse output string
+    my @Attributes = split( /\n/, $Output );
+    for my $Line (@Attributes) {
+
+        # clean end spaces
+        $Line =~ tr{\r\n}{}d;
+
+        # look for every attribute by filter
+        for my $Filter ( keys %Filters ) {
+            if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
+                $AttributesRef->{$Filter} = $1;
+
+          # delete the match key from filter  to don't search again this value and improve the speed
+                delete $Filters{$Filter};
+                last;
             }
         }
-        $AttributesRef->{$Key} = $Output;
+    }
+
+    # prepare attributes data for use
+    $AttributesRef->{Issuer}  =~ s/=/= /g;
+    $AttributesRef->{Subject} =~ s/subject=//;
+    $AttributesRef->{Subject} =~ s/\// /g;
+    $AttributesRef->{Subject} =~ s/=/= /g;
+
+    my %Month = (
+        Jan => '01',
+        Feb => '02',
+        Mar => '03',
+        Apr => '04',
+        May => '05',
+        Jun => '06',
+        Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
+    );
+
+    for my $DateType ( 'StartDate', 'EndDate' ) {
+        if ( $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
+            my $Day   = $2;
+            my $Month = '';
+            my $Year  = $4;
+
+            if ( $Day < 10 ) {
+                $Day = "0" . int($Day);
+            }
+
+            for my $MonthKey ( keys %Month ) {
+                if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
+                    $Month = $Month{$MonthKey};
+                    last;
+                }
+            }
+            $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";
+        }
     }
     return 1;
 }
@@ -978,6 +976,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2010-11-20 20:50:46 $
+$Revision: 1.43.2.1 $ $Date: 2011-03-08 04:22:01 $
 
 =cut
