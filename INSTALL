@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.57 2011-01-17 14:34:17 mb Exp $
+# $Id: INSTALL,v 1.57.2.1 2011-03-08 12:48:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,24 +114,22 @@ directory is /opt/otrs. You can adapt these values as needed.
 
     shell> usermod -G www otrs
 
-    (SuSE=www, Red Hat/CentOS/Fedora=apache)
+    (SuSE=www, Red Hat/CentOS/Fedora=apache, Debian/Ubuntu=www-data)
 
 4) Demo config files:
    ------------------
-    There are several OTRS demo config files in $OTRS_HOME/Kernel/*.dist
-    and $OTRS_HOME/Kernel/Config/*.dist. They must be activated by copying
+    There are two OTRS config files bundled in $OTRS_HOME/Kernel/*.dist
+    and $OTRS_HOME/Kernel/Config/*.dist. You must activate them by copying
     them without the ".dist" filename extension.
 
       shell> cd /opt/otrs/
       shell> cp Kernel/Config.pm.dist Kernel/Config.pm
-      shell> cd Kernel/Config/
-      shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
+      shell> cp Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
 
     Or if you are installing OTRS an a Windows system:
 
       shell> copy Kernel/Config.pm.dist Kernel/Config.pm
-      shell> cd Kernel/Config/
-      shell> copy *.dist *.
+      shell> copy Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
 
 5) Check if all needed modules are installed:
    ------------------------------------------
@@ -162,9 +160,13 @@ directory is /opt/otrs. You can adapt these values as needed.
 
        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs
 
-     Webserver with apache user (e. g. Redhat):
+     Webserver with apache user (e. g. Redhat, CentOS):
 
        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs
+
+     Webserver with www-data user (e. g. Debian, Ubuntu):
+
+       shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=www-data --otrs-group=www-data --web-group=www-data /opt/otrs
 
 8) Database setup:
    ---------------
