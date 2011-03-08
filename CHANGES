@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1794 2011-03-07 21:24:03 mb Exp $
+# $Id: CHANGES,v 1.1795 2011-03-08 14:00:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,6 +42,8 @@
     of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-03-08 Fixed bug#5354 - Gratuitous "use lib '../..';" in Kernel::Output::HTML::Layout
+     preventing modules in /Custom to be loaded when deployed as CGI.
  - 2011-03-07 Fixed bug#6014 - Printed pdf tickets are not searchable.
  - 2011-03-07 Fixed bug#7006 - One MainObject unit test fails on Win32.
  - 2011-03-02 Fixed bug#6936 - Click on Customer triggers Wildcard-Search.
