@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/index.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: index.pl,v 1.89 2010-12-21 14:37:53 martin Exp $
+# $Id: index.pl,v 1.90 2011-03-08 14:11:25 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,10 @@ use warnings;
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 # 0=off;1=on;
 my $Debug = 0;

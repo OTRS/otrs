@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/installer.pl - the global CGI handle for installer
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.33 2010-12-21 14:37:53 martin Exp $
+# $Id: installer.pl,v 1.34 2011-03-08 14:11:25 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,10 @@ use warnings;
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 # 0=off;1=on;
 my $Debug = 0;
