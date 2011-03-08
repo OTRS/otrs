@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.17 2011-03-05 06:20:22 cr Exp $
+# $Id: COPYING-Third-Party,v 1.18 2011-03-08 13:39:37 cr Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -192,9 +192,3 @@ o Name:    CPAN URI::Escape
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
   Note:    Copyright 1995-2004 Gisle Aas.
-
-o Name:    CPAN version
-  Web:     n/a
-  License: # This library is free software; you can redistribute it
-           # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright (C) 2004-2010 John Peacock.
