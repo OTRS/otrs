@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.28 2011-03-08 14:06:08 mb Exp $
+# $Id: CHANGES,v 1.1758.2.29 2011-03-09 10:35:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.7 2011-??-??
+ - 2011-03-09 Fixed bug#7007 - Loader unit tests fail on MSWin32.
  - 2011-03-08 Fixed bug#6790 - Custom directory not considered when running in CGI.
  - 2011-03-08 Fixed bug#5354 - Gratuitous "use lib '../..';" in Kernel::Output::HTML::Layout
     preventing modules in /Custom to be loaded when deployed as CGI.
