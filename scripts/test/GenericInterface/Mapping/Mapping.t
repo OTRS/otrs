@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.8 2011-02-15 16:09:19 mg Exp $
+# $Id: Mapping.t,v 1.9 2011-03-09 11:52:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,19 +13,16 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-# create needed objects
-use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
-my %CommonObject = %{$Self};
-$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
-$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %CommonObject,
+
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
     },
-    WebserviceID      => 1,
+    WebserviceID      => 1,            # hardcoded because it is not used
     CommunicationType => 'Provider',
 );
 
@@ -40,8 +37,9 @@ $Self->IsNot(
 );
 
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {},
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {},
 );
 $Self->IsNot(
     ref $MappingObject,
@@ -50,8 +48,9 @@ $Self->IsNot(
 );
 
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type => 'ThisIsCertainlyNotBeingUsed',
     },
 );
@@ -63,8 +62,9 @@ $Self->IsNot(
 
 # call with empty config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type   => 'Test',
         Config => {},
     },
@@ -77,8 +77,9 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type   => 'Test',
         Config => 'invalid',
     },
@@ -91,8 +92,9 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type   => 'Test',
         Config => [],
     },
@@ -105,8 +107,9 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type   => 'Test',
         Config => '',
     },
@@ -119,8 +122,9 @@ $Self->IsNot(
 
 # call without config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type => 'Test',
     },
 );
