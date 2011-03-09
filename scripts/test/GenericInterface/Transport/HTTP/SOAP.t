@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.3 2011-03-08 16:31:16 sb Exp $
+# $Id: SOAP.t,v 1.4 2011-03-09 02:03:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -242,6 +242,14 @@ if ( ref $RequesterResult eq 'HASH' ) {
             $ExpectedReturnData,
             $RequesterResult->{Data},
             "Requester result match",
+        );
+    }
+    else {
+
+        # display error message in results for unit test machines
+        $Self->True(
+            $RequesterResult->{ErrorMessage},
+            "Requester error message is " . ( $RequesterResult->{ErrorMessage} || '-' ),
         );
     }
 }
