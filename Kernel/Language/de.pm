@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.1 2011-02-16 14:15:30 mn Exp $
+# $Id: de.pm,v 1.265.2.2 2011-03-09 16:44:00 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.1 $) [1];
+$VERSION = qw($Revision: 1.265.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1415,7 +1415,7 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Step %s' => 'Schritt %s',
         'General Specifications' => 'Allgemeine Angaben',
-        'Select the element that will be used at the X-axis' => 'Auswahl des Elementsfür die X-Achse',
+        'Select the element that will be used at the X-axis' => 'Auswahl des Elements für die X-Achse',
         'Select the elements for the value series' => 'Auswahl der Elemente für die Wertereihen',
         'Select the restrictions to characterize the stat' => 'Auswahl der Beschränkungen für diese Statistik',
         'Here you can make restrictions to your stat.' => 'Dieses Formular wird dazu verwendet die Einschränkungen für die Statistik zu definieren.',
