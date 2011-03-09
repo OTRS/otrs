@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.10 2011-03-09 12:37:17 mg Exp $
+# $Id: SOAP.pm,v 1.11 2011-03-09 13:14:58 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -109,39 +109,27 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if we have a soap action and assign operation and namespace
-    #TODO QA: next line not needed
-    my $OrgSOAPAction = $ENV{'HTTP_SOAPACTION'};
-
-    #TODO QA: don't use $1, $2 etc. Use list context instead, like
-    #    my ($SOAPAction) = $ENV{'HTTP_SOAPACTION'} =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
-    my $SOAPAction = $1 if $OrgSOAPAction =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
-    my $NameSpace;
-    my $Operation;
-
-    #TODO QA: consider to improve capturing, see above
-    if ( $SOAPAction && $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
-        $NameSpace = $1;
-        $Operation = $2;
-        $Operation =~ s{ \A [#] }{}xms;
-
-        #TODO QA: NEVER store data in %ENV! If you really need a member, store in $Self!
-        # remember for response
-        $ENV{Operation} = $Operation;
-    }
-
     # do we have a soap action
-    if ( !$OrgSOAPAction ) {
+    if ( !$ENV{'HTTP_SOAPACTION'} ) {
         return $Self->_Error(
             Summary   => 'No SOAPAction given',
             HTTPError => 500,
         );
     }
 
-    # does soap action resolve to namespace and operation
-    if ( !$SOAPAction || !$NameSpace || !$Operation ) {
+    # check if soap action resolves to operation and namespace
+    my ( $NameSpace, $Operation ) = $ENV{'HTTP_SOAPACTION'} =~ m{
+        \A
+        ["']
+        ( .+? )
+        [#]?
+        ( [^/]+ )
+        ["']
+        \z
+    }xms;
+    if ( !$NameSpace || !$Operation ) {
         return $Self->_Error(
-            Summary   => "Invalid SOAPAction '$SOAPAction'",
+            Summary   => "Invalid SOAPAction '$ENV{'HTTP_SOAPACTION'}'",
             HTTPError => 500,
         );
     }
@@ -208,6 +196,9 @@ sub ProviderProcessRequest {
         );
     }
 
+    # remember operation for response
+    $Self->{Operation} = $Operation;
+
     # all ok - return data
     return {
         Success   => 1,
@@ -219,12 +210,11 @@ sub ProviderProcessRequest {
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    #TODO QA: don't use %ENV to store data!
     # do we have a http error message to return
-    if ( IsStringWithData( $ENV{HTTPError} ) && IsStringWithData( $ENV{HTTPMessage} ) ) {
+    if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
         return $Self->_Output(
-            HTTPCode => $ENV{HTTPError},
-            Content  => $ENV{HTTPMessage},
+            HTTPCode => $Self->{HTTPError},
+            Content  => $Self->{HTTPMessage},
         );
     }
 
@@ -267,9 +257,7 @@ sub ProviderGenerateResponse {
     # create return structure
     my $Serialized = SOAP::Serializer
         ->autotype(0)
-
-        #TODO QA: don't use %ENV to store local data!
-        ->envelope( response => $ENV{Operation} . 'Response', $SOAPResult );
+        ->envelope( response => $Self->{Operation} . 'Response', $SOAPResult );
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
         return $Self->_Output(
@@ -434,11 +422,10 @@ sub _Error {
         Summary => $Param{Summary},
     );
 
-    #TODO QA: Never store data in %ENV!
-    # remember for response
+    # remember data for response
     if ( IsStringWithData( $Param{HTTPError} ) ) {
-        $ENV{HTTPError}   = $Param{HTTPError};
-        $ENV{HTTPMessage} = $Param{Summary};
+        $Self->{HTTPError}   = $Param{HTTPError};
+        $Self->{HTTPMessage} = $Param{Summary};
     }
 
     # return to provider/requester
@@ -495,23 +482,27 @@ sub _Output {
         $ContentLength = length $Param{Content};
     };
 
-    #TODO QA: if code is not 200, no debugger entry is written? Please check.
     # log to debugger
-    if ( $Param{HTTPCode} eq 200 ) {
-        $Self->{DebuggerObject}->Debug(
-            Summary => 'Successfully return data to remote system',
-            Data    => $Param{Content},
-        );
+    my $DebugLevel;
+    if ( $Param{HTTPCode} ne 200 ) {
+        $DebugLevel = 'debug';
     }
+    else {
+        $DebugLevel = 'error';
+    }
+    $Self->{DebuggerObject}->DebugLog(
+        DebugLevel => $DebugLevel,
+        Summary    => "Returning data to remote system (HTTP Code: $Param{HTTPCode})",
+        Data       => $Param{Content},
+    );
 
+    # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-
-    # print data to http
     print STDOUT <<"EOF";
-$Status $Param{HTTPCode} $StatusMessage
-Content-Type: $ContentType; charset=UTF-8
-Content-Length: $ContentLength
-
+$Status $Param{HTTPCode} $StatusMessage\r
+Content-Type: $ContentType; charset=UTF-8\r
+Content-Length: $ContentLength\r
+\r
 $Param{Content}
 EOF
 
@@ -611,6 +602,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-03-09 12:37:17 $
+$Revision: 1.11 $ $Date: 2011-03-09 13:14:58 $
 
 =cut
