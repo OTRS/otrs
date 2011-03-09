@@ -2,7 +2,7 @@
 # Kernel/System/VariableCheck.pm - helpers to check variables
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.pm,v 1.4 2011-03-02 09:25:51 mg Exp $
+# $Id: VariableCheck.pm,v 1.5 2011-03-09 13:13:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Exporter;
 %EXPORT_TAGS = (
@@ -56,28 +56,47 @@ Call this module directly without instantiating:
         ...
     }
 
-=head1 PUBLIC INTERFACE
-
 The functions can be grouped as follows:
 
 =head2 Variable type checks
 
-    L<IsString()>
-    L<IsStringWithData()>
-    L<IsArrayRefWithData()>
-    L<IsHashRefWithData()>
+=over 4
+
+=item L<IsString()>
+
+=item L<IsStringWithData()>
+
+=item L<IsArrayRefWithData()>
+
+=item L<IsHashRefWithData()>
+
+=back
 
 =head2 Number checks
 
-    L<IsNumber()>
-    L<IsInteger()>
-    L<IsPositiveInteger()>
+=over 4
+
+=item L<IsNumber()>
+
+=item L<IsInteger()>
+
+=item L<IsPositiveInteger()>
+
+=back
 
 =head2 Special data format checks
 
-    L<IsIPv4Address()>
-    L<IsIPv6Address()>
-    L<IsMD5Sum()>
+=over 4
+
+=item L<IsIPv4Address()>
+
+=item L<IsIPv6Address()>
+
+=item L<IsMD5Sum()>
+
+=back
+
+=head1 PUBLIC INTERFACE
 
 =over 4
 
@@ -395,6 +414,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-02 09:25:51 $
+$Revision: 1.5 $ $Date: 2011-03-09 13:13:18 $
 
 =cut
