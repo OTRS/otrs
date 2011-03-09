@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.5 2011-03-09 18:07:03 cg Exp $
+# $Id: Deserialize.t,v 1.6 2011-03-09 18:07:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -225,8 +225,6 @@ for my $Test (@Tests) {
         '<?xml version="1.0" encoding="UTF-8"?>' .
         $SOAPTagIni . '<' . $Test->{Operation} . '>' .
         $Test->{Data} .
-
-        #        '<Success>1</Success>' .
         '</' . $Test->{Operation} . '>' .
         $SOAPTagEnd;
 
