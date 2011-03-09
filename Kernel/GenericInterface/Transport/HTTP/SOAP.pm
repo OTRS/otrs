@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.9 2011-03-09 01:35:33 sb Exp $
+# $Id: SOAP.pm,v 1.10 2011-03-09 12:37:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -53,8 +53,9 @@ sub new {
     return $Self;
 }
 
-# FIXME perldoc for all functions
+#TODO QA: add perldoc to all functions!
 
+# FIXME perldoc for all functions
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
@@ -109,15 +110,22 @@ sub ProviderProcessRequest {
     }
 
     # check if we have a soap action and assign operation and namespace
+    #TODO QA: next line not needed
     my $OrgSOAPAction = $ENV{'HTTP_SOAPACTION'};
+
+    #TODO QA: don't use $1, $2 etc. Use list context instead, like
+    #    my ($SOAPAction) = $ENV{'HTTP_SOAPACTION'} =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
     my $SOAPAction = $1 if $OrgSOAPAction =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
     my $NameSpace;
     my $Operation;
+
+    #TODO QA: consider to improve capturing, see above
     if ( $SOAPAction && $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
         $NameSpace = $1;
         $Operation = $2;
         $Operation =~ s{ \A [#] }{}xms;
 
+        #TODO QA: NEVER store data in %ENV! If you really need a member, store in $Self!
         # remember for response
         $ENV{Operation} = $Operation;
     }
@@ -211,6 +219,7 @@ sub ProviderProcessRequest {
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    #TODO QA: don't use %ENV to store data!
     # do we have a http error message to return
     if ( IsStringWithData( $ENV{HTTPError} ) && IsStringWithData( $ENV{HTTPMessage} ) ) {
         return $Self->_Output(
@@ -258,6 +267,8 @@ sub ProviderGenerateResponse {
     # create return structure
     my $Serialized = SOAP::Serializer
         ->autotype(0)
+
+        #TODO QA: don't use %ENV to store local data!
         ->envelope( response => $ENV{Operation} . 'Response', $SOAPResult );
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
@@ -423,6 +434,7 @@ sub _Error {
         Summary => $Param{Summary},
     );
 
+    #TODO QA: Never store data in %ENV!
     # remember for response
     if ( IsStringWithData( $Param{HTTPError} ) ) {
         $ENV{HTTPError}   = $Param{HTTPError};
@@ -483,6 +495,7 @@ sub _Output {
         $ContentLength = length $Param{Content};
     };
 
+    #TODO QA: if code is not 200, no debugger entry is written? Please check.
     # log to debugger
     if ( $Param{HTTPCode} eq 200 ) {
         $Self->{DebuggerObject}->Debug(
@@ -491,17 +504,16 @@ sub _Output {
         );
     }
 
+    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
+
     # print data to http
-    print STDOUT
-        "$Status $Param{HTTPCode} "
-        . HTTP::Status::status_message( $Param{HTTPCode} )
-        . "\r\n"
-        . "Content-Type: $ContentType; charset=UTF-8"
-        . "\r\n"
-        . "Content-Length: $ContentLength"
-        . "\r\n"
-        . "\r\n"
-        . "$Param{Content}";
+    print STDOUT <<"EOF";
+$Status $Param{HTTPCode} $StatusMessage
+Content-Type: $ContentType; charset=UTF-8
+Content-Length: $ContentLength
+
+$Param{Content}
+EOF
 
     return {
         Success      => $Success,
@@ -517,13 +529,13 @@ sub _SOAPOutputRecursion {
         return {
             Success      => 0,
             ErrorMessage => 'Undefined param found',
-            }
+        };
     }
     if ( IsString( $Param{Data} ) ) {
         return {
             Success => 1,
             Data    => [ $Param{Data} ],
-            }
+        };
     }
     if ( IsArrayRefWithData( $Param{Data} ) ) {
         KEY:
@@ -580,7 +592,7 @@ sub _SOAPOutputRecursion {
     return {
         Success      => 0,
         ErrorMessage => 'Param is not a string an array reference or a hash reference',
-        }
+    };
 }
 
 1;
@@ -599,6 +611,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-03-09 01:35:33 $
+$Revision: 1.10 $ $Date: 2011-03-09 12:37:17 $
 
 =cut
