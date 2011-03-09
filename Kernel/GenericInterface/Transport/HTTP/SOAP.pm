@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.8 2011-03-04 20:47:36 sb Exp $
+# $Id: SOAP.pm,v 1.9 2011-03-09 01:35:33 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,15 +14,12 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 use strict;
 use warnings;
 
-use HTTP::Headers;
-use HTTP::Request;
-use HTTP::Response;
 use HTTP::Status;
 use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -49,25 +46,40 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(
-        MainObject ConfigObject LogObject EncodeObject TimeObject DBObject
-        DebuggerObject TransportConfig
-        )
-        )
-    {
+    for my $Needed (qw(MainObject EncodeObject DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
 }
 
+# FIXME perldoc for all functions
+
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    # prepare config
-    # FIXME check if config is ok
+    # check transport config
+    if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
+        return $Self->_Error(
+            Summary   => 'Have no TransportConfig',
+            HTTPError => 500,
+        );
+    }
+    if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
+        return $Self->_Error(
+            Summary   => 'Have no Config',
+            HTTPError => 500,
+        );
+    }
     my $Config = $Self->{TransportConfig}->{Config};
+
+    # check namespace config
+    if ( !IsStringWithData( $Config->{NameSpace} ) ) {
+        return $Self->_Error(
+            Summary   => 'Have no NameSpace in config',
+            HTTPError => 500,
+        );
+    }
 
     # check basic stuff
     my $Length = $ENV{'CONTENT_LENGTH'};
@@ -75,24 +87,65 @@ sub ProviderProcessRequest {
     # no length provided
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => 'HTTP 411 Length Required',
+            Summary   => HTTP::Status::status_message(411),
             HTTPError => 411,
         );
     }
 
     # request bigger than allowed
-    if ( $Length > $Config->{MaxLength} ) {
+    if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
-            Summary   => 'HTTP 413 Request Entity Too Large',
+            Summary   => HTTP::Status::status_message(413),
             HTTPError => 413,
         );
     }
 
-    # in case client requests to continue submission
+    # in case client requests to continue submission, tell it to continue
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
         $Self->_Output(
             HTTPCode => 100,
             Content  => '',
+        );
+    }
+
+    # check if we have a soap action and assign operation and namespace
+    my $OrgSOAPAction = $ENV{'HTTP_SOAPACTION'};
+    my $SOAPAction = $1 if $OrgSOAPAction =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
+    my $NameSpace;
+    my $Operation;
+    if ( $SOAPAction && $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
+        $NameSpace = $1;
+        $Operation = $2;
+        $Operation =~ s{ \A [#] }{}xms;
+
+        # remember for response
+        $ENV{Operation} = $Operation;
+    }
+
+    # do we have a soap action
+    if ( !$OrgSOAPAction ) {
+        return $Self->_Error(
+            Summary   => 'No SOAPAction given',
+            HTTPError => 500,
+        );
+    }
+
+    # does soap action resolve to namespace and operation
+    if ( !$SOAPAction || !$NameSpace || !$Operation ) {
+        return $Self->_Error(
+            Summary   => "Invalid SOAPAction '$SOAPAction'",
+            HTTPError => 500,
+        );
+    }
+
+    # check namespace for match to configuration
+    if ( $Config->{NameSpace} ne $NameSpace ) {
+        my $NameSpaceError =
+            "Provided namespace '$NameSpace' does not match"
+            . " configured namespace '$Config->{NameSpace}'";
+        return $Self->_Error(
+            Summary   => $NameSpaceError,
+            HTTPError => 500,
         );
     }
 
@@ -101,139 +154,256 @@ sub ProviderProcessRequest {
     binmode(STDIN);
     read STDIN, $Content, $Length;
 
-    # parse request
-    my $Request = HTTP::Request->new(
-        $ENV{'REQUEST_METHOD'} || '' => $ENV{'SCRIPT_NAME'},
-        HTTP::Headers->new(
-            map {
-                (
-                    /^HTTP_(.+)/i
-                    ? ( $1 =~ m/SOAPACTION/ )
-                            ? ('SOAPAction')
-                            : ($1)
-                    : $_
-                    ) => $ENV{$_}
-                } keys %ENV
-        ),
-        $Content,
-    );
-
-    # check if we have a soap action
-    if ( !$Request->header('SOAPAction') ) {
-        return $Self->_Error(
-            Summary     => 'No SOAPAction given',
-            HTTPError   => 500,
-            HTTPMessage => 'No SOAPAction given',
+    # convert charset if necessary
+    my $ContentCharset = $1
+        if $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
+    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+        $Content = $Self->{EncodeObject}->Convert2CharsetInternal(
+            Text => $Content,
+            From => $ContentCharset,
         );
     }
 
-    # check soap action for matching namespace and get operation
-    my $SOAPAction = $Request->header('SOAPAction');
-    $SOAPAction =~ s{ \A (?: " | ' ) ( .+ ) ( ?: " | ' ) \z }{$1}xms;
-    my $NameSpace;
-    if ( $SOAPAction =~ m{ \A ( .+? ) ( [^/]+ ) \z }xms ) {
-        $NameSpace = $1;
-        $Self->{Operation} = $2;
-        $Self->{Operation} =~ s{ \A [#] }{}xms;
-    }
-    if ( $Config->{NameSpace} ne $NameSpace ) {
-        my $NameSpaceError =
-            "Provided namespace '$NameSpace' does not match"
-            . " configured namespace '$Config->{NameSpace}'";
+    # check if we have a content
+    if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
-            Summary     => $NameSpaceError,
-            HTTPError   => 500,
-            HTTPMessage => $NameSpaceError,
+            Summary   => 'Could not read input data',
+            HTTPError => 500,
         );
     }
 
     # deserialize
-    my $Deserialized = eval { SOAP::Deserializer->deserialize( $Request->content() ); };
-    my $DeserializerError = $@;
-    if ($DeserializerError) {
+    my $Deserialized = eval { SOAP::Deserializer->deserialize($Content); };
+    my $DeserializedFault = $@ || '';
+    if ($DeserializedFault) {
         return $Self->_Error(
-            Summary     => "Error deserializing message: $DeserializerError",
-            HTTPError   => 500,
-            HTTPMessage => "Error deserializing message: $DeserializerError",
+            Summary   => 'Error deserializing message:' . $DeserializedFault,
+            HTTPError => 500,
         );
     }
 
+    # check if the deserialized result is there
+    if ( !defined $Deserialized || !$Deserialized->body() ) {
+        return $Self->_Error(
+            Summary   => 'Got no result body from deserialized content',
+            HTTPError => 500,
+        );
+    }
+
+    # check if we have data for the specified operation in the result
     my $Body = $Deserialized->body();
+    if ( !defined $Body->{$Operation} ) {
+        return $Self->_Error(
+            Summary =>
+                "No data found for specified operation '$Operation' in deserialized content",
+            HTTPError => 500,
+        );
+    }
+
+    # all ok - return data
     return {
         Success   => 1,
-        Operation => $Self->{Operation},
-        Data      => $Body->{ $Self->{Operation} },
+        Operation => $Operation,
+        Data      => $Body->{$Operation},
     };
 }
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    my $Response;
-
-    # if we have a http error message
-    if ( IsStringWithData( $Self->{HTTPError} ) ) {
+    # do we have a http error message to return
+    if ( IsStringWithData( $ENV{HTTPError} ) && IsStringWithData( $ENV{HTTPMessage} ) ) {
         return $Self->_Output(
-            HTTPCode => $Self->{HTTPError},
-            Content  => $Self->{HTTPMessage},
+            HTTPCode => $ENV{HTTPError},
+            Content  => $ENV{HTTPMessage},
+        );
+    }
+
+    # check data param
+    if ( defined $Param{Data} && !IsHashRefWithData( $Param{Data} ) ) {
+        return $Self->_Output(
+            HTTPCode => 500,
+            Content  => 'Invalid Data',
         );
     }
 
     # prepare data
-    my @SOAPData = $Self->_SOAPOutputRecursion(
-        Data => $Param{Data},
-    );
+    my $SOAPResult;
+    if ( defined $Param{Data} ) {
+        my $SOAPData = $Self->_SOAPOutputRecursion(
+            Data => $Param{Data},
+        );
+
+        # check output of recursion
+        if ( !$SOAPData->{Success} ) {
+            return $Self->_Output(
+                HTTPCode => 500,
+                Content  => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
+            );
+        }
+        $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
+    }
+    else {
+        $SOAPResult = SOAP::Data->value('');
+    }
+
+    # check soap result
+    if ( ref $SOAPResult ne 'SOAP::Data' ) {
+        return $Self->_Output(
+            HTTPCode => 500,
+            Content  => 'Error in SOAP result',
+        );
+    }
 
     # create return structure
-    my $SOAPResult = SOAP::Data->value(@SOAPData);
-    my $Content    = SOAP::Serializer
+    my $Serialized = SOAP::Serializer
         ->autotype(0)
-        ->envelope( response => $Self->{Operation} . 'Response', $SOAPResult, );
+        ->envelope( response => $ENV{Operation} . 'Response', $SOAPResult );
+    my $SerializedFault = $@ || '';
+    if ($SerializedFault) {
+        return $Self->_Output(
+            HTTPCode => 500,
+            Content  => 'Error serializing message:' . $SerializedFault,
+        );
+    }
 
+    # no error - return output
     return $Self->_Output(
         HTTPCode => 200,
-        Content  => $Content,
+        Content  => $Serialized,
     );
 }
 
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
-    # prepare config
+    # check transport config
+    if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Have no TransportConfig',
+        };
+    }
+    if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Have no Config',
+        };
+    }
     my $Config = $Self->{TransportConfig}->{Config};
 
-    # prepare connect
-    my $SOAPHandle = SOAP::Lite
-        ->autotype(0)
-        ->default_ns( $Config->{NameSpace} )
-        ->proxy(
-        $Config->{Endpoint},
-        timeout => 60,
-        );
+    # check namespace and endpoint config
+    NEEDED:
+    for my $Needed (qw(Endpoint NameSpace)) {
+        next NEEDED if IsStringWithData( $Config->{$Needed} );
+
+        return {
+            Success      => 0,
+            ErrorMessage => "Have no $Needed in config",
+        };
+    }
+
+    # check data param
+    if ( defined $Param{Data} && !IsHashRefWithData( $Param{Data} ) ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Invalid Data',
+        };
+    }
+
+    # check operation param
+    if ( !IsStringWithData( $Param{Operation} ) ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Need Operation',
+        };
+    }
 
     # prepare data
-    my @SOAPData = $Self->_SOAPOutputRecursion(
-        Data => $Param{Data},
-    );
+    my $SOAPData;
+    if ( defined $Param{Data} ) {
+        $SOAPData = $Self->_SOAPOutputRecursion(
+            Data => $Param{Data},
+        );
+
+        # check output of recursion
+        if ( !$SOAPData->{Success} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
+            };
+        }
+    }
+    else {
+        $SOAPData->{Data} = [''];
+    }
 
     # prepare method
     my $SOAPMethod = SOAP::Data
         ->name( $Param{Operation} )
         ->uri( $Config->{NameSpace} );
+    if ( ref $SOAPMethod ne 'SOAP::Data' ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Error preparing used method',
+        };
+    }
+
+    # prepare connect
+    my $SOAPHandle = eval {
+        SOAP::Lite
+            ->autotype(0)
+            ->default_ns( $Config->{NameSpace} )
+            ->proxy(
+            $Config->{Endpoint},
+            timeout => 60,
+            );
+    };
+    my $SOAPHandleFault = $@ || '';
+    if ($SOAPHandleFault) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Error creating SOAPHandle: ' . $SOAPHandleFault,
+        };
+    }
 
     # send request to server
-    my $SOAPResult;
-    eval {
-        $SOAPResult = $SOAPHandle->call(
-            $SOAPMethod => @SOAPData,
+    my $SOAPResult = eval {
+        $SOAPHandle->call(
+            $SOAPMethod => $SOAPData->{Data},
         );
     };
+    my $SOAPResultFault = $@ || '';
+    if ($SOAPResultFault) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Error in SOAP call: ' . $SOAPResultFault,
+        };
+    }
 
-    # return result
-    my $Data = $SOAPResult->body();
+    # check if the soap result is there
+    if ( !defined $SOAPResult || !$SOAPResult->body() ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Got no result body from soap call',
+        };
+    }
+
+    # check if we have response data for the specified operation in the soap result
+    my $Body = $SOAPResult->body();
+    if ( !defined $Body->{ $Param{Operation} . 'Response' } ) {
+        return {
+            Success => 0,
+            ErrorMessage =>
+                "No response data found for specified operation '$Param{Operation}'"
+                . " in soap response",
+        };
+    }
+
+    # all ok - return result
     return {
         Success => 1,
-        Data    => $Data->{ $Param{Operation} . 'Response' },
+        Data    => $Body->{ $Param{Operation} . 'Response' },
     };
 }
 
@@ -241,30 +411,49 @@ sub _Error {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    NEEDED:
-    for my $Needed (qw(HTTPError Summary)) {
-        next NEEDED if IsStringWithData( $Param{$Needed} );
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => "Need $Needed!",
+    if ( !defined $Param{Summary} || !IsString( $Param{Summary} ) ) {
+        return $Self->_Error(
+            Summary   => 'Need Summary!',
+            HTTPError => 500,
         );
     }
 
-    # set error data and log error
+    # log to debugger
     $Self->{DebuggerObject}->Error(
         Summary => $Param{Summary},
     );
-    $Self->{HTTPError} = $Param{HTTPError};
-    if ( IsString( $Param{HTTPMessage} ) ) {
-        $Self->{HTTPMessage} = $Param{HTTPMessage};
+
+    # remember for response
+    if ( IsStringWithData( $Param{HTTPError} ) ) {
+        $ENV{HTTPError}   = $Param{HTTPError};
+        $ENV{HTTPMessage} = $Param{Summary};
     }
+
+    # return to provider/requester
     return {
-        Success => 0,
+        Success      => 0,
+        ErrorMessage => $Param{Summary},
     };
 }
 
 sub _Output {
     my ( $Self, %Param ) = @_;
+
+    # check params
+    my $Success = 1;
+    my $ErrorMessage;
+    if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
+        $Param{HTTPCode} = 500;
+        $Param{Content}  = 'Invalid internal HTTPCode';
+        $Success         = 0;
+        $ErrorMessage    = 'Invalid internal HTTPCode';
+    }
+    elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
+        $Param{HTTPCode} = 500;
+        $Param{Content}  = 'Invalid Content';
+        $Success         = 0;
+        $ErrorMessage    = 'Invalid Content';
+    }
 
     # imitate nph- cgi for IIS
     my $Status;
@@ -279,6 +468,8 @@ sub _Output {
     # }
 
     # prepare data
+    $Param{Content}  ||= '';
+    $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
         $ContentType = 'text/xml';
@@ -286,27 +477,35 @@ sub _Output {
     else {
         $ContentType = 'text/plain';
     }
-    $Param{Content}  ||= '';
-    $Param{HTTPCode} ||= 200;
-    my $Response = HTTP::Response->new( $Param{HTTPCode} );
-    $Response->header( 'Content-Type' => $ContentType . '; charset=UTF-8' );
-    $Response->content( $Param{Content} );
+    my $ContentLength;
     {
         use bytes;
-        $Response->header( 'Content-Length' => length $Param{Content} );
-    }
-    my $Code = $Response->code();
+        $ContentLength = length $Param{Content};
+    };
 
-    # return data
-    binmode(STDOUT);
+    # log to debugger
+    if ( $Param{HTTPCode} eq 200 ) {
+        $Self->{DebuggerObject}->Debug(
+            Summary => 'Successfully return data to remote system',
+            Data    => $Param{Content},
+        );
+    }
+
+    # print data to http
     print STDOUT
-        "$Status $Code ",
-        HTTP::Status::status_message($Code),
-        "\015\012", $Response->headers_as_string("\015\012"),
-        "\015\012", $Response->content();
+        "$Status $Param{HTTPCode} "
+        . HTTP::Status::status_message( $Param{HTTPCode} )
+        . "\r\n"
+        . "Content-Type: $ContentType; charset=UTF-8"
+        . "\r\n"
+        . "Content-Length: $ContentLength"
+        . "\r\n"
+        . "\r\n"
+        . "$Param{Content}";
 
     return {
-        Success => 1,
+        Success      => $Success,
+        ErrorMessage => $ErrorMessage,
     };
 }
 
@@ -314,8 +513,17 @@ sub _SOAPOutputRecursion {
     my ( $Self, %Param ) = @_;
 
     my @Result;
+    if ( !defined $Param{Data} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Undefined param found',
+            }
+    }
     if ( IsString( $Param{Data} ) ) {
-        return $Param{Data};
+        return {
+            Success => 1,
+            Data    => [ $Param{Data} ],
+            }
     }
     if ( IsArrayRefWithData( $Param{Data} ) ) {
         KEY:
@@ -324,32 +532,55 @@ sub _SOAPOutputRecursion {
                 push @Result, $Key;
                 next KEY;
             }
+            my $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Key );
+            if ( !$RecurseResult->{Success} ) {
+                return $RecurseResult;
+            }
             push @Result, \SOAP::Data->value(
-                $Self->_SOAPOutputRecursion( Data => $Key )
+                @{ $RecurseResult->{Data} },
             );
         }
-        return @Result;
+        return {
+            Success => 1,
+            Data    => \@Result,
+        };
     }
     if ( IsHashRefWithData( $Param{Data} ) ) {
         for my $Key ( sort keys %{ $Param{Data} } ) {
+            my $RecurseResult;
             my $Value;
             if ( IsString( $Param{Data}->{$Key} ) ) {
                 $Value = $Param{Data}->{$Key} || '';
             }
             elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
+                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
+                if ( !$RecurseResult->{Success} ) {
+                    return $RecurseResult;
+                }
                 $Value = \SOAP::Data->value(
-                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+                    @{ $RecurseResult->{Data} },
                 );
             }
             elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
+                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
+                if ( !$RecurseResult->{Success} ) {
+                    return $RecurseResult;
+                }
                 $Value = SOAP::Data->value(
-                    $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} )
+                    @{ $RecurseResult->{Data} },
                 );
             }
             push @Result, SOAP::Data->name($Key)->value($Value);
         }
-        return @Result;
+        return {
+            Success => 1,
+            Data    => \@Result,
+        };
     }
+    return {
+        Success      => 0,
+        ErrorMessage => 'Param is not a string an array reference or a hash reference',
+        }
 }
 
 1;
@@ -368,6 +599,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-03-04 20:47:36 $
+$Revision: 1.9 $ $Date: 2011-03-09 01:35:33 $
 
 =cut
