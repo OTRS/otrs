@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.45.2.6 2011-03-09 12:07:00 mg Exp $
+# $Id: UnitTest.pm,v 1.45.2.7 2011-03-09 17:01:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45.2.6 $) [1];
+$VERSION = qw($Revision: 1.45.2.7 $) [1];
 
 =head1 NAME
 
@@ -198,6 +198,7 @@ sub Run {
     $ResultSummary{Host}    = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl}    = sprintf "%vd", $^V;
     $ResultSummary{OS}      = $^O;
+
     if ( -e '/etc/SuSE-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/SuSE-release',
@@ -219,7 +220,7 @@ sub Run {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
-            $ResultSummary{Vendor} = 'fedora unknown';
+            $ResultSummary{Vendor} = 'Fedora unknown';
         }
     }
     elsif ( -e '/etc/redhat-release' ) {
@@ -247,7 +248,7 @@ sub Run {
             $ResultSummary{Vendor} .= ' ' . $ConfigFile->[1];
         }
         else {
-            $ResultSummary{Vendor} = 'ubuntu unknown';
+            $ResultSummary{Vendor} = 'Ubuntu unknown';
         }
     }
     elsif ( -e '/etc/debian_version' ) {
@@ -256,15 +257,32 @@ sub Run {
             Result   => 'ARRAY',
         );
         if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = 'debian ' . $ConfigFile->[0];
+            $ResultSummary{Vendor} = 'Debian ' . $ConfigFile->[0];
         }
         else {
-            $ResultSummary{Vendor} = 'debian unknown';
+            $ResultSummary{Vendor} = 'Debian unknown';
         }
+    }
+    elsif ( -e '/etc/gentoo-release' ) {
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/gentoo-release',
+            Result   => 'ARRAY',
+        );
+        if ( $ConfigFile && $ConfigFile->[0] ) {
+            $ResultSummary{Vendor} = $ConfigFile->[0];
+        }
+        else {
+            $ResultSummary{Vendor} = 'Gentoo unknown';
+        }
+    }
+    elsif ( $^O eq 'freebsd' ) {
+        my $Release = `uname -r`;
+        $ResultSummary{Vendor} = 'FreeBSD ' . $Release;
     }
     else {
         $ResultSummary{Vendor} = 'unknown';
     }
+
     chomp( $ResultSummary{Vendor} );
     $ResultSummary{Database}  = $Self->{DBObject}->{'DB::Type'};
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
@@ -862,6 +880,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45.2.6 $ $Date: 2011-03-09 12:07:00 $
+$Revision: 1.45.2.7 $ $Date: 2011-03-09 17:01:33 $
 
 =cut
