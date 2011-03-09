@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.17 2011-03-04 20:40:44 sb Exp $
+# $Id: Simple.pm,v 1.18 2011-03-09 13:26:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -144,7 +144,8 @@ sub Map {
 
     # check data - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}
+            ->Error( Summary => 'Got no Data hash ref with content in Map Simple backend!' );
     }
 
     # no config means we just return input data
@@ -463,6 +464,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-03-04 20:40:44 $
+$Revision: 1.18 $ $Date: 2011-03-09 13:26:07 $
 
 =cut

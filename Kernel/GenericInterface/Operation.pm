@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.10 2011-03-03 12:54:50 mg Exp $
+# $Id: Operation.pm,v 1.11 2011-03-09 13:26:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Operation::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -155,7 +155,8 @@ sub Run {
 
     # check data - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}
+            ->Error( Summary => 'Got no Data hash ref with content in Operation handler!' );
     }
 
     # start map on backend
@@ -178,6 +179,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-03-03 12:54:50 $
+$Revision: 1.11 $ $Date: 2011-03-09 13:26:07 $
 
 =cut

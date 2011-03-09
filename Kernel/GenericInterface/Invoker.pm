@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.12 2011-03-09 13:13:18 mg Exp $
+# $Id: Invoker.pm,v 1.13 2011-03-09 13:26:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -164,7 +164,9 @@ sub PrepareRequest {
 
     # check data - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no Data hash ref with content in Invoker handler (PrepareRequest)!'
+        );
     }
 
     # start map on backend
@@ -199,7 +201,9 @@ sub HandleResponse {
 
     # check data - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data hash ref with content!' );
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no Data hash ref with content in Invoker handler (HandleResponse)!'
+        );
     }
 
     # start map on backend
@@ -223,6 +227,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-03-09 13:13:18 $
+$Revision: 1.13 $ $Date: 2011-03-09 13:26:07 $
 
 =cut
