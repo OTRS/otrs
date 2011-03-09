@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.4 2011-03-09 02:03:55 sb Exp $
+# $Id: SOAP.t,v 1.5 2011-03-09 12:39:40 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -203,9 +203,12 @@ my $RequestData = {
     },
 };
 my $ExpectedReturnData = {
-    PriorityName => '5 sehr hoch',
-    DataOut      => {
-        Blah => 'Fasel',
+    Success => 1,
+    Data    => {
+        PriorityName => '5 sehr hoch',
+        DataOut      => {
+            Blah => 'Fasel',
+        },
     },
 };
 
@@ -230,29 +233,11 @@ $Self->Is(
     ref $RequesterResult,
     "Requester result structure is valid",
 );
-if ( ref $RequesterResult eq 'HASH' ) {
-    $Self->True(
-        $RequesterResult->{Success},
-        "Requester success status (needs configured and running webserver)",
-    );
-    if ( $RequesterResult->{Success} ) {
-
-        # check returned structure
-        $Self->IsDeeply(
-            $ExpectedReturnData,
-            $RequesterResult->{Data},
-            "Requester result match",
-        );
-    }
-    else {
-
-        # display error message in results for unit test machines
-        $Self->True(
-            $RequesterResult->{ErrorMessage},
-            "Requester error message is " . ( $RequesterResult->{ErrorMessage} || '-' ),
-        );
-    }
-}
+$Self->IsDeeply(
+    $RequesterResult,
+    $ExpectedReturnData,
+    "Requester success status (needs configured and running webserver)",
+);
 
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
