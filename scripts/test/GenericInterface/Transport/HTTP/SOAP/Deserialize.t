@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.4 2011-03-06 19:13:48 cg Exp $
+# $Id: Deserialize.t,v 1.5 2011-03-09 18:07:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,12 +211,12 @@ for my $Test (@Tests) {
     );
 
     # serializer
-    my @SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
+    my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
         Data => $Body,
     );
 
     # create return structure
-    my $SOAPResult = SOAP::Data->value( \@SOAPData );
+    my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
     my $Content    = SOAP::Serializer
         ->autotype(0)
         ->envelope( response => $Test->{Operation}, $SOAPResult, );
@@ -225,6 +225,8 @@ for my $Test (@Tests) {
         '<?xml version="1.0" encoding="UTF-8"?>' .
         $SOAPTagIni . '<' . $Test->{Operation} . '>' .
         $Test->{Data} .
+
+        #        '<Success>1</Success>' .
         '</' . $Test->{Operation} . '>' .
         $SOAPTagEnd;
 

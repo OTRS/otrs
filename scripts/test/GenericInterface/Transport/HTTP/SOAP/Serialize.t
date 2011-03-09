@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.5 2011-03-05 06:19:32 cr Exp $
+# $Id: Serialize.t,v 1.6 2011-03-09 18:07:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,12 +147,12 @@ my @SoapTests = (
 for my $Test (@SoapTests) {
 
     # prepare data
-    my @SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
+    my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
         Data => $Test->{Data},
     );
 
     # create return structure
-    my $SOAPResult = SOAP::Data->value(@SOAPData);
+    my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
     my $Content    = SOAP::Serializer
         ->autotype(0)
         ->envelope( response => $Test->{Operation} . 'Response', $SOAPResult, );
