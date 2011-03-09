@@ -2,7 +2,7 @@
 # Loader.t - Loader backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.t,v 1.9 2011-03-09 10:36:39 mb Exp $
+# $Id: Loader.t,v 1.10 2011-03-09 14:37:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
     $JavaScript = ${$JavaScript};
 
     # Make sure line endings are standardized
-    $JavaScript =~ s/\r\n/\n/smxg;
+    $JavaScript =~ s{\r\n}{\n}xmsg;
 
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
@@ -85,7 +85,7 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
             . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.min.js',
     );
     $ExpectedJS = ${$ExpectedJS};
-    $ExpectedJS =~ s/\r\n/\n/smxg;
+    $ExpectedJS =~ s{\r\n}{\n}xmsg;
 
     $Self->Is(
         $MinifiedJS || '',
@@ -137,14 +137,14 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
         Location => $Self->{ConfigObject}->Get('TempDir') . "/$MinifiedJSFilename",
     );
     $MinifiedJS = ${$MinifiedJS};
-    $MinifiedJS =~ s/\r\n/\n/smxg;
+    $MinifiedJS =~ s{\r\n}{\n}xmsg;
 
     my $Expected = $Self->{MainObject}->FileRead(
         Location => $Self->{ConfigObject}->Get('Home')
             . '/scripts/test/sample/Loader/CombinedJavaScript.min.js',
     );
     $Expected = ${$Expected};
-    $Expected =~ s/\r\n/\n/smxg;
+    $Expected =~ s{\r\n}{\n}xmsg;
 
     $Self->Is(
         $MinifiedJS,
