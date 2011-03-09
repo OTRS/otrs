@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.102 2011-03-09 13:02:21 des Exp $
+# $Id: Stats.pm,v 1.103 2011-03-09 13:43:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -934,7 +934,7 @@ sub CompletenessCheck {
         Priority => 'Error'
     };
     $Notify[15] = {
-        Info     => 'Your reporting time interval is to small, please use a larger time scale!',
+        Info     => 'Your reporting time interval is too small, please use a larger time scale!',
         Priority => 'Error'
     };
     $Notify[16] = {
@@ -1124,7 +1124,7 @@ sub CompletenessCheck {
             }
         }
 
-        # check if the timeperiod is to big or the time scale to small
+        # check if the timeperiod is too big or the time scale too small
         # used only for fixed time values
         # remark time functions should be exportet in external functions (tr)
         if ( $Param{Section} eq 'All' && $StatData{StatType} eq 'dynamic' ) {
@@ -3218,7 +3218,7 @@ sub _AutomaticSampleImport {
             # check filesize
             #            my $Filesize = -s $Directory.$Filename;
             #            if ($Filesize > $MaxFilesize) {
-            #                print "File: $Filename to big! max. $MaxFilesize byte allowed.\n";
+            #                print "File: $Filename too big! max. $MaxFilesize byte allowed.\n";
             #                $CommonObject{LogObject}->Log(
             #                    Priority => 'error',
             #                    Message => "Can't file imported: $Directory.$Filename",
@@ -3304,6 +3304,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2011-03-09 13:02:21 $
+$Revision: 1.103 $ $Date: 2011-03-09 13:43:59 $
 
 =cut
