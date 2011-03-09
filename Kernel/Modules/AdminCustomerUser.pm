@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.89.2.3 2011-03-03 16:34:43 en Exp $
+# $Id: AdminCustomerUser.pm,v 1.89.2.4 2011-03-09 22:10:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89.2.3 $) [1];
+$VERSION = qw($Revision: 1.89.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,8 @@ sub Run {
     my $Nav    = $Self->{ParamObject}->GetParam( Param => 'Nav' )    || '';
     my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
-    $Search ||= $Self->{ConfigObject}->Get('RunInitialWildcardSearch') ? '*' : '';
+    $Search
+        ||= $Self->{ConfigObject}->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
     #create local object
     my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
