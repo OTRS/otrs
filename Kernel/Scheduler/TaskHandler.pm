@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.8 2011-02-22 23:45:56 cr Exp $
+# $Id: TaskHandler.pm,v 1.9 2011-03-10 13:55:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -114,10 +114,7 @@ sub new {
     }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
 
-    # pass back error message from backend if backend module could not be executed
-    return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
-
-    return $Self;
+    return ( ref $Self->{BackendObject} eq $GenericModule ) ? $Self : undef;
 }
 
 =item Run()
@@ -135,12 +132,15 @@ Returns:
 
     $Result = {
         Success    => 1,                       # 0 or 1
-        ReSchedule => 0,                       # 0 or 1 # if task need to be re scheduled
-        DueTime    => '2011-01-19 23:59:59',   # only apply if ReSchedule is equals to 1
-        Data       => {                        # optional only apply if ReSchedule is equals to 1
+        ReSchedule => 0,                       # 0 or 1, determines if task needs to be re-scheduled
+        DueTime    => '2011-01-19 23:59:59',   # (for re-scheduling only) DueTime for new task
+        Data       => {                        # (for re-scheduling only) Data for new task
             ...
         },
     };
+
+Note that task handler backends must implement this method with the same signature.
+
 =cut
 
 sub Run {
@@ -174,6 +174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-22 23:45:56 $
+$Revision: 1.9 $ $Date: 2011-03-10 13:55:12 $
 
 =cut
