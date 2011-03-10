@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.6 2011-02-22 23:10:34 cg Exp $
+# $Id: TaskManager.t,v 1.7 2011-03-10 14:00:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,6 +99,8 @@ my @Tests = (
 );
 
 my @TaskIDs;
+
+TEST:
 for my $Test (@Tests) {
 
     # add config
@@ -110,14 +112,14 @@ for my $Test (@Tests) {
     if ( !$Test->{Success} ) {
         $Self->False(
             $TaskID,
-            "$Test->{Name} - TaskAdd()",
+            "$Test->{Name} - TaskAdd() success",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
             $TaskID,
-            "$Test->{Name} - TaskAdd()",
+            "$Test->{Name} - TaskAdd() failure",
         );
     }
 
@@ -145,13 +147,13 @@ for my $Test (@Tests) {
         $Self->Is(
             $Test->{DueTime},
             $Task{DueTime},
-            "$Test->{Name} - TaskGet() - DueTime",
+            "$Test->{Name} - TaskGet() - DueTime set",
         );
     }
     else {
         $Self->True(
             $Task{DueTime},
-            "$Test->{Name} - TaskGet() - DueTime",
+            "$Test->{Name} - TaskGet() - DueTime default",
         );
     }
 }
@@ -163,19 +165,16 @@ for my $TaskIDFromList (@List) {
     $Self->Is(
         $TaskIDFromList->{ID},
         $TaskIDs[$Count],
-        "TaskList() Is",
+        "TaskList() entry",
     );
     $Count++;
 }
-$Count = 0;
-for my $TaskIDFromList ( reverse @List ) {
-    $Self->IsNot(
-        $TaskIDFromList->{ID},
-        $TaskIDs[$Count],
-        "TaskList() - IsNot",
-    );
-    $Count++;
-}
+
+$Self->Is(
+    scalar @List,
+    scalar @TaskIDs,
+    "TaskList() size",
+);
 
 # delete config
 for my $TaskID (@TaskIDs) {
@@ -184,15 +183,21 @@ for my $TaskID (@TaskIDs) {
     );
     $Self->True(
         $Success,
-        'TaskDelete()',
+        'TaskDelete() success',
     );
     $Success = $TaskManagerObject->TaskDelete(
         ID => $TaskID,
     );
     $Self->False(
         $Success,
-        'TaskDelete()',
+        'TaskDelete() failure',
     );
 }
+
+$Self->Is(
+    scalar $TaskManagerObject->TaskList(),
+    0,
+    "TaskList() empty",
+);
 
 1;
