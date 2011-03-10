@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.15 2011-02-23 03:50:59 cr Exp $
+# $Id: Scheduler.pm,v 1.16 2011-03-10 13:59:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,15 +19,26 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
-Kernel::Scheduler - otrs Scheduler lib
+Kernel::Scheduler - Scheduler lib
 
 =head1 SYNOPSIS
 
-All scheduler functions.
+This object can be used in two ways:
+
+=head2 Registering new scheduler tasks
+
+By creating an instance of this object and calling L<TaskRegister()> on it, a task
+can be scheduled for asynchronous execution (either as soon as possible, or with a
+specified future execution time).
+
+=head2 Running pending tasks
+
+From the scheduler daemon, the L<Run()> method will be called to find and process
+all existing tasks.
 
 =head1 PUBLIC INTERFACE
 
@@ -37,7 +48,7 @@ All scheduler functions.
 
 =item new()
 
-create an object
+create an object.
 
     use Kernel::Config;
     use Kernel::System::Encode;
@@ -95,11 +106,12 @@ sub new {
 
 =item Run()
 
-Find and dispatch a Task
+find and dispatch pending tasks. This method is used from the scheduler
+daemon to regularly find and execute all pending tasks.
 
-    my $Result = $SchedulerObject->Run();
+    my $Success = $SchedulerObject->Run();
 
-    $Result = 1                   # 0 or 1;
+    $Success = 1                   # 0 or 1;
 
 =cut
 
@@ -115,14 +127,13 @@ sub Run {
     # get the task details
     TASKITEM:
     for my $TaskItem (@TaskList) {
-        ;
-        if ( !$TaskItem ) {
+
+        if ( !IsHashRefWithData($TaskItem) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Got invalid task list!',
+                Message  => 'Got invalid task list entry!',
             );
 
-            # skip if can't get task
             next TASKITEM;
         }
 
@@ -134,11 +145,10 @@ sub Run {
             );
             $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
 
-            # skip if no task has no type
             next TASKITEM;
         }
 
-        # do not execute if task is schedule for future
+        # do not execute if task is scheduled for future
         my $SystemTime  = $Self->{TimeObject}->SystemTime();
         my $TaskDueTime = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $TaskItem->{DueTime},
@@ -186,30 +196,29 @@ sub Run {
         next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
 
         # check if need to re-schedule
-        if ( !$TaskResult->{Success} && $TaskResult->{ReSchedule} ) {
+        if ( $TaskResult->{ReSchedule} ) {
 
             # set new due time
-            $TaskData{DueTime} = $TaskResult->{DueTime} || '';
+            my %ReScheduleTaskData = (
+                DueTime => scalar $TaskResult->{DueTime},
+                Data    => scalar $TaskResult->{Data},
+                Type    => scalar $TaskItem->{Type},
+            );
 
-            # set new task data if needed
-            if ( $TaskResult->{Data} ) {
-                $TaskData{Data} = $TaskResult->{Data}
-            }
-
-            # create a ne task
-            my $TaskID = $Self->TaskRegister(%TaskData);
+            # re-schedule: create a new task
+            my $TaskID = $Self->TaskRegister(%ReScheduleTaskData);
 
             # check if task was re scheduled successfuly
             if ( !$TaskID ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Can't re-schedule task",
+                    Message  => "Could not re-schedule task",
                 );
                 next TASKITEM;
             }
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "task is re-scheduled!",
+                Message  => "Task is re-scheduled.",
             );
         }
     }
@@ -219,12 +228,18 @@ sub Run {
 
 =item TaskRegister()
 
+schedules a task for asynchronous execution (either as soon as possible, or with a
+specified future execution time). Each task has a task type, and for each task type
+a corresponding task handler backend must be present. The task data that is required
+depends on the task type. Please consult the task handler backend specification to find
+out exactly which data is needed.
+
     my $TaskID = $SchedulerObject->TaskRegister(
         Type     => 'GenericInterface',
-        DueTime  => '2006-01-19 23:59:59',          # optional (default current time)
-        Data     => {                               # task data
+        Data     => {                               # task data, depends task handler backend
             ...
         },
+        DueTime  => '2006-01-19 23:59:59',          # optional (default current time)
     );
 
 =cut
@@ -247,7 +262,7 @@ sub TaskRegister {
     if ( !defined $Param{Data} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got undefined Task Data!',
+            Message  => 'Got undefined Task data!',
         );
 
         # retrun error if task data is undefined
@@ -290,6 +305,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-02-23 03:50:59 $
+$Revision: 1.16 $ $Date: 2011-03-10 13:59:45 $
 
 =cut
