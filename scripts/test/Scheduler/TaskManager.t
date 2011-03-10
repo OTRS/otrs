@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.7 2011-03-10 14:00:16 mg Exp $
+# $Id: TaskManager.t,v 1.8 2011-03-10 14:05:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,18 @@ use vars (qw($Self));
 use Kernel::System::Scheduler::TaskManager;
 
 my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+
+$Self->Is(
+    ref $TaskManagerObject,
+    'Kernel::System::Scheduler::TaskManager',
+    "Kernel::System::Scheduler::TaskManager->new()",
+);
+
+$Self->Is(
+    scalar $TaskManagerObject->TaskList(),
+    0,
+    "Initial task list is empty",
+);
 
 my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
 

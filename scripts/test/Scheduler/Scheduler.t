@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.5 2011-03-10 14:01:27 mg Exp $
+# $Id: Scheduler.t,v 1.6 2011-03-10 14:05:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,6 +101,12 @@ $Self->Is(
     ref $TaskManagerObject,
     'Kernel::System::Scheduler::TaskManager',
     "Kernel::System::Scheduler::TaskManager->new()",
+);
+
+$Self->Is(
+    scalar $TaskManagerObject->TaskList(),
+    0,
+    "Initial task list is empty",
 );
 
 # round 1: task execution asap
