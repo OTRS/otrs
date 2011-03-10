@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.6 2011-03-09 18:07:59 cg Exp $
+# $Id: Deserialize.t,v 1.7 2011-03-10 03:53:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
 
-my $SOAPTagIni = '<soap:Envelope ' .
-    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
-    'xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" ' .
-    'xmlns:xsd="http://www.w3.org/2001/XMLSchema" ' .
-    'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" ' .
-    'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' .
-    '<soap:Body>';
+my $SOAPTagIni = '<soap:Envelope '
+    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+    . 'xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
+    . '<soap:Body>';
 my $SOAPTagEnd = '</soap:Body></soap:Envelope>';
 
 my @Tests = (
