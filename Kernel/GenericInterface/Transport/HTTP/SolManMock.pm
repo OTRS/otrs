@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SolManMock.pm - GenericInterface network transport mock interface for SolMan webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.pm,v 1.2 2011-03-10 14:25:15 mg Exp $
+# $Id: SolManMock.pm,v 1.3 2011-03-10 17:06:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -428,6 +428,28 @@ sub _Error {
         Success      => 0,
         ErrorMessage => $Param{Summary},
     };
+}
+
+package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;
+
+use base qw(LWP::Protocol);
+
+sub new {
+    my $Class = shift;
+    return $Class->SUPER::new(@_);
+}
+
+sub request {
+    my $Self = shift;
+    my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;
+
+    my $Response = HTTP::Response->new( 200 => "OK" );
+    $Response->protocol('HTTP/1.0');
+    $Response->content_type("text/plain; charset=UTF-8");
+    $Response->add_content_utf8( $Request->content );
+    $Response->date(time);
+
+    return $Response;
 }
 
 1;
