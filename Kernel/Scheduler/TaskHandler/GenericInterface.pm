@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.8 2011-02-22 23:45:56 cr Exp $
+# $Id: GenericInterface.pm,v 1.9 2011-03-10 13:55:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -72,11 +72,7 @@ Returns:
 
     $Result = {
         Success    => 1,                       # 0 or 1
-        ReSchedule => 0,                       # 0 or 1 # if task need to be re scheduled
-        DueTime    => '2011-01-19 23:59:59',   # only apply if ReSchedule is equals to 1
-        Data       => {                        # optional only apply if ReSchedule is equals to 1
-            ...
-        },
+        ReSchedule => 0,                       #
     };
 
 =cut
@@ -93,7 +89,6 @@ sub Run {
         return {
             Success    => 0,
             ReSchedule => 0,
-            DueTime    => '',
         };
     }
 
@@ -110,7 +105,6 @@ sub Run {
             return {
                 Success    => 0,
                 ReSchedule => 0,
-                DueTime    => '',
             };
         }
     }
@@ -132,7 +126,6 @@ sub Run {
         return {
             Success    => 0,
             ReSchedule => 0,
-            DueTime    => '',
         };
     }
 
@@ -145,7 +138,6 @@ sub Run {
     return {
         Success    => 1,
         ReSchedule => 0,
-        DueTime    => '',
     };
 }
 
@@ -165,6 +157,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-02-22 23:45:56 $
+$Revision: 1.9 $ $Date: 2011-03-10 13:55:51 $
 
 =cut
