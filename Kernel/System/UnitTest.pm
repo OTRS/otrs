@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.56 2011-03-10 19:06:26 mh Exp $
+# $Id: UnitTest.pm,v 1.57 2011-03-10 21:29:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -544,9 +544,9 @@ Where $ParamA and $ParamB must be references to a structure (scalar, list or has
 Returns 1 if the data structures are the same, or undef otherwise.
 
     my $IsDeeplyResult = $UnitTestObject->IsDeeply(
-        \%ResultHash,           # test data
-        \%ExpectedHash,         # expected value
-        'Dummy Test Name',
+        \%ResultHash,           # test data
+        \%ExpectedHash,         # expected value
+        'Dummy Test Name',
     );
 
 =cut
@@ -915,6 +915,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2011-03-10 19:06:26 $
+$Revision: 1.57 $ $Date: 2011-03-10 21:29:08 $
 
 =cut
