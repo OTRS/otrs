@@ -2,7 +2,7 @@
 # Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.10 2011-02-22 23:45:56 cr Exp $
+# $Id: Test.pm,v 1.11 2011-03-10 13:56:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -60,18 +60,19 @@ performs the selected test task.
         Data     => {
             File => $Filename,              # optional, create file $FileName
             Success => 1,                   # 0 or 1, controls return value
+            ReSchedule => $ReSchedule,      # 0 or 1, constrols re-scheduling
+            ReScheduleDueTime => $TimeStamp,
+            ReScheduleData => $Data,
         },
     );
 
 Returns:
 
     $Result = {
-        Success    => 1,                       # 0 or 1
-        ReSchedule => 0,                       # 0 or 1 # if task need to be re scheduled
-        DueTime    => '2011-01-19 23:59:59',   # only apply if ReSchedule is equals to 1
-        Data       => {                        # optional only apply if ReSchedule is equals to 1
-            ...
-        },
+        Success    => 1,                     # 0 or 1
+        ReSchedule => $ReSchedule,
+        DueTime    => $TimeStamp,
+        Data       => $Data
     };
 
 =cut
@@ -85,10 +86,9 @@ sub Run {
             Priority => 'error',
             Message  => 'Got no valid Data!',
         );
+
         return {
-            Success    => 0,
-            ReSchedule => 0,
-            DueTime    => '',
+            Success => 0,
         };
     }
 
@@ -101,52 +101,12 @@ sub Run {
         );
     }
 
-    if ( $Param{Data}->{ReSchedule} ) {
-
-        # log and exit succesfully
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => 'Test task execuded correctly with ReSchedule!',
-        );
-
-        # to store system time
-        my $SystemTime = $Self->{TimeObject}->SystemTime();
-
-        # to store new DueTime
-        my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $SystemTime + 60,
-        );
-
-        # re schedule with new time
-        return {
-            Success    => 0,
-            ReSchedule => 1,
-            DueTime    => $DueTime,
-            Data       => {},
-        };
-    }
-
-    if ( !$Param{Data}->{Success} ) {
-
-        # log and exit succesfully
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => 'Test task execuded correctly with false!',
-        );
-        return {
-            Success    => 0,
-            ReSchedule => 0,
-            DueTime    => '',
-        };
-    }
-
-    # log and exit succesfully
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => 'Test task execuded correctly with true!',
-    );
+    # re schedule with new time
     return {
-        Success => 1,
+        Success    => $Param{Data}->{Success},
+        ReSchedule => $Param{Data}->{ReSchedule},
+        DueTime    => $Param{Data}->{ReScheduleDueTime},
+        Data       => $Param{Data}->{ReScheduleData},
     };
 }
 
@@ -166,6 +126,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-02-22 23:45:56 $
+$Revision: 1.11 $ $Date: 2011-03-10 13:56:13 $
 
 =cut
