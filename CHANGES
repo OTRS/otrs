@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1798 2011-03-10 10:56:42 mn Exp $
+# $Id: CHANGES,v 1.1799 2011-03-10 11:27:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,37 +10,18 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-03-10 Fixed bug#6946: SelectAllXXX checkbox is not checked when you first enter to the module.
  - 2011-03-07 Added feature bug#6992 - Ticket Responsible can't be set by GenericAgent.
  - 2011-03-07 Added feature bug#6140 - Make the refresh interval of the dashboard
     configurable.
- - 2011-03-02 Fixed bug#6936. Click on Customer triggers Wildcard-Search.
- - 2011-02-28 Fixed bug#6961. TicketActionsPerTicket - Buttons not localized.
  - 2011-03-01 Added feature bug#6977 - Next Screen after AgentTicketMove should
     be configurable.
- - 2011-02-28 Fixed bug#5578. TicketSolutionResponseTime.pm fix.
  - 2011-02-28 Added feature bug#6894. Events for escalations.
- - 2011-02-25 Fixed bug#6822. Underscore in username problem in 3.0.5.
  - 2011-02-24 Fixed bug#6867. CustomerCompany external source requires
     change_time and create_time columns.
- - 2011-02-21 Updated Russian translation, thanks to Eugene Kungurov!
- - 2011-02-18 Fixed bug#6912 - MIME-Viewer (PDF Preview) is not properly displayed in 3.x UI.
- - 2011-02-16 Changed UserID 1 notification
- - 2011-02-16 Updated Brazilian Portugese translation, thanks to Humberto Diogenes!
- - 2011-02-15 Fixed bug#6861 - Navigation should be disabled when linking an object.
- - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
-    in database and session.
- - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
- - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
-    when file is attached.
  - 2011-02-07 Fixed Bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS.
- - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
- - 2011-02-04 Fixed bug#6057 - Some action buttons don't have tooltips.
- - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#3125 - No translation for ticket-state in notifications.
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
- - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed.
-    of > 70 characters exists.
+     of > 70 characters exists.
 
 3.0.7 2011-??-??
  - 2011-03-10 Fixed bug#6946: SelectAllXXX checkbox is not checked when you first enter to the module.
