@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.3 2011-02-11 09:51:53 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.4 2011-03-10 13:54:30 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,6 +42,9 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Win32::Daemon;
+
+# sleep time between loop intervals in seconds
+my $SleepTime = 1;
 
 # get options
 my %Opts = ();
@@ -177,8 +180,8 @@ sub _start {
             # Calls to $CommonObject{SchedulerObject} must be placed here!
         }
 
-        # sleep to don't overload the processor
-        sleep(5);
+        # sleep to avoid overloading the processor
+        sleep $SleepTime;
 
         $State = Win32::Daemon::State();
     }

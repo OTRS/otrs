@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.11 2011-02-22 10:27:41 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.12 2011-03-10 13:54:30 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,6 +42,9 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Proc::Daemon;
+
+# sleep time between loop intervals in seconds
+my $SleepTime = 1;
 
 # get options
 my %Opts = ();
@@ -244,8 +247,8 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         _Hangup() if $Hangup;
         $Hangup = 0;
 
-        # sleep to don't overload the processor
-        sleep 5;
+        # sleep to avoid overloading the processor
+        sleep $SleepTime;
 
         # check for stop signal (again)
         exit if $Interrupt;
