@@ -2,7 +2,7 @@
 # SolManMock.t - GenericInterface transport interface tests for SolMan mock webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.t,v 1.1 2011-03-10 04:00:08 cr Exp $
+# $Id: SolManMock.t,v 1.2 2011-03-10 23:28:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,6 @@
 
 use strict;
 use warnings;
-use utf8;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
@@ -65,7 +64,7 @@ my $WebserviceConfig = {
             Type   => 'HTTP::SolManMock',
             Config => {
                 MaxLength => 10000000,
-                NameSpace => 'urn:sap-com:document:sap:soap:functions:mc-style/',
+                NameSpace => 'urn:sap-com:document:sap:soap:functions:mc-style',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
             },
@@ -152,7 +151,7 @@ my $WebserviceConfig = {
         Transport => {
             Type   => 'HTTP::SOAP',
             Config => {
-                NameSpace => 'urn:sap-com:document:sap:soap:functions:mc-style/',
+                NameSpace => 'urn:sap-com:document:sap:soap:functions:mc-style',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
             },

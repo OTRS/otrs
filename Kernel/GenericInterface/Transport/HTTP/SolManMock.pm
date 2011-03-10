@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SolManMock.pm - GenericInterface network transport mock interface for SolMan webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.pm,v 1.3 2011-03-10 17:06:58 cr Exp $
+# $Id: SolManMock.pm,v 1.4 2011-03-10 23:28:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,39 +95,36 @@ sub ProviderProcessRequest {
         );
     }
 
-    # do we have a soap action
-    if ( !$ENV{'HTTP_SOAPACTION'} ) {
-        return $Self->_Error(
-            Summary   => 'No SOAPAction given',
-            HTTPError => 500,
-        );
-    }
+    # do we have a soap action header?
+    my $NameSpaceFromHeader;
+    my $OperationFromHeader;
+    if ( $ENV{'HTTP_SOAPACTION'} ) {
+        my ($SOAPAction) = $ENV{'HTTP_SOAPACTION'} =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
 
-    # check if soap action resolves to operation and namespace
-    my ( $NameSpace, $Operation ) = $ENV{'HTTP_SOAPACTION'} =~ m{
-        \A
-        ["']
-        ( .+? )
-        [#]?
-        ( [^/]+ )
-        ["']
-        \z
-    }xms;
-    if ( !$NameSpace || !$Operation ) {
-        return $Self->_Error(
-            Summary   => "Invalid SOAPAction '$ENV{'HTTP_SOAPACTION'}'",
-            HTTPError => 500,
-        );
+        # get namespace and operation from soap action
+        if ( IsStringWithData($SOAPAction) ) {
+            my ( $NameSpaceFromHeader, $OperationFromHeader ) = $ENV{'HTTP_SOAPACTION'} =~ m{
+                \A
+                ( .+? )
+                [#/]
+                ( [^#/]+ )
+                \z
+            }xms;
+            if ( !$NameSpaceFromHeader || !$OperationFromHeader ) {
+                return $Self->_Error(
+                    Summary   => "Invalid SOAPAction '$SOAPAction'",
+                    HTTPError => 500,
+                );
+            }
+        }
     }
 
     # check namespace for match to configuration
-    if ( $Config->{NameSpace} ne $NameSpace ) {
-        my $NameSpaceError =
-            "Provided namespace '$NameSpace' does not match"
-            . " configured namespace '$Config->{NameSpace}'";
-        return $Self->_Error(
-            Summary   => $NameSpaceError,
-            HTTPError => 500,
+    if ( $NameSpaceFromHeader && $NameSpaceFromHeader ne $Config->{NameSpace} ) {
+        $Self->{DebuggerObject}->Notice(
+            Summary =>
+                "Namespace from SOAPAction '$NameSpaceFromHeader' does not match namespace"
+                . " from configuration '$Config->{NameSpace}'",
         );
     }
 
@@ -154,6 +151,12 @@ sub ProviderProcessRequest {
         );
     }
 
+    # send received data to debugger
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'Received data by provider from remote system',
+        Data    => $Content,
+    );
+
     # deserialize
     my $Deserialized = eval { SOAP::Deserializer->deserialize($Content); };
     my $DeserializedFault = $@ || '';
@@ -172,13 +175,18 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if we have data for the specified operation in the result
+    # get body for request
     my $Body = $Deserialized->body();
-    if ( !defined $Body->{$Operation} ) {
-        return $Self->_Error(
+
+    # get operation from soap data
+    my $Operation = ( keys %{$Body} )[0];
+
+    # check operation against header
+    if ( $OperationFromHeader && $Operation ne $OperationFromHeader ) {
+        $Self->{DebuggerObject}->Notice(
             Summary =>
-                "No data found for specified operation '$Operation' in deserialized content",
-            HTTPError => 500,
+                "Operation from SOAP data '$Operation' does not match operation"
+                . " from SOAPAction '$OperationFromHeader'",
         );
     }
 
@@ -191,7 +199,6 @@ sub ProviderProcessRequest {
         Operation => $Operation,
         Data      => $Body->{$Operation},
     };
-
 }
 
 sub ProviderGenerateResponse {
