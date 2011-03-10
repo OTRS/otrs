@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.6 2011-03-10 14:05:29 mg Exp $
+# $Id: Scheduler.t,v 1.7 2011-03-10 14:09:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,9 +24,8 @@ my @Tests = (
         Name  => 'Nonexisting backend',
         Tasks => [
             {
-                Type      => 'TestNotExisting',
-                FileCheck => 0,
-                Data      => {
+                Type => 'TestNotExisting',
+                Data => {
                     Success => 1,
                 },
                 Result => 0,
@@ -37,9 +36,8 @@ my @Tests = (
         Name  => 'Single test task',
         Tasks => [
             {
-                Type      => 'Test',
-                FileCheck => 1,
-                Data      => {
+                Type => 'Test',
+                Data => {
                     Success => 0,
                 },
                 Result => 0,
@@ -50,25 +48,22 @@ my @Tests = (
         Name  => 'Multiple tasks',
         Tasks => [
             {
-                Type      => 'Test',
-                FileCheck => 1,
-                Data      => {
+                Type => 'Test',
+                Data => {
                     Success => 0,
                 },
                 Result => 0,
             },
             {
-                Type      => 'TestNotExisting',
-                FileCheck => 0,
-                Data      => {
+                Type => 'TestNotExisting',
+                Data => {
                     Success => 1,
                 },
                 Result => 0,
             },
             {
-                Type      => 'Test',
-                FileCheck => 1,
-                Data      => {
+                Type => 'Test',
+                Data => {
                     Success => 0,
                 },
                 Result => 0,
@@ -77,14 +72,15 @@ my @Tests = (
     },
 );
 
-# check if scheduler is running (in case start)
-my $Home      = $Self->{ConfigObject}->Get('Home');
+my $Home = $Self->{ConfigObject}->Get('Home');
+
+# check if scheduler is running (start, if neccessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^win/i ) {
     $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
 }
-my $SchedulerStatus = `$Scheduler -a status`;
-if ( $SchedulerStatus =~ /not running/i ) {
+my $PreviousSchedulerStatus = `$Scheduler -a status`;
+if ( $PreviousSchedulerStatus =~ /not running/i ) {
     `$Scheduler -a start`;
 }
 
@@ -119,7 +115,7 @@ for my $Test (@Tests) {
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
 
-        if ( $Task->{FileCheck} ) {
+        if ( $Task->{Type} eq 'Test' ) {
             my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
             if ( -e $File ) {
                 unlink $File;
@@ -177,7 +173,7 @@ for my $Test (@Tests) {
     # register tasks
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
-        if ( $Task->{FileCheck} ) {
+        if ( $Task->{Type} eq 'Test' ) {
             my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
             if ( -e $File ) {
                 unlink $File;
@@ -269,7 +265,7 @@ for my $Test (@Tests) {
         $Task->{Data}->{ReScheduleSuccess} = $Task->{Data}->{Success};
         $Task->{Data}->{ReScheduleDueTime} = $DueTime;
 
-        if ( $Task->{FileCheck} ) {
+        if ( $Task->{Type} eq 'Test' ) {
             my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
             if ( -e $File ) {
                 unlink $File;
@@ -351,7 +347,7 @@ for my $Test (@Tests) {
 }
 
 # in case stop scheduler
-if ( $SchedulerStatus =~ /not running/i ) {
+if ( $PreviousSchedulerStatus =~ /not running/i ) {
     `$Scheduler -a stop`;
 }
 
