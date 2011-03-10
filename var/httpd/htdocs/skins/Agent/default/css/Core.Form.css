@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.27.2.1 $
+ * @version     $Revision: 1.27.2.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -72,7 +72,6 @@ button.Primary {
 
 button.Add,
 a.Add,
-a.DownloadAttachment,
 button.Remove,
 a.Remove,
 button.TrashCan,
@@ -102,10 +101,6 @@ button.Add:focus,
 a.Add:hover,
 a.Add:focus {
     background: url(../img/filter_add_hover.png) no-repeat center;
-}
-
-a.DownloadAttachment {
-    background: url(../img/icons/drive-download.png) no-repeat center;
 }
 
 button.Remove,
