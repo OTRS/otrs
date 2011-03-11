@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.6 2011-03-10 00:00:28 cg Exp $
+# $Id: SOAP.t,v 1.7 2011-03-11 04:09:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,6 @@
 
 use strict;
 use warnings;
-use utf8;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
@@ -162,7 +161,8 @@ my @Tests = (
         RequestData    => {
             PriorityName => '5 very high',
             DataIn       => {
-                Blah => 'Fasel',
+                Blah   => 'Fasel',
+                Umlaut => 'äöüßÄÖÜ€ис',
             },
         },
         ExpectedReturnData => {
@@ -170,7 +170,8 @@ my @Tests = (
             Data    => {
                 PriorityName => '5 sehr hoch',
                 DataOut      => {
-                    Blah => 'Fasel',
+                    Blah   => 'Fasel',
+                    Umlaut => 'äöüßÄÖÜ€ис',
                 },
             },
         },
@@ -187,7 +188,6 @@ my @Tests = (
                     Config => {
                         MaxLength => 10000000,
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
                     },
                 },
@@ -238,9 +238,14 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Encoding  => 'UTF-8',
-                        Endpoint  => $RemoteSystem,
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
                     },
                 },
                 Invoker => {
