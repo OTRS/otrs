@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.4 2011-03-11 08:15:32 mg Exp $
+# $Id: Handler.t,v 1.5 2011-03-11 09:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -237,17 +237,48 @@ $Self->Is(
     "Event handler added to config",
 );
 
-# check if scheduler is running (start if neccessary)
-my $Home      = $ConfigObject->Get('Home');
+my $Home = $ConfigObject->Get('Home');
+
+# check if scheduler is running (start, if neccessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^win/i ) {
     $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
 }
-my $OriginalSchedulerStatus = `$Scheduler -a status`;
-if ( $OriginalSchedulerStatus =~ /not running/i ) {
-    `$Scheduler -a start`;
+my $PreviousSchedulerStatus = `$Scheduler -a status`;
+
+if ( !$PreviousSchedulerStatus ) {
+    $Self->False(
+        1,
+        "Could not determine current scheduler status!",
+    );
+    die "Could not determine current scheduler status!";
 }
 
+if ( $PreviousSchedulerStatus =~ /^not running/i ) {
+    my $Result = system("$Scheduler -a start");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler start call returned successfully.",
+    );
+}
+else {
+    $Self->True(
+        1,
+        "Scheduler was already running.",
+    );
+}
+
+my $CurrentSchedulerStatus = `$Scheduler -a status`;
+
+$Self->True(
+    $CurrentSchedulerStatus =~ /^running/i,
+    "Scheduler is running",
+);
+
+if ( $CurrentSchedulerStatus !~ /^running/i ) {
+    die "Scheduler could not be started.";
+}
 for my $Test (@Tests) {
 
     # add config
@@ -297,9 +328,9 @@ for my $Test (@Tests) {
     if ( $Test->{Asynchronous} ) {
         $Self->True(
             1,
-            "Sleeping 20s to let the scheduler process the tasks...",
+            "Sleeping 10s to let the scheduler process the tasks...",
         );
-        sleep 20;
+        sleep 10;
     }
 
     my $LogData = $DebugLogObject->LogSearch(
@@ -356,9 +387,23 @@ for my $Test (@Tests) {
     );
 }
 
-# Stop scheduler if it was not running in the first place
-if ( $OriginalSchedulerStatus =~ /not running/i ) {
-    `$Scheduler -a stop`;
+# stop scheduler if it was not already running before this test
+if ( $PreviousSchedulerStatus =~ /^not running/i ) {
+    my $Result = system("$Scheduler -a stop");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler start call returned successfully.",
+    );
+
 }
+
+$CurrentSchedulerStatus = `$Scheduler -a status`;
+
+$Self->Is(
+    $CurrentSchedulerStatus,
+    $PreviousSchedulerStatus,
+    "Scheduler has original state again.",
+);
 
 1;

@@ -2,7 +2,7 @@
 # Scheduler.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.7 2011-03-10 14:09:42 mg Exp $
+# $Id: Scheduler.t,v 1.8 2011-03-11 09:11:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,8 +80,39 @@ if ( $^O =~ /^win/i ) {
     $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
 }
 my $PreviousSchedulerStatus = `$Scheduler -a status`;
-if ( $PreviousSchedulerStatus =~ /not running/i ) {
-    `$Scheduler -a start`;
+
+if ( !$PreviousSchedulerStatus ) {
+    $Self->False(
+        1,
+        "Could not determine current scheduler status!",
+    );
+    die "Could not determine current scheduler status!";
+}
+
+if ( $PreviousSchedulerStatus =~ /^not running/i ) {
+    my $Result = system("$Scheduler -a start");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler start call returned successfully.",
+    );
+}
+else {
+    $Self->True(
+        1,
+        "Scheduler was already running.",
+    );
+}
+
+my $CurrentSchedulerStatus = `$Scheduler -a status`;
+
+$Self->True(
+    $CurrentSchedulerStatus =~ /^running/i,
+    "Scheduler is running",
+);
+
+if ( $CurrentSchedulerStatus !~ /^running/i ) {
+    die "Scheduler could not be started.";
 }
 
 my $SchedulerObject   = Kernel::Scheduler->new( %{$Self} );
@@ -346,9 +377,23 @@ for my $Test (@Tests) {
     );
 }
 
-# in case stop scheduler
-if ( $PreviousSchedulerStatus =~ /not running/i ) {
-    `$Scheduler -a stop`;
+# stop scheduler if it was not already running before this test
+if ( $PreviousSchedulerStatus =~ /^not running/i ) {
+    my $Result = system("$Scheduler -a stop");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler start call returned successfully.",
+    );
+
 }
+
+$CurrentSchedulerStatus = `$Scheduler -a status`;
+
+$Self->Is(
+    $CurrentSchedulerStatus,
+    $PreviousSchedulerStatus,
+    "Scheduler has original state again.",
+);
 
 1;
