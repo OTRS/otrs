@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.12 2011-03-10 15:53:37 sb Exp $
+# $Id: SOAP.pm,v 1.13 2011-03-11 04:22:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -109,45 +109,41 @@ sub ProviderProcessRequest {
         );
     }
 
-    # do we have a soap action
-    if ( !$ENV{'HTTP_SOAPACTION'} ) {
-        return $Self->_Error(
-            Summary   => 'No SOAPAction given',
-            HTTPError => 500,
-        );
-    }
+    # do we have a soap action header?
+    my $NameSpaceFromHeader;
+    my $OperationFromHeader;
+    if ( $ENV{'HTTP_SOAPACTION'} ) {
+        my ($SOAPAction) = $ENV{'HTTP_SOAPACTION'} =~ m{ \A ["'] ( .+ ) ["'] \z }xms;
 
-    # check if soap action resolves to operation and namespace
-    my ( $NameSpace, $Operation ) = $ENV{'HTTP_SOAPACTION'} =~ m{
-        \A
-        ["']
-        ( .+? )
-        [#/]
-        ( [^#/]+ )
-        ["']
-        \z
-    }xms;
-    if ( !$NameSpace || !$Operation ) {
-        return $Self->_Error(
-            Summary   => "Invalid SOAPAction '$ENV{'HTTP_SOAPACTION'}'",
-            HTTPError => 500,
-        );
+        # get namespace and operation from soap action
+        if ( IsStringWithData($SOAPAction) ) {
+            my ( $NameSpaceFromHeader, $OperationFromHeader ) = $ENV{'HTTP_SOAPACTION'} =~ m{
+                \A
+                ( .+? )
+                [#/]
+                ( [^#/]+ )
+                \z
+            }xms;
+            if ( !$NameSpaceFromHeader || !$OperationFromHeader ) {
+                return $Self->_Error(
+                    Summary   => "Invalid SOAPAction '$SOAPAction'",
+                    HTTPError => 500,
+                );
+            }
+        }
     }
 
     # check namespace for match to configuration
-    if ( $Config->{NameSpace} ne $NameSpace ) {
-        my $NameSpaceError =
-            "Provided namespace '$NameSpace' does not match"
-            . " configured namespace '$Config->{NameSpace}'";
-        return $Self->_Error(
-            Summary   => $NameSpaceError,
-            HTTPError => 500,
+    if ( $NameSpaceFromHeader && $NameSpaceFromHeader ne $Config->{NameSpace} ) {
+        $Self->{DebuggerObject}->Notice(
+            Summary =>
+                "Namespace from SOAPAction '$NameSpaceFromHeader' does not match namespace"
+                . " from configuration '$Config->{NameSpace}'",
         );
     }
 
     # read request
     my $Content;
-    binmode(STDIN);
     read STDIN, $Content, $Length;
 
     # convert charset if necessary
@@ -168,6 +164,12 @@ sub ProviderProcessRequest {
         );
     }
 
+    # send received data to debugger
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'Received data by provider from remote system',
+        Data    => $Content,
+    );
+
     # deserialize
     my $Deserialized = eval { SOAP::Deserializer->deserialize($Content); };
     my $DeserializedFault = $@ || '';
@@ -186,13 +188,18 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if we have data for the specified operation in the result
+    # get body for request
     my $Body = $Deserialized->body();
-    if ( !defined $Body->{$Operation} ) {
-        return $Self->_Error(
+
+    # get operation from soap data
+    my $Operation = ( keys %{$Body} )[0];
+
+    # check operation against header
+    if ( $OperationFromHeader && $Operation ne $OperationFromHeader ) {
+        $Self->{DebuggerObject}->Notice(
             Summary =>
-                "No data found for specified operation '$Operation' in deserialized content",
-            HTTPError => 500,
+                "Operation from SOAP data '$Operation' does not match operation"
+                . " from SOAPAction '$OperationFromHeader'",
         );
     }
 
@@ -348,13 +355,31 @@ sub RequesterPerformRequest {
         };
     }
 
+    # add authentication if configured
+    my $URL = $Config->{Endpoint};
+    if ( IsHashRefWithData( $Config->{Authentication} ) ) {
+
+        # basic authentication
+        if (
+            IsStringWithData( $Config->{Authentication}->{Type} )
+            && $Config->{Authentication}->{Type} eq 'BasicAuth'
+            )
+        {
+            my $User     = $Config->{Authentication}->{User};
+            my $Password = $Config->{Authentication}->{Password};
+            if ( IsStringWithData($User) && IsStringWithData($Password) ) {
+                $URL =~ s{ ( http s? :// ) }{$1$User:$Password@}xmsi;
+            }
+        }
+    }
+
     # prepare connect
     my $SOAPHandle = eval {
         SOAP::Lite
             ->autotype(0)
             ->default_ns( $Config->{NameSpace} )
             ->proxy(
-            $Config->{Endpoint},
+            $URL,
             timeout => 60,
             );
     };
@@ -388,8 +413,66 @@ sub RequesterPerformRequest {
         };
     }
 
+    # send sent data to debugger
+    if ( $SOAPResult->context()->transport()->proxy()->http_response()->request()->content() ) {
+        $Self->{DebuggerObject}->Debug(
+            Summary => 'Xml data sent to remote system',
+            Data =>
+                $SOAPResult->context()->transport()->proxy()
+                ->http_response()->request()->content(),
+        );
+    }
+    else {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Could not get xml data sent to remote system',
+        };
+    }
+
+    # send received data to debugger
+    my $XMLResponse;
+    if ( $SOAPResult->context()->transport()->proxy()->http_response()->content() ) {
+        $XMLResponse = $SOAPResult->context()->transport()->proxy()->http_response()->content();
+        $Self->{DebuggerObject}->Debug(
+            Summary => 'Xml data received from remote system',
+            Data    => $XMLResponse,
+        );
+    }
+    else {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Could not get xml data received from remote system',
+        };
+    }
+
+    # convert charset if necessary
+    if ( $Config->{Encoding} && $Config->{Encoding} !~ m{ \A utf -? 8 \z }xmsi ) {
+        $XMLResponse = $Self->{EncodeObject}->Convert(
+            Text => $XMLResponse,
+            From => $Config->{Encoding},
+            To   => 'utf-8',
+        );
+    }
+
+    # encode incoming data
+    # FIXME should we do this here?
+    utf8::encode($XMLResponse);
+
+    # deserialize response
+    my $Deserialized = eval {
+        SOAP::Deserializer->deserialize($XMLResponse);
+    };
+
+    # check if deserializing was successful
+    if ( !defined $Deserialized || !$Deserialized->body() ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Could not deserialize received xml data',
+        };
+    }
+
     # check if we have response data for the specified operation in the soap result
-    my $Body = $SOAPResult->body();
+    my $Body = $Deserialized->body();
     if ( !defined $Body->{ $Param{Operation} . 'Response' } ) {
         return {
             Success => 0,
@@ -476,15 +559,15 @@ sub _Output {
     else {
         $ContentType = 'text/plain';
     }
-    my $ContentLength;
-    {
-        use bytes;
-        $ContentLength = length $Param{Content};
-    };
+
+    # FIXME this seems to be incorrect (according to soap call)
+    use bytes;
+    my $ContentLength = length $Param{Content};
+    no bytes;
 
     # log to debugger
     my $DebugLevel;
-    if ( $Param{HTTPCode} ne 200 ) {
+    if ( $Param{HTTPCode} eq 200 ) {
         $DebugLevel = 'debug';
     }
     else {
@@ -492,7 +575,7 @@ sub _Output {
     }
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
-        Summary    => "Returning data to remote system (HTTP Code: $Param{HTTPCode})",
+        Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
         Data       => $Param{Content},
     );
 
@@ -525,7 +608,7 @@ sub _SOAPOutputRecursion {
     if ( IsString( $Param{Data} ) ) {
         return {
             Success => 1,
-            Data    => [ $Param{Data} ],
+            Data    => SOAP::Data->value( $Param{Data} ),
         };
     }
     if ( IsArrayRefWithData( $Param{Data} ) ) {
@@ -602,6 +685,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-03-10 15:53:37 $
+$Revision: 1.13 $ $Date: 2011-03-11 04:22:42 $
 
 =cut
