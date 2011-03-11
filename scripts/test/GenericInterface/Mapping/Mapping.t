@@ -2,7 +2,7 @@
 # Mapping.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.t,v 1.9 2011-03-09 11:52:41 mg Exp $
+# $Id: Mapping.t,v 1.10 2011-03-11 00:28:23 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,7 @@ $Self->Is(
     'HASH',
     'MappingObject call response type',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
     'MappingObject call no data provided',
 );
@@ -155,9 +155,23 @@ $Self->Is(
     'HASH',
     'MappingObject call response type',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
     'MappingObject call empty data provided',
+);
+
+# map with invalid data
+$ReturnData = $MappingObject->Map(
+    Data => [],
+);
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'MappingObject call response type',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'MappingObject call invalid data provided',
 );
 
 # map with some data
