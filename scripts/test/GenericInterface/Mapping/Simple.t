@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.12 2011-03-06 17:26:56 cg Exp $
+# $Id: Simple.t,v 1.13 2011-03-11 21:47:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,15 +104,26 @@ my @MappingTests = (
         Name          => 'Test without config and data',
         Config        => undef,
         Data          => undef,
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResultData    => {},
+        ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test without config',
+        Config => undef,
+        Data   => {
+            one => 1,
+        },
+        ResultData => {
+            one => 1,
+        },
+        ResultSuccess => 1,
     },
     {
         Name          => 'Test without data',
         Config        => {},
         Data          => undef,
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResultData    => {},
+        ResultSuccess => 1,
     },
     {
         Name   => 'Test without data',
@@ -125,8 +136,8 @@ my @MappingTests = (
             },
         },
         Data          => undef,
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResultData    => {},
+        ResultSuccess => 1,
     },
     {
         Name   => 'Test with wrong data',
@@ -427,6 +438,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -455,6 +467,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -484,6 +497,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -513,6 +527,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -543,6 +558,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -568,6 +584,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -597,6 +614,7 @@ my @MappingTests = (
             },
         },
         Data => {
+            one => 1,
         },
         ResultData    => undef,
         ResultSuccess => 0,
