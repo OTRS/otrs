@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.4 2011-03-10 13:54:30 mg Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.5 2011-03-11 09:10:41 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -210,5 +210,6 @@ sub _stop {
 
     # delete pid lock
     $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
-    exit 1;
+
+    exit 0;
 }

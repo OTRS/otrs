@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.12 2011-03-10 13:54:30 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.13 2011-03-11 09:10:41 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -91,7 +91,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
         Message  => "Scheduler Daemon Stop! PID $PID{PID}",
     );
 
-    exit 1;
+    exit 0;
 }
 
 # check if a status request is sent
@@ -127,7 +127,8 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
     else {
         print "Not Running!\n";
     }
-    exit 1;
+
+    exit 0;
 }
 
 # check if a reload request is sent
@@ -155,7 +156,7 @@ if ( $Opts{a} && $Opts{a} eq "reload" ) {
         Priority => 'notice',
         Message  => "Scheduler Daemon reload request! PID $PID{PID}",
     );
-    exit 1;
+    exit 0;
 }
 
 # check if start request is sent
@@ -261,12 +262,17 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
         $SchedulerObject->Run();
     }
+
+    exit 0;
 }
 
 # invalid option, show help
 else {
     _help();
+    exit 1;
 }
+
+exit 1;
 
 # Internal
 sub _help {
