@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.379 2011-02-25 10:26:22 mg Exp $
+# $Id: Defaults.pm,v 1.380 2011-03-11 13:28:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,12 @@ package Kernel::Config::Defaults;
 use strict;
 use warnings;
 
+# Perl 5.8.6 is the required minimum version to use OTRS.
+# Do not use require VERSION as it leaks variables.
+use 5.008_006;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.379 $) [1];
+$VERSION = qw($Revision: 1.380 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -2017,20 +2021,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check required perl version
-    if ( !eval { require 5.008006 } ) {
-
-        my $RequiredPerl = 'v5.8.6';
-        my $CurrentPerl  = $^V;
-
-        my $Message = "\nERROR:\n"
-            . "Currently you are using Perl $CurrentPerl, but Perl $RequiredPerl is required for technical reasons!\n"
-            . "In order to use this version of OTRS, you need to have Perl $RequiredPerl installed.\n"
-            . "Otherwise you can also use an older version of OTRS.\n\n";
-
-        die $Message;
-    }
-
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
 
@@ -2228,6 +2218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.379 $ $Date: 2011-02-25 10:26:22 $
+$Revision: 1.380 $ $Date: 2011-03-11 13:28:54 $
 
 =cut
