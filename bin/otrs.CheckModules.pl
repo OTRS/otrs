@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.14.2.1 2011-03-02 14:58:22 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.14.2.2 2011-03-11 13:53:33 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -51,8 +51,15 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module   => 'DBI',
-        Required => 1,
+        Module       => 'DBI',
+        Required     => 1,
+        NotSupported => [
+            {
+                Version => '1.607',
+                Comment =>
+                    'This version of DBI suffers from a memory leak, please use a newer version.',
+            },
+        ],
     },
     {
         Module   => 'DBD::mysql',
