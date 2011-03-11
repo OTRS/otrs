@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.5 2011-03-11 09:16:04 mg Exp $
+# $Id: Handler.t,v 1.6 2011-03-11 12:19:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -328,9 +328,9 @@ for my $Test (@Tests) {
     if ( $Test->{Asynchronous} ) {
         $Self->True(
             1,
-            "Sleeping 10s to let the scheduler process the tasks...",
+            "Sleeping 15s to let the scheduler process the tasks...",
         );
-        sleep 10;
+        sleep 15;
     }
 
     my $LogData = $DebugLogObject->LogSearch(
