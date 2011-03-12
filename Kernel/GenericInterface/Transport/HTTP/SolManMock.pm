@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SolManMock.pm - GenericInterface network transport mock interface for SolMan webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.pm,v 1.4 2011-03-10 23:28:07 sb Exp $
+# $Id: SolManMock.pm,v 1.5 2011-03-12 00:19:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,7 +130,6 @@ sub ProviderProcessRequest {
 
     # read request
     my $Content;
-    binmode(STDIN);
     read STDIN, $Content, $Length;
 
     # convert charset if necessary
