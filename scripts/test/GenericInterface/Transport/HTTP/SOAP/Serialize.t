@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.7 2011-03-11 22:43:41 cg Exp $
+# $Id: Serialize.t,v 1.8 2011-03-12 00:16:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,9 +44,10 @@ my @SoapTests = (
     {
         Name      => 'Empty Fail',
         Operation => 'MyOperation',
-        Data      => '',
+        Data      => {},
         XML       => ' ',
         Success   => 0,
+        IsEmpty   => 1
     },
     {
         Name      => 'Scalar',
@@ -146,15 +147,21 @@ my @SoapTests = (
 # loop trough the tests
 for my $Test (@SoapTests) {
 
+    my $SOAPResult;
+
     # prepare data
-    my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
-        Data => $Test->{Data},
-    );
-    next if ref $SOAPData->{Data} ne 'ARRAY';
+    $SOAPResult = SOAP::Data->value('');
+    if ( defined $Test->{Data} ) {
+        my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
+            Data => $Test->{Data},
+        );
+        if ( $SOAPData->{Success} ) {
+            $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
+        }
+    }
 
     # create return structure
-    my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
-    my $Content    = SOAP::Serializer
+    my $Content = SOAP::Serializer
         ->autotype(0)
         ->envelope( response => $Test->{Operation} . 'Response', $SOAPResult, );
 
@@ -281,11 +288,21 @@ for my $Test (@SoapTests) {
         );
     }
     else {
-        $Self->IsNotDeeply(
-            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            $Test->{Data},
-            "Test $Test->{Name}: SOAP Response data parsed as normal XML IsNotDeeply",
-        );
+        if ( $Test->{IsEmpty} ) {
+            $Self->IsDeeply(
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
+                "Test $Test->{Name}: Special case when Data is empty "
+                    . "SOAP Response data parsed as normal XML IsDeeply",
+            );
+        }
+        else {
+            $Self->IsNotDeeply(
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
+                "Test $Test->{Name}: SOAP Response data parsed as normal XML IsNotDeeply",
+            );
+        }
 
         my $SOAPBody = $SOAPObject->body();
         $Self->IsNotDeeply(
