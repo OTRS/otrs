@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.62.2.1 2011-02-01 23:01:54 cg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.62.2.2 2011-03-13 19:30:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -383,7 +383,7 @@
         <div class="Clear"></div>
         <label for="SearchInArchive" id="LabelSearchInArchive">$Text{"Archive Search"}:</label>
         <div class="Field">
-            $Text{"Archive search option"} $Data{"SearchInArchiveStrg"}
+            $Data{"SearchInArchiveStrg"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>

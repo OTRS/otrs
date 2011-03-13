@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.118.2.1 2011-02-28 19:01:52 ub Exp $
+# $Id: AgentTicketSearch.pm,v 1.118.2.2 2011-03-13 19:28:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118.2.1 $) [1];
+$VERSION = qw($Revision: 1.118.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1496,9 +1496,9 @@ sub Run {
 
             $Param{SearchInArchiveStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
-                    ArchivedTickets    => 'Search in archived tickets only',
-                    NotArchivedTickets => 'Search in not archived tickets only',
-                    AllTickets         => 'Search in all tickets',
+                    ArchivedTickets    => 'Archived tickets',
+                    NotArchivedTickets => 'Unarchived tickets',
+                    AllTickets         => 'All tickets',
                 },
                 Name => 'SearchInArchive',
                 SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',
