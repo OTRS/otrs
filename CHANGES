@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1799 2011-03-10 11:27:10 mn Exp $
+# $Id: CHANGES,v 1.1800 2011-03-13 19:00:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@
      of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-03-13 Fixed bug#7042 - Textual and layout issue Archive option in AgentTicketSearch.
  - 2011-03-10 Fixed bug#6946: SelectAllXXX checkbox is not checked when you first enter to the module.
  - 2011-03-09 Fixed bug#7007 - Loader unit tests fail on MSWin32.
  - 2011-03-08 Fixed bug#6790 - Custom directory not considered when running in CGI.
