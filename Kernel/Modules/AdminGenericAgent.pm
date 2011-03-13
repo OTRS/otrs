@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.94 2011-03-07 15:37:27 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.95 2011-03-13 19:26:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -934,9 +934,9 @@ sub _MaskUpdate {
 
         $JobData{'SearchInArchiveStrg'} = $Self->{LayoutObject}->BuildSelection(
             Data => {
-                ArchivedTickets    => 'Search in archived tickets only',
-                NotArchivedTickets => 'Search in not archived tickets only',
-                AllTickets         => 'Search in all tickets',
+                ArchivedTickets    => 'Archived tickets',
+                NotArchivedTickets => 'Unarchived tickets',
+                AllTickets         => 'All tickets',
             },
             Name => 'SearchInArchive',
             SelectedID => $JobData{SearchInArchive} || 'AllTickets',
