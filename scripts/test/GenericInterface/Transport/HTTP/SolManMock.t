@@ -2,7 +2,7 @@
 # SolManMock.t - GenericInterface transport interface tests for SolMan mock webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.t,v 1.2 2011-03-10 23:28:07 sb Exp $
+# $Id: SolManMock.t,v 1.3 2011-03-14 18:27:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,11 +43,15 @@ $Self->True(
     "Added Webservice",
 );
 
+my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+$FQDN = 'localhost'
+    if $Self->{ConfigObject}->Get('FQDN') eq 'yourhost.example.com';
+
 # prepare webservice config
 my $RemoteSystem =
     $Self->{ConfigObject}->Get('HttpType')
     . '://'
-    . $Self->{ConfigObject}->Get('FQDN')
+    . $FQDN
     . '/'
     . $Self->{ConfigObject}->Get('ScriptAlias')
     . '/nph-genericinterface.pl/WebserviceID/'
