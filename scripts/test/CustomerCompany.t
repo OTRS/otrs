@@ -2,7 +2,7 @@
 # CustomerCompany.t - CustomerCompany tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.t,v 1.2 2011-03-01 10:13:19 mg Exp $
+# $Id: CustomerCompany.t,v 1.3 2011-03-14 21:47:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -334,7 +334,15 @@ for my $Key ( 1 .. 3 ) {
         $CustomerCompany{ChangeTime},
         "CustomerCompanyGet() - ChangeTime",
     );
-
 }
+
+my %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList( Valid => 0 );
+my $CompanyList = %CustomerCompanyList ? 1 : 0;
+
+# check CustomerCompanyList with Valid=>0
+$Self->True(
+    $CompanyList,
+    "CustomerCompanyList() with Valid=>0",
+);
 
 1;
