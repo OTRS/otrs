@@ -5,8 +5,9 @@
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>,
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
+# Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.88 2011-01-20 14:59:05 mb Exp $
+# $Id: zh_CN.pm,v 1.89 2011-03-14 14:21:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -492,7 +493,7 @@ sub Data {
         'SLA' => '服务级别协议(SLA)',
         'Service Level Agreement' => '',
         'Service Level Agreements' => '服务品质协议(SLA)',
-        'Service' => '服务',
+        'Service' => '服务目录',
         'Services' => '服务',
         'State' => '状态',
         'States' => '状态',
@@ -527,7 +528,7 @@ sub Data {
         'merged' => '已合并',
         'closed successful' => '成功关闭',
         'closed unsuccessful' => '关闭失败',
-        'Locked Tickets Total' => '',
+        'Locked Tickets Total' => '锁定的票单总数',
         'Locked Tickets Reminder Reached' => '',
         'Locked Tickets New' => '',
         'Responsible Tickets Total' => '',
@@ -1341,11 +1342,11 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentDashboard
-        'Dashboard' => '',
-        'Show or hide the content' => '',
+        'Dashboard' => '仪表板',
+        'Show or hide the content' => '显示或隐藏内容',
 
         # Template: AgentDashboardCalendarOverview
-        'in' => '',
+        'in' => '之内',
 
         # Template: AgentDashboardIFrame
 
@@ -1358,7 +1359,7 @@ sub Data {
         'Level' => '级别',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => '',
+        'Posted %s ago.' => '发布于 %s 之前',
 
         # Template: AgentDashboardTicketGeneric
 
@@ -1371,7 +1372,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => '',
+        'The ticket was locked' => '此票单被锁定',
         'Undo & close window' => '',
 
         # Template: AgentInfo
@@ -1689,9 +1690,9 @@ sub Data {
 
         # Template: CustomerLogin
         'Login' => '登录',
-        'User name' => '',
-        'Your user name' => '',
-        'Your password' => '',
+        'User name' => '用户名',
+        'Your user name' => '您的用户名',
+        'Your password' => '您的密码',
         'Forgot password?' => '忘记密码了?',
         'Log In' => '',
         'Not yet registered?' => '还没有注册?',
@@ -2658,9 +2659,9 @@ sub Data {
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
-        'Module to generate ticket solution and response time statistics.' => '',
-        'Module to generate ticket statistics.' => '',
+        'Module to genetare accounted time ticket statistics.' => '',
+        'Module to genetare ticket solution and response time statistics.' => '',
+        'Module to genetare ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => '',
@@ -2993,13 +2994,13 @@ sub Data {
         'Ticket free time options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Ticket free time options shown in the ticket search of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' => '',
         'Ticket free time options shown in the ticket search screen in the customer interface. Possible settings: 0 = Disabled and 1 = Enabled.' => '',
-        'Ticket overview' => '',
-        'Tickets' => '',
+        'Ticket overview' => '票单一览',
+        'Tickets' => '票单',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' => '',
         'Toolbar Item for a shortcut.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' => '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' => '',
-        'Types' => '',
+        'Types' => '类型',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' => '',
         'Update and extend your system with software packages.' => '更新或安装系统的软件包或模块.',
         'Updates the ticket escalation index after a ticket attribute got updated.' => '',
