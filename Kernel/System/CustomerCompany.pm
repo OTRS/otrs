@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.22 2010-10-04 21:42:27 mb Exp $
+# $Id: CustomerCompany.pm,v 1.22.2.1 2011-03-14 19:44:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.22.2.1 $) [1];
 
 =head1 NAME
 
@@ -429,6 +429,9 @@ sub CustomerCompanyList {
         }
     }
 
+    # this assignation is due to bug 7040
+    $SQL ||= 1;
+
     # sql
     my %List = ();
     $SQL
@@ -477,6 +480,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-10-04 21:42:27 $
+$Revision: 1.22.2.1 $ $Date: 2011-03-14 19:44:12 $
 
 =cut

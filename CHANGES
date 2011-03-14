@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.32 2011-03-14 14:21:30 mg Exp $
+# $Id: CHANGES,v 1.1758.2.33 2011-03-14 19:44:12 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.7 2011-??-??
+ - 2011-03-14 Fixed bug#7040 - SQL error when retrieving CustomerCompanyList with Valid => 0.
  - 2011-03-14 Updated Chinese translation, thanks to Martin Liu!
  - 2011-03-13 Fixed bug#7042 - Textual and layout issue Archive option in AgentTicketSearch.
  - 2011-03-10 Fixed bug#6946 - SelectAllXXX checkbox is not checked when you first enter to the module.
