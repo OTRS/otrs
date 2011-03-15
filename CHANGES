@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1805 2011-03-15 15:24:47 mb Exp $
+# $Id: CHANGES,v 1.1806 2011-03-15 23:14:03 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken
  - 2011-03-15 Fixed bug#7053 - Installer page titles are not localized.
  - 2011-03-07 Added feature bug#6992 - Ticket Responsible can't be set by GenericAgent.
  - 2011-03-07 Added feature bug#6140 - Make the refresh interval of the dashboard
@@ -25,6 +26,7 @@
      of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken
  - 2011-03-15 Fixed bug#5604 - Show name of static statistic, if there is only one.
  - 2011-03-14 Updated Norwegian translation, thanks to Espen Stefansen!
  - 2011-03-14 Fixed bug#7040 - SQL error when retrieving CustomerCompanyList with Valid => 0.
