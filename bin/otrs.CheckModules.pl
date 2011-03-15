@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.19 2011-03-11 14:02:07 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.20 2011-03-15 04:51:45 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -328,15 +328,59 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'URI::Escape',
-        Required => 1,
-        Comment  => 'Handles encoding and decoding of URLs.',
-    },
-    {
         Module   => 'XML::Parser',
         Required => 0,
-        Comment  => 'Required for faster xml handling.'
+        Comment  => 'Required for faster xml handling.',
     },
+    {
+        Module   => 'HTTP::Message',
+        Required => 1,
+        Comment  => 'Required for HTTP communiction.',
+        Depends  => [
+            {
+                Module       => 'HTTP::Headers',
+                Required     => 1,
+                Comment      => 'Required for HTTP communiction.',
+                NotSupported => [
+                    {
+                        Version => '1.64',
+                        Comment =>
+                            'This version is broken and not useable! '
+                            . 'Please upgrade to a higher version.',
+                    },
+                ],
+            },
+        ],
+        NotSupported => [
+            {
+                Version => '1.57',
+                Comment =>
+                    'This version is broken and not useable! '
+                    . 'Please upgrade to a higher version.',
+            },
+        ],
+
+    },
+    {
+        Module       => 'URI',
+        Required     => 1,
+        Comment      => 'Handles encoding and decoding of URLs',
+        NotSupported => [
+            {
+                Version => '1.35',
+                Comment =>
+                    'This version is broken and not useable! Please upgrade to a higher version.',
+            },
+        ],
+        Depends => [
+            {
+                Module   => 'URI::Escape',
+                Required => 1,
+                Comment  => 'Handles encoding and decoding of URLs.',
+            },
+        ],
+    },
+
 );
 
 # try to load modules
