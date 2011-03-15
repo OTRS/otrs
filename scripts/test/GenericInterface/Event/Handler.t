@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.6 2011-03-11 12:19:13 martin Exp $
+# $Id: Handler.t,v 1.7 2011-03-15 15:06:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,9 +28,16 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $DebugLogObject   = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
-my $ConfigObject     = Kernel::Config->new();
+my $ConfigObject = Kernel::Config->new();
+
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my @Tests = (
     {
