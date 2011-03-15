@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.113 2011-01-05 18:34:34 en Exp $
+# $Id: AgentStats.pm,v 1.113.2.1 2011-03-15 15:27:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.113.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1154,7 +1154,7 @@ sub Run {
             $Stat->{Valid}      = 1;
         }
 
-        # build the dynamic or/and static stats selection if nothing is selected
+        # build the dynamic and/or static stats selection if nothing is selected
         if ( !$Stat->{StatType} ) {
             my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
             my $StaticFiles  = $Self->{StatsObject}->GetStaticFiles(
@@ -1178,7 +1178,7 @@ sub Run {
                     );
                 }
 
-                # need no radio button if no static stats available
+                # need no radio button if no static stats are available
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoRadioButton',
@@ -1209,18 +1209,19 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => 'Selected',
                         Data => {
-                            SelectedKey => 'Object',
-                            Selected    => $DynamicFilesArray[0],
+                            SelectedKey  => 'Object',
+                            Selected     => $DynamicFilesArray[0],
+                            SelectedName => $DynamicFilesArray[0],
                         },
                     );
                 }
             }
 
-            # build the static stats selection if one or more static stats available
+            # build the static stats selection if one or more static stats are available
             if (@StaticFilesArray) {
                 $Self->{LayoutObject}->Block( Name => 'Selection', );
 
-                # need a radiobutton if dynamic and static stats available
+                # need a radiobutton if both dynamic and static stats are available
                 if ( $DynamicFilesArray[0] ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'RadioButton',
@@ -1231,7 +1232,7 @@ sub Run {
                     );
                 }
 
-                # if no dynamic objects available radio buttons not needed
+                # if no dynamic objects are available the radio buttons are not needed
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoRadioButton',
@@ -1255,13 +1256,14 @@ sub Run {
                     );
                 }
 
-                # only one static stats available? then show the one
+                # only one static stat available? then show that one
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'Selected',
                         Data => {
-                            SelectedKey => 'File',
-                            Selected    => $StaticFilesArray[0],
+                            SelectedKey  => 'File',
+                            Selected     => $StaticFilesArray[0],
+                            SelectedName => $StaticFilesArray[0],
                         },
                     );
                 }
@@ -1978,7 +1980,7 @@ sub Run {
                 }
             }
 
-            # check if the timeperiod is to big or the time scale too small
+            # check if the timeperiod is too big or the time scale too small
             if (
                 $GetParam{UseAsXvalue}[0]{Block} eq 'Time'
                 && (
