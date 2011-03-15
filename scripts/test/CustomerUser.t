@@ -1,8 +1,8 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.18 2010-10-29 07:25:52 mg Exp $
+# $Id: CustomerUser.t,v 1.19 2011-03-15 10:09:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -534,6 +534,34 @@ $Self->Is(
     $UserPreferences{UserLanguage},
     "da",
     "GetPreferences for updated user $UserID - da",
+);
+
+my %List = $CustomerUserObject->CustomerSourceList();
+
+$Self->Is(
+    scalar( keys %List ),
+    1,
+    "CustomerSourceList - found 1 source",
+);
+
+%List = $CustomerUserObject->CustomerSourceList(
+    ReadOnly => 1,
+);
+
+$Self->Is(
+    scalar( keys %List ),
+    0,
+    "CustomerSourceList - found 0 readonly sources",
+);
+
+%List = $CustomerUserObject->CustomerSourceList(
+    ReadOnly => 0,
+);
+
+$Self->Is(
+    scalar( keys %List ),
+    1,
+    "CustomerSourceList - found 1 writable sources",
 );
 
 1;
