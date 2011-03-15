@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StandardResponse.pm - lib for std responses
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: StandardResponse.pm,v 1.1 2010-05-12 18:32:10 dz Exp $
+# $Id: StandardResponse.pm,v 1.1.2.1 2011-03-15 23:11:21 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.1.2.1 $) [1];
 
 =head1 NAME
 
@@ -303,7 +303,8 @@ sub StandardResponseLookup {
     }
 
     # check if we ask the same request?
-    if ( $Param{StandardResponseID} && $Self->{"StandardResponseLookup$Param{StandardResponseID}"} ) {
+    if ( $Param{StandardResponseID} && $Self->{"StandardResponseLookup$Param{StandardResponseID}"} )
+    {
         return $Self->{"StandardResponseLookup$Param{StandardResponseID}"};
     }
     if ( $Param{StandardResponse} && $Self->{"StandardResponseLookup$Param{StandardResponse}"} ) {
@@ -324,7 +325,7 @@ sub StandardResponseLookup {
         $SQL    = 'SELECT name FROM standard_response WHERE id = ?';
         @Bind   = ( \$Param{StandardResponseID} );
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => @Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -385,6 +386,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-05-12 18:32:10 $
+$Revision: 1.1.2.1 $ $Date: 2011-03-15 23:11:21 $
 
 =cut

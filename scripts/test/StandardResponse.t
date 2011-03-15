@@ -1,8 +1,8 @@
 # --
 # StandardResponse.t - StandardResponse tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: StandardResponse.t,v 1.3 2010-10-29 22:16:59 en Exp $
+# $Id: StandardResponse.t,v 1.3.2.1 2011-03-15 23:11:21 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,26 @@ for my $Test (@Tests) {
             "StandardResponseGet() - $Key",
         );
     }
+
+    # lookup by ID
+    my $Name = $StandardResponseObject->StandardResponseLookup(
+        StandardResponseID => $ID
+    );
+    $Self->Is(
+        $Name,
+        $Test->{Name},
+        "StandardResponseLookup()",
+    );
+
+    # lookup by Name
+    my $LookupID = $StandardResponseObject->StandardResponseLookup(
+        StandardResponse => $Test->{Name},
+    );
+    $Self->Is(
+        $ID,
+        $LookupID,
+        "StandardResponseLookup()",
+    );
 
     # update
     my $Update = $StandardResponseObject->StandardResponseUpdate(
