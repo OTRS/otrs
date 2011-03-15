@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.24 2011-03-14 19:51:55 en Exp $
+# $Id: CustomerCompany.pm,v 1.25 2011-03-15 19:08:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -455,14 +455,12 @@ sub CustomerCompanyList {
         }
     }
 
-    # this assignation is due to bug 7040
-    $SQL ||= 1;
-
     # sql
     my %List = ();
-    $SQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable} WHERE $SQL";
-    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 50000 );
+    my $CompleteSQL
+        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
+    $Self->{DBObject}->Prepare( SQL => $CompleteSQL, Limit => 50000 );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Value = '';
         for my $Position ( 1 .. 10 ) {
@@ -506,6 +504,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-03-14 19:51:55 $
+$Revision: 1.25 $ $Date: 2011-03-15 19:08:35 $
 
 =cut
