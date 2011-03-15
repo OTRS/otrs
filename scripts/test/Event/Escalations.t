@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.2 2011-03-03 08:36:22 mg Exp $
+# $Id: Escalations.t,v 1.3 2011-03-15 15:22:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,19 +18,26 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 use Kernel::System::GenericAgent;
 
+my $ConfigObject = Kernel::Config->new();
+
 # create common objects
-my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # Make sure that Kernel::System::Ticket::new() does not create it's own QueueObject.
 # This will interfere with caching.
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
-    QueueObject => $QueueObject,
+    QueueObject  => $QueueObject,
+    ConfigObject => $ConfigObject,
 );
 my $GenericAgentObject = Kernel::System::GenericAgent->new(
     %{$Self},
     QueueObject  => $QueueObject,
     TicketObject => $TicketObject,
+    ConfigObject => $ConfigObject,
 );
 
 # An unique indentifier, so that data from different test runs won't be mixed up.
@@ -255,7 +262,7 @@ my %NumEvents;
 
 # run GenericAgent job again, with suppressed event generation
 {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'OTRSEscalationEvents::DecayTime',
         Value => 100,
     );
@@ -273,7 +280,7 @@ my %NumEvents;
 
 # run GenericAgent job again, without suppressed event generation
 {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'OTRSEscalationEvents::DecayTime',
         Value => 0,
     );
@@ -293,7 +300,7 @@ my %NumEvents;
 
 # generate an response and see the first response escalation go away
 {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'OTRSEscalationEvents::DecayTime',
         Value => 0,
     );
@@ -332,7 +339,7 @@ my %NumEvents;
 
 # no new escalations when escalation times are far in the future
 {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'OTRSEscalationEvents::DecayTime',
         Value => 0,
     );
@@ -388,7 +395,7 @@ my %NumEvents;
 # no new start escalations when escalation times are in the future
 # notify before escalations because immediate notification were turned on
 {
-    $Self->{ConfigObject}->Set(
+    $ConfigObject->Set(
         Key   => 'OTRSEscalationEvents::DecayTime',
         Value => 0,
     );

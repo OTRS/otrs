@@ -1,8 +1,8 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.t,v 1.20 2010-11-23 19:36:23 ub Exp $
+# $Id: Crypt.t,v 1.21 2011-03-15 15:24:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Crypt;
 use Kernel::Config;
 
 # create local object
-my $ConfigObject = $Self->{ConfigObject};
+my $ConfigObject = Kernel::Config->new();
 
 # set config
 $ConfigObject->Set(
