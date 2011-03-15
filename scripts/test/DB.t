@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.80 2011-03-01 12:58:59 ub Exp $
+# $Id: DB.t,v 1.81 2011-03-15 15:25:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,202 +17,203 @@ use Encode;
 use Kernel::System::XML;
 
 my $XMLObject = Kernel::System::XML->new( %{$Self} );
+my $DBObject  = Kernel::System::DB->new( %{$Self} );
 
 # ------------------------------------------------------------ #
 # quoting tests
 # ------------------------------------------------------------ #
 $Self->Is(
-    $Self->{DBObject}->Quote( 0, 'Integer' ),
+    $DBObject->Quote( 0, 'Integer' ),
     0,
     'Quote() Integer - 0',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( 1, 'Integer' ),
+    $DBObject->Quote( 1, 'Integer' ),
     1,
     'Quote() Integer - 1',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( 123, 'Integer' ),
+    $DBObject->Quote( 123, 'Integer' ),
     123,
     'Quote() Integer - 123',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( 61712, 'Integer' ),
+    $DBObject->Quote( 61712, 'Integer' ),
     61712,
     'Quote() Integer - 61712',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( -61712, 'Integer' ),
+    $DBObject->Quote( -61712, 'Integer' ),
     -61712,
     'Quote() Integer - -61712',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '+61712', 'Integer' ),
+    $DBObject->Quote( '+61712', 'Integer' ),
     '+61712',
     'Quote() Integer - +61712',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '02', 'Integer' ),
+    $DBObject->Quote( '02', 'Integer' ),
     '02',
     'Quote() Integer - 02',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '0000123', 'Integer' ),
+    $DBObject->Quote( '0000123', 'Integer' ),
     '0000123',
     'Quote() Integer - 0000123',
 );
 
 $Self->Is(
-    $Self->{DBObject}->Quote( 123.23, 'Number' ),
+    $DBObject->Quote( 123.23, 'Number' ),
     123.23,
     'Quote() Number - 123.23',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( 0.23, 'Number' ),
+    $DBObject->Quote( 0.23, 'Number' ),
     0.23,
     'Quote() Number - 0.23',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '+123.23', 'Number' ),
+    $DBObject->Quote( '+123.23', 'Number' ),
     '+123.23',
     'Quote() Number - +123.23',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '+0.23132', 'Number' ),
+    $DBObject->Quote( '+0.23132', 'Number' ),
     '+0.23132',
     'Quote() Number - +0.23132',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( '+12323', 'Number' ),
+    $DBObject->Quote( '+12323', 'Number' ),
     '+12323',
     'Quote() Number - +12323',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( -123.23, 'Number' ),
+    $DBObject->Quote( -123.23, 'Number' ),
     -123.23,
     'Quote() Number - -123.23',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( -123, 'Number' ),
+    $DBObject->Quote( -123, 'Number' ),
     -123,
     'Quote() Number - -123',
 );
 $Self->Is(
-    $Self->{DBObject}->Quote( -0.23, 'Number' ),
+    $DBObject->Quote( -0.23, 'Number' ),
     -0.23,
     'Quote() Number - -0.23',
 );
 
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql' ) {
+if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\'\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\'\'l\\;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\'\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'mssql' ) {
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'mssql' ) {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\'\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[[]12]Block[[]12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'db2' ) {
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'db2' ) {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\'\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'ingres' ) {
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'ingres' ) {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\'\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
 else {
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
+        $DBObject->Quote("Test'l"),
         'Test\\\'l',
         'Quote() String - Test\'l',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
+        $DBObject->Quote("Test'l;"),
         'Test\\\'l\\;',
         'Quote() String - Test\'l;',
     );
 
     $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
@@ -231,7 +232,7 @@ my $XML = '
 </TableCreate>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#1 SQLProcessor() CREATE TABLE',
@@ -239,13 +240,13 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#1 Do() CREATE TABLE ($SQL)",
     );
 }
 
 $Self->True(
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some\', \'Lalala\')',
         )
         || 0,
@@ -253,7 +254,7 @@ $Self->True(
 );
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_a WHERE name_a = \'Some\'',
         Limit => 1,
     ),
@@ -261,28 +262,28 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '',
+    ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
     '#1 FetchrowArray () SELECT',
 );
 
 # rename table
 $XML      = '<TableAlter NameOld="test_a" NameNew="test_aa"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#1 SQLProcessor() ALTER TABLE',
 );
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#1 Do() ALTER TABLE ($SQL)",
     );
 }
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_aa WHERE name_a = \'Some\'',
         Limit => 1,
     ),
@@ -290,13 +291,13 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '',
+    ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
     '#1 FetchrowArray () SELECT',
 );
 
 $Self->True(
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => 'DELETE FROM valid WHERE name = \'Some\'',
         )
         || 0,
@@ -305,7 +306,7 @@ $Self->True(
 
 $XML      = '<TableDrop Name="test_aa"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#1 SQLProcessor() DROP TABLE',
@@ -313,7 +314,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#1 Do() DROP TABLE ($SQL)",
     );
 }
@@ -333,7 +334,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() CREATE TABLE',
@@ -341,7 +342,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#2 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -363,7 +364,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() ALTER TABLE',
@@ -371,7 +372,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#2 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -383,7 +384,7 @@ $XML = '
 </Insert>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() INSERT 1',
@@ -391,13 +392,13 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#2 Do() XML INSERT 1 ($SQL)",
     );
 }
 
 $Self->True(
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (\'Some2\', \'Lalala2\')',
         )
         || 0,
@@ -427,7 +428,7 @@ for my $Count ( 1 .. 6 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "#2 SQLProcessor() INSERT 2 - $Count",
@@ -437,16 +438,16 @@ for my $Count ( 1 .. 6 ) {
 
         # insert
         $Self->True(
-            $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+            $DBObject->Do( SQL => $SQL ) || 0,
             "#2 Do() XML INSERT 2 - $Count (length:$Length/$Size)",
         );
 
         # select
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL => 'SELECT name_b FROM test_a WHERE name_a = \'' . $Key . '\'',
         );
         my $LengthBack = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $LengthBack = length( $Row[0] );
         }
         $Self->Is(
@@ -456,12 +457,12 @@ for my $Count ( 1 .. 6 ) {
         );
 
         # select bind
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL  => 'SELECT name_b FROM test_a WHERE name_a = ?',
             Bind => [ \$Key ],
         );
         $LengthBack = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $LengthBack = length( $Row[0] );
         }
         $Self->Is(
@@ -491,7 +492,7 @@ for my $Count ( 1 .. 6 ) {
 
     # insert
     $Self->True(
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', '$String')",
             )
             || 0,
@@ -499,11 +500,11 @@ for my $Count ( 1 .. 6 ) {
     );
 
     # select
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT name_b FROM test_a WHERE name_a = \'' . $Key . '\'',
     );
     my $LengthBack = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $LengthBack = length( $Row[0] );
     }
     $Self->Is(
@@ -532,7 +533,7 @@ for my $Count ( 1 .. 19 ) {
 
     # insert
     $Self->True(
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL  => "INSERT INTO test_a (name_a, name_b) VALUES ('$Key', ?)",
             Bind => [ \$String ],
             )
@@ -541,11 +542,11 @@ for my $Count ( 1 .. 19 ) {
     );
 
     # select
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT name_b FROM test_a WHERE name_a = \'' . $Key . '\'',
     );
     my $LengthBack = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $LengthBack = length( $Row[0] );
     }
     $Self->Is(
@@ -556,7 +557,7 @@ for my $Count ( 1 .. 19 ) {
 }
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_a WHERE name_a = \'Some1\'',
         Limit => 1,
         )
@@ -565,13 +566,13 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '',
+    ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
     '#2 FetchrowArray () SELECT - Limit 1',
 );
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_a WHERE name_a like \'Some%\'',
         Limit => 1,
         )
@@ -580,13 +581,13 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '',
+    ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
     '#2 FetchrowArray () SELECT - Limit 1 - like',
 );
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_a WHERE name_a like \'Some%\'',
         Limit => 3,
         )
@@ -595,14 +596,14 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $Self->{DBObject}->FetchrowArray() )     eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '' &&
-        ref( $Self->{DBObject}->FetchrowArray() ) eq '',
+    ref( $DBObject->FetchrowArray() )     eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
     '#2 FetchrowArray () SELECT - Limit 2 - like',
 );
 $Self->True(
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => 'DELETE FROM test_a WHERE name_a like \'Some%\'',
         )
         || 0,
@@ -611,7 +612,7 @@ $Self->True(
 
 $XML      = '<TableDrop Name="test_a"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() DROP TABLE',
@@ -619,7 +620,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#2 Do() DROP TABLE ($SQL)",
     );
 }
@@ -638,7 +639,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#3 SQLProcessor() CREATE TABLE',
@@ -646,7 +647,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#3 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -662,7 +663,7 @@ for my $Count ( 1 .. 40 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "#3 SQLProcessor() INSERT - $Count",
@@ -672,16 +673,16 @@ for my $Count ( 1 .. 40 ) {
 
         # insert
         $Self->True(
-            $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+            $DBObject->Do( SQL => $SQL ) || 0,
             "#3 Do() XML INSERT - $Count ",
         );
 
         # select
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL => 'SELECT name_a FROM test_b WHERE name_b = \'' . $Count . '\'',
         );
         my $LengthBack = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $LengthBack = length( $Row[0] );
         }
         $Self->Is(
@@ -693,7 +694,7 @@ for my $Count ( 1 .. 40 ) {
 }
 
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
         Start => 15,
         Limit => 12,
@@ -705,7 +706,7 @@ $Self->True(
 my $Count = 0;
 my $Start = '';
 my $End   = '';
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     if ( !$Start ) {
         $Start = $Row[2];
     }
@@ -735,7 +736,7 @@ $Count = 0;
 $Start = '';
 $End   = '';
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
         Start => 15,
         Limit => 40,
@@ -743,7 +744,7 @@ $Self->True(
         || 0,
     '#3 Prepare() SELECT - Prepare - Start 15 - Limit 40 - like',
 );
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     if ( !$Start ) {
         $Start = $Row[2];
     }
@@ -773,7 +774,7 @@ $Count = 0;
 $Start = 0;
 $End   = 0;
 $Self->True(
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT * FROM test_b WHERE name_a like \'Some%\' ORDER BY id',
         Start => 200,
         Limit => 10,
@@ -781,7 +782,7 @@ $Self->True(
         || 0,
     '#3 Prepare() SELECT - Prepare - Start 10 - Limit 200 - like',
 );
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     if ( !$Start ) {
         $Start = $Row[2];
     }
@@ -809,7 +810,7 @@ $Self->Is(
 
 $XML      = '<TableDrop Name="test_b"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#3 SQLProcessor() DROP TABLE',
@@ -817,7 +818,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#3 Do() DROP TABLE ($SQL)",
     );
 }
@@ -832,7 +833,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#4 SQLProcessor() CREATE TABLE',
@@ -840,7 +841,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#4 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -857,7 +858,7 @@ my $Inserts = [
 
 for my $Insert ( @{$Inserts} ) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $Insert ) || 0,
+        $DBObject->Do( SQL => $Insert ) || 0,
         '#4 Do() INSERT',
     );
 }
@@ -865,7 +866,7 @@ for my $Insert ( @{$Inserts} ) {
 my $LikeTests = [
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[%]Block[%]", 'Like' )
+            . $DBObject->Quote( "Block[%]Block[%]", 'Like' )
             . "'",
         Result => {
             Test1 => 1,
@@ -879,7 +880,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[1]Block[%]", 'Like' )
+            . $DBObject->Quote( "Block[1]Block[%]", 'Like' )
             . "'",
         Result => {
             Test1 => 1,
@@ -888,7 +889,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[2]Block[%]", 'Like' )
+            . $DBObject->Quote( "Block[2]Block[%]", 'Like' )
             . "'",
         Result => {
             Test3 => 1,
@@ -897,7 +898,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[2]Block[1]", 'Like' )
+            . $DBObject->Quote( "Block[2]Block[1]", 'Like' )
             . "'",
         Result => {
             Test3 => 1,
@@ -905,7 +906,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[%]Block[1]", 'Like' )
+            . $DBObject->Quote( "Block[%]Block[1]", 'Like' )
             . "'",
         Result => {
             Test1 => 1,
@@ -914,7 +915,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[11]Block[%]", 'Like' )
+            . $DBObject->Quote( "Block[11]Block[%]", 'Like' )
             . "'",
         Result => {
             Test5 => 1,
@@ -922,7 +923,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[22]Block[%]", 'Like' )
+            . $DBObject->Quote( "Block[22]Block[%]", 'Like' )
             . "'",
         Result => {
             Test6 => 1,
@@ -930,7 +931,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[%]Block[%1]", 'Like' )
+            . $DBObject->Quote( "Block[%]Block[%1]", 'Like' )
             . "'",
         Result => {
             Test1 => 1,
@@ -940,7 +941,7 @@ my $LikeTests = [
     },
     {
         Select => "SELECT name_b FROM test_c WHERE name_a LIKE '"
-            . $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' )
+            . $DBObject->Quote( "Block[12]Block[12]", 'Like' )
             . "'",
         Result => {
             Test7 => 1,
@@ -952,9 +953,9 @@ for my $TestRef ( @{$LikeTests} ) {
     my $SQLSelect = $TestRef->{Select};
     my $Result    = $TestRef->{Result};
 
-    $Self->{DBObject}->Prepare( SQL => $SQLSelect );
+    $DBObject->Prepare( SQL => $SQLSelect );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->True( $Result->{ $Row[0] }, "#4 SELECT ... LIKE ... - $Row[0]" );
         delete $Result->{ $Row[0] };
     }
@@ -966,7 +967,7 @@ for my $TestRef ( @{$LikeTests} ) {
 
 $XML      = '<TableDrop Name="test_c"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#4 SQLProcessor() DROP TABLE',
@@ -974,7 +975,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#4 Do() DROP TABLE ($SQL)",
     );
 }
@@ -989,7 +990,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#5 SQLProcessor() CREATE TABLE',
@@ -997,7 +998,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#5 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -1008,10 +1009,10 @@ my $Counter = 0;
 
 for my $Character (@SpecialCharacters) {
     $Self->{EncodeObject}->Encode( \$Character );
-    my $name_b = $Self->{DBObject}->Quote($Character);
+    my $name_b = $DBObject->Quote($Character);
 
     # insert
-    my $Result = $Self->{DBObject}->Do(
+    my $Result = $DBObject->Do(
         SQL => "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$name_b' )",
     );
     $Self->True(
@@ -1020,7 +1021,7 @@ for my $Character (@SpecialCharacters) {
     );
 
     # select = $Counter
-    $Result = $Self->{DBObject}->Prepare(
+    $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_a = '$Counter'",
         Limit => 1,
     );
@@ -1028,7 +1029,7 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT = \$Counter",
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Character,
             "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
@@ -1044,7 +1045,7 @@ for my $Character (@SpecialCharacters) {
     }
 
     # select = value
-    $Result = $Self->{DBObject}->Prepare(
+    $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_b = '$name_b'",
         Limit => 1,
     );
@@ -1052,7 +1053,7 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT = value",
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Character,
             "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
@@ -1068,8 +1069,8 @@ for my $Character (@SpecialCharacters) {
     }
 
     # select like value
-    $name_b = $Self->{DBObject}->Quote( $Character, 'Like' );
-    $Result = $Self->{DBObject}->Prepare(
+    $name_b = $DBObject->Quote( $Character, 'Like' );
+    $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_b LIKE '$name_b'",
         Limit => 1,
     );
@@ -1077,7 +1078,7 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT LIKE value",
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         next if $Character eq '%';    # do not test %, because it's wanted as % for like
         $Self->True(
             $Row[0] eq $Character,
@@ -1100,10 +1101,10 @@ for my $Character (@SpecialCharacters) {
 {
 
     # select like value (with space)
-    my $name_b = $Self->{DBObject}->Quote( 'otrs test', 'Like' );
+    my $name_b = $DBObject->Quote( 'otrs test', 'Like' );
     my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
 
-    my $Result = $Self->{DBObject}->Prepare(
+    my $Result = $DBObject->Prepare(
         SQL   => $SQL,
         Limit => 1,
     );
@@ -1112,7 +1113,7 @@ for my $Character (@SpecialCharacters) {
         "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (space)",
     );
     my $Count;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
     }
     $Self->Is(
@@ -1122,7 +1123,7 @@ for my $Character (@SpecialCharacters) {
     );
 
     # select like value (with underscore)
-    $name_b = $Self->{DBObject}->Quote( 'otrs_test', 'Like' );
+    $name_b = $DBObject->Quote( 'otrs_test', 'Like' );
     $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
 
     # proof of concept that oracle needs special treatment
@@ -1131,10 +1132,10 @@ for my $Character (@SpecialCharacters) {
     # get like escape string needed for some databases (e.g. oracle)
     # this does no harm for other databases, so it should always be used where
     # a LIKE search is used
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+    my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
     $SQL .= $LikeEscapeString;
 
-    $Result = $Self->{DBObject}->Prepare(
+    $Result = $DBObject->Prepare(
         SQL   => $SQL,
         Limit => 1,
     );
@@ -1142,7 +1143,7 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
     }
     $Self->Is(
@@ -1152,9 +1153,9 @@ for my $Character (@SpecialCharacters) {
     );
 
     # do the same again for oracle but without the ESCAPE and expect this to fail
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+    if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
         $SQL    = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$name_b'";
-        $Result = $Self->{DBObject}->Prepare(
+        $Result = $DBObject->Prepare(
             SQL   => $SQL,
             Limit => 1,
         );
@@ -1162,7 +1163,7 @@ for my $Character (@SpecialCharacters) {
             $Result,
             "#5.$Counter Prepare() SELECT COUNT LIKE $name_b (underscore)",
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Count = $Row[0];
         }
         $Self->IsNot(
@@ -1224,7 +1225,7 @@ for my $UTF8Test (@UTF8Tests) {
     # extract needed test data
     my %TestData = %{$UTF8Test};
 
-    my $Result = $Self->{DBObject}->Do(
+    my $Result = $DBObject->Do(
         SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
@@ -1236,7 +1237,7 @@ for my $UTF8Test (@UTF8Tests) {
     # check insert result
     next UTF8TEST if !$Result;
 
-    $Result = $Self->{DBObject}->Prepare(
+    $Result = $DBObject->Prepare(
         SQL   => 'SELECT name_b FROM test_d WHERE name_a = ? AND name_b = ?',
         Bind  => [ \$Counter, \$TestData{SelectData}, ],
         Limit => 1,
@@ -1250,7 +1251,7 @@ for my $UTF8Test (@UTF8Tests) {
     next UTF8TEST if !$Result;
 
     my @UTF8ResultSet;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @UTF8ResultSet, $Row[0];
     }
 
@@ -1266,7 +1267,7 @@ continue {
 
 $XML      = '<TableDrop Name="test_d"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#5 SQLProcessor() DROP TABLE',
@@ -1274,7 +1275,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#5 Do() DROP TABLE ($SQL)",
     );
 }
@@ -1298,7 +1299,7 @@ $XML = '
 
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#6 SQLProcessor() CREATE TABLE',
@@ -1306,7 +1307,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#6 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -1392,7 +1393,7 @@ for my $Test ( @{$DefaultTest} ) {
     my $SQLInsert = "INSERT INTO test_e (id, $InsertColumns) VALUES ($ID, $InsertValues)";
 
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        $DBObject->Do( SQL => $SQLInsert ) || 0,
         "#6.$Counter2 Do() INSERT",
     );
 
@@ -1401,12 +1402,12 @@ for my $Test ( @{$DefaultTest} ) {
         my $SelectedValue;
         my $ReferenceValue = $Test->{Select}->{$Column};
 
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => "SELECT $Column FROM test_e WHERE id = $ID",
             Limit => 1,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
 
             $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
@@ -1425,7 +1426,7 @@ continue {
 
 $XML      = '<TableDrop Name="test_e"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#6 SQLProcessor() DROP TABLE',
@@ -1433,7 +1434,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#6 Do() DROP TABLE ($SQL)",
     );
 }
@@ -1454,7 +1455,7 @@ $XML = '
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() CREATE TABLE',
@@ -1462,7 +1463,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#7 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -1538,7 +1539,7 @@ for my $Test ( @{$DefaultTest2Insert} ) {
     my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
 
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        $DBObject->Do( SQL => $SQLInsert ) || 0,
         "#7.$Counter3 Do() INSERT",
     );
 
@@ -1547,12 +1548,12 @@ for my $Test ( @{$DefaultTest2Insert} ) {
         my $SelectedValue;
         my $ReferenceValue = $Test->{Select}->{$Column};
 
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
 
             $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
@@ -1592,7 +1593,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() ALTER TABLE',
@@ -1600,7 +1601,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#7 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -1716,7 +1717,7 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
     my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
 
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        $DBObject->Do( SQL => $SQLInsert ) || 0,
         "#7.$Counter4 Do() INSERT",
     );
 
@@ -1725,12 +1726,12 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
         my $SelectedValue;
         my $ReferenceValue = $Test->{Select}->{$Column};
 
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
 
             $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
@@ -1770,7 +1771,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() ALTER TABLE',
@@ -1778,7 +1779,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#7 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -1876,7 +1877,7 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
     my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
 
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        $DBObject->Do( SQL => $SQLInsert ) || 0,
         "#7.$Counter5 Do() INSERT",
     );
 
@@ -1885,12 +1886,12 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
         my $SelectedValue;
         my $ReferenceValue = $Test->{Select}->{$Column};
 
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
 
             $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
@@ -1909,7 +1910,7 @@ continue {
 
 $XML      = '<TableDrop Name="test_f"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() DROP TABLE',
@@ -1917,7 +1918,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#7 Do() DROP TABLE ($SQL)",
     );
 }
@@ -1932,7 +1933,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#8 SQLProcessor() CREATE TABLE',
@@ -1940,7 +1941,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#8 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -1955,7 +1956,7 @@ my %Fill = (
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
-    my $Do  = $Self->{DBObject}->Do(
+    my $Do  = $DBObject->Do(
         SQL => $SQL,
     );
     $Self->True(
@@ -2468,17 +2469,17 @@ my @Queries = (
 
 # select's
 for my $Query (@Queries) {
-    my $Condition = $Self->{DBObject}->QueryCondition(
+    my $Condition = $DBObject->QueryCondition(
         Key          => 'name_b',
         Value        => $Query->{Query},
         SearchPrefix => '*',
         SearchSuffix => '*',
     );
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT name_a FROM test_condition WHERE ' . $Condition,
     );
     my %Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Result{ $Row[0] } = 1;
     }
     for my $Check ( sort keys %{ $Query->{Result} } ) {
@@ -2598,17 +2599,17 @@ for my $Query (@Queries) {
 
 # select's
 for my $Query (@Queries) {
-    my $Condition = $Self->{DBObject}->QueryCondition(
+    my $Condition = $DBObject->QueryCondition(
         Key => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
         Value        => $Query->{Query},
         SearchPrefix => '*',
         SearchSuffix => '*',
     );
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT name_a FROM test_condition WHERE ' . $Condition,
     );
     my %Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Result{ $Row[0] } = 1;
     }
     for my $Check ( sort keys %{ $Query->{Result} } ) {
@@ -2622,15 +2623,15 @@ for my $Query (@Queries) {
 
 # Query condition cleanup test - Checks if '* *' is converted correctly to '*'
 {
-    my $Condition = $Self->{DBObject}->QueryCondition(
+    my $Condition = $DBObject->QueryCondition(
         Key   => 'name_a',
         Value => '* *',
     );
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT name_a FROM test_condition WHERE ' . $Condition,
     );
     my @Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @Result, $Row[0];
     }
     $Self->True(
@@ -2641,7 +2642,7 @@ for my $Query (@Queries) {
 
 $XML      = '<TableDrop Name="test_condition"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#8 SQLProcessor() DROP TABLE',
@@ -2649,7 +2650,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#8 Do() DROP TABLE ($SQL)",
     );
 }
@@ -2714,7 +2715,7 @@ $XML = '
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#9 SQLProcessor() CREATE TABLE',
@@ -2722,12 +2723,12 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#9 Do() CREATE TABLE ($SQL)",
     );
 }
 
-@SQL = $Self->{DBObject}->SQLProcessorPost();
+@SQL = $DBObject->SQLProcessorPost();
 $Self->True(
     $SQL[0],
     '#9 SQLProcessorPost() ALTER TABLE',
@@ -2735,7 +2736,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#9 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -2750,7 +2751,7 @@ $XML = '
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#9 SQLProcessor() ALTER TABLE',
@@ -2758,7 +2759,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#9 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -2771,7 +2772,7 @@ $XML = '
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#9 SQLProcessor() ALTER TABLE',
@@ -2779,7 +2780,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#9 Do() ALTER TABLE ($SQL)",
     );
 }
@@ -2792,7 +2793,7 @@ $XML = '
 </SQL>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#9 SQLProcessor() DROP TABLE',
@@ -2800,7 +2801,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#9 Do() DROP TABLE ($SQL)",
     );
 }
@@ -2820,7 +2821,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#10 SQLProcessor() CREATE TABLE',
@@ -2828,7 +2829,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#10 Do() CREATE TABLE ($SQL)",
     );
 }
@@ -2837,7 +2838,7 @@ for my $SQL (@SQL) {
 my @Values = map { 'Ab' x $_ } ( 3, 30, 300, 1999 );
 
 # insert
-my $Result = $Self->{DBObject}->Do(
+my $Result = $DBObject->Do(
     SQL  => 'INSERT INTO test_j (name_a, name_b, name_c, name_d) VALUES ( ?, ?, ?, ? )',
     Bind => [ \(@Values) ],
 );
@@ -2847,7 +2848,7 @@ $Self->True(
 );
 
 my $SQL = 'SELECT LOWER(name_a), LOWER(name_b), LOWER(name_c), LOWER(name_d) FROM test_j';
-$Result = $Self->{DBObject}->Prepare(
+$Result = $DBObject->Prepare(
     SQL   => $SQL,
     Limit => 1,
 );
@@ -2855,7 +2856,7 @@ $Self->True(
     $Result,
     '#10 Prepare() - LOWER() - SELECT',
 );
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     $Self->Is(
         scalar(@Row),
         scalar(@Values),
@@ -2872,7 +2873,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 }
 
 $SQL    = 'SELECT UPPER(name_a), UPPER(name_b), UPPER(name_c), UPPER(name_d) FROM test_j';
-$Result = $Self->{DBObject}->Prepare(
+$Result = $DBObject->Prepare(
     SQL   => $SQL,
     Limit => 1,
 );
@@ -2880,7 +2881,7 @@ $Self->True(
     $Result,
     '#10 Prepare() - UPPER() - SELECT',
 );
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     $Self->Is(
         scalar(@Row),
         scalar(@Values),
@@ -2898,7 +2899,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
 $XML      = '<TableDrop Name="test_j"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#10 SQLProcessor() DROP TABLE',
@@ -2906,7 +2907,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#10 Do() DROP TABLE ($SQL)",
     );
 }
@@ -2922,7 +2923,7 @@ for my $QuerySize (
     my $SQL = 'SELECT' . ( ' ' x ( $QuerySize - 31 ) ) . '1 FROM valid WHERE id = 1';
 
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "#11 QuerySize check for size $QuerySize",
     );
 }
