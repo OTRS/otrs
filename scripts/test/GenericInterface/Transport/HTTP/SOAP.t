@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.7 2011-03-11 04:09:49 sb Exp $
+# $Id: SOAP.t,v 1.8 2011-03-15 09:49:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
+use Socket;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::GenericInterface::Transport;
@@ -43,15 +44,30 @@ $Self->True(
     "Added Webservice",
 );
 
+# get remote host with some precautions for certain unit test systems
+my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-$FQDN = 'localhost'
-    if $Self->{ConfigObject}->Get('FQDN') eq 'yourhost.example.com';
+
+# try to resolve fqdn host
+if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+    $Host = $FQDN;
+}
+
+# try to resolve localhost instead
+if ( !$Host && gethostbyname('localhost') ) {
+    $Host = 'localhost';
+}
+
+# use hardcoded localhost ip address
+if ( !$Host ) {
+    $Host = '127.0.0.1';
+}
 
 # prepare webservice config
 my $RemoteSystem =
     $Self->{ConfigObject}->Get('HttpType')
     . '://'
-    . $FQDN
+    . $Host
     . '/'
     . $Self->{ConfigObject}->Get('ScriptAlias')
     . '/nph-genericinterface.pl/WebserviceID/'
