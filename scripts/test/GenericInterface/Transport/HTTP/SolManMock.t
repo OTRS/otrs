@@ -2,7 +2,7 @@
 # SolManMock.t - GenericInterface transport interface tests for SolMan mock webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.t,v 1.3 2011-03-14 18:27:57 cg Exp $
+# $Id: SolManMock.t,v 1.4 2011-03-15 12:18:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,15 +43,30 @@ $Self->True(
     "Added Webservice",
 );
 
+# get remote host with some precautions for certain unit test systems
+my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-$FQDN = 'localhost'
-    if $Self->{ConfigObject}->Get('FQDN') eq 'yourhost.example.com';
+
+# try to resolve fqdn host
+if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+    $Host = $FQDN;
+}
+
+# try to resolve localhost instead
+if ( !$Host && gethostbyname('localhost') ) {
+    $Host = 'localhost';
+}
+
+# use hardcoded localhost ip address
+if ( !$Host ) {
+    $Host = '127.0.0.1';
+}
 
 # prepare webservice config
 my $RemoteSystem =
     $Self->{ConfigObject}->Get('HttpType')
     . '://'
-    . $FQDN
+    . $Host
     . '/'
     . $Self->{ConfigObject}->Get('ScriptAlias')
     . '/nph-genericinterface.pl/WebserviceID/'
