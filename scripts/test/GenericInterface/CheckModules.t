@@ -2,7 +2,7 @@
 # CheckModules.t - GenericInterface CheckModules tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckModules.t,v 1.1 2011-03-15 18:27:51 cg Exp $
+# $Id: CheckModules.t,v 1.2 2011-03-15 19:39:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ if ( open( $TmpSumString, "perl $Home/bin/otrs.CheckModules.pl |" ) ) {
         my $TmpLine = $_;
         $TmpLog .= $TmpLine;
         if (
-            $TmpLine =~ m{Not \s installed! }smx
+            $TmpLine =~ m{Not \s installed! (.+?) Required}smx
             || $TmpLine =~ m{failed!}smx
             )
         {
