@@ -2,7 +2,7 @@
 # scripts/test/LayoutTicket.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.4 2011-01-13 18:08:47 martin Exp $
+# $Id: LayoutTicket.t,v 1.5 2011-03-15 15:29:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,18 +23,35 @@ use Kernel::System::User;
 use Kernel::Output::HTML::Layout;
 
 # create local objects
-my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
-my $GroupObject   = Kernel::System::Group->new( %{$Self} );
-my $UserObject    = Kernel::System::User->new( %{$Self} );
-my $TicketObject  = Kernel::System::Ticket->new( %{$Self} );
-my $ParamObject   = Kernel::System::Web::Request->new(
+my $ConfigObject  = Kernel::Config->new();
+my $SessionObject = Kernel::System::AuthSession->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $GroupObject = Kernel::System::Group->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
+    ConfigObject => $ConfigObject,
 );
-my $UploadCacheObject = Kernel::System::Web::UploadCache->new( %{$Self} );
-my $FormID            = $UploadCacheObject->FormIDCreate();
-my $LayoutObject      = Kernel::Output::HTML::Layout->new(
-    ConfigObject       => $Self->{ConfigObject},
+my $UploadCacheObject = Kernel::System::Web::UploadCache->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $FormID       = $UploadCacheObject->FormIDCreate();
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    ConfigObject       => $ConfigObject,
     LogObject          => $Self->{LogObject},
     TimeObject         => $Self->{TimeObject},
     MainObject         => $Self->{MainObject},
@@ -209,7 +226,7 @@ for my $Test (@Tests) {
 
     # set config settings
     for my $Key ( sort keys %{ $Test->{Config} } ) {
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => $Key,
             Value => $Test->{Config}->{$Key},
         );
