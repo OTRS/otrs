@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1802 2011-03-14 19:51:55 en Exp $
+# $Id: CHANGES,v 1.1803 2011-03-15 08:41:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-03-15 Fixed bug#7053 - Installer page titles are not localized.
  - 2011-03-07 Added feature bug#6992 - Ticket Responsible can't be set by GenericAgent.
  - 2011-03-07 Added feature bug#6140 - Make the refresh interval of the dashboard
     configurable.

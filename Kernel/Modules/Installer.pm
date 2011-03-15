@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.86 2010-11-12 11:14:24 mb Exp $
+# $Id: Installer.pm,v 1.87 2011-03-15 08:41:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,8 +112,11 @@ sub Run {
     }
 
     # print intro form
+    my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Install OTRS');
     if ( !$Self->{Subaction} ) {
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Intro' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Intro')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {}
@@ -128,7 +131,9 @@ sub Run {
 
     # print license from
     elsif ( $Self->{Subaction} eq 'License' ) {
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - License' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('License')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'License',
             Data => {
@@ -151,7 +156,9 @@ sub Run {
     # do database settings
     elsif ( $Self->{Subaction} eq 'Start' ) {
         if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Error' );
+            my $Output = $Self->{LayoutObject}->Header(
+                Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Error')
+            );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '
@@ -170,7 +177,10 @@ sub Run {
             SelectedID => 'MySQL',
         );
 
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Create Database' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseStart',
             Data => {
@@ -242,7 +252,10 @@ sub Run {
 
         if ( $DB{DBAction} eq 'Create' ) {
 
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Create Database' );
+            my $Output = $Self->{LayoutObject}->Header(
+                Title => $Title . '-'
+                    . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
+            );
 
             # FIXME !!! use $DB{Type}!!!
             $Self->{LayoutObject}->Block(
@@ -487,7 +500,10 @@ sub Run {
 
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
-                Data => { Message => 'Database setup successful!', },
+                Data => {
+                    Message =>
+                        $Self->{LayoutObject}->{LanguageObject}->Get('Database setup successful!'),
+                },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultNext',
@@ -502,7 +518,9 @@ sub Run {
         }
         elsif ( $DB{DBAction} eq 'Delete' ) {
 
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Database' );
+            my $Output = $Self->{LayoutObject}->Header(
+                Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Database')
+            );
 
             # drop database
             $Self->{LayoutObject}->Block(
@@ -543,7 +561,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => 'Database deleted.', },
+                    Data => {
+                        Message => $Self->{LayoutObject}->{LanguageObject}->Get('Database deleted.')
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -632,7 +652,10 @@ sub Run {
             SelectedID => '1',
         );
 
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - System Settings' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('System Settings')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'System',
             Data => {
@@ -712,7 +735,9 @@ sub Run {
             Name => 'InboundMailType',
         );
 
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Configure Mail' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Configure Mail')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ConfigureMail',
             Data => {
@@ -756,7 +781,9 @@ sub Run {
 
         my $OTRSHandle = $ENV{SCRIPT_NAME};
         $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Finished' );
+        my $Output = $Self->{LayoutObject}->Header(
+            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Finished')
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Finish',
             Data => {

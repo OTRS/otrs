@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.100 2011-02-18 11:10:19 mb Exp $
+# $Id: AAABase.dtl,v 1.101 2011-03-15 08:41:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -219,6 +219,17 @@ $Text{"Create Database"}
 $Text{"System Settings"}
 $Text{"Mail Configuration"}
 $Text{"Finished"}
+$Text{"Install OTRS"}
+$Text{"Intro"}
+$Text{"License"}
+$Text{"Error"}
+$Text{"Create Database"}
+$Text{"Database"}
+$Text{"System Settings"}
+$Text{"Configure Mail"}
+$Text{"Finished"}
+$Text{"Database deleted."}
+$Text{"Database setup succesful!"}
 
 # misc
 $Text{"Login is needed!"}
