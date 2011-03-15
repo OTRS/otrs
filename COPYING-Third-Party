@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.18 2011-03-08 13:39:37 cr Exp $
+# $Id: COPYING-Third-Party,v 1.19 2011-03-15 04:47:49 cr Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -183,12 +183,20 @@ o Name:    CPAN Proc::Daemon
 o Name:    CPAN YAML
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 2005, 2006, 2008. Ingy döt Net.
+  Note:    Copyright (c) 2005, 2006, 2008. Ingy döt Net.
            # Copyright (c) 2001, 2002, 2005. Brian Ingerson.
            # Some parts copyright (c) 2009 - 2010 Adam Kennedy
 
-o Name:    CPAN URI::Escape
+o Name:    CPAN URI
   Web:     n/a
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright 1995-2004 Gisle Aas.
+  Note:    Copyright 1995-2009 Gisle Aas.
+           # Copyright 1995 Martijn Koster.
+
+o Name:    CPAN HTTP::Message
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright 1995-2008 Gisle Aas.
+
+
