@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.pm,v 1.18 2011-03-09 13:26:07 sb Exp $
+# $Id: Simple.pm,v 1.19 2011-03-15 09:18:56 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -73,6 +73,10 @@ sub new {
             Summary => 'Got MappingConfig with Data, but Data is no hash ref with content!',
         );
     }
+
+    # check configuration
+    my $ConfigCheck = $Self->_ConfigCheck( Config => $Self->{MappingConfig}->{Config} );
+    return $ConfigCheck if !$ConfigCheck->{Success};
 
     return $Self;
 }
@@ -142,26 +146,30 @@ we need the config to be in the following format
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got no Data hash ref with content in Map Simple backend!' );
+            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping Simple backend!' );
     }
 
-    # no config means we just return input data
-    if ( !$Self->{MappingConfig}->{Config} ) {
+    # return if data is empty
+    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
         return {
             Success => 1,
-            Data    => $Param{Data},
+            Data    => {},
         };
     }
 
     # prepare short config variable
     my $Config = $Self->{MappingConfig}->{Config};
 
-    # check configuration
-    my $ConfigCheck = $Self->_ConfigCheck( Config => $Self->{MappingConfig}->{Config} );
-    return $ConfigCheck if !$ConfigCheck->{Success};
+    # no config means we just return input data
+    if ( !$Config ) {
+        return {
+            Success => 1,
+            Data    => $Param{Data},
+        };
+    }
 
     # go through keys for replacement
     my %ReturnData;
@@ -312,12 +320,21 @@ in case of a success
 sub _ConfigCheck {
     my ( $Self, %Param ) = @_;
 
-    # get required param
+    # just return success if config is undefined or empty hashref
     my $Config = $Param{Config};
-    if ( !$Config ) {
+    if ( !defined $Config ) {
         return {
-            Success      => 0,
-            ErrorMessage => 'Need Config!',
+            Success => 1,
+        };
+    }
+    if ( ref $Config ne 'HASH' ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Config is defined but not a hash reference!',
+        );
+    }
+    if ( !IsHashRefWithData($Config) ) {
+        return {
+            Success => 1,
         };
     }
 
@@ -464,6 +481,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-03-09 13:26:07 $
+$Revision: 1.19 $ $Date: 2011-03-15 09:18:56 $
 
 =cut

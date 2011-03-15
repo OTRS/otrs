@@ -2,7 +2,7 @@
 # Simple.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Simple.t,v 1.13 2011-03-11 21:47:58 cr Exp $
+# $Id: Simple.t,v 1.14 2011-03-15 09:18:56 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,20 +51,6 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-# create a mapping instance
-my $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
-    DebuggerObject => $DebuggerObject,
-    MappingConfig  => {
-        Type => 'Simple',
-    },
-);
-$Self->Is(
-    ref $MappingObject,
-    'Kernel::GenericInterface::Mapping',
-    'MappingObject was correctly instantiated',
-);
-
 # long hash
 my $Limit    = 10000;
 my $LimitSub = 10;
@@ -105,25 +91,32 @@ my @MappingTests = (
         Config        => undef,
         Data          => undef,
         ResultData    => {},
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
-        Name   => 'Test without config',
-        Config => undef,
-        Data   => {
-            one => 1,
-        },
-        ResultData => {
-            one => 1,
-        },
-        ResultSuccess => 1,
-    },
-    {
-        Name          => 'Test without data',
-        Config        => {},
+        Name          => 'Test with invalid config and without data',
+        Config        => [],
         Data          => undef,
+        ResultData    => undef,
+        ConfigSuccess => 0,
+        ResultSuccess => 0,
+    },
+    {
+        Name          => 'Test with empty data',
+        Config        => undef,
+        Data          => {},
         ResultData    => {},
+        ConfigSuccess => 1,
         ResultSuccess => 1,
+    },
+    {
+        Name          => 'Test with invalid data',
+        Config        => undef,
+        Data          => [],
+        ResultData    => undef,
+        ConfigSuccess => 1,
+        ResultSuccess => 0,
     },
     {
         Name   => 'Test without data',
@@ -137,10 +130,11 @@ my @MappingTests = (
         },
         Data          => undef,
         ResultData    => {},
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
-        Name   => 'Test with wrong data',
+        Name   => 'Test with leftover data',
         Config => {
             KeyMapDefault => {
                 MapType => 'Keep',
@@ -157,6 +151,7 @@ my @MappingTests = (
         ResultData => {
             two => 'two',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -172,17 +167,23 @@ my @MappingTests = (
             two   => 'two',
             three => 'three',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
-        Name   => 'Test without config',
+        Name   => 'Test empty config',
         Config => {},
         Data   => {
             one   => 'one',
             two   => 'two',
             three => 'three',
         },
-        ResultData    => undef,
+        ResultData => {
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+        },
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -198,6 +199,7 @@ my @MappingTests = (
             three => 'three',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -227,6 +229,7 @@ my @MappingTests = (
             another_new_value => 'two',
             new_value_gain    => 'four',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -254,6 +257,7 @@ my @MappingTests = (
             'state' => 'A lost state',
             prio    => 'with capital letter',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -277,6 +281,7 @@ my @MappingTests = (
             two   => 'two',
             three => 'three',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -296,6 +301,7 @@ my @MappingTests = (
             three => 'three',
         },
         ResultData    => {},
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -317,6 +323,7 @@ my @MappingTests = (
         ResultData => {
             new_key => 'one',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -349,6 +356,7 @@ my @MappingTests = (
             new_value_gain    => 'four',
             new_key           => 'five',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -382,6 +390,7 @@ my @MappingTests = (
             one_more_key => 'some value',
             other_key    => 'an empty string',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
     {
@@ -397,6 +406,7 @@ my @MappingTests = (
         },
         Data          => \%LargeHash,
         ResultData    => \%LargeHashNewValue,
+        ConfigSuccess => 1,
         ResultSuccess => 1,
         CheckTime     => 1,
     },
@@ -413,6 +423,7 @@ my @MappingTests = (
         },
         Data          => \%LargeHashAttachments,
         ResultData    => \%LargeHashAttachmentsResult,
+        ConfigSuccess => 1,
         ResultSuccess => 1,
         CheckTime     => 1,
     },
@@ -437,10 +448,9 @@ my @MappingTests = (
                 },
             },
         },
-        Data => {
-            one => 1,
-        },
-        ResultData    => undef,
+        Data          => {},
+        ResultData    => {},
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -467,9 +477,9 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
         },
-        ResultData    => undef,
+        ResultData    => {},
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -497,9 +507,10 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
+            Key => 'Value',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -527,9 +538,10 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
+            Key => 'Value',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -558,9 +570,10 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
+            Key => 'Value',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -584,9 +597,10 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
+            Key => 'Value',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -614,9 +628,10 @@ my @MappingTests = (
             },
         },
         Data => {
-            one => 1,
+            Key => 'Value',
         },
         ResultData    => undef,
+        ConfigSuccess => 0,
         ResultSuccess => 0,
     },
     {
@@ -651,25 +666,52 @@ my @MappingTests = (
             first  => 'two',
             second => 'regular expression',
         },
+        ConfigSuccess => 1,
         ResultSuccess => 1,
     },
 );
 
+TEST:
 for my $Test (@MappingTests) {
 
     my $StartSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
 
-    $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
+    # instanciate mapping object to catch config errors
+    my $MappingObject = Kernel::GenericInterface::Mapping->new(
+        %{$Self},
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'Simple',
+            Config => $Test->{Config},
+        },
+    );
+    if ( $Test->{ConfigSuccess} ) {
+        $Self->Is(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            'MappingObject was correctly instantiated',
+        );
+        next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
+    }
+    else {
+        $Self->IsNot(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            'MappingObject was not correctly instantiated',
+        );
+        next TEST;
+    }
     my $MappingResult = $MappingObject->Map(
         Data => $Test->{Data},
     );
-    my $EndSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
-    $Self->True(
-        ( $EndSeconds - $StartSeconds ) < 5,
-        'Mapping - Performance on large data set: ' .
-            ( $EndSeconds - $StartSeconds ) . ' second(s)',
-        )
-        if ( $Test->{CheckTime} );
+    if ( $Test->{CheckTime} ) {
+        my $EndSeconds = $Self->{TimeObject}->SystemTime();
+        $Self->True(
+            ( $EndSeconds - $StartSeconds ) < 5,
+            'Mapping - Performance on large data set: ' .
+                ( $EndSeconds - $StartSeconds ) . ' second(s)',
+        );
+    }
 
     # check if function return correct status
     $Self->Is(

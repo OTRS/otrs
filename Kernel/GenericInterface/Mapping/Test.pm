@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.17 2011-03-09 13:26:07 sb Exp $
+# $Id: Test.pm,v 1.18 2011-03-15 09:17:38 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -107,10 +107,18 @@ if no config option is provided or one that does not match the options above, th
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got no Data hash ref with content in Map Test backend!' );
+            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping Test backend!' );
+    }
+
+    # return if data is empty
+    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
     }
 
     # no config means that we just return input data
@@ -261,6 +269,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-03-09 13:26:07 $
+$Revision: 1.18 $ $Date: 2011-03-15 09:17:38 $
 
 =cut
