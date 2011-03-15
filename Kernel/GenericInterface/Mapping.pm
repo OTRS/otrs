@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.17 2011-03-11 00:28:23 sb Exp $
+# $Id: Mapping.pm,v 1.18 2011-03-15 09:15:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -172,22 +172,14 @@ perform data mapping in backend
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # if we have no data, just return
-    if ( !defined $Param{Data} ) {
-        return {
-            Success => 1,
-            Data    => {},
-        };
-    }
-
-    # check data - we need a hash ref
-    if ( ref $Param{Data} ne 'HASH' ) {
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got no Data hash ref in Mapping handler!' );
+            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping handler!' );
     }
 
-    # if data is empty, just pass back
-    if ( !%{ $Param{Data} } ) {
+    # return if data is empty
+    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
         return {
             Success => 1,
             Data    => {},
@@ -214,6 +206,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-03-11 00:28:23 $
+$Revision: 1.18 $ $Date: 2011-03-15 09:15:49 $
 
 =cut
