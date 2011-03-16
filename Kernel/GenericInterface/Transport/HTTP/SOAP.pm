@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.14 2011-03-16 20:51:06 sb Exp $
+# $Id: SOAP.pm,v 1.15 2011-03-16 21:26:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -604,8 +604,8 @@ sub _SOAPOutputRecursion {
     my @Result;
     if ( !defined $Param{Data} ) {
         return {
-            Success      => 0,
-            ErrorMessage => 'Undefined param found',
+            Success => 1,
+            Data    => SOAP::Data->value(''),
         };
     }
     if ( IsString( $Param{Data} ) ) {
@@ -635,7 +635,7 @@ sub _SOAPOutputRecursion {
         for my $Key ( sort keys %{ $Param{Data} } ) {
             my $RecurseResult;
             my $Value;
-            if ( IsString( $Param{Data}->{$Key} ) ) {
+            if ( !defined $Param{Data}->{$Key} || IsString( $Param{Data}->{$Key} ) ) {
                 $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
                 if ( !$RecurseResult->{Success} ) {
                     return $RecurseResult;
@@ -696,6 +696,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-03-16 20:51:06 $
+$Revision: 1.15 $ $Date: 2011-03-16 21:26:55 $
 
 =cut
