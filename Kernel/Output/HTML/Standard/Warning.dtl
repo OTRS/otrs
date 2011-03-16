@@ -1,8 +1,8 @@
 # --
 # Warning.dtl - provides HTML warning screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.16 2010-07-28 18:07:36 fn Exp $
+# $Id: Warning.dtl,v 1.17 2011-03-16 11:39:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,11 +18,11 @@
             </div>
             <div class="Content">
                 <h4>
-                    $Text{"Message"}: <span class="Error">$Data{"Message"}</span>
+                    $Text{"Message"}: <span class="Error">$QData{"Message"}</span>
                 </h4>
 
                 <p class="SpacingTop">
-                    $Data{"Comment"}
+                    $QData{"Comment"}
                 </p>
 
                 <p class="SpacingTop">

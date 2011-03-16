@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.29 2010-07-28 18:07:36 fn Exp $
+# $Id: Error.dtl,v 1.30 2011-03-16 11:39:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,23 +18,23 @@
             </div>
             <div class="Content">
                 <h4>
-                    $Text{"Error Message"}: <span class="Error">$Data{"Message"}</span>
+                    $Text{"Error Message"}: <span class="Error">$QData{"Message"}</span>
                 </h4>
                 <p class="SpacingTop">
-                    $Data{"Comment"}.
+                    $QData{"Comment"}.
                 </p>
 
                 <form action="http://bugs.otrs.org/enter_bug.cgi">
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1"><![CDATA[
 Message:
-$Data{"Message"}
+$QData{"Message"}
 
 Comment:
-$Data{"Comment"}
+$QData{"Comment"}
 
 Traceback:
-$Data{"BackendTraceback"}"
+$QData{"BackendTraceback"}"
                     ]]></textarea>
                     <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
 
@@ -81,7 +81,7 @@ $('#GoBack').bind('click', function (Event) {
                 <h2>$Text{"Error Details"}</h2>
             </div>
             <div class="Content">
-                <code>Backend $Data{"BackendTraceback"}</code>
+                <code>Backend $QData{"BackendTraceback"}</code>
             </div>
         </div>
 <!-- dtl:block:ShowBackendTraceback -->
