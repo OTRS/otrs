@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.351.2.4 2011-03-16 11:40:15 mg Exp $
+# $Id: Layout.pm,v 1.351.2.5 2011-03-16 15:28:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351.2.4 $) [1];
+$VERSION = qw($Revision: 1.351.2.5 $) [1];
 
 =head1 NAME
 
@@ -3502,10 +3502,6 @@ sub CustomerError {
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-            Text           => $Param{ 'Backend' . $_ },
-            HTMLResultMode => 1,
-        );
     }
     if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
@@ -3517,10 +3513,6 @@ sub CustomerError {
                 Type => 'Error',
                 What => $_
             ) || '';
-            $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-                Text           => $Param{ 'Backend' . $_ },
-                HTMLResultMode => 1,
-            );
         }
     }
 
@@ -3544,10 +3536,6 @@ sub CustomerWarning {
         Type => 'Error',
         What => 'Message',
         ) || '';
-    $Param{BackendMessage} = $Self->Ascii2Html(
-        Text           => $Param{BackendMessage},
-        HTMLResultMode => 1,
-    );
 
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
@@ -4888,6 +4876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.351.2.4 $ $Date: 2011-03-16 11:40:15 $
+$Revision: 1.351.2.5 $ $Date: 2011-03-16 15:28:16 $
 
 =cut
