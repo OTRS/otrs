@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.20 2011-03-16 09:22:12 mg Exp $
+# $Id: COPYING-Third-Party,v 1.21 2011-03-16 09:53:57 mg Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -191,19 +191,22 @@ o Name:    CPAN URI
   Web:     n/a
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright 1995-2009 Gisle Aas.
+  Note:    # Copyright 1995-2009 Gisle Aas.
            # Copyright 1995 Martijn Koster.
 
 o Name:    CPAN HTTP::Message
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright 1995-2008 Gisle Aas.
+  Note:    # Copyright 1995-2008 Gisle Aas.
 
 o Name:    LWP
   Web:     http://github.com/gisle/libwww-perl
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
-  Note:    Copyright 1995-2009, Gisle Aas
-           Copyright 1995, Martijn Koster
+  Note:    # Copyright 1995-2009, Gisle Aas
+           # Copyright 1995, Martijn Koster
 
-
+o Name:    Mozilla::CA
+  Web:     n/a
+  License: Mozilla MPL 1.1 - http://www.mozilla.org/MPL/
+  Note:    # Copyright Ask Bjørn Hansen
