@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.8 2011-03-15 09:49:08 sb Exp $
+# $Id: SOAP.t,v 1.9 2011-03-16 20:51:39 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 use strict;
 use warnings;
+use utf8;
 use vars (qw($Self));
 
 use Socket;
