@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SolManMock.pm - GenericInterface network transport mock interface for SolMan webservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManMock.pm,v 1.6 2011-03-16 04:19:26 cr Exp $
+# $Id: SolManMock.pm,v 1.7 2011-03-16 20:43:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,6 +133,14 @@ sub ProviderProcessRequest {
     my $Content;
     read STDIN, $Content, $Length;
 
+    # check if we have content
+    if ( !IsStringWithData($Content) ) {
+        return $Self->_Error(
+            Summary   => 'Could not read input data',
+            HTTPError => 500,
+        );
+    }
+
     # convert charset if necessary
     my $ContentCharset = $1
         if $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
@@ -142,13 +150,8 @@ sub ProviderProcessRequest {
             From => $ContentCharset,
         );
     }
-
-    # check if we have a content
-    if ( !IsStringWithData($Content) ) {
-        return $Self->_Error(
-            Summary   => 'Could not read input data',
-            HTTPError => 500,
-        );
+    else {
+        $Self->{EncodeObject}->EncodeInput( \$Content );
     }
 
     # send received data to debugger
