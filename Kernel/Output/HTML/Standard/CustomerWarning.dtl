@@ -1,8 +1,8 @@
 # --
 # CustomerWarning.dtl - provides HTML warning screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerWarning.dtl,v 1.13 2010-08-19 09:35:21 mg Exp $
+# $Id: CustomerWarning.dtl,v 1.14 2011-03-16 15:27:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,11 @@
 
 <div id="MainBox ARIARoleMain">
     <div class="Content">
-        $Text{"Warning"}: $Text{"$Data{"Message"}"}
-        $Text{"Comment"}: $Text{"$Data{"Comment"}"}
+        <h2>
+            $Text{"Warning"}: $Text{"$Data{"Message"}"}
+        </h2>
+        <p>
+            $Text{"Comment"}: $Text{"$Data{"Comment"}"}
+        </p>
     </div>
 </div>

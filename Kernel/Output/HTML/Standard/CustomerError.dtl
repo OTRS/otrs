@@ -1,8 +1,8 @@
 # --
 # CustomerError.dtl - provides HTML Error screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerError.dtl,v 1.11 2010-07-21 21:35:34 fn Exp $
+# $Id: CustomerError.dtl,v 1.12 2011-03-16 15:27:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,16 @@
 # --
 
 <div id="MainBox">
-$Text{"Error"}: $Data{"Message"}
-
-$Text{"Comment"}: $Data{"Comment"}
-$Text{"Traceback"}: $Data{"BackendTraceback"}
+    <div class="Content">
+        <h2>
+            $Text{"Error"}: $QData{"Message"}
+        </h2>
+        <p>
+            $Text{"Comment"}: $QData{"Comment"}
+        </p>
+        <p>
+            $Text{"Traceback"}:
+        </p>
+        <pre>$QData{"BackendTraceback"}</pre>
+    </div>
 </div>
