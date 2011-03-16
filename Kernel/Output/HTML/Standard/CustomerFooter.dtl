@@ -2,14 +2,12 @@
 # CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.40.2.3 2011-03-16 19:50:12 ub Exp $
+# $Id: CustomerFooter.dtl,v 1.40.2.4 2011-03-16 19:50:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-
 
 <div id="Footer" class="ARIARoleContentinfo">
 <!-- dtl:block:Banner -->
