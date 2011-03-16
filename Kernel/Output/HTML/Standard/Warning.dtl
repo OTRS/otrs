@@ -1,8 +1,8 @@
 # --
 # Warning.dtl - provides HTML warning screen
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Warning.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: Warning.dtl,v 1.9.2.1 2011-03-16 11:54:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,22 +11,22 @@
 
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="contenthead">
-      <p>
-        <font color="red" size="+1">$Text{"Warning"}: $Data{"Message"}</font>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td class="mainbody">
-      <table>
-        <tr>
-          <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
-          <td class="table1" valign="top">$Text{"$Data{"Comment"}"}</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+    <tr>
+        <td class="contenthead">
+            <p>
+                <font color="red" size="+1">$Text{"Warning"}: $QData{"Message"}</font>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td class="mainbody">
+            <table>
+                <tr>
+                    <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
+                    <td class="table1" valign="top">$Text{"$Data{"Comment"}"}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 </center>
