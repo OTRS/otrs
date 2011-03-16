@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.13 2011-03-11 04:22:42 sb Exp $
+# $Id: SOAP.pm,v 1.14 2011-03-16 20:51:06 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use HTTP::Status;
 use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
+use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -146,6 +147,14 @@ sub ProviderProcessRequest {
     my $Content;
     read STDIN, $Content, $Length;
 
+    # check if we have content
+    if ( !IsStringWithData($Content) ) {
+        return $Self->_Error(
+            Summary   => 'Could not read input data',
+            HTTPError => 500,
+        );
+    }
+
     # convert charset if necessary
     my $ContentCharset = $1
         if $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
@@ -155,13 +164,8 @@ sub ProviderProcessRequest {
             From => $ContentCharset,
         );
     }
-
-    # check if we have a content
-    if ( !IsStringWithData($Content) ) {
-        return $Self->_Error(
-            Summary   => 'Could not read input data',
-            HTTPError => 500,
-        );
+    else {
+        $Self->{EncodeObject}->EncodeInput( \$Content );
     }
 
     # send received data to debugger
@@ -429,21 +433,14 @@ sub RequesterPerformRequest {
         };
     }
 
-    # send received data to debugger
-    my $XMLResponse;
-    if ( $SOAPResult->context()->transport()->proxy()->http_response()->content() ) {
-        $XMLResponse = $SOAPResult->context()->transport()->proxy()->http_response()->content();
-        $Self->{DebuggerObject}->Debug(
-            Summary => 'Xml data received from remote system',
-            Data    => $XMLResponse,
-        );
-    }
-    else {
+    # check received data
+    if ( !$SOAPResult->context()->transport()->proxy()->http_response()->content() ) {
         return {
             Success      => 0,
             ErrorMessage => 'Could not get xml data received from remote system',
         };
     }
+    my $XMLResponse = $SOAPResult->context()->transport()->proxy()->http_response()->content();
 
     # convert charset if necessary
     if ( $Config->{Encoding} && $Config->{Encoding} !~ m{ \A utf -? 8 \z }xmsi ) {
@@ -453,10 +450,15 @@ sub RequesterPerformRequest {
             To   => 'utf-8',
         );
     }
+    else {
+        $Self->{EncodeObject}->EncodeInput( \$XMLResponse );
+    }
 
-    # encode incoming data
-    # FIXME should we do this here?
-    utf8::encode($XMLResponse);
+    # send processed data to debugger
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'Xml data received from remote system',
+        Data    => $XMLResponse,
+    );
 
     # deserialize response
     my $Deserialized = eval {
@@ -560,10 +562,11 @@ sub _Output {
         $ContentType = 'text/plain';
     }
 
-    # FIXME this seems to be incorrect (according to soap call)
-    use bytes;
+    # calculate content length (before convert for correct result)
     my $ContentLength = length $Param{Content};
-    no bytes;
+
+    # convert from perl internal format to utf8 for output
+    $Param{Content} = Encode::decode( 'utf8', $Param{Content} );
 
     # log to debugger
     my $DebugLevel;
@@ -606,6 +609,7 @@ sub _SOAPOutputRecursion {
         };
     }
     if ( IsString( $Param{Data} ) ) {
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Data} );
         return {
             Success => 1,
             Data    => SOAP::Data->value( $Param{Data} ),
@@ -614,10 +618,6 @@ sub _SOAPOutputRecursion {
     if ( IsArrayRefWithData( $Param{Data} ) ) {
         KEY:
         for my $Key ( @{ $Param{Data} } ) {
-            if ( IsString($Key) ) {
-                push @Result, $Key;
-                next KEY;
-            }
             my $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Key );
             if ( !$RecurseResult->{Success} ) {
                 return $RecurseResult;
@@ -636,7 +636,11 @@ sub _SOAPOutputRecursion {
             my $RecurseResult;
             my $Value;
             if ( IsString( $Param{Data}->{$Key} ) ) {
-                $Value = $Param{Data}->{$Key} || '';
+                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
+                if ( !$RecurseResult->{Success} ) {
+                    return $RecurseResult;
+                }
+                $Value = $RecurseResult->{Data};
             }
             elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
                 $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
@@ -656,6 +660,13 @@ sub _SOAPOutputRecursion {
                     @{ $RecurseResult->{Data} },
                 );
             }
+            else {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Param is not a string, an array reference or a hash reference',
+                };
+            }
+            $Self->{EncodeObject}->EncodeOutput( \$Key );
             push @Result, SOAP::Data->name($Key)->value($Value);
         }
         return {
@@ -665,7 +676,7 @@ sub _SOAPOutputRecursion {
     }
     return {
         Success      => 0,
-        ErrorMessage => 'Param is not a string an array reference or a hash reference',
+        ErrorMessage => 'Param is not a string, an array reference or a hash reference',
     };
 }
 
@@ -685,6 +696,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-03-11 04:22:42 $
+$Revision: 1.14 $ $Date: 2011-03-16 20:51:06 $
 
 =cut
