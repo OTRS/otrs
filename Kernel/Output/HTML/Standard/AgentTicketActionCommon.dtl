@@ -2,12 +2,14 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.46.2.2 2011-03-16 18:54:44 ub Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.46.2.3 2011-03-16 19:38:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+
 
 <!-- dtl:block:Properties -->
 
