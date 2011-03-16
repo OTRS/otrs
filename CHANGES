@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.36 2011-03-15 23:13:01 ep Exp $
+# $Id: CHANGES,v 1.1758.2.37 2011-03-16 21:36:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.7 2011-??-??
- - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken
+ - 2011-03-16 Fixed bug#7060 - Unexisting value is passed to several subroutines in AgentTicketPhone when there is no subaction.
+ - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken.
  - 2011-03-15 Fixed bug#5604 - Show name of static statistic, if there is only one.
  - 2011-03-14 Updated Norwegian translation, thanks to Espen Stefansen!
  - 2011-03-14 Fixed bug#7040 - SQL error when retrieving CustomerCompanyList with Valid => 0.
