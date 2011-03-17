@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.1 2011-03-17 16:19:39 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.2 2011-03-17 19:16:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -66,8 +66,7 @@ sub new {
 prepare the invocation of the configured remote webservice.
 
     my $Result = $InvokerObject->PrepareRequest(
-        Data => {                               # data payload
-            ...
+        Data => { }
         },
     );
 
@@ -101,7 +100,43 @@ handle response data of the configured remote webservice.
         ResponseSuccess      => 1,              # success status of the remote webservice
         ResponseErrorMessage => '',             # in case of webservice error
         Data => {                               # data payload
-            ...
+            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
+            Errors     => {
+                item => {
+                    ErrorCode => '01'
+                    Val1      =>  'Error Description',
+                    Val2      =>  'Error Detail 1',
+                    Val3      =>  'Error Detail 2',
+                    Val4      =>  'Error Detail 3',
+
+                }
+            }
+        },
+    );
+
+    my $Result = $InvokerObject->HandleResponse(
+        ResponseSuccess      => 1,              # success status of the remote webservice
+        ResponseErrorMessage => '',             # in case of webservice error
+        Data => {                               # data payload
+            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
+            Errors     => {
+                item => [
+                    {
+                        ErrorCode => '01'
+                        Val1      =>  'Error Description',
+                        Val2      =>  'Error Detail 1',
+                        Val3      =>  'Error Detail 2',
+                        Val4      =>  'Error Detail 3',
+                    },
+                    {
+                        ErrorCode => '04'
+                        Val1      =>  'Error Description',
+                        Val2      =>  'Error Detail 1',
+                        Val3      =>  'Error Detail 2',
+                        Val4      =>  'Error Detail 3',
+                    },
+                ],
+            }
         },
     );
 
@@ -109,7 +144,7 @@ handle response data of the configured remote webservice.
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
         Data            => {                    # data payload after Invoker
-            ...
+            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
         },
     };
 
@@ -234,6 +269,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-17 16:19:39 $
+$Revision: 1.2 $ $Date: 2011-03-17 19:16:24 $
 
 =cut
