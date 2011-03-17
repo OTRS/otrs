@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.7 2011-03-10 03:53:31 cr Exp $
+# $Id: Deserialize.t,v 1.8 2011-03-17 00:48:09 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,26 @@ use vars (qw($Self));
 
 use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+
+# create soap object to use the soap output recursion
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
+    DebuggerConfig => {
+        DebugThreshold => 'error',
+        TestMode       => 1,
+    },
+    CommunicationType => 'requester',
+    WebserviceID      => 1,             # not used
+);
+my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
+    %{$Self},
+    DebuggerObject  => $DebuggerObject,
+    TransportConfig => {
+        Config => undef,
+    },
+);
 
 my $SOAPTagIni = '<soap:Envelope '
     . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
@@ -199,7 +218,7 @@ for my $Test (@Tests) {
     else {
         $Self->False(
             $DeserializerError,
-            "$Test->{Name} - SOAP::Deserializer Successfull",
+            "$Test->{Name} - SOAP::Deserializer Successful",
         );
     }
 
@@ -211,7 +230,7 @@ for my $Test (@Tests) {
     );
 
     # serializer
-    my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
+    my $SOAPData = $SOAPObject->_SOAPOutputRecursion(
         Data => $Body,
     );
 

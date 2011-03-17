@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.8 2011-03-12 00:16:35 cr Exp $
+# $Id: Serialize.t,v 1.9 2011-03-17 00:48:09 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,26 @@ use vars (qw($Self));
 use SOAP::Lite;
 use XML::TreePP;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+
+# create soap object to use the soap output recursion
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
+    DebuggerConfig => {
+        DebugThreshold => 'error',
+        TestMode       => 1,
+    },
+    CommunicationType => 'requester',
+    WebserviceID      => 1,             # not used
+);
+my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
+    %{$Self},
+    DebuggerObject  => $DebuggerObject,
+    TransportConfig => {
+        Config => undef,
+    },
+);
 
 # create needed objects
 my $XMLObject = XML::TreePP->new();
@@ -152,7 +171,7 @@ for my $Test (@SoapTests) {
     # prepare data
     $SOAPResult = SOAP::Data->value('');
     if ( defined $Test->{Data} ) {
-        my $SOAPData = Kernel::GenericInterface::Transport::HTTP::SOAP->_SOAPOutputRecursion(
+        my $SOAPData = $SOAPObject->_SOAPOutputRecursion(
             Data => $Test->{Data},
         );
         if ( $SOAPData->{Success} ) {
