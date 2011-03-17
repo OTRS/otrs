@@ -2,7 +2,7 @@
 # GenericInterface.t - Generic Interface Scheduler Task Handler Backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.t,v 1.4 2011-02-22 23:47:40 cr Exp $
+# $Id: GenericInterface.t,v 1.5 2011-03-17 13:12:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@ my @TaskList = (
         Invoker      => 'test_operation',
         Data         => {
         },
-        Result => 0,
+        Result => 1,
     },
     {
         Name         => 'Empty Invoker',
