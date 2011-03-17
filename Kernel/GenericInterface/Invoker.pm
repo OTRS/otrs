@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.13 2011-03-09 13:26:07 sb Exp $
+# $Id: Invoker.pm,v 1.14 2011-03-17 01:25:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,10 @@ package Kernel::GenericInterface::Invoker;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -162,11 +162,12 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Got no Data hash ref with content in Invoker handler (PrepareRequest)!'
-        );
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        return $Self->{DebuggerObject}
+            ->Error(
+            Summary => 'Got Data but it is not a hash ref in Invoker handler (PrepareRequest)!'
+            );
     }
 
     # start map on backend
@@ -199,11 +200,12 @@ handle response data of the configured remote webservice.
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Got no Data hash ref with content in Invoker handler (HandleResponse)!'
-        );
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        return $Self->{DebuggerObject}
+            ->Error(
+            Summary => 'Got Data but it is not a hash ref in Invoker handler (andleResponse)!'
+            );
     }
 
     # start map on backend
@@ -227,6 +229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-03-09 13:26:07 $
+$Revision: 1.14 $ $Date: 2011-03-17 01:25:11 $
 
 =cut
