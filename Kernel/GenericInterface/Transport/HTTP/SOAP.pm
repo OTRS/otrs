@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.16 2011-03-17 00:30:07 sb Exp $
+# $Id: SOAP.pm,v 1.17 2011-03-17 02:51:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -230,16 +230,16 @@ sub ProviderGenerateResponse {
     }
 
     # check data param
-    if ( defined $Param{Data} && !IsHashRefWithData( $Param{Data} ) ) {
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->_Output(
             HTTPCode => 500,
-            Content  => 'Invalid Data',
+            Content  => 'Invalid data',
         );
     }
 
     # prepare data
     my $SOAPResult;
-    if ( defined $Param{Data} ) {
+    if ( defined $Param{Data} && IsHashRefWithData( $Param{Data} ) ) {
         my $SOAPData = $Self->_SOAPOutputRecursion(
             Data => $Param{Data},
         );
@@ -252,23 +252,23 @@ sub ProviderGenerateResponse {
             );
         }
         $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
-    }
-    else {
-        $SOAPResult = SOAP::Data->value('');
-    }
 
-    # check soap result
-    if ( ref $SOAPResult ne 'SOAP::Data' ) {
-        return $Self->_Output(
-            HTTPCode => 500,
-            Content  => 'Error in SOAP result',
-        );
+        if ( ref $SOAPResult ne 'SOAP::Data' ) {
+            return $Self->_Output(
+                HTTPCode => 500,
+                Content  => 'Error in SOAP result',
+            );
+        }
     }
 
     # create return structure
+    my @CallData = ( 'response', $Self->{Operation} . 'Response' );
+    if ($SOAPResult) {
+        push @CallData, $SOAPResult;
+    }
     my $Serialized = SOAP::Serializer
         ->autotype(0)
-        ->envelope( response => $Self->{Operation} . 'Response', $SOAPResult );
+        ->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
         return $Self->_Output(
@@ -329,20 +329,20 @@ sub RequesterPerformRequest {
         };
     }
 
-    # prepare data
-    if ( !defined $Param{Data} || !IsHashRefWithData( $Param{Data} ) ) {
-        $Param{Data} = '';
-    }
-    my $SOAPData = $Self->_SOAPOutputRecursion(
-        Data => $Param{Data},
-    );
+    # prepare data if we have any
+    my $SOAPData;
+    if ( defined $Param{Data} && IsHashRefWithData( $Param{Data} ) ) {
+        $SOAPData = $Self->_SOAPOutputRecursion(
+            Data => $Param{Data},
+        );
 
-    # check output of recursion
-    if ( !$SOAPData->{Success} ) {
-        return {
-            Success      => 0,
-            ErrorMessage => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
-        };
+        # check output of recursion
+        if ( !$SOAPData->{Success} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
+            };
+        }
     }
 
     # prepare method
@@ -393,10 +393,12 @@ sub RequesterPerformRequest {
     }
 
     # send request to server
+    my @CallData = ($SOAPMethod);
+    if ($SOAPData) {
+        push @CallData, $SOAPData->{Data};
+    }
     my $SOAPResult = eval {
-        $SOAPHandle->call(
-            $SOAPMethod => $SOAPData->{Data},
-        );
+        $SOAPHandle->call(@CallData);
     };
     my $SOAPResultFault = $@ || '';
     if ($SOAPResultFault) {
@@ -472,7 +474,7 @@ sub RequesterPerformRequest {
 
     # check if we have response data for the specified operation in the soap result
     my $Body = $Deserialized->body();
-    if ( !defined $Body->{ $Param{Operation} . 'Response' } ) {
+    if ( !exists $Body->{ $Param{Operation} . 'Response' } ) {
         return {
             Success => 0,
             ErrorMessage =>
@@ -693,6 +695,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-03-17 00:30:07 $
+$Revision: 1.17 $ $Date: 2011-03-17 02:51:26 $
 
 =cut

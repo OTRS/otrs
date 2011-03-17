@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.9 2011-03-16 20:51:39 sb Exp $
+# $Id: SOAP.t,v 1.10 2011-03-17 02:51:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -196,6 +196,134 @@ my @Tests = (
             Name        => 'SOAPTest1',
             Description => 'Basic test for provider and requester using SOAP transport backend.',
             Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        MappingInbound => {
+                            Type   => 'Simple',
+                            Config => {
+                                KeyMapExact => {
+                                    PriorityID => 'PriorityName',
+                                    Data       => 'DataOut',
+                                },
+                                KeyMapDefault => {
+                                    MapType => 'Ignore',
+                                },
+                                ValueMap => {
+                                    PriorityName => {
+                                        ValueMapExact => {
+                                            1 => '1 sehr niedrig',
+                                            2 => '2 niedrig',
+                                            3 => '3 normal',
+                                            4 => '4 hoch',
+                                            5 => '5 sehr hoch',
+                                        },
+                                    },
+                                },
+                                ValueMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                            },
+                        },
+                        MappingOutbound => {
+                            Type   => 'Simple',
+                            Config => {
+                                KeyMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                                ValueMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                                }
+                        },
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        MappingInbound => {
+                            Type   => 'Simple',
+                            Config => {
+                                KeyMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                                ValueMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                            },
+                        },
+                        MappingOutbound => {
+                            Type   => 'Simple',
+                            Config => {
+                                KeyMapExact => {
+                                    PriorityName => 'PriorityID',
+                                    DataIn       => 'Data',
+                                },
+                                KeyMapDefault => {
+                                    MapType => 'Ignore',
+                                },
+                                ValueMap => {
+                                    PriorityID => {
+                                        ValueMapExact => {
+                                            '1 very low'  => 1,
+                                            '2 low'       => 2,
+                                            '3 normal'    => 3,
+                                            '4 high'      => 4,
+                                            '5 very high' => 5,
+                                        },
+                                    },
+                                },
+                                ValueMapDefault => {
+                                    MapType => 'Keep',
+                                },
+                            },
+                        },
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name               => 'Test 5',
+        SuccessRequest     => '1',
+        RequestData        => {},
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {},
+        },
+        WebserviceConfig => {
+            Name => 'SOAPTest1',
+            Description =>
+                'Test with empty data for provider and requester using SOAP transport backend.',
+            Debugger => {
                 DebugThreshold => 'debug',
                 TestMode       => 1,
             },
