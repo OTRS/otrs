@@ -1,8 +1,8 @@
 # --
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.21 2010-11-20 00:03:07 en Exp $
+# $Id: AdminAttachment.dtl,v 1.21.2.1 2011-03-17 16:32:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
