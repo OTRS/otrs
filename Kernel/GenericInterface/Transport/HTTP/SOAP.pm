@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.15 2011-03-16 21:26:55 sb Exp $
+# $Id: SOAP.pm,v 1.16 2011-03-17 00:30:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -314,7 +314,7 @@ sub RequesterPerformRequest {
     }
 
     # check data param
-    if ( defined $Param{Data} && !IsHashRefWithData( $Param{Data} ) ) {
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return {
             Success      => 0,
             ErrorMessage => 'Invalid Data',
@@ -330,22 +330,19 @@ sub RequesterPerformRequest {
     }
 
     # prepare data
-    my $SOAPData;
-    if ( defined $Param{Data} ) {
-        $SOAPData = $Self->_SOAPOutputRecursion(
-            Data => $Param{Data},
-        );
-
-        # check output of recursion
-        if ( !$SOAPData->{Success} ) {
-            return {
-                Success      => 0,
-                ErrorMessage => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
-            };
-        }
+    if ( !defined $Param{Data} || !IsHashRefWithData( $Param{Data} ) ) {
+        $Param{Data} = '';
     }
-    else {
-        $SOAPData->{Data} = [''];
+    my $SOAPData = $Self->_SOAPOutputRecursion(
+        Data => $Param{Data},
+    );
+
+    # check output of recursion
+    if ( !$SOAPData->{Success} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
+        };
     }
 
     # prepare method
@@ -696,6 +693,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-03-16 21:26:55 $
+$Revision: 1.16 $ $Date: 2011-03-17 00:30:07 $
 
 =cut
