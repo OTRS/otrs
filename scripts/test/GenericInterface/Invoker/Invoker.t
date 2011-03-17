@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.8 2011-02-15 16:24:07 mg Exp $
+# $Id: Invoker.t,v 1.9 2011-03-17 13:32:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,16 +26,6 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,
     CommunicationType => 'Requester',
 );
-
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $Self->{TimeObject}->SystemTime(),
-);
-$Sec   = sprintf "%02d", '00';
-$Min   = sprintf "%02d", $Min;
-$Hour  = sprintf "%02d", $Hour;
-$Day   = sprintf "%02d", $Day;
-$Month = sprintf "%02d", $Month;
-my $CurrentTime = "$Year$Month$Day$Hour$Min$Sec";
 
 my $InvokerObject;
 
@@ -114,7 +104,7 @@ $Self->True(
 # PrepareRequest with some data
 $ReturnData = $InvokerObject->PrepareRequest(
     Data => {
-        'TicketID' => '1',
+        TicketNumber => '1',
     },
 );
 $Self->True(
@@ -160,7 +150,7 @@ $Self->True(
 $ReturnData = $InvokerObject->HandleResponse(
     ResponseSuccess => '0',
     Data            => {
-        TicketNumber => $CurrentTime,
+        TicketNumber => '1345',
     },
 );
 $Self->Is(
@@ -181,7 +171,7 @@ $ReturnData = $InvokerObject->HandleResponse(
     ResponseSuccess      => '0',
     ResponseErrorMessage => 'Just an error message.',
     Data                 => {
-        TicketNumber => $CurrentTime,
+        TicketNumber => '123',
     },
 );
 $Self->Is(
@@ -202,7 +192,7 @@ $Self->True(
 $ReturnData = $InvokerObject->HandleResponse(
     ResponseSuccess => '1',
     Data            => {
-        TicketNumber => $CurrentTime . '1',
+        TicketNumber => '234',
     },
 );
 $Self->True(

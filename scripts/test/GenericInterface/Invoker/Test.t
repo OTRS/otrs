@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.7 2011-02-15 16:50:15 cg Exp $
+# $Id: Test.t,v 1.8 2011-03-17 13:32:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,18 +28,6 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,
     CommunicationType => 'Requester',
 );
-
-# get the current time
-my $CurrentTime = $Self->{TimeObject}->SystemTime();
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $CurrentTime,
-);
-$Sec   = sprintf "%02d", '00';
-$Min   = sprintf "%02d", $Min;
-$Hour  = sprintf "%02d", $Hour;
-$Day   = sprintf "%02d", $Day;
-$Month = sprintf "%02d", $Month;
-my $ReturnedTicketNumber = "$Year$Month$Day$Hour$Min$Sec";
 
 # create a Invoker instance
 my $InvokerObject = Kernel::GenericInterface::Invoker->new(
@@ -76,9 +64,9 @@ my @InvokerPrepareRequestTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test TicketID parameter empty value',
+        Name => 'Test TicketNumber parameter empty value',
         Data => {
-            TicketID => '',
+            TicketNumber => '',
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -92,7 +80,7 @@ my @InvokerPrepareRequestTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test Action parameter without TicketID',
+        Name => 'Test Action parameter without TicketNumber',
         Data => {
             Action => 'Add',
         },
@@ -100,23 +88,23 @@ my @InvokerPrepareRequestTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test correct call just TicketID',
+        Name => 'Test correct call just TicketNumber',
         Data => {
-            TicketID => '12345',
+            TicketNumber => '12345',
         },
         ResultData => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
         },
         ResultSuccess => 1,
     },
     {
-        Name => 'Test correct call TicketID and Action',
+        Name => 'Test correct call TicketNumber and Action',
         Data => {
-            TicketID => '12345',
-            Action   => 'Add',
+            TicketNumber => '12345',
+            Action       => 'Add',
         },
         ResultData => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
             Action       => 'AddTest',
         },
         ResultSuccess => 1,
@@ -183,17 +171,17 @@ my @InvokerHandleResponseTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test TicketID parameter empty value',
+        Name => 'Test TicketNumber parameter empty value',
         Data => {
-            TicketID => '',
+            TicketNumber => '',
         },
         ResultData    => undef,
         ResultSuccess => 0,
     },
     {
-        Name => 'Test TicketID parameter wrong value',
+        Name => 'Test TicketNumber parameter wrong value',
         Data => {
-            TicketID => 'asdf0987opiu',
+            TicketNumber => 'asdf0987opiu',
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -207,7 +195,7 @@ my @InvokerHandleResponseTests = (
         ResultSuccess => 0,
     },
     {
-        Name => 'Test Action parameter without TicketID',
+        Name => 'Test Action parameter without TicketNumber',
         Data => {
             Action => 'Add',
         },
@@ -217,7 +205,7 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test correct call just TicketNumber',
         Data => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
         },
         ResultData    => undef,
         ResultSuccess => 0,
@@ -225,7 +213,7 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test correct call without ResponseSuccess',
         Data => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
             Action       => 'AddTest',
         },
         ResultData    => undef,
@@ -234,7 +222,7 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test just ResponseSucces param.',
         Data => {
-            TicketID => '12345',
+            TicketNumber => '',
         },
         ResponseSuccess => '1',
         ResultData      => undef,
@@ -243,7 +231,7 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test just ResponseErrorMessage param.',
         Data => {
-            TicketID => '12345',
+            TicketNumber => '12345',
         },
         ResponseErrorMessage => 'Just an error message.',
         ResultData           => undef,
@@ -252,7 +240,7 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test just correct params from Response',
         Data => {
-            TicketID => '12345',
+            TicketNumber => '',
         },
         ResponseSuccess      => '1',
         ResponseErrorMessage => 'Just an error message.',
@@ -262,26 +250,26 @@ my @InvokerHandleResponseTests = (
     {
         Name => 'Test correct call without Action',
         Data => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
         },
         ResponseSuccess      => '1',
         ResponseErrorMessage => 'Just an error message.',
         ResultData           => {
-            TicketID => '12345',
+            TicketNumber => '12345',
         },
         ResultSuccess => 1,
     },
     {
         Name => 'Test correct call with all params',
         Data => {
-            TicketNumber => $ReturnedTicketNumber . '12345',
+            TicketNumber => '12345',
             Action       => 'AddTest',
         },
         ResponseSuccess      => '1',
         ResponseErrorMessage => 'Just an error message.',
         ResultData           => {
-            TicketID => '12345',
-            Action   => 'Add',
+            TicketNumber => '12345',
+            Action       => 'Add',
         },
         ResultSuccess => 1,
     },
@@ -324,8 +312,8 @@ for my $Test (@InvokerHandleResponseTests) {
 # PrepareRequest call
 my $InvokerResult = $InvokerObject->PrepareRequest(
     Data => {
-        TicketID => '12345',
-        Action   => 'Add',
+        TicketNumber => '12345',
+        Action       => 'Add',
     },
 );
 
@@ -341,7 +329,7 @@ $Self->IsDeeply(
     {
         'Data' => {
             'Action'       => 'AddTest',
-            'TicketNumber' => $ReturnedTicketNumber . '12345'
+            'TicketNumber' => '12345'
         },
         'Success' => 1
     },
@@ -369,8 +357,8 @@ $Self->IsDeeply(
     \%{$InvokerResult},
     {
         'Data' => {
-            'Action'   => 'Add',
-            'TicketID' => '12345'
+            'Action'       => 'Add',
+            'TicketNumber' => '12345'
         },
         'Success' => 1
     },

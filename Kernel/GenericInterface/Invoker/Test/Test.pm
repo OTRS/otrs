@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.11 2011-02-17 12:30:03 mg Exp $
+# $Id: Test.pm,v 1.12 2011-03-17 13:32:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -83,22 +83,14 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    # we need a TicketID
-    if ( !IsStringWithData( $Param{Data}->{TicketID} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
+    # we need a TicketNumber
+    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber' );
     }
 
-    # generate TicketNumber
     my %ReturnData;
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
-    );
-    $Sec   = sprintf "%02d", '00';
-    $Min   = sprintf "%02d", $Min;
-    $Hour  = sprintf "%02d", $Hour;
-    $Day   = sprintf "%02d", $Day;
-    $Month = sprintf "%02d", $Month;
-    $ReturnData{TicketNumber} = "$Year$Month$Day$Hour$Min$Sec$Param{Data}->{TicketID}";
+
+    $ReturnData{TicketNumber} = $Param{Data}->{TicketNumber};
 
     # check Action
     if ( IsStringWithData( $Param{Data}->{Action} ) ) {
@@ -159,31 +151,9 @@ sub HandleResponse {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
     }
 
-    # test TicketNumberValue
-    if (
-        $Param{Data}->{TicketNumber} !~ m{
-            \A ( \d{4} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d+ ) \z
-        }xms
-        )
-    {
-        $Self->{DebuggerObject}->Info(
-            Summary => 'Got TicketNumber, but it is not in required format!',
-        );
-    }
-    my ( $Year, $Month, $Day, $Hour, $Minute, $Second, $TicketID ) = ( $1, $2, $3, $4, $5, $6, $7 );
-    my $SystemTime      = $Self->{TimeObject}->SystemTime();
-    my $InputSystemTime = $Self->{TimeObject}->Date2SystemTime(
-        Year   => $Year,
-        Month  => $Month,
-        Day    => $Day,
-        Hour   => $Hour,
-        Minute => $Minute,
-        Second => $Second,
-    );
-
-    # prepare TicketID
+    # prepare TicketNumber
     my %ReturnData = (
-        TicketID => $TicketID,
+        TicketNumber => $Param{Data}->{TicketNumber},
     );
 
     # check Action
@@ -218,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-02-17 12:30:03 $
+$Revision: 1.12 $ $Date: 2011-03-17 13:32:19 $
 
 =cut
