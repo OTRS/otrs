@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.13 2011-03-11 09:10:41 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.14 2011-03-17 02:12:04 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -83,9 +83,17 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     kill( 2, $PID{PID} );
 
     # delete pid lock
-    $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
     # log daemon stop
+    if ( !$PIDDelSuccess ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Process could not be deleted from process table! PID $PID{PID}",
+        );
+        exit 1;
+    }
+
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message  => "Scheduler Daemon Stop! PID $PID{PID}",
