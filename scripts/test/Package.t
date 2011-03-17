@@ -1,8 +1,8 @@
 # --
 # Package.t - Package tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.30 2010-10-29 22:16:59 en Exp $
+# $Id: Package.t,v 1.30.2.1 2011-03-17 12:19:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -964,6 +964,10 @@ if ( !$DeveloperSystem ) {
         Location => $SaveFileFramework,
         Mode     => 'binmode',
     );
+    if ( !$ReadOrig || ref $ReadOrig ne 'SCALAR' ) {
+        my $Dummy = 'ReadOrig';
+        $ReadOrig = \$Dummy;
+    }
 
     # check if save file exists (should not anymore)
     my $SaveFileUnlink = unlink $SaveFile;
@@ -1002,6 +1006,10 @@ if ( !$DeveloperSystem ) {
         Location => $SaveFileFramework,
         Mode     => 'binmode',
     );
+    if ( !$ReadLater || ref $ReadLater ne 'SCALAR' ) {
+        my $Dummy = 'ReadLater';
+        $ReadLater = \$Dummy;
+    }
 
     $Self->True(
         ${$ReadOrig} eq ${$ReadLater},
@@ -1012,4 +1020,5 @@ if ( !$DeveloperSystem ) {
         $SaveFileFramework
     );
 }
+
 1;
