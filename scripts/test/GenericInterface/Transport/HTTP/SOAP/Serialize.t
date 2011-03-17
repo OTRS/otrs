@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.9 2011-03-17 00:48:09 sb Exp $
+# $Id: Serialize.t,v 1.10 2011-03-17 04:32:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,15 +57,15 @@ my @SoapTests = (
         Name      => 'Undefined data Fail',
         Operation => 'MyOperation',
         Data      => undef,
-        XML       => ' ',
+        XML       => '',
         Success   => 0,
     },
     {
-        Name      => 'Empty Fail',
+        Name      => 'Empty',
         Operation => 'MyOperation',
         Data      => {},
-        XML       => ' ',
-        Success   => 0,
+        XML       => '',
+        Success   => 1,
         IsEmpty   => 1
     },
     {
@@ -169,8 +169,7 @@ for my $Test (@SoapTests) {
     my $SOAPResult;
 
     # prepare data
-    $SOAPResult = SOAP::Data->value('');
-    if ( defined $Test->{Data} ) {
+    if ( defined $Test->{Data} && IsHashRefWithData( $Test->{Data} ) ) {
         my $SOAPData = $SOAPObject->_SOAPOutputRecursion(
             Data => $Test->{Data},
         );
@@ -180,19 +179,38 @@ for my $Test (@SoapTests) {
     }
 
     # create return structure
+    my @CallData = ( 'response', $Test->{Operation} . 'Response' );
+    if ($SOAPResult) {
+        push @CallData, $SOAPResult;
+    }
     my $Content = SOAP::Serializer
         ->autotype(0)
-        ->envelope( response => $Test->{Operation} . 'Response', $SOAPResult, );
+        ->envelope(@CallData);
 
     # create an XML file to compare the expected results
-    my $SOAPRawContent = $SOAPHeader
-        . '<' . $Test->{Operation} . 'Response' . '>'
-        . $Test->{XML}
-        . '</' . $Test->{Operation} . 'Response' . '>'
-        . $SOAPFooter;
+    my $SOAPRawContent;
+    if ( $Test->{XML} ) {
+        $SOAPRawContent = $SOAPHeader
+            . '<' . $Test->{Operation} . 'Response' . '>'
+            . $Test->{XML}
+            . '</' . $Test->{Operation} . 'Response' . '>'
+            . $SOAPFooter;
+    }
+    else {
+        $SOAPRawContent = $SOAPHeader
+            . '<' . $Test->{Operation} . 'Response' . '/>'
+            . $SOAPFooter;
+    }
 
     # convert soap XML back to perl structure for easy handling
     $XMLObject->set( attr_prefix => '' );
+    if ( $Test->{IsEmpty} ) {
+
+        # clean xml ('null' tag is interpreted by xml parser)
+        $Content =~ s{ [ ] xsi:nil="true" [ ] }{}xms;
+        use Data::Dumper;
+        print STDERR "content: ", Data::Dumper::Dumper($Content);
+    }
     my $XMLContent = $XMLObject->parse($Content);
 
     # check soap message
@@ -234,16 +252,28 @@ for my $Test (@SoapTests) {
     );
 
     # check soap:Body Response
-    $Self->Is(
-        ref $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-        'HASH',
-        "Test $Test->{Name}: SOAP Response structure",
-    );
+    if ( $Test->{IsEmpty} ) {
+        $Self->True(
+            exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            "Test $Test->{Name}: SOAP Response structure (exists)",
+        );
+        $Self->False(
+            defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            "Test $Test->{Name}: SOAP Response structure (defined)",
+        );
+    }
+    else {
+        $Self->Is(
+            ref $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            'HASH',
+            "Test $Test->{Name}: SOAP Response structure",
+        );
 
-    $Self->True(
-        IsHashRefWithData( $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' } ),
-        "Test $Test->{Name}: SOAP Response structure have content",
-    );
+        $Self->True(
+            IsHashRefWithData( $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' } ),
+            "Test $Test->{Name}: SOAP Response structure have content",
+        );
+    }
 
     # check for other soap components
     $Self->IsNot(
@@ -288,47 +318,80 @@ for my $Test (@SoapTests) {
     if ( $Test->{Success} ) {
 
         $Self->IsDeeply(
-            $Content,
             $SOAPRawContent,
+            $Content,
             "Test $Test->{Name}: SOAP Response data raw as normal XML IsDeeply",
         );
 
-        $Self->IsDeeply(
-            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            $Test->{Data},
-            "Test $Test->{Name}: SOAP Response data parsed as normal XML IsDeeply",
-        );
+        if ( $Test->{IsEmpty} ) {
+            $Self->True(
+                exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (exists)",
+            );
+            $Self->False(
+                defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (defined)",
+            );
+        }
+        else {
+            $Self->IsDeeply(
+                $Test->{Data},
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as normal XML IsDeeply",
+            );
+        }
 
         my $SOAPBody = $SOAPObject->body();
-        $Self->IsDeeply(
-            $SOAPBody->{ $Test->{Operation} . 'Response' },
-            $Test->{Data},
-            "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
-        );
+        if ( $Test->{IsEmpty} ) {
+            $Self->IsDeeply(
+                '',
+                $SOAPBody->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
+            );
+        }
+        else {
+            $Self->IsDeeply(
+                $Test->{Data},
+                $SOAPBody->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
+            );
+        }
     }
     else {
         if ( $Test->{IsEmpty} ) {
             $Self->IsDeeply(
-                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
                 $Test->{Data},
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: Special case when Data is empty "
                     . "SOAP Response data parsed as normal XML IsDeeply",
             );
         }
         else {
             $Self->IsNotDeeply(
-                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
                 $Test->{Data},
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: SOAP Response data parsed as normal XML IsNotDeeply",
             );
         }
 
         my $SOAPBody = $SOAPObject->body();
-        $Self->IsNotDeeply(
-            $SOAPBody->{ $Test->{Operation} . 'Response' },
-            $Test->{Data},
-            "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsNotDeeply",
-        );
+        if ( !defined $Test->{Data} ) {
+            $Self->True(
+                exists $SOAPBody->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message True (exists)",
+            );
+            $Self->False(
+                defined $SOAPBody->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message False (defined)",
+            );
+        }
+        else {
+            $Self->IsNotDeeply(
+                $Test->{Data},
+                $SOAPBody->{ $Test->{Operation} . 'Response' },
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsNotDeeply",
+            );
+        }
     }
 }
 

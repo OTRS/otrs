@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.8 2011-03-17 00:48:09 sb Exp $
+# $Id: Deserialize.t,v 1.9 2011-03-17 04:32:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,6 +47,13 @@ my $SOAPTagIni = '<soap:Envelope '
 my $SOAPTagEnd = '</soap:Body></soap:Envelope>';
 
 my @Tests = (
+    {
+        Name      => 'Test 0',
+        Data      => '',
+        Operation => 'Response',
+        Success   => '1',
+        Result    => '',
+    },
     {
         Name      => 'Test 1',
         Data      => '<Simple>Test</Simple>',
@@ -234,18 +241,29 @@ for my $Test (@Tests) {
         Data => $Body,
     );
 
-    # create return structure
-    my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
-    my $Content    = SOAP::Serializer
+    # create return structure and expected result
+    my @CallData = ( 'response', $Test->{Operation} );
+    my $ExpectedResult;
+    if ( ref $SOAPData->{Data} eq 'ARRAY' ) {
+        my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
+        push @CallData, $SOAPResult;
+        $ExpectedResult =
+            '<?xml version="1.0" encoding="UTF-8"?>' .
+            $SOAPTagIni . '<' . $Test->{Operation} . '>' .
+            $Test->{Data} .
+            '</' . $Test->{Operation} . '>' .
+            $SOAPTagEnd;
+    }
+    else {
+        $ExpectedResult =
+            '<?xml version="1.0" encoding="UTF-8"?>' .
+            $SOAPTagIni .
+            '<Response xsi:nil="true" />' .
+            $SOAPTagEnd;
+    }
+    my $Content = SOAP::Serializer
         ->autotype(0)
-        ->envelope( response => $Test->{Operation}, $SOAPResult, );
-
-    my $ExpectedResult =
-        '<?xml version="1.0" encoding="UTF-8"?>' .
-        $SOAPTagIni . '<' . $Test->{Operation} . '>' .
-        $Test->{Data} .
-        '</' . $Test->{Operation} . '>' .
-        $SOAPTagEnd;
+        ->envelope(@CallData);
 
     $Self->Is(
         $Content,
