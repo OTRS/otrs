@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.109 2011-01-20 14:25:52 mb Exp $
+# $Id: it.pm,v 1.110 2011-03-17 17:16:58 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2025,7 +2025,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Permette ai clienti di impostare la coda dei ticket nell\'interfaccia cliente. Se impostato su No, si deve configurare QueueDefault',
         'Allows customers to set the ticket service in the customer interface.' => 'Permette ai clienti di impostare il servizio dei ticket nell\'interfaccia cliente.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Permette di definire nuovi tipi di ticket (se è abilitata la funzione ticket type)',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => 'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia dei clienti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Permette di avere il formato medio nella visualizzazione dei ticket (CustomerInfo =>1 - mostra anche le informazioni del cliente)',

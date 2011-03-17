@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.108 2011-03-15 09:09:47 mg Exp $
+# $Id: nb_NO.pm,v 1.109 2011-03-17 17:16:58 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.108 $;
+$VERSION = q$Revision: 1.109 $;
 
 sub Data {
     my $Self = shift;
@@ -2025,7 +2025,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Tillater kundene å sette sakskø når en sak opprettes. Hvis denne settes til \'Nei\' må standardkø være satt.',
         'Allows customers to set the ticket service in the customer interface.' => 'Lar kunder velge sakens tjeneste i kundeportalen.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Tillater å definere nye typer saker (dersom sakstype-funksjonaliteten er slått på).',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Tillater å opprette tjenester og SLAer for saker (f.eks. e-post, skrivebord, nettverk, ...) og eskaleringsattributter for SLAer (dersom tjenester/SLA er slått på).',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => 'Tillater å opprette tjenester og SLAer for saker (f.eks. e-post, skrivebord, nettverk, ...) og eskaleringsattributter for SLAer (dersom tjenester/SLA er slått på).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Tillater avanserte søkekriterier i søk etter saker i kundeportalen. Med denne funksjonaliteten kan man søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Tillater å bruke medium saksoversikt (KundeInfo => 1 - viser også kundeinformasjon).',
