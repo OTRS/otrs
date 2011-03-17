@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.3 2011-03-09 13:26:07 sb Exp $
+# $Id: Test.pm,v 1.4 2011-03-17 01:57:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -83,14 +83,22 @@ was handed to the function.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check data - we need a hash ref with at least one entry
-    if ( !IsHashRefWithData( $Param{Data} ) ) {
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got no Data hash ref with content in Operation Test backend!' );
+            ->Error(
+            Summary => 'Got Data but it is not a hash ref in Operation Test backend)!'
+            );
     }
 
-    # copy data hash
-    my $ReturnData = \%{ $Param{Data} };
+    # copy data
+    my $ReturnData;
+    if ( ref $Param{Data} eq 'HASH' ) {
+        $ReturnData = \%{ $Param{Data} };
+    }
+    else {
+        $ReturnData = undef;
+    }
 
     # return result
     return {
@@ -115,6 +123,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-03-09 13:26:07 $
+$Revision: 1.4 $ $Date: 2011-03-17 01:57:53 $
 
 =cut

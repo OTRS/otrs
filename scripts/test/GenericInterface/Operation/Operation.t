@@ -2,7 +2,7 @@
 # Operation.t - Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.t,v 1.3 2011-02-15 15:57:37 mg Exp $
+# $Id: Operation.t,v 1.4 2011-03-17 01:57:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@ $Self->Is(
     'HASH',
     'OperationObject call response',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
     'OperationObject call no data provided',
 );
@@ -94,9 +94,23 @@ $Self->Is(
     'HASH',
     'OperationObject call response',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
     'OperationObject call empty data provided',
+);
+
+# run with invalid data
+$ReturnData = $OperationObject->Run(
+    Data => [],
+);
+$Self->Is(
+    ref $ReturnData,
+    'HASH',
+    'OperationObject call response',
+);
+$Self->False(
+    $ReturnData->{Success},
+    'OperationObject call invalid data provided',
 );
 
 # run with some data

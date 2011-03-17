@@ -2,7 +2,7 @@
 # Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.1 2011-03-03 12:54:50 mg Exp $
+# $Id: Test.t,v 1.2 2011-03-17 01:57:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,9 +59,19 @@ my @OperationTests = (
         ResultSuccess => 1,
     },
     {
-        Data          => {},
+        Data          => [],
         ResultData    => undef,
         ResultSuccess => 0,
+    },
+    {
+        Data          => undef,
+        ResultData    => undef,
+        ResultSuccess => 1,
+    },
+    {
+        Data          => {},
+        ResultData    => {},
+        ResultSuccess => 1,
     },
 );
 
