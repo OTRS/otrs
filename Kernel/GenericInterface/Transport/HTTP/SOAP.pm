@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.18 2011-03-17 02:53:03 sb Exp $
+# $Id: SOAP.pm,v 1.19 2011-03-17 03:02:12 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -417,20 +417,19 @@ sub RequesterPerformRequest {
     }
 
     # send sent data to debugger
-    if ( $SOAPResult->context()->transport()->proxy()->http_response()->request()->content() ) {
-        $Self->{DebuggerObject}->Debug(
-            Summary => 'Xml data sent to remote system',
-            Data =>
-                $SOAPResult->context()->transport()->proxy()
-                ->http_response()->request()->content(),
-        );
-    }
-    else {
+    if ( !$SOAPResult->context()->transport()->proxy()->http_response()->request()->content() ) {
         return {
             Success      => 0,
             ErrorMessage => 'Could not get xml data sent to remote system',
         };
     }
+    my $XMLRequest
+        = $SOAPResult->context()->transport()->proxy()->http_response()->request()->content();
+    $Self->{EncodeObject}->EncodeInput( \$XMLRequest );
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'Xml data sent to remote system',
+        Data    => $XMLRequest,
+    );
 
     # check received data
     if ( !$SOAPResult->context()->transport()->proxy()->http_response()->content() ) {
@@ -699,6 +698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-03-17 02:53:03 $
+$Revision: 1.19 $ $Date: 2011-03-17 03:02:12 $
 
 =cut
