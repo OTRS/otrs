@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.8 2011-03-09 11:56:57 mg Exp $
+# $Id: Provider.t,v 1.9 2011-03-17 00:46:54 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,6 +233,29 @@ my $CreateQueryString = sub {
     return $QueryString;
 };
 
+# get remote host with some precautions for certain unit test systems
+my $Host;
+my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+
+# try to resolve fqdn host
+if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+    $Host = $FQDN;
+}
+
+# try to resolve localhost instead
+if ( !$Host && gethostbyname('localhost') ) {
+    $Host = 'localhost';
+}
+
+# use hardcoded localhost ip address
+if ( !$Host ) {
+    $Host = '127.0.0.1';
+}
+
+# create url
+my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+my $BaseURL     = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/WebserviceID/";
+
 for my $Test (@Tests) {
 
     # add config
@@ -341,10 +364,7 @@ for my $Test (@Tests) {
     #
     for my $RequestMethod (qw(get post)) {
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-
-        my $URL
-            = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/$WebserviceID";
+        my $URL = $BaseURL . $WebserviceID;
         my $Response;
         my $ResponseData;
         my $QueryString = $CreateQueryString->(
@@ -409,9 +429,7 @@ for my $Test (@Tests) {
 #
 for my $RequestMethod (qw(get post)) {
 
-    my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-
-    my $URL = "http://localhost/${ScriptAlias}nph-genericinterface.pl/WebserviceID/undefined";
+    my $URL = $BaseURL . 'undefined';
     my $ResponseData;
 
     my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
