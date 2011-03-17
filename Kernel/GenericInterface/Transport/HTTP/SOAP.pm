@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.20 2011-03-17 07:26:04 sb Exp $
+# $Id: SOAP.pm,v 1.21 2011-03-17 20:04:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -291,13 +291,13 @@ sub RequesterPerformRequest {
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Have no TransportConfig',
+            ErrorMessage => 'SOAP Transport: Have no TransportConfig',
         };
     }
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Have no Config',
+            ErrorMessage => 'SOAP Transport: Have no Config',
         };
     }
     my $Config = $Self->{TransportConfig}->{Config};
@@ -309,7 +309,7 @@ sub RequesterPerformRequest {
 
         return {
             Success      => 0,
-            ErrorMessage => "Have no $Needed in config",
+            ErrorMessage => "SOAP Transport: Have no $Needed in config",
         };
     }
 
@@ -317,7 +317,7 @@ sub RequesterPerformRequest {
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Invalid Data',
+            ErrorMessage => 'SOAP Transport: Invalid Data',
         };
     }
 
@@ -325,7 +325,7 @@ sub RequesterPerformRequest {
     if ( !IsStringWithData( $Param{Operation} ) ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Need Operation',
+            ErrorMessage => 'SOAP Transport: Need Operation',
         };
     }
 
@@ -352,7 +352,7 @@ sub RequesterPerformRequest {
     if ( ref $SOAPMethod ne 'SOAP::Data' ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Error preparing used method',
+            ErrorMessage => 'SOAP Transport: Error preparing used method',
         };
     }
 
@@ -420,7 +420,7 @@ sub RequesterPerformRequest {
     if ( !$SOAPResult->context()->transport()->proxy()->http_response()->request()->content() ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Could not get xml data sent to remote system',
+            ErrorMessage => 'SOAP Transport: Could not get xml data sent to remote system',
         };
     }
     my $XMLRequest
@@ -467,7 +467,7 @@ sub RequesterPerformRequest {
     if ( !defined $Deserialized || !$Deserialized->body() ) {
         return {
             Success      => 0,
-            ErrorMessage => 'Could not deserialize received xml data',
+            ErrorMessage => 'SOAP Transport: Could not deserialize received xml data',
         };
     }
 
@@ -698,6 +698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-03-17 07:26:04 $
+$Revision: 1.21 $ $Date: 2011-03-17 20:04:05 $
 
 =cut
