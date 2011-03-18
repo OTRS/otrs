@@ -1,8 +1,8 @@
 // --
 // Core.UI.IE7Fixes.js - provides IE7 specific functions
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.IE7Fixes.js,v 1.3 2010-11-04 13:45:54 mn Exp $
+// $Id: Core.UI.IE7Fixes.js,v 1.3.2.1 2011-03-18 06:35:04 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Login.js - provides the special module functions for the login
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Login.js,v 1.3 2010-08-11 09:54:17 martin Exp $
+// $Id: Core.Agent.Login.js,v 1.3.2.1 2011-03-18 06:35:04 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

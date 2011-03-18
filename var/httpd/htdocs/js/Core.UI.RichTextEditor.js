@@ -1,8 +1,8 @@
 // --
 // Core.UI.RichTextEditor.js - provides all UI functions
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.18 2010-12-06 13:50:51 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.18.2.1 2011-03-18 06:35:04 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

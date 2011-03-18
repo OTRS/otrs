@@ -1,8 +1,8 @@
 // --
 // Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Data.js,v 1.3 2010-11-09 09:35:39 mb Exp $
+// $Id: Core.Data.js,v 1.3.2.1 2011-03-18 06:35:04 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -98,7 +98,7 @@ Core.Data = (function (TargetNS) {
                 if (!Core.Data.CompareObject(ObjectTwo[Key], ObjectOne[Key])) {
                     return false;
                 }
-            } 
+            }
             else {
                 if (ObjectTwo[Key] !== ObjectOne[Key]) {
                     return false;
