@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -45,15 +45,19 @@ fieldset.TableLike > label {
     margin-top: 2px;
     line-height: 16px;
 }
-    
+
 button {
     line-height: normal !important;
 }
-    
+
 fieldset.TableLike > .Field > input {
     max-width: 98%;
 }
-    
+
+fieldset.TableLike.FixedLabelSmall > .FixedValueSmall {
+    width: 134px;
+}
+
 #file_upload {
     width: 98%;
 }
