@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.23 2011-03-07 19:54:01 cr Exp $
+# $Id: Webservice.pm,v 1.24 2011-03-18 12:57:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -179,17 +179,9 @@ sub WebserviceAdd {
     }
 
     # delete cache
-    $Self->{CacheObject}->Delete(
+    $Self->{CacheObject}->CleanUp(
         Type => 'Webservice',
-        Key  => 'WebserviceGet::ID::' . $ID,
     );
-
-    for my $Valid ( 0 .. 1 ) {
-        $Self->{CacheObject}->Delete(
-            Type => 'Webservice',
-            Key  => 'WebserviceList::Valid::' . "$Valid",
-        );
-    }
 
     # add history
     return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
@@ -206,7 +198,8 @@ sub WebserviceAdd {
 get Webservices attributes
 
     my $Webservice = $WebserviceObject->WebserviceGet(
-        ID => 123,
+        ID   => 123,            # ID or Name must be provided
+        Name => 'SAPSolman',
     );
 
 Returns:
@@ -226,16 +219,22 @@ sub WebserviceGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+    if ( !$Param{ID} && !$Param{Name} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
 
-    my %Data;
-
     # check cache
-    my $CacheKey = 'WebserviceGet::ID::' . $Param{ID};
-    my $Cache    = $Self->{CacheObject}->Get(
+    my $CacheKey;
+
+    if ( $Param{ID} ) {
+        $CacheKey = 'WebserviceGet::ID::' . $Param{ID};
+    }
+    else {
+        $CacheKey = 'WebserviceGet::Name::' . $Param{Name};
+
+    }
+    my $Cache = $Self->{CacheObject}->Get(
         Type => 'Webservice',
         Key  => $CacheKey,
     );
@@ -243,38 +242,47 @@ sub WebserviceGet {
     if ($Cache) {
 
         # get data from cache
-        %Data = %{$Cache};
+        return $Cache;
     }
 
-    else {
+    my %Data;
 
-        # sql
+    # sql
+    if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => 'SELECT name, config, valid_id, create_time, change_time '
+            SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
                 . 'FROM gi_webservice_config WHERE id = ?',
             Bind => [ \$Param{ID} ],
         );
-        while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-            my $Config = YAML::Load( $Data[1] );
-
-            %Data = (
-                ID         => $Param{ID},
-                Name       => $Data[0],
-                Config     => $Config,
-                ValidID    => $Data[2],
-                CreateTime => $Data[3],
-                ChangeTime => $Data[4],
-            );
-        }
-
-        # set cache
-        $Self->{CacheObject}->Set(
-            Type  => 'Webservice',
-            Key   => $CacheKey,
-            Value => \%Data,
-            TTL   => $Self->{CacheTTL},
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
+                . 'FROM gi_webservice_config WHERE name = ?',
+            Bind => [ \$Param{Name} ],
         );
     }
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        my $Config = YAML::Load( $Data[2] );
+
+        %Data = (
+            ID         => $Data[0],
+            Name       => $Data[1],
+            Config     => $Config,
+            ValidID    => $Data[3],
+            CreateTime => $Data[4],
+            ChangeTime => $Data[5],
+        );
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'Webservice',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
     return \%Data;
 }
 
@@ -342,17 +350,9 @@ sub WebserviceUpdate {
     );
 
     # delete cache
-    $Self->{CacheObject}->Delete(
+    $Self->{CacheObject}->CleanUp(
         Type => 'Webservice',
-        Key  => 'WebserviceGet::ID::' . $Param{ID},
     );
-
-    for my $Valid ( 0 .. 1 ) {
-        $Self->{CacheObject}->Delete(
-            Type => 'Webservice',
-            Key  => 'WebserviceList::Valid::' . "$Valid",
-        );
-    }
 
     # add history
     return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
@@ -417,17 +417,9 @@ sub WebserviceDelete {
     );
 
     # delete cache
-    $Self->{CacheObject}->Delete(
+    $Self->{CacheObject}->CleanUp(
         Type => 'Webservice',
-        Key  => 'WebserviceGet::ID::' . $Param{ID},
     );
-
-    for my $Valid ( 0 .. 1 ) {
-        $Self->{CacheObject}->Delete(
-            Type => 'Webservice',
-            Key  => 'WebserviceList::Valid::' . "$Valid",
-        );
-    }
 
     return 1;
 }
@@ -449,8 +441,6 @@ get Webservice list
 sub WebserviceList {
     my ( $Self, %Param ) = @_;
 
-    my %Data;
-
     # check cache
     my $Valid = 1;
     if ( !$Param{Valid} ) {
@@ -465,32 +455,34 @@ sub WebserviceList {
     if ($Cache) {
 
         # get data from cache
-        %Data = %{$Cache};
+        return $Cache;
     }
 
-    # get data from database
-    else {
-        my $SQL = 'SELECT id, name FROM gi_webservice_config';
-        if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
-            $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
-        }
+    my %Data;
 
-        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    my $SQL = 'SELECT id, name FROM gi_webservice_config';
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ $Row[0] } = $Row[1];
-        }
-        if (%Data) {
-
-            # set cache
-            $Self->{CacheObject}->Set(
-                Type  => 'Webservice',
-                Key   => $CacheKey,
-                Value => \%Data,
-                TTL   => $Self->{CacheTTL},
-            );
-        }
+    if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
+        $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
+    }
+
+    if (%Data) {
+
+        # set cache
+        $Self->{CacheObject}->Set(
+            Type  => 'Webservice',
+            Key   => $CacheKey,
+            Value => \%Data,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
+
     return \%Data;
 }
 
@@ -510,6 +502,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2011-03-07 19:54:01 $
+$Revision: 1.24 $ $Date: 2011-03-18 12:57:24 $
 
 =cut

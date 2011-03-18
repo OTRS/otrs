@@ -2,7 +2,7 @@
 # Webservice.t - Webservice tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.14 2011-03-07 19:54:43 cr Exp $
+# $Id: Webservice.t,v 1.15 2011-03-18 12:57:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -330,8 +330,7 @@ for my $Test (@Tests) {
 
     # get config
     my $Webservice = $WebserviceObject->WebserviceGet(
-        ID     => $WebserviceID,
-        UserID => 1,
+        ID => $WebserviceID,
     );
 
     # verify config
@@ -346,10 +345,19 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
+    my $WebserviceByName = $WebserviceObject->WebserviceGet(
+        Name => $Test->{Name} . ' ' . $RandomID,
+    );
+
+    $Self->IsDeeply(
+        \$WebserviceByName,
+        \$Webservice,
+        "$Test->{Name} - WebserviceGet() with Name parameter result",
+    );
+
     # get config from cache
     my $WebserviceFromCache = $WebserviceObject->WebserviceGet(
-        ID     => $WebserviceID,
-        UserID => 1,
+        ID => $WebserviceID,
     );
 
     # verify config from cache
@@ -368,6 +376,16 @@ for my $Test (@Tests) {
         $Webservice,
         $WebserviceFromCache,
         "$Test->{Name} - WebserviceGet() - Cache and DB",
+    );
+
+    my $WebserviceByNameFromCache = $WebserviceObject->WebserviceGet(
+        Name => $Test->{Name} . ' ' . $RandomID,
+    );
+
+    $Self->IsDeeply(
+        \$WebserviceByNameFromCache,
+        \$WebserviceFromCache,
+        "$Test->{Name} - WebserviceGet() with Name parameter result from cache",
     );
 
     # update config with a modification
@@ -409,6 +427,16 @@ for my $Test (@Tests) {
         $Webservice->{Config},
         $Test->{Update}->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
+    );
+
+    $WebserviceByName = $WebserviceObject->WebserviceGet(
+        Name => $Test->{Name} . ' ' . $RandomID,
+    );
+
+    $Self->IsDeeply(
+        \$WebserviceByName,
+        \$Webservice,
+        "$Test->{Name} - WebserviceGet() with Name parameter result",
     );
 
     # history check
