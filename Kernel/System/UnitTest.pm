@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.25.2.1 2010-11-03 22:40:39 mh Exp $
+# $Id: UnitTest.pm,v 1.25.2.2 2011-03-18 15:07:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25.2.1 $) [1];
+$VERSION = qw($Revision: 1.25.2.2 $) [1];
 
 =head1 NAME
 
@@ -177,11 +177,14 @@ sub Run {
     $ResultSummary{Host}    = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl}    = sprintf "%vd", $^V;
     $ResultSummary{OS}      = $^O;
+
     if ( -e '/etc/SuSE-release' ) {
+
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/SuSE-release',
             Result   => 'ARRAY',
         );
+
         if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
@@ -190,22 +193,26 @@ sub Run {
         }
     }
     elsif ( -e '/etc/fedora-release' ) {
+
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/fedora-release',
             Result   => 'ARRAY',
         );
+
         if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
         else {
-            $ResultSummary{Vendor} = 'fedora unknown';
+            $ResultSummary{Vendor} = 'Fedora unknown';
         }
     }
     elsif ( -e '/etc/redhat-release' ) {
+
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/redhat-release',
             Result   => 'ARRAY',
         );
+
         if ( $ConfigFile && $ConfigFile->[0] ) {
             $ResultSummary{Vendor} = $ConfigFile->[0];
         }
@@ -214,36 +221,82 @@ sub Run {
         }
     }
     elsif ( -e '/etc/lsb-release' ) {
+
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/lsb-release',
             Result   => 'ARRAY',
         );
+
         if ( $ConfigFile && $ConfigFile->[0] ) {
             $ConfigFile->[0] =~ s/DISTRIB_ID=//;
             $ResultSummary{Vendor} = $ConfigFile->[0];
             $ConfigFile->[1] =~ s/DISTRIB_RELEASE=//;
-            chomp( $ResultSummary{Vendor} );
+            chomp $ResultSummary{Vendor};
             $ResultSummary{Vendor} .= ' ' . $ConfigFile->[1];
         }
         else {
-            $ResultSummary{Vendor} = 'ubuntu unknown';
+            $ResultSummary{Vendor} = 'Ubuntu unknown';
         }
     }
     elsif ( -e '/etc/debian_version' ) {
+
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/debian_version',
             Result   => 'ARRAY',
         );
+
         if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = 'debian ' . $ConfigFile->[0];
+            $ResultSummary{Vendor} = 'Debian ' . $ConfigFile->[0];
         }
         else {
-            $ResultSummary{Vendor} = 'debian unknown';
+            $ResultSummary{Vendor} = 'Debian unknown';
+        }
+    }
+    elsif ( -e '/etc/gentoo-release' ) {
+
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location => '/etc/gentoo-release',
+            Result   => 'ARRAY',
+        );
+
+        if ( $ConfigFile && $ConfigFile->[0] ) {
+            $ResultSummary{Vendor} = $ConfigFile->[0];
+        }
+        else {
+            $ResultSummary{Vendor} = 'Gentoo unknown';
+        }
+    }
+    elsif ( $^O eq 'freebsd' ) {
+
+        my $Release = `uname -r`;
+        $ResultSummary{Vendor} = 'FreeBSD ' . $Release;
+    }
+    elsif ( $^O eq 'MSWin32' ) {
+
+        $ResultSummary{Vendor} = 'MS Windows unknown';
+
+        my @Release = `systeminfo`;
+
+        for my $Row (@Release) {
+
+            my ($Name) = $Row =~ m{ \A OS \s Name: \s+ (.+?) \s* \z }xms;
+
+            if ($Name) {
+                $Name =~ s{Microsoft}{MS}xmsg;
+                $ResultSummary{Vendor} = $Name;
+            }
+
+            my ($Version) = $Row =~ m{ \A OS \s Version: \s+ (.+?) \s* \z }xms;
+
+            if ($Version) {
+                $ResultSummary{Vendor} .= ' ' . $Version;
+            }
         }
     }
     else {
         $ResultSummary{Vendor} = 'unknown';
     }
+
     chomp( $ResultSummary{Vendor} );
     $ResultSummary{Database}  = $Self->{DBObject}->{'DB::Type'};
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
@@ -568,6 +621,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25.2.1 $ $Date: 2010-11-03 22:40:39 $
+$Revision: 1.25.2.2 $ $Date: 2011-03-18 15:07:31 $
 
 =cut
