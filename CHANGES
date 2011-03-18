@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.39 2011-03-18 12:42:45 mn Exp $
+# $Id: CHANGES,v 1.1758.2.40 2011-03-18 12:46:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1025,8 +1025,19 @@
     for ticket events (config is compatble with old one).
  - 2009-09-15 Improved performance of the PDF backend.
 
-2.4.10 (2010/??/??)
+2.4.10 (2011/??/??)
+ - 2011-03-18 Added required settings for oracle databases in apache2-httpd-new.include.conf.
+ - 2011-03-07 Fixed bug#6014 - Printed pdf tickets are not searchable.
+ - 2011-02-17 Fixed bug#6906 - Vendor URL points to Basename+URL instead of URL.
+ - 2011-01-25 Event Based notification - respect "Include Attachments
+    to Notification".
+ - 2010-12-17 Fixed bug#6510 - Signature ID missing.
+ - 2010-12-14 Fixed bug#6532 - With multiple inline images, only first one is
+    preserved when replying.
+ - 2010-12-13 Fixed bug#6520 - backup.pl doesn't backup with strong password.
  - 2010-12-09 Fixed bug#6488 - otrs.ArticleStorageSwitch.pl creating wrong files.
+ - 2010-12-09 Fixed bug#3984 - HTML Notifications - Links to ticketsystem are not clickable.
+ - 2010-12-02 Fixed bug#6366 - gnupg signatures not working correct for partly signed messages.
  - 2010-11-29 Fixed bug#5981 - Warnings from TransfromDateSelection() in AgentTicketMove.
  - 2010-11-23 Fixed bug#6131 - Lack of warning for revoked and expired PGP keys in email compose screens.
  - 2010-11-04 Fixed bug#6211 - Wrong TicketFreeText-value in ticket creation by
