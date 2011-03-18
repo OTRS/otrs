@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.21 2011-03-17 20:04:05 cr Exp $
+# $Id: SOAP.pm,v 1.22 2011-03-18 17:49:16 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -31,6 +31,8 @@ Kernel::GenericInterface::Transport::SOAP - GenericInterface network transport i
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=cut
 
 =item new()
 
@@ -54,9 +56,30 @@ sub new {
     return $Self;
 }
 
-#TODO QA: add perldoc to all functions!
+=item ProviderProcessRequest()
 
-# FIXME perldoc for all functions
+Process an incoming web service request. This function has to read the request data
+from from the web server process.
+
+Based on the request the Operation to be used is determined.
+
+No outbound communication is done here, except from continue requests.
+
+In case of an error, the resulting http error code and message are remembered for the response.
+
+    my $Result = $TransportObject->ProviderProcessRequest();
+
+    $Result = {
+        Success      => 1,                  # 0 or 1
+        ErrorMessage => '',                 # in case of error
+        Operation    => 'DesiredOperation', # name of the operation to perform
+        Data         => {                   # data payload of request
+            ...
+        },
+    };
+
+=cut
+
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
@@ -218,6 +241,31 @@ sub ProviderProcessRequest {
     };
 }
 
+=item ProviderGenerateResponse()
+
+Generates response for an incoming web service request.
+
+In case of an error, error code and message are taken from environment
+(previously set on request processing).
+
+The HTTP code is set accordingly
+- 200 for (syntactically) correct messages
+- 4xx for http errors
+- 500 for content syntax errors
+
+    my $Result = $TransportObject->ProviderGenerateResponse(
+        Data            => { # data payload for response, optional
+            ...
+        },
+    );
+
+    $Result = {
+        Success      => 1,   # 0 or 1
+        ErrorMessage => '',  # in case of error
+    };
+
+=cut
+
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
@@ -283,6 +331,28 @@ sub ProviderGenerateResponse {
         Content  => $Serialized,
     );
 }
+
+=item RequesterPerformRequest()
+
+Prepare data payload as xml structure, generate an outgoing web service request,
+receive the response and return its data.
+
+    my $Result = $TransportObject->RequesterPerformRequest(
+        Operation => 'remote_op', # name of remote operation to perform
+        Data      => {            # data payload for request
+            ...
+        },
+    );
+
+    $Result = {
+        Success      => 1,        # 0 or 1
+        ErrorMessage => '',       # in case of error
+        Data         => {
+            ...
+        },
+    };
+
+=cut
 
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
@@ -489,11 +559,31 @@ sub RequesterPerformRequest {
     };
 }
 
+=begin Internal:
+
+=item _Error()
+
+Take error parameters from request processing.
+Error message is written to debugger, written to environment for response.
+Error is generated to be passed to provider/requester.
+
+    my $Result = $TransportObject->_Error(
+        Summary   => 'Message',    # error message
+        HTTPError => 500,          # http error code, optional
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'Message', # error message from given summary
+    };
+
+=cut
+
 sub _Error {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    if ( !defined $Param{Summary} || !IsString( $Param{Summary} ) ) {
+    if ( !IsString( $Param{Summary} ) ) {
         return $Self->_Error(
             Summary   => 'Need Summary!',
             HTTPError => 500,
@@ -518,6 +608,24 @@ sub _Error {
     };
 }
 
+=item _Output()
+
+Generate http response for provider and send it back to remote system.
+Environment variables are checked for potential error messages.
+Returns structure to be passed to provider.
+
+    my $Result = $TransportObject->_Output(
+        HTTPCode => 200,           # http code to be returned, optional
+        Content  => 'response',    # message content, xml response on normal execution
+    );
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'Message', # error message from given summary
+    };
+
+=cut
+
 sub _Output {
     my ( $Self, %Param ) = @_;
 
@@ -537,17 +645,14 @@ sub _Output {
         $ErrorMessage    = 'Invalid Content';
     }
 
-    # imitate nph- cgi for IIS
-    my $Status;
+    # prepare protocol
+    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
 
-    # FIXME is this correct? it seems to break things for apache
-    # if ( IsStringWithData($ENV{'SERVER_SOFTWARE'}) && $ENV{'SERVER_SOFTWARE'} =~ m{ IIS }xms ) {
-    $Status = $ENV{SERVER_PROTOCOL} || 'HTTP/1.0';
-
-    # }
-    # else {
-    #     $Status = 'Status:';
-    # }
+    # FIXME
+    # according to SOAP::Transport::HTTP the previous should only be used
+    # for IIS to imitate nph- behaviour
+    # for all other browser 'Status:' should be used here
+    # this breaks apache though
 
     # prepare data
     $Param{Content}  ||= '';
@@ -583,7 +688,7 @@ sub _Output {
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
     print STDOUT <<"EOF";
-$Status $Param{HTTPCode} $StatusMessage\r
+$Protocol $Param{HTTPCode} $StatusMessage\r
 Content-Type: $ContentType; charset=UTF-8\r
 Content-Length: $ContentLength\r
 \r
@@ -596,93 +701,323 @@ EOF
     };
 }
 
+=item _SOAPOutputRecursion()
+
+Turn perl data structure to a structure usable for SOAP::Lite.
+The structure may contain multiple levels with scalars, array refs and hash refs.
+Empty array refs, empty hash refs and array refs directly within array refs
+are not permitted as they don't have a valid xml representation.
+Undefined data is treated as empty string.
+
+Because some systems require data in a specific order,
+the sort order of hash ref entries (and only those) can be specified optionally.
+The sorting structure has to be equal to the data structure
+with hash refs replaced by an array ref and its elements wrapped in individual hash refs.
+Values in the sorting structure are ignored but have to be specified
+(at least 'undef') for correct type detection.
+If entries exist that are not mentioned in sorting config,
+they will be added after the sorted entries in ascending alphanumerical order.
+
+Example:
+$Data = {
+    Key1 => 'Value',
+    Key2 => {
+        Key3 => 'Value',
+        Key4 => [
+            'Value',
+            'Value',
+            {
+                Key5 => 'Value',
+            },
+        ],
+    },
+};
+$Sort = [                                  # wrapper for level 1
+    {                                      # first entry for level 1
+        Key2 => [                          # wrapper for level 2
+            {                              # first entry for level 2
+                Key4 => [
+                    undef,
+                    undef,
+                    [                      # wrapper for level 3
+                        {
+                            Key5 => undef, # first entry for level 3
+                        },
+                    ],                     # wrapper for level 3
+                ],
+            },                             # first entry for level 2
+            {                              # second entry for level 2
+                Key3 => undef,
+            },                             # second entry for level 2
+        ],                                 # wrapper for level 2
+    }                                      # first entry for level 1
+    {                                      # second entry for level 1
+        Key1 => undef,
+    }                                      # second entry for level 1
+];                                         # wrapper for level 1
+
+    my $Result = $TransportObject->_SOAPOutputRecursion(
+        Data => {           # data payload
+            ...
+        },
+        Sort => {           # sorting instructions, optional
+            ...
+        },
+    );
+
+    $Result = {
+        Success      => 1,  # 0 or 1
+        ErrorMessage => '', # in case of error
+        Data         => {   # data payload in SOAP::Data format
+            ...
+        },
+    };
+
+=cut
+
 sub _SOAPOutputRecursion {
     my ( $Self, %Param ) = @_;
+    print STDERR "_SOAPOutputRecursion: ", $Self->{MainObject}->Dump( \%Param );
 
-    my @Result;
-    if ( !defined $Param{Data} ) {
+    # check types
+    my %Type;
+    KEY:
+    for my $Key (qw(Data Sort)) {
+
+        # those are valid
+        if ( !defined $Param{$Key} ) {
+            $Type{$Key} = 'UNDEFINED';
+            next KEY;
+        }
+        my $Ref = ref $Param{$Key};
+        if ( !$Ref ) {
+            $Type{$Key} = 'STRING';
+            next KEY;
+        }
+        if ( IsArrayRefWithData( $Param{$Key} ) ) {
+            $Type{$Key} = 'ARRAYREF';
+            next KEY;
+        }
+
+        # hash ref is only allowed for data
+        if ( IsHashRefWithData( $Param{$Key} ) ) {
+            $Type{$Key} = 'HASHREF';
+            next KEY;
+        }
+
+        # everything else is invalid - throw error
+        if ( $Ref =~ m{ \A (?: ARRAY | HASH ) \z }xms ) {
+            $Ref .= ' (empty)';
+        }
         return {
-            Success => 1,
-            Data    => SOAP::Data->value(''),
+            Success      => 0,
+            ErrorMessage => "$Key type '$Ref' is invalid",
         };
     }
-    if ( IsString( $Param{Data} ) ) {
+
+    # types of data and sort must match if sorting is used (=is defined)
+    # if data is hash ref sort must be array ref
+    if (
+        $Type{Sort} ne 'UNDEFINED'
+        && $Type{Data} ne $Type{Sort}
+        && !(
+            $Type{Data} eq 'HASHREF'
+            && $Type{Sort} eq 'ARRAYREF'
+        )
+        )
+    {
+        return {
+            Success      => 0,
+            ErrorMessage => "Types of Data '$Type{Data}' and Sort '$Type{Sort}' don't match",
+        };
+    }
+
+    # undefined variables are processed as empty string
+    if ( $Type{Data} eq 'UNDEFINED' ) {
+        $Param{Data} = '';
+        $Type{Data}  = 'STRING';
+    }
+
+    # process string
+    if ( $Type{Data} eq 'STRING' ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Data} );
         return {
             Success => 1,
             Data    => SOAP::Data->value( $Param{Data} ),
         };
     }
-    if ( IsArrayRefWithData( $Param{Data} ) ) {
+
+    # process array ref
+    if ( $Type{Data} eq 'ARRAYREF' ) {
+        my @Result;
+        my @Sort = $Param{Sort} ? @{ $Param{Sort} } : ();
         KEY:
         for my $Key ( @{ $Param{Data} } ) {
-            my $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Key );
-            if ( !$RecurseResult->{Success} ) {
-                return $RecurseResult;
-            }
-            if ( IsString($Key) ) {
+
+            # process key
+            my $RecurseResult = $Self->_SOAPOutputRecursion(
+                Data => $Key,
+                Sort => @Sort ? shift @Sort : undef,
+            );
+
+            # return on error
+            return $RecurseResult if !$RecurseResult->{Success};
+
+            # treat result of strings differently
+            if ( !defined $Key || IsString($Key) ) {
                 push @Result, SOAP::Data->value( $RecurseResult->{Data} );
                 next KEY;
             }
-            push @Result, \SOAP::Data->value(
-                @{ $RecurseResult->{Data} },
-            );
+            push @Result, \SOAP::Data->value( @{ $RecurseResult->{Data} } );
         }
+
+        # return result of succesful recursion
         return {
             Success => 1,
             Data    => \@Result,
-        };
+            }
     }
-    if ( IsHashRefWithData( $Param{Data} ) ) {
-        for my $Key ( sort keys %{ $Param{Data} } ) {
-            my $RecurseResult;
-            my $Value;
-            if ( !defined $Param{Data}->{$Key} || IsString( $Param{Data}->{$Key} ) ) {
-                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
-                if ( !$RecurseResult->{Success} ) {
-                    return $RecurseResult;
-                }
-                $Value = $RecurseResult->{Data};
-            }
-            elsif ( IsHashRefWithData( $Param{Data}->{$Key} ) ) {
-                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
-                if ( !$RecurseResult->{Success} ) {
-                    return $RecurseResult;
-                }
-                $Value = \SOAP::Data->value(
-                    @{ $RecurseResult->{Data} },
-                );
-            }
-            elsif ( IsArrayRefWithData( $Param{Data}->{$Key} ) ) {
-                $RecurseResult = $Self->_SOAPOutputRecursion( Data => $Param{Data}->{$Key} );
-                if ( !$RecurseResult->{Success} ) {
-                    return $RecurseResult;
-                }
-                $Value = SOAP::Data->value(
-                    @{ $RecurseResult->{Data} },
-                );
-            }
-            else {
+
+    # process hash ref - sorted entries first
+    my %Data = %{ $Param{Data} };
+    my @Result;
+    if ( $Type{Sort} eq 'ARRAYREF' ) {
+        ELEMENT:
+        for my $SortArrayElement ( @{ $Param{Sort} } ) {
+
+            # content check
+            if ( !IsHashRefWithData($SortArrayElement) ) {
                 return {
                     Success      => 0,
-                    ErrorMessage => 'Param is not a string, an array reference or a hash reference',
+                    ErrorMessage => 'Element of sort array is not a hash ref',
                 };
             }
-            $Self->{EncodeObject}->EncodeOutput( \$Key );
-            push @Result, SOAP::Data->name($Key)->value($Value);
+            my @SortArrayElementKeys = keys %{$SortArrayElement};
+            if ( scalar @SortArrayElementKeys != 1 ) {
+                return {
+                    Success => 0,
+                    ErrorMessage =>
+                        'Sort array element hash ref must contain exactly one key/value pair',
+                };
+            }
+            if ( !IsStringWithData( $SortArrayElementKeys[0] ) ) {
+                return {
+                    Success => 0,
+                    ErrorMessage =>
+                        'Key of sort array element hash ref must be a non zero-length string',
+                };
+            }
+
+            # for easier reading
+            my $SortKey = $SortArrayElementKeys[0];
+
+            # missing data elements are ok, then we just skip this
+            next ELEMENT if !$Data{$SortKey};
+
+            # process element
+            my $RecurseResult = $Self->_SOAPOutputHashRecursion(
+                Data => $Data{$SortKey},
+                Sort => $SortArrayElement->{$SortKey},
+            );
+
+            # return on error
+            return $RecurseResult if !$RecurseResult->{Success};
+
+            # encode key and add key/value pair to result
+            $Self->{EncodeObject}->EncodeOutput( \$SortKey );
+            push @Result, SOAP::Data->name($SortKey)->value( $RecurseResult->{Data} );
+
+            # delete affected data entry so we don't process it twice
+            delete $Data{$SortKey};
         }
+    }
+
+    # process remaining hash ref entries
+    for my $Key ( sort keys %Data ) {
+
+        # process element
+        my $RecurseResult = $Self->_SOAPOutputHashRecursion(
+            Data => $Data{$Key},
+        );
+
+        # return on error
+        return $RecurseResult if !$RecurseResult->{Success};
+
+        # encode key and add key/value pair to result
+        $Self->{EncodeObject}->EncodeOutput( \$Key );
+        push @Result, SOAP::Data->name($Key)->value( $RecurseResult->{Data} );
+    }
+
+    # return result of successful recursion
+    return {
+        Success => 1,
+        Data    => \@Result,
+    };
+}
+
+=item _SOAPOutputHashRecursion()
+
+This is a part of _SOAPOutputRecursion.
+It contains the functions to process a hash key/value pair.
+
+    my $Result = $TransportObject->_SOAPOutputHashRecursion(
+        Data => { # data payload
+            ...
+        },
+        Sort => { # sort data payload
+            ...
+        },
+    );
+
+    $Result = {
+        Success      => 1,  # 0 or 1
+        ErrorMessage => '', # in case of error
+        Data         => (   # data payload in SOAP::Data format
+            ...
+        ),
+    };
+
+=cut
+
+sub _SOAPOutputHashRecursion {
+    my ( $Self, %Param ) = @_;
+
+    # process data
+    my $RecurseResult = $Self->_SOAPOutputRecursion(%Param);
+
+    # return on error
+    return $RecurseResult if !$RecurseResult->{Success};
+
+    # set result based on data type
+    my $Result;
+    if ( !defined $Param{Data} || IsString( $Param{Data} ) ) {
+        $Result = $RecurseResult->{Data};
+    }
+    elsif ( IsArrayRefWithData( $Param{Data} ) ) {
+        $Result = SOAP::Data->value( @{ $RecurseResult->{Data} } );
+    }
+    elsif ( IsHashRefWithData( $Param{Data} ) ) {
+        $Result = \SOAP::Data->value( @{ $RecurseResult->{Data} } );
+    }
+
+    # this should have caused an error before, but just in case
+    else {
         return {
-            Success => 1,
-            Data    => \@Result,
+            Success      => 0,
+            ErrorMessage => 'Unexpected problem - data value is invalid',
         };
     }
+
+    # return result of successful recursion
     return {
-        Success      => 0,
-        ErrorMessage => 'Param is not a string, an array reference or a hash reference',
+        Success => 1,
+        Data    => $Result,
     };
 }
 
 1;
+
+=end Internal:
 
 =back
 
@@ -698,6 +1033,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-03-17 20:04:05 $
+$Revision: 1.22 $ $Date: 2011-03-18 17:49:16 $
 
 =cut
