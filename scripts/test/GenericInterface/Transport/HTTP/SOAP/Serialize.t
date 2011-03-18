@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.10 2011-03-17 04:32:00 sb Exp $
+# $Id: Serialize.t,v 1.11 2011-03-18 17:50:44 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,6 +101,51 @@ my @SoapTests = (
         Success => 1,
     },
     {
+        Name      => 'Custom sorted hash',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => {
+                String => 'foo',
+                Hash   => {
+                    Key1 => 1,
+                    Key2 => 2,
+                },
+                Number => 2,
+            },
+        },
+        Sort => [
+            {
+                Var => [
+                    {
+                        Number => undef,
+                    },
+                    {
+                        String => undef,
+                    },
+                    {
+                        Hash => [
+                            {
+                                Key2 => undef,
+                            },
+                            {
+                                Key1 => undef,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+        XML => '<Var>'
+            . '<Number>2</Number>'
+            . '<String>foo</String>'
+            . '<Hash>'
+            . '<Key2>2</Key2>'
+            . '<Key1>1</Key1>'
+            . '</Hash>'
+            . '</Var>',
+        Success => 1,
+    },
+    {
         Name      => 'Array',
         Operation => 'MyOperation',
         Data      => {
@@ -117,24 +162,83 @@ my @SoapTests = (
         Data      => {
             Var => [
                 1,
-                Hash => {
-                    Key1 => [ 1, 2 ],
-                    Key3 => 1,
-                    Key4 => {
-                        Key5 => 'Hash',
+                {
+                    Hash => {
+                        Key1 => [ 1, 2 ],
+                        Key3 => 1,
+                        Key4 => {
+                            Key5 => 'Hash',
+                        },
                     },
                 },
             ],
         },
         XML => '<Var>1</Var>'
-            . '<Var>Hash</Var>'
             . '<Var>'
+            . '<Hash>'
             . '<Key1>1</Key1>'
             . '<Key1>2</Key1>'
             . '<Key3>1</Key3>'
             . '<Key4>'
             . '<Key5>Hash</Key5>'
             . '</Key4>'
+            . '</Hash>'
+            . '</Var>',
+        Success => 1,
+    },
+    {
+        Name      => 'Complex sorted',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => [
+                1,
+                {
+                    Hash => {
+                        Key1 => [ 1, 2 ],
+                        Key3 => 1,
+                        Key4 => {
+                            Key5 => 'Hash',
+                        },
+                    },
+                },
+            ],
+        },
+        Sort => [
+            {
+                Var => [
+                    1,
+                    [
+                        {
+                            Hash => [
+                                {
+                                    Key3 => 1,
+                                },
+                                {
+                                    Key4 => [
+                                        {
+                                            Key5 => 'Hash',
+                                        },
+                                    ],
+                                },
+                                {
+                                    Key1 => [ 1, 2 ],
+                                },
+                            ],
+                        },
+                    ],
+                ],
+            },
+        ],
+        XML => '<Var>1</Var>'
+            . '<Var>'
+            . '<Hash>'
+            . '<Key3>1</Key3>'
+            . '<Key4>'
+            . '<Key5>Hash</Key5>'
+            . '</Key4>'
+            . '<Key1>1</Key1>'
+            . '<Key1>2</Key1>'
+            . '</Hash>'
             . '</Var>',
         Success => 1,
     },
@@ -164,6 +268,7 @@ my @SoapTests = (
 );
 
 # loop trough the tests
+TEST:
 for my $Test (@SoapTests) {
 
     my $SOAPResult;
@@ -172,9 +277,18 @@ for my $Test (@SoapTests) {
     if ( defined $Test->{Data} && IsHashRefWithData( $Test->{Data} ) ) {
         my $SOAPData = $SOAPObject->_SOAPOutputRecursion(
             Data => $Test->{Data},
+            Sort => $Test->{Sort},
         );
         if ( $SOAPData->{Success} ) {
             $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
+        }
+        else {
+            $Self->Is(
+                $SOAPData->{ErrorMessage},
+                undef,
+                "Test $Test->{Name}: soap output recursion failure",
+            );
+            next TEST;
         }
     }
 
@@ -186,6 +300,12 @@ for my $Test (@SoapTests) {
     my $Content = SOAP::Serializer
         ->autotype(0)
         ->envelope(@CallData);
+    my $SerializedFault = $@ || '';
+    $Self->Is(
+        $SerializedFault,
+        '',
+        "Test $Test->{Name}: Serializer success",
+    );
 
     # create an XML file to compare the expected results
     my $SOAPRawContent;
@@ -208,8 +328,6 @@ for my $Test (@SoapTests) {
 
         # clean xml ('null' tag is interpreted by xml parser)
         $Content =~ s{ [ ] xsi:nil="true" [ ] }{}xms;
-        use Data::Dumper;
-        print STDERR "content: ", Data::Dumper::Dumper($Content);
     }
     my $XMLContent = $XMLObject->parse($Content);
 
@@ -278,31 +396,31 @@ for my $Test (@SoapTests) {
     # check for other soap components
     $Self->IsNot(
         $SoapEnvelope->{'xmlns:xsi'},
-        '' || undef,
+        '',
         "Test $Test->{Name}: SOAP Envelope component xmlns:xsi is not empty",
     );
 
     $Self->IsNot(
         $SoapEnvelope->{'xmlns:soapenc'},
-        '' || undef,
+        '',
         "Test $Test->{Name}: SOAP Envelope component xmlns:soapenc is not empty",
     );
 
     $Self->IsNot(
         $SoapEnvelope->{'xmlns:xsd'},
-        '' || undef,
+        '',
         "Test $Test->{Name}: SOAP Envelope component xmlns:xsd is not empty",
     );
 
     $Self->IsNot(
         $SoapEnvelope->{'soap:encodingStyle'},
-        '' || undef,
+        '',
         "Test $Test->{Name}: SOAP Envelope component soap:encodingStyle is not empty",
     );
 
     $Self->IsNot(
         $SoapEnvelope->{'xmlns:soap'},
-        '' || undef,
+        '',
         "Test $Test->{Name}: SOAP Envelope component xmlns:soap is not empty",
     );
 
@@ -310,16 +428,17 @@ for my $Test (@SoapTests) {
     my $SOAPObject = eval { SOAP::Deserializer->deserialize($Content); };
     my $SOAPError = $@;
 
-    $Self->False(
+    $Self->Is(
         $SOAPError,
+        '',
         "Test $Test->{Name}: SOAP::Lite Deserialize with no errors",
     );
 
     if ( $Test->{Success} ) {
 
         $Self->IsDeeply(
-            $SOAPRawContent,
             $Content,
+            $SOAPRawContent,
             "Test $Test->{Name}: SOAP Response data raw as normal XML IsDeeply",
         );
 
@@ -333,10 +452,10 @@ for my $Test (@SoapTests) {
                 "Test $Test->{Name}: SOAP Response data parsed as normal XML True (defined)",
             );
         }
-        else {
+        elsif ( !$Test->{Sort} ) {
             $Self->IsDeeply(
-                $Test->{Data},
                 $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
                 "Test $Test->{Name}: SOAP Response data parsed as normal XML IsDeeply",
             );
         }
@@ -344,15 +463,15 @@ for my $Test (@SoapTests) {
         my $SOAPBody = $SOAPObject->body();
         if ( $Test->{IsEmpty} ) {
             $Self->IsDeeply(
-                '',
                 $SOAPBody->{ $Test->{Operation} . 'Response' },
-                "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
+                '',
+                "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply (emptystring)",
             );
         }
-        else {
+        elsif ( !$Test->{Sort} ) {
             $Self->IsDeeply(
-                $Test->{Data},
                 $SOAPBody->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsDeeply",
             );
         }
@@ -360,16 +479,16 @@ for my $Test (@SoapTests) {
     else {
         if ( $Test->{IsEmpty} ) {
             $Self->IsDeeply(
-                $Test->{Data},
                 $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
                 "Test $Test->{Name}: Special case when Data is empty "
                     . "SOAP Response data parsed as normal XML IsDeeply",
             );
         }
         else {
             $Self->IsNotDeeply(
-                $Test->{Data},
                 $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
                 "Test $Test->{Name}: SOAP Response data parsed as normal XML IsNotDeeply",
             );
         }
@@ -387,8 +506,8 @@ for my $Test (@SoapTests) {
         }
         else {
             $Self->IsNotDeeply(
-                $Test->{Data},
                 $SOAPBody->{ $Test->{Operation} . 'Response' },
+                $Test->{Data},
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message IsNotDeeply",
             );
         }
