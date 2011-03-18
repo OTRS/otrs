@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.9 2011-03-17 00:46:54 sb Exp $
+# $Id: Provider.t,v 1.10 2011-03-18 12:58:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -254,7 +254,7 @@ if ( !$Host ) {
 
 # create url
 my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-my $BaseURL     = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/WebserviceID/";
+my $BaseURL     = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 
 for my $Test (@Tests) {
 
@@ -271,90 +271,99 @@ for my $Test (@Tests) {
         "$Test->{Name} WebserviceAdd()",
     );
 
+    my $WebserviceNameEncoded = URI::Escape::uri_escape_utf8("$Test->{Name} $RandomID");
+
     #
     # Test with IO redirection, no real HTTP request
     #
     for my $RequestMethod (qw(get post)) {
 
-        my $RequestData  = '';
-        my $ResponseData = '';
-
+        for my $WebserviceAccess (
+            "WebserviceID/$WebserviceID",
+            "Webservice/$WebserviceNameEncoded"
+            )
         {
-            local %ENV;
 
-            if ( $RequestMethod eq 'post' ) {
+            my $RequestData  = '';
+            my $ResponseData = '';
 
-                # prepare CGI environment variables
-                $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID";
-                $ENV{REQUEST_METHOD} = 'POST';
-                $RequestData = $CreateQueryString->(
-                    $Self,
-                    Data   => $Test->{RequestData},
-                    Encode => 0,
-                );
-                use bytes;
-                $ENV{CONTENT_LENGTH} = length($RequestData);
+            {
+                local %ENV;
+
+                if ( $RequestMethod eq 'post' ) {
+
+                    # prepare CGI environment variables
+                    $ENV{REQUEST_URI}
+                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
+                    $ENV{REQUEST_METHOD} = 'POST';
+                    $RequestData = $CreateQueryString->(
+                        $Self,
+                        Data   => $Test->{RequestData},
+                        Encode => 0,
+                    );
+                    use bytes;
+                    $ENV{CONTENT_LENGTH} = length($RequestData);
+                }
+                else {    # GET
+
+                    # prepare CGI environment variables
+                    $ENV{REQUEST_URI}
+                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?$Test->{RequestData}";
+                    $ENV{QUERY_STRING} = $CreateQueryString->(
+                        $Self,
+                        Data   => $Test->{RequestData},
+                        Encode => 1,
+                    );
+                    $ENV{REQUEST_METHOD} = 'GET';
+                }
+
+                $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
+
+                # redirect STDIN from String so that the transport layer will use this data
+                local *STDIN;
+                open STDIN, '<:utf8', \$RequestData;
+
+                # redirect STDOUT from String so that the transport layer will write there
+                local *STDOUT;
+                open STDOUT, '>:utf8', \$ResponseData;
+
+                # reset CGI object from previous runs
+                CGI::initialize_globals();
+
+                $ProviderObject->Run();
             }
-            else {    # GET
 
-                # prepare CGI environment variables
-                $ENV{REQUEST_URI}
-                    = "http://localhost/otrs/nph-genericinterface.pl/WebserviceID/$WebserviceID?$Test->{RequestData}";
-                $ENV{QUERY_STRING} = $CreateQueryString->(
-                    $Self,
-                    Data   => $Test->{RequestData},
-                    Encode => 1,
-                );
-                $ENV{REQUEST_METHOD} = 'GET';
-            }
+            if ( $Test->{ResponseSuccess} ) {
 
-            $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
+                for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                    my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                    if ( $Test->{ResponseData}->{$Key} ) {
+                        $QueryStringPart
+                            .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                    }
 
-            # redirect STDIN from String so that the transport layer will use this data
-            local *STDIN;
-            open STDIN, '<:utf8', \$RequestData;
-
-            # redirect STDOUT from String so that the transport layer will write there
-            local *STDOUT;
-            open STDOUT, '>:utf8', \$ResponseData;
-
-            # reset CGI object from previous runs
-            CGI::initialize_globals();
-
-            $ProviderObject->Run();
-        }
-
-        if ( $Test->{ResponseSuccess} ) {
-
-            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
-                if ( $Test->{ResponseData}->{$Key} ) {
-                    $QueryStringPart
-                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                    $Self->True(
+                        index( $ResponseData, $QueryStringPart ) > -1,
+                        "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                    );
                 }
 
                 $Self->True(
-                    index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                    index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
+                    "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result success status",
                 );
             }
+            else {
 
-            $Self->True(
-                index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                "$Test->{Name} Run() HTTP $RequestMethod result success status",
-            );
-        }
-        else {
-
-            # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-            #   because the transport object was not yet initialized. In these cases, apache will
-            #   generate this response, but here we do not use apache.
-            if ( !$Test->{EarlyError} ) {
-                $Self->True(
-                    index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                    "$Test->{Name} Run() HTTP $RequestMethod result error status",
-                );
+               # If an early error occurred, GI cannot generate a valid HTTP error response yet,
+               #   because the transport object was not yet initialized. In these cases, apache will
+               #   generate this response, but here we do not use apache.
+                if ( !$Test->{EarlyError} ) {
+                    $Self->True(
+                        index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
+                        "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result error status",
+                    );
+                }
             }
         }
     }
@@ -364,51 +373,58 @@ for my $Test (@Tests) {
     #
     for my $RequestMethod (qw(get post)) {
 
-        my $URL = $BaseURL . $WebserviceID;
-        my $Response;
-        my $ResponseData;
-        my $QueryString = $CreateQueryString->(
-            $Self,
-            Data   => $Test->{RequestData},
-            Encode => 1,
-        );
+        for my $WebserviceAccess (
+            "WebserviceID/$WebserviceID",
+            "Webservice/$WebserviceNameEncoded"
+            )
+        {
 
-        if ( $RequestMethod eq 'get' ) {
-            $URL .= "?$QueryString";
-            $Response = LWP::UserAgent->new()->$RequestMethod($URL);
-        }
-        else {    # POST
-            $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
-        }
-        chomp( $ResponseData = $Response->decoded_content );
+            my $URL = $BaseURL . $WebserviceAccess;
+            my $Response;
+            my $ResponseData;
+            my $QueryString = $CreateQueryString->(
+                $Self,
+                Data   => $Test->{RequestData},
+                Encode => 1,
+            );
 
-        if ( $Test->{ResponseSuccess} ) {
-            for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-                my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
-                if ( $Test->{ResponseData}->{$Key} ) {
-                    $QueryStringPart
-                        .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+            if ( $RequestMethod eq 'get' ) {
+                $URL .= "?$QueryString";
+                $Response = LWP::UserAgent->new()->$RequestMethod($URL);
+            }
+            else {    # POST
+                $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+            }
+            chomp( $ResponseData = $Response->decoded_content );
+
+            if ( $Test->{ResponseSuccess} ) {
+                for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                    my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                    if ( $Test->{ResponseData}->{$Key} ) {
+                        $QueryStringPart
+                            .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                    }
+
+                    $Self->True(
+                        index( $ResponseData, $QueryStringPart ) > -1,
+                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart",
+                    );
                 }
 
-                $Self->True(
-                    index( $ResponseData, $QueryStringPart ) > -1,
-                    "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart",
+                $Self->Is(
+                    $Response->code,
+                    200,
+                    "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result success status",
                 );
             }
-
-            $Self->Is(
-                $Response->code,
-                200,
-                "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result success status",
-            );
-        }
-        else {
-            $Self->Is(
-                $Response->code,
-                500,
-                "$Test->{Name} real HTTP $RequestMethod request (needs configured and running webserver) result error status"
-                ,
-            );
+            else {
+                $Self->Is(
+                    $Response->code,
+                    500,
+                    "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status"
+                    ,
+                );
+            }
         }
     }
 

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.18 2011-02-28 12:12:02 sb Exp $
+# $Id: Provider.pm,v 1.19 2011-03-18 12:58:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -31,6 +31,8 @@ use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 
 use Kernel::System::GenericInterface::Webservice;
+
+use URI::Escape;
 
 =head1 NAME
 
@@ -95,30 +97,50 @@ sub Run {
     # First, we need to locate the desired webservice and load its configuration data.
     #
 
+    my $Webservice;
+
     my ($WebserviceID)
         = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
-    if ( !$WebserviceID ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Could not determine WebserviceID from query string $ENV{REQUEST_URI}",
+    if ($WebserviceID) {
+
+        $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+            ID => $WebserviceID,
         );
 
-        return;    # bail out without Transport, Apache will generate 500 Error
     }
+    else {
 
-    my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
-        ID => $WebserviceID,
-    );
+        my ($WebserviceName)
+            = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
+
+        if ( !$WebserviceName ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Could not determine WebserviceID from query string $ENV{REQUEST_URI}",
+            );
+
+            return;    # bail out without Transport, Apache will generate 500 Error
+        }
+
+        $WebserviceName = URI::Escape::uri_unescape($WebserviceName);
+
+        $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+            Name => $WebserviceName,
+        );
+    }
 
     if ( !IsHashRefWithData($Webservice) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Could not load web service configuration for web service $WebserviceID",
+            Message =>
+                "Could not load web service configuration for web service at $ENV{REQUEST_URI}",
         );
 
         return;    # bail out without Transport, Apache will generate 500 Error
     }
+
+    $WebserviceID = $Webservice->{ID};
 
     #
     # Create a debugger instance which will log the details of this
@@ -364,6 +386,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-02-28 12:12:02 $
+$Revision: 1.19 $ $Date: 2011-03-18 12:58:42 $
 
 =cut
