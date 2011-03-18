@@ -1,8 +1,8 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.20 2010-10-29 22:16:59 en Exp $
+# $Id: PDF.t,v 1.21 2011-03-18 13:21:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use vars (qw($Self));
 use Kernel::System::PDF;
 
 my $PDFObject = Kernel::System::PDF->new( %{$Self} );
-die "PDF output inPDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!"
+die 'PDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!'
     if !$PDFObject;
 
 # create a pdf document
