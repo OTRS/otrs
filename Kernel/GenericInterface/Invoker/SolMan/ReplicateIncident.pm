@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.1 2011-03-18 19:50:34 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.2 2011-03-19 15:57:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -63,6 +64,11 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    # create additional objects
+    $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
+        %{$Self},
+    );
 
     return $Self;
 }
@@ -135,7 +141,13 @@ handle response data of the configured remote webservice.
         ResponseSuccess      => 1,              # success status of the remote webservice
         ResponseErrorMessage => '',             # in case of webservice error
         Data => {                               # data payload
-            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
+            PersonMaps => {
+                Item => {
+                    PersonId    => '0001',
+                    PersonIdExt => '5050',
+                }
+            },
+            PrdIctId => '0000000000001',
             Errors     => {
                 item => {
                     ErrorCode => '01'
@@ -153,7 +165,19 @@ handle response data of the configured remote webservice.
         ResponseSuccess      => 1,              # success status of the remote webservice
         ResponseErrorMessage => '',             # in case of webservice error
         Data => {                               # data payload
-            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
+            PersonMaps => {
+                Item => [
+                    {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                    {
+                        PersonId    => '0002',
+                        PersonIdExt => '5051',
+                    },
+                ],
+            }
+            PrdIctId => '0000000000001',
             Errors     => {
                 item => [
                     {
@@ -179,7 +203,17 @@ handle response data of the configured remote webservice.
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
         Data            => {                    # data payload after Invoker
-            SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
+            PersonMaps => [
+                {
+                    PersonId    => '0001',
+                    PersonIdExt => '5050',
+                },
+                {
+                    PersonId    => '0002',
+                    PersonIdExt => '5051',
+                },
+            ],
+            PrdIctId   => '0000000000001',
         },
     };
 
@@ -199,81 +233,56 @@ sub HandleResponse {
     # to store data
     my $Data = $Param{Data};
 
+    if ( !defined $Data->{Errors} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Invoker ReplicateIncident: Response failure!'
+                . 'An Error parameter was expected',
+        );
+    }
+
     # if there was an error in the response, forward it
     if ( IsHashRefWithData( $Data->{Errors} ) ) {
 
-        # to store the error message(s)
-        my $ErrorMessage;
-
-        # to store each error item
-        my @ErrorItems;
-
-        # check for multimple errors
-        if ( IsArrayRefWithData( $Data->{Errors}->{item} ) ) {
-
-            # get all errors
-            for my $Item ( @{ $Param{Errors}->{Item} } ) {
-                if ( IsHashRefWithData($Item) ) {
-                    push @ErrorItems, $Item;
-                }
-            }
-        }
-
-        # only one error
-        elsif ( IsHashRefWithData( $Data->{Errors}->{item} ) ) {
-            push @ErrorItems, $Data->{Errors}->{item};
-        }
-
-        if ( scalar @ErrorItems gt 0 ) {
-
-            # cicle trough all error items
-            for my $Item (@ErrorItems) {
-
-                # check error code
-                if ( IsStringWithData( $Item->{ErrorCode} ) ) {
-                    $ErrorMessage .= "Error Code $Item->{ErrorCode} ";
-                }
-                else {
-                    $ErrorMessage .= 'An error message was received but no Error Code found! ';
-                }
-
-                # set the erros description
-                if ( IsStringWithData( $Item->{Val1} ) ) {
-                    $ErrorMessage .= "$Item->{Val1} ";
-                }
-                $ErrorMessage .= 'Details: ';
-
-                # cicle trough all details
-                for my $Val qw(Val2 Val2 Val3) {
-                    if ( IsStringWithData( $Item->{"$Val"} ) ) {
-                        $ErrorMessage .= "$Item->{$Val}  ";
-                    }
-                }
-
-                $ErrorMessage .= " | ";
-            }
-        }
-
-        # write in debug log
-        $Self->{DebuggerObject}->Error(
-            Summary => 'ReplicateIncident return error',
-            Data    => $ErrorMessage,
+        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
+            Errors  => $Data->{Errors},
+            Invoker => 'ReplicateIncident',
         );
 
         return {
-            Success => 1,
-            Data    => \$ErrorMessage,
+            Success => $HandleErrorsResult->{Success},
+            Data    => \$HandleErrorsResult->{ErrorMessage},
         };
     }
 
-    # we need a SystemGuid
-    if ( !IsStringWithData( $Param{Data}->{SystemGuid} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Guid!' );
+    # we need a Incident Identifier from the remote system
+    if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no PrdIctId!' );
     }
 
-    # prepare SystemGuid
+    # response should have a person maps and it sould be empty
+    if ( !defined $Param{Data}->{PersonMaps} ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no PersonMaps!' );
+    }
+
+    # handle the person maps
+    my $HandlePersonMaps = $Self->{SolManCommonObject}->HandlePersonMaps(
+        Invoker    => 'ReplicateIncident',
+        PersonMaps => $Param{Data}->{PersonMaps},
+    );
+
+    # forward error if any
+    if ( !$HandlePersonMaps->{Success} ) {
+        return {
+            Success => 0,
+            Data    => \$HandlePersonMaps->{ErrorMessage},
+        };
+
+    }
+
+    # create return data
     my %ReturnData = (
-        SystemGuid => $Param{Data}->{SystemGuid},
+        PrdIctId   => $Param{PrdIctId},
+        PersonMaps => $HandlePersonMaps->{PersonMaps},
     );
 
     # write in debug log
@@ -304,6 +313,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-18 19:50:34 $
+$Revision: 1.2 $ $Date: 2011-03-19 15:57:20 $
 
 =cut
