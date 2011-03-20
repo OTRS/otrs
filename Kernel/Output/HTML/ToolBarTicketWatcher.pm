@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketWatcher.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketWatcher.pm,v 1.9 2010-10-15 13:20:54 mb Exp $
+# $Id: ToolBarTicketWatcher.pm,v 1.10 2011-03-20 09:36:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,17 +97,12 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Total');
-    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets New');
-    my $TextReached
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Reminder Reached');
-
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     if ($CountNew) {
         $Return{'0999977'} = {
             Block       => 'ToolBarItem',
-            Description => $TextNew,
+            Description => 'Watched Tickets New',
             Count       => $CountNew,
             Class       => $ClassNew,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=New',
@@ -117,7 +112,7 @@ sub Run {
     if ($CountReached) {
         $Return{'0999978'} = {
             Block       => 'ToolBarItem',
-            Description => $TextReached,
+            Description => 'Watched Tickets Reminder Reached',
             Count       => $CountReached,
             Class       => $ClassReached,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
@@ -127,7 +122,7 @@ sub Run {
     if ($Count) {
         $Return{'0999979'} = {
             Block       => 'ToolBarItem',
-            Description => $Text,
+            Description => 'Watched Tickets Total',
             Count       => $Count,
             Class       => $Class,
             Link        => $URL . 'Action=AgentTicketWatchView',

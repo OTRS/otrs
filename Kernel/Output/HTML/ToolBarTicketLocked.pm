@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketLocked.pm,v 1.7 2011-01-21 18:01:40 dz Exp $
+# $Id: ToolBarTicketLocked.pm,v 1.8 2011-03-20 09:36:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,10 +76,6 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Total');
-    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets New');
-    my $TextReached
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Reminder Reached');
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
@@ -87,7 +83,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $CountNew,
-            Description => $TextNew,
+            Description => 'Locked Tickets New',
             Class       => $ClassNew,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
             AccessKey   => 'k',
@@ -97,7 +93,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $CountReached,
-            Description => $TextReached,
+            Description => 'Locked Tickets Reminder Reached',
             Class       => $ClassReached,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
             AccessKey   => 'k',
@@ -107,7 +103,7 @@ sub Run {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Count       => $Count,
-            Description => $Text,
+            Description => 'Locked Tickets Total',
             Class       => $Class,
             Link        => $URL . 'Action=AgentTicketLockedView',
             AccessKey   => 'k',

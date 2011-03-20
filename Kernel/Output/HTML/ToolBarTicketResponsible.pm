@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketResponsible.pm,v 1.8 2011-01-21 18:01:40 dz Exp $
+# $Id: ToolBarTicketResponsible.pm,v 1.9 2011-03-20 09:36:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,17 +78,13 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible Tickets Total');
-    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible Tickets New');
-    my $TextReached
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible Tickets Reminder Reached');
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
     if ($CountNew) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => $TextNew,
+            Description => 'Responsible Tickets New',
             Count       => $CountNew,
             Class       => $ClassNew,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
@@ -98,7 +94,7 @@ sub Run {
     if ($CountReached) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => $TextReached,
+            Description => 'Responsible Tickets Reminder Reached',
             Count       => $CountReached,
             Class       => $ClassReached,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
@@ -108,7 +104,7 @@ sub Run {
     if ($Count) {
         $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
-            Description => $Text,
+            Description => 'Responsible Tickets Total',
             Count       => $Count,
             Class       => $Class,
             Link        => $URL . 'Action=AgentTicketResponsibleView',
