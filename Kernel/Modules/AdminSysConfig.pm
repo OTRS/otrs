@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.113 2011-03-20 08:42:21 mb Exp $
+# $Id: AdminSysConfig.pm,v 1.114 2011-03-20 08:53:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -830,11 +830,11 @@ sub Run {
 
         # create select Box
         $Data{List} = $Self->{LayoutObject}->BuildSelection(
-            Data                => \%List,
-            SelectedID          => $Group,
-            Name                => 'SysConfigGroup',
-            LanguageTranslation => 0,
-            PossibleNone        => 1,
+            Data         => \%List,
+            SelectedID   => $Group,
+            Name         => 'SysConfigGroup',
+            Translation  => 0,
+            PossibleNone => 1,
         );
 
         $Self->{LayoutObject}->Block(

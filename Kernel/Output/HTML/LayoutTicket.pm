@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.123 2011-01-27 09:38:34 mb Exp $
+# $Id: LayoutTicket.pm,v 1.124 2011-03-20 08:53:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -383,10 +383,10 @@ sub AgentFreeText {
                 $Data{"TicketFreeKeyField$_"} = $Self->BuildSelection(
                     Data => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
                     Name => "TicketFreeKey$_",
-                    SelectedID          => $Ticket{"TicketFreeKey$_"},
-                    LanguageTranslation => 0,
-                    Class               => 'TicketFreeKey',
-                    HTMLQuote           => 1,
+                    SelectedID  => $Ticket{"TicketFreeKey$_"},
+                    Translation => 0,
+                    Class       => 'TicketFreeKey',
+                    HTMLQuote   => 1,
                     %SelectData,
                 );
             }
@@ -469,10 +469,10 @@ sub AgentFreeText {
             $Data{"TicketFreeTextField$_"} = $Self->BuildSelection(
                 Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
                 Name => "TicketFreeText$_",
-                SelectedID          => $Ticket{"TicketFreeText$_"},
-                LanguageTranslation => 0,
-                HTMLQuote           => 1,
-                Class               => "TicketFreeText $ClassParam",
+                SelectedID  => $Ticket{"TicketFreeText$_"},
+                Translation => 0,
+                HTMLQuote   => 1,
+                Class       => "TicketFreeText $ClassParam",
                 %SelectData,
             );
 
@@ -623,10 +623,10 @@ sub TicketArticleFreeText {
                 $Data{"ArticleFreeKeyField$_"} = $Self->BuildSelection(
                     Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
                     Name => "ArticleFreeKey$_",
-                    SelectedValue       => $Article{"ArticleFreeKey$_"},
-                    LanguageTranslation => 0,
-                    Class               => 'ArticleFreeKey',
-                    HTMLQuote           => 1,
+                    SelectedValue => $Article{"ArticleFreeKey$_"},
+                    Translation   => 0,
+                    Class         => 'ArticleFreeKey',
+                    HTMLQuote     => 1,
                     %SelectData,
                 );
             }
@@ -709,10 +709,10 @@ sub TicketArticleFreeText {
             $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
                 Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
                 Name => "ArticleFreeText$_",
-                SelectedValue       => $Article{"ArticleFreeText$_"},
-                LanguageTranslation => 0,
-                HTMLQuote           => 1,
-                Class               => "ArticleFreeText $ClassParam",
+                SelectedValue => $Article{"ArticleFreeText$_"},
+                Translation   => 0,
+                HTMLQuote     => 1,
+                Class         => "ArticleFreeText $ClassParam",
                 %SelectData,
             );
 
