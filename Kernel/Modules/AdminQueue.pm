@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.79 2011-02-11 17:55:37 dz Exp $
+# $Id: AdminQueue.pm,v 1.80 2011-03-20 08:41:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -415,10 +415,10 @@ sub _Edit {
                 Valid => 1,
             ),
         },
-        LanguageTranslation => 0,
-        Name                => 'GroupID',
-        SelectedID          => $Param{GroupID},
-        Class               => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
+        Translation => 0,
+        Name        => 'GroupID',
+        SelectedID  => $Param{GroupID},
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
     );
 
     my $ParentQueue = '';
@@ -474,27 +474,31 @@ sub _Edit {
     );
     $Param{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%NotifyLevelList,
+        Translation  => 0,
         Name         => 'FirstResponseNotify',
         SelectedID   => $Param{FirstResponseNotify},
         PossibleNone => 1,
     );
     $Param{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%NotifyLevelList,
+        Translation  => 0,
         Name         => 'UpdateNotify',
         SelectedID   => $Param{UpdateNotify},
         PossibleNone => 1,
     );
     $Param{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%NotifyLevelList,
+        Translation  => 0,
         Name         => 'SolutionNotify',
         SelectedID   => $Param{SolutionNotify},
         PossibleNone => 1,
     );
     $Param{SignatureOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
-        Name => 'SignatureID',
-        SelectedID => $Param{SignatureID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
+        Translation => 0,
+        Name        => 'SignatureID',
+        SelectedID  => $Param{SignatureID},
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
     $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -504,10 +508,11 @@ sub _Edit {
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'SystemAddressID',
-        SelectedID => $Param{SystemAddressID},
-        Max        => 200,
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        Translation => 0,
+        Name        => 'SystemAddressID',
+        SelectedID  => $Param{SystemAddressID},
+        Max         => 200,
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
@@ -525,9 +530,10 @@ sub _Edit {
     );
     $Param{SalutationOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
-        Name => 'SalutationID',
-        SelectedID => $Param{SalutationID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
+        Translation => 0,
+        Name        => 'SalutationID',
+        SelectedID  => $Param{SalutationID},
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
     $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -552,9 +558,10 @@ sub _Edit {
         }
     }
     $Param{CalendarOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%Calendar,
-        Name       => 'Calendar',
-        SelectedID => $Param{Calendar},
+        Data        => \%Calendar,
+        Translation => 0,
+        Name        => 'Calendar',
+        SelectedID  => $Param{Calendar},
     );
 
     $Self->{LayoutObject}->Block(
