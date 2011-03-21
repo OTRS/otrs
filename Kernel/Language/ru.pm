@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.114.2.1 2011-02-21 12:05:12 mn Exp $
+# $Id: ru.pm,v 1.114.2.2 2011-03-21 16:43:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114.2.1 $) [1];
+$VERSION = qw($Revision: 1.114.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:09:09
+    # Last translation file sync: 2011-03-21 17:28:48
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -688,6 +688,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Все новые заявки; с этими заявками еще никто не работал',
         'All escalated tickets' => 'Все эскалированные заявки',
         'All tickets with a reminder set where the reminder date has been reached' => 'Все заявки с напоминанием, у которых назначенная дата напоминания наступила',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Заявка перемещена в очередь «%s» (%s) из очереди «%s» (%s).',
         'History::TypeUpdate' => 'Тип изменен на %s (ID=%s).',
         'History::ServiceUpdate' => 'Сервис изменен на %s (ID=%s).',
@@ -912,6 +914,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
+        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -970,7 +973,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Управления уведомлениями',
-        'Filter for Language' => '',
+        'Select a different language' => '',
         'Filter for Notification' => '',
         'Notifications are sent to an agent or a customer.' => 'Уведомления отправлены агенту или клиенту',
         'Notification' => 'Уведомление',
@@ -1078,10 +1081,13 @@ sub Data {
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
         'Filter name' => '',
+        'The name is required.' => '',
         'Stop after match' => 'Прекратить проверку после совпадения',
         'Filter Condition' => '',
         'Value' => 'Значение',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => '',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Управление приоритетами',
@@ -1332,6 +1338,7 @@ sub Data {
         'Edit Agent' => 'Редактирование агента',
         'Firstname' => 'Имя',
         'Lastname' => 'Фамилия',
+        'Password is required.' => '',
         'Start' => 'Начало',
         'End' => 'Окончание',
 
@@ -1417,6 +1424,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1636,6 +1644,12 @@ sub Data {
         'Fulltext' => 'Полнотекстовый',
         'Remove' => 'Удалить',
         'Customer User Login' => 'Логин клиента',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Создана в очереди',
         'Lock state' => 'Состояние блокировки',
         'Watcher' => 'Наблюдатель',
@@ -2018,7 +2032,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => '',
         'Allows customers to set the ticket service in the customer interface.' => '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => '',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => '',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => '',
@@ -2088,6 +2102,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
         'Default skin for OTRS 3.0 interface.' => '',
@@ -2136,6 +2152,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => '',
         'Defines if composed messages have to be spell checked in the agent interface.' => '',
         'Defines if time accounting is mandatory in the agent interface.' => '',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => '',
         'Defines the URL CSS path.' => '',
@@ -2380,7 +2397,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2669,9 +2686,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => 'Модуль для формирования статистки по времени реакции и разрешения заявки.',
         'Module to generate ticket statistics.' => 'Модуль для формирования статистки по заявкам.',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2742,10 +2759,11 @@ sub Data {
         'Responses <-> Queues' => 'Ответы <-> Очередь',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Роли <-> Группы',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => 'Найти заявку',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Тема интерфейса',
@@ -2848,6 +2866,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -3029,18 +3048,8 @@ sub Data {
         'Your language' => 'Язык',
 
         #
-        # NOT OBSOLETE, DO NOT DELETE! SORT THEM INSTEAD.
-        #
-        'ReminderReached' => 'Напоминание истекло',
-        'My Responsible' => 'Моя ответственность',
-        'Ticket Merged' => 'Заявка объединена',
-        'Sorry, you need to be the owner to do this action!' => 'Вы должны быть владельцем для выполнения этого действия!',
-        'Please change the owner first.' => 'Пожалуйста, сначала измените владельца',
-
-        #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => 'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
         '(Email of the system admin)' => 'Адрес электронной почты системного администратора',
@@ -3280,6 +3289,7 @@ sub Data {
         'Modules' => 'Модули',
         'Move notification' => 'Уведомление о перемещении',
         'Multiple selection of the output format.' => 'Выбор форматов вывода.',
+        'My Responsible' => 'Моя ответственность',
         'MyTickets' => 'Мои заявки',
         'Name is required!' => 'Название обязательно!',
         'New Agent' => 'Новый агент',
@@ -3350,6 +3360,7 @@ sub Data {
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Настройки прав доступа. Вы можете выбрать одну или несколько групп, чтобы отчет был видел для разных пользователей.',
         'Permissions to change the ticket owner in this group/queue.' => 'Права на смену владельца заявок в этой группе/очереди',
         'PhoneView' => 'Заявка по телефону',
+        'Please change the owner first.' => 'Пожалуйста, сначала измените владельца',
         'Please contact your admin' => 'Свяжитесь с администратором',
         'Please enter subject.' => 'Пожалуйста, введите тему.',
         'Please provide a name.' => 'Пожалуйста, введите имя.',
@@ -3366,6 +3377,7 @@ sub Data {
         'Refresh' => 'Обновить',
         'Reminder' => 'Отложенное напоминание',
         'Reminder messages' => 'Сообщения с напоминаниями',
+        'ReminderReached' => 'Напоминание истекло',
         'Required Field' => 'Обязательное поле',
         'Response Management' => 'Управление ответами',
         'Responses <-> Attachments Management' => 'Управление приложенными файлами в ответах',
@@ -3381,6 +3393,7 @@ sub Data {
         'Save Search-Profile as Template?' => 'Сохранить параметры поиска в качестве шаблона?',
         'Schedule' => 'Расписание',
         'Search Result' => 'Результат поиска',
+        'Search Ticket' => 'Найти заявку',
         'Search for' => 'Поиск',
         'Secure Mode need to be enabled!' => 'Безопасный режим должен быть включен',
         'Select Box' => 'Команда SELECT',
@@ -3414,6 +3427,7 @@ sub Data {
         'Show' => 'Показать',
         'Site' => 'Место',
         'Solution' => 'Решение',
+        'Sorry, you need to be the owner to do this action!' => 'Вы должны быть владельцем для выполнения этого действия!',
         'Sort by' => 'Сортировка по',
         'Source' => 'Источник',
         'Spell Check' => 'Проверка орфографии',
@@ -3447,6 +3461,7 @@ sub Data {
         'Ticket Create Times (from moment)' => 'Время создания заявки (с момента)',
         'Ticket Hook' => 'Выбор заявки',
         'Ticket Lock' => 'Блокирование заявки',
+        'Ticket Merged' => 'Заявка объединена',
         'Ticket Number Generator' => 'Генератор номеров заявок',
         'Ticket Overview' => 'Обзор заявок',
         'Ticket Search' => 'Поиск заявки',

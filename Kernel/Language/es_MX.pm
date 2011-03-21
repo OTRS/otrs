@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.40 2011-01-20 14:25:51 mb Exp $
+# $Id: es_MX.pm,v 1.40.2.1 2011-03-21 16:39:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.40.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:08:57
+    # Last translation file sync: 2011-03-21 17:28:36
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -681,6 +681,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Todos los tickets nuevos en los que aún no se ha trabajado',
         'All escalated tickets' => 'Todos los tickets escalados',
         'All tickets with a reminder set where the reminder date has been reached' => 'Todos los tickets que han llegado a la fecha de recordatorio',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Ticket movido a la fila "%s" (%s) de la fila "%s" (%s).',
         'History::TypeUpdate' => 'Tipo actualizado a %s (ID=%s).',
         'History::ServiceUpdate' => 'Servicio actualizado a %s (ID=%s).',
@@ -905,6 +907,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -963,7 +966,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Administración de Notificaciones',
-        'Filter for Language' => 'Filtro para Lenguaje',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filtro para Notiticación',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
         'Notification' => 'Notificaciones',
@@ -1071,10 +1074,13 @@ sub Data {
         'Add PostMaster Filter' => 'Añadir Filtro de Administración de Correo',
         'Edit PostMaster Filter' => 'Modificar Filtro de Administración de Correo',
         'Filter name' => 'Nombre del filtro',
+        'The name is required.' => '',
         'Stop after match' => 'Parar al coincidir',
         'Filter Condition' => 'Condición del Filtro',
         'Value' => 'Valor',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Establecer los Encabezados del Correo Electrónico',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Administración de Prioridades',
@@ -1325,6 +1331,7 @@ sub Data {
         'Edit Agent' => 'Modificar Agente',
         'Firstname' => 'Nombre',
         'Lastname' => 'Apellido',
+        'Password is required.' => '',
         'Start' => 'Iniciar',
         'End' => 'Fin',
 
@@ -1410,6 +1417,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadística',
+        'Stat#' => 'Estadística#',
         'Do you really want to delete this stat?' => '¿Realmente desea eliminar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -1629,6 +1637,12 @@ sub Data {
         'Fulltext' => 'Texto Completo',
         'Remove' => 'Quitar',
         'Customer User Login' => 'Nombre de inicio de sesión del cliente',
+        'Time1' => 'Tiempo1',
+        'Time2' => 'Tiempo2',
+        'Time3' => 'Tiempo3',
+        'Time4' => 'Tiempo4',
+        'Time5' => 'Tiempo5',
+        'Time6' => 'Tiempo6',
         'Created in Queue' => 'Creado en Fila',
         'Lock state' => 'Estado de bloqueo',
         'Watcher' => 'Observador',
@@ -2011,7 +2025,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Permite a los clientes definir la fila del ticket en la interfaz del cliente. Si se selecciona \'No\', es necesario que se configure la fila por defecto.',
         'Allows customers to set the ticket service in the customer interface.' => 'Permite a los clientes definir el servicio del ticket en la interfaz del cliente.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Permite definir nuevos tipos para los tickets (si la funcionalidad de tipo de ticket está habilitada).',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permite definir servicios y SLAs para los tickets (por ejemplo: correo electrónico, escritorio, red, etc.), así mismo como atributos para los SLAs (si la funcionalidad servicio/SLA está habilitada).',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del cliente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Permite tener un formato de vista mediana para los tickets (InformaciónCliente => 1 - muestra además la información del cliente).',
@@ -2081,6 +2095,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la búsqueda a formato CSV.',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => 'Depura el conjunto de traducción. Si se selecciona "Sí", todas las cadenas de texto sin traducción se escriben en STDERR. Esto puede ser útil al crear archivos de traducción, de otra manera, esta opción debería permanecer en "No".',
         'Default ACL values for ticket actions.' => 'Valores ACL por defecto para las acciones de ticket.',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => 'Módulo de protección de bucle por defecto.',
         'Default queue ID used by the system in the agent interface.' => 'ID de fila usado por defecto por el sistema, en la interfaz del agente.',
         'Default skin for OTRS 3.0 interface.' => 'Piel por defecto para la interfaz OTRS 3.0.',
@@ -2129,6 +2145,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => 'Define si se requiere un bloqueo de ticket en la ventana para cambiar el cliente de dicho ticket, en la interfaz del agente (si el ticket aún no está bloqueado, se bloquea y el agente actual se convierte automáticamente en el propietario).',
         'Defines if composed messages have to be spell checked in the agent interface.' => 'Define si la ortografía de los mensajes redactados debe verificarse en la interfaz del agente.',
         'Defines if time accounting is mandatory in the agent interface.' => 'Define si la contabilidad de tiempo es obligatoria en la interfaz del agente.',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => 'Define la altura del editor de texto enriquecido. Proporcione un número (pixeles) o un porcentaje (relativo).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => 'Define la expresión regular IP para acceder al repositorio local. Es necesario que esto se habilite para tener acceso al repositorio local y el paquete::ListaRepositorio se requiere en el host remoto.',
         'Defines the URL CSS path.' => 'Define la URL de la ruta CSS.',
@@ -2373,7 +2390,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => 'Define el tipo de vínculo \'Normal\'. Si los nombres fuente y objetivo contienen el mismo valor, el vínculo resultante es no-direccional; de lo contrario, se obtiene un vínculo direccional.',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => 'Define el tipo de vínculo \'PadreHijo\'. Si los nombres fuente y objetivo contienen el mismo valor, el vínculo resultante es no-direccional; de lo contrario, se obtiene un vínculo direccional.',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => 'Define el tipo de vínculo \'Grupos\'. Los tipos de vínculo del mismo grupo se cancelan mutuamente. Por ejemplo: Si el ticket A está enlazado con el ticket B por un vínculo \'Normal\', no es posible que estos mismos tickets además estén enlazados por un vínculo de relación \'PadreHijo\'.',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => 'Define la lista de repositorios en línea. Otras instalaciones pueden usarse como repositorio, por ejemplo: Llave="http://example.com/otrs/public.pl?Action=PublicRepository;File=" y Contenido="Algun Nombre".',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => 'Define la ubicación para obtener una lista de repositorios en línea para paquetes adicionales. Se usará el primer resultado disponible.',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => 'Define el módulo log del sistema. "Archivo" escribe todos los mensajes en un archivo log, "SysLog" usa el demonio syslog del sistema, por ejemplo: syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => 'Define el tamaño máximo (en bytes) para cargar archivos, a través del explorador.',
@@ -2662,9 +2679,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => 'Módulo para encriptar mensajes firmados (PGP o S/MIME).',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => 'Módulo para filtrar y manipular mensajes entrantes. Bloquea/ignora todos los correos no deseados con direcciones De: noreply@.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => 'Módulo para filtrar y manipular mensajes entrantes. Obtenga un número de 4 dígitos para el texto libre de ticket, use una expresión regular en Match, por ejemplo: From => \'(.+?)@.+?\', y utilice () como [***] en Set =>.',
+        'Module to generate accounted time ticket statistics.' => 'Módulo para generar estadísticas de la contabilidad de tiempo de los tickets.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => 'Módulo para generar perfil OpenSearch html para búsqueda simple de tickets en la interfaz del agente.',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => 'Módulo para generar perfil OpenSearch html para búsqueda simple de tickets en la interfaz del cliente.',
-        'Module to generate accounted time ticket statistics.' => 'Módulo para generar estadísticas de la contabilidad de tiempo de los tickets.',
         'Module to generate ticket solution and response time statistics.' => 'Módulo para generar estadísticas del tiempo de solución y respuesta de los tickets.',
         'Module to generate ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => 'Módulo para informar a los agentes, a través de su propia interfaz, acerca del juego de caracteres usado. Se despliega una notificación en caso de que no se esté usando el juego de caracteres por defecto en, por ejemplo, los tickets.',
@@ -2735,10 +2752,11 @@ sub Data {
         'Responses <-> Queues' => 'Respuestas <-> Filas',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => 'Restablece un ticket del archivo (sólo si el evento es un cambio de estado de cerrado a cualquiera de los estados abiertos disponibles).',
         'Roles <-> Groups' => 'Roles <-> Grupos',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => 'Ejecuta el sistema en modo "Demo". Si se selecciona "Sí", los agentes pueden modificar preferencias, como elegir el idioma y el tema, a través de la interfaz del agente. Estos cambios sólo serán válidos en la sesión actual. No se les permitirá a los agentes que cambien su contraseña.',
         'S/MIME Certificate Upload' => 'Cargar Certificado S/MIME',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => 'Guarda los archivos adjuntos de los artículos. "DB" almacena todos en la base de datos (no se recomienda para guardar archivos adjuntos grandes), mientras que "FS" usa el sistema de archivos, lo cual es más rápido, pero el servidor web tiene que ser ejecutado con el usuario OTRS. Es posible cambiar entre los módulos sin perder información, inclusive en un sistema en producción.',
-        'Search Ticket' => 'Buscar Ticket',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => 'Buscar el router por defecto del backend.',
         'Search backend router.' => 'Buscar el router del backend.',
         'Select your frontend Theme.' => 'Seleccione su tema.',
@@ -2841,6 +2859,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => 'Define la zona horaria del usuario (se requiere un sistema con UTC como hora, de lo contrario, habría una diferencia con la hora local).',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => 'Define la zona horaria del usuario, basándose en java script / zona horaria del navegador, al iniciar sesión en el sistema.',
         'Show a responsible selection in phone and email tickets in the agent interface.' => 'Muestra una selección del agente responsable, en los tickets telefónico y de correo electrónico de la interfaz del agente.',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => 'Muestra un recuento de íconos en la vista detallada del ticket, si el artículo tiene archivos adjuntos.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => 'Muestra un vínculo en el menú, para suscribirse / darse de baja de un ticket, en la vista detallada de dicho ticket de la interfaz del agente.',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => 'Muestra un vínculo en el menú, que permite vincular un ticket con otro objeto, en la vista detallada de dicho ticket de la interfaz del agente.',
@@ -3024,7 +3043,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados. ¿Realmente desea utilizar esta tarea?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Chequear registro MX de direcciones utilizadas al responder. ¡ No usarlo si su PC con OTRS está detrás de una línea telefonica $!)',
         '(Email of the system admin)' => '(email del administrador del sistema)',
@@ -3088,6 +3106,7 @@ sub Data {
         'All tickets which are escalated!' => 'Todos los tickets que estan escalados',
         'Allocate CustomerUser to service' => 'Relacionar Clientes con Servicios',
         'Allocate services to CustomerUser' => 'Relacionar Servicios con Clientes',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permite definir servicios y SLAs para los tickets (por ejemplo: correo electrónico, escritorio, red, etc.), así mismo como atributos para los SLAs (si la funcionalidad servicio/SLA está habilitada).',
         'Answer' => 'Responder',
         'Artefact' => 'Artefacto',
         'Article Create Times' => 'Tiempo de Creación de Artículo',
@@ -3170,6 +3189,7 @@ sub Data {
         'Default' => 'Por Defecto',
         'Default Charset' => 'Juego de caracteres por defecto',
         'Default Language' => 'Lenguaje por defecto',
+        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => 'Define la lista de repositorios en línea. Otras instalaciones pueden usarse como repositorio, por ejemplo: Llave="http://example.com/otrs/public.pl?Action=PublicRepository;File=" y Contenido="Algun Nombre".',
         'Delete old database' => 'Eliminar BD antigua',
         'Detail' => 'Detalle',
         'Discard all changes and return to the compose screen' => 'Descartar todos los cambios y volver a la pantalla de redacción',
@@ -3199,6 +3219,7 @@ sub Data {
         'Fax{CustomerUser}' => 'Fax',
         'FileManager' => 'Administrador de Archivos',
         'Filelist' => 'Lista de Archivos',
+        'Filter for Language' => 'Filtro para Lenguaje',
         'Filtername' => 'Nombre del filtro',
         'Firstname{CustomerUser}' => 'Nombre',
         'Follow up' => 'Seguimiento',
@@ -3365,6 +3386,7 @@ sub Data {
         'Save Search-Profile as Template?' => 'Guardar perfil de búsqueda como patrón?',
         'Schedule' => 'Horario',
         'Search Result' => 'Buscar resultados',
+        'Search Ticket' => 'Buscar Ticket',
         'Search for' => 'Buscar por',
         'Secure Mode need to be enabled!' => '¡El Modo Seguro debe estar habilitado!',
         'Select Box' => 'Ventana de selección',
@@ -3399,7 +3421,6 @@ sub Data {
         'Source' => 'Origen',
         'Spell Check' => 'Chequeo Ortográfico',
         'Split' => 'Dividir',
-        'Stat#' => 'Estadística#',
         'State Type' => 'Tipo de Estado',
         'Static-File' => 'Archivo-Estático',
         'Stats-Area' => 'Area de Estadísticas',
@@ -3444,12 +3465,6 @@ sub Data {
         'TicketZoom' => 'Detalle del Ticket',
         'Tickets shown' => 'Tickets mostrados',
         'Tickets which need to be answered!' => 'Tickets que necesitan ser respondidos',
-        'Time1' => 'Tiempo1',
-        'Time2' => 'Tiempo2',
-        'Time3' => 'Tiempo3',
-        'Time4' => 'Tiempo4',
-        'Time5' => 'Tiempo5',
-        'Time6' => 'Tiempo6',
         'Times' => 'Veces',
         'Title of the stat.' => 'Título de la estadística',
         'Title{CustomerUser}' => 'Saludo',

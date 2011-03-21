@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.2 2011-03-09 16:44:00 mab Exp $
+# $Id: de.pm,v 1.265.2.3 2011-03-21 16:39:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.2 $) [1];
+$VERSION = qw($Revision: 1.265.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:08:54
+    # Last translation file sync: 2011-03-21 17:28:33
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -246,7 +246,7 @@ sub Data {
         'Facility' => 'Einrichtung',
         'Time Zone' => 'Zeit Zone',
         'Pending till' => 'Warten bis',
-        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => 'Bitte nicht mit dem Superuser-Account in OTRS arbeiten! Bitte neue Agenten anlegen und mit diesen arbeiten!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Bitte nicht mit UserID 1 (System Account) arbeiten! Erstelle neue Benutzer!',
         'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
         'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
         'No entry found!' => 'Kein Eintrag gefunden!',
@@ -681,6 +681,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets, an diesen Tickets wurde noch nicht gearbeitet',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle Tickets, deren Erinnerungszeit erreicht ist',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
         'History::TypeUpdate' => 'Typ aktualisiert "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Service aktualisiert "%s" (ID=%s).',
@@ -905,6 +907,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
+        ' (work units)' => ' (Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -963,7 +966,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Benachrichtigungs-Verwaltung',
-        'Filter for Language' => 'Filter für Sprache',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filter für Benachrichtigungen',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'Notification' => 'Benachrichtigung',
@@ -1071,10 +1074,13 @@ sub Data {
         'Add PostMaster Filter' => 'PostMaster Filter hinzufügen',
         'Edit PostMaster Filter' => 'PostMaster Filter bearbeiten',
         'Filter name' => 'Filtername',
+        'The name is required.' => '',
         'Stop after match' => 'Stoppen nach Treffer',
         'Filter Condition' => 'Filterbedingung',
         'Value' => 'Wert',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Email-Kopfzeilen setzen',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Priorität-Verwaltung',
@@ -1325,6 +1331,7 @@ sub Data {
         'Edit Agent' => 'Agent bearbeiten',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
+        'Password is required.' => '',
         'Start' => 'Start',
         'End' => 'Ende',
 
@@ -1410,6 +1417,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Statistik löschen',
+        'Stat#' => 'Statistik Nr.',
         'Do you really want to delete this stat?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1629,6 +1637,12 @@ sub Data {
         'Fulltext' => 'Volltext',
         'Remove' => 'Entfernen',
         'Customer User Login' => 'Anmeldung Kundenkontakt',
+        'Time1' => 'Zeit1',
+        'Time2' => 'Zeit2',
+        'Time3' => 'Zeit3',
+        'Time4' => 'Zeit4',
+        'Time5' => 'Zeit5',
+        'Time6' => 'Zeit6',
         'Created in Queue' => 'Erstellt in Queue',
         'Lock state' => 'Status Sperre',
         'Watcher' => 'Beobachter',
@@ -2011,7 +2025,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => '',
         'Allows customers to set the ticket service in the customer interface.' => '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => '',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => '',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => '',
@@ -2081,6 +2095,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
         'Default skin for OTRS 3.0 interface.' => '',
@@ -2129,6 +2145,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => '',
         'Defines if composed messages have to be spell checked in the agent interface.' => '',
         'Defines if time accounting is mandatory in the agent interface.' => '',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => '',
         'Defines the URL CSS path.' => '',
@@ -2373,7 +2390,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2662,9 +2679,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2735,10 +2752,11 @@ sub Data {
         'Responses <-> Queues' => 'Antworten <-> Queues',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => 'Ticketsuche',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
@@ -2841,6 +2859,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -3024,7 +3043,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (Arbeitseinheiten)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
         '(Email of the system admin)' => '(E-Mail des System-Administrators)',
@@ -3182,7 +3200,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Soll das Paket wirklich erneut installiert werden (manuelle Änderungen gehen verloren)?',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ein neuer Benutzer muss einer Gruppe und/oder Rollen zugewiesen werden!',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Bitte nicht mit UserID 1 (System Account) arbeiten! Erstelle neue Benutzer!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => 'Bitte nicht mit dem Superuser-Account in OTRS arbeiten! Bitte neue Agenten anlegen und mit diesen arbeiten!',
         'Download Settings' => 'Einstellungen herunterladen',
         'Download all system config changes.' => 'Herunterladen aller Änderungen der Konfiguration.',
         'Drop Database' => 'Datenbank löschen',
@@ -3207,6 +3225,7 @@ sub Data {
         'File-Name' => 'Dateiname',
         'File-Path' => 'Dateipfad',
         'Filelist' => 'Dateiliste',
+        'Filter for Language' => 'Filter für Sprache',
         'Filtername' => 'Filtername',
         'Firstname{CustomerUser}' => 'Vorname',
         'Follow up' => 'Nachfrage',
@@ -3403,6 +3422,7 @@ sub Data {
         'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
         'Schedule' => 'Zeitplan',
         'Search Result' => 'Such-Ergebnis',
+        'Search Ticket' => 'Ticketsuche',
         'Search for' => 'Suche nach',
         'Search-Template' => 'Such-Vorlage',
         'Secure Mode need to be enabled!' => 'Secure Mode muss aktiviert werden!',
@@ -3445,7 +3465,6 @@ sub Data {
         'Source' => 'Quelle',
         'Spell Check' => 'Rechtschreibprüfung',
         'Split' => 'Teilen',
-        'Stat#' => 'Statistik Nr.',
         'State Type' => 'Status-Typ',
         'Static-File' => 'Statische Datei',
         'Stats-Area' => 'Statistik-Bereich',
@@ -3499,12 +3518,6 @@ sub Data {
         'Time units is a required field!' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is a required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
-        'Time1' => 'Zeit1',
-        'Time2' => 'Zeit2',
-        'Time3' => 'Zeit3',
-        'Time4' => 'Zeit4',
-        'Time5' => 'Zeit5',
-        'Time6' => 'Zeit6',
         'Timeover' => 'Zeit abgelaufen',
         'Times' => 'Zeiten',
         'Title is required.' => 'Ein Titel ist erforderlich',

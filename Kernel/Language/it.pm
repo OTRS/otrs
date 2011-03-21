@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.109 2011-01-20 14:25:52 mb Exp $
+# $Id: it.pm,v 1.109.2.1 2011-03-21 16:43:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.109.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-04 13:43:19
+    # Last translation file sync: 2011-03-21 17:28:41
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -687,6 +687,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => '',
         'All escalated tickets' => 'Tutti i ticket scalati',
         'All tickets with a reminder set where the reminder date has been reached' => '',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Richiesta mossa nella coda "%s" (%s) dalla coda "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -970,7 +972,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Gestione delle notifiche',
-        'Filter for Language' => 'Filtri per linguaggio',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filtri per le notifiche',
         'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
         'Notification' => 'Notifica',
@@ -1078,10 +1080,13 @@ sub Data {
         'Add PostMaster Filter' => 'Aggiungi filtro PostMaster',
         'Edit PostMaster Filter' => 'Modifica filtro PostMaster',
         'Filter name' => 'Nome del filtro',
+        'The name is required.' => '',
         'Stop after match' => 'Ferma dopo trovato',
         'Filter Condition' => 'Condizione per il filtro',
         'Value' => 'Valore',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Imposta header dell\'email',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Gestione Priorità',
@@ -1332,6 +1337,7 @@ sub Data {
         'Edit Agent' => 'Modifica agente',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
+        'Password is required.' => '',
         'Start' => 'Inizio',
         'End' => 'Fine',
 
@@ -2025,7 +2031,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Permette ai clienti di impostare la coda dei ticket nell\'interfaccia cliente. Se impostato su No, si deve configurare QueueDefault',
         'Allows customers to set the ticket service in the customer interface.' => 'Permette ai clienti di impostare il servizio dei ticket nell\'interfaccia cliente.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Permette di definire nuovi tipi di ticket (se è abilitata la funzione ticket type)',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia dei clienti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Permette di avere il formato medio nella visualizzazione dei ticket (CustomerInfo =>1 - mostra anche le informazioni del cliente)',
@@ -2095,6 +2101,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'Dati usati per esportare i risultati di ricerca in formato CSV',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => 'Debug del set di traduzione. Se questo è impostato a "Sì" tutte le stringhe (testo) non tradotte sono scritte su STDERR. Può essere utile quando si crea un nuovo file di traduzione. Altrimenti, questa opzione dovrebbe rimanere impostata su "No".',
         'Default ACL values for ticket actions.' => 'ACL di default per le azioni sui ticket.',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => 'Modulo di default per la protezione dei loop',
         'Default queue ID used by the system in the agent interface.' => 'ID di coda di default usato dal sistema nell\'interfaccia degli agenti',
         'Default skin for OTRS 3.0 interface.' => 'Tema di default per l\'interfaccia OTRS 3.0.',
@@ -2143,6 +2151,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => 'Definisce se una presa in carico è necessaria per un cambio di cliente di un ticket dell\'interfaccia degli agenti (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'agente viene automaticamente impostato come proprietario).',
         'Defines if composed messages have to be spell checked in the agent interface.' => 'Definisce se i messaggi composti devono essere controllati ortograficamente nell\'interfaccia degli agenti.',
         'Defines if time accounting is mandatory in the agent interface.' => 'Definisce se l\'acconto del tempo è necessario nell\'interfaccia degli agenti.',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => 'Definisce il valore =hHeight per il componente Rich Text editor. Inserire il numero (pixel) o la percentuale (relativa).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => 'Definisce l\'espressione regolare di IP per accedere al repository locale. E\' necessario abilitare questa funzione per avere accesso al tuo repository locale e il pacchetto package::RepositoryList è richiesto sull\'host remoto.',
         'Defines the URL CSS path.' => 'Definisce la path CSS dell\'URL',
@@ -2387,7 +2396,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2676,9 +2685,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2749,10 +2758,11 @@ sub Data {
         'Responses <-> Queues' => 'Risposte <-> Code',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Ruoli <-> Gruppi',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => '',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Scegli il tema per la tua interfaccia.',
@@ -2855,6 +2865,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -2933,6 +2944,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -3096,6 +3108,7 @@ sub Data {
         'All tickets which are escalated!' => 'Tutti i tickets in gestione!',
         'Allocate CustomerUser to service' => 'Associa utente a servizio',
         'Allocate services to CustomerUser' => 'assegna servizio a utente ',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
         'Answer' => 'Risposta',
         'Artefact' => 'Artefatto',
         'Article Create Times' => 'Tempo di creazione Articolo',
@@ -3192,6 +3205,7 @@ sub Data {
         'Expand View' => 'espandi report',
         'Explanation' => 'Descrizione',
         'Export Config' => 'esporta config',
+        'Filter for Language' => 'Filtri per linguaggio',
         'Filtername' => 'Nome del filtro',
         'Follow up' => 'Risposta',
         'Follow up notification' => 'Notifica di risposta',

@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.87 2011-01-20 14:25:51 mb Exp $
+# $Id: fa.pm,v 1.87.2.1 2011-03-21 16:39:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.87.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-12-01 16:24:49
+    # Last translation file sync: 2011-03-21 17:28:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -41,6 +41,7 @@ sub Data {
     $Self->{TextDirection} = 'rtl';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'بله',
         'No' => 'خیر',
@@ -57,17 +58,23 @@ sub Data {
         'Reset' => 'ورود مجدد',
         'last' => 'آخرین',
         'before' => 'قبل از',
+        'Today' => 'امروز',
+        'Tomorrow' => 'فردا',
+        'Next Week' => 'هفته آینده',
         'day' => 'روز',
         'days' => 'روز',
         'day(s)' => 'روز',
+        'd' => '',
         'hour' => 'ساعت',
         'hours' => 'ساعت',
         'hour(s)' => 'ساعت',
         'Hours' => 'ساعت',
+        'h' => '',
         'minute' => 'دقیقه',
         'minutes' => 'دقیقه',
         'minute(s)' => 'دقیقه',
         'Minutes' => '',
+        'm' => '',
         'month' => 'ماه',
         'months' => 'ماه',
         'month(s)' => 'ماه',
@@ -79,6 +86,7 @@ sub Data {
         'second(s)' => 'ثانیه',
         'seconds' => 'ثانیه',
         'second' => 'ثانیه',
+        's' => '',
         'wrote' => 'نوشته شد',
         'Message' => 'پیام',
         'Error' => 'خطا',
@@ -536,6 +544,12 @@ sub Data {
         'Watched Tickets Total' => '',
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
+        'All tickets' => 'همه درخواست‌ها',
+        'Tickets available' => 'درخواست‌های موجود',
+        'Escalation' => 'اولویت بالاتر دادن ',
+        'last-search' => '',
+        'QueueView' => 'نمایش لیست درخواست',
+        'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
         'new' => 'جدید',
         'open' => 'باز',
         'Open' => 'باز',
@@ -672,6 +686,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => '',
         'All escalated tickets' => '',
         'All tickets with a reminder set where the reminder date has been reached' => '',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'سابقه::انتقال',
         'History::TypeUpdate' => 'نوع بروز شده به %s (ID=%s).',
         'History::ServiceUpdate' => ' خدمات بروز شده به %s (ID=%s).',
@@ -818,7 +834,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'اعلام مدیر سیستم',
-        'Send Administrative Message to Agents' => '',
+        'With this module, administrators can send messages to agents, group or role members.' => '',
+        'Create Administrative Message' => '',
         'Your message was sent to' => '',
         'Send message to users' => '',
         'Send message to group members' => '',
@@ -927,6 +944,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'گزارش سیستم',
         'Here you will find log information about your system.' => '',
+        'Hide this message' => '',
+        'Recent Log Entries' => '',
         'Time' => 'زمان',
 
         # Template: AdminMailAccount
@@ -952,7 +971,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'مدیریت اعلام‌ها',
-        'Filter for Language' => '',
+        'Select a different language' => '',
         'Filter for Notification' => '',
         'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس یا مشترک ارسال شد.',
         'Notification' => 'اعلام',
@@ -1060,10 +1079,13 @@ sub Data {
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
         'Filter name' => '',
+        'The name is required.' => '',
         'Stop after match' => 'توقف بعد از تطبیق',
         'Filter Condition' => '',
         'Value' => 'مقدار',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => '',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'مدیریت اولویت‌ها',
@@ -1241,8 +1263,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'تنظیم سیستم',
         'Navigate by searching in %s settings' => '',
-        'Go to group %s' => '',
-        'Group %s' => '',
+        'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
         'Export settings' => '',
         'Load SysConfig settings from file' => '',
@@ -1315,6 +1336,7 @@ sub Data {
         'Edit Agent' => '',
         'Firstname' => 'نام',
         'Lastname' => 'نام خانوادگی',
+        'Password is required.' => '',
         'Start' => 'شروع',
         'End' => 'پایان',
 
@@ -1371,7 +1393,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket was locked' => '',
+        'The ticket has been locked' => '',
         'Undo & close window' => '',
 
         # Template: AgentInfo
@@ -1551,7 +1573,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'ادغام درخواست',
-        'The Ticket was locked' => '',
         'You need to use a ticket number!' => 'شما باید از شماره درخواست استفاده نمائید!',
         'A valid ticket number is required.' => '',
 
@@ -1573,7 +1594,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'تغییر گزینه‌های جستجو',
-        'Max. shown Tickets a page' => '',
+        'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1649,6 +1670,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => '',
+        'Article Type' => 'نوع نوشته',
+        'Sender Type' => '',
         'Save filter settings as default' => 'ذخیره تنظیمات فیلتر به عنوان تنظیمات پیش فرض',
         'Ticket Information' => '',
         'Linked Objects' => '',
@@ -1720,12 +1743,9 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverView
-        'You have not created a ticket yet.' => '',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
-        'We stop eating if you wish us to do.' => '',
-        'Your way to communicate with us is this thing called \'ticket\'.' => '',
-        'Please command us.' => '',
-        'Create your first Ticket' => '',
+        'Welcome!' => '',
+        'Please click the button below to create your first ticket.' => '',
+        'Create your first ticket' => '',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
@@ -2010,7 +2030,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => '',
         'Allows customers to set the ticket service in the customer interface.' => '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => '',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => '',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => '',
@@ -2073,12 +2093,15 @@ sub Data {
         'Create and manage ticket types.' => '',
         'Create new email ticket and send this out (outbound)' => '',
         'Create new phone ticket (inbound)' => '',
+        'Custom text for the page shown to customers that have no tickets yet.' => '',
         'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
         'Data used to export the search result in CSV format.' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
         'Default skin for OTRS 3.0 interface.' => '',
@@ -2127,6 +2150,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => '',
         'Defines if composed messages have to be spell checked in the agent interface.' => '',
         'Defines if time accounting is mandatory in the agent interface.' => '',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => '',
         'Defines the URL CSS path.' => '',
@@ -2271,7 +2295,25 @@ sub Data {
         'Defines the difference from now (in seconds) of the free time field number 6\'s default value.' => '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' => '',
         'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' => '',
+        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
         'Defines the free key field number 1 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 1 for articles to add a new article attribute.' => '',
         'Defines the free text field number 1 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 10 for tickets to add a new ticket attribute.' => '',
@@ -2353,7 +2395,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2436,24 +2478,6 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' => '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' => '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' => '',
-        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
-        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
-        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.' => '',
@@ -2660,9 +2684,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2733,10 +2757,11 @@ sub Data {
         'Responses <-> Queues' => 'پاسخ <-> لیست درخواست',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'نقش <-> گروه',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => '',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'الگوی نمایش سیستم را انتخاب نمائید',
@@ -2839,6 +2864,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -2917,6 +2943,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -3079,7 +3106,6 @@ sub Data {
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'همه نامه‌ها با گیرنده مشخص شده به لیست انتخاب شده منتقل خواهد شد!',
         'All messages' => 'همه پیام‌ها',
         'All new tickets!' => 'همه درخواست های جدید',
-        'All tickets' => 'همه درخواست‌ها',
         'All tickets where the reminder date has reached!' => 'همه درخواست‌هایی که تاریخ یادآوری آنها فرا رسیده',
         'All tickets which are escalated!' => 'همه درخواستهایی که اولویت آنها ارتقاء داده شده',
         'Allocate CustomerUser to service' => 'مشترکین تخصیص داده شده به این خدمت',
@@ -3087,7 +3113,6 @@ sub Data {
         'Answer' => 'پاسخ',
         'Artefact' => 'محصول خروجی',
         'Article Create Times' => 'زمان‌های ایجاد نوشته‌ها',
-        'Article Type' => 'نوع نوشته',
         'Article created' => 'نوشته ایجاد شده',
         'Article created between' => 'نوشته ایجاد شده مابین',
         'Article filter settings' => 'تنظیمات فیلتر نوشته',
@@ -3187,7 +3212,6 @@ sub Data {
         'Edit default services.' => 'ویرایش خدمات پیش فرض',
         'Email based' => 'مبتنی بر ایمیل',
         'Escaladed Tickets' => 'درخواست‌های اولویت داده شده در صف',
-        'Escalation' => 'اولویت بالاتر دادن ',
         'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
         'Escalation - Solution Time' => ' آخرین مهلت برای ارائه راهکار',
         'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
@@ -3276,7 +3300,6 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'حساب کاربری جدید ایجاد شد.اطلاعات ورود به سیستم به %s ارسال شد.',
         'New messages' => 'پیام جدید',
         'New password again' => 'تکرار رمز عبور',
-        'Next Week' => 'هفته آینده',
         'No * possible!' => 'هیچ * ممکن نیست !',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'برای Framework درخواست شده بسته ای وجود ندارد اما برای سایر Framework‌ها!',
         'No Packages or no new Packages in selected Online Repository!' => 'در مخزن انتخاب شده بسته جدیدی وجود ندارد',
@@ -3340,7 +3363,6 @@ sub Data {
         'Queue <-> Auto Responses Management' => 'مدیریت لیست <-> پاسخ خودکار',
         'Queue ID' => 'شناسه لیست',
         'Queue Management' => 'مدیریت لیست‌های درخواست',
-        'QueueView' => 'نمایش لیست درخواست',
         'Realname' => 'نام و نام خانوادگی',
         'Rebuild' => 'ساخت مجدد',
         'Recipients' => 'گیرنده',
@@ -3410,7 +3432,6 @@ sub Data {
         'This account exists.' => 'این حساب کاربری موجود است',
         'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => 'این مفید است اگر میخواهید کسی تنواند نتیجه آمار را مشاهده نماید',
         'This window must be called from compose window' => 'این پنجره میبایست از طریق پنجره ارسال فراخوانی شود',
-        'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
         'Ticket Lock' => 'تحویل گیرنده درخواست',
         'Ticket Number Generator' => 'تولید کننده شماره درخواست‌ها',
         'Ticket Search' => 'جستجوی درخواست',
@@ -3431,15 +3452,12 @@ sub Data {
         'TicketFreeText' => 'متن درخواست',
         'TicketID' => 'شناسه درخواست',
         'TicketZoom' => 'نمایش کامل درخواست',
-        'Tickets available' => 'درخواست‌های موجود',
         'Tickets shown' => 'نمایش درخواست',
         'Tickets which need to be answered!' => 'درخواست‌هایی که لازم است پاسخ داده شوند',
         'Times' => 'زمان',
         'Title of the stat.' => 'عنوان آمار',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'برای گرفتن خاصیت نوشته (برای مثال <OTRS_AGENT_From>، <OTRS_AGENT_To>، <OTRS_AGENT_Cc>، <OTRS_AGENT_Subject> و <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'برای دریافت مشخصات مورد نظیر(<OTRS_CUSTOMER_From>، <OTRS_CUSTOMER_To>، <OTRS_CUSTOMER_Cc>، <OTRS_CUSTOMER_Subject>  و <OTRS_CUSTOMER_Body>)',
-        'Today' => 'امروز',
-        'Tomorrow' => 'فردا',
         'Top of Page' => 'بالای صفحه',
         'Total hits' => 'مجموع بازدید‌ها',
         'U' => 'Z-A, ی-الف',
@@ -3497,6 +3515,7 @@ sub Data {
         'up' => 'صعودی',
         'utf8' => 'utf8',
         'x' => '*',
+
     };
     # $$STOP$$
     return;

@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.107.2.1 2011-03-15 09:09:38 mg Exp $
+# $Id: nb_NO.pm,v 1.107.2.2 2011-03-21 16:43:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.107.2.1 $;
+$VERSION = q$Revision: 1.107.2.2 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-04 11:23:51
+    # Last translation file sync: 2011-03-21 17:28:44
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -687,6 +687,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Alle nye saker som ikke har blitt sett på enda.',
         'All escalated tickets' => 'Alle eskalerte saker',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle saker med påminnelse satt der påminnelsen har slått til',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Sak flyttet inn i køen «%s» (%s) fra kø «%s» (%s).',
         'History::TypeUpdate' => 'Endret type til %s (ID=%s).',
         'History::ServiceUpdate' => 'Endret tjeneste til %s (ID=%s).',
@@ -970,7 +972,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Administrasjon av varslinger',
-        'Filter for Language' => 'Filter for språk',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filter for varsling',
         'Notifications are sent to an agent or a customer.' => 'Varslinger som sendes til saksbehandlere eller kunder.',
         'Notification' => 'Varsling',
@@ -1078,10 +1080,13 @@ sub Data {
         'Add PostMaster Filter' => 'Legg til Postmaster-filter',
         'Edit PostMaster Filter' => 'Endre Postmaster-filter',
         'Filter name' => 'Filterets navn',
+        'The name is required.' => '',
         'Stop after match' => 'Stopp ved treff',
         'Filter Condition' => 'Filter-tilstand',
         'Value' => 'Innhold',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Sett meldingshoder',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Prioriteringsadministrasjon',
@@ -1332,6 +1337,7 @@ sub Data {
         'Edit Agent' => 'Endre Saksbehandler',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Etternavn',
+        'Password is required.' => '',
         'Start' => 'Start',
         'End' => 'Slutt',
 
@@ -2025,7 +2031,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Tillater kundene å sette sakskø når en sak opprettes. Hvis denne settes til \'Nei\' må standardkø være satt.',
         'Allows customers to set the ticket service in the customer interface.' => 'Lar kunder velge sakens tjeneste i kundeportalen.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Tillater å definere nye typer saker (dersom sakstype-funksjonaliteten er slått på).',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Tillater å opprette tjenester og SLAer for saker (f.eks. e-post, skrivebord, nettverk, ...) og eskaleringsattributter for SLAer (dersom tjenester/SLA er slått på).',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Tillater avanserte søkekriterier i søk etter saker i kundeportalen. Med denne funksjonaliteten kan man søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Tillater å bruke medium saksoversikt (KundeInfo => 1 - viser også kundeinformasjon).',
@@ -2095,6 +2101,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'Data brukt for å eksportere søkeresultatet i CSV-format.',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => 'Standard ACL-verdier for sakshendelser',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => 'Standard loop-beskyttelsesmodul',
         'Default queue ID used by the system in the agent interface.' => 'Standard køID brukt av systemet for saksbehandlere.',
         'Default skin for OTRS 3.0 interface.' => 'Standard-utseende for OTRS 3.0',
@@ -2143,6 +2151,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => 'Spesifiserer om en sakslås er nødvendig for å endre kunden på en sak. Hvis saken ikke er låst vil den bli det, og nåværende agent blir satt som eier.',
         'Defines if composed messages have to be spell checked in the agent interface.' => 'Spesifiserer om nye meldinger som skrives må stavekontrolleres.',
         'Defines if time accounting is mandatory in the agent interface.' => 'Spesifiserer om tidskontering er obligatorisk for saksbehandlere.',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => 'Definerer høyden for Rik Tekst-redigereren. Skriv inn tall (punkter) eller prosentverdi (relativ)',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => 'Spesifiserer RegEx-uttrykk for IPen til lokalt pakkelager. Du må slå dette på for å ha tilgang til ditt lokale pakkelager. I tillegg er package::RepositoryList påkrevd på andre tjenere.',
         'Defines the URL CSS path.' => 'Definerer URL til CSS',
@@ -2387,7 +2396,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => 'Definerer maksimal størrelse (i bytes) for filopplasting via nettleseren.',
@@ -2676,11 +2685,11 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul for å kryptere meldinger (PGP eller S/MIME)',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => 'Modul for å filtrere og manipulere innkommende meldinger Blokker/ignorer alle spam-meldinger med "From: noreply@"-adresser',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to genetare accounted time ticket statistics.' => 'Modul for å lage statistikk over tidsforbruk på saker',
-        'Module to genetare ticket solution and response time statistics.' => 'Modul for å lage statistikk over respons- og løsningstid',
-        'Module to genetare ticket statistics.' => 'Modul for å lage statistikk over saker',
+        'Module to generate ticket solution and response time statistics.' => '',
+        'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => 'Modul for å informere saksbehandlere, via agentsiden, om tegnsette som er i bruk. En varsling vises dersom et annet tegnsett enn standard benyttes, f.eks. i saker.',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => 'Modul for å bruke databaselagring av filtre.',
@@ -2749,10 +2758,11 @@ sub Data {
         'Responses <-> Queues' => 'Ferdigsvar <-> Køer',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => 'Gjenoppretter en sak fra arkivet (kun hvis hendelsen er en statusendring, fra avsluttet til en vilkårlig åpen/tilgjengelig status).',
         'Roles <-> Groups' => 'Roller <-> Grupper',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => 'Opplasting av S/MIME-sertifikat',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => 'Søk etter Sak',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Velg tema for webvisningen.',
@@ -2855,6 +2865,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -2933,6 +2944,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => 'Viser tiden i langt format (dager, timer, minutter) hvis satt til "ja", eller i kortformat (dager, timer) hvis satt til "nei"',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => 'Webtema',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => 'Eksempeloppsett for SpamAssassin. Ignorerer e-poster som er merket av SpamAssassin.',
@@ -3121,6 +3133,7 @@ sub Data {
         'Allocate %s to' => 'Legg %s til',
         'Allocate CustomerUser to service' => 'Tilordne kundebruker til tjeneste',
         'Allocate services to CustomerUser' => 'Tilordne tjenester til kundebruker',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Tillater å opprette tjenester og SLAer for saker (f.eks. e-post, skrivebord, nettverk, ...) og eskaleringsattributter for SLAer (dersom tjenester/SLA er slått på).',
         'An' => 'En',
         'Answer' => 'Ferdigsvar',
         'Artefact' => 'Artefakt',
@@ -3249,6 +3262,7 @@ sub Data {
         'Fax{CustomerUser}' => 'Telefaks',
         'FileManager' => 'Filhåndterer',
         'Filelist' => 'Filliste',
+        'Filter for Language' => 'Filter for språk',
         'Filtername' => 'Filternavn',
         'Firstname{CustomerUser}' => 'Fornavn',
         'Follow up' => 'Oppfølging',
@@ -3337,6 +3351,9 @@ sub Data {
         'Misc' => 'Diverse',
         'Mobile{CustomerUser}' => 'Mobil',
         'Modified' => 'Endret',
+        'Module to genetare accounted time ticket statistics.' => 'Modul for å lage statistikk over tidsforbruk på saker',
+        'Module to genetare ticket solution and response time statistics.' => 'Modul for å lage statistikk over respons- og løsningstid',
+        'Module to genetare ticket statistics.' => 'Modul for å lage statistikk over saker',
         'Modules' => 'Moduler',
         'Move notification' => 'Merknad ved kø-endring',
         'Multiple selection of the output format.' => 'Flere valg for visningsformatet.',
@@ -3463,6 +3480,7 @@ sub Data {
         'Schedule' => 'Plan',
         'Search FAQ' => 'Søk i OSS',
         'Search Result' => 'Søkeresultat',
+        'Search Ticket' => 'Søk etter Sak',
         'Search for' => 'Søk etter',
         'Search-Template' => 'Søkemal',
         'Secure Mode need to be enabled!' => 'Sikkermodus må aktiveres!',

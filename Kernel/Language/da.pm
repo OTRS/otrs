@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jorgensen <itlj[at]gyldendal.dk>
 # --
-# $Id: da.pm,v 1.83 2011-01-20 14:19:52 mb Exp $
+# $Id: da.pm,v 1.83.2.1 2011-03-21 16:39:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.83.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-12-08 15:31:29
+    # Last translation file sync: 2011-03-21 17:28:32
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -55,17 +55,23 @@ sub Data {
         'Reset' => 'Nulstil',
         'last' => 'sidste',
         'before' => 'før',
+        'Today' => 'I dag',
+        'Tomorrow' => 'I morgen',
+        'Next Week' => 'Næste uge',
         'day' => 'dag',
         'days' => 'dage',
         'day(s)' => 'dag(e)',
+        'd' => '',
         'hour' => 'time',
         'hours' => 'timer',
         'hour(s)' => 'time(r)',
         'Hours' => '',
+        'h' => 't',
         'minute' => 'minut',
         'minutes' => 'minutter',
         'minute(s)' => 'minut(ter)',
         'Minutes' => '',
+        'm' => '',
         'month' => 'måned',
         'months' => 'måneder',
         'month(s)' => 'måned(er)',
@@ -77,6 +83,7 @@ sub Data {
         'second(s)' => 'sekund(er)',
         'seconds' => 'sekunder',
         'second' => 'sekund',
+        's' => '',
         'wrote' => 'skrev',
         'Message' => 'Meddelelse',
         'Error' => 'Fejl',
@@ -423,7 +430,7 @@ sub Data {
         'The selected end time is after the allowed end time!' => 'Den valgte sluttid er senere end den tilladte sluttid.',
         'The selected time period is larger than the allowed time period!' => 'Den valgte tidsperiode er længere end den tilladte tidsperiode.',
         'Common Specification' => 'Generelle specifikationer',
-        'Xaxis' => 'X-akse',
+        'X-axis' => '',
         'Value Series' => 'Værdi-serier',
         'Restrictions' => 'Begrænsninger',
         'graph-lines' => 'graf-linjer',
@@ -534,6 +541,12 @@ sub Data {
         'Watched Tickets Total' => 'Overvågede sager i alt',
         'Watched Tickets New' => 'Nye overvågede sager',
         'Watched Tickets Reminder Reached' => 'Overvågede sager, hvor påmindelsesfristen er nået',
+        'All tickets' => 'Alle sager',
+        'Tickets available' => 'Frie sager',
+        'Escalation' => 'Eskalation',
+        'last-search' => 'sidste søgning',
+        'QueueView' => 'Køer',
+        'Ticket Escalation View' => 'Oversigt over eskalerede sager',
         'new' => 'ny',
         'open' => 'åben',
         'Open' => 'Åben',
@@ -670,6 +683,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Alle nye sager, der ikke er blevet arbejdet på endnu',
         'All escalated tickets' => 'Alle eskalerede sager',
         'All tickets with a reminder set where the reminder date has been reached' => 'Alle sager med påmindelser, hvor påmindelsesfristen er nået',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Sag flyttet til kø "%s" (%s) fra kø "%s".',
         'History::TypeUpdate' => 'Opdaterede Type til %s (ID=%s).',
         'History::ServiceUpdate' => 'Opdaterede Service til %s (ID=%s).',
@@ -816,7 +831,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'Besked til admin',
-        'Send Administrative Message to Agents' => '',
+        'With this module, administrators can send messages to agents, group or role members.' => '',
+        'Create Administrative Message' => '',
         'Your message was sent to' => '',
         'Send message to users' => '',
         'Send message to group members' => '',
@@ -925,6 +941,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Systemlog',
         'Here you will find log information about your system.' => '',
+        'Hide this message' => '',
+        'Recent Log Entries' => '',
         'Time' => 'Tid',
 
         # Template: AdminMailAccount
@@ -950,7 +968,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Beskedstyring',
-        'Filter for Language' => 'Filter for sprog',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filter for beskeder',
         'Notifications are sent to an agent or a customer.' => 'Beskeder sendes til en agent eller kunde.',
         'Notification' => 'Besked',
@@ -1058,10 +1076,13 @@ sub Data {
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
         'Filter name' => '',
+        'The name is required.' => '',
         'Stop after match' => 'Stop, hvis matcher',
         'Filter Condition' => '',
         'Value' => 'Værdi',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => '',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Administrer Prioriteter',
@@ -1239,8 +1260,7 @@ sub Data {
         # Template: AdminSysConfig
         'SysConfig' => 'SysConfig',
         'Navigate by searching in %s settings' => 'Naviger ved at søge i %s-konfguration',
-        'Go to group %s' => 'Gå til gruppe %s',
-        'Group %s' => 'Gruppe %s',
+        'Navigate by selecting config groups' => '',
         'Download all system config changes' => 'Download alle ændringer i systemkonfigurationen',
         'Export settings' => 'Eksporter konfiguration',
         'Load SysConfig settings from file' => 'Indlæs SysConfig-konfiguration fra fil',
@@ -1313,6 +1333,7 @@ sub Data {
         'Edit Agent' => 'Rediger agent',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Efternavn',
+        'Password is required.' => '',
         'Start' => 'Start',
         'End' => 'Slut',
 
@@ -1549,7 +1570,6 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Sagssamling',
-        'The Ticket was locked' => 'Sagen var tildelt',
         'You need to use a ticket number!' => 'Du skal bruge et sagsnummer.',
         'A valid ticket number is required.' => 'Angiv et gyldigt sagsnummer',
 
@@ -1571,7 +1591,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Skift søgemuligheder',
-        'Max. shown Tickets a page' => 'Max. viste sager på en side',
+        'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
@@ -1647,6 +1667,8 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Article filter' => 'Filtrer indlæg',
+        'Article Type' => '',
+        'Sender Type' => '',
         'Save filter settings as default' => 'Gem disse filterinstillinger som standard',
         'Ticket Information' => 'Information om sagen',
         'Linked Objects' => 'Sammenkædede objekter',
@@ -1718,12 +1740,9 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverView
-        'You have not created a ticket yet.' => 'Du har endnu ikke oprettet en sag',
-        'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
-        'We stop eating if you wish us to do.' => '',
-        'Your way to communicate with us is this thing called \'ticket\'.' => '',
-        'Please command us.' => '',
-        'Create your first Ticket' => '',
+        'Welcome!' => '',
+        'Please click the button below to create your first ticket.' => '',
+        'Create your first ticket' => '',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Udskriv sag',
@@ -1753,6 +1772,7 @@ sub Data {
         'Search Results for' => 'Søgeresultater for',
 
         # Template: CustomerTicketZoom
+        'Expand article' => '',
         'Reply' => 'Svar',
 
         # Template: CustomerWarning
@@ -2007,7 +2027,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => '',
         'Allows customers to set the ticket service in the customer interface.' => '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => '',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => '',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => '',
@@ -2044,6 +2064,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => '',
+        'Configure your own log text for PGP.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' => '',
@@ -2069,12 +2090,15 @@ sub Data {
         'Create and manage ticket types.' => 'Administrer sagstyper.',
         'Create new email ticket and send this out (outbound)' => 'Opret ny mail-sag og send den ud (udgående)',
         'Create new phone ticket (inbound)' => 'Opret ny sag',
+        'Custom text for the page shown to customers that have no tickets yet.' => '',
         'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Kunde-ikon, der viser åbne sager for denne kunde som en info-blok.',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
         'Customers <-> Services' => 'Kunder <-> Services',
         'Data used to export the search result in CSV format.' => 'Data brugt til at eksportere søgeresultatet i CSV-format.',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => 'Debugger oversættelsen. Er denne sat til "Ja", vil alle strenge (tekst) uden oversættelser blive skrevet til STDERR. Det kan hjælpe, hvis du er ved at lave en oversættelse af OTRS. Ellers bør denne valgmulighed sættes til "Nej".',
         'Default ACL values for ticket actions.' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => '',
         'Default skin for OTRS 3.0 interface.' => '',
@@ -2123,6 +2147,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => '',
         'Defines if composed messages have to be spell checked in the agent interface.' => '',
         'Defines if time accounting is mandatory in the agent interface.' => '',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => '',
         'Defines the URL CSS path.' => '',
@@ -2146,7 +2171,7 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' => '',
         'Defines the default CSS used in rich text editors.' => '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' => '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.' => '',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' => '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' => '',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default maximum number of X-axis attributes for the time scale.' => '',
@@ -2267,7 +2292,25 @@ sub Data {
         'Defines the difference from now (in seconds) of the free time field number 6\'s default value.' => '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' => '',
         'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' => '',
+        'Defines the free key field number 1 for articles to add a new article attribute.' => '',
         'Defines the free key field number 1 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 10 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 11 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 12 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 13 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 14 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 15 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 16 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 2 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 2 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 3 for articles to add a new article attribute.' => '',
+        'Defines the free key field number 3 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 4 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 5 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 6 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 7 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 8 for tickets to add a new ticket attribute.' => '',
+        'Defines the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 1 for articles to add a new article attribute.' => '',
         'Defines the free text field number 1 for tickets to add a new ticket attribute.' => '',
         'Defines the free text field number 10 for tickets to add a new ticket attribute.' => '',
@@ -2349,7 +2392,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2365,7 +2408,7 @@ sub Data {
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' => '',
         'Defines the module to generate html refresh headers of html sites.' => '',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' => '',
-        'Defines the module used to store the session data. With "DB" the the frontend server can be splitted from the db server. "FS" is faster.' => '',
+        'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' => '',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' => '',
         'Defines the name of the calendar number 1.' => '',
         'Defines the name of the calendar number 2.' => '',
@@ -2432,24 +2475,6 @@ sub Data {
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' => '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' => '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' => '',
-        'Defines the the free key field number 1 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 10 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 11 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 12 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 13 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 14 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 15 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 16 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 2 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 2 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 3 for articles to add a new article attribute.' => '',
-        'Defines the the free key field number 3 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 4 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 5 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 6 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 7 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 8 for tickets to add a new ticket attribute.' => '',
-        'Defines the the free key field number 9 for tickets to add a new ticket attribute.' => '',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' => '',
         'Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.' => '',
@@ -2656,9 +2681,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2729,10 +2754,11 @@ sub Data {
         'Responses <-> Queues' => 'Svar <-> Kø',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Roller <-> Grupper',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => 'Søg sager',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Vælg dit tema til frontend.',
@@ -2750,11 +2776,12 @@ sub Data {
         'Set sender email addresses for this system.' => 'Administrer afsenderadresser for dette system.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' => '',
+        'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' => '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' => '',
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' => '',
-        'Sets the configuration level of the administrator. Depending on the the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
+        'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' => '',
         'Sets the default article type for new email tickets in the agent interface.' => '',
         'Sets the default article type for new phone tickets in the agent interface.' => '',
         'Sets the default body text for notes added in the close ticket screen of the agent interface.' => '',
@@ -2834,6 +2861,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -2912,6 +2940,7 @@ sub Data {
         'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows the title fields in the ticket responsible screen of the agent interface.' => '',
         'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' => '',
+        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' => '',
         'Skin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' => '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' => '',
@@ -3013,22 +3042,18 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Dit sprog',
 
-        # Couldn't find these anywhere else
-        'Escalation' => 'Eskalation',
-        'last-search' => 'sidste søgning',
-        'Ticket Escalation View' => 'Oversigt over eskalerede sager',
-        'Today' => 'I dag',
-        'Tomorrow' => 'I morgen',
-        'Next Week' => 'Næste uge',
-        'QueueView' => 'Køer',
-        'All tickets' => 'Alle sager',
-        'Tickets available' => 'Frie sager',
-        'h' => 't',
-        'Ticket moved into Queue %s from Queue %s' => 'Sag flyttet til kø %s fra kø %s',
-
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Filter for Language' => 'Filter for sprog',
+        'Go to group %s' => 'Gå til gruppe %s',
+        'Group %s' => 'Gruppe %s',
+        'Max. shown Tickets a page' => 'Max. viste sager på en side',
+        'Search Ticket' => 'Søg sager',
+        'The Ticket was locked' => 'Sagen var tildelt',
+        'Ticket moved into Queue %s from Queue %s' => 'Sag flyttet til kø %s fra kø %s',
+        'Xaxis' => 'X-akse',
+        'You have not created a ticket yet.' => 'Du har endnu ikke oprettet en sag',
 
     };
     # $$STOP$$

@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.142.2.1 2011-02-09 09:04:29 mn Exp $
+# $Id: fr.pm,v 1.142.2.2 2011-03-21 16:39:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142.2.1 $) [1];
+$VERSION = qw($Revision: 1.142.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:09:00
+    # Last translation file sync: 2011-03-21 17:28:39
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -687,6 +687,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => '',
         'All escalated tickets' => '',
         'All tickets with a reminder set where the reminder date has been reached' => '',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
         'History::TypeUpdate' => 'Type positionné à %s (ID=%s).',
         'History::ServiceUpdate' => 'Service positionné à %s (ID=%s).',
@@ -911,6 +913,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
+        ' (work units)' => ' Unité de travail',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications à l\'opérateur/au client sur changement',
         'CMD' => 'CMD',
@@ -969,7 +972,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Gestion des notifications',
-        'Filter for Language' => 'Filtre pour Langue',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filtre pour Notification',
         'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un opérateur ou à un client.',
         'Notification' => 'Notification',
@@ -1077,10 +1080,13 @@ sub Data {
         'Add PostMaster Filter' => 'Ajouter un filtre PostMaster',
         'Edit PostMaster Filter' => 'EditerFiltre PostMaster',
         'Filter name' => '',
+        'The name is required.' => '',
         'Stop after match' => 'Stopper après correspondance',
         'Filter Condition' => 'Condition de filtre',
         'Value' => 'Valeur',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Mettre les entêtes email',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Gestion de la priorité',
@@ -1331,6 +1337,7 @@ sub Data {
         'Edit Agent' => 'Modifier l\'opérateur ',
         'Firstname' => 'Prénom',
         'Lastname' => 'Nom',
+        'Password is required.' => '',
         'Start' => 'Démarrer',
         'End' => 'Fin',
 
@@ -1416,6 +1423,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Supprimer stat',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Voulez-vous vraiment supprimer cette statistique?',
 
         # Template: AgentStatsEditRestrictions
@@ -1635,6 +1643,12 @@ sub Data {
         'Fulltext' => 'Texte Complet',
         'Remove' => 'Supprimer',
         'Customer User Login' => 'Nom de connexion du client',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'Créé dans la file',
         'Lock state' => 'État verrouillé',
         'Watcher' => 'Surveillance',
@@ -2017,7 +2031,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => '',
         'Allows customers to set the ticket service in the customer interface.' => '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => '',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => '',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => '',
@@ -2087,6 +2101,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => 'ACL par défaut pour les actions du ticket.',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID de file par défaut utilisée par le système dans l\'interface opérateur.',
         'Default skin for OTRS 3.0 interface.' => '',
@@ -2135,6 +2151,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => '',
         'Defines if composed messages have to be spell checked in the agent interface.' => '',
         'Defines if time accounting is mandatory in the agent interface.' => '',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => '',
         'Defines the URL CSS path.' => '',
@@ -2379,7 +2396,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2668,9 +2685,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2741,10 +2758,11 @@ sub Data {
         'Responses <-> Queues' => 'Réponses <-> Files',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => '',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Choix du thème de l\'interface',
@@ -2847,6 +2865,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -3030,7 +3049,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' Unité de travail',
         ' Param 1 value' => 'Valeur Paramètre 1',
         ' Param 2 value' => 'Valeur Paramètre 2',
         ' Param 3 value' => 'Valeur Paramètre 3',
@@ -3277,6 +3295,7 @@ sub Data {
         'Fax{CustomerUser}' => 'Fax{CustomerUser}',
         'FileManager' => 'Gestionnaire de fichiers',
         'Filelist' => 'Liste des fichiers',
+        'Filter for Language' => 'Filtre pour Langue',
         'Filtername' => 'Nom du filtre',
         'Firstname{CustomerUser}' => 'Prénom{CustomerUser}',
         'Follow up' => 'Note de suivi',
@@ -3514,7 +3533,6 @@ sub Data {
         'Source' => 'Source',
         'Spell Check' => 'Vérification orthographique',
         'Split' => 'Scinder',
-        'Stat#' => 'Stat#',
         'State Type' => 'Type d\'état',
         'Static-File' => 'Fichier statique',
         'Stats-Area' => 'Statistiques',

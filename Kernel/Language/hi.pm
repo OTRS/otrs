@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.1.2.2 2011-02-25 10:13:50 mg Exp $
+# $Id: hi.pm,v 1.1.2.3 2011-03-21 16:39:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.2 $) [1];
+$VERSION = qw($Revision: 1.1.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:08:56
+    # Last translation file sync: 2011-03-21 17:28:40
 
     # possible charsets
     $Self->{Charset} = ['UTF-8', ];
@@ -683,6 +683,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'सभी नये टिकट,इन टिकटों पर अभी तक काम नहीं किया गया है।',
         'All escalated tickets' => 'सभी संवर्धित टिकट',
         'All tickets with a reminder set where the reminder date has been reached' => 'सभी टिकट एक अनुस्मारक सेट के साथ जहाँ दिनांक अनुस्मारक पहुँच गया है।',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => ' "%s" (%s) प्रस्तावित  "%s" (%s)।',
         'History::TypeUpdate' => 'प्रकार अद्यतन %s (ID=%s)।',
         'History::ServiceUpdate' => 'सेवा अद्यतन %s (ID=%s)।',
@@ -907,6 +909,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
+        ' (work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -965,7 +968,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'अधिसूचना प्रबंधन',
-        'Filter for Language' => 'भाषा के लिए निस्पादक',
+        'Select a different language' => '',
         'Filter for Notification' => 'अधिसूचना के लिए निस्पादक',
         'Notifications are sent to an agent or a customer.' => 'अधिसूचनाएँ एक प्रतिनिधि या एक ग्राहक को भेजी जाती है।',
         'Notification' => 'अधिसूचनाएँ',
@@ -1073,10 +1076,13 @@ sub Data {
         'Add PostMaster Filter' => 'डाकपाल निस्पादक जोड़ें',
         'Edit PostMaster Filter' => 'डाकपाल निस्पादक को संपादित करें',
         'Filter name' => 'निस्पादक का नाम',
+        'The name is required.' => '',
         'Stop after match' => 'मिलान के बाद स्र्कें',
         'Filter Condition' => 'निस्पादक की शर्त',
         'Value' => 'मान',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'ईमेल शीर्षक निर्धारित करें',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'प्राथमिकता प्रबंधन',
@@ -1327,6 +1333,7 @@ sub Data {
         'Edit Agent' => 'प्रतिनिधि संपादित करें',
         'Firstname' => 'पहला नाम',
         'Lastname' => 'आखिरी नाम',
+        'Password is required.' => '',
         'Start' => 'आरंभ',
         'End' => 'समाप्त',
 
@@ -1412,6 +1419,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'आँकड़े हटाएँ',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => 'क्या आप वास्तव में यह आँकड़े हटाना चाहते हैं?',
 
         # Template: AgentStatsEditRestrictions
@@ -1631,6 +1639,12 @@ sub Data {
         'Fulltext' => 'पूर्ण पाठ',
         'Remove' => 'हटायें',
         'Customer User Login' => 'ग्राहक प्रयोक्ता प्रवेश',
+        'Time1' => '',
+        'Time2' => '',
+        'Time3' => '',
+        'Time4' => '',
+        'Time5' => '',
+        'Time6' => '',
         'Created in Queue' => 'श्रेणी में बनाया गया',
         'Lock state' => 'लॉक स्थिति',
         'Watcher' => 'पहरेदार',
@@ -2013,7 +2027,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'ग्राहकों को ग्राहक अंतरफलक में टिकट श्रेणी स्थापित करने के लिए अनुमति देता है। यदि यह  \'नहीं\'के लिए स्थापित है,तयशुदा श्रेणी विन्यस्त होना चाहिये।',
         'Allows customers to set the ticket service in the customer interface.' => 'ग्राहकों को ग्राहक अंतरफलक में टिकट सेवा स्थापित करने के लिए अनुमति देता है।',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'टिकट के लिए नए प्रकार को परिभाषित करने की अनुमति देता है (अगर टिकट प्रकार सुविधा सक्षम है)।',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'टिकटों के लिए सेवाओं और SLAs(उदा. ईमेल,डेस्कटॉप,नेटवर्क,...) और SLAs के लिए संवर्धित विशेषताओं(यदि टिकट सेवा/SLA सुविधा सक्षम है) को परिभाषित करने के लिए की अनुमति देता है।',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'ग्राहक अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'एक मध्यम प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
@@ -2083,6 +2097,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'CSV प्रारूप में खोज परिणाम भेजने के लिए उपयोग होनेवाला आंकड़ा।',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => 'निर्धारित अनुवाद को दोषमार्जन करना। यदि यह "हाँ" पर निर्धारित है तो अनुवाद किए बिना सभी स्ट्रिंग्स(पाठ)stderr में लिखा जाता है।',
         'Default ACL values for ticket actions.' => 'तयशुदा ACL मान टिकट कार्रवाई के लिए।',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => 'तयशुदा पाश सुरक्षा मॉड्यूल',
         'Default queue ID used by the system in the agent interface.' => 'प्रतिनिधि अंतरफलक में सिस्टम के द्वारा प्रयुक्त तयशुदा श्रेणीID।',
         'Default skin for OTRS 3.0 interface.' => '3.0 OTRS अंतरफलक के लिए तयशुदा सतही।',
@@ -2131,6 +2147,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => 'यदि प्रतिनिधि अंतरफलक के पास टिकट का ग्राहक बदलने के लिए एक टिकट लॉक की आवश्यकता है तो परिभाषित करता है(यदि अभी तक टिकट बंद नहीं है,टिकट बंद हो जाए है और वर्तमान प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।',
         'Defines if composed messages have to be spell checked in the agent interface.' => 'यदि प्रतिनिधि अंतरफलक में रचना संदेश की वर्तनी की जाँच की जानी है तो परिभाषित करता है।',
         'Defines if time accounting is mandatory in the agent interface.' => 'यदि समय लेखांकन प्रतिनिधि अंतरफलक में अनिवार्य है तो परिभाषित करता है।',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => 'समृद्ध पाठ संपादक घटक के लिए = hHeight परिभाषित करें। संख्या(पिक्सेल) या प्रतिशत मान (सापेक्ष) को लिखें।',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => 'स्थानीय भंडार तक पहुँचने के लिए आईपी नियमित अभिव्यक्ति परिभाषित करें। आपको अपनी स्थानीय भंडार का उपयोग करने के लिए यह सक्षम करने आवश्यकता है और पैकेज:: स्रोत सूची दूरस्थ मेजबान पर आवश्यक है।',
         'Defines the URL CSS path.' => 'URL CSS पथ को परिभाषित करता है।',
@@ -2375,7 +2392,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '\'सामान्य\' लिंक के प्रकार को परिभाषित करता है। यदि स्रोत नाम और लक्ष्य नाम का एक ही मान है,तो परिणामी लिंक गैर दिशात्मक है;अन्यथा,परिणाम एक दिशात्मक लिंक है।',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '\'जनक\बालक\' लिंक के प्रकार को परिभाषित करता है। यदि स्रोत नाम और लक्ष्य नाम का एक ही मान है,तो परिणामी लिंक गैर दिशात्मक है;अन्यथा,परिणाम एक दिशात्मक लिंक है।',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => 'लिंक के प्रकार समूहों को परिभाषित करता है। एक ही समूह के लिंक प्रकार एक दूसरे को रद्द कर देंगे।उदाहरण: यदि टिकट A टिकट B के साथ एक \'सामान्य\' लिंक के अनुसार जुड़ा हुआ है,तब इन टिकटों को \'जनक\बालक\' संबंध की लिंक के साथ नहीं जोड़ा जा सकता है।',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => 'ऑनलाइन भंडार की सूची को परिभाषित करता है। अन्य स्थापनाओं को भंडार के रूप में इस्तेमाल किया जा सकता है,उदाहरण के लिए: कुंजी = "http://example.com/otrs/public.pl?Action=PublicRepository;फ़ाइल = "और सामग्री =" कुछ नाम "।',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => 'अतिरिक्त संकुल के लिए ऑनलाइन भंडार सूची प्राप्त करने के लिए स्थान को परिभाषित करता है। पहले उपलब्ध परिणाम का उपयोग किया जाएगा।',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => 'प्रणाली के लिए अभिलेख मॉड्यूल को परिभाषित करता है। "फाइल" सभी संदेशों को किसी दिए गए अभिलेखफ़ाइल में लिखता है,"syslog" प्रणाली के syslog डेमॉन का उपयोग करता है, जैसे syslogd।',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => 'ब्राउज़र के माध्यम से फ़ाइल अपलोड करने के लिए अधिकतम(बाइट में) आकार को परिभाषित करता है।',
@@ -2664,11 +2681,11 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => 'रचित संदेशों(PGP या S/MIME) को क्रिप्ट करने के लिए मॉड्यूल। ',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => 'आवक संदेशों में हेरफेर और निस्पादक करने के लिए मॉड्यूल। ब्लॉक/अनदेखा सभी अवांछनीय ईमेल से:noreply@ address के साथ।',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => 'आवक संदेशों में हेरफेर और निस्पादक करने के लिए मॉड्यूल। टिकट मुक्त पाठ के लिए एक 4 अंकों की संख्या प्राप्त करें,मैच में regex का उपयोग करें,उदा.से :=> \'(.+?)@.+?\',और उपयोग करें () रूप में [***] में Set =>',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => 'प्रतिनिधि अंतरफलक में html मुक्त खोज छोटे टिकट के लिए खोजें रूपरेखा उत्पन्न करने के लिए मॉड्यूल।',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => 'ग्राहक अंतरफलक में html मुक्त खोज छोटे टिकट के लिए खोजें रूपरेखा उत्पन्न करने के लिए मॉड्यूल।',
-        'Module to genetare accounted time ticket statistics.' => 'समय के हिसाब से टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
-        'Module to genetare ticket solution and response time statistics.' => 'टिकट समाधान और प्रतिक्रिया समय आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
-        'Module to genetare ticket statistics.' => 'टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
+        'Module to generate ticket solution and response time statistics.' => '',
+        'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => 'प्रतिनिधि को सूचित करने के लिए मॉड्यूल,प्रतिनिधि अंतरफलक के द्वारा,प्रयुक्त वर्णसमूह के बारे में। एक अधिसूचना प्रदर्शित होता है,यदि मूलभूत वर्णसमूह का प्रयोग नहीं किया है,उदा. टिकट में।',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => 'सूचनाएँ और संवर्धित को दिखाने के लिए मॉड्यूल(ShownMax: अधिकतम संवर्धित दिखाए,EscalationInMinutes:टिकट दिखाना जो संवर्धित होगें,CacheTime: सेकंड में गणना की बढ़ोतरी के संचित)।',
         'Module to use database filter storage.' => 'आंकड़ाकोष संग्रहण निस्पादक उपयोग करने के लिए मॉड्यूल।',
@@ -2737,10 +2754,11 @@ sub Data {
         'Responses <-> Queues' => 'प्रतिक्रियाएँ <-> श्रेणीयां',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => 'संग्रह से टिकट पुनर्स्थापित करता है(केवल यदि घटना एक स्थिति परिवर्तन है,किसी भी खुले उपलब्ध स्थिति से बंद के लिए)।',
         'Roles <-> Groups' => 'भूमिकाएं <-> समूहों',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '"प्रदर्शन" मोड में प्रणाली चलाता है। यदि "हाँ" पर निर्धारित है,प्रतिनिधि वरीयताओं को बदल सकते हैं,इस तरह की भाषा के चयन के रूप में और थीम प्रतिनिधि वेब अंतरफलक के द्वारा। ये परिवर्तन केवल वर्तमान सत्र के लिए मान्य हैं। प्रतिनिधियो को अपना कूटशब्द बदलना संभव नहीं होगा।',
         'S/MIME Certificate Upload' => 'S/MIME प्रमाण पत्र अपलोड करें।',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => 'अनुच्छेदो के संलग्नक सुरक्षित करता है। "DB" आंकड़ाकोष में सभी आंकड़ों को संग्रहीत करता है(बड़े संलग्नक संग्रहीत करने के लिए अनुशंसित नहीं)। "FS" फाइल प्रणाली पर संग्रहीत करता है;यह तेज है, लेकिन वेबसर्वर OTRS उपयोगकर्ता के अधीन चलाना चाहिए। आप मॉड्यूल बदल सकते यहां तक कि कोई प्रणाली पहले से ही उत्पादन में है बिना आंकड़ो को हानि पहुँचायें।',
-        'Search Ticket' => 'टिकट खोजें',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
@@ -2843,6 +2861,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => 'उपयोगकर्ता समय क्षेत्र प्रति उपयोगकर्ता के लिए स्थापित करता है(प्रणाली समय के रूप में UTC के साथ और समय क्षेत्र के अंतर्गत UTC एक प्रणाली की आवश्यकता)। अन्यथा यह स्थानीय समय के लिए एक अलग समय है।',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => 'जावा स्क्रिप्ट/ब्राउज़र समय क्षेत्र ऑफसेट सुविधा के आधार पर उपयोगकर्ता समय क्षेत्र में प्रति उपयोगकर्ता के लिए स्थापित करता है।',
         'Show a responsible selection in phone and email tickets in the agent interface.' => 'प्रतिनिधि अंतरफलक में फोन और ईमेल के टिकटों में एक जिम्मेदार चयन दिखाएँ।',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => 'टिकट ज़ूम में चिह्न की गिनती दिखाता है,यदि अनुच्छेद संलग्नक है।',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => 'प्रतिनिधि अंतरफलक के टिकट ज़ूम दृश्य में टिकट की सदस्यता/सदस्यता समाप्ति के लिए विकल्प सूची में एक कड़ी दिखाता है।',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => 'प्रतिनिधि अंतरफलक के टिकट ज़ूम दृश्य में एक वस्तु के साथ एक टिकट जोड़ने की अनुमति देने के लिए विकल्प सूची में एक कड़ी दिखाता है।',
@@ -2947,7 +2966,7 @@ sub Data {
         'Specifies the path to the converter that allows the view of PDF documents, in the web interface.' => 'वेब अंतरफलक में,परिवर्तक के लिए पथ निर्दिष्ट करता है जो PDF दस्तावेजों को देखने की अनुमति देता हैं।',
         'Specifies the path to the converter that allows the view of XML files, in the web interface.' => 'वेब अंतरफलक में,परिवर्तक के लिए पथ निर्दिष्ट करता है जो XML फ़ाइलों को देखने की अनुमति देता हैं।',
         'Specifies the right margin of the chart.' => 'संचित्र की बाएँ हाशिए को निर्दिष्ट करता है।',
-        'Specifies the text color of the chart (e. g. caption).' =>  'संचित्र के पाठ का रंग निर्दिष्ट करता है(जैसे अनुशीर्षक)।',
+        'Specifies the text color of the chart (e. g. caption).' => 'संचित्र के पाठ का रंग निर्दिष्ट करता है(जैसे अनुशीर्षक)।',
         'Specifies the text color of the legend.' => 'किंवदंती के पाठ का रंग निर्दिष्ट करता है।',
         'Specifies the text that should appear in the log file to denote a CGI script entry.' => 'पाठ को निर्दिष्ट करता है जो लॉग फ़ाइल में दिखाई देना चाहिए CGI स्क्रिप्ट प्रविष्टि निरूपित करने के लिए।',
         'Specifies the top margin of the chart.' => 'संचित्र के शीर्ष हाशिए को निर्दिष्ट करता है।',
@@ -3026,6 +3045,14 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'टिकटों के लिए सेवाओं और SLAs(उदा. ईमेल,डेस्कटॉप,नेटवर्क,...) और SLAs के लिए संवर्धित विशेषताओं(यदि टिकट सेवा/SLA सुविधा सक्षम है) को परिभाषित करने के लिए की अनुमति देता है।',
+        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => 'ऑनलाइन भंडार की सूची को परिभाषित करता है। अन्य स्थापनाओं को भंडार के रूप में इस्तेमाल किया जा सकता है,उदाहरण के लिए: कुंजी = "http://example.com/otrs/public.pl?Action=PublicRepository;फ़ाइल = "और सामग्री =" कुछ नाम "।',
+        'Filter for Language' => 'भाषा के लिए निस्पादक',
+        'Module to genetare accounted time ticket statistics.' => 'समय के हिसाब से टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
+        'Module to genetare ticket solution and response time statistics.' => 'टिकट समाधान और प्रतिक्रिया समय आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
+        'Module to genetare ticket statistics.' => 'टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
+        'Search Ticket' => 'टिकट खोजें',
+
     };
     # $$STOP$$
     return;
