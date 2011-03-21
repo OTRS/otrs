@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.24 2011-03-21 23:03:02 sb Exp $
+# $Id: SOAP.pm,v 1.25 2011-03-21 23:23:02 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use HTTP::Status;
 use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 use Encode;
+use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -232,6 +233,10 @@ sub ProviderProcessRequest {
 
     # remember operation for response
     $Self->{Operation} = $Operation;
+
+    # remember if utf8 mode is set for stdin
+    my @IOLayers = PerlIO::get_layers(STDIN);
+    $Self->{LastIOLayer} = $IOLayers[-1];
 
     # all ok - return data
     return {
@@ -668,9 +673,6 @@ sub _Output {
     # calculate content length (before convert for correct result)
     my $ContentLength = length $Param{Content};
 
-    # convert from perl internal format to utf8 for output
-    $Param{Content} = Encode::decode( 'utf8', $Param{Content} );
-
     # log to debugger
     my $DebugLevel;
     if ( $Param{HTTPCode} eq 200 ) {
@@ -685,6 +687,23 @@ sub _Output {
         Data       => $Param{Content},
     );
 
+    # remember if utf8 mode is set for stout
+    my @IOLayers    = PerlIO::get_layers(STDOUT);
+    my $LastIOLayer = $IOLayers[-1];
+
+    # set binmode if necessary
+    my $LayerReset;
+    if ( $LastIOLayer ne $Self->{LastIOLayer} ) {
+        if ( $LastIOLayer eq 'utf8' ) {
+            $LayerReset = ':utf8';
+            binmode STDOUT, ':raw';
+        }
+        elsif ( $Self->{LastIOLayer} eq 'utf8' ) {
+            $LayerReset = ':raw';
+            binmode STDOUT, ':utf8';
+        }
+    }
+
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
     print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
@@ -692,6 +711,11 @@ sub _Output {
     print STDOUT "Content-Length: $ContentLength\r\n";
     print STDOUT "\r\n";
     print STDOUT $Param{Content};
+
+    # reset binmode for stdout
+    if ($LayerReset) {
+        binmode STDOUT, $LayerReset;
+    }
 
     return {
         Success      => $Success,
@@ -1030,6 +1054,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-03-21 23:03:02 $
+$Revision: 1.25 $ $Date: 2011-03-21 23:23:02 $
 
 =cut
