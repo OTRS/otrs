@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.14 2011-03-17 02:12:04 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.15 2011-03-21 11:09:17 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,9 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Proc::Daemon;
-
-# sleep time between loop intervals in seconds
-my $SleepTime = 1;
 
 # get options
 my %Opts = ();
@@ -82,22 +79,27 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     # send interrupt signal to the proces ID to stop it
     kill( 2, $PID{PID} );
 
-    # delete pid lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
-
-    # log daemon stop
-    if ( !$PIDDelSuccess ) {
-        $CommonObject{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Process could not be deleted from process table! PID $PID{PID}",
-        );
-        exit 1;
-    }
-
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message  => "Scheduler Daemon Stop! PID $PID{PID}",
     );
+
+    # force stop: remove PID from database, might be neccessary if
+    #   the process died but is still registered.
+    if ( $Opts{f} ) {
+
+        # delete pid lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+        # log daemon stop
+        if ( !$PIDDelSuccess ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Process could not be deleted from process table! PID $PID{PID}",
+            );
+            exit 1;
+        }
+    }
 
     exit 0;
 }
@@ -133,7 +135,8 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
         print "Running $PID{PID}\n"
     }
     else {
-        print "Not Running!\n";
+        print
+            "Not Running, but PID still registered! Use '-a stop --force' to unregister the PID from the database.\n";
     }
 
     exit 0;
@@ -243,35 +246,91 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # when get a HUP signal, set HUP flag
     $SIG{HUP} = sub { $Hangup = 1 };
 
+    my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+    my $RestartAfterSeconds = $CommonObject{ConfigObject}->Get('Scheduler::RestartAfterSeconds')
+        || ( 60 * 60 * 24 );    # default 1 day
+
+    my $StartTime = $CommonObject{TimeObject}->SystemTime();
+
     # main loop
     while (1) {
 
-        # create common objects
-        my %CommonObject = _CommonObjects();
-
-        # check for stop signal
-        exit if $Interrupt;
-
-        # check for hangup signal
-        _Hangup() if $Hangup;
-        $Hangup = 0;
-
-        # sleep to avoid overloading the processor
-        sleep $SleepTime;
-
         # check for stop signal (again)
-        exit if $Interrupt;
+        if ($Interrupt) {
 
-        # check for hangup signal
+            # delete pid lock
+            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+            # log daemon stop
+            if ( !$PIDDelSuccess ) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Process could not be deleted from process table! PID $PID{PID}",
+                );
+                exit 1;
+            }
+
+            exit 0;
+        }
+
+        # check for hangup signal, requesting a config reload
         _Hangup() if $Hangup;
         $Hangup = 0;
 
         # Call Scheduler
         my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
         $SchedulerObject->Run();
+
+        my $CurrentTime = $CommonObject{TimeObject}->SystemTime();
+
+        # The Scheduler needs to be restarted from time to time because
+        #   of memory leaks in some external perl modules.
+
+        if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
+
+            # Log deamon startup
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Scheduler Daemon restarts itself (PID $PID{PID}).",
+            );
+
+            # delete pid lock
+            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+            if ( !$PIDDelSuccess ) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Could not remove Scheduler PID $PID{PID} from database to prepare Scheduler restart, exiting.",
+                );
+
+                exit 1;
+            }
+
+            my $Home      = $CommonObject{ConfigObject}->Get('Home');
+            my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+
+            my $Result = system("$Scheduler -a start");
+
+            if ( !$Result ) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Could not startup new Scheduler instance.",
+                );
+
+                exit 1;
+            }
+
+            exit 0;
+        }
+
+        # sleep to avoid overloading the processor
+        sleep $SleepTime;
     }
 
-    exit 0;
+    # this will never be reached because of the while (1)
+    exit 1;
 }
 
 # invalid option, show help

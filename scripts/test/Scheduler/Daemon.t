@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.1 2011-03-21 09:16:26 mg Exp $
+# $Id: Daemon.t,v 1.2 2011-03-21 11:09:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,17 @@ use Storable ();
 
 use Kernel::Scheduler;
 use Kernel::System::PID;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::SysConfig;
+
+# Create Helper instance which will restore system configuration in destructor
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+);
+
+my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
 my $Home = $Self->{ConfigObject}->Get('Home');
 
@@ -160,7 +171,123 @@ $CheckAction->(
     PIDChangeExpected   => 0,
 );
 
-# stop scheduler if it was not already running before this test
+#
+# Check self-reloading of Scheduler
+#
+
+# this will be reset by the HelperObject automatically
+my $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Scheduler::RestartAfterSeconds',
+    Value => 5,
+);
+
+$Self->True(
+    $ConfigUpdated,
+    'SysConfig setting was changed.'
+);
+
+$CheckAction->(
+    Name                => 'Start for self-restart tests',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+my %PIDInfo1 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+sleep 1;
+
+my %PIDInfo2 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+$CheckAction->(
+    Name                => 'Status check 2',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+$Self->Is(
+    $PIDInfo2{PID},
+    $PIDInfo1{PID},
+    'Not restarted yet, same PID',
+);
+
+sleep 6;
+
+$CheckAction->(
+    Name                => 'Status check 3',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+my %PIDInfo3 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+$Self->IsNot(
+    $PIDInfo3{PID},
+    $PIDInfo2{PID},
+    'Scheduler should have restarted, different PID',
+);
+
+sleep 1;
+
+my %PIDInfo4 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+$CheckAction->(
+    Name                => 'Status check 4',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+$Self->Is(
+    $PIDInfo3{PID},
+    $PIDInfo4{PID},
+    'After 1 restart, still same PID',
+);
+
+sleep 6;
+
+$CheckAction->(
+    Name                => 'Status check 5',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+my %PIDInfo5 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+$Self->IsNot(
+    $PIDInfo5{PID},
+    $PIDInfo4{PID},
+    'Scheduler should have restarted, different PID',
+);
+
+$CheckAction->(
+    Name                => 'Final stop',
+    Action              => 'stop',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
+);
+
+# Destroy helper so that system configuration will be restored before
+#   starting the Scheduler again.
+undef $HelperObject;
+
+# start scheduler if it was already running before this test
 if ( $PreviousSchedulerStatus =~ /^running/i ) {
     $CheckAction->(
         Name                => 'Cleanup - restart Scheduler as it was running before this test',
