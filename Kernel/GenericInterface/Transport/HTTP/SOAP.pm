@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.22 2011-03-18 17:49:16 sb Exp $
+# $Id: SOAP.pm,v 1.23 2011-03-21 13:49:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -687,13 +687,11 @@ sub _Output {
 
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT <<"EOF";
-$Protocol $Param{HTTPCode} $StatusMessage\r
-Content-Type: $ContentType; charset=UTF-8\r
-Content-Length: $ContentLength\r
-\r
-$Param{Content}
-EOF
+    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
+    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
+    print STDOUT "Content-Length: $ContentLength\r\n";
+    print STDOUT "\r\n";
+    print STDOUT $Param{Content};
 
     return {
         Success      => $Success,
@@ -1033,6 +1031,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2011-03-18 17:49:16 $
+$Revision: 1.23 $ $Date: 2011-03-21 13:49:44 $
 
 =cut
