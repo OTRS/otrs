@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.1 2011-02-16 09:48:28 mb Exp $
+# $Id: nl.pm,v 1.152.2.2 2011-03-21 16:18:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.1 $) [1];
+$VERSION = qw($Revision: 1.152.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -589,7 +589,7 @@ sub Data {
         '4 high' => '4 hoog',
         '5 very high' => '5 zeer hoog',
         'Ticket "%s" created!' => 'Ticket "%s" aangemaakt.',
-        'Ticket Number' => 'Ticket nummer',
+        'Ticket Number' => 'Ticketnummer',
         'Ticket Object' => 'Ticket onderwerp',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Er kan dus geen koppeling worden gemaakt.',
         'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
@@ -869,7 +869,7 @@ sub Data {
         'Ticket Filter' => 'Ticket filter',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
         '(e. g. 234321)' => '(bijvoorbeeld 234321)',
-        'Customer login' => 'Klant login',
+        'Customer login' => 'Klantlogin',
         '(e. g. U5150)' => '(bijvoorbeeld U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*").',
         'Agent' => 'Gebruiker',
@@ -1105,7 +1105,7 @@ sub Data {
         '0 = no unlock' => '0 = geen ontgrendeling',
         'Only business hours are counted.' => 'Alleen openingstijden tellen mee.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' => 'Als een ticket vergrendeld is en de gebruiker handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, dan wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
-        'Notify by' => 'Melding van',
+        'Notify by' => 'Melding bij',
         '0 = no escalation' => '0 = geen escalatie',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' => 'Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
@@ -1641,7 +1641,7 @@ sub Data {
         'Output' => 'Uitvoeren naar',
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
-        'Customer User Login' => 'Klant login',
+        'Customer User Login' => 'Klantlogin',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
         'Watcher' => 'Volger',
