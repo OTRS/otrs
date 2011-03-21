@@ -1,8 +1,8 @@
 # --
-# Scheduler.t - Scheduler tests
+# Run.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.t,v 1.8 2011-03-11 09:11:24 mg Exp $
+# $Id: Run.t,v 1.1 2011-03-21 09:16:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
