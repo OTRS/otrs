@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.10 2011-03-17 02:51:26 sb Exp $
+# $Id: SOAP.t,v 1.11 2011-03-21 13:48:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -486,14 +486,14 @@ for my $Test (@Tests) {
             $RequesterResult->{Success},
             "$Test->{Name} - Requester unsuccessful result",
         );
+
         next;
     }
-    else {
-        $Self->True(
-            $RequesterResult->{Success},
-            "$Test->{Name} - Requester successful result",
-        );
-    }
+
+    $Self->True(
+        $RequesterResult->{Success},
+        "$Test->{Name} - Requester successful result",
+    );
 
     $Self->IsDeeply(
         $RequesterResult,
