@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Table.js,v 1.6 2011-02-17 21:30:59 en Exp $
+// $Id: Core.UI.Table.js,v 1.7 2011-03-22 15:29:05 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ Core.UI.Table = (function (TargetNS) {
     TargetNS.InitCSSPseudoClasses = function ($Context) {
         var SelectorCount = 0;
         if (typeof $Context === 'undefined' || (isJQueryObject($Context) && $Context.length)) {
-            // comma-seperated selectors have performance issues, so we add the different selectors after each other
+            // comma-separated selectors have performance issues, so we add the different selectors after each other
             $('tr.Even', $Context)
                 .add('tr.Last', $Context)
                 .add('th.Last', $Context)
@@ -47,8 +47,8 @@ Core.UI.Table = (function (TargetNS) {
                 .removeClass('Even Last');
 
             // nth-child selector has heavy performance problems on big tables or lists
-            // Because this CSS classes are only used on IE7, we skip this class for big tables and lists
-            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length
+            // Because these CSS classes are only used on IE7, we skip these for big tables and lists
+            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length;
             if (SelectorCount < 200) {
                 $('tr:nth-child(even)', $Context)
                 .add('li:not(.Header):nth-child(even)', $Context)
