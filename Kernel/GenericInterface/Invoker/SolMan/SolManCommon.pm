@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.1 2011-03-19 15:55:47 cr Exp $
+# $Id: SolManCommon.pm,v 1.2 2011-03-22 15:14:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -315,12 +315,12 @@ sub HandlePersonMaps {
     }
 
     # only one person map
-    elsif ( IsHashRefWithData( $Param{Errors}->{item} ) ) {
+    elsif ( IsHashRefWithData( $Param{PersonMaps}->{item} ) ) {
 
         # check for valid data
         if (
-            !IsHashRefWithData( $Param{Errors}->{item}->{PersonId} )
-            || !IsHashRefWithData( $Param{Errors}->{item}->{PersonIdExt} )
+            !IsStringWithData( $Param{PersonMaps}->{item}->{PersonId} )
+            || !IsStringWithData( $Param{PersonMaps}->{item}->{PersonIdExt} )
             )
         {
 
@@ -337,7 +337,7 @@ sub HandlePersonMaps {
                 ErrorMessage => $ErrorMessage,
             };
         }
-        push @PersonMaps, $Param{Errors}->{item};
+        push @PersonMaps, $Param{PersonMaps}->{item};
     }
 
     return {
@@ -361,6 +361,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-19 15:55:47 $
+$Revision: 1.2 $ $Date: 2011-03-22 15:14:07 $
 
 =cut
