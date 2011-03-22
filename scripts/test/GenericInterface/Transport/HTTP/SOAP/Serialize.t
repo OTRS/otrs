@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.11 2011-03-18 17:50:44 sb Exp $
+# $Id: Serialize.t,v 1.12 2011-03-22 09:50:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,11 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use SOAP::Lite;
 use XML::TreePP;
+use Encode;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
@@ -78,6 +80,15 @@ my @SoapTests = (
         Success => 1,
     },
     {
+        Name      => 'Scalar Unicode',
+        Operation => 'MyOperation',
+        Data      => {
+            Var => 'äöüß€ис',
+        },
+        XML     => '<Var>äöüß€ис</Var>',
+        Success => 1,
+    },
+    {
         Name      => 'Hash',
         Operation => 'MyOperation',
         Data      => {
@@ -98,6 +109,23 @@ my @SoapTests = (
             . '<Number>2</Number>'
             . '<String>foo</String>'
             . '</Var>',
+        Success => 1,
+    },
+    {
+        Name      => 'Hash Unicode',
+        Operation => 'MyOperation',
+        Data      => {
+            PriorityName => '5 sehr hoch',
+            DataOut      => {
+                Blah   => 'Fasel',
+                Umlaut => 'äöüßÄÖÜ€ис',
+            },
+        },
+        XML => '<DataOut>'
+            . '<Blah>Fasel</Blah>'
+            . '<Umlaut>äöüßÄÖÜ€ис</Umlaut>'
+            . '</DataOut>'
+            . '<PriorityName>5 sehr hoch</PriorityName>',
         Success => 1,
     },
     {
@@ -307,6 +335,10 @@ for my $Test (@SoapTests) {
         "Test $Test->{Name}: Serializer success",
     );
 
+    # Set utf8-Flag on the result string to make sure it can be compared to the
+    #   expected value.
+    $Content = Encode::decode_utf8($Content);
+
     # create an XML file to compare the expected results
     my $SOAPRawContent;
     if ( $Test->{XML} ) {
@@ -435,8 +467,7 @@ for my $Test (@SoapTests) {
     );
 
     if ( $Test->{Success} ) {
-
-        $Self->IsDeeply(
+        $Self->Is(
             $Content,
             $SOAPRawContent,
             "Test $Test->{Name}: SOAP Response data raw as normal XML IsDeeply",
