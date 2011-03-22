@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Table.js,v 1.5.2.1 2011-03-18 06:35:04 mp Exp $
+// $Id: Core.UI.Table.js,v 1.5.2.2 2011-03-22 15:23:57 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@ Core.UI.Table = (function (TargetNS) {
 
             // nth-child selector has heavy performance problems on big tables or lists
             // Because this CSS classes are only used on IE7, we skip this class for big tables and lists
-            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length
+            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length;
             if (SelectorCount < 200) {
                 $('tr:nth-child(even)', $Context)
                 .add('li:not(.Header):nth-child(even)', $Context)
