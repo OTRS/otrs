@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.9 2011-03-17 04:32:00 sb Exp $
+# $Id: Deserialize.t,v 1.10 2011-03-22 09:56:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@ use utf8;
 use vars (qw($Self));
 
 use SOAP::Lite;
+use Encode;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
@@ -64,6 +65,15 @@ my @Tests = (
         },
     },
     {
+        Name      => 'Test 1 Unicode',
+        Data      => '<Simple>äöüß€ис</Simple>',
+        Operation => 'Response',
+        Success   => '1',
+        Result    => {
+            'Simple' => 'äöüß€ис'
+        },
+    },
+    {
         Name      => 'Test 2',
         Data      => '<fooResponse><bar>abcd</bar></fooResponse>',
         Operation => 'Response',
@@ -71,6 +81,17 @@ my @Tests = (
         Result    => {
             'fooResponse' => {
                 'bar' => 'abcd'
+                }
+        },
+    },
+    {
+        Name      => 'Test 2 Unicode',
+        Data      => '<fooResponse><bar>äöüß€ис</bar></fooResponse>',
+        Operation => 'Response',
+        Success   => '1',
+        Result    => {
+            'fooResponse' => {
+                'bar' => 'äöüß€ис'
                 }
         },
     },
@@ -264,6 +285,8 @@ for my $Test (@Tests) {
     my $Content = SOAP::Serializer
         ->autotype(0)
         ->envelope(@CallData);
+
+    $Content = Encode::decode_utf8($Content);
 
     $Self->Is(
         $Content,
