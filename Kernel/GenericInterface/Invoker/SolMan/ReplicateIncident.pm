@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.5 2011-03-23 17:37:54 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.6 2011-03-23 18:38:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -70,11 +70,7 @@ sub new {
     $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
         %{$Self},
     );
-
-    # create Ticket Object
-    $Self->{TicketObject} = Kernel::System::Ticket->new(
-        %{$Self},
-    );
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }
@@ -118,11 +114,14 @@ sub PrepareRequest {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
     }
 
-    # create Ticket Object
+    # remember ticket ID
     $Self->{TicketID} = $Param{Data}->{TicketID};
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+
+    # remember OwnerID
+    $Self->{UserID} = $Ticket{OwnerID};
 
     # compare TicketNumber from Param and from DB
     if ( $Self->{TicketID} ne $Ticket{'TicketID'} ) {
@@ -395,6 +394,14 @@ sub HandleResponse {
         PersonMaps => $HandlePersonMaps->{PersonMaps},
     );
 
+    # set remote Ticket ID into the ticket flag
+    $Self->{TicketObject}->TicketFlagSet(
+        TicketID => $Self->{TicketID},
+        Key      => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
+        Value    => $Param{Data}->{PrdIctId},
+        UserID   => $Self->{UserID},
+    );
+
     # write in debug log
     $Self->{DebuggerObject}->Info(
         Summary => 'ReplicateIncident return success',
@@ -423,6 +430,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-03-23 17:37:54 $
+$Revision: 1.6 $ $Date: 2011-03-23 18:38:42 $
 
 =cut
