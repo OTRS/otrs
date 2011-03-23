@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.2 2011-03-22 15:14:07 cr Exp $
+# $Id: SolManCommon.pm,v 1.3 2011-03-23 19:59:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -98,7 +98,10 @@ sub new {
     return $Self;
 }
 
+# handle common
+
 =item HandleErrors()
+Process errors from remote server, the result will be a string with all erros
 
     my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
@@ -222,9 +225,10 @@ sub HandleErrors {
 }
 
 =item HandlePersonMaps()
+Process person maps from the remote server, the result will always be an array ref
 
     my $Result = $SolManCommonObject->HandlePersonMaps(
-        Errors     => {
+        PersonMaps     => {
             item => {
                 PersonId    => '0001',
                 PersonIdExt => '5050',
@@ -345,6 +349,34 @@ sub HandlePersonMaps {
         PersonMaps => \@PersonMaps,
     };
 }
+
+# utilities
+
+=item GetSystemGuid()
+returns the System ID as MD5sum, to be used as local SystemGuid for SolMan communication
+
+    my $Result = $SolManCommonObject->GetSystemGuid();
+
+    $Result = 123ABC123ABC123ABC123ABC123ABC12;
+=cut
+
+sub GetSystemGuid {
+    my ( $Self, %Param ) = @_;
+
+    # get SystemID
+    my $SystemID = $Self->{ConfigObject}->Get('SystemID') || 10;
+
+    # convert SystemID to MD5 string
+    my $SystemIDMD5 = $Self->{MainObject}->MD5sum(
+        String => $SystemID,
+    );
+
+    # conver to upper case to match SolMan style
+    $SystemIDMD5 = uc $SystemIDMD5;
+
+    return $SystemIDMD5;
+}
+
 1;
 
 =back
@@ -361,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-03-22 15:14:07 $
+$Revision: 1.3 $ $Date: 2011-03-23 19:59:21 $
 
 =cut
