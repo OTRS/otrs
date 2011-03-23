@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.3 2011-03-22 15:14:07 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.4 2011-03-23 17:23:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
+use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -70,6 +71,11 @@ sub new {
         %{$Self},
     );
 
+    # create Ticket Object
+    $Self->{TicketObject} = Kernel::System::Ticket->new(
+        %{$Self},
+    );
+
     return $Self;
 }
 
@@ -78,6 +84,7 @@ sub new {
 prepare the invocation of the configured remote webservice.
 
     my $Result = $InvokerObject->PrepareRequest(
+        TicketID => 123 # mandatory
         Data => { }
         },
     );
@@ -86,7 +93,18 @@ prepare the invocation of the configured remote webservice.
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
         Data            => {                    # data payload after Invoker
-            ...
+            ReplicateIncident => {
+                IctAdditionalInfos  => {},
+                IctAttachments  => {},
+                IctHead  => {},
+                IctId   => '',  # type="n0:char32"
+                IctPersons  => {},
+                IctSapNotes  => {},
+                IctSolutions  => {},
+                IctStatements  => {},
+                IctTimestamp   => '',  # type="n0:decimal15.0"
+                IctUrls  => {},
+            },
         },
     };
 
@@ -99,19 +117,15 @@ sub PrepareRequest {
     if ( !IsStringWithData( $Param{Data}->{TicketID} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
     }
-    my $TicketID = $Param{Data}->{TicketID};
 
-    use Kernel::System::Ticket;
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-    );
+    # create Ticket Object
+    $Self->{TicketID} = $Param{Data}->{TicketID};
 
     # get ticket data
-    my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
-    #print STDERR $Ticket{TicketID} . " ti \n";
     # compare TicketNumber from Param and from DB
-    if ( $TicketID ne $Ticket{'TicketID'} ) {
+    if ( $Self->{TicketID} ne $Ticket{'TicketID'} ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Error getting Ticket Data' );
     }
 
@@ -125,8 +139,105 @@ sub PrepareRequest {
     #        Invoker      => 'RequestSystemGuid',
     #        Data         => {},
     #    );
-
-    my %DataForReturn;
+    my %DataForReturn = (
+        ReplicateIncident => {
+            IctId              => '',    # type="n0:char32"
+            IctTimestamp       => '',    # type="n0:decimal15.0"
+            IctAdditionalInfos => {
+                IctIncidentAdditionalInfo => {
+                    Guid             => '',    # type="n0:char32"
+                    ParentGuid       => '',    # type="n0:char32"
+                    AddInfoAttribute => '',    # type="n0:char255"
+                    AddInfoValue     => '',    # type="n0:char255"
+                },
+            },
+            IctAttachments => {
+                IctIncidentAttachment => {
+                    AttachmentGuid => '',      # type="n0:char32"
+                    Filename       => '',      # type="xsd:string"
+                    MimeType       => '',      # type="n0:char128"
+                    Data           => '',      # type="xsd:base64Binary"
+                    Timestamp      => '',      # type="n0:decimal15.0"
+                    PersonId       => '',      # type="n0:char32"
+                    Url            => '',      # type="n0:char4096"
+                    Language       => '',      # type="n0:char2"
+                    Delete         => '',      # type="n0:char1"
+                },
+            },
+            IctHead => {
+                IncidentGuid     => '',        # type="n0:char32"
+                RequesterGuid    => '',        # type="n0:char32"
+                ProviderGuid     => '',        # type="n0:char32"
+                AgentId          => '',        # type="n0:char32"
+                ReporterId       => '',        # type="n0:char32"
+                ShortDescription => '',        # type="n0:char40"
+                Priority         => '',        # type="n0:char32"
+                Language         => '',        # type="n0:char2"
+                RequestedBegin   => '',        # type="n0:decimal15.0"
+                RequestedEnd     => '',        # type="n0:decimal15.0"
+            },
+            IctPersons => {
+                IctIncidentPerson => {
+                    PersonId    => '',         # type="n0:char32"
+                    PersonIdExt => '',         # type="n0:char32"
+                    Sex         => '',         # type="n0:char1"
+                    FirstName   => '',         # type="n0:char40"
+                    LastName    => '',         # type="n0:char40"
+                    Telephone   => '',         # type="tns:IctPhone"
+                    MobilePhone => '',         # type="n0:char30"
+                    Fax         => '',         # type="tns:IctFax"
+                    Email       => '',         # type="n0:char240"
+                },
+            },
+            IctSapNotes => {
+                IctIncidentSapNote => {
+                    NoteId          => '',     # type="n0:char30"
+                    NoteDescription => '',     # type="n0:char60"
+                    Timestamp       => '',     # type="n0:decimal15.0"
+                    PersonId        => '',     # type="n0:char32"
+                    Url             => '',     # type="n0:char4096"
+                    Language        => '',     # type="n0:char2"
+                    Delete          => '',     # type="n0:char1"
+                },
+            },
+            IctSolutions => {
+                IctIncidentSolution => {
+                    SolutionId          => '',    # type="n0:char32"
+                    SolutionDescription => '',    # type="n0:char60"
+                    Timestamp           => '',    # type="n0:decimal15.0"
+                    PersonId            => '',    # type="n0:char32"
+                    Url                 => '',    # type="n0:char4096"
+                    Language            => '',    # type="n0:char2"
+                    Delete              => '',    # type="n0:char1"
+                },
+            },
+            IctStatements => {
+                IctIncidentAttachment => {
+                    AttachmentGuid => '',         # type="n0:char32"
+                    Filename       => '',         # type="xsd:string"
+                    MimeType       => '',         # type="n0:char128"
+                    Data           => '',         # type="xsd:base64Binary"
+                    Timestamp      => '',         # type="n0:decimal15.0"
+                    PersonId       => '',         # type="n0:char32"
+                    Url            => '',         # type="n0:char4096"
+                    Language       => '',         # type="n0:char2"
+                    Delete         => '',         # type="n0:char1"
+                },
+            },
+            IctUrls => {
+                IctIncidentUrl => {
+                    UrlGuid        => '',         # type="n0:char32"
+                    Url            => '',         # type="n0:char4096"
+                    UrlName        => '',         # type="n0:char40"
+                    UrlDescription => '',         # type="n0:char64"
+                    Timestamp      => '',         # type="n0:decimal15.0"
+                    PersonId       => '',         # type="n0:char32"
+                    Language       => '',         # type="n0:char2"
+                    Delete         => '',         # type="n0:char1"
+                },
+            },
+        },
+    );
     return {
         Success => 1,
         Data    => \%DataForReturn,
@@ -312,6 +423,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-03-22 15:14:07 $
+$Revision: 1.4 $ $Date: 2011-03-23 17:23:36 $
 
 =cut
