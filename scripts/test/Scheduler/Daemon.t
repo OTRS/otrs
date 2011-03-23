@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.2 2011-03-21 11:09:17 mg Exp $
+# $Id: Daemon.t,v 1.3 2011-03-23 09:23:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,7 @@ my $CheckAction = sub {
     $Self->Is(
         $PIDBefore,
         $PIDInfoBefore{PID} || 0,
-        "$Name PID matches DB value before action",
+        "$Name PID matches DB value before action (current state $StateBefore)",
     );
 
     my $Result = system("$Scheduler -a $Param{Action}");
@@ -91,7 +91,7 @@ my $CheckAction = sub {
     $Self->Is(
         $PIDBefore != $PIDAfter   ? 1 : 0,
         $Param{PIDChangeExpected} ? 1 : 0,
-        "$Name PID changed",
+        "$Name PID changed (current state $StateAfter)",
     );
 
     my %PIDInfoAfter = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
@@ -99,7 +99,7 @@ my $CheckAction = sub {
     $Self->Is(
         $PIDAfter,
         $PIDInfoAfter{PID} || 0,
-        "$Name PID matches DB value after action",
+        "$Name PID matches DB value after action (current state $StateAfter)",
     );
 };
 
