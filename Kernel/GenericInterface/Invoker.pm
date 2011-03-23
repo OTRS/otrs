@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.14 2011-03-17 01:25:11 sb Exp $
+# $Id: Invoker.pm,v 1.15 2011-03-23 17:37:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -106,7 +106,8 @@ sub new {
     # check needed params
     for my $Needed (
         qw(
-        ConfigObject DBObject DebuggerObject EncodeObject LogObject MainObject InvokerType TimeObject
+        ConfigObject DBObject DebuggerObject EncodeObject LogObject
+        MainObject InvokerType TimeObject WebserviceID
         )
         )
     {
@@ -229,6 +230,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-03-17 01:25:11 $
+$Revision: 1.15 $ $Date: 2011-03-23 17:37:17 $
 
 =cut

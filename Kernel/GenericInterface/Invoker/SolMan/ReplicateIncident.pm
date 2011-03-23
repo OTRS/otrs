@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.4 2011-03-23 17:23:36 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.5 2011-03-23 17:37:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -52,7 +52,7 @@ sub new {
     for my $Needed (
         qw(
         DebuggerObject MainObject ConfigObject EncodeObject
-        LogObject TimeObject DBObject
+        LogObject TimeObject DBObject WebserviceID
         )
         )
     {
@@ -423,6 +423,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-23 17:23:36 $
+$Revision: 1.5 $ $Date: 2011-03-23 17:37:54 $
 
 =cut
