@@ -1,8 +1,8 @@
 # --
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.75 2010-12-06 15:12:08 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.75.2.1 2011-03-23 17:40:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -185,6 +185,7 @@
     Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
     $('.MasterAction').bind('click', function (Event) {
         window.location = $(this).find('.MasterActionLink').attr('href');
+        return false;
     });
     $(window).resize(function() {
         Core.UI.AdjustTableHead($('#FixedTable thead'), $('#FixedTable tbody'), 0);

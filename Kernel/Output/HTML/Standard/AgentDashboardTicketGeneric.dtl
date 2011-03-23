@@ -1,8 +1,8 @@
 # --
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.38 2010-11-08 13:25:05 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.38.2.1 2011-03-23 17:40:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,6 +124,7 @@
 <script type="text/javascript">//<![CDATA[
 $('.MasterAction').bind('click', function (Event) {
     window.location = $(this).find('.MasterActionLink').attr('href');
+    return false;
 });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
