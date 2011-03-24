@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.61 2010-10-04 21:38:21 mb Exp $
+# $Id: CustomerUser.pm,v 1.61.2.1 2011-03-24 17:39:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.61.2.1 $) [1];
 
 =head1 NAME
 
@@ -391,7 +391,7 @@ sub CustomerUserUpdate {
     }
 
     # check for UserLogin-renaming and if new UserLogin already exists...
-    if ( $Param{ID} && ( $Param{UserLogin} ne $Param{ID} ) ) {
+    if ( $Param{ID} && ( lc $Param{UserLogin} ne lc $Param{ID} ) ) {
         my %User = $Self->CustomerUserDataGet( User => $Param{UserLogin} );
         if (%User) {
             $Self->{LogObject}->Log(
@@ -681,6 +681,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2010-10-04 21:38:21 $
+$Revision: 1.61.2.1 $ $Date: 2011-03-24 17:39:52 $
 
 =cut
