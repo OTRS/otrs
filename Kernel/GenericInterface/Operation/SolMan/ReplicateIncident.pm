@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.1 2011-03-24 09:33:13 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.2 2011-03-24 10:06:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -64,14 +64,43 @@ sub new {
 perform ReplicateIncident Operation. This will return ???.
 
     my $Result = $OperationObject->Run(
-        Data => { },
+        Data => {
+            ReplicateIncident => {
+                IctAdditionalInfos  => {},
+                IctAttachments      => {},
+                IctHead             => {},
+                IctId               => '',  # type="n0:char32"
+                IctPersons          => {},
+                IctSapNotes         => {},
+                IctSolutions        => {},
+                IctStatements       => {},
+                IctTimestamp        => '',  # type="n0:decimal15.0"
+                IctUrls             => {},
+            },
+        },
     );
 
     $Result = {
-        Success         => 1,                              # 0 or 1
-        ErrorMessage    => '',                             # in case of error
-        Data            => {                               # result data payload after Operation
-            Errors     => ''                               # should not return errors
+        Success         => 1,                       # 0 or 1
+        ErrorMessage    => '',                      # in case of error
+        Data            => {                        # result data payload after Operation
+            PrdIctId   => '2011032400001',            # Incident number in the provider (help desk system) / type="n0:char32"
+            PersonMaps => {                         # Mapping of person IDs / tns:IctPersonMaps
+                Item => {
+                    PersonId    => '0001',
+                    PersonIdExt => '5050',
+                },
+            },
+            Errors => {                         # should not return errors
+                item => {
+                    ErrorCode => '01'
+                    Val1      =>  'Error Description',
+                    Val2      =>  'Error Detail 1',
+                    Val3      =>  'Error Detail 2',
+                    Val4      =>  'Error Detail 3',
+
+                },
+            },
         },
     };
 
@@ -108,6 +137,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-24 09:33:13 $
+$Revision: 1.2 $ $Date: 2011-03-24 10:06:31 $
 
 =cut
