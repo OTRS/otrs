@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.124.2.2 2011-03-24 17:46:43 mp Exp $
+# $Id: AgentTicketCompose.pm,v 1.124.2.3 2011-03-24 17:48:19 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,10 +22,9 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
 use Kernel::System::TemplateGenerator;
 use Mail::Address;
-use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.2 $) [1];
+$VERSION = qw($Revision: 1.124.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
