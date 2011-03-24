@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1814 2011-03-24 16:01:51 cr Exp $
+# $Id: CHANGES,v 1.1815 2011-03-24 17:47:48 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,7 @@
      of > 70 characters exists.
 
 3.0.7 2011-??-??
+ - 2011-03-24 Fixed bug#7106 - Customer user login can't be updated nor changed.
  - 2011-03-24 Fixed bug#6954 - Option "NewTicketInNewWindow::Enabled"  is not working.
  - 2011-03-22 Fixed bug#7052 - Clicking on items in Dashboard and Overview causes
     two GET request instead of one.
