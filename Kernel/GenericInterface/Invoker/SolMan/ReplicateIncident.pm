@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.6 2011-03-23 18:38:42 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.7 2011-03-24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,11 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 use Kernel::System::Ticket;
+use Kernel::System::CustomerUser;
+use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -70,7 +72,21 @@ sub new {
     $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
         %{$Self},
     );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+
+    # create Ticket Object
+    $Self->{TicketObject} = Kernel::System::Ticket->new(
+        %{$Self},
+    );
+
+    # create CustomerUser Object
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(
+        %{$Self},
+    );
+
+    # create CustomerUser Object
+    $Self->{UserObject} = Kernel::System::User->new(
+        %{$Self},
+    );
 
     return $Self;
 }
@@ -114,127 +130,181 @@ sub PrepareRequest {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
     }
 
-    # remember ticket ID
+    # create Ticket Object
     $Self->{TicketID} = $Param{Data}->{TicketID};
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
-    # remember OwnerID
-    $Self->{UserID} = $Ticket{OwnerID};
-
     # compare TicketNumber from Param and from DB
-    if ( $Self->{TicketID} ne $Ticket{'TicketID'} ) {
+    if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Error getting Ticket Data' );
     }
 
     #    # check all needed stuff about ticket
     #    # ( permissions, locked, etc . . . )
 
-    #    # request SystemGuid
-    #    my $RequesterSystemGuid  = Kernel::GenericInterface::Requester->new( %{$Self} );
-    #    my RequestSolManSystemGuid = $RequesterSystemGuid->Run(
-    #        WebserviceID => $Self->{WebserviceID},
-    #        Invoker      => 'RequestSystemGuid',
-    #        Data         => {},
-    #    );
+    # request Systems Guids
+
+    # remote SystemGuid
+    my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
+    my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'RequestSystemGuid',
+        Data         => {},
+    );
+    my $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
+
+    # local SystemGuid
+    my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
+
+    # IctIncidentAdditionalInfos
+    my %IctIncidentAdditionalInfos = (
+        IctIncidentAdditionalInfo => {
+            Guid             => '',    # type="n0:char32"
+            ParentGuid       => '',    # type="n0:char32"
+            AddInfoAttribute => '',    # type="n0:char255"
+            AddInfoValue     => '',    # type="n0:char255"
+        },
+    );
+
+    # IctIncidentPersons
+
+    # customer
+    my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        User => $Ticket{CustomerUserID},
+    );
+    my %IctCustomerUser = (
+        PersonId    => $CustomerUser{CustomerUserID},    # type="n0:char32"
+        PersonIdExt => $CustomerUser{CustomerID},        # type="n0:char32"
+        Sex         => '',                               # type="n0:char1"
+        FirstName   => $CustomerUser{UserFirstname},     # type="n0:char40"
+        LastName    => $CustomerUser{UserLastname},      # type="n0:char40"
+        Telephone   => $CustomerUser{UserPhone},         # type="tns:IctPhone"
+        MobilePhone => $CustomerUser{UserMobile},        # type="n0:char30"
+        Fax         => $CustomerUser{UserFax},           # type="tns:IctFax"
+        Email       => $CustomerUser{UserEmail},         # type="n0:char240"
+    );
+
+    #    push @IctIncidentPersons,%IctCustomerUser;
+    my $Language = $CustomerUser{UserLanguage};
+
+    # agent
+    my %AgentData = $Self->{UserObject}->GetUserData(
+        UserID => $Ticket{OwnerID},
+    );
+
+    my %IctAgentUser = (
+        PersonId    => $AgentData{UserID},               # type="n0:char32"
+        PersonIdExt => $AgentData{UserID},               # type="n0:char32"
+        Sex         => '',                               # type="n0:char1"
+        FirstName   => $AgentData{UserFirstname},        # type="n0:char40"
+        LastName    => $AgentData{UserLastname},         # type="n0:char40"
+        Telephone   => '',                               # type="tns:IctPhone"
+        MobilePhone => '',                               # type="n0:char30"
+        Fax         => '',                               # type="tns:IctFax"
+        Email       => $AgentData{UserEmail},            # type="n0:char240"
+    );
+
+    #    push @IctIncidentPersons,%IctAgentUser;
+    my %IctIncidentPersons = (
+        customer => \%IctCustomerUser,
+        agent    => \%IctAgentUser,
+    );
+
+    # IctIncidentAttachments
+    my %IctIncidentAttachments = (
+        IctIncidentAttachment => {
+            AttachmentGuid => '',                        # type="n0:char32"
+            Filename       => '',                        # type="xsd:string"
+            MimeType       => '',                        # type="n0:char128"
+            Data           => '',                        # type="xsd:base64Binary"
+            Timestamp      => '',                        # type="n0:decimal15.0"
+            PersonId       => '',                        # type="n0:char32"
+            Url            => '',                        # type="n0:char4096"
+            Language       => '',                        # type="n0:char2"
+            Delete         => '',                        # type="n0:char1"
+        },
+    );
+
+    # IctIncidentSapNotes
+    my %IctIncidentSapNotes = (
+        IctIncidentSapNote => {
+            NoteId          => '',                       # type="n0:char30"
+            NoteDescription => '',                       # type="n0:char60"
+            Timestamp       => '',                       # type="n0:decimal15.0"
+            PersonId        => '',                       # type="n0:char32"
+            Url             => '',                       # type="n0:char4096"
+            Language        => '',                       # type="n0:char2"
+            Delete          => '',                       # type="n0:char1"
+        },
+    );
+
+    # IctIncidentSolutions
+    my %IctIncidentSolutions = (
+        IctIncidentSolution => {
+            SolutionId          => '',                   # type="n0:char32"
+            SolutionDescription => '',                   # type="n0:char60"
+            Timestamp           => '',                   # type="n0:decimal15.0"
+            PersonId            => '',                   # type="n0:char32"
+            Url                 => '',                   # type="n0:char4096"
+            Language            => '',                   # type="n0:char2"
+            Delete              => '',                   # type="n0:char1"
+        },
+    );
+
+    # IctIncidentStatements
+    my %IctIncidentStatements = (
+        IctIncidentStatement => {
+            TextType  => '',                             # type="n0:char32"
+            Texts     => '',                             # type="tns:IctIncidentTexts"
+            Timestamp => '',                             # type="n0:decimal15.0"
+            PersonId  => '',                             # type="n0:char32"
+            Language  => '',                             # type="n0:char2"
+        },
+    );
+
+    # IctIncidentUrls
+    my %IctIncidentUrls = (
+        IctIncidentUrl => {
+            UrlGuid        => '',                        # type="n0:char32"
+            Url            => '',                        # type="n0:char4096"
+            UrlName        => '',                        # type="n0:char40"
+            UrlDescription => '',                        # type="n0:char64"
+            Timestamp      => '',                        # type="n0:decimal15.0"
+            PersonId       => '',                        # type="n0:char32"
+            Language       => '',                        # type="n0:char2"
+            Delete         => '',                        # type="n0:char1"
+        },
+    );
+
+    # IctTimestamp
+    my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+    $TimeStamp =~ s/[:|\-|\s]//g;
+
     my %DataForReturn = (
         ReplicateIncident => {
-            IctId              => '',    # type="n0:char32"
-            IctTimestamp       => '',    # type="n0:decimal15.0"
-            IctAdditionalInfos => {
-                IctIncidentAdditionalInfo => {
-                    Guid             => '',    # type="n0:char32"
-                    ParentGuid       => '',    # type="n0:char32"
-                    AddInfoAttribute => '',    # type="n0:char255"
-                    AddInfoValue     => '',    # type="n0:char255"
-                },
+            IctId           => $Ticket{TicketID},        # type="n0:char32"
+            IctTimestamp    => $TimeStamp,               # type="n0:decimal15.0"
+            IctIncidentHead => {
+                IncidentGuid     => $Ticket{TicketNumber},    # type="n0:char32"
+                RequesterGuid    => $LocalSystemGuid,         # type="n0:char32"
+                ProviderGuid     => $RemoteSystemGuid,        # type="n0:char32"
+                AgentId          => $Ticket{OwnerID},         # type="n0:char32"
+                ReporterId       => $Ticket{CustomerID},      # type="n0:char32"
+                ShortDescription => $Ticket{Title},           # type="n0:char40"
+                Priority         => $Ticket{PriorityID},      # type="n0:char32"
+                Language         => $Language,                # type="n0:char2"
+                RequestedBegin   => '',                       # type="n0:decimal15.0"
+                RequestedEnd     => '',                       # type="n0:decimal15.0"
             },
-            IctAttachments => {
-                IctIncidentAttachment => {
-                    AttachmentGuid => '',      # type="n0:char32"
-                    Filename       => '',      # type="xsd:string"
-                    MimeType       => '',      # type="n0:char128"
-                    Data           => '',      # type="xsd:base64Binary"
-                    Timestamp      => '',      # type="n0:decimal15.0"
-                    PersonId       => '',      # type="n0:char32"
-                    Url            => '',      # type="n0:char4096"
-                    Language       => '',      # type="n0:char2"
-                    Delete         => '',      # type="n0:char1"
-                },
-            },
-            IctHead => {
-                IncidentGuid     => '',        # type="n0:char32"
-                RequesterGuid    => '',        # type="n0:char32"
-                ProviderGuid     => '',        # type="n0:char32"
-                AgentId          => '',        # type="n0:char32"
-                ReporterId       => '',        # type="n0:char32"
-                ShortDescription => '',        # type="n0:char40"
-                Priority         => '',        # type="n0:char32"
-                Language         => '',        # type="n0:char2"
-                RequestedBegin   => '',        # type="n0:decimal15.0"
-                RequestedEnd     => '',        # type="n0:decimal15.0"
-            },
-            IctPersons => {
-                IctIncidentPerson => {
-                    PersonId    => '',         # type="n0:char32"
-                    PersonIdExt => '',         # type="n0:char32"
-                    Sex         => '',         # type="n0:char1"
-                    FirstName   => '',         # type="n0:char40"
-                    LastName    => '',         # type="n0:char40"
-                    Telephone   => '',         # type="tns:IctPhone"
-                    MobilePhone => '',         # type="n0:char30"
-                    Fax         => '',         # type="tns:IctFax"
-                    Email       => '',         # type="n0:char240"
-                },
-            },
-            IctSapNotes => {
-                IctIncidentSapNote => {
-                    NoteId          => '',     # type="n0:char30"
-                    NoteDescription => '',     # type="n0:char60"
-                    Timestamp       => '',     # type="n0:decimal15.0"
-                    PersonId        => '',     # type="n0:char32"
-                    Url             => '',     # type="n0:char4096"
-                    Language        => '',     # type="n0:char2"
-                    Delete          => '',     # type="n0:char1"
-                },
-            },
-            IctSolutions => {
-                IctIncidentSolution => {
-                    SolutionId          => '',    # type="n0:char32"
-                    SolutionDescription => '',    # type="n0:char60"
-                    Timestamp           => '',    # type="n0:decimal15.0"
-                    PersonId            => '',    # type="n0:char32"
-                    Url                 => '',    # type="n0:char4096"
-                    Language            => '',    # type="n0:char2"
-                    Delete              => '',    # type="n0:char1"
-                },
-            },
-            IctStatements => {
-                IctIncidentAttachment => {
-                    AttachmentGuid => '',         # type="n0:char32"
-                    Filename       => '',         # type="xsd:string"
-                    MimeType       => '',         # type="n0:char128"
-                    Data           => '',         # type="xsd:base64Binary"
-                    Timestamp      => '',         # type="n0:decimal15.0"
-                    PersonId       => '',         # type="n0:char32"
-                    Url            => '',         # type="n0:char4096"
-                    Language       => '',         # type="n0:char2"
-                    Delete         => '',         # type="n0:char1"
-                },
-            },
-            IctUrls => {
-                IctIncidentUrl => {
-                    UrlGuid        => '',         # type="n0:char32"
-                    Url            => '',         # type="n0:char4096"
-                    UrlName        => '',         # type="n0:char40"
-                    UrlDescription => '',         # type="n0:char64"
-                    Timestamp      => '',         # type="n0:decimal15.0"
-                    PersonId       => '',         # type="n0:char32"
-                    Language       => '',         # type="n0:char2"
-                    Delete         => '',         # type="n0:char1"
-                },
-            },
+            IctIncidentAdditionalInfos => \%IctIncidentAdditionalInfos,
+            IctIncidentAttachments     => \%IctIncidentAttachments,
+            IctIncidentPersons         => \%IctIncidentPersons,
+            IctIncidentSapNotes        => \%IctIncidentSapNotes,
+            IctIncidentSolutions       => \%IctIncidentSolutions,
+            IctIncidentStatements      => \%IctIncidentStatements,
+            IctIncidentUrls            => \%IctIncidentUrls,
         },
     );
     return {
@@ -394,14 +464,6 @@ sub HandleResponse {
         PersonMaps => $HandlePersonMaps->{PersonMaps},
     );
 
-    # set remote Ticket ID into the ticket flag
-    $Self->{TicketObject}->TicketFlagSet(
-        TicketID => $Self->{TicketID},
-        Key      => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
-        Value    => $Param{Data}->{PrdIctId},
-        UserID   => $Self->{UserID},
-    );
-
     # write in debug log
     $Self->{DebuggerObject}->Info(
         Summary => 'ReplicateIncident return success',
@@ -430,6 +492,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-23 18:38:42 $
+$Revision: 1.7 $ $Date: 2011-03-24 06:06:29 $
 
 =cut
