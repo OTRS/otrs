@@ -2,7 +2,8 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.3 2011-03-19 15:58:03 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.4 2011-03-24 10:35:09 mg Exp $
+# $OldId: RequestSystemGuid.pm,v 1.3 2011/03/19 15:58:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -70,6 +71,7 @@ sub new {
 =item PrepareRequest()
 
 prepare the invocation of the configured remote webservice.
+RequestSystemGuid will return the GUID of the remote solman system.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => { }
@@ -79,9 +81,7 @@ prepare the invocation of the configured remote webservice.
     $Result = {
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload after Invoker
-            ...
-        },
+        Data            => {},                  # no data needed for this invoker
     };
 
 =cut
@@ -89,12 +89,9 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    # This invoker does not need any data
-    my %ReturnData;
-
     return {
         Success => 1,
-        Data    => \%ReturnData,
+        Data    => {},
     };
 }
 
@@ -229,6 +226,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-03-19 15:58:03 $
+$Revision: 1.4 $ $Date: 2011-03-24 10:35:09 $
 
 =cut
