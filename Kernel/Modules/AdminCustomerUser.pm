@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.95 2011-03-23 22:10:50 mp Exp $
+# $Id: AdminCustomerUser.pm,v 1.96 2011-03-24 10:02:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -502,13 +502,6 @@ sub Run {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    # build source string
-    $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{CustomerUserObject}->CustomerSourceList() },
-        Name       => 'Source',
-        SelectedID => $Param{Source} || '',
-    );
-
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -519,10 +512,25 @@ sub _Overview {
         Name => 'ActionSearch',
         Data => \%Param,
     );
-    $Self->{LayoutObject}->Block(
-        Name => 'ActionAdd',
-        Data => \%Param,
+
+    # get writable data sources
+    my %CustomerSource = $Self->{CustomerUserObject}->CustomerSourceList(
+        ReadOnly => 0,
     );
+
+    # only show Add option if we have at least one writable backend
+    if ( scalar keys %CustomerSource ) {
+        $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
+            Data       => { %CustomerSource, },
+            Name       => 'Source',
+            SelectedID => $Param{Source} || '',
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionAdd',
+            Data => \%Param,
+        );
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewHeader',
