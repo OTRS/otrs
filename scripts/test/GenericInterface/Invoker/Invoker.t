@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.10 2011-03-24 09:46:46 mg Exp $
+# $Id: Invoker.t,v 1.11 2011-03-24 12:36:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use vars (qw($Self));
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{ $Self },
+    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -38,8 +38,9 @@ $Self->IsNot(
 
 # correct call (without invoker info)
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{ $Self },
+    %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
 );
 $Self->IsNot(
     ref $InvokerObject,
@@ -49,9 +50,22 @@ $Self->IsNot(
 
 # provide incorrect invoker
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{ $Self },
+    %{$Self},
     DebuggerObject => $DebuggerObject,
-    InvokerType => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
+    InvokerType    => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
+    WebserviceID   => 1,
+);
+$Self->IsNot(
+    ref $InvokerObject,
+    'Kernel::GenericInterface::Invoker',
+    'Invoker::new() constructor failure, wrong InvokerType',
+);
+
+# provide no WebserviceID
+$InvokerObject = Kernel::GenericInterface::Invoker->new(
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    InvokerType    => 'Test::Test',
 );
 $Self->IsNot(
     ref $InvokerObject,
@@ -61,9 +75,10 @@ $Self->IsNot(
 
 # correct call
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{ $Self },
+    %{$Self},
     DebuggerObject => $DebuggerObject,
-    InvokerType => 'Test::Test',
+    InvokerType    => 'Test::Test',
+    WebserviceID   => 1,
 );
 $Self->Is(
     ref $InvokerObject,
