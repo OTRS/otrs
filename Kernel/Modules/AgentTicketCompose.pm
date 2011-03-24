@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.124.2.1 2011-03-24 17:39:25 mp Exp $
+# $Id: AgentTicketCompose.pm,v 1.124.2.2 2011-03-24 17:46:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,10 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
 use Kernel::System::TemplateGenerator;
 use Mail::Address;
+use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.1 $) [1];
+$VERSION = qw($Revision: 1.124.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,12 +37,9 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check all needed objects
-    for my $Needed (
-        qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)
-        )
-    {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
+    for (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+        if ( !$Self->{$_} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
@@ -138,14 +136,14 @@ sub Run {
 
     # get params
     my %GetParam;
-    for my $Key (
+    for (
         qw(
         From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
         ArticleID TimeUnits Year Month Day Hour Minute FormID ReplyAll
         )
         )
     {
-        $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
     # get ticket free text params
@@ -693,6 +691,11 @@ sub Run {
             }
         }
 
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
+
         # get last customer article or selecte article ...
         my %Data;
         if ( $GetParam{ArticleID} ) {
@@ -738,16 +741,10 @@ sub Run {
 
         # get article to quote
         $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
-            TicketID           => $Self->{TicketID},
-            ArticleID          => $Data{ArticleID},
-            FormID             => $Self->{FormID},
-            UploadCacheObject  => $Self->{UploadCacheObject},
-            AttachmentsInclude => 1,
-        );
-
-        # get all attachments meta data
-        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
+            TicketID          => $Self->{TicketID},
+            ArticleID         => $Data{ArticleID},
+            FormID            => $Self->{FormID},
+            UploadCacheObject => $Self->{UploadCacheObject},
         );
 
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
