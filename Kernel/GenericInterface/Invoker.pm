@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.15 2011-03-23 17:37:17 cg Exp $
+# $Id: Invoker.pm,v 1.16 2011-03-24 12:37:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -92,6 +92,8 @@ create an object.
         EncodeObject       => $EncodeObject,
 
         InvokerType        => 'Nagios::TicketLock',    # the Invoker backend to use
+        WebserviceID       => 1                        # the WebserviceID where the Invoker belongs
+                                                       # normally this is passed by the requester
     );
 
 =cut
@@ -230,6 +232,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-03-23 17:37:17 $
+$Revision: 1.16 $ $Date: 2011-03-24 12:37:31 $
 
 =cut
