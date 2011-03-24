@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.2 2011-03-24 10:06:31 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.3 2011-03-24 10:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -65,18 +65,16 @@ perform ReplicateIncident Operation. This will return ???.
 
     my $Result = $OperationObject->Run(
         Data => {
-            ReplicateIncident => {
-                IctAdditionalInfos  => {},
-                IctAttachments      => {},
-                IctHead             => {},
-                IctId               => '',  # type="n0:char32"
-                IctPersons          => {},
-                IctSapNotes         => {},
-                IctSolutions        => {},
-                IctStatements       => {},
-                IctTimestamp        => '',  # type="n0:decimal15.0"
-                IctUrls             => {},
-            },
+            IctAdditionalInfos  => {},
+            IctAttachments      => {},
+            IctHead             => {},
+            IctId               => '',  # type="n0:char32"
+            IctPersons          => {},
+            IctSapNotes         => {},
+            IctSolutions        => {},
+            IctStatements       => {},
+            IctTimestamp        => '',  # type="n0:decimal15.0"
+            IctUrls             => {},
         },
     );
 
@@ -84,7 +82,7 @@ perform ReplicateIncident Operation. This will return ???.
         Success         => 1,                       # 0 or 1
         ErrorMessage    => '',                      # in case of error
         Data            => {                        # result data payload after Operation
-            PrdIctId   => '2011032400001',            # Incident number in the provider (help desk system) / type="n0:char32"
+            PrdIctId   => '2011032400001',          # Incident number in the provider (help desk system) / type="n0:char32"
             PersonMaps => {                         # Mapping of person IDs / tns:IctPersonMaps
                 Item => {
                     PersonId    => '0001',
@@ -108,6 +106,11 @@ perform ReplicateIncident Operation. This will return ???.
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # we need Data
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
+    }
 
     # copy data
     my $ReturnData = {
@@ -137,6 +140,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-03-24 10:06:31 $
+$Revision: 1.3 $ $Date: 2011-03-24 10:35:05 $
 
 =cut
