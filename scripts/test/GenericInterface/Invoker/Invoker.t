@@ -2,7 +2,7 @@
 # Invoker.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.t,v 1.9 2011-03-17 13:32:19 mg Exp $
+# $Id: Invoker.t,v 1.10 2011-03-24 09:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,8 @@ use vars (qw($Self));
 # create needed objects
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
-my %CommonObject = %{$Self};
-$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %CommonObject,
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{ $Self },
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -38,7 +37,10 @@ $Self->IsNot(
 );
 
 # correct call (without invoker info)
-$InvokerObject = Kernel::GenericInterface::Invoker->new(%CommonObject);
+$InvokerObject = Kernel::GenericInterface::Invoker->new(
+    %{ $Self },
+    DebuggerObject => $DebuggerObject,
+);
 $Self->IsNot(
     ref $InvokerObject,
     'Kernel::GenericInterface::Invoker',
@@ -47,7 +49,8 @@ $Self->IsNot(
 
 # provide incorrect invoker
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %CommonObject,
+    %{ $Self },
+    DebuggerObject => $DebuggerObject,
     InvokerType => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
 );
 $Self->IsNot(
@@ -58,7 +61,8 @@ $Self->IsNot(
 
 # correct call
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %CommonObject,
+    %{ $Self },
+    DebuggerObject => $DebuggerObject,
     InvokerType => 'Test::Test',
 );
 $Self->Is(

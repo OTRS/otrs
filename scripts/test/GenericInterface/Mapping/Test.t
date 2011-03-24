@@ -2,7 +2,7 @@
 # Test.t - Mapping tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.10 2011-03-15 09:17:38 sb Exp $
+# $Id: Test.t,v 1.11 2011-03-24 09:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,8 @@ use vars (qw($Self));
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
-my %CommonObject = %{$Self};
-$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
-$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %CommonObject,
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -31,8 +29,9 @@ $CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
 
 # create a mapping instance
 my $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %CommonObject,
-    MappingConfig => {
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    MappingConfig  => {
         Type => 'Test',
     },
 );

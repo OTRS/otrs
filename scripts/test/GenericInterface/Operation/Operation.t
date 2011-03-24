@@ -2,7 +2,7 @@
 # Operation.t - Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.t,v 1.4 2011-03-17 01:57:53 sb Exp $
+# $Id: Operation.t,v 1.5 2011-03-24 09:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,8 @@ use vars (qw($Self));
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation;
-my %CommonObject = %{$Self};
-$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
-$CommonObject{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-    %CommonObject,
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -42,8 +40,9 @@ $Self->IsNot(
 
 # provide empty operation
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %CommonObject,
-    OperationType => {},
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    OperationType  => {},
 );
 $Self->IsNot(
     ref $OperationObject,
@@ -53,8 +52,9 @@ $Self->IsNot(
 
 # provide incorrect operation
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %CommonObject,
-    OperationType => 'Test::ThisIsCertainlyNotBeingUsed',
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    OperationType  => 'Test::ThisIsCertainlyNotBeingUsed',
 );
 $Self->IsNot(
     ref $OperationObject,
@@ -64,8 +64,9 @@ $Self->IsNot(
 
 # create object
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %CommonObject,
-    OperationType => 'Test::Test',
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    OperationType  => 'Test::Test',
 );
 $Self->Is(
     ref $OperationObject,
