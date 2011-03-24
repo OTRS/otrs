@@ -2,7 +2,8 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.7 2011-03-24 06:06:29 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.8 2011-03-24 10:35:51 mg Exp $
+# $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -105,18 +106,16 @@ prepare the invocation of the configured remote webservice.
         Success         => 1,                   # 0 or 1
         ErrorMessage    => '',                  # in case of error
         Data            => {                    # data payload after Invoker
-            ReplicateIncident => {
-                IctAdditionalInfos  => {},
-                IctAttachments  => {},
-                IctHead  => {},
-                IctId   => '',  # type="n0:char32"
-                IctPersons  => {},
-                IctSapNotes  => {},
-                IctSolutions  => {},
-                IctStatements  => {},
-                IctTimestamp   => '',  # type="n0:decimal15.0"
-                IctUrls  => {},
-            },
+            IctAdditionalInfos  => {},
+            IctAttachments  => {},
+            IctHead  => {},
+            IctId   => '',  # type="n0:char32"
+            IctPersons  => {},
+            IctSapNotes  => {},
+            IctSolutions  => {},
+            IctStatements  => {},
+            IctTimestamp   => '',  # type="n0:decimal15.0"
+            IctUrls  => {},
         },
     };
 
@@ -283,29 +282,27 @@ sub PrepareRequest {
     $TimeStamp =~ s/[:|\-|\s]//g;
 
     my %DataForReturn = (
-        ReplicateIncident => {
-            IctId           => $Ticket{TicketID},        # type="n0:char32"
-            IctTimestamp    => $TimeStamp,               # type="n0:decimal15.0"
-            IctIncidentHead => {
-                IncidentGuid     => $Ticket{TicketNumber},    # type="n0:char32"
-                RequesterGuid    => $LocalSystemGuid,         # type="n0:char32"
-                ProviderGuid     => $RemoteSystemGuid,        # type="n0:char32"
-                AgentId          => $Ticket{OwnerID},         # type="n0:char32"
-                ReporterId       => $Ticket{CustomerID},      # type="n0:char32"
-                ShortDescription => $Ticket{Title},           # type="n0:char40"
-                Priority         => $Ticket{PriorityID},      # type="n0:char32"
-                Language         => $Language,                # type="n0:char2"
-                RequestedBegin   => '',                       # type="n0:decimal15.0"
-                RequestedEnd     => '',                       # type="n0:decimal15.0"
-            },
-            IctIncidentAdditionalInfos => \%IctIncidentAdditionalInfos,
-            IctIncidentAttachments     => \%IctIncidentAttachments,
-            IctIncidentPersons         => \%IctIncidentPersons,
-            IctIncidentSapNotes        => \%IctIncidentSapNotes,
-            IctIncidentSolutions       => \%IctIncidentSolutions,
-            IctIncidentStatements      => \%IctIncidentStatements,
-            IctIncidentUrls            => \%IctIncidentUrls,
+        IctId           => $Ticket{TicketID},        # type="n0:char32"
+        IctTimestamp    => $TimeStamp,               # type="n0:decimal15.0"
+        IctIncidentHead => {
+            IncidentGuid     => $Ticket{TicketNumber},    # type="n0:char32"
+            RequesterGuid    => $LocalSystemGuid,         # type="n0:char32"
+            ProviderGuid     => $RemoteSystemGuid,        # type="n0:char32"
+            AgentId          => $Ticket{OwnerID},         # type="n0:char32"
+            ReporterId       => $Ticket{CustomerID},      # type="n0:char32"
+            ShortDescription => $Ticket{Title},           # type="n0:char40"
+            Priority         => $Ticket{PriorityID},      # type="n0:char32"
+            Language         => $Language,                # type="n0:char2"
+            RequestedBegin   => '',                       # type="n0:decimal15.0"
+            RequestedEnd     => '',                       # type="n0:decimal15.0"
         },
+        IctIncidentAdditionalInfos => \%IctIncidentAdditionalInfos,
+        IctIncidentAttachments     => \%IctIncidentAttachments,
+        IctIncidentPersons         => \%IctIncidentPersons,
+        IctIncidentSapNotes        => \%IctIncidentSapNotes,
+        IctIncidentSolutions       => \%IctIncidentSolutions,
+        IctIncidentStatements      => \%IctIncidentStatements,
+        IctIncidentUrls            => \%IctIncidentUrls,
     );
     return {
         Success => 1,
@@ -492,6 +489,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-03-24 06:06:29 $
+$Revision: 1.8 $ $Date: 2011-03-24 10:35:51 $
 
 =cut
