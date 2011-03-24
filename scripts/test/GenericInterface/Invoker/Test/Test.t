@@ -2,7 +2,7 @@
 # Test.t - Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.1 2011-03-24 09:46:46 mg Exp $
+# $Id: Test.t,v 1.2 2011-03-24 12:50:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@ my $InvokerObject = Kernel::GenericInterface::Invoker->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
     InvokerType    => 'Test::Test',
+    WebserviceID   => 1,
 );
 $Self->Is(
     ref $InvokerObject,
