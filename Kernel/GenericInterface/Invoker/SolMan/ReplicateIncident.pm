@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.12 2011-03-25 18:01:36 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.13 2011-03-25 18:12:58 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -351,9 +351,8 @@ sub PrepareRequest {
             \%IctIncidentSapNotes : '',
         IctIncidentSolutions       => scalar %IctIncidentSolutions ?
             \%IctIncidentSolutions : '',
-        IctIncidentStatements      => {
-            item => \@IctIncidentStatements,
-        },
+        IctIncidentStatements      => scalar @IctIncidentStatements ?
+            { item => \@IctIncidentStatements} : '',
         IctIncidentUrls            => scalar %IctIncidentUrls ?
             \%IctIncidentUrls : '',
     );
@@ -543,6 +542,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-03-25 18:01:36 $
+$Revision: 1.13 $ $Date: 2011-03-25 18:12:58 $
 
 =cut
