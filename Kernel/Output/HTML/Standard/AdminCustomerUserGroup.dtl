@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserGroup.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.dtl,v 1.30 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminCustomerUserGroup.dtl,v 1.31 2011-03-25 16:08:18 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@
                             <button class="Primary" type="submit" value="$Text{"Search"}"><span>$Text{"Search"}</span></button>
                             <p class="FieldExplanation">
                                 <label for="CustomerUserSearch">
-                                    $Text{"Search for customers (wildcards are allowed)."}
+                                    $Text{"Search for customers (wildcards like '*' are allowed)."}
                                 </label>
                             </p>
                         </form>
