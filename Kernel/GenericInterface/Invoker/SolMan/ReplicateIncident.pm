@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.11 2011-03-25 17:59:20 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.12 2011-03-25 18:01:36 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -198,13 +198,11 @@ sub PrepareRequest {
         Sex         => '',                               # type="n0:char1"
         FirstName   => $CustomerUser{UserFirstname},     # type="n0:char40"
         LastName    => $CustomerUser{UserLastname},      # type="n0:char40"
-        Telephone   => {                                 # type="tns:IctPhone"
-            PhoneNo     =>  "$CustomerUser{UserPhone}",
-        },
+        Telephone   => $CustomerUser{UserPhone} ?        # type="tns:IctPhone"
+            { PhoneNo   =>  $CustomerUser{UserPhone} } : '',
         MobilePhone => $CustomerUser{UserMobile},        # type="n0:char30"
-        Fax         => {                                 # type="tns:IctFax"
-            FaxNo       =>  "$CustomerUser{UserFax}",
-        },
+        Fax         => $CustomerUser{UserFax} ?          # type="tns:IctFax"
+            { FaxNo     =>  $CustomerUser{UserFax} } : '',
         Email       => $CustomerUser{UserEmail},         # type="n0:char240"
     );
 
@@ -545,6 +543,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-03-25 17:59:20 $
+$Revision: 1.12 $ $Date: 2011-03-25 18:01:36 $
 
 =cut
