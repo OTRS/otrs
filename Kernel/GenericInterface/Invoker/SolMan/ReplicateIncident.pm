@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.14 2011-03-25 18:57:46 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.15 2011-03-25 23:02:39 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -193,17 +193,17 @@ sub PrepareRequest {
         User => $Ticket{CustomerUserID},
     );
     my %IctCustomerUser = (
-        PersonId    => $CustomerUser{CustomerUserID},    # type="n0:char32"
-        PersonIdExt => $CustomerUser{CustomerID},        # type="n0:char32"
-        Sex         => '',                               # type="n0:char1"
-        FirstName   => $CustomerUser{UserFirstname},     # type="n0:char40"
-        LastName    => $CustomerUser{UserLastname},      # type="n0:char40"
-        Telephone   => $CustomerUser{UserPhone} ?        # type="tns:IctPhone"
+        PersonId    => $CustomerUser{CustomerUserID} || '',    # type="n0:char32"
+        PersonIdExt => $CustomerUser{CustomerID} || '',        # type="n0:char32"
+        Sex         => '',                                     # type="n0:char1"
+        FirstName   => $CustomerUser{UserFirstname} || '',     # type="n0:char40"
+        LastName    => $CustomerUser{UserLastname} || '',      # type="n0:char40"
+        Telephone   => $CustomerUser{UserPhone} ?              # type="tns:IctPhone"
             { PhoneNo   =>  $CustomerUser{UserPhone} } : '',
-        MobilePhone => $CustomerUser{UserMobile},        # type="n0:char30"
-        Fax         => $CustomerUser{UserFax} ?          # type="tns:IctFax"
+        MobilePhone => $CustomerUser{UserMobile} || '',        # type="n0:char30"
+        Fax         => $CustomerUser{UserFax} ?                # type="tns:IctFax"
             { FaxNo     =>  $CustomerUser{UserFax} } : '',
-        Email       => $CustomerUser{UserEmail},         # type="n0:char240"
+        Email       => $CustomerUser{UserEmail} || '',         # type="n0:char240"
     );
 
     push @IctIncidentPersons,{%IctCustomerUser};
@@ -214,15 +214,15 @@ sub PrepareRequest {
         UserID => $Ticket{OwnerID},
     );
     my %IctAgentUser = (
-        PersonId    => $AgentData{UserID},               # type="n0:char32"
-        PersonIdExt => $AgentData{UserID},               # type="n0:char32"
-        Sex         => '',                               # type="n0:char1"
-        FirstName   => $AgentData{UserFirstname},        # type="n0:char40"
-        LastName    => $AgentData{UserLastname},         # type="n0:char40"
-        Telephone   => '',                               # type="tns:IctPhone"
-        MobilePhone => '',                               # type="n0:char30"
-        Fax         => '',                               # type="tns:IctFax"
-        Email       => $AgentData{UserEmail},            # type="n0:char240"
+        PersonId    => $AgentData{UserID} || '',               # type="n0:char32"
+        PersonIdExt => $AgentData{UserID} || '',                # type="n0:char32"
+        Sex         => '',                                     # type="n0:char1"
+        FirstName   => $AgentData{UserFirstname} || '',        # type="n0:char40"
+        LastName    => $AgentData{UserLastname} || '',         # type="n0:char40"
+        Telephone   => '',                                     # type="tns:IctPhone"
+        MobilePhone => '',                                     # type="n0:char30"
+        Fax         => '',                                     # type="tns:IctFax"
+        Email       => $AgentData{UserEmail} || '',            # type="n0:char240"
     );
 
     push @IctIncidentPersons,{%IctAgentUser};
@@ -343,16 +343,18 @@ sub PrepareRequest {
         },
         IctIncidentAdditionalInfos => scalar %IctIncidentAdditionalInfos ?
             \%IctIncidentAdditionalInfos : '',
-        IctIncidentAttachments     => scalar @IctIncidentAttachments ?
-            { item => \@IctIncidentAttachments } : '',
+        IctIncidentAttachments     => '',
+#        IctIncidentAttachments     => scalar @IctIncidentAttachments ?
+#            { item => \@IctIncidentAttachments } : '',
         IctIncidentPersons         => scalar @IctIncidentPersons ?
             { item => \@IctIncidentPersons } : '',
         IctIncidentSapNotes        => scalar %IctIncidentSapNotes ?
             \%IctIncidentSapNotes : '',
         IctIncidentSolutions       => scalar %IctIncidentSolutions ?
             \%IctIncidentSolutions : '',
-        IctIncidentStatements      => scalar @IctIncidentStatements ?
-            { item => \@IctIncidentStatements} : '',
+        IctIncidentStatements      => '',
+#        IctIncidentStatements      => scalar @IctIncidentStatements ?
+#            { item => \@IctIncidentStatements} : '',
         IctIncidentUrls            => scalar %IctIncidentUrls ?
             \%IctIncidentUrls : '',
     );
@@ -542,6 +544,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-03-25 18:57:46 $
+$Revision: 1.15 $ $Date: 2011-03-25 23:02:39 $
 
 =cut
