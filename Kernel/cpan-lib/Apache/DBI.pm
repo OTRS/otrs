@@ -1,4 +1,4 @@
-# $Id: DBI.pm,v 1.1 2011-01-20 13:34:19 mb Exp $
+# $Id: DBI.pm,v 1.2 2011-03-25 11:12:27 mb Exp $
 package Apache::DBI;
 use strict;
 
@@ -22,7 +22,7 @@ use Carp ();
 
 require_version DBI 1.00;
 
-$Apache::DBI::VERSION = '1.09';
+$Apache::DBI::VERSION = '1.10';
 
 # 1: report about new connect
 # 2: full debug output
