@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.9 2011-03-25 04:53:09 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.10 2011-03-25 17:09:23 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -159,14 +159,15 @@ sub PrepareRequest {
     my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
 
     # IctIncidentAdditionalInfos
-    my %IctIncidentAdditionalInfos = (
-        IctIncidentAdditionalInfo => {
-            Guid             => '',    # type="n0:char32"
-            ParentGuid       => '',    # type="n0:char32"
-            AddInfoAttribute => '',    # type="n0:char255"
-            AddInfoValue     => '',    # type="n0:char255"
-        },
-    );
+    my %IctIncidentAdditionalInfos;
+#    my %IctIncidentAdditionalInfos = (
+#        IctIncidentAdditionalInfo => {
+#            Guid             => '',    # type="n0:char32"
+#            ParentGuid       => '',    # type="n0:char32"
+#            AddInfoAttribute => '',    # type="n0:char255"
+#            AddInfoValue     => '',    # type="n0:char255"
+#        },
+#    );
 
     # IctIncidentPersons
     my @IctIncidentPersons;
@@ -265,77 +266,82 @@ sub PrepareRequest {
     }
 
     # IctIncidentSapNotes
-    my %IctIncidentSapNotes = (
-        IctIncidentSapNote => {
-            NoteId          => '',                       # type="n0:char30"
-            NoteDescription => '',                       # type="n0:char60"
-            Timestamp       => '',                       # type="n0:decimal15.0"
-            PersonId        => '',                       # type="n0:char32"
-            Url             => '',                       # type="n0:char4096"
-            Language        => '',                       # type="n0:char2"
-            Delete          => '',                       # type="n0:char1"
-        },
-    );
+    my %IctIncidentSapNotes;
+#    my %IctIncidentSapNotes = (
+#        IctIncidentSapNote => {
+#            NoteId          => '',                       # type="n0:char30"
+#            NoteDescription => '',                       # type="n0:char60"
+#            Timestamp       => '',                       # type="n0:decimal15.0"
+#            PersonId        => '',                       # type="n0:char32"
+#            Url             => '',                       # type="n0:char4096"
+#            Language        => '',                       # type="n0:char2"
+#            Delete          => '',                       # type="n0:char1"
+#        },
+#    );
 
     # IctIncidentSolutions
-    my %IctIncidentSolutions = (
-        IctIncidentSolution => {
-            SolutionId          => '',                   # type="n0:char32"
-            SolutionDescription => '',                   # type="n0:char60"
-            Timestamp           => '',                   # type="n0:decimal15.0"
-            PersonId            => '',                   # type="n0:char32"
-            Url                 => '',                   # type="n0:char4096"
-            Language            => '',                   # type="n0:char2"
-            Delete              => '',                   # type="n0:char1"
-        },
-    );
+    my %IctIncidentSolutions;
+#    my %IctIncidentSolutions = (
+#        IctIncidentSolution => {
+#            SolutionId          => '',                   # type="n0:char32"
+#            SolutionDescription => '',                   # type="n0:char60"
+#            Timestamp           => '',                   # type="n0:decimal15.0"
+#            PersonId            => '',                   # type="n0:char32"
+#            Url                 => '',                   # type="n0:char4096"
+#            Language            => '',                   # type="n0:char2"
+#            Delete              => '',                   # type="n0:char1"
+#        },
+#    );
 
     # IctIncidentUrls
-    my %IctIncidentUrls = (
-        IctIncidentUrl => {
-            UrlGuid        => '',                        # type="n0:char32"
-            Url            => '',                        # type="n0:char4096"
-            UrlName        => '',                        # type="n0:char40"
-            UrlDescription => '',                        # type="n0:char64"
-            Timestamp      => '',                        # type="n0:decimal15.0"
-            PersonId       => '',                        # type="n0:char32"
-            Language       => '',                        # type="n0:char2"
-            Delete         => '',                        # type="n0:char1"
-        },
-    );
+    my %IctIncidentUrls;
+#    my %IctIncidentUrls = (
+#        IctIncidentUrl => {
+#            UrlGuid        => '',                        # type="n0:char32"
+#            Url            => '',                        # type="n0:char4096"
+#            UrlName        => '',                        # type="n0:char40"
+#            UrlDescription => '',                        # type="n0:char64"
+#            Timestamp      => '',                        # type="n0:decimal15.0"
+#            PersonId       => '',                        # type="n0:char32"
+#            Language       => '',                        # type="n0:char2"
+#            Delete         => '',                        # type="n0:char1"
+#        },
+#    );
 
     # IctTimestamp
-    my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
-    $TimeStamp =~ s/[:|\-|\s]//g;
+    my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
+    $IctTimestamp =~ s/[:|\-|\s]//g;
 
     my %DataForReturn = (
         IctId           => $Ticket{TicketID},        # type="n0:char32"
-        IctTimestamp    => $TimeStamp,               # type="n0:decimal15.0"
+        IctTimestamp    => $IctTimestamp,               # type="n0:decimal15.0"
         IctIncidentHead => {
             IncidentGuid     => $Ticket{TicketNumber},    # type="n0:char32"
             RequesterGuid    => $LocalSystemGuid,         # type="n0:char32"
             ProviderGuid     => $RemoteSystemGuid,        # type="n0:char32"
             AgentId          => $Ticket{OwnerID},         # type="n0:char32"
             ReporterId       => $Ticket{CustomerID},      # type="n0:char32"
-            ShortDescription => $Ticket{Title},           # type="n0:char40"
+            ShortDescription => substr( $Ticket{Title}, 0, 40 ),           # type="n0:char40"
             Priority         => $Ticket{PriorityID},      # type="n0:char32"
             Language         => $Language,                # type="n0:char2"
             RequestedBegin   => '',                       # type="n0:decimal15.0"
             RequestedEnd     => '',                       # type="n0:decimal15.0"
         },
-        IctIncidentAdditionalInfos => \%IctIncidentAdditionalInfos,
-        IctIncidentAttachments     => {
-            item => \@IctIncidentAttachments,
-        },
-        IctIncidentPersons         => {
-            item => \@IctIncidentPersons,
-        },
-        IctIncidentSapNotes        => \%IctIncidentSapNotes,
-        IctIncidentSolutions       => \%IctIncidentSolutions,
+        IctIncidentAdditionalInfos => scalar %IctIncidentAdditionalInfos ?
+            \%IctIncidentAdditionalInfos : '',
+        IctIncidentAttachments     => scalar @IctIncidentAttachments ?
+            { item => \@IctIncidentAttachments } : '',
+        IctIncidentPersons         => scalar @IctIncidentPersons ?
+            { item => \@IctIncidentPersons } : '',
+        IctIncidentSapNotes        => scalar %IctIncidentSapNotes ?
+            \%IctIncidentSapNotes : '',
+        IctIncidentSolutions       => scalar %IctIncidentSolutions ?
+            \%IctIncidentSolutions : '',
         IctIncidentStatements      => {
             item => \@IctIncidentStatements,
         },
-        IctIncidentUrls            => \%IctIncidentUrls,
+        IctIncidentUrls            => scalar %IctIncidentUrls ?
+            \%IctIncidentUrls : '',
     );
 
     return {
@@ -523,6 +529,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-03-25 04:53:09 $
+$Revision: 1.10 $ $Date: 2011-03-25 17:09:23 $
 
 =cut
