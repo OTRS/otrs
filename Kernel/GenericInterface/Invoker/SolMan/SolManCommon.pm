@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.4 2011-03-23 21:27:25 cg Exp $
+# $Id: SolManCommon.pm,v 1.5 2011-03-25 18:45:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -290,7 +290,7 @@ sub HandlePersonMaps {
     if ( IsArrayRefWithData( $Param{PersonMaps}->{item} ) ) {
 
         # get all person maps
-        for my $Item ( @{ $Param{PersonMaps}->{Item} } ) {
+        for my $Item ( @{ $Param{PersonMaps}->{item} } ) {
             if ( IsHashRefWithData($Item) ) {
 
                 # check for valid data
@@ -393,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-23 21:27:25 $
+$Revision: 1.5 $ $Date: 2011-03-25 18:45:31 $
 
 =cut
