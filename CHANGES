@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.45 2011-03-24 17:39:52 en Exp $
+# $Id: CHANGES,v 1.1758.2.46 2011-03-25 05:35:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.7 2011-??-??
+3.0.7 2011-04-12
  - 2011-03-24 Fixed bug#7106 - Customer user login can't be updated nor changed.
  - 2011-03-24 Fixed bug#6954 - Option "NewTicketInNewWindow::Enabled"  is not working.
  - 2011-03-22 Fixed bug#7052 - Clicking on items in Dashboard and Overview causes
