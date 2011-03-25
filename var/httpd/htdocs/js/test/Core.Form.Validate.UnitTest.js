@@ -2,7 +2,7 @@
 // Core.Form.Validate.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.UnitTest.js,v 1.2 2011-01-27 11:56:58 mn Exp $
+// $Id: Core.Form.Validate.UnitTest.js,v 1.3 2011-03-25 11:35:16 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,7 @@ Core.Form.Validate = (function (Namespace) {
                     Content2: '2.87',
                     Desc1: 'no time unit',
                     Desc2: 'time unit'
-                },
+                }
             ];
 
             expect(SingleFieldValidationMethods.length * 2);
@@ -214,11 +214,10 @@ Core.Form.Validate = (function (Namespace) {
             $('#ObjectOne').addClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree Validate_DateInFuture');
 
             var NewDate = new Date();
-            NewDate = new Date(NewDate.getYear() + 1900, NewDate.getMonth(), NewDate.getDate() - 2);
-
+            NewDate.setDate(NewDate.getDate() - 2);
 
             $('#ObjectOne').val(NewDate.getDate());
-            $('#ObjectTwo').val(NewDate.getYear() + 1900);
+            $('#ObjectTwo').val(NewDate.getFullYear());
             $('#ObjectThree').val(NewDate.getMonth() + 1);
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
@@ -226,10 +225,10 @@ Core.Form.Validate = (function (Namespace) {
             equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DateInFuture: today - 2 days');
 
             NewDate = new Date();
-            NewDate = new Date(NewDate.getYear() + 1900, NewDate.getMonth(), NewDate.getDate() + 2);
+            NewDate.setDate(NewDate.getDate() + 2);
 
             $('#ObjectOne').val(NewDate.getDate());
-            $('#ObjectTwo').val(NewDate.getYear() + 1900);
+            $('#ObjectTwo').val(NewDate.getFullYear());
             $('#ObjectThree').val(NewDate.getMonth() + 1);
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
