@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2017";
+our $VERSION = "1.2020";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -619,10 +619,9 @@ sub get {
 
 sub _process_flags {
     my $self = shift;
+    my @ret = map { split m/\s+/, $_ } grep { $_ } @_;
 
-    return grep { m/^\\\w+\z/ }
-            map { split m/\s+/, $_ }
-            @_;
+    return @ret;
 }
 
 sub put {
@@ -1046,8 +1045,14 @@ sub _read_multiline {
     my $read_so_far = 0;
 
     while ( $read_so_far < $count ) {
-        push @lines, $sock->getline;
-        $read_so_far += length( $lines[-1] );
+        if( defined( my $line = $sock->getline ) ) {
+            $read_so_far += length( $line );
+            push @lines, $line;
+
+        } else {
+            $self->_seterrstr( "error reading $count bytes from socket" );
+            last;
+        }
     }
 
     if ( $self->{debug} ) {

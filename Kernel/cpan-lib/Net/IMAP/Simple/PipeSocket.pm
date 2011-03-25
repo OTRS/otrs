@@ -104,6 +104,17 @@ sub _waitpid {
     return;
 }
 
+sub CLOSE {
+    my $this = shift;
+    my $rdr  = $this->{rdr};
+    my $wtr  = $this->{wtr};
+
+    close $rdr or warn "PIPE ERR (close-r): $!";
+    close $wtr or warn "PIPE ERR (close-w): $!";
+
+    return;
+}
+
 1;
 
 __END__
