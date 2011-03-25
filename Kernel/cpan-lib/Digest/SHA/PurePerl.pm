@@ -4,10 +4,11 @@ require 5.003000;
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
+use Fcntl;
 use integer;
 use FileHandle;
 
-$VERSION = '5.48';
+$VERSION = '5.61';
 
 require Exporter;
 @ISA = qw(Exporter);
@@ -50,7 +51,7 @@ my @H0256 = (			# SHA-256 initial hash value
 	0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
 );
 
-my(@H0384, @H0512);		# filled in later if $uses64bit
+my(@H0384, @H0512, @H0512224, @H0512256);  # filled in later if $uses64bit
 
 # Routines with a "_c_" prefix return Perl code-fragments which are
 # eval'ed at initialization.  This technique emulates the behavior
@@ -357,6 +358,16 @@ my @K512 = (
 	0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f,
 	0x1f83d9abfb41bd6b, 0x5be0cd19137e2179);
 
+@H0512224 = (
+	0x8c3d37c819544da2, 0x73e1996689dcd4d6, 0x1dfab7ae32ff9c82,
+	0x679dd514582f9fcf, 0x0f6d2b697bd44da8, 0x77e36f7304c48942,
+	0x3f9d85a86a1d36c8, 0x1112e6ad91d692a1);
+
+@H0512256 = (
+	0x22312194fc2bf72c, 0x9f555fa3c84c64c2, 0x2393b86b6f53b151,
+	0x963877195940eabd, 0x96283ee2a88effe3, 0xbe5e1e2553863992,
+	0x2b0199fc2c85b8aa, 0x0eb72ddc81c52ca2);
+
 BEGIN { $^W = $w_flag }		# restore prior warning state
 
 sub _c_SL64 { my($x, $n) = @_; "($x << $n)" }
@@ -466,12 +477,14 @@ sub _sharewind {
 	$self->{block} = ""; $self->{blockcnt} = 0;
 	$self->{blocksize} = $alg <= 256 ? 512 : 1024;
 	for (qw(lenll lenlh lenhl lenhh)) { $self->{$_} = 0 }
-	$self->{digestlen} = $alg == 1 ? 20 : $alg/8;
+	$self->{digestlen} = $alg == 1 ? 20 : ($alg % 1000)/8;
 	if    ($alg == 1)   { $self->{sha} = \&_sha1;   $self->{H} = [@H01]   }
 	elsif ($alg == 224) { $self->{sha} = \&_sha256; $self->{H} = [@H0224] }
 	elsif ($alg == 256) { $self->{sha} = \&_sha256; $self->{H} = [@H0256] }
 	elsif ($alg == 384) { $self->{sha} = $sha512;   $self->{H} = [@H0384] }
 	elsif ($alg == 512) { $self->{sha} = $sha512;   $self->{H} = [@H0512] }
+	elsif ($alg == 512224) { $self->{sha}=$sha512; $self->{H}=[@H0512224] }
+	elsif ($alg == 512256) { $self->{sha}=$sha512; $self->{H}=[@H0512256] }
 	push(@{$self->{H}}, 0) while scalar(@{$self->{H}}) < 8;
 	$self;
 }
@@ -479,7 +492,7 @@ sub _sharewind {
 sub _shaopen {
 	my($alg) = @_;
 	my($self);
-	return unless grep { $alg == $_ } (1, 224, 256, 384, 512);
+	return unless grep { $alg == $_ } (1,224,256,384,512,512224,512256);
 	return if ($alg >= 384 && !$uses64bit);
 	$self->{alg} = $alg;
 	_sharewind($self);
@@ -638,9 +651,9 @@ sub _shadup { my($self) = @_; my($copy); _shacpy($copy, $self) }
 
 sub _shadump {
 	my $file = shift;
-	$file = "-" if (!defined($file) || $file eq "");
-
-	my $fh = FileHandle->new($file, "w") or return;
+	my $fh = (!defined($file) || $file eq "") 
+			? FileHandle->new("> -") 
+			: FileHandle->new($file, "w") or return;
 	my $self = shift;
 	my $is32bit = $self->{alg} <= 256;
 	my $fmt = $is32bit ? ":%08x" : ":%016x";
@@ -682,9 +695,9 @@ sub _match {
 
 sub _shaload {
 	my $file = shift;
-	$file = "-" if (!defined($file) || $file eq "");
-
-	my $fh = FileHandle->new($file, "r") or return;
+	my $fh = (!defined($file) || $file eq "") 
+			? FileHandle->new("< -") 
+			: FileHandle->new($file, "r") or return;
 
 	my @f = _match($fh, "alg") or return;
 	my $self = _shaopen(shift(@f)) or return;
@@ -763,7 +776,7 @@ my @suffix_extern = ("", "_hex", "_base64");
 my @suffix_intern = ("digest", "hex", "base64");
 
 my($i, $alg);
-for $alg (1, 224, 256, 384, 512) {
+for $alg (1, 224, 256, 384, 512, 512224, 512256) {
 	for $i (0 .. 2) {
 		my $fcn = 'sub sha' . $alg . $suffix_extern[$i] . ' {
 			my $state = _shaopen(' . $alg . ') or return;
@@ -883,16 +896,16 @@ sub _Addfile {
 
 	$mode = defined($mode) ? $mode : "";
 	my ($binary, $portable) = map { $_ eq $mode } ("b", "p");
-	my $text = -T $file;
 
+		## Always interpret "-" to mean STDIN; otherwise use
+		## sysopen to handle full range of POSIX file names
 	local *FH;
-		# protect any leading or trailing whitespace in $file;
-		# otherwise, 2-arg "open" will ignore them
-	$file =~ s#^(\s)#./$1#;
-	open(FH, "< $file\0") or _bail("Open failed");
+	$file eq '-' and open(FH, '< -')
+		or sysopen(FH, $file, O_RDONLY)
+			or _bail('Open failed');
 	binmode(FH) if $binary || $portable;
 
-	unless ($portable && $text) {
+	unless ($portable && -T $file) {
 		$self->_addfile(*FH);
 		close(FH);
 		return($self);
@@ -908,8 +921,8 @@ sub _Addfile {
 			last unless $n2;
 			$buf1 .= $buf2;
 		}
-		$buf1 =~ s/\015?\015\012/\012/g; 	# DOS/Windows
-		$buf1 =~ s/\015/\012/g;          	# early MacOS
+		$buf1 =~ s/\015?\015\012/\012/g;	# DOS/Windows
+		$buf1 =~ s/\015/\012/g;			# early MacOS
 		$self->add($buf1);
 	}
 	_bail("Read failed") unless defined $n1;
@@ -1001,10 +1014,10 @@ From the command line:
 
 =head1 ABSTRACT
 
-Digest::SHA::PurePerl is a complete implementation of the NIST
-Secure Hash Standard.  It gives Perl programmers a convenient way
-to calculate SHA-1, SHA-224, SHA-256, SHA-384, and SHA-512 message
-digests.  The module can handle all types of input, including
+Digest::SHA::PurePerl is a complete implementation of the NIST Secure
+Hash Standard.  It gives Perl programmers a convenient way to calculate
+SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256
+message digests.  The module can handle all types of input, including
 partial-byte data.
 
 =head1 DESCRIPTION
@@ -1139,6 +1152,10 @@ I<Functional style>
 
 =item B<sha512($data, ...)>
 
+=item B<sha512224($data, ...)>
+
+=item B<sha512256($data, ...)>
+
 Logically joins the arguments into a single string, and returns
 its SHA-1/224/256/384/512 digest encoded as a binary string.
 
@@ -1152,6 +1169,10 @@ its SHA-1/224/256/384/512 digest encoded as a binary string.
 
 =item B<sha512_hex($data, ...)>
 
+=item B<sha512224_hex($data, ...)>
+
+=item B<sha512256_hex($data, ...)>
+
 Logically joins the arguments into a single string, and returns
 its SHA-1/224/256/384/512 digest encoded as a hexadecimal string.
 
@@ -1164,6 +1185,10 @@ its SHA-1/224/256/384/512 digest encoded as a hexadecimal string.
 =item B<sha384_base64($data, ...)>
 
 =item B<sha512_base64($data, ...)>
+
+=item B<sha512224_base64($data, ...)>
+
+=item B<sha512256_base64($data, ...)>
 
 Logically joins the arguments into a single string, and returns
 its SHA-1/224/256/384/512 digest encoded as a Base64 string.
@@ -1182,10 +1207,10 @@ I<OOP style>
 =item B<new($alg)>
 
 Returns a new Digest::SHA::PurePerl object.  Allowed values for
-I<$alg> are 1, 224, 256, 384, or 512.  It's also possible to use
-common string representations of the algorithm (e.g. "sha256",
-"SHA-384").  If the argument is missing, SHA-1 will be used by
-default.
+I<$alg> are 1, 224, 256, 384, 512, 512224, or 512256.  It's also
+possible to use common string representations of the algorithm
+(e.g. "sha256", "SHA-384").  If the argument is missing, SHA-1 will
+be used by default.
 
 Invoking I<new> as an instance method will not create a new object;
 instead, it will simply reset the object to the initial state
@@ -1200,14 +1225,14 @@ I<reset> is just an alias for I<new>.
 =item B<hashsize>
 
 Returns the number of digest bits for this object.  The values are
-160, 224, 256, 384, and 512 for SHA-1, SHA-224, SHA-256, SHA-384,
-and SHA-512, respectively.
+160, 224, 256, 384, 512, 224, and 256 for SHA-1, SHA-224, SHA-256,
+SHA-384, SHA-512, SHA-512/224, and SHA-512/256, respectively.
 
 =item B<algorithm>
 
 Returns the digest algorithm for this object.  The values are 1,
-224, 256, 384, and 512 for SHA-1, SHA-224, SHA-256, SHA-384, and
-SHA-512, respectively.
+224, 256, 384, 512, 512224, and 512256 for SHA-1, SHA-224, SHA-256,
+SHA-384, SHA-512, SHA-512/224, and SHA-512/256, respectively.
 
 =item B<clone>
 
@@ -1344,6 +1369,10 @@ I<HMAC-SHA-1/224/256/384/512>
 
 =item B<hmac_sha512($data, $key)>
 
+=item B<hmac_sha512224($data, $key)>
+
+=item B<hmac_sha512256($data, $key)>
+
 Returns the HMAC-SHA-1/224/256/384/512 digest of I<$data>/I<$key>,
 with the result encoded as a binary string.  Multiple I<$data>
 arguments are allowed, provided that I<$key> is the last argument
@@ -1359,6 +1388,10 @@ in the list.
 
 =item B<hmac_sha512_hex($data, $key)>
 
+=item B<hmac_sha512224_hex($data, $key)>
+
+=item B<hmac_sha512256_hex($data, $key)>
+
 Returns the HMAC-SHA-1/224/256/384/512 digest of I<$data>/I<$key>,
 with the result encoded as a hexadecimal string.  Multiple I<$data>
 arguments are allowed, provided that I<$key> is the last argument
@@ -1373,6 +1406,10 @@ in the list.
 =item B<hmac_sha384_base64($data, $key)>
 
 =item B<hmac_sha512_base64($data, $key)>
+
+=item B<hmac_sha512224_base64($data, $key)>
+
+=item B<hmac_sha512256_base64($data, $key)>
 
 Returns the HMAC-SHA-1/224/256/384/512 digest of I<$data>/I<$key>,
 with the result encoded as a Base64 string.  Multiple I<$data>
@@ -1390,9 +1427,9 @@ CPAN Digest modules.  See L</"PADDING OF BASE64 DIGESTS"> for details.
 
 L<Digest>, L<Digest::SHA>
 
-The Secure Hash Standard (FIPS PUB 180-2) can be found at:
+The Secure Hash Standard (Draft FIPS PUB 180-4) can be found at:
 
-L<http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf>
+L<http://csrc.nist.gov/publications/drafts/fips180-4/Draft-FIPS180-4_Feb2011.pdf>
 
 The Keyed-Hash Message Authentication Code (HMAC):
 
@@ -1407,6 +1444,7 @@ L<http://csrc.nist.gov/publications/fips/fips198/fips-198a.pdf>
 The author is particularly grateful to
 
 	Gisle Aas
+	Sean Burke
 	Chris Carey
 	Alexandr Ciornii
 	Jim Doble
@@ -1423,11 +1461,13 @@ The author is particularly grateful to
 	Gunnar Wolf
 	Adam Woodbury
 
-for their valuable comments and suggestions.
+"who by trained skill rescued life from such great billows and such thick
+darkness and moored it in so perfect a calm and in so brilliant a light"
+- Lucretius
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2003-2010 Mark Shelor
+Copyright (C) 2003-2011 Mark Shelor
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
