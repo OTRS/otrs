@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1815 2011-03-24 17:47:48 en Exp $
+# $Id: CHANGES,v 1.1816 2011-03-25 05:37:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
      of > 70 characters exists.
 
-3.0.7 2011-??-??
+3.0.7 2011-04-12
  - 2011-03-24 Fixed bug#7106 - Customer user login can't be updated nor changed.
  - 2011-03-24 Fixed bug#6954 - Option "NewTicketInNewWindow::Enabled"  is not working.
  - 2011-03-22 Fixed bug#7052 - Clicking on items in Dashboard and Overview causes
@@ -1048,7 +1048,7 @@
     for ticket events (config is compatble with old one).
  - 2009-09-15 Improved performance of the PDF backend.
 
-2.4.10 (2011/??/??)
+2.4.10 (2011/04/12)
  - 2011-03-18 Added required settings for oracle databases in apache2-httpd-new.include.conf.
  - 2011-03-07 Fixed bug#6014 - Printed pdf tickets are not searchable.
  - 2011-02-17 Fixed bug#6906 - Vendor URL points to Basename+URL instead of URL.
