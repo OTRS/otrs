@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.8 2011-03-24 10:35:51 mg Exp $
+# $Id: ReplicateIncident.pm,v 1.9 2011-03-25 04:53:09 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -20,9 +20,10 @@ use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
+use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -168,6 +169,7 @@ sub PrepareRequest {
     );
 
     # IctIncidentPersons
+    my @IctIncidentPersons;
 
     # customer
     my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -179,20 +181,23 @@ sub PrepareRequest {
         Sex         => '',                               # type="n0:char1"
         FirstName   => $CustomerUser{UserFirstname},     # type="n0:char40"
         LastName    => $CustomerUser{UserLastname},      # type="n0:char40"
-        Telephone   => $CustomerUser{UserPhone},         # type="tns:IctPhone"
+        Telephone   => {                                 # type="tns:IctPhone"
+            PhoneNo     =>  "$CustomerUser{UserPhone}",
+        },
         MobilePhone => $CustomerUser{UserMobile},        # type="n0:char30"
-        Fax         => $CustomerUser{UserFax},           # type="tns:IctFax"
+        Fax         => {                                 # type="tns:IctFax"
+            FaxNo       =>  "$CustomerUser{UserFax}",
+        },
         Email       => $CustomerUser{UserEmail},         # type="n0:char240"
     );
 
-    #    push @IctIncidentPersons,%IctCustomerUser;
+    push @IctIncidentPersons,{%IctCustomerUser};
     my $Language = $CustomerUser{UserLanguage};
 
     # agent
     my %AgentData = $Self->{UserObject}->GetUserData(
         UserID => $Ticket{OwnerID},
     );
-
     my %IctAgentUser = (
         PersonId    => $AgentData{UserID},               # type="n0:char32"
         PersonIdExt => $AgentData{UserID},               # type="n0:char32"
@@ -205,26 +210,59 @@ sub PrepareRequest {
         Email       => $AgentData{UserEmail},            # type="n0:char240"
     );
 
-    #    push @IctIncidentPersons,%IctAgentUser;
-    my %IctIncidentPersons = (
-        customer => \%IctCustomerUser,
-        agent    => \%IctAgentUser,
-    );
+    push @IctIncidentPersons,{%IctAgentUser};
 
     # IctIncidentAttachments
-    my %IctIncidentAttachments = (
-        IctIncidentAttachment => {
-            AttachmentGuid => '',                        # type="n0:char32"
-            Filename       => '',                        # type="xsd:string"
-            MimeType       => '',                        # type="n0:char128"
-            Data           => '',                        # type="xsd:base64Binary"
-            Timestamp      => '',                        # type="n0:decimal15.0"
-            PersonId       => '',                        # type="n0:char32"
-            Url            => '',                        # type="n0:char4096"
-            Language       => '',                        # type="n0:char2"
-            Delete         => '',                        # type="n0:char1"
-        },
+    my @Articles = $Self->{TicketObject}->ArticleGet(
+        TicketID => $Self->{TicketID},
     );
+
+    my @IctIncidentAttachments;
+    my @IctIncidentStatements;
+    for my $Article (@Articles) {
+        my $CreateTime = $Article->{Created};
+        $CreateTime =~ s/[:|\-|\s]//g;
+
+        # IctIncidentStatements
+        my %IctIncidentStatement = (
+                TextType  => 'unknow',                              # type="n0:char32"
+                Texts     => {                                      # type="tns:IctIncidentTexts"
+                    item    =>  encode_base64($Article->{Body}),
+                },
+                Timestamp => $CreateTime,                           # type="n0:decimal15.0"
+                PersonId  => $Ticket{OwnerID},                      # type="n0:char32"
+                Language  => $Language,                             # type="n0:char2"
+        );
+        push @IctIncidentStatements,{%IctIncidentStatement};
+
+        # attachments
+        my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID => $Article->{ArticleID},
+            UserID    => $Ticket{OwnerID},
+        );
+
+        for my $Index ( keys %ArticleIndex ) {
+            my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                ArticleID => $Article->{ArticleID},
+                FileID    => $Index,
+                UserID    => $Ticket{OwnerID},
+            );
+            my %IctIncidentAttachment = (
+                    AttachmentGuid => $Index,                                   # type="n0:char32"
+                    Filename       => $ArticleIndex{$Index}->{Filename},        # type="xsd:string"
+                    MimeType       => '',                                       # type="n0:char128"
+                    Data           => encode_base64( $Attachment{Content} ),    # type="xsd:base64Binary"
+                    Timestamp      => $CreateTime,                              # type="n0:decimal15.0"
+                    PersonId       => $Ticket{OwnerID},                         # type="n0:char32"
+                    Url            => '',                                       # type="n0:char4096"
+                    Language       => $Language,                                # type="n0:char2"
+                    Delete         => '',                                       # type="n0:char1"
+            );
+            push @IctIncidentAttachments,{%IctIncidentAttachment};
+
+        }
+
+    }
 
     # IctIncidentSapNotes
     my %IctIncidentSapNotes = (
@@ -249,17 +287,6 @@ sub PrepareRequest {
             Url                 => '',                   # type="n0:char4096"
             Language            => '',                   # type="n0:char2"
             Delete              => '',                   # type="n0:char1"
-        },
-    );
-
-    # IctIncidentStatements
-    my %IctIncidentStatements = (
-        IctIncidentStatement => {
-            TextType  => '',                             # type="n0:char32"
-            Texts     => '',                             # type="tns:IctIncidentTexts"
-            Timestamp => '',                             # type="n0:decimal15.0"
-            PersonId  => '',                             # type="n0:char32"
-            Language  => '',                             # type="n0:char2"
         },
     );
 
@@ -297,13 +324,20 @@ sub PrepareRequest {
             RequestedEnd     => '',                       # type="n0:decimal15.0"
         },
         IctIncidentAdditionalInfos => \%IctIncidentAdditionalInfos,
-        IctIncidentAttachments     => \%IctIncidentAttachments,
-        IctIncidentPersons         => \%IctIncidentPersons,
+        IctIncidentAttachments     => {
+            item => \@IctIncidentAttachments,
+        },
+        IctIncidentPersons         => {
+            item => \@IctIncidentPersons,
+        },
         IctIncidentSapNotes        => \%IctIncidentSapNotes,
         IctIncidentSolutions       => \%IctIncidentSolutions,
-        IctIncidentStatements      => \%IctIncidentStatements,
+        IctIncidentStatements      => {
+            item => \@IctIncidentStatements,
+        },
         IctIncidentUrls            => \%IctIncidentUrls,
     );
+
     return {
         Success => 1,
         Data    => \%DataForReturn,
@@ -489,6 +523,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-03-24 10:35:51 $
+$Revision: 1.9 $ $Date: 2011-03-25 04:53:09 $
 
 =cut
