@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.15 2011-03-21 11:09:17 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.16 2011-03-25 13:53:58 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -358,7 +358,7 @@ sub _CommonObjects {
     $CommonObject{ConfigObject} = Kernel::Config->new();
     $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
     $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'otrs.Scheduler',
+        LogPrefix => 'OTRS-otrs.Scheduler',
         %CommonObject,
     );
     $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

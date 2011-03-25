@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GetConfig.pl - get OTRS config vars
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GetConfig.pl,v 1.2 2010-08-06 17:44:32 cr Exp $
+# $Id: otrs.GetConfig.pl,v 1.3 2011-03-25 13:53:58 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -42,7 +42,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'otrs.GetConfig',
+    LogPrefix => 'OTRS-otrs.GetConfig',
     %CommonObject,
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);

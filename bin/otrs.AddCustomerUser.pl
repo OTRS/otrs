@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddCustomerUser.pl - Add User from CLI
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -52,7 +52,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.AddCustomerUser.pl' );
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddCustomerUser.pl' );
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);

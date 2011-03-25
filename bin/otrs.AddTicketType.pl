@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddTicketType.pl - add new Ticket Types
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddTicketType.pl,v 1.2 2010-11-11 16:27:18 mb Exp $
+# $Id: otrs.AddTicketType.pl,v 1.3 2011-03-25 13:53:58 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -57,7 +57,7 @@ if ( !$opts{n} ) {
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.TicketType' );
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);

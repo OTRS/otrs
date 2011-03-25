@@ -3,7 +3,7 @@
 # bin/otrs.UnitTest.pl - the global test handle
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.UnitTest.pl,v 1.5 2011-02-02 09:20:20 mg Exp $
+# $Id: otrs.UnitTest.pl,v 1.6 2011-03-25 13:53:58 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -57,7 +57,7 @@ my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-UnitTest',
+    LogPrefix => 'OTRS-otrs.UnitTest',
     %CommonObject,
 );
 $CommonObject{MainObject}     = Kernel::System::Main->new(%CommonObject);
