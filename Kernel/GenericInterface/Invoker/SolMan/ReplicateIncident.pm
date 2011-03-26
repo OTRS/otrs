@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.15 2011-03-25 23:02:39 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.16 2011-03-26 00:06:48 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -174,10 +174,10 @@ sub PrepareRequest {
     # local SystemGuid
     my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
 
-    # IctIncidentAdditionalInfos
-    my %IctIncidentAdditionalInfos;
-#    my %IctIncidentAdditionalInfos = (
-#        IctIncidentAdditionalInfo => {
+    # IctAdditionalInfos
+    my %IctAdditionalInfos;
+#    my %IctAdditionalInfos = (
+#        IctAdditionalInfo => {
 #            Guid             => '',    # type="n0:char32"
 #            ParentGuid       => '',    # type="n0:char32"
 #            AddInfoAttribute => '',    # type="n0:char255"
@@ -185,8 +185,8 @@ sub PrepareRequest {
 #        },
 #    );
 
-    # IctIncidentPersons
-    my @IctIncidentPersons;
+    # IctPersons
+    my @IctPersons;
 
     # customer
     my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -206,7 +206,7 @@ sub PrepareRequest {
         Email       => $CustomerUser{UserEmail} || '',         # type="n0:char240"
     );
 
-    push @IctIncidentPersons,{%IctCustomerUser};
+    push @IctPersons,{%IctCustomerUser};
     my $Language = $CustomerUser{UserLanguage};
 
     # agent
@@ -215,7 +215,7 @@ sub PrepareRequest {
     );
     my %IctAgentUser = (
         PersonId    => $AgentData{UserID} || '',               # type="n0:char32"
-        PersonIdExt => $AgentData{UserID} || '',                # type="n0:char32"
+        PersonIdExt => '',                # type="n0:char32"
         Sex         => '',                                     # type="n0:char1"
         FirstName   => $AgentData{UserFirstname} || '',        # type="n0:char40"
         LastName    => $AgentData{UserLastname} || '',         # type="n0:char40"
@@ -225,30 +225,30 @@ sub PrepareRequest {
         Email       => $AgentData{UserEmail} || '',            # type="n0:char240"
     );
 
-    push @IctIncidentPersons,{%IctAgentUser};
+    push @IctPersons,{%IctAgentUser};
 
-    # IctIncidentAttachments
+    # IctAttachments
     my @Articles = $Self->{TicketObject}->ArticleGet(
         TicketID => $Self->{TicketID},
     );
 
-    my @IctIncidentAttachments;
-    my @IctIncidentStatements;
+    my @IctAttachments;
+    my @IctStatements;
     for my $Article (@Articles) {
         my $CreateTime = $Article->{Created};
         $CreateTime =~ s/[:|\-|\s]//g;
 
-        # IctIncidentStatements
-        my %IctIncidentStatement = (
+        # IctStatements
+        my %IctStatement = (
                 TextType  => 'SU99',                                # type="n0:char32"
-                Texts     => {                                      # type="tns:IctIncidentTexts"
+                Texts     => {                                      # type="tns:IctTexts"
                     item    =>  $Article->{Body} || '',
                 },
                 Timestamp => $CreateTime,                           # type="n0:decimal15.0"
                 PersonId  => $Ticket{OwnerID},                      # type="n0:char32"
                 Language  => $Language,                             # type="n0:char2"
         );
-        push @IctIncidentStatements,{%IctIncidentStatement};
+        push @IctStatements,{%IctStatement};
 
         # attachments
         my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
@@ -262,7 +262,7 @@ sub PrepareRequest {
                 FileID    => $Index,
                 UserID    => $Ticket{OwnerID},
             );
-            my %IctIncidentAttachment = (
+            my %IctAttachment = (
                     AttachmentGuid => $Index,                                   # type="n0:char32"
                     Filename       => $ArticleIndex{$Index}->{Filename},        # type="xsd:string"
                     MimeType       => '',                                       # type="n0:char128"
@@ -273,16 +273,16 @@ sub PrepareRequest {
                     Language       => $Language,                                # type="n0:char2"
                     Delete         => '',                                       # type="n0:char1"
             );
-            push @IctIncidentAttachments,{%IctIncidentAttachment};
+            push @IctAttachments,{%IctAttachment};
 
         }
 
     }
 
-    # IctIncidentSapNotes
-    my %IctIncidentSapNotes;
-#    my %IctIncidentSapNotes = (
-#        IctIncidentSapNote => {
+    # IctSapNotes
+    my %IctSapNotes;
+#    my %IctSapNotes = (
+#        IctSapNote => {
 #            NoteId          => '',                       # type="n0:char30"
 #            NoteDescription => '',                       # type="n0:char60"
 #            Timestamp       => '',                       # type="n0:decimal15.0"
@@ -293,10 +293,10 @@ sub PrepareRequest {
 #        },
 #    );
 
-    # IctIncidentSolutions
-    my %IctIncidentSolutions;
-#    my %IctIncidentSolutions = (
-#        IctIncidentSolution => {
+    # IctSolutions
+    my %IctSolutions;
+#    my %IctSolutions = (
+#        IctSolution => {
 #            SolutionId          => '',                   # type="n0:char32"
 #            SolutionDescription => '',                   # type="n0:char60"
 #            Timestamp           => '',                   # type="n0:decimal15.0"
@@ -307,10 +307,10 @@ sub PrepareRequest {
 #        },
 #    );
 
-    # IctIncidentUrls
-    my %IctIncidentUrls;
-#    my %IctIncidentUrls = (
-#        IctIncidentUrl => {
+    # IctUrls
+    my %IctUrls;
+#    my %IctUrls = (
+#        IctUrl => {
 #            UrlGuid        => '',                        # type="n0:char32"
 #            Url            => '',                        # type="n0:char4096"
 #            UrlName        => '',                        # type="n0:char40"
@@ -327,9 +327,11 @@ sub PrepareRequest {
     $IctTimestamp =~ s/[:|\-|\s]//g;
 
     my %DataForReturn = (
-        IctId           => $Ticket{TicketID},        # type="n0:char32"
-        IctTimestamp    => $IctTimestamp,               # type="n0:decimal15.0"
-        IctIncidentHead => {
+        IctAdditionalInfos => scalar %IctAdditionalInfos ?
+            \%IctAdditionalInfos : '',
+        IctAttachments     => scalar @IctAttachments ?
+            { item => \@IctAttachments } : '',
+        IctHead => {
             IncidentGuid     => $Ticket{TicketNumber},    # type="n0:char32"
             RequesterGuid    => $LocalSystemGuid,         # type="n0:char32"
             ProviderGuid     => $RemoteSystemGuid,        # type="n0:char32"
@@ -341,22 +343,18 @@ sub PrepareRequest {
             RequestedBegin   => '',                       # type="n0:decimal15.0"
             RequestedEnd     => '',                       # type="n0:decimal15.0"
         },
-        IctIncidentAdditionalInfos => scalar %IctIncidentAdditionalInfos ?
-            \%IctIncidentAdditionalInfos : '',
-        IctIncidentAttachments     => '',
-#        IctIncidentAttachments     => scalar @IctIncidentAttachments ?
-#            { item => \@IctIncidentAttachments } : '',
-        IctIncidentPersons         => scalar @IctIncidentPersons ?
-            { item => \@IctIncidentPersons } : '',
-        IctIncidentSapNotes        => scalar %IctIncidentSapNotes ?
-            \%IctIncidentSapNotes : '',
-        IctIncidentSolutions       => scalar %IctIncidentSolutions ?
-            \%IctIncidentSolutions : '',
-        IctIncidentStatements      => '',
-#        IctIncidentStatements      => scalar @IctIncidentStatements ?
-#            { item => \@IctIncidentStatements} : '',
-        IctIncidentUrls            => scalar %IctIncidentUrls ?
-            \%IctIncidentUrls : '',
+        IctId           => $Ticket{TicketID},        # type="n0:char32"
+        IctPersons         => scalar @IctPersons ?
+            { item => \@IctPersons } : '',
+        IctSapNotes        => scalar %IctSapNotes ?
+            \%IctSapNotes : '',
+        IctSolutions       => scalar %IctSolutions ?
+            \%IctSolutions : '',
+        IctStatements      => scalar @IctStatements ?
+            { item => \@IctStatements} : '',
+        IctTimestamp    => $IctTimestamp,               # type="n0:decimal15.0"
+        IctUrls            => scalar %IctUrls ?
+            \%IctUrls : '',
     );
 
     return {
@@ -544,6 +542,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-03-25 23:02:39 $
+$Revision: 1.16 $ $Date: 2011-03-26 00:06:48 $
 
 =cut
