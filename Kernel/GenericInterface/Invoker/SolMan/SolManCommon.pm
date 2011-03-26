@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.5 2011-03-25 18:45:31 cr Exp $
+# $Id: SolManCommon.pm,v 1.6 2011-03-26 01:44:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -198,7 +198,7 @@ sub HandleErrors {
             $ErrorMessage .= 'Details: ';
 
             # cicle trough all details
-            for my $Val qw(Val2 Val2 Val3) {
+            for my $Val qw(Val2 Val3 Val4) {
                 if ( IsStringWithData( $Item->{"$Val"} ) ) {
                     $ErrorMessage .= "$Item->{$Val}  ";
                 }
@@ -393,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-03-25 18:45:31 $
+$Revision: 1.6 $ $Date: 2011-03-26 01:44:54 $
 
 =cut
