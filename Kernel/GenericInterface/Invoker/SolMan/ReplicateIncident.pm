@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.21 2011-03-28 18:59:00 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.22 2011-03-28 21:48:11 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -240,6 +240,11 @@ sub PrepareRequest {
         my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
         my $DueTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $DueSystemTime,
+        );
+
+        # write in debug log
+        $Self->{DebuggerObject}->Notice(
+            Summary => 'ReplicateIncident task reschedule, no articles found yet',
         );
 
         return {
@@ -579,6 +584,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-03-28 18:59:00 $
+$Revision: 1.22 $ $Date: 2011-03-28 21:48:11 $
 
 =cut
