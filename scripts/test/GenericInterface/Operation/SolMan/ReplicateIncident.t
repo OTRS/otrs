@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.4 2011-03-28 10:16:34 mg Exp $
+# $Id: ReplicateIncident.t,v 1.5 2011-03-28 12:02:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,8 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+return 1;
 
 use Kernel::System::Ticket;
 
@@ -55,13 +57,48 @@ my @Tests = (
         Success => 1,
         Data    => {
             IctAdditionalInfos => {},
-            IctAttachments     => {},
-            IctHead            => {
+            IctAttachments     => {
+                item => [
+                    {
+
+                        # Unique ID of attachment suggestion: TicketID-ArticleID-AttachmentID),
+                        #   max. 32 characters
+                        AttachmentGuid => '2011032510000001-1-1',
+
+                        # attachment name - optional when deleting the attachment
+                        Filename => 'test.txt',
+
+                        # optional: attachment mime type without charset information
+                        MimeType => 'text/plain',
+
+                        # base64 encoded content - optional when deleting the attachment
+                        Data => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+
+                        # optional: timestamp of attachment creation - Format YYYYMMDDhhmmss
+                        Timestamp => '20110324000000',
+
+                        # person who added/removed the attachment
+                        PersonId => 1,
+
+                        # optional: url that allows to display the attachment
+                        # FIXME not sure what this actually does
+                        Url => 'http://localhost',
+
+                        # optional: Language of attachment FIXME not sure if this affects anything
+                        Language => 'de',
+
+                        # empty value or a single space indicates an addition, everything else
+                        #   (single character allowed) indicates an attachment deletion
+                        Delete => '',
+                    },
+                ],
+            },
+            IctHead => {
 
                 # required: OTRS ticket number
                 IncidentGuid => '',
 
-                # required: OTRS-system GUID-->
+                # required: OTRS-system GUID
                 RequesterGuid => 'D3D9446802A44259755D38E6D163E820',
 
                 # required: SolMan-system GUID
@@ -101,10 +138,11 @@ my @Tests = (
          # before, a new contact is automatically added in SolMan, using the provided details below.
          # The SolMan id of the new contact will be returned for reference.
          # If the OTRS id has been used, the same SolMan contact will be used,
-         # but no further changes of the contact are possible.-->
+         # but no further changes of the contact are possible.
                     PersonIdExt => 292,
 
-# optional: gender of OTRS agent/custome, consisting of 1 character, maybe 'm', 'f' - appears to be unused
+                    # optional: gender of OTRS agent/custome, consisting of 1 character,
+                    #   maybe 'm', 'f' - appears to be unused
                     Sex => 'M',
 
                     # optional: first name of OTRS agent/customer, max. 40 characters
@@ -234,6 +272,49 @@ for my $Test (@Tests) {
             $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
             "$Test->{Name} Ticket data contains correct Priority",
         );
+
+        my @ArticleIDs = $TicketObject->ArticleIndex(
+            TicketID => $TicketID,
+        );
+
+        TEST_ATTACHMENT_ITEM:
+        for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
+
+            # try to find current attachment item in Ticket attachments
+            ARTICLE_ID:
+            for my $ArticleID (@ArticleIDs) {
+
+                my %ArticleAttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+                    ArticleID => $ArticleID,
+                    UserID    => 1,
+                );
+
+                # check if the current article has this attachment
+                ATTACHMENT_INDEX_ENTRY:
+                for my $AttachmentIndexEntry ( sort keys %ArticleAttachmentIndex ) {
+                    if (
+                        $ArticleAttachmentIndex{$AttachmentIndexEntry}->{Filename}
+                        eq $TestAttachmentItem->{Filename}
+                        )
+                    {
+
+                        # Success, attachment found
+
+                        $Self->True(
+                            1,
+                            "$Test->{Name} Ticket data found attachment $TestAttachmentItem->{Filename}",
+                        );
+
+                        next TEST_ATTACHMENT_ITEM;
+                    }
+                }
+            }
+
+            $Self->False(
+                1,
+                "$Test->{Name} Ticket data found attachment $TestAttachmentItem->{Filename}",
+            );
+        }
     }
 }
 1;
