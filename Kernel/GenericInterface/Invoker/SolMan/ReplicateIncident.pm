@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.19 2011-03-28 16:55:36 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.20 2011-03-28 17:08:02 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -193,7 +193,7 @@ sub PrepareRequest {
         User => $Ticket{CustomerUserID},
     );
     my %IctCustomerUser = (
-        PersonId    => $CustomerUser{UserEmail} || '',    # type="n0:char32"
+        PersonId    => $CustomerUser{UserID} || '',            # type="n0:char32"
         PersonIdExt => '',                                     # type="n0:char32"
         Sex         => '',                                     # type="n0:char1"
         FirstName   => $CustomerUser{UserFirstname} || '',     # type="n0:char40"
@@ -338,13 +338,14 @@ sub PrepareRequest {
             RequesterGuid    => $LocalSystemGuid,                # type="n0:char32"
             ProviderGuid     => $RemoteSystemGuid,               # type="n0:char32"
             AgentId          => $Ticket{OwnerID},                # type="n0:char32"
-            ReporterId       => $CustomerUser{UserEmail},        # type="n0:char32"
+            ReporterId       => $Ticket{CustomerUserID},         # type="n0:char32"
             ShortDescription => substr( $Ticket{Title}, 0, 40 ), # type="n0:char40"
             Priority         => $Ticket{PriorityID},             # type="n0:char32"
             Language         => $Language,                       # type="n0:char2"
 # TODO check for actual Requested (Begin | End) timestamps
             RequestedBegin   => $IctTimestamp,                   # type="n0:decimal15.0"
             RequestedEnd     => $IctTimestamp,                   # type="n0:decimal15.0"
+            IctId            => $Ticket{TicketNumber},           # type="n0:char32"
         },
         IctId              => $Ticket{TicketNumber},             # type="n0:char32"
         IctPersons         => scalar @IctPersons ?
@@ -545,6 +546,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-03-28 16:55:36 $
+$Revision: 1.20 $ $Date: 2011-03-28 17:08:02 $
 
 =cut
