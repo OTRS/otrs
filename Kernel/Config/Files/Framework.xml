@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.431 2011-03-28 11:52:43 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.432 2011-03-28 12:03:19 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -4019,7 +4019,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Description>Global Search Module</Description>
-                <Title>Search</Title>
+                <Title Translatable="1">Search</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4085,7 +4085,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Create and manage agents.</Description>
-                <Title>Agents</Title>
+                <Title Translatable="1">Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4105,7 +4105,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Groups</Title>
+                <Title Translatable="1">Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4125,7 +4125,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Agents &lt;-&gt; Groups</Title>
+                <Title Translatable="1">Agents &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4147,7 +4147,7 @@ via the Preferences button after logging in.
                 <Group>admin</Group>
                 <Group>users</Group>
                 <Description>Edit Customers</Description>
-                <Title>Customers</Title>
+                <Title Translatable="1">Customers</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Name Translatable="1">Customers</Name>
@@ -4183,7 +4183,7 @@ via the Preferences button after logging in.
                 <Group>admin</Group>
                 <Group>users</Group>
                 <Description>Admin</Description>
-                <Title>Customer Companies</Title>
+                <Title Translatable="1">Customer Companies</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
                     <Name Translatable="1">Companies</Name>
@@ -4224,7 +4224,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Customers &lt;-&gt; Groups</Title>
+                <Title Translatable="1">Customers &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4244,7 +4244,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Customers &lt;-&gt; Services</Title>
+                <Title Translatable="1">Customers &lt;-&gt; Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4264,7 +4264,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Role</Title>
+                <Title Translatable="1">Roles</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4284,7 +4284,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Roles &lt;-&gt; Agents</Title>
+                <Title Translatable="1">Agents &lt;-&gt; Roles</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4304,7 +4304,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Roles &lt;-&gt; Groups</Title>
+                <Title Translatable="1">Roles &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4324,7 +4324,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>S/MIME Management</Title>
+                <Title Translatable="1">S/MIME Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4344,7 +4344,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>PGP Key Management</Title>
+                <Title Translatable="1">PGP Key Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4364,7 +4364,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Mail Accounts</Title>
+                <Title Translatable="1">Mail Accounts</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4384,7 +4384,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>PostMaster Filters</Title>
+                <Title Translatable="1">PostMaster Filters</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4404,7 +4404,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Admin-Email</Title>
+                <Title Translatable="1">Admin Notification</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4424,7 +4424,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Session Management</Title>
+                <Title Translatable="1">Session Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4444,7 +4444,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Performance Log</Title>
+                <Title Translatable="1">Performance Log</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4467,7 +4467,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>System Log</Title>
+                <Title Translatable="1">System Log</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4487,7 +4487,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>SQL Box</Title>
+                <Title Translatable="1">SQL Box</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4507,7 +4507,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Software Package Manager</Description>
-                <Title>Package Manager</Title>
+                <Title Translatable="1">Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4538,7 +4538,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Description>Customer preferences</Description>
-                <Title>Preferences</Title>
+                <Title Translatable="1">Preferences</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4549,8 +4549,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>To accept login infos</Description>
-                <Title>Info</Title>
+                <Description>To accept login information, such as an EULA or license.</Description>
+                <Title Translatable="1">Info</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4562,7 +4562,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Description>Picture upload module</Description>
-                <Title>Picture-Upload</Title>
+                <Title Translatable="1">Picture-Upload</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4574,7 +4574,7 @@ via the Preferences button after logging in.
         <Setting>
             <FrontendModuleReg>
                 <Description>Spell checker</Description>
-                <Title>Spell Checker</Title>
+                <Title Translatable="1">Spell Checker</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4653,7 +4653,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Title>Stats</Title>
+                <Title Translatable="1">Stats</Title>
                 <Group>stats</Group>
                 <GroupRo>stats</GroupRo>
                 <Description>Stats</Description>
