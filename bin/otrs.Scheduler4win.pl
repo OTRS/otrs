@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.6 2011-03-25 13:53:58 ep Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.7 2011-03-28 21:20:09 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -61,23 +61,12 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.Scheduler',
-    %CommonObject,
-);
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}       = Kernel::System::PID->new(%CommonObject);
-$CommonObject{SchedulerObject} = Kernel::Scheduler->new(%CommonObject);
-
 # check if a stop request is sent
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
     _stop();
+}
+elsif ( $Opts{a} && $Opts{a} eq "status" ) {
+    _status();
 }
 
 # OS services control
@@ -95,6 +84,9 @@ sub _help {
 }
 
 sub _start {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
     # check for process running
     if ( !$CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' ) ) {
@@ -177,7 +169,9 @@ sub _start {
         elsif ( SERVICE_RUNNING == $State ) {
 
             # Call Scheduler
-            # Calls to $CommonObject{SchedulerObject} must be placed here!
+            my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
+            $SchedulerObject->Run();
+
         }
 
         # sleep to avoid overloading the processor
@@ -191,6 +185,9 @@ sub _start {
 }
 
 sub _stop {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
@@ -209,7 +206,44 @@ sub _stop {
     print "try to start the OTRS Scheduler service again from the Services interface!\n";
 
     # delete pid lock
-    $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
 
+    # log daemon stop
+    if ( !$PIDDelSuccess ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Process could not be deleted from process table! PID $PID{PID}",
+        );
+        exit 1;
+    }
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon Stop! PID $PID{PID}",
+    );
     exit 0;
+}
+
+sub _status {
+
+    # to store the current sevice state
+    my $State;
+
+    #TODO Implement
+
+    print "$State";
+}
+
+sub _CommonObjects {
+    my %CommonObject;
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-otrs.Scheduler',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
+    return %CommonObject;
 }
