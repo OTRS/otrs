@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.2 2011-03-24 11:57:02 mg Exp $
+# $Id: ReplicateIncident.t,v 1.3 2011-03-28 09:52:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,10 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+use Kernel::System::Ticket;
+
+my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
 my @Tests = (
     {
@@ -188,6 +192,28 @@ for my $Test (@Tests) {
         $Self->False(
             $Result->{Errors},
             "$Test->{Name} did not yield errors",
+        );
+
+        my $TicketID = $TicketObject->TicketIDLookup(
+            TicketNumber => $Result->{PrdIctId},
+            UserID       => 1,
+        );
+
+        $Self->True(
+            $TicketID,
+            "$Test->{Name} Ticket found",
+        );
+
+        my %TicketData = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+            UserID   => 1,
+            Extended => 1,
+        );
+
+        $Self->Is(
+            $TicketData{TicketNumber},
+            $Result->{PrdIctId},
+            "$Test->{Name} Ticket data contains correct TicketNumber",
         );
     }
 }
