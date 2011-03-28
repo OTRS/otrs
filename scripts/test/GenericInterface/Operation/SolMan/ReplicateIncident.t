@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.3 2011-03-28 09:52:49 mg Exp $
+# $Id: ReplicateIncident.t,v 1.4 2011-03-28 10:16:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,13 @@ use vars (qw($Self));
 use Kernel::System::Ticket;
 
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+
+my %PrioritySolMan2OTRS = (
+    1 => '1: very high',
+    2 => '2: high',
+    3 => '3: normal',
+    4 => '4: low',
+);
 
 my @Tests = (
     {
@@ -80,7 +87,7 @@ my @Tests = (
                 RequestedBegin => '20000101000000',
 
                 # required: FIXME - Format YYYYMMDDhhmmss
-                RequestedEnd => 20111231235959,
+                RequestedEnd => '20111231235959',
             },
             IctId      => '',
             IctPersons => {
@@ -214,6 +221,18 @@ for my $Test (@Tests) {
             $TicketData{TicketNumber},
             $Result->{PrdIctId},
             "$Test->{Name} Ticket data contains correct TicketNumber",
+        );
+
+        $Self->Is(
+            $TicketData{Title},
+            $Test->{Data}->{IctHead}->{ShortDescription},
+            "$Test->{Name} Ticket data contains correct Title",
+        );
+
+        $Self->Is(
+            $TicketData{Priority},
+            $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
+            "$Test->{Name} Ticket data contains correct Priority",
         );
     }
 }
