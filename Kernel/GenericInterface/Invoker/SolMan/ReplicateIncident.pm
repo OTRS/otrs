@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.20 2011-03-28 17:08:02 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.21 2011-03-28 18:59:00 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -229,6 +229,38 @@ sub PrepareRequest {
 
     push @IctPersons,{%IctAgentUser};
 
+    # check if ticket has articles
+    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
+        TicketID => $Self->{TicketID},
+    );
+
+    # check if ticket has articles otherwise needs to reschedule
+    if ( !scalar @ArticleIDs ) {
+
+        my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
+        my $DueTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $DueSystemTime,
+        );
+
+        return {
+            Success => 0,
+            ReSchedule => 1,
+            Type       => 'GenericInterface',
+            DueTime    => $DueSystemTime,
+
+            Data     => {                                   # data for task register
+                Name         => 'ReplicateIncident',
+                WebserviceID => $Self->{WebserviceID},
+                Invoker      => 'ReplcateIncident',
+
+                Data         => {                           # data for invoker
+                    WebserviceID => $Self->{WebserviceID},
+                    TicketID     => $Self->{TicketID},,
+                },
+            },
+        };
+    }
+
     # IctAttachments
     my @Articles = $Self->{TicketObject}->ArticleGet(
         TicketID => $Self->{TicketID},
@@ -253,12 +285,13 @@ sub PrepareRequest {
         push @IctStatements,{%IctStatement};
 
         # attachments
-        my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ArticleID => $Article->{ArticleID},
-            UserID    => $Ticket{OwnerID},
+        my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID                  => $Article->{ArticleID},
+            UserID                     => $Ticket{OwnerID},
+            StripPlainBodyAsAttachment => 3,
         );
 
-        for my $Index ( keys %ArticleIndex ) {
+        for my $Index ( keys %AttachmentIndex ) {
             my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                 ArticleID => $Article->{ArticleID},
                 FileID    => $Index,
@@ -266,7 +299,7 @@ sub PrepareRequest {
             );
             my %IctAttachment = (
                     AttachmentGuid => $Index,                                   # type="n0:char32"
-                    Filename       => $ArticleIndex{$Index}->{Filename},        # type="xsd:string"
+                    Filename       => $AttachmentIndex{$Index}->{Filename},     # type="xsd:string"
                     MimeType       => '',                                       # type="n0:char128"
                     Data           => encode_base64( $Attachment{Content} ),    # type="xsd:base64Binary"
                     Timestamp      => $CreateTime,                              # type="n0:decimal15.0"
@@ -546,6 +579,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-03-28 17:08:02 $
+$Revision: 1.21 $ $Date: 2011-03-28 18:59:00 $
 
 =cut
