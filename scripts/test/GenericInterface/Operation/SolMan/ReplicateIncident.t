@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.5 2011-03-28 12:02:31 mg Exp $
+# $Id: ReplicateIncident.t,v 1.6 2011-03-28 13:53:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,8 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+use MIME::Base64 ();
 
 return 1;
 
@@ -291,9 +293,9 @@ for my $Test (@Tests) {
 
                 # check if the current article has this attachment
                 ATTACHMENT_INDEX_ENTRY:
-                for my $AttachmentIndexEntry ( sort keys %ArticleAttachmentIndex ) {
+                for my $AttachmentID ( sort keys %ArticleAttachmentIndex ) {
                     if (
-                        $ArticleAttachmentIndex{$AttachmentIndexEntry}->{Filename}
+                        $ArticleAttachmentIndex{$AttachmentID}->{Filename}
                         eq $TestAttachmentItem->{Filename}
                         )
                     {
@@ -302,7 +304,19 @@ for my $Test (@Tests) {
 
                         $Self->True(
                             1,
-                            "$Test->{Name} Ticket data found attachment $TestAttachmentItem->{Filename}",
+                            "$Test->{Name} found attachment $TestAttachmentItem->{Filename}",
+                        );
+
+                        my %Attachment = $TicketObject->ArticleAttachment(
+                            ArticleID => $ArticleID,
+                            FileID    => $AttachmentID,
+                            UserID    => 1,
+                        );
+
+                        $Self->Is(
+                            $Attachment{Content},
+                            MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
+                            "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
                         );
 
                         next TEST_ATTACHMENT_ITEM;
