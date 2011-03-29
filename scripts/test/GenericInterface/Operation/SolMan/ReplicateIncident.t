@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.12 2011-03-29 12:07:07 martin Exp $
+# $Id: ReplicateIncident.t,v 1.13 2011-03-29 12:37:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,8 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+return 1;
 
 use MIME::Base64 ();
 
@@ -235,6 +237,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 my $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
     OperationType  => 'SolMan::ReplicateIncident',
 );
 
