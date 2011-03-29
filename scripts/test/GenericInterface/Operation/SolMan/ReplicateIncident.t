@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.8 2011-03-29 08:55:35 mg Exp $
+# $Id: ReplicateIncident.t,v 1.9 2011-03-29 09:09:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -387,6 +387,12 @@ for my $Test (@Tests) {
                             $Attachment{Content},
                             MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
                             "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
+                        );
+
+                        $Self->Is(
+                            $Attachment{ContentType},
+                            $TestAttachmentItem->{MimeType},
+                            "$Test->{Name} attachment content type for $TestAttachmentItem->{Filename}",
                         );
 
                         next TEST_ATTACHMENT_ITEM;
