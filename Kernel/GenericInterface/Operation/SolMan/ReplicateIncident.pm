@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.4 2011-03-29 12:07:07 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.5 2011-03-29 12:37:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -138,8 +138,8 @@ sub Run {
         Lock         => 'unlock',
         Priority     => '3 normal',
         State        => 'closed successful',
-        CustomerNo   => '123465',
-        CustomerUser => 'customer@example.com',
+        CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
+        CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
         OwnerID      => 1,
         UserID       => 1,
     );
@@ -153,39 +153,53 @@ sub Run {
     }
 
     # create article
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-        TicketID       => $TicketID,
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer A <customer-a@example.com>',
-        Subject        => 'some short description',
-        Body           => 'the message text',
-        Charset        => 'ISO-8859-15',
-        MimeType       => 'text/plain',
-        HistoryType    => 'AddNote',
-        HistoryComment => 'Update from SolMan!',
-        UserID         => 1,
-    );
-    if ( !$ArticleID ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => $Self->{LogObject}->GetLogEntry(
-                Type => 'error',
-                What => 'message',
-            ),
-        );
-    }
-
-    # create attachments
-    if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
-        for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
-            my $ArticleWriteAttachment = $Self->{TicketObject}->ArticleWriteAttachment(
-                Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
-                Filename    => $Attachment->{Filename},
-                ContentType => $Attachment->{MimeType},
-                ArticleID   => $ArticleID,
-                UserID      => 1,
+    if ( $Param{Data}->{IctStatements} && $Param{Data}->{IctStatements}->{item} ) {
+        my $ArticleID;
+        for my $Items ( @{ $Param{Data}->{IctStatements}->{item} } ) {
+            next if !$Items;
+            next if ref $Items ne 'HASH';
+            next if !$Items->{Texts};
+            next if ref $Items->{Texts} ne 'HASH';
+            next if !$Items->{Texts}->{item};
+            next if ref $Items->{Texts}->{item} ne 'ARRAY';
+            my $Body = '';
+            $Body .= join @{ $Items->{Texts}->{item} };
+            my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
+                TicketID       => $TicketID,
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Subject        => 'some short description',
+                Body           => $Body,
+                Charset        => 'ISO-8859-15',
+                MimeType       => 'text/plain',
+                HistoryType    => 'AddNote',
+                HistoryComment => 'Update from SolMan!',
+                UserID         => 1,
             );
+            if ( !$ArticleIDLocal ) {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => $Self->{LogObject}->GetLogEntry(
+                        Type => 'error',
+                        What => 'message',
+                    ),
+                );
+            }
+            $ArticleID = $ArticleIDLocal;
+        }
+
+        # create attachments
+        if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
+            for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
+                my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
+                    Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
+                    Filename    => $Attachment->{Filename},
+                    ContentType => $Attachment->{MimeType},
+                    ArticleID   => $ArticleID,
+                    UserID      => 1,
+                );
+            }
         }
     }
 
@@ -223,6 +237,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-29 12:07:07 $
+$Revision: 1.5 $ $Date: 2011-03-29 12:37:23 $
 
 =cut
