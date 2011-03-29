@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.13 2011-03-29 12:37:34 mg Exp $
+# $Id: ReplicateIncident.t,v 1.14 2011-03-29 13:08:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -292,7 +292,7 @@ for my $Test (@Tests) {
 
     $Self->Is(
         $TicketData{TicketNumber},
-        $Result->{PrdIctId},
+        $Result->{Data}->{PrdIctId},
         "$Test->{Name} Ticket data contains correct TicketNumber",
     );
 
