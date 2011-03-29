@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.14 2011-03-29 13:08:46 mg Exp $
+# $Id: ReplicateIncident.t,v 1.15 2011-03-29 13:16:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,7 +247,8 @@ $Self->Is(
     'Operation::new() success',
 );
 
-my @TicketIDs;
+my @TestTicketIDs;
+
 TEST:
 for my $Test (@Tests) {
     my $Result = $OperationObject->Run(
@@ -282,7 +283,7 @@ for my $Test (@Tests) {
         "$Test->{Name} Ticket found",
     );
     if ($TicketID) {
-        push @TicketIDs, $TicketID;
+        push @TestTicketIDs, $TicketID;
     }
     my %TicketData = $TicketObject->TicketGet(
         TicketID => $TicketID,
@@ -418,7 +419,7 @@ for my $Test (@Tests) {
 }
 
 # delete tickets
-for my $TicketID (@TicketIDs) {
+for my $TicketID (@TestTicketIDs) {
     $Self->True(
         $TicketObject->TicketDelete(
             TicketID => $TicketID,
