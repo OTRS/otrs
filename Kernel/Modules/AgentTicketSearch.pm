@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.120 2011-03-13 19:00:30 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.121 2011-03-29 15:23:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1986,6 +1986,7 @@ sub Run {
         for my $Key (qw(TicketClose TicketChange TicketCreate ArticleCreate)) {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
+                delete $GetParamBackup{ $Key . $SubKey };
             }
         }
 
