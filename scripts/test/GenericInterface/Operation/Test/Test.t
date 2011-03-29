@@ -2,7 +2,7 @@
 # Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.3 2011-03-24 09:46:46 mg Exp $
+# $Id: Test.t,v 1.4 2011-03-29 12:36:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 my $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
     OperationType  => 'Test::Test',
 );
 $Self->Is(

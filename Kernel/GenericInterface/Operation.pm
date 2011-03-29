@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.12 2011-03-17 01:25:11 sb Exp $
+# $Id: Operation.pm,v 1.13 2011-03-29 12:36:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsStringWithData);
 use Kernel::GenericInterface::Operation::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -78,6 +78,7 @@ create an object.
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
 
+        WebserviceID       => $WebserviceID,             # ID of the currently used web service
         OperationType      => 'Ticket::TicketCreate',    # the local operation backend to use
     );
 
@@ -91,7 +92,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject OperationType)
+        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject OperationType WebserviceID)
         )
     {
         if ( !$Param{$Needed} ) {
@@ -179,6 +180,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-03-17 01:25:11 $
+$Revision: 1.13 $ $Date: 2011-03-29 12:36:15 $
 
 =cut

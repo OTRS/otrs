@@ -2,7 +2,7 @@
 # Operation.t - Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.t,v 1.5 2011-03-24 09:46:46 mg Exp $
+# $Id: Operation.t,v 1.6 2011-03-29 12:36:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,6 +42,7 @@ $Self->IsNot(
 $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
     OperationType  => {},
 );
 $Self->IsNot(
@@ -54,6 +55,7 @@ $Self->IsNot(
 $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
     OperationType  => 'Test::ThisIsCertainlyNotBeingUsed',
 );
 $Self->IsNot(
@@ -62,10 +64,23 @@ $Self->IsNot(
     'Operation::new() fail check, wrong OperationType',
 );
 
+# provide no WebserviceID
+$OperationObject = Kernel::GenericInterface::Operation->new(
+    %{$Self},
+    DebuggerObject => $DebuggerObject,
+    OperationType  => 'Test::Test',
+);
+$Self->IsNot(
+    ref $OperationObject,
+    'Kernel::GenericInterface::Operation',
+    'Operation::new() fail check, no WebserviceID',
+);
+
 # create object
 $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => 1,
     OperationType  => 'Test::Test',
 );
 $Self->Is(
