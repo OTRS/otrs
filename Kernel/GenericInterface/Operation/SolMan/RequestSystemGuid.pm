@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.4 2011-03-29 11:20:10 mg Exp $
+# $Id: RequestSystemGuid.pm,v 1.5 2011-03-29 12:01:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -62,7 +62,7 @@ sub new {
 =item Run()
 
 perform RequestSystemGuid Operation. This will return the SystemID as a MD5 sum in upper case
-to martch SolMan stryle.
+to match SolMan style.
 
     my $Result = $OperationObject->Run(
         Data => { },
@@ -122,6 +122,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-29 11:20:10 $
+$Revision: 1.5 $ $Date: 2011-03-29 12:01:34 $
 
 =cut
