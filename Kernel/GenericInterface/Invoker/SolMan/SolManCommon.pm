@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.7 2011-03-29 15:45:51 cr Exp $
+# $Id: SolManCommon.pm,v 1.8 2011-03-29 18:59:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -86,7 +86,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject)) {
+    for my $Needed (
+        qw(
+        DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject
+        )
+        )
+    {
 
         if ( !$Param{$Needed} ) {
             return {
@@ -483,6 +488,29 @@ sub GetPersonsInfo {
     return $Result
 }
 
+=item GetAditionalInfo()
+this functions is not yet implemente, returns an empty hash
+=cut
+
+sub GetAditionalInfo {
+    my ( $Self, %Param ) = @_;
+
+    #TODO Implement if needed
+
+    my %IctAdditionalInfos;
+
+    #    my %IctAdditionalInfos = (
+    #        IctAdditionalInfo => {
+    #            Guid             => '',    # type="n0:char32"
+    #            ParentGuid       => '',    # type="n0:char32"
+    #            AddInfoAttribute => '',    # type="n0:char255"
+    #            AddInfoValue     => '',    # type="n0:char255"
+    #        },
+    #    );
+
+    return \%IctAdditionalInfos;
+}
+
 1;
 
 =back
@@ -499,6 +527,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-03-29 15:45:51 $
+$Revision: 1.8 $ $Date: 2011-03-29 18:59:28 $
 
 =cut
