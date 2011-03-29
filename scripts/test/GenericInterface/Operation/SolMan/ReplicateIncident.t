@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.6 2011-03-28 13:53:16 mg Exp $
+# $Id: ReplicateIncident.t,v 1.7 2011-03-29 08:52:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,9 +180,39 @@ my @Tests = (
                     Email => 'stefan.bedorf@otrs.com',
                 ],
             },
-            IctSapNotes   => {},
-            IctSolutions  => {},
-            IctStatements => {},
+            IctSapNotes  => {},
+            IctSolutions => {},
+
+            # additional plaintext articles
+            IctStatements => {
+                item => [
+                    {
+
+                        # text type (see list of possible types)
+                        TextType => 'SU99',
+
+                        # text lines
+                        Texts => {
+                            item => [
+                                'a line of text',
+                                'another line',
+                                'multiline
+text
+works too',
+                            ],
+                        },
+
+                        # optional: create timestamp of article - Format YYYYMMDDhhmmss
+                        Timestamp => '20110323000000',
+
+                        # person who added the article
+                        PersonId => 1,
+
+                        # optional: Language of article
+                        Language => 'de',
+                    },
+                ],
+            },
 
             # required: FIXME - Format YYYYMMDDhhmmss
             IctTimestamp => '20010101000000',
@@ -279,6 +309,45 @@ for my $Test (@Tests) {
             TicketID => $TicketID,
         );
 
+        TEST_STATEMENT_ITEM:
+        for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
+
+            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = '20110323000000'
+                =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
+
+            my $BodyExpected
+                = "($TestStatementItem->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
+            $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
+
+            # try to find current attachment item in Ticket attachments
+            ARTICLE_ID:
+            for my $ArticleID (@ArticleIDs) {
+
+                my %Article = $TicketObject->ArticleGet(
+                    ArticleID => $ArticleID,
+                    UserID    => 1,
+                );
+
+                if ( $Article{Body} eq $BodyExpected ) {
+                    $Self->Is(
+                        $Article{Body},
+                        $BodyExpected,
+                        "$Test->{Name} found plaintext article for IctStatemtent",
+                    );
+
+                    next TEST_STATEMENT_ITEM;
+                }
+            }
+
+            # article was not found.
+            $Self->Is(
+                '',
+                $BodyExpected,
+                "$Test->{Name} found plaintext article for IctStatemtent",
+            );
+
+        }
+
         TEST_ATTACHMENT_ITEM:
         for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
 
@@ -302,9 +371,10 @@ for my $Test (@Tests) {
 
                         # Success, attachment found
 
-                        $Self->True(
-                            1,
-                            "$Test->{Name} found attachment $TestAttachmentItem->{Filename}",
+                        $Self->Is(
+                            $ArticleAttachmentIndex{$AttachmentID}->{Filename},
+                            $TestAttachmentItem->{Filename},
+                            "$Test->{Name} found attachment",
                         );
 
                         my %Attachment = $TicketObject->ArticleAttachment(
@@ -324,9 +394,10 @@ for my $Test (@Tests) {
                 }
             }
 
-            $Self->False(
-                1,
-                "$Test->{Name} Ticket data found attachment $TestAttachmentItem->{Filename}",
+            $Self->Is(
+                '',
+                $TestAttachmentItem->{Filename},
+                "$Test->{Name} Ticket data found attachment",
             );
         }
     }
