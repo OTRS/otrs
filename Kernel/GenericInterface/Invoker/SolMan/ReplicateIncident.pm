@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.22 2011-03-28 21:48:11 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.23 2011-03-29 15:45:51 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -154,7 +154,7 @@ sub PrepareRequest {
         Data         => {},
     );
 
-    # forward error message from Requestsystemguidif any
+    # forward error message from Requestsystemguid if any
     if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
         return {
             Success => 0,
@@ -185,49 +185,18 @@ sub PrepareRequest {
 #        },
 #    );
 
+    my $PersonsInfo = $Self->{SolManCommonObject}->GetPersonsInfo(
+        UserID          => $Ticket{OwnerID},
+        CustomerUserID  => $Ticket{CustomerUserID},
+    );
+
     # IctPersons
     my @IctPersons;
+    if  ( IsArrayRefWithData($PersonsInfo->{IctPersons}) ) {
+        @IctPersons = @{ $PersonsInfo->{IctPersons} };
+    };
 
-    # customer
-    my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
-        User => $Ticket{CustomerUserID},
-    );
-    my %IctCustomerUser = (
-        PersonId    => $CustomerUser{UserID} || '',            # type="n0:char32"
-        PersonIdExt => '',                                     # type="n0:char32"
-        Sex         => '',                                     # type="n0:char1"
-        FirstName   => $CustomerUser{UserFirstname} || '',     # type="n0:char40"
-        LastName    => $CustomerUser{UserLastname} || '',      # type="n0:char40"
-        Telephone   => $CustomerUser{UserPhone} ?              # type="tns:IctPhone"
-            { PhoneNo   =>  $CustomerUser{UserPhone} } : '',
-        MobilePhone => $CustomerUser{UserMobile} || '',        # type="n0:char30"
-        Fax         => $CustomerUser{UserFax} ?                # type="tns:IctFax"
-            { FaxNo     =>  $CustomerUser{UserFax} } : '',
-        Email       => $CustomerUser{UserEmail} || '',         # type="n0:char240"
-    );
-
-    push @IctPersons,{%IctCustomerUser};
-
-    # use customer languge as language or english by default
-    my $Language = $CustomerUser{UserLanguage} || 'en';
-
-    # agent
-    my %AgentData = $Self->{UserObject}->GetUserData(
-        UserID => $Ticket{OwnerID},
-    );
-    my %IctAgentUser = (
-        PersonId    => $AgentData{UserID} || '',               # type="n0:char32"
-        PersonIdExt => '',                                     # type="n0:char32"
-        Sex         => '',                                     # type="n0:char1"
-        FirstName   => $AgentData{UserFirstname} || '',        # type="n0:char40"
-        LastName    => $AgentData{UserLastname} || '',         # type="n0:char40"
-        Telephone   => '',                                     # type="tns:IctPhone"
-        MobilePhone => '',                                     # type="n0:char30"
-        Fax         => '',                                     # type="tns:IctFax"
-        Email       => $AgentData{UserEmail} || '',            # type="n0:char240"
-    );
-
-    push @IctPersons,{%IctAgentUser};
+    my $Language = $PersonsInfo->{Language} || 'en';
 
     # check if ticket has articles
     my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
@@ -584,6 +553,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2011-03-28 21:48:11 $
+$Revision: 1.23 $ $Date: 2011-03-29 15:45:51 $
 
 =cut

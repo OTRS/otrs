@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.6 2011-03-26 01:44:54 cr Exp $
+# $Id: SolManCommon.pm,v 1.7 2011-03-29 15:45:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::CustomerUser;
+use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -84,7 +86,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(DebuggerObject MainObject TimeObject ConfigObject)) {
+    for my $Needed (qw(DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject)) {
+
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -94,6 +97,10 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    # create additional objects
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     return $Self;
 }
@@ -377,6 +384,105 @@ sub GetSystemGuid {
     return $SystemIDMD5;
 }
 
+=item GetPersonsInfo()
+returns the IctPersons array and Language for SolMan communication
+
+    my $Result = $SolManCommonObject->GetPersonsInfo(
+        UserID         => 123,
+        CustomerUserID => 'JDoe'
+    );
+
+    $Result = {
+        IctPersons => [
+            {
+                PersonId    => 123,                                # type="n0:char32"
+                PersonIdExt => '',                                 # type="n0:char32"
+                Sex         => '',                                 # type="n0:char1"
+                FirstName   => 'Luke',                             # type="n0:char40"
+                LastName    => 'Skywalker',                        # type="n0:char40"
+                Telephone   => '',                                 # type="tns:IctPhone"
+                MobilePhone => '',                                 # type="n0:char30"
+                Fax         => '',                                 # type="tns:IctFax"
+                Email       => 'Luke.Skywalker@RebelAlliance.org', # type="n0:char240"
+            },
+            {
+                PersonId    => 'JDoe',                             # type="n0:char32"
+                PersonIdExt => '',                                 # type="n0:char32"
+                Sex         => '',                                 # type="n0:char1"
+                FirstName   => John,                               # type="n0:char40"
+                LastName    => Doe,                                # type="n0:char40"
+                Telephone   => {                                   # type="tns:IctPhone" if PhoneNo
+                    PhoneNo   =>  '1234 5678'
+                },
+                MobilePhone => '1234 5680',                        # type="n0:char30"
+                Fax         => {                                   # type="tns:IctFax" if FaxNo
+                    FaxNo     =>  '1234 5690',
+                }
+                Email       => 'John.Doe@Movies.com',              # type="n0:char240"
+            },
+        ],
+        Language   => 'en',
+    };
+=cut
+
+sub GetPersonsInfo {
+    my ( $Self, %Param ) = @_;
+
+    my @IctPersons;
+
+    # customer
+    my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        User => $Param{CustomerUserID},
+    );
+    my $IctCustomerUser = {
+        PersonId => $CustomerUser{UserID} || '',    # type="n0:char32"
+        PersonIdExt => '',                                    # type="n0:char32"
+        Sex         => '',                                    # type="n0:char1"
+        FirstName   => $CustomerUser{UserFirstname} || '',    # type="n0:char40"
+        LastName    => $CustomerUser{UserLastname} || '',     # type="n0:char40"
+        Telephone   => $CustomerUser{UserPhone}
+        ?                                                     # type="tns:IctPhone"
+            { PhoneNo => $CustomerUser{UserPhone} }
+        : '',
+        MobilePhone => $CustomerUser{UserMobile} || '',       # type="n0:char30"
+        Fax => $CustomerUser{UserFax}
+        ?                                                     # type="tns:IctFax"
+            { FaxNo => $CustomerUser{UserFax} }
+        : '',
+        Email => $CustomerUser{UserEmail} || '',              # type="n0:char240"
+    };
+
+    push @IctPersons, $IctCustomerUser;
+
+    # use customer languge as language or english by default
+    my $Language = $CustomerUser{UserLanguage} || 'en';
+
+    # agent
+    my %AgentData = $Self->{UserObject}->GetUserData(
+        UserID => $Param{OwnerID},
+    );
+    my %IctAgentUser = (
+        PersonId => $AgentData{UserID} || '',    # type="n0:char32"
+        PersonIdExt => '',                                 # type="n0:char32"
+        Sex         => '',                                 # type="n0:char1"
+        FirstName   => $AgentData{UserFirstname} || '',    # type="n0:char40"
+        LastName    => $AgentData{UserLastname} || '',     # type="n0:char40"
+        Telephone   => '',                                 # type="tns:IctPhone"
+        MobilePhone => '',                                 # type="n0:char30"
+        Fax         => '',                                 # type="tns:IctFax"
+        Email       => $AgentData{UserEmail} || '',        # type="n0:char240"
+    );
+
+    push @IctPersons, {%IctAgentUser};
+
+    my $Result = {
+        IctPersons => \@IctPersons,
+        Language   => $Language
+    };
+
+    return $Result
+}
+
 1;
 
 =back
@@ -393,6 +499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-26 01:44:54 $
+$Revision: 1.7 $ $Date: 2011-03-29 15:45:51 $
 
 =cut
