@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.11 2011-03-29 11:21:13 mg Exp $
+# $Id: ReplicateIncident.t,v 1.12 2011-03-29 12:07:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,17 +15,15 @@ use vars (qw($Self));
 
 use MIME::Base64 ();
 
-return 1;
-
 use Kernel::System::Ticket;
 
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
 my %PrioritySolMan2OTRS = (
-    1 => '1: very high',
-    2 => '2: high',
-    3 => '3: normal',
-    4 => '4: low',
+    1 => '1 very high',
+    2 => '2 high',
+    3 => '3 normal',
+    4 => '4 low',
 );
 
 my @Tests = (
@@ -128,7 +126,7 @@ my @Tests = (
                 # required: FIXME - Format YYYYMMDDhhmmss
                 RequestedEnd => '20111231235959',
             },
-            IctId      => '',
+            IctId      => '1234',
             IctPersons => {
                 Item => [
 
@@ -246,6 +244,7 @@ $Self->Is(
     'Operation::new() success',
 );
 
+my @TicketIDs;
 TEST:
 for my $Test (@Tests) {
     my $Result = $OperationObject->Run(
@@ -258,160 +257,172 @@ for my $Test (@Tests) {
         "$Test->{Name} success status",
     );
 
-    if ( $Test->{Success} ) {
+    next TEST if !$Test->{Success};
 
-        # TODO clarify return value correctness
-        $Self->True(
-            $Result->{PrdIctId},
-            "$Test->{Name} returned a ProviderIncidentID",
-        );
+    $Self->True(
+        $Result->{Data}->{PrdIctId},
+        "$Test->{Name} returned a ProviderIncidentID",
+    );
 
-        $Self->False(
-            $Result->{Errors},
-            "$Test->{Name} did not yield errors",
-        );
+    $Self->False(
+        $Result->{Errors},
+        "$Test->{Name} did not yield errors",
+    );
 
-        my $TicketID = $TicketObject->TicketIDLookup(
-            TicketNumber => $Result->{PrdIctId},
-            UserID       => 1,
-        );
+    my $TicketID = $TicketObject->TicketIDLookup(
+        TicketNumber => $Result->{Data}->{PrdIctId},
+        UserID       => 1,
+    );
 
-        $Self->True(
-            $TicketID,
-            "$Test->{Name} Ticket found",
-        );
+    $Self->True(
+        $TicketID,
+        "$Test->{Name} Ticket found",
+    );
+    if ($TicketID) {
+        push @TicketIDs, $TicketID;
+    }
+    my %TicketData = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+        Extended => 1,
+    );
 
-        my %TicketData = $TicketObject->TicketGet(
-            TicketID => $TicketID,
-            UserID   => 1,
-            Extended => 1,
-        );
+    $Self->Is(
+        $TicketData{TicketNumber},
+        $Result->{PrdIctId},
+        "$Test->{Name} Ticket data contains correct TicketNumber",
+    );
 
-        $Self->Is(
-            $TicketData{TicketNumber},
-            $Result->{PrdIctId},
-            "$Test->{Name} Ticket data contains correct TicketNumber",
-        );
+    $Self->Is(
+        $TicketData{Title},
+        $Test->{Data}->{IctHead}->{ShortDescription},
+        "$Test->{Name} Ticket data contains correct Title",
+    );
 
-        $Self->Is(
-            $TicketData{Title},
-            $Test->{Data}->{IctHead}->{ShortDescription},
-            "$Test->{Name} Ticket data contains correct Title",
-        );
+    $Self->Is(
+        $TicketData{Priority},
+        $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
+        "$Test->{Name} Ticket data contains correct Priority",
+    );
 
-        $Self->Is(
-            $TicketData{Priority},
-            $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
-            "$Test->{Name} Ticket data contains correct Priority",
-        );
+    $Self->Is(
+        $TicketData{CustomerUserID},
+        $Test->{Data}->{IctHead}->{ReporterId},
+        "$Test->{Name} Ticket data contains correct customer",
+    );
 
-        $Self->Is(
-            $TicketData{CustomerUserID},
-            $Test->{Data}->{IctHead}->{ReporterId},
-            "$Test->{Name} Ticket data contains correct customer",
-        );
+    my @ArticleIDs = $TicketObject->ArticleIndex(
+        TicketID => $TicketID,
+    );
 
-        my @ArticleIDs = $TicketObject->ArticleIndex(
-            TicketID => $TicketID,
-        );
+    TEST_STATEMENT_ITEM:
+    for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
 
-        TEST_STATEMENT_ITEM:
-        for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = '20110323000000'
+            =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
 
-            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = '20110323000000'
-                =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
+        my $BodyExpected
+            = "($TestStatementItem->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
+        $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
 
-            my $BodyExpected
-                = "($TestStatementItem->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
-            $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
+        # try to find current attachment item in Ticket attachments
+        ARTICLE_ID:
+        for my $ArticleID (@ArticleIDs) {
 
-            # try to find current attachment item in Ticket attachments
-            ARTICLE_ID:
-            for my $ArticleID (@ArticleIDs) {
+            my %Article = $TicketObject->ArticleGet(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
 
-                my %Article = $TicketObject->ArticleGet(
-                    ArticleID => $ArticleID,
-                    UserID    => 1,
+            if ( $Article{Body} eq $BodyExpected ) {
+                $Self->Is(
+                    $Article{Body},
+                    $BodyExpected,
+                    "$Test->{Name} found plaintext article for IctStatemtent",
                 );
 
-                if ( $Article{Body} eq $BodyExpected ) {
+                next TEST_STATEMENT_ITEM;
+            }
+        }
+
+        # article was not found.
+        $Self->Is(
+            '',
+            $BodyExpected,
+            "$Test->{Name} found plaintext article for IctStatemtent",
+        );
+
+    }
+
+    TEST_ATTACHMENT_ITEM:
+    for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
+
+        # try to find current attachment item in Ticket attachments
+        ARTICLE_ID:
+        for my $ArticleID (@ArticleIDs) {
+
+            my %ArticleAttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            # check if the current article has this attachment
+            ATTACHMENT_INDEX_ENTRY:
+            for my $AttachmentID ( sort keys %ArticleAttachmentIndex ) {
+                if (
+                    $ArticleAttachmentIndex{$AttachmentID}->{Filename}
+                    eq $TestAttachmentItem->{Filename}
+                    )
+                {
+
+                    # Success, attachment found
+
                     $Self->Is(
-                        $Article{Body},
-                        $BodyExpected,
-                        "$Test->{Name} found plaintext article for IctStatemtent",
+                        $ArticleAttachmentIndex{$AttachmentID}->{Filename},
+                        $TestAttachmentItem->{Filename},
+                        "$Test->{Name} found attachment",
                     );
 
-                    next TEST_STATEMENT_ITEM;
+                    my %Attachment = $TicketObject->ArticleAttachment(
+                        ArticleID => $ArticleID,
+                        FileID    => $AttachmentID,
+                        UserID    => 1,
+                    );
+
+                    $Self->Is(
+                        $Attachment{Content},
+                        MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
+                        "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
+                    );
+
+                    $Self->Is(
+                        $Attachment{ContentType},
+                        $TestAttachmentItem->{MimeType},
+                        "$Test->{Name} attachment content type for $TestAttachmentItem->{Filename}",
+                    );
+
+                    next TEST_ATTACHMENT_ITEM;
                 }
             }
-
-            # article was not found.
-            $Self->Is(
-                '',
-                $BodyExpected,
-                "$Test->{Name} found plaintext article for IctStatemtent",
-            );
-
         }
 
-        TEST_ATTACHMENT_ITEM:
-        for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
-
-            # try to find current attachment item in Ticket attachments
-            ARTICLE_ID:
-            for my $ArticleID (@ArticleIDs) {
-
-                my %ArticleAttachmentIndex = $TicketObject->ArticleAttachmentIndex(
-                    ArticleID => $ArticleID,
-                    UserID    => 1,
-                );
-
-                # check if the current article has this attachment
-                ATTACHMENT_INDEX_ENTRY:
-                for my $AttachmentID ( sort keys %ArticleAttachmentIndex ) {
-                    if (
-                        $ArticleAttachmentIndex{$AttachmentID}->{Filename}
-                        eq $TestAttachmentItem->{Filename}
-                        )
-                    {
-
-                        # Success, attachment found
-
-                        $Self->Is(
-                            $ArticleAttachmentIndex{$AttachmentID}->{Filename},
-                            $TestAttachmentItem->{Filename},
-                            "$Test->{Name} found attachment",
-                        );
-
-                        my %Attachment = $TicketObject->ArticleAttachment(
-                            ArticleID => $ArticleID,
-                            FileID    => $AttachmentID,
-                            UserID    => 1,
-                        );
-
-                        $Self->Is(
-                            $Attachment{Content},
-                            MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
-                            "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
-                        );
-
-                        $Self->Is(
-                            $Attachment{ContentType},
-                            $TestAttachmentItem->{MimeType},
-                            "$Test->{Name} attachment content type for $TestAttachmentItem->{Filename}",
-                        );
-
-                        next TEST_ATTACHMENT_ITEM;
-                    }
-                }
-            }
-
-            $Self->Is(
-                '',
-                $TestAttachmentItem->{Filename},
-                "$Test->{Name} Ticket data found attachment",
-            );
-        }
+        $Self->Is(
+            '',
+            $TestAttachmentItem->{Filename},
+            "$Test->{Name} Ticket data found attachment",
+        );
     }
 }
+
+# delete tickets
+for my $TicketID (@TicketIDs) {
+    $Self->True(
+        $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        ),
+        "TicketDelete()",
+    );
+}
+
 1;

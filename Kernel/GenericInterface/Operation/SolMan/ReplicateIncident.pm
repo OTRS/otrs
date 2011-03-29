@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.3 2011-03-24 10:35:05 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.4 2011-03-29 12:07:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,12 @@ package Kernel::GenericInterface::Operation::SolMan::ReplicateIncident;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use MIME::Base64();
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -45,7 +47,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(DebuggerObject ConfigObject MainObject)) {
+    for my $Needed (
+        qw(DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject)
+        )
+    {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -56,12 +61,14 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+
     return $Self;
 }
 
 =item Run()
 
-perform ReplicateIncident Operation. This will return ???.
+perform ReplicateIncident Operation. This will return the created ticket number.
 
     my $Result = $OperationObject->Run(
         Data => {
@@ -112,9 +119,85 @@ sub Run {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
     }
 
+    # check needed data
+    for my $Key (qw(IctHead)) {
+        if ( !IsHashRefWithData( $Param{Data}->{$Key} ) ) {
+            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
+        }
+    }
+    for my $Key (qw(IctId IctTimestamp)) {
+        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
+            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
+        }
+    }
+
+    # create ticket
+    my $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title        => $Param{Data}->{IctHead}->{ShortDescription},
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'closed successful',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    if ( !$TicketID ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => $Self->{LogObject}->GetLogEntry(
+                Type => 'error',
+                What => 'message',
+            ),
+        );
+    }
+
+    # create article
+    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        TicketID       => $TicketID,
+        ArticleType    => 'note-internal',
+        SenderType     => 'agent',
+        From           => 'Some Agent <email@example.com>',
+        To             => 'Some Customer A <customer-a@example.com>',
+        Subject        => 'some short description',
+        Body           => 'the message text',
+        Charset        => 'ISO-8859-15',
+        MimeType       => 'text/plain',
+        HistoryType    => 'AddNote',
+        HistoryComment => 'Update from SolMan!',
+        UserID         => 1,
+    );
+    if ( !$ArticleID ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => $Self->{LogObject}->GetLogEntry(
+                Type => 'error',
+                What => 'message',
+            ),
+        );
+    }
+
+    # create attachments
+    if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
+        for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
+            my $ArticleWriteAttachment = $Self->{TicketObject}->ArticleWriteAttachment(
+                Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
+                Filename    => $Attachment->{Filename},
+                ContentType => $Attachment->{MimeType},
+                ArticleID   => $ArticleID,
+                UserID      => 1,
+            );
+        }
+    }
+
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
     # copy data
     my $ReturnData = {
-        Errors => '',
+        Errors   => '',
+        PrdIctId => $Ticket{TicketNumber},
     };
 
     # return result
@@ -140,6 +223,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-03-24 10:35:05 $
+$Revision: 1.4 $ $Date: 2011-03-29 12:07:07 $
 
 =cut
