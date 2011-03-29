@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.7 2011-03-29 08:52:35 mg Exp $
+# $Id: ReplicateIncident.t,v 1.8 2011-03-29 08:55:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use MIME::Base64 ();
 
-return 1;
+#return 1;
 
 use Kernel::System::Ticket;
 
