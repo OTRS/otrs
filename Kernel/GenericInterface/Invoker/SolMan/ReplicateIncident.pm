@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.23 2011-03-29 15:45:51 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.24 2011-03-29 22:30:37 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -20,10 +20,11 @@ use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
+use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -175,27 +176,19 @@ sub PrepareRequest {
     my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
 
     # IctAdditionalInfos
-    my %IctAdditionalInfos;
-#    my %IctAdditionalInfos = (
-#        IctAdditionalInfo => {
-#            Guid             => '',    # type="n0:char32"
-#            ParentGuid       => '',    # type="n0:char32"
-#            AddInfoAttribute => '',    # type="n0:char255"
-#            AddInfoValue     => '',    # type="n0:char255"
-#        },
-#    );
+    my $IctAdditionalInfos = $Self->{SolManCommonObject}->GetAditionalInfo();
 
+    # IctPersons
     my $PersonsInfo = $Self->{SolManCommonObject}->GetPersonsInfo(
         UserID          => $Ticket{OwnerID},
         CustomerUserID  => $Ticket{CustomerUserID},
     );
-
-    # IctPersons
-    my @IctPersons;
+    my $IctPersons;
     if  ( IsArrayRefWithData($PersonsInfo->{IctPersons}) ) {
-        @IctPersons = @{ $PersonsInfo->{IctPersons} };
+        $IctPersons = $PersonsInfo->{IctPersons};
     };
 
+    # set Language from customer
     my $Language = $PersonsInfo->{Language} || 'en';
 
     # check if ticket has articles
@@ -211,135 +204,63 @@ sub PrepareRequest {
             SystemTime => $DueSystemTime,
         );
 
-        # write in debug log
-        $Self->{DebuggerObject}->Notice(
-            Summary => 'ReplicateIncident task reschedule, no articles found yet',
+        my $SchedulerObject = Kernel::Scheduler->new( %{$Self} );
+        $SchedulerObject->TaskRegister(
+            Type       => 'GenericInterface',
+            Data     => {                                   # data for task register
+                WebserviceID => $Self->{WebserviceID},
+                Invoker      => 'ReplicateIncident',
+
+                Data         => {                           # data for invoker
+                    WebserviceID => $Self->{WebserviceID},
+                    TicketID     => $Self->{TicketID},
+                },
+            },
+            DueTime    => $DueTimeStamp,
         );
 
         return {
             Success => 0,
-            ReSchedule => 1,
-            Type       => 'GenericInterface',
-            DueTime    => $DueSystemTime,
-
-            Data     => {                                   # data for task register
-                Name         => 'ReplicateIncident',
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'ReplcateIncident',
-
-                Data         => {                           # data for invoker
-                    WebserviceID => $Self->{WebserviceID},
-                    TicketID     => $Self->{TicketID},,
-                },
-            },
+            ErrorMessage => 'ReplicateIncident task reschedule, no articles found yet',
         };
     }
 
-    # IctAttachments
-    my @Articles = $Self->{TicketObject}->ArticleGet(
+    my $ArticleInfo = $Self->{SolManCommonObject}->GetArticlesInfo(
         TicketID => $Self->{TicketID},
+        UserID   => $Ticket{OwnerID},
+        Language => $Language,
     );
 
-    my @IctAttachments;
-    my @IctStatements;
-    for my $Article (@Articles) {
-        my $CreateTime = $Article->{Created};
-        $CreateTime =~ s/[:|\-|\s]//g;
+    # IctAttachments
+    my $IctAttachments;
+    if  ( IsArrayRefWithData($ArticleInfo->{IctAttachments}) ) {
+        $IctAttachments = $ArticleInfo->{IctAttachments};
+    };
 
-        # IctStatements
-        my %IctStatement = (
-                TextType  => 'SU99',                                # type="n0:char32"
-                Texts     => {                                      # type="tns:IctTexts"
-                    item    =>  $Article->{Body} || '',
-                },
-                Timestamp => $CreateTime,                           # type="n0:decimal15.0"
-                PersonId  => $Ticket{OwnerID},                      # type="n0:char32"
-                Language  => $Language,                             # type="n0:char2"
-        );
-        push @IctStatements,{%IctStatement};
-
-        # attachments
-        my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ArticleID                  => $Article->{ArticleID},
-            UserID                     => $Ticket{OwnerID},
-            StripPlainBodyAsAttachment => 3,
-        );
-
-        for my $Index ( keys %AttachmentIndex ) {
-            my %Attachment = $Self->{TicketObject}->ArticleAttachment(
-                ArticleID => $Article->{ArticleID},
-                FileID    => $Index,
-                UserID    => $Ticket{OwnerID},
-            );
-            my %IctAttachment = (
-                    AttachmentGuid => $Index,                                   # type="n0:char32"
-                    Filename       => $AttachmentIndex{$Index}->{Filename},     # type="xsd:string"
-                    MimeType       => '',                                       # type="n0:char128"
-                    Data           => encode_base64( $Attachment{Content} ),    # type="xsd:base64Binary"
-                    Timestamp      => $CreateTime,                              # type="n0:decimal15.0"
-                    PersonId       => $Ticket{OwnerID},                         # type="n0:char32"
-                    Url            => '',                                       # type="n0:char4096"
-                    Language       => $Language,                                # type="n0:char2"
-                    Delete         => '',                                       # type="n0:char1"
-            );
-            push @IctAttachments,{%IctAttachment};
-
-        }
-
-    }
+    # IctStatements
+    my $IctStatements;
+    if  ( IsArrayRefWithData($ArticleInfo->{IctStatements}) ) {
+        $IctStatements = $ArticleInfo->{IctStatements};
+    };
 
     # IctSapNotes
-    my %IctSapNotes;
-#    my %IctSapNotes = (
-#        IctSapNote => {
-#            NoteId          => '',                       # type="n0:char30"
-#            NoteDescription => '',                       # type="n0:char60"
-#            Timestamp       => '',                       # type="n0:decimal15.0"
-#            PersonId        => '',                       # type="n0:char32"
-#            Url             => '',                       # type="n0:char4096"
-#            Language        => '',                       # type="n0:char2"
-#            Delete          => '',                       # type="n0:char1"
-#        },
-#    );
+    my $IctSapNotes = $Self->{SolManCommonObject}->GetSapNotesInfo();
 
     # IctSolutions
-    my %IctSolutions;
-#    my %IctSolutions = (
-#        IctSolution => {
-#            SolutionId          => '',                   # type="n0:char32"
-#            SolutionDescription => '',                   # type="n0:char60"
-#            Timestamp           => '',                   # type="n0:decimal15.0"
-#            PersonId            => '',                   # type="n0:char32"
-#            Url                 => '',                   # type="n0:char4096"
-#            Language            => '',                   # type="n0:char2"
-#            Delete              => '',                   # type="n0:char1"
-#        },
-#    );
+    my $IctSolutions = $Self->{SolManCommonObject}->GetSolutionsInfo();
 
     # IctUrls
-    my %IctUrls;
-#    my %IctUrls = (
-#        IctUrl => {
-#            UrlGuid        => '',                        # type="n0:char32"
-#            Url            => '',                        # type="n0:char4096"
-#            UrlName        => '',                        # type="n0:char40"
-#            UrlDescription => '',                        # type="n0:char64"
-#            Timestamp      => '',                        # type="n0:decimal15.0"
-#            PersonId       => '',                        # type="n0:char32"
-#            Language       => '',                        # type="n0:char2"
-#            Delete         => '',                        # type="n0:char1"
-#        },
-#    );
+    my $IctUrls = $Self->{SolManCommonObject}->GetUrlsInfo();
 
     # IctTimestamp
     my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
     $IctTimestamp =~ s/[:|\-|\s]//g;
 
-    my %DataForReturn = (
-        IctAdditionalInfos => scalar %IctAdditionalInfos ?
-            \%IctAdditionalInfos : '',
-        IctAttachments     => scalar @IctAttachments ?
-            { item => \@IctAttachments } : '',
+    my %RequestData = (
+        IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos) ?
+            $IctAdditionalInfos : '',
+        IctAttachments     => IsArrayRefWithData($IctAttachments) ?
+            { item => $IctAttachments } : '',
         IctHead            => {
             IncidentGuid     => $Ticket{TicketNumber},           # type="n0:char32"
             RequesterGuid    => $LocalSystemGuid,                # type="n0:char32"
@@ -355,22 +276,22 @@ sub PrepareRequest {
             IctId            => $Ticket{TicketNumber},           # type="n0:char32"
         },
         IctId              => $Ticket{TicketNumber},             # type="n0:char32"
-        IctPersons         => scalar @IctPersons ?
-            { item => \@IctPersons } : '',
-        IctSapNotes        => scalar %IctSapNotes ?
-            \%IctSapNotes : '',
-        IctSolutions       => scalar %IctSolutions ?
-            \%IctSolutions : '',
-        IctStatements      => scalar @IctStatements ?
-            { item => \@IctStatements} : '',
+        IctPersons         => IsArrayRefWithData($IctPersons) ?
+            { item => $IctPersons } : '',
+        IctSapNotes        => IsHashRefWithData($IctSapNotes) ?
+            $IctSapNotes : '',
+        IctSolutions       => IsHashRefWithData($IctSolutions) ?
+            $IctSolutions : '',
+        IctStatements      => IsArrayRefWithData($IctStatements) ?
+            { item => $IctStatements} : '',
         IctTimestamp       => $IctTimestamp,                    # type="n0:decimal15.0"
-        IctUrls            => scalar %IctUrls ?
-            \%IctUrls : '',
+        IctUrls            => IsHashRefWithData($IctUrls) ?
+            $IctUrls : '',
     );
 
     return {
         Success => 1,
-        Data    => \%DataForReturn,
+        Data    => \%RequestData,
     };
 }
 
@@ -553,6 +474,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2011-03-29 15:45:51 $
+$Revision: 1.24 $ $Date: 2011-03-29 22:30:37 $
 
 =cut
