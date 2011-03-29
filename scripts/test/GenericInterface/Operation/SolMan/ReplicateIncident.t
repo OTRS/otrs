@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.9 2011-03-29 09:09:44 mg Exp $
+# $Id: ReplicateIncident.t,v 1.10 2011-03-29 09:58:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -303,6 +303,12 @@ for my $Test (@Tests) {
             $TicketData{Priority},
             $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
             "$Test->{Name} Ticket data contains correct Priority",
+        );
+
+        $Self->Is(
+            $TicketData{CustomerUserID},
+            $Test->{Data}->{IctHead}->{ReporterId},
+            "$Test->{Name} Ticket data contains correct customer",
         );
 
         my @ArticleIDs = $TicketObject->ArticleIndex(
