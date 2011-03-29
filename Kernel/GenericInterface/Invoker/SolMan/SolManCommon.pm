@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.8 2011-03-29 18:59:28 cr Exp $
+# $Id: SolManCommon.pm,v 1.9 2011-03-29 22:28:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,11 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
+use Kernel::System::Ticket;
+use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -106,7 +108,7 @@ sub new {
     # create additional objects
     $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     return $Self;
 }
 
@@ -464,7 +466,7 @@ sub GetPersonsInfo {
 
     # agent
     my %AgentData = $Self->{UserObject}->GetUserData(
-        UserID => $Param{OwnerID},
+        UserID => $Param{UserID},
     );
     my %IctAgentUser = (
         PersonId => $AgentData{UserID} || '',    # type="n0:char32"
@@ -489,7 +491,7 @@ sub GetPersonsInfo {
 }
 
 =item GetAditionalInfo()
-this functions is not yet implemente, returns an empty hash
+this function is not yet implemented, returns empty hash ref
 =cut
 
 sub GetAditionalInfo {
@@ -508,7 +510,217 @@ sub GetAditionalInfo {
     #        },
     #    );
 
-    return \%IctAdditionalInfos;
+    if (%IctAdditionalInfos) {
+        return \%IctAdditionalInfos;
+    }
+
+    return '';
+}
+
+=item GetSapNotesInfo()
+this function is not yet implemented, returns empty hash ref
+=cut
+
+sub GetSapNotesInfo {
+    my ( $Self, %Param ) = @_;
+
+    #TODO Implement if needed
+
+    my %IctSapNotes;
+
+    #    my %IctSapNotes = (
+    #        IctSapNote => {
+    #            NoteId          => '',                       # type="n0:char30"
+    #            NoteDescription => '',                       # type="n0:char60"
+    #            Timestamp       => '',                       # type="n0:decimal15.0"
+    #            PersonId        => '',                       # type="n0:char32"
+    #            Url             => '',                       # type="n0:char4096"
+    #            Language        => '',                       # type="n0:char2"
+    #            Delete          => '',                       # type="n0:char1"
+    #        },
+    #    );
+
+    if (%IctSapNotes) {
+        return \%IctSapNotes;
+    }
+
+    return '';
+
+}
+
+=item GetSolutionsInfo()
+this function is not yet implemented, returns empty hash ref
+=cut
+
+sub GetSolutionsInfo {
+    my ( $Self, %Param ) = @_;
+
+    #TODO Implement if needed
+
+    my %IctSolutions;
+
+    #    my %IctSolutions = (
+    #        IctSolution => {
+    #            SolutionId          => '',                   # type="n0:char32"
+    #            SolutionDescription => '',                   # type="n0:char60"
+    #            Timestamp           => '',                   # type="n0:decimal15.0"
+    #            PersonId            => '',                   # type="n0:char32"
+    #            Url                 => '',                   # type="n0:char4096"
+    #            Language            => '',                   # type="n0:char2"
+    #            Delete              => '',                   # type="n0:char1"
+    #        },
+    #    );
+
+    if (%IctSolutions) {
+        return \%IctSolutions;
+    }
+
+    return '';
+
+}
+
+=item GetUrlsInfo()
+this function is not yet implemented, returns empty hash ref
+=cut
+
+sub GetUrlsInfo {
+    my ( $Self, %Param ) = @_;
+
+    #TODO Implement if needed
+
+    my %IctUrls;
+
+    #    my %IctUrls = (
+    #        IctUrl => {
+    #            UrlGuid        => '',                        # type="n0:char32"
+    #            Url            => '',                        # type="n0:char4096"
+    #            UrlName        => '',                        # type="n0:char40"
+    #            UrlDescription => '',                        # type="n0:char64"
+    #            Timestamp      => '',                        # type="n0:decimal15.0"
+    #            PersonId       => '',                        # type="n0:char32"
+    #            Language       => '',                        # type="n0:char2"
+    #            Delete         => '',                        # type="n0:char1"
+    #        },
+    #    );
+
+    if (%IctUrls) {
+        return %IctUrls;
+    }
+
+    return '';
+
+}
+
+=item GetArticlesInfo()
+returns the IctAttachments array and IctStatements array for SolMan communication
+
+    my $Result = $SolManCommonObject->GetArticlesInfo(
+        UserID   => 123,
+        TicketID => 67
+        Language => 'en'
+    );
+
+    $Result = {
+        IctAttachments => [
+            {
+                AttachmentGuid => 1,                    # type="n0:char32"
+                Filename       => doc.txt,              # type="xsd:string"
+                MimeType       => text/plain,           # type="n0:char128"
+                Data           => ...,                  # type="xsd:base64Binary" content of the
+                                                        # attachment base 64 encoded
+
+                Timestamp      => '20110329124029',     # type="n0:decimal15.0" timestamp without
+                                                        # any separators
+
+                PersonId       => 123,                  # type="n0:char32"
+                Url            => '',                   # type="n0:char4096"
+                Language       => 'de',                 # type="n0:char2"
+                Delete         => '',                   # type="n0:char1"
+            },
+        ],
+        IctStatements => [
+            {
+
+                TextType  => 'SU99',                    # type="n0:char32" Internal SolMan type
+                Texts     => {                          # type="tns:IctTexts"
+                    item    => [                        # article content
+                        'Subject',
+                        'Body',
+                    ]
+                },
+                Timestamp      => '20110329124029',     # type="n0:decimal15.0" timestamp without
+                                                        # any separators
+
+                PersonId  => 123,                       # type="n0:char32"
+                Language  => 'de,                       # type="n0:char2"
+            },
+        ],
+    };
+=cut
+
+sub GetArticlesInfo {
+    my ( $Self, %Param ) = @_;
+
+    my @Articles = $Self->{TicketObject}->ArticleGet(
+        TicketID => $Param{TicketID},
+    );
+
+    my @IctAttachments;
+    my @IctStatements;
+    for my $Article (@Articles) {
+        my $CreateTime = $Article->{Created};
+        $CreateTime =~ s/[:|\-|\s]//g;
+
+        # IctStatements
+        my %IctStatement = (
+            TextType => 'SU99',    # type="n0:char32"
+            Texts    => {          # type="tns:IctTexts"
+                item => [
+                    $Article->{Subject} || '',
+                    $Article->{Body}    || '',
+                    ]
+            },
+            Timestamp => $CreateTime,         # type="n0:decimal15.0"
+            PersonId  => $Param{UserID},      # type="n0:char32"
+            Language  => $Param{Language},    # type="n0:char2"
+        );
+        push @IctStatements, {%IctStatement};
+
+        # attachments
+        my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID                  => $Article->{ArticleID},
+            UserID                     => $Param{UserID},
+            StripPlainBodyAsAttachment => 3,
+        );
+
+        for my $Index ( keys %AttachmentIndex ) {
+            my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                ArticleID => $Article->{ArticleID},
+                FileID    => $Index,
+                UserID    => $Param{UserID},
+            );
+
+            my %IctAttachment = (
+                AttachmentGuid => $Index,                                  # type="n0:char32"
+                Filename       => $AttachmentIndex{$Index}->{Filename},    # type="xsd:string"
+                MimeType       => $Attachment{ContentType},                # type="n0:char128"
+                Data           => encode_base64( $Attachment{Content} ),   # type="xsd:base64Binary"
+                Timestamp      => $CreateTime,                             # type="n0:decimal15.0"
+                PersonId       => $Param{UserID},                          # type="n0:char32"
+                Url            => '',                                      # type="n0:char4096"
+                Language       => $Param{Language},                        # type="n0:char2"
+                Delete         => '',                                      # type="n0:char1"
+            );
+            push @IctAttachments, {%IctAttachment};
+        }
+    }
+
+    my $Result = {
+        IctAttachments => \@IctAttachments,
+        IctStatements  => \@IctStatements
+    };
+
+    return $Result
 }
 
 1;
@@ -527,6 +739,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-03-29 18:59:28 $
+$Revision: 1.9 $ $Date: 2011-03-29 22:28:41 $
 
 =cut
