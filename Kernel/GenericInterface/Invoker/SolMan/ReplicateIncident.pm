@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.24 2011-03-29 22:30:37 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.25 2011-03-30 04:38:55 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -254,7 +254,12 @@ sub PrepareRequest {
 
     # IctTimestamp
     my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
-    $IctTimestamp =~ s/[:|\-|\s]//g;
+    $IctTimestamp =~ s{[:|\-|\s]}{}g;
+
+    my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Self->{TimeObject}->SystemTime() + 1,
+    );
+    $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
 
     my %RequestData = (
         IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos) ?
@@ -270,9 +275,8 @@ sub PrepareRequest {
             ShortDescription => substr( $Ticket{Title}, 0, 40 ), # type="n0:char40"
             Priority         => $Ticket{PriorityID},             # type="n0:char32"
             Language         => $Language,                       # type="n0:char2"
-# TODO check for actual Requested (Begin | End) timestamps
             RequestedBegin   => $IctTimestamp,                   # type="n0:decimal15.0"
-            RequestedEnd     => $IctTimestamp,                   # type="n0:decimal15.0"
+            RequestedEnd     => $IctTimestampEnd,                # type="n0:decimal15.0"
             IctId            => $Ticket{TicketNumber},           # type="n0:char32"
         },
         IctId              => $Ticket{TicketNumber},             # type="n0:char32"
@@ -474,6 +478,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-03-29 22:30:37 $
+$Revision: 1.25 $ $Date: 2011-03-30 04:38:55 $
 
 =cut
