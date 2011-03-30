@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.8 2011-03-30 09:16:39 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.9 2011-03-30 11:21:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -64,16 +64,12 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create Ticket Object
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
-    # create CustomerUser Object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
-    # create CustomerUser Object
     $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
 
-    # create additional objects
     $Self->{SolManCommonObject}
         = Kernel::GenericInterface::Operation::SolMan::Common->new( %{$Self} );
 
@@ -164,6 +160,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-03-30 09:16:39 $
+$Revision: 1.9 $ $Date: 2011-03-30 11:21:04 $
 
 =cut
