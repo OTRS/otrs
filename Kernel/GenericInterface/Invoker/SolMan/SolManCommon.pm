@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.14 2011-03-30 17:40:19 cr Exp $
+# $Id: SolManCommon.pm,v 1.15 2011-03-30 22:29:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,11 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use Kernel::System::Ticket;
+use Kernel::System::GenericInterface::Webservice;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -109,6 +110,7 @@ sub new {
     $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     return $Self;
 }
 
@@ -729,6 +731,184 @@ sub GetArticlesInfo {
     return $Result
 }
 
+=item GetRemoteSystemGuid()
+reads the SystemGuid from the invoker configuration
+returns the SystemGuid or empty if it is not set for the invoker
+
+    my $RemoteSystemGuid = $SolManCommonObject->GetRemoteSystemGuid(
+        WebserviceID => 123,
+        Invoker      => 'RepliateIncident',
+    );
+
+    $RemoteSystemGuid = '123ABC123ABC123ABC123ABC123ABC12';  # or ''
+=cut
+
+sub GetRemoteSystemGuid {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID Invoker)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "GetRemoteSystemGuid: Got no $Param{$Needed}",
+            );
+            return;
+        }
+    }
+
+    # get webservice configuration
+    my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+        ID => $Param{WebserviceID},
+    );
+
+    # check if webservice configuration is valid
+    if ( !IsHashRefWithData($Webservice) ) {
+        $Self->{DebuggerObject}->Error(
+            Summary => "GetRemoteSystemGuid: Webservice configuration is invalid",
+        );
+        return;
+    }
+
+    # check if invoker configuration is valid
+    if (
+        !IsHashRefWithData( $Webservice->{Config}->{Requester}->{Invoker}->{ $Param{Invoker} } )
+        )
+    {
+        $Self->{DebuggerObject}->Error(
+            Summary => "GetRemoteSystemGuid: Invoker configuration for $Param{Invoker} is invalid",
+        );
+        return;
+    }
+
+    # get invoker configuration
+    my $Invoker = $Webservice->{Config}->{Requester}->{Invoker}->{ $Param{Invoker} };
+
+    my $SystemGuid;
+
+    # check if invoker has SystemGuid defined in its configuration and return it, otherwise
+    # return empty
+    if ( $Invoker->{SystemGuid} ) {
+        $SystemGuid = $Invoker->{SystemGuid};
+
+        # write on the debug log
+        $Self->{DebuggerObject}->Debug(
+            Summary => "GetRemoteSystemGuid: SystemGuid got from Invoker configuration",
+        );
+
+    }
+    return $SystemGuid;
+}
+
+=item SetRemoteSystemGuid()
+writes the SystemGuid in the specified invoker configuration or in all invokers if param AllInvokers
+is present. Only one, Invoker or AllInvokers parameter should be passed.
+returns 1 if the operation was successfull.
+
+    my $Success = $SolManCommonObject->SetRemoteSystemGuid(
+        WebserviceID => 123,
+        SystemGuid   => '123ABC123ABC123ABC123ABC123ABC12'
+        Invoker      => 'RepliateIncident',
+    );
+
+    my $Success = $SolManCommonObject->SetRemoteSystemGuid(
+        WebserviceID => 123,
+        SystemGuid   => '123ABC123ABC123ABC123ABC123ABC12'
+        AllInvokers  =>1,
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub SetRemoteSystemGuid {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID SystemGuid)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "SetRemoteSystemGuid: Got no $Param{$Needed}",
+            );
+            return;
+        }
+    }
+
+    # exit if no param Invoker and AllInvokers
+    if ( !$Param{Invoker} && !$Param{AllInvokers} ) {
+
+        # write in debug log
+        $Self->{DebuggerObject}->Error(
+            Summary => "SetRemoteSystemGuid: Param AllInvokers or Invoker is needed",
+        );
+        return;
+    }
+
+    # exit if both param Invoker and AllInvokers exists
+    if ( $Param{Invoker} && $Param{AllInvokers} ) {
+
+        # write in debug log
+        $Self->{DebuggerObject}->Error(
+            Summary => "SetRemoteSystemGuid: Only parameter Invoker or AllInvokers"
+                . "should be used, not both",
+        );
+        return;
+    }
+
+    # get webservice configuration
+    my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+        ID => $Param{WebserviceID},
+    );
+
+    # check if webservice configuration is valid
+    if ( !IsHashRefWithData($Webservice) ) {
+        $Self->{DebuggerObject}->Error(
+            Summary => "SetRemoteSystemGuid: Webservice configuration is invalid",
+        );
+        return;
+    }
+
+    my $Config = $Webservice->{Config};
+
+    # set SystemGuid to all invokers
+    if ( $Param{AllInvokers} ) {
+        for my $Invoker ( sort keys %{ $Config->{Requester}->{Invoker} } ) {
+            $Config->{Requester}->{Invoker}->{$Invoker}->{SystemGuid} = $Param{SystemGuid};
+        }
+    }
+
+    # otherwise set SystemGuid to especific invoker
+    else {
+        $Config->{Requester}->{Invoker}->{ $Param{Invoker} }->{SystemGuid} = $Param{SystemGuid};
+    }
+
+    # update config
+    my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+        ID      => $Webservice->{ID},
+        Name    => $Webservice->{Name},
+        Config  => $Config,
+        ValidID => $Webservice->{ValidID},
+        UserID  => 1,
+    );
+
+    # if can't update config, write in the debug log
+    if ( !$Success ) {
+        $Self->{DebuggerObject}->Error(
+            Summary => "SetRemoteSystemGuid: can't update Webservice configuration",
+        );
+    }
+
+    # otherwise just send notification
+    else {
+        $Self->{DebuggerObject}->Error(
+            Summary => "SetRemoteSystemGuid: Webservice configuration updated",
+        );
+    }
+
+    return $Success;
+}
 1;
 
 =back
@@ -745,6 +925,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-03-30 17:40:19 $
+$Revision: 1.15 $ $Date: 2011-03-30 22:29:28 $
 
 =cut
