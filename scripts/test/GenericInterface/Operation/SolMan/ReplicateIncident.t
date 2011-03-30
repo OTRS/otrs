@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.15 2011-03-29 13:16:12 mg Exp $
+# $Id: ReplicateIncident.t,v 1.16 2011-03-30 08:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-return 1;
-
-use MIME::Base64 ();
+use MIME::Base64();
 
 use Kernel::System::Ticket;
 
@@ -322,7 +320,7 @@ for my $Test (@Tests) {
     TEST_STATEMENT_ITEM:
     for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
 
-        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = '20110323000000'
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $TestStatementItem->{Timestamp}
             =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
 
         my $BodyExpected
@@ -353,7 +351,7 @@ for my $Test (@Tests) {
         $Self->Is(
             '',
             $BodyExpected,
-            "$Test->{Name} found plaintext article for IctStatemtent",
+            "$Test->{Name} found no plaintext article for IctStatemtent",
         );
 
     }

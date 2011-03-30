@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.5 2011-03-29 12:37:23 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.6 2011-03-30 08:19:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Ticket;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -162,14 +162,16 @@ sub Run {
             next if ref $Items->{Texts} ne 'HASH';
             next if !$Items->{Texts}->{item};
             next if ref $Items->{Texts}->{item} ne 'ARRAY';
-            my $Body = '';
-            $Body .= join @{ $Items->{Texts}->{item} };
+
+            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Items->{Timestamp}
+                =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
+            my $Body = "($Items->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
+            $Body .= join "\n", @{ $Items->{Texts}->{item} };
             my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',
                 From           => 'Some Agent <email@example.com>',
-                To             => 'Some Customer A <customer-a@example.com>',
                 Subject        => 'some short description',
                 Body           => $Body,
                 Charset        => 'ISO-8859-15',
@@ -237,6 +239,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-03-29 12:37:23 $
+$Revision: 1.6 $ $Date: 2011-03-30 08:19:24 $
 
 =cut
