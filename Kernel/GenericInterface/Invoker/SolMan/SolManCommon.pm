@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.13 2011-03-30 16:48:01 cr Exp $
+# $Id: SolManCommon.pm,v 1.14 2011-03-30 17:40:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -623,8 +623,8 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
     $Result = {
         IctAttachments => [
             {
-                AttachmentGuid => 23::1,                # type="n0:char32"
-                                                        # ArticleID::AttachmentIndex
+                AttachmentGuid => 23-1,                 # type="n0:char32"
+                                                        # ArticleID-AttachmentIndex
 
                 Filename       => doc.txt,              # type="xsd:string"
                 MimeType       => text/plain,           # type="n0:char128"
@@ -707,7 +707,7 @@ sub GetArticlesInfo {
             $Attachment{ContentType} =~ s{ [,;] [ ]* charset= .+ \z }{}xmsi;
 
             my %IctAttachment = (
-                AttachmentGuid => $Article->{ArticleID} . '::' . $Index,   # type="n0:char32"
+                AttachmentGuid => $Article->{ArticleID} . '-' . $Index,    # type="n0:char32"
                 Filename       => $AttachmentIndex{$Index}->{Filename},    # type="xsd:string"
                 MimeType       => $Attachment{ContentType},                # type="n0:char128"
                 Data           => encode_base64( $Attachment{Content} ),   # type="xsd:base64Binary"
@@ -745,6 +745,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-03-30 16:48:01 $
+$Revision: 1.14 $ $Date: 2011-03-30 17:40:19 $
 
 =cut
