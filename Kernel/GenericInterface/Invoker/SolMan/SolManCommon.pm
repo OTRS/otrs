@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.9 2011-03-29 22:28:41 cr Exp $
+# $Id: SolManCommon.pm,v 1.10 2011-03-30 04:37:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -645,10 +645,11 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
                 Texts     => {                          # type="tns:IctTexts"
                     item    => [                        # article content
                         'Subject',
+                        "\n",
                         'Body',
                     ]
                 },
-                Timestamp      => '20110329124029',     # type="n0:decimal15.0" timestamp without
+                Timestamp => '20110329124029',          # type="n0:decimal15.0" timestamp without
                                                         # any separators
 
                 PersonId  => 123,                       # type="n0:char32"
@@ -669,7 +670,7 @@ sub GetArticlesInfo {
     my @IctStatements;
     for my $Article (@Articles) {
         my $CreateTime = $Article->{Created};
-        $CreateTime =~ s/[:|\-|\s]//g;
+        $CreateTime =~ s{[:|\-|\s]}{}g;
 
         # IctStatements
         my %IctStatement = (
@@ -677,7 +678,8 @@ sub GetArticlesInfo {
             Texts    => {          # type="tns:IctTexts"
                 item => [
                     $Article->{Subject} || '',
-                    $Article->{Body}    || '',
+                    "\n",
+                    $Article->{Body} || '',
                     ]
             },
             Timestamp => $CreateTime,         # type="n0:decimal15.0"
@@ -690,6 +692,7 @@ sub GetArticlesInfo {
         my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
             ArticleID                  => $Article->{ArticleID},
             UserID                     => $Param{UserID},
+            Article                    => $Article,
             StripPlainBodyAsAttachment => 3,
         );
 
@@ -699,6 +702,8 @@ sub GetArticlesInfo {
                 FileID    => $Index,
                 UserID    => $Param{UserID},
             );
+
+            $Attachment{ContentType} =~ s{ [,;] [ ]* charset= .+ \z }{}xmsi;
 
             my %IctAttachment = (
                 AttachmentGuid => $Index,                                  # type="n0:char32"
@@ -739,6 +744,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-03-29 22:28:41 $
+$Revision: 1.10 $ $Date: 2011-03-30 04:37:47 $
 
 =cut
