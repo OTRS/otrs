@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.6 2011-03-30 08:19:24 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.7 2011-03-30 09:11:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,13 @@ use warnings;
 
 use MIME::Base64();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::GenericInterface::Operation::SolMan::SolManCommon;
 use Kernel::System::Ticket;
+use Kernel::System::CustomerUser;
+use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -61,7 +64,18 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    # create Ticket Object
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+
+    # create CustomerUser Object
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+
+    # create CustomerUser Object
+    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+
+    # create additional objects
+    $Self->{SolManCommonObject}
+        = Kernel::GenericInterface::Operation::SolMan::SolManCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -131,96 +145,7 @@ sub Run {
         }
     }
 
-    # create ticket
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
-        Title        => $Param{Data}->{IctHead}->{ShortDescription},
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'closed successful',
-        CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
-        CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
-        OwnerID      => 1,
-        UserID       => 1,
-    );
-    if ( !$TicketID ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => $Self->{LogObject}->GetLogEntry(
-                Type => 'error',
-                What => 'message',
-            ),
-        );
-    }
-
-    # create article
-    if ( $Param{Data}->{IctStatements} && $Param{Data}->{IctStatements}->{item} ) {
-        my $ArticleID;
-        for my $Items ( @{ $Param{Data}->{IctStatements}->{item} } ) {
-            next if !$Items;
-            next if ref $Items ne 'HASH';
-            next if !$Items->{Texts};
-            next if ref $Items->{Texts} ne 'HASH';
-            next if !$Items->{Texts}->{item};
-            next if ref $Items->{Texts}->{item} ne 'ARRAY';
-
-            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Items->{Timestamp}
-                =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
-            my $Body = "($Items->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
-            $Body .= join "\n", @{ $Items->{Texts}->{item} };
-            my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => 'note-internal',
-                SenderType     => 'agent',
-                From           => 'Some Agent <email@example.com>',
-                Subject        => 'some short description',
-                Body           => $Body,
-                Charset        => 'ISO-8859-15',
-                MimeType       => 'text/plain',
-                HistoryType    => 'AddNote',
-                HistoryComment => 'Update from SolMan!',
-                UserID         => 1,
-            );
-            if ( !$ArticleIDLocal ) {
-                return $Self->{DebuggerObject}->Error(
-                    Summary => $Self->{LogObject}->GetLogEntry(
-                        Type => 'error',
-                        What => 'message',
-                    ),
-                );
-            }
-            $ArticleID = $ArticleIDLocal;
-        }
-
-        # create attachments
-        if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
-            for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
-                my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
-                    Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
-                    Filename    => $Attachment->{Filename},
-                    ContentType => $Attachment->{MimeType},
-                    ArticleID   => $ArticleID,
-                    UserID      => 1,
-                );
-            }
-        }
-    }
-
-    my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    # copy data
-    my $ReturnData = {
-        Errors   => '',
-        PrdIctId => $Ticket{TicketNumber},
-    };
-
-    # return result
-    return {
-        Success => 1,
-        Data    => $ReturnData,
-    };
+    return $Self->{SolManCommonObject}->TicketSync(%Param);
 }
 
 1;
@@ -239,6 +164,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-30 08:19:24 $
+$Revision: 1.7 $ $Date: 2011-03-30 09:11:24 $
 
 =cut
