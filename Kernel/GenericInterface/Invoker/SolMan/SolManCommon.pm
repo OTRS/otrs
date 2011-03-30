@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.15 2011-03-30 22:29:28 cr Exp $
+# $Id: SolManCommon.pm,v 1.16 2011-03-30 23:28:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::Webservice;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -665,6 +665,7 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
 sub GetArticlesInfo {
     my ( $Self, %Param ) = @_;
 
+    my $ArticleID = $Param{ArticleID} || '';
     my @Articles = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
     );
@@ -672,6 +673,11 @@ sub GetArticlesInfo {
     my @IctAttachments;
     my @IctStatements;
     for my $Article (@Articles) {
+        next
+            if (
+            $ArticleID ne '' &&
+            $Article->{ArticleID} ne $ArticleID
+            );
         my $CreateTime = $Article->{Created};
         $CreateTime =~ s{[:|\-|\s]}{}g;
 
@@ -925,6 +931,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-03-30 22:29:28 $
+$Revision: 1.16 $ $Date: 2011-03-30 23:28:12 $
 
 =cut
