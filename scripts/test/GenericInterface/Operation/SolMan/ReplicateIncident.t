@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.19 2011-03-30 11:30:42 mg Exp $
+# $Id: ReplicateIncident.t,v 1.20 2011-03-30 12:05:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@ my @Tests = (
                 IctAttachments     => {
                     item => [
                         {
-                            AttachmentGuid => '2011032510000001-1-1',
+                            AttachmentGuid => 'Solman-3476084274-1-1',
                             Filename       => 'test.txt',
                             MimeType       => 'text/plain',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
@@ -102,7 +102,7 @@ my @Tests = (
                     Item => [
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
-                        Sex         => 'M',
+                        Sex         => 'm',
                         FirstName   => 'Stefan',
                         LastName    => 'Bedorf',
                         Telephone   => {
@@ -154,8 +154,8 @@ works too',
                 IctAttachments     => {
                     item => [
                         {
-                            AttachmentGuid => '2011032510000001-2-1',
-                            Filename       => 'test2.bin',
+                            AttachmentGuid => 'Solman-3476084274-2-1',
+                            Filename       => 'test4.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -172,7 +172,7 @@ works too',
                     ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
-                    ShortDescription => 'title update',
+                    ShortDescription => 'ProcessIncident Test',
                     Priority         => 2,
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
@@ -182,7 +182,7 @@ works too',
                     Item => [
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
-                        Sex         => 'M',
+                        Sex         => 'm',
                         FirstName   => 'Stefan',
                         LastName    => 'Bedorf',
                         Telephone   => {
@@ -209,6 +209,89 @@ works too',
                                 item => [
                                     'another',
                                     'note from SolMan',
+                                ],
+                            },
+                            Timestamp => '20110323000000',
+                            PersonId  => 1,
+                            Language  => 'de',
+                        },
+                    ],
+                },
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
+    ],
+    [
+        {
+            Name      => 'ProcessIncident',
+            Operation => 'SolMan::ProcessIncident',
+            Success   => 1,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {
+                    item => [
+                        {
+                            AttachmentGuid => 'Solman-266383424-1-1',
+                            Filename       => 'test.txt',
+                            MimeType       => 'text/plain',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => '',
+                        },
+                    ],
+                },
+                IctHead => {
+                    IncidentGuid     => 'Solman-266383424',
+                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
+                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'title',
+                    Priority         => 3,
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctId      => 'Solman-266383424',
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {
+                    item => [
+                        {
+                            TextType => 'SU99',
+
+                            # text lines
+                            Texts => {
+                                item => [
+                                    'a line of text',
+                                    'another line',
+                                    'multiline
+text
+works too',
                                 ],
                             },
                             Timestamp => '20110323000000',
@@ -285,8 +368,13 @@ for my $TestChain (@Tests) {
             "$Test->{Name} did not yield errors",
         );
 
+        my %TicketCreatingOperations = (
+            'SolMan::ReplicateIncident' => 1,
+            'SolMan::ProcessIncident'   => 1,
+        );
+
         # a new ticket was created, remember the data of this
-        if ( $Test->{Operation} eq 'SolMan::ReplicateIncident' ) {
+        if ( $TicketCreatingOperations{ $Test->{Operation} } ) {
             $Self->True(
                 $Result->{Data}->{PrdIctId},
                 "$Test->{Name} returned a ProviderIncidentID",
