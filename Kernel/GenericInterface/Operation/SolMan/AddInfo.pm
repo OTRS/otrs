@@ -1,15 +1,15 @@
 # --
-# Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
+# Kernel/GenericInterface/Operation/SolMan/AddInfo.pm - GenericInterface SolMan AddInfo operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.10 2011-03-30 11:51:00 martin Exp $
+# $Id: AddInfo.pm,v 1.1 2011-03-30 11:51:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GenericInterface::Operation::SolMan::ReplicateIncident;
+package Kernel::GenericInterface::Operation::SolMan::AddInfo;
 
 use strict;
 use warnings;
@@ -19,11 +19,11 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Operation::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::SolMan - GenericInterface SolMan ReplicateIncident Operation backend
+Kernel::GenericInterface::Operation::SolMan - GenericInterface SolMan AddInfo Operation backend
 
 =head1 SYNOPSIS
 
@@ -69,7 +69,7 @@ sub new {
 
 =item Run()
 
-perform ReplicateIncident Operation. This will return the created ticket number.
+perform AddInfo Operation. This will return the created ticket number.
 
     my $Result = $OperationObject->Run(
         Data => {
@@ -117,7 +117,7 @@ sub Run {
 
     return $Self->{SolManCommonObject}->TicketSync(
         %Param,
-        Operation => 'ReplicateIncident',
+        Operation => 'AddInfo',
     );
 }
 
@@ -137,6 +137,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-03-30 11:51:00 $
+$Revision: 1.1 $ $Date: 2011-03-30 11:51:00 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.1 2011-03-30 09:16:39 martin Exp $
+# $Id: Common.pm,v 1.2 2011-03-30 11:51:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,12 @@ use warnings;
 use MIME::Base64();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
+use Kernel::System::Ticket;
+use Kernel::System::CustomerUser;
+use Kernel::System::User;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -86,9 +90,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(
-        DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject UserObject CustomerUserObject TicketObject
-        )
+        qw( DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject )
         )
     {
 
@@ -101,6 +103,10 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }
@@ -278,6 +284,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-30 09:16:39 $
+$Revision: 1.2 $ $Date: 2011-03-30 11:51:00 $
 
 =cut
