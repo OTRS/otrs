@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.18 2011-03-30 09:49:51 mg Exp $
+# $Id: ReplicateIncident.t,v 1.19 2011-03-30 11:30:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -130,8 +130,8 @@ my @Tests = (
                                     'a line of text',
                                     'another line',
                                     'multiline
-    text
-    works too',
+text
+works too',
                                 ],
                             },
                             Timestamp => '20110323000000',
