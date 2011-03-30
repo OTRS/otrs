@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.6 2011-03-29 15:47:16 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.7 2011-03-30 22:30:32 cr Exp $
 # $OldId: RequestSystemGuid.pm,v 1.3 2011/03/19 15:58:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -52,7 +52,7 @@ sub new {
     for my $Needed (
         qw(
         DebuggerObject MainObject TimeObject ConfigObject EncodeObject
-        LogObject TimeObject DBObject
+        LogObject TimeObject DBObject WebserviceID
         )
         )
     {
@@ -210,6 +210,13 @@ sub HandleResponse {
         Data    => \%ReturnData,
     );
 
+    # set the Remote SystemGuid to the webservice configuration
+    $Self->{SolManCommonObject}->SetRemoteSystemGuid(
+        WebserviceID => $Self->{WebserviceID},
+        SystemGuid   => $Data->{SystemGuid},
+        AllInvokers  => 1,
+    );
+
     return {
         Success => 1,
         Data    => \%ReturnData,
@@ -232,6 +239,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-29 15:47:16 $
+$Revision: 1.7 $ $Date: 2011-03-30 22:30:32 $
 
 =cut
