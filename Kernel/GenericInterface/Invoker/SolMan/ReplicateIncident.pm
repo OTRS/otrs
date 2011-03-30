@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.26 2011-03-30 09:14:03 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.27 2011-03-30 22:34:01 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -147,29 +147,39 @@ sub PrepareRequest {
     # request Systems Guids
 
     # remote SystemGuid
-    my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
-    my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
+    # get it from invoker config
+    my $RemoteSystemGuid = $Self->{SolManCommonObject}->GetRemoteSystemGuid(
         WebserviceID => $Self->{WebserviceID},
-        Invoker      => 'RequestSystemGuid',
-        Data         => {},
+        Invoker      => 'ReplicateIncident',
     );
 
-    # forward error message from Requestsystemguid if any
-    if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
-        return {
-            Success => 0,
-            Data    => $RequestSolManSystemGuid->{ErrorMessage},
-        };
-    }
+    # otherwise trigger a request to get it from the remote system
+    if (!$RemoteSystemGuid) {
+        my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
+        my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
+            WebserviceID => $Self->{WebserviceID},
+            Invoker      => 'RequestSystemGuid',
+            Data         => {},
+        );
 
-    if ( !$RequestSolManSystemGuid->{Data}->{SystemGuid} ) {
-        return {
-            Success => 0,
-            Data    => 'Can\'t get SystemGuid',
-        };
-    }
+        # forward error message from Requestsystemguid if any and exit
+        if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
+            return {
+                Success => 0,
+                Data    => $RequestSolManSystemGuid->{ErrorMessage},
+            };
+        }
 
-    my $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
+        # check SystemGuid data otherwise exit
+        if ( !$RequestSolManSystemGuid->{Data}->{SystemGuid} ) {
+            return {
+                Success => 0,
+                Data    => 'Can\'t get SystemGuid',
+            };
+        }
+
+        $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
+    }
 
     # local SystemGuid
     my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
@@ -477,6 +487,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2011-03-30 09:14:03 $
+$Revision: 1.27 $ $Date: 2011-03-30 22:34:01 $
 
 =cut
