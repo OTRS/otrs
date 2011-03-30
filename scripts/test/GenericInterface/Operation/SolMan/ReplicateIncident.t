@@ -2,7 +2,7 @@
 # ReplicateIncident.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.17 2011-03-30 09:28:24 mg Exp $
+# $Id: ReplicateIncident.t,v 1.18 2011-03-30 09:49:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,8 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
+return 1;
 
 use MIME::Base64 ();
 
@@ -63,7 +65,7 @@ my @Tests = (
     ],
     [
         {
-            Name      => 'Correct structure',
+            Name      => 'ReplicateIncident',
             Operation => 'SolMan::ReplicateIncident',
             Success   => 1,
             Data      => {
@@ -84,7 +86,7 @@ my @Tests = (
                     ],
                 },
                 IctHead => {
-                    IncidentGuid     => '',
+                    IncidentGuid     => 'Solman-3476084274',
                     RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
                     ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
                     AgentId          => 1,
@@ -95,7 +97,7 @@ my @Tests = (
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
                 },
-                IctId      => '1234',
+                IctId      => 'Solman-3476084274',
                 IctPersons => {
                     Item => [
                         PersonId    => 'stefan.bedorf@otrs.com',
@@ -143,6 +145,83 @@ my @Tests = (
                 IctUrls      => {},
             },
         },
+        {
+            Name      => 'AddInfo',
+            Operation => 'SolMan::AddInfo',
+            Success   => 1,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {
+                    item => [
+                        {
+                            AttachmentGuid => '2011032510000001-2-1',
+                            Filename       => 'test2.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => '',
+                        },
+                    ],
+                },
+                IctHead => {
+                    IncidentGuid     => 'Solman-3476084274',
+                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
+                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'title update',
+                    Priority         => 2,
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'M',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {
+                    item => [
+                        {
+                            TextType => 'SU99',
+
+                            # text lines
+                            Texts => {
+                                item => [
+                                    'another',
+                                    'note from SolMan',
+                                ],
+                            },
+                            Timestamp => '20110323000000',
+                            PersonId  => 1,
+                            Language  => 'de',
+                        },
+                    ],
+                },
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
     ],
 );
 
@@ -158,13 +237,17 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-my @TestTicketIDs;
-
 TESTCHAIN:
 for my $TestChain (@Tests) {
 
+    my @TestTicketIDs;
+
+    $Self->True(
+        1,
+        '------------ STARTING NEW TEST CHAIN ------------',
+    );
+
     my $LastTicketID;
-    my $LastTicketNumber;
 
     TEST:
     for my $Test ( @{$TestChain} ) {
@@ -182,6 +265,8 @@ for my $TestChain (@Tests) {
             'Kernel::GenericInterface::Operation',
             'Operation::new() success',
         );
+
+        next TEST if ref $OperationObject ne 'Kernel::GenericInterface::Operation';
 
         my $Result = $OperationObject->Run(
             Data => $Test->{Data},
@@ -357,17 +442,22 @@ for my $TestChain (@Tests) {
 
     }    # END TEST
 
-}    # END TESTCHAIN
+    # delete tickets
+    for my $TicketID (@TestTicketIDs) {
+        $Self->True(
+            $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
+            ),
+            "TicketDelete()",
+        );
+    }
 
-# delete tickets
-for my $TicketID (@TestTicketIDs) {
     $Self->True(
-        $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        ),
-        "TicketDelete()",
+        1,
+        '------------ END OF TEST CHAIN ------------',
     );
-}
+
+}    # END TESTCHAIN
 
 1;
