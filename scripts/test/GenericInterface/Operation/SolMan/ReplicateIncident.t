@@ -1,8 +1,8 @@
 # --
-# ReplicateIncident.t - RequestSystemGuid Operation tests
+# ReplicateIncident.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.20 2011-03-30 12:05:03 mg Exp $
+# $Id: ReplicateIncident.t,v 1.21 2011-03-30 23:08:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
