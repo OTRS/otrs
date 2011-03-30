@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ProcessIncident.pm - GenericInterface SolMan ProcessIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessIncident.pm,v 1.1 2011-03-30 12:05:03 mg Exp $
+# $Id: ProcessIncident.pm,v 1.2 2011-03-30 12:07:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,10 @@ package Kernel::GenericInterface::Operation::SolMan::ProcessIncident;
 use strict;
 use warnings;
 
-use MIME::Base64();
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Operation::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -137,6 +135,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-30 12:05:03 $
+$Revision: 1.2 $ $Date: 2011-03-30 12:07:56 $
 
 =cut
