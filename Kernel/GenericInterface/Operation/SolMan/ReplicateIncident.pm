@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.7 2011-03-30 09:11:24 martin Exp $
+# $Id: ReplicateIncident.pm,v 1.8 2011-03-30 09:16:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use warnings;
 
 use MIME::Base64();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
-use Kernel::GenericInterface::Operation::SolMan::SolManCommon;
+use Kernel::GenericInterface::Operation::SolMan::Common;
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -75,7 +75,7 @@ sub new {
 
     # create additional objects
     $Self->{SolManCommonObject}
-        = Kernel::GenericInterface::Operation::SolMan::SolManCommon->new( %{$Self} );
+        = Kernel::GenericInterface::Operation::SolMan::Common->new( %{$Self} );
 
     return $Self;
 }
@@ -164,6 +164,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-03-30 09:11:24 $
+$Revision: 1.8 $ $Date: 2011-03-30 09:16:39 $
 
 =cut

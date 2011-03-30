@@ -1,15 +1,15 @@
 # --
-# Kernel/GenericInterface/Operation/SolMan/SolManCommon.pm - SolMan common operation functions
+# Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.1 2011-03-30 09:11:24 martin Exp $
+# $Id: Common.pm,v 1.1 2011-03-30 09:16:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GenericInterface::Operation::SolMan::SolManCommon;
+package Kernel::GenericInterface::Operation::SolMan::Common;
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::SolMan::SolManCommon - common operation functions
+Kernel::GenericInterface::Operation::SolMan::Common - common operation functions
 
 =head1 SYNOPSIS
 
@@ -42,7 +42,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::GenericInterface::Operation::SolMan::SolManCommon;
+    use Kernel::GenericInterface::Operation::SolMan::Common;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -67,7 +67,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $SolManCommonObject = Kernel::GenericInterface::Operation::SolMan::SolManCommon->new(
+    my $SolManCommonObject = Kernel::GenericInterface::Operation::SolMan::Common->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -278,6 +278,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-30 09:11:24 $
+$Revision: 1.1 $ $Date: 2011-03-30 09:16:39 $
 
 =cut
