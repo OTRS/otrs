@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.7 2011-03-30 22:30:32 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.8 2011-03-31 18:25:21 cr Exp $
 # $OldId: RequestSystemGuid.pm,v 1.3 2011/03/19 15:58:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -80,13 +80,12 @@ prepare the invocation of the configured remote webservice.
 RequestSystemGuid will return the GUID of the remote solman system.
 
     my $Result = $InvokerObject->PrepareRequest(
-        Data => { }
-        },
+        Data => {}
     );
 
     $Result = {
         Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
+        ErrorMessage    => undef,               # can't generate errors
         Data            => {},                  # no data needed for this invoker
     };
 
@@ -151,7 +150,7 @@ handle response data of the configured remote webservice.
 
     $Result = {
         Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
+        ErrorMessage    => '...',               # in case of error or undef
         Data            => {                    # data payload after Invoker
             SystemGuid => 123ABC123ABC123ABC123ABC123ABC12
         },
@@ -176,7 +175,7 @@ sub HandleResponse {
     if ( !defined $Data->{Errors} ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Invoker RequestSystemGuid: Response failure!'
-                . 'An Error parameter was expected',
+                . ' An Error parameter was expected',
         );
     }
 
@@ -189,7 +188,7 @@ sub HandleResponse {
         );
 
         return {
-            Success => $HandleErrorsResult->{Success},
+            Success         => $HandleErrorsResult->{Success},
             ErrorMessage    => $HandleErrorsResult->{ErrorMessage},
         };
     }
@@ -239,6 +238,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-03-30 22:30:32 $
+$Revision: 1.8 $ $Date: 2011-03-31 18:25:21 $
 
 =cut
