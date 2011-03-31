@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.27 2011-03-30 22:34:01 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.28 2011-03-31 22:47:13 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -105,8 +105,8 @@ prepare the invocation of the configured remote webservice.
 
     $Result = {
         Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-        Data            => {                    # data payload after Invoker
+        ErrorMessage    => '...',               # in case of error or undef
+        Data            => {                    # data payload after Invoker or undef
             IctAdditionalInfos  => {},
             IctAttachments      => {},
             IctHead             => {},
@@ -125,9 +125,16 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
+
     # we need a ID
     if ( !IsStringWithData( $Param{Data}->{TicketID} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketID' );
+        $ErrorMessage = 'Got no TicketID';
+        $Self->{DebuggerObject}->Error( Summary =>  $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
     }
 
     # create Ticket Object
@@ -138,7 +145,12 @@ sub PrepareRequest {
 
     # compare TicketNumber from Param and from DB
     if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Error getting Ticket Data' );
+        $ErrorMessage = 'Error getting Ticket Data';
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
     }
 
     #    # check all needed stuff about ticket
@@ -165,8 +177,8 @@ sub PrepareRequest {
         # forward error message from Requestsystemguid if any and exit
         if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
             return {
-                Success => 0,
-                Data    => $RequestSolManSystemGuid->{ErrorMessage},
+                Success      => 0,
+                ErrorMessage => $RequestSolManSystemGuid->{ErrorMessage},
             };
         }
 
@@ -487,6 +499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-03-30 22:34:01 $
+$Revision: 1.28 $ $Date: 2011-03-31 22:47:13 $
 
 =cut
