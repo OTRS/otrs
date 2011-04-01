@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.15 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.16 2011-04-01 09:44:43 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -227,6 +227,17 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
                 }
             });
+
+            // Special treatment for the new ticket masks only
+            if (Core.Config.Get('Action') === 'AgentTicketPhone' || Core.Config.Get('Action') === 'AgentTicketEmail') {
+
+                // If the field was already prefilled, but a customer user could not be found on the server side,
+                //  the auto complete should be fired to give the user a selection of possible matches to choose from.
+                if (ActiveAutoComplete && $Element.val() && $Element.val().length && !$('#SelectedCustomerUser').val().length) {
+                    $($Element).focus().autocomplete('search', $Element.val());
+                }
+            }
+
             if (!ActiveAutoComplete) {
                 $Element.after('<button id="' + $Element.attr('id') + 'Search" type="button">' + Core.Config.Get('Autocomplete.SearchButtonText') + '</button>');
                 $('#' + $Element.attr('id') + 'Search').click(function () {

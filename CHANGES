@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1820 2011-04-01 08:54:00 martin Exp $
+# $Id: CHANGES,v 1.1821 2011-04-01 09:44:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-01 Fixed bug#7158 - Customer search can not be started via URL.
  - 2011-04-01 Fixed bug#7119 - Search profile names not visible in URL anymore in customer panel.
  - 2011-04-01 Fixed bug#7151 - Secure::DisableBanner does not disable E-Mail Headers
  - 2011-03-28 Fixed bug#7115 - Search profiles are not working after upgrade to OTRS 3.
