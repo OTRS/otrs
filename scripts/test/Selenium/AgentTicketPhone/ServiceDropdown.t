@@ -2,7 +2,7 @@
 # ServiceDropdown.t - frontend test AgentTicketPhone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ServiceDropdown.t,v 1.1 2011-04-01 12:41:32 mg Exp $
+# $Id: ServiceDropdown.t,v 1.2 2011-04-01 21:16:49 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,6 +146,12 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 Name      => 'SeleniumTestService' . $RandomNumber,
                 ValidID   => 2,
                 UserID    => 1,
+            );
+
+            # delete the test ticket
+            $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
             );
 
             return 1;
