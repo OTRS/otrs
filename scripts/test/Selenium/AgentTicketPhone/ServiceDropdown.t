@@ -2,7 +2,7 @@
 # ServiceDropdown.t - frontend test AgentTicketPhone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ServiceDropdown.t,v 1.1.2.3 2011-04-01 21:17:03 en Exp $
+# $Id: ServiceDropdown.t,v 1.1.2.4 2011-04-01 21:35:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,11 +97,11 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 UserID       => 1,
             );
 
-            my $RandomNumber = int( rand(1000000) );
+            my $RandomID = $Helper->GetRandomID();
 
             # create a test service
             my $ServiceID = $ServiceObject->ServiceAdd(
-                Name    => 'SeleniumTestService' . $RandomNumber,
+                Name    => 'SeleniumTestService' . $RandomID,
                 Comment => 'Selenium Test Service',
                 ValidID => 1,
                 UserID  => 1,
@@ -138,12 +138,12 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             $sel->wait_for_page_to_load_ok("30000");
 
             # verify that the services dropdown has the just created service
-            $sel->select_ok( "ServiceID", "label=SeleniumTestService" . $RandomNumber );
+            $sel->select_ok( "ServiceID", "label=SeleniumTestService" . $RandomID );
 
             # set the test service to invalid
             $ServiceObject->ServiceUpdate(
                 ServiceID => $ServiceID,
-                Name      => 'SeleniumTestService' . $RandomNumber,
+                Name      => 'SeleniumTestService' . $RandomID,
                 ValidID   => 2,
                 UserID    => 1,
             );
