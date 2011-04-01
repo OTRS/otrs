@@ -2,7 +2,7 @@
 # CheckServiceDropdown.t - frontend test AgentTicketPhone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckServiceDropdown.t,v 1.1.2.1 2011-04-01 00:04:59 en Exp $
+# $Id: CheckServiceDropdown.t,v 1.1.2.2 2011-04-01 10:23:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,6 @@ use vars qw($Self);
 
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Service;
-use Kernel::System::User;
-use Kernel::System::CustomerUser;
 use Kernel::System::Ticket;
 
 use Time::HiRes qw(sleep);
@@ -74,22 +72,13 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 Value => 0,
             );
 
-            my $UserObject = Kernel::System::User->new(
-                %{$Self},
-                ConfigObject => $ConfigObject,
-            );
-            my $CustomerUserObject = Kernel::System::CustomerUser->new(
-                %{$Self},
-                ConfigObject => $ConfigObject,
-            );
             my $ServiceObject = Kernel::System::Service->new(
                 %{$Self},
                 ConfigObject => $ConfigObject,
             );
             my $TicketObject = Kernel::System::Ticket->new(
                 %{$Self},
-                ConfigObject       => $ConfigObject,
-                CustomerUserObject => $CustomerUserObject,
+                ConfigObject => $ConfigObject,
             );
 
             # create a test customer
