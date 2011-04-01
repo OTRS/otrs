@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.7.2.2 2011-03-03 13:02:14 mg Exp $
+# $Id: Helper.pm,v 1.7.2.3 2011-04-01 10:37:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -132,7 +132,7 @@ sub TestUserCreate {
         UserLastname  => $TestUserLogin,
         UserLogin     => $TestUserLogin,
         UserPw        => $TestUserLogin,
-        UserEmail     => $TestUserLogin . '@example.com',
+        UserEmail     => $TestUserLogin . '@localunittest.com',
         ValidID       => 1,
         ChangeUserID  => 1,
     ) || die "Could not create test user";
@@ -193,7 +193,7 @@ sub TestCustomerUserCreate {
         UserCustomerID => $TestUserLogin,
         UserLogin      => $TestUserLogin,
         UserPassword   => $TestUserLogin,
-        UserEmail      => $TestUserLogin . '@example.com',
+        UserEmail      => $TestUserLogin . '@localunittest.com',
         ValidID        => 1,
         UserID         => 1,
     ) || die "Could not create test user";
@@ -317,6 +317,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7.2.2 $ $Date: 2011-03-03 13:02:14 $
+$Revision: 1.7.2.3 $ $Date: 2011-04-01 10:37:18 $
 
 =cut
