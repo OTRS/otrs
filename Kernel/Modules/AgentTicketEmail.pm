@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.165 2011-01-25 19:17:19 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.165.2.1 2011-04-01 09:45:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165 $) [1];
+$VERSION = qw($Revision: 1.165.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -589,7 +589,6 @@ sub Run {
                 # don't check email syntax on multi customer select
                 $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 0 );
                 $CustomerID = '';
-                $Param{ToOptions} = \%CustomerUserList;
 
                 # clear to if there is no customer found
                 if ( !%CustomerUserList ) {
@@ -803,7 +802,6 @@ sub Run {
                 ),
                 FromList     => $Self->_GetTos(),
                 FromSelected => $Dest,
-                ToOptions    => $Param{ToOptions},
                 Subject      => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Subject} ),
                 Body         => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
                 Errors       => \%Error,
@@ -1521,21 +1519,7 @@ sub _MaskEmailNew {
         SelectedValue => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
 
-    # build from string
-
-    if ( $Param{ToOptions} && %{ $Param{ToOptions} } ) {
-        $Param{CustomerUserStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => $Param{ToOptions},
-            Name => 'CustomerUser',
-            Max  => 70,
-        );
-
-        if ( $Param{CustomerUserStrg} ne "" ) {
-            $Self->{LayoutObject}->Block( Name => 'TakeCustomerButton', );
-        }
-    }
-
-    # build to string
+    # build Destination string
     my %NewTo;
     if ( $Param{FromList} ) {
         for my $FromKey ( keys %{ $Param{FromList} } ) {
