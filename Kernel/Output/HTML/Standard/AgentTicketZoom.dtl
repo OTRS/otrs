@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.185 2011-03-23 03:49:04 mp Exp $
+# $Id: AgentTicketZoom.dtl,v 1.186 2011-04-01 23:59:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -505,7 +505,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
     var URL;
 
     if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($('#$QData{"FormID"}'), {});
         Core.UI.Popup.OpenPopup(URL, 'TicketAction');
         // reset the select box so that it can be used again from the same window
         $(this).val('0');
@@ -520,7 +520,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
     var URL;
 
     if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($('#$QData{"FormID"}'), {});
         Core.UI.Popup.OpenPopup(URL, 'TicketAction');
         // reset the select box so that it can be used again from the same window
         $(this).val('0');

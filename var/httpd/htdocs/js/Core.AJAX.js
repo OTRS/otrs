@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.21 2011-02-17 21:30:59 en Exp $
+// $Id: Core.AJAX.js,v 1.22 2011-04-01 23:57:08 en Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -148,6 +148,7 @@ Core.AJAX = (function (TargetNS) {
      */
     TargetNS.SerializeForm = function ($Element, Ignore) {
         var QueryString = "";
+        var ElementNames = {};
         if (typeof Ignore === 'undefined') {
             Ignore = {};
         }
@@ -158,6 +159,16 @@ Core.AJAX = (function (TargetNS) {
                 // only look at fields with name
                 // only add element to the string, if there is no key in the data hash with the same name
                 if (!Name.length || typeof Ignore[Name] !== 'undefined'){
+                    return;
+                }
+
+                // verify unique element name to only add once the elements to the query string
+                if ( !ElementNames[Name]) {
+
+                // save the element name in array
+                    ElementNames[Name] = 1;
+                }
+                else {
                     return;
                 }
 
