@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.39 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Agent.Search.js,v 1.40 2011-04-01 13:19:56 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -194,6 +194,9 @@ Core.Agent.Search = (function (TargetNS) {
                     // show delete button
                     $('#SearchProfileDelete').show();
 
+                    // show profile link
+                    $('#SearchProfileAsLink').show();
+
                     // show save changes in template block
                     $('#SaveProfile').parent().show().prev().show().prev().show();
 
@@ -290,8 +293,23 @@ Core.Agent.Search = (function (TargetNS) {
                     // set SaveProfile to 1
                     $('#SaveProfile').attr('checked', true);
 
+                    // show delete button
                     $('#SearchProfileDelete').show();
 
+                    // show profile link
+                    $('#SearchProfileAsLink').show();
+
+                    return false;
+                });
+
+                // direct link to profile
+                $('#SearchProfileAsLink').bind('click', function (Event) {
+                    var Profile = $('#SearchProfile').val(),
+                    Action = $('#SearchAction').val(),
+                    Url = window.location.href.replace(/^(.+?)\?(.+?)$/, "$1");
+
+                    Url = Url + '?Action=' + Action + ';Subaction=Search;Profile=' + encodeURIComponent(Profile);
+                    window.location.href = Url;
                     return false;
                 });
 
@@ -320,7 +338,13 @@ Core.Agent.Search = (function (TargetNS) {
                     });
 
                     if ($('#SearchProfile').val() && $('#SearchProfile').val() === 'last-search') {
+
+                        // hide delete link
                         $('#SearchProfileDelete').hide();
+
+                        // show profile link
+                        $('#SearchProfileAsLink').hide();
+
                     }
 
                     Event.preventDefault();

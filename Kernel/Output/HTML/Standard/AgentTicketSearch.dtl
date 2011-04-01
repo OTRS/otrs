@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.64 2011-03-13 19:00:31 mb Exp $
+# $Id: AgentTicketSearch.dtl,v 1.65 2011-04-01 13:19:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@
                 <button id="SearchProfileNew" value="$Text{"Create New"}">$Text{"Create New"}</button>
 
                 <button id="SearchProfileDelete" class="Hidden" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                <button id="SearchProfileAsLink" class="Hidden" value="$Text{"Link for Search template"}">$Text{"Link"}</button>
                 <div id="SearchProfileAddBlock">
                     <input type="text" name="Name" id="SearchProfileAddName"/>
                     <button type="button" title="$Text{"Create Template"}" id="SearchProfileAddAction">$Text{"Add"}</button>
