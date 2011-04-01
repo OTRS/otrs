@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1819 2011-04-01 07:19:51 jb Exp $
+# $Id: CHANGES,v 1.1820 2011-04-01 08:54:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-04-01 Fixed bug#7151 - Secure::DisableBanner does not disable E-Mail Headers
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
     notifications.
  - 2011-03-24 Fixed bug#6981 - ReadOnly CustomerUser sources should not be selectable for
@@ -31,6 +30,8 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-01 Fixed bug#7119 - Search profile names not visible in URL anymore in customer panel.
+ - 2011-04-01 Fixed bug#7151 - Secure::DisableBanner does not disable E-Mail Headers
  - 2011-03-28 Fixed bug#7115 - Search profiles are not working after upgrade to OTRS 3.
 
 3.0.7 2011-04-12
