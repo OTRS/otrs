@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.72 2011-01-27 23:21:16 dz Exp $
+# $Id: Email.pm,v 1.73 2011-04-01 07:18:21 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -297,8 +297,10 @@ sub Send {
     my $Product = $Self->{ConfigObject}->Get('Product');
     my $Version = $Self->{ConfigObject}->Get('Version');
 
-    $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
-    $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
+    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
+        $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
+        $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
+    }
     $Header{Type} = $Param{MimeType} || 'text/plain';
 
     # define email encoding
@@ -882,6 +884,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2011-01-27 23:21:16 $
+$Revision: 1.73 $ $Date: 2011-04-01 07:18:21 $
 
 =cut
