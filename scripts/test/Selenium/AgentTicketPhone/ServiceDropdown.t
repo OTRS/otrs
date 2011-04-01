@@ -1,8 +1,8 @@
 # --
-# CheckServiceDropdown.t - frontend test AgentTicketPhone
+# ServiceDropdown.t - frontend test AgentTicketPhone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckServiceDropdown.t,v 1.3 2011-04-01 10:23:50 mg Exp $
+# $Id: ServiceDropdown.t,v 1.1 2011-04-01 12:41:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
