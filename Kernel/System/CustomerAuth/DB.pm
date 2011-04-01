@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.32.2.1 2011-04-01 07:06:45 mp Exp $
+# $Id: DB.pm,v 1.32.2.2 2011-04-01 15:25:37 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.1 $) [1];
+$VERSION = qw($Revision: 1.32.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,144 +235,6 @@ sub Auth {
         return;
     }
 }
-
-# NOTE - Partial fix for bug 7112 in comment because still failing in some cases
-#sub SetPassword {
-#    my ( $Self, %Param ) = @_;
-#    my %Params = %{$Param{Data}};
-#
-#    # check needed stuff
-#    if ( !$Params{UserLogin} ) {
-#        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
-#        return;
-#    }
-#
-#    my $Login = $Params{UserLogin};
-#    my $Pw = $Params{PW} || '';
-#
-#    my $CryptedPw = '';
-#
-#    # crypt plain (no crypt at all)
-#    if ( $Self->{CryptType} eq 'plain' ) {
-#        $CryptedPw = $Pw;
-#    }
-#
-#    # crypt with unix crypt
-#    elsif ( $Self->{CryptType} eq 'crypt' ) {
-#
-#        # encode output, needed by crypt() only non utf8 signs
-#        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-#        $Self->{EncodeObject}->EncodeOutput( \$Login );
-#
-#        $CryptedPw = crypt( $Pw, $Login );
-#        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
-#    }
-#
-#    # crypt with md5 crypt
-#    elsif ( $Self->{CryptType} eq 'md5' || !$Self->{CryptType} ) {
-#
-#        # encode output, needed by unix_md5_crypt() only non utf8 signs
-#        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-#        $Self->{EncodeObject}->EncodeOutput( \$Login );
-#
-#        $CryptedPw = unix_md5_crypt( $Pw, $Login );
-#        $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
-#    }
-#
-#    # crypt with sha1
-#    elsif ( $Self->{CryptType} eq 'sha1' ) {
-#
-#        # encode output, needed by sha1_hex() only non utf8 signs
-#        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-#
-#        $CryptedPw = sha1_hex($Pw);
-#    }
-#
-#    # crypt with sha2
-#    # if CrypType is set to anything else, including sha2
-#    else {
-#
-#        # encode output, needed by sha256_hex() only non utf8 signs
-#        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-#
-#        $CryptedPw = sha256_hex($Pw);
-#
-#    }
-#
-#    # update db
-#    if ( $Self->{Table} && $Self->{Pw} && $Self->{Key} ) {
-#        my $SQL = "UPDATE $Self->{Table} SET "
-#                . " $Self->{Pw} = '" . $Self->{DBObject}->Quote($CryptedPw) . "' "
-#                . " WHERE ";
-#
-#        # check if CustomerKey is var or int
-#        for my $Entry ( @{ $Params{Config}->{Map} } ) {
-#            if ( $Entry->[0] eq 'UserLogin' && $Entry->[5] =~ /^int$/i ) {
-#                $Self->{CustomerKeyInteger} = 1;
-#                last;
-#            }
-#        }
-#
-#        if ( $Self->{CustomerKeyInteger} ) {
-#
-#            # return if login is no integer
-#            return if $Login !~ /^(\+|\-|)\d{1,16}$/;
-#
-#            $SQL
-#                .= "$Self->{Key} = " . $Self->{DBObject}->Quote( $Login, 'Integer' );
-#        }
-#        else {
-#            if ( $Params{Config}->{Params}->{CaseSensitive} ) {
-#                $SQL .= "$Self->{Key} = '"
-#                    . $Self->{DBObject}->Quote( $Login ) . "'";
-#            }
-#            else {
-#                $SQL .= "LOWER($Self->{Key}) = LOWER('"
-#                    . $Self->{DBObject}->Quote( $Login ) . "')";
-#            }
-#
-#        }
-#
-#        return if !$Self->{DBObject}->Do( SQL => $SQL );
-#
-#        # log notice
-#        $Self->{LogObject}->Log(
-#            Priority => 'notice',
-#            Message  => "CustomerUser: '$Login' changed password successfully!",
-#        );
-#    }
-#
-#    # need no pw to set
-#    return;
-#}
-#
-#sub CheckUser {
-#    my ( $Self, %Param ) = @_;
-#
-#    # check needed stuff
-#    if ( !$Param{UserLogin} ) {
-#        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
-#        return;
-#    }
-#
-#    # get params
-#    my $User       = $Param{UserLogin}      || '';
-#    my $UserID     = '';
-#
-#    # sql query
-#    my $SQL =
-#        "SELECT $Self->{Key} FROM $Self->{Table} WHERE "
-#      . " $Self->{Key} = '"
-#      . $Self->{DBObject}->Quote($User) . "'";
-#
-#    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-#
-#    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-#        $UserID = $Row[0];
-#    }
-#    return $UserID;
-#
-#}
 
 sub DESTROY {
     my $Self = shift;

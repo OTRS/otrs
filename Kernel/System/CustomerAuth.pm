@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentication
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.34.2.1 2011-04-01 07:05:20 mp Exp $
+# $Id: CustomerAuth.pm,v 1.34.2.2 2011-04-01 15:21:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34.2.1 $) [1];
+$VERSION = qw($Revision: 1.34.2.2 $) [1];
 
 =head1 NAME
 
@@ -215,60 +215,6 @@ sub Auth {
     return $User;
 }
 
-=item SetPassword()
-
-to set customer users passwords on Auth
-
-    $AuthObject->SetPassword(
-        UserLogin => 'some-login',
-        PW        => 'some-new-password'
-    );
-
-=cut
-
-# NOTE - Partial fix for bug 7112 in comment because still failing in some cases
-
-#sub SetPassword {
-#    my ( $Self, %Param ) = @_;
-#
-#    # check needed stuff
-#    if ( !$Param{UserLogin} ) {
-#        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserLogin!' );
-#        return;
-#    }
-#
-#    my $User;
-#    for my $Count ( '', 1 .. 10 ) {
-#        # next on no config setting
-#        next if !$Self->{"Backend$Count"};
-#
-#        # check auth backend
-#        $User = $Self->{"Backend$Count"}->CheckUser(%Param);
-#
-#        # remember auth backend
-#        if ($User) {
-#            $Self->{"BackendSelected"} = $Self->{"Backend$Count"};
-#            last;
-#        }
-#    }
-#
-#    # check if user exists
-#    my %User = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserLogin} );
-#    if ( !%User ) {
-#        $Self->{LogObject}->Log(
-#            Priority => 'error',
-#            Message  => "No such user '$Param{UserLogin}'!",
-#        );
-#        return;
-#    }
-#    return $Self->{"BackendSelected"}->SetPassword(
-#        Data => {
-#            %Param,
-#            %User,
-#        }
-#    );
-#}
-
 1;
 
 =back
@@ -285,6 +231,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34.2.1 $ $Date: 2011-04-01 07:05:20 $
+$Revision: 1.34.2.2 $ $Date: 2011-04-01 15:21:01 $
 
 =cut
