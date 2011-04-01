@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.11 2011-04-01 10:37:11 mg Exp $
+# $Id: Helper.pm,v 1.12 2011-04-01 10:41:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,7 +269,7 @@ sub DESTROY {
                 UserFirstname => 'Firstname Test1',
                 UserLastname  => 'Lastname Test1',
                 UserLogin     => $TestUser,
-                UserEmail     => $TestUser . '@example.com',
+                UserEmail     => $TestUser . '@localunittest.com.com',
                 ValidID       => 2,
                 ChangeUserID  => 1,
             ) || die "Could not invalidate test user";
@@ -290,7 +290,7 @@ sub DESTROY {
                 UserFirstname  => $TestCustomerUser,
                 UserLastname   => $TestCustomerUser,
                 UserPassword   => $TestCustomerUser,
-                UserEmail      => $TestCustomerUser . '@example.com',
+                UserEmail      => $TestCustomerUser . '@localunittest.com.com',
                 ValidID        => 2,
                 UserID         => 1,
             );
@@ -317,6 +317,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-04-01 10:37:11 $
+$Revision: 1.12 $ $Date: 2011-04-01 10:41:42 $
 
 =cut
