@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.56.2.1 2011-02-09 23:40:08 en Exp $
+# $Id: InterfaceCustomer.pm,v 1.56.2.2 2011-04-01 07:03:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.56.2.1 $) [1];
+$VERSION = qw($Revision: 1.56.2.2 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -547,6 +547,11 @@ sub Run {
         # update new password
         $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
 
+        # NOTE - Partial fix for bug 7112 in comment because still failing in some cases
+        # update password on auth
+        #my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
+        #$AuthObject->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+
         # send notify email
         my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
             || 'New Password is: <OTRS_NEWPW>';
@@ -1042,6 +1047,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56.2.1 $ $Date: 2011-02-09 23:40:08 $
+$Revision: 1.56.2.2 $ $Date: 2011-04-01 07:03:49 $
 
 =cut
