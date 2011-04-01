@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.3 2011-03-21 16:39:46 mb Exp $
+# $Id: de.pm,v 1.265.2.4 2011-04-01 18:51:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.3 $) [1];
+$VERSION = qw($Revision: 1.265.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -747,11 +747,11 @@ sub Data {
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Verwaltung automatischer Antworten',
-        'Add auto response' => 'Automatische Anwort hinzufügen',
-        'Add Auto Response' => 'Automatische Anwort hinzufügen',
-        'Edit Auto Response' => 'Automatische Anwort bearbeiten',
+        'Add auto response' => 'Automatische Antwort hinzufügen',
+        'Add Auto Response' => 'Automatische Antwort hinzufügen',
+        'Edit Auto Response' => 'Automatische Antwort bearbeiten',
         'Response' => 'Antwort',
-        'Auto response from' => 'Automatische Anwort von',
+        'Auto response from' => 'Automatische Antwort von',
         'Reference' => 'Referenz(en)',
         'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
@@ -1771,7 +1771,7 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Artikel aufklappen',
-        'Reply' => 'Anworten',
+        'Reply' => 'Antworten',
 
         # Template: CustomerWarning
 
