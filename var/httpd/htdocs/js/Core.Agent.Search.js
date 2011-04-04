@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.38.2.2 2011-04-04 07:41:00 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.38.2.3 2011-04-04 14:25:30 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -293,6 +293,7 @@ Core.Agent.Search = (function (TargetNS) {
                     // set SaveProfile to 1
                     $('#SaveProfile').attr('checked', true);
 
+                    // show delete button
                     $('#SearchProfileDelete').show();
 
                     // show profile link
@@ -304,11 +305,9 @@ Core.Agent.Search = (function (TargetNS) {
                 // direct link to profile
                 $('#SearchProfileAsLink').bind('click', function (Event) {
                     var Profile = $('#SearchProfile').val(),
-                    Action = $('#SearchAction').val(),
-                    Url = Core.Config.Get('Baselink');
+                        Action = $('#SearchAction').val();
 
-                    Url = Url + '?Action=' + Action + ';Subaction=Search;Profile=' + encodeURIComponent(Profile);
-                    window.location.href = Url;
+                    window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Search;Profile=' + encodeURIComponent(Profile);
                     return false;
                 });
 
@@ -337,10 +336,13 @@ Core.Agent.Search = (function (TargetNS) {
                     });
 
                     if ($('#SearchProfile').val() && $('#SearchProfile').val() === 'last-search') {
+
+                        // hide delete link
                         $('#SearchProfileDelete').hide();
 
                         // show profile link
                         $('#SearchProfileAsLink').hide();
+
                     }
 
                     Event.preventDefault();
