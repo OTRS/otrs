@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.55 2011-04-04 07:41:00 martin Exp $
+# $Id: CHANGES,v 1.1758.2.56 2011-04-04 16:55:32 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-04-04 Fixed bug#7156 - NewTicketInNewWindow misplaced group.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
  - 2011-04-01 Fixed bug#7160 - Typo "Anwort" in translation file de.pm.
  - 2011-04-01 Fixed bug#7158 - Customer search can not be started via URL.
