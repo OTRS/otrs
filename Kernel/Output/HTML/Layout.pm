@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.351.2.5 2011-03-16 15:28:16 mg Exp $
+# $Id: Layout.pm,v 1.351.2.6 2011-04-04 22:58:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351.2.5 $) [1];
+$VERSION = qw($Revision: 1.351.2.6 $) [1];
 
 =head1 NAME
 
@@ -1860,7 +1860,7 @@ sub LinkEncode {
     $Link =~ s/\?/%3F/g;
     $Link =~ s/\|/%7C/g;
     $Link =~ s/\//\%2F/g;
-    $Link =~ s/ï¿½/\%A7/g;
+    $Link =~ s/§/\%A7/g;
 
     # According to the URL encoding RFC, the path segment of an URL must use %20 for space,
     # while in the query string + is used normally. However, IIS does not understand + in the
@@ -4876,6 +4876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.351.2.5 $ $Date: 2011-03-16 15:28:16 $
+$Revision: 1.351.2.6 $ $Date: 2011-04-04 22:58:59 $
 
 =cut
