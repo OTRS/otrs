@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.54 2011-04-04 07:27:21 mg Exp $
+# $Id: CHANGES,v 1.1758.2.55 2011-04-04 07:41:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
  - 2011-04-01 Fixed bug#7160 - Typo "Anwort" in translation file de.pm.
  - 2011-04-01 Fixed bug#7158 - Customer search can not be started via URL.
- - 2011-04-01 Fixed bug#7119 - Search profile names not visible in URL anymore in customer panel.
+ - 2011-04-01 Fixed bug#7119 - Search profile names not visible in URL anymore in customer and agent panel.
  - 2011-04-01 Fixed bug#7151 - Secure::DisableBanner does not disable E-Mail Headers
  - 2011-03-28 Fixed bug#7115 - Search profiles are not working after upgrade to OTRS 3.
 
