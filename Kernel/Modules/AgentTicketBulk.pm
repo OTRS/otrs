@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.79 2011-03-20 08:58:26 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.80 2011-04-04 21:06:35 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -122,15 +122,31 @@ sub Run {
             $Error{'BodyInvalid'} = 'ServerError';
         }
 
-        if ( !$Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 ) ) {
-            $Error{'DateInvalid'} = 'ServerError';
-        }
-        if (
-            $Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 )
-            < $Self->{TimeObject}->SystemTime()
-            )
-        {
-            $Error{'DateInvalid'} = 'ServerError';
+        # check if pending date must be validate
+        if ( $GetParam{StateID} || $GetParam{State} ) {
+            my %StateData;
+            if ( $GetParam{StateID} ) {
+                %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                    ID => $GetParam{StateID},
+                );
+            }
+            else {
+                %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                    Name => $GetParam{State},
+                );
+            }
+            if ( $StateData{TypeName} =~ /^pending/i ) {
+                if ( !$Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 ) ) {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+                if (
+                    $Self->{TimeObject}->Date2SystemTime( %Time, Second => 0 )
+                    < $Self->{TimeObject}->SystemTime()
+                    )
+                {
+                    $Error{'DateInvalid'} = 'ServerError';
+                }
+            }
         }
         if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' && $GetParam{'MergeTo'} ) {
             $Self->{CheckItemObject}->StringClean(

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1827 2011-04-04 16:53:50 en Exp $
+# $Id: CHANGES,v 1.1828 2011-04-04 21:08:41 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-04 Fixed bug#6801 - Bulk Actions are not working.
  - 2011-04-04 Fixed bug#7156 - NewTicketInNewWindow misplaced group.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
  - 2011-04-01 Fixed bug#7160 - Typo "Anwort" in translation file de.pm.
