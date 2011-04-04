@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.40 2011-04-01 13:19:56 martin Exp $
+// $Id: Core.Agent.Search.js,v 1.41 2011-04-04 07:41:25 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -306,7 +306,7 @@ Core.Agent.Search = (function (TargetNS) {
                 $('#SearchProfileAsLink').bind('click', function (Event) {
                     var Profile = $('#SearchProfile').val(),
                     Action = $('#SearchAction').val(),
-                    Url = window.location.href.replace(/^(.+?)\?(.+?)$/, "$1");
+                    Url = Core.Config.Get('Baselink');
 
                     Url = Url + '?Action=' + Action + ';Subaction=Search;Profile=' + encodeURIComponent(Profile);
                     window.location.href = Url;
