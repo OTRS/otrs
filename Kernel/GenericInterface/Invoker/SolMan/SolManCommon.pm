@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.16 2011-03-30 23:28:12 cg Exp $
+# $Id: SolManCommon.pm,v 1.17 2011-04-04 19:26:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::GenericInterface::Webservice;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -358,6 +358,21 @@ sub HandlePersonMaps {
             };
         }
         push @PersonMaps, $Param{PersonMaps}->{item};
+    }
+
+    else {
+        $ErrorMessage = 'PersonMaps should have at least one item';
+
+        # write in debug log
+        $Self->{DebuggerObject}->Error(
+            Summary => "$Param{Invoker} return error",
+            Data    => $ErrorMessage,
+        );
+
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
     }
 
     return {
@@ -931,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-03-30 23:28:12 $
+$Revision: 1.17 $ $Date: 2011-04-04 19:26:18 $
 
 =cut
