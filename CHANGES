@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1824 2011-04-01 23:57:08 en Exp $
+# $Id: CHANGES,v 1.1825 2011-04-04 07:27:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,6 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
- - 2011-04-01 Fixed bug#7128 - AgentTicketCompose contains & in URLs and two challenge tokens.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
  - 2011-04-01 Fixed bug#7160 - Typo "Anwort" in translation file de.pm.
  - 2011-04-01 Fixed bug#7158 - Customer search can not be started via URL.
