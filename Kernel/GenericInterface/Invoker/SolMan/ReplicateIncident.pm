@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.28 2011-03-31 22:47:13 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.29 2011-04-04 19:26:46 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -409,6 +409,8 @@ handle response data of the configured remote webservice.
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
+
     # break early if response was not successfull
     if ( !$Param{ResponseSuccess} ) {
         return {
@@ -443,12 +445,29 @@ sub HandleResponse {
 
     # we need a Incident Identifier from the remote system
     if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no PrdIctId!' );
+        $ErrorMessage = 'Got no PrdIctId!';
+
+        # write in the debug log
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
     }
 
     # response should have a person maps and it sould be empty
     if ( !defined $Param{Data}->{PersonMaps} ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no PersonMaps!' );
+
+        $ErrorMessage = 'Got no PersonMaps!';
+
+        # write in the debug log
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
     }
 
     # handle the person maps
@@ -461,7 +480,7 @@ sub HandleResponse {
     if ( !$HandlePersonMaps->{Success} ) {
         return {
             Success => 0,
-            Data    => \$HandlePersonMaps->{ErrorMessage},
+            ErrorMessage    => $HandlePersonMaps->{ErrorMessage},
         };
     }
 
@@ -499,6 +518,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-03-31 22:47:13 $
+$Revision: 1.29 $ $Date: 2011-04-04 19:26:46 $
 
 =cut
