@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.68 2011-03-13 19:00:31 mb Exp $
+# $Id: AAATicket.dtl,v 1.69 2011-04-05 09:16:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -299,3 +299,4 @@ $Text{"History::Subscribe"}
 $Text{"History::Unsubscribe"}
 $Text{"History::SystemRequest"}
 $Text{"History::ResponsibleUpdate"}
+$Text{"History::ArchiveFlagUpdate"}
