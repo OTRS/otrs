@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.70 2010-12-22 14:02:35 martin Exp $
+# $Id: GenericAgent.pm,v 1.70.2.1 2011-04-05 08:50:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.70.2.1 $) [1];
 
 =head1 NAME
 
@@ -248,6 +248,12 @@ sub JobRun {
             else {
                 $Job{$Key} = $DBJobRaw{$Key};
             }
+        }
+        if ( exists $Job{SearchInArchive} && $Job{SearchInArchive} eq 'ArchivedTickets' ) {
+            $Job{ArchiveFlags} = ['y'];
+        }
+        if ( exists $Job{SearchInArchive} && $Job{SearchInArchive} eq 'AllTickets' ) {
+            $Job{ArchiveFlags} = [ 'y', 'n' ];
         }
     }
 
@@ -1165,6 +1171,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2010-12-22 14:02:35 $
+$Revision: 1.70.2.1 $ $Date: 2011-04-05 08:50:27 $
 
 =cut

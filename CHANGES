@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.57 2011-04-04 20:50:48 mp Exp $
+# $Id: CHANGES,v 1.1758.2.58 2011-04-05 08:51:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived.
  - 2011-04-04 Fixed bug#6801 - Bulk Actions are not working.
  - 2011-04-04 Fixed bug#7156 - NewTicketInNewWindow misplaced group.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
