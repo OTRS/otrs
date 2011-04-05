@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.69 2011-04-05 09:16:23 mb Exp $
+# $Id: AAATicket.dtl,v 1.70 2011-04-05 12:23:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,6 +125,12 @@ $Text{"2 low"}
 $Text{"3 normal"}
 $Text{"4 high"}
 $Text{"5 very high"}
+
+$Text{"auto follow up"}
+$Text{"auto reject"}
+$Text{"auto remove"}
+$Text{"auto reply"}
+$Text{"auto reply/new ticket"}
 
 $Text{"Ticket "%s" created!"}
 $Text{"Ticket Number"}
