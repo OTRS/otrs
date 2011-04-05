@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.115 2011-03-15 15:24:26 mb Exp $
+# $Id: AgentStats.pm,v 1.116 2011-04-05 13:59:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -288,7 +288,7 @@ sub Run {
         # get static attributes
         if ( $Stat->{StatType} eq 'static' ) {
 
-            # load static modul
+            # load static module
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
             $Self->{LayoutObject}->Block( Name => 'Static', );
             for my $ParamItem ( @{$Params} ) {
