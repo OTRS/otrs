@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.3 2011-03-21 16:43:35 mb Exp $
+# $Id: nl.pm,v 1.152.2.4 2011-04-05 09:13:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.3 $) [1];
+$VERSION = qw($Revision: 1.152.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -636,7 +636,7 @@ sub Data {
         'Mark as Spam!' => 'Markeer als spam.',
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat tickets zien',
-        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
+        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met ticketnummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: eerste antwoord tijd is voorbij (%s).',
         'Ticket %s: first response time will be over in %s!' => 'Ticket %s: eerste antwoord tijd zal voorbij zijn binnen %s.',
         'Ticket %s: update time is over (%s)!' => 'Ticket %s: vervolg tijd is voorbij (%s).',
@@ -734,6 +734,7 @@ sub Data {
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'SystemRequest: "%s"',
         'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
+        'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',
@@ -1902,7 +1903,7 @@ sub Data {
 
         # Template: InstallerSystem
         'SystemID' => 'Systeem identificatie',
-        'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'De identifier van het systeem. Ieder ticket nummer en elk HTTP sessie ID bevat dit nummer.',
+        'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'De identifier van het systeem. Ieder ticketnummer en elk HTTP sessie ID bevat dit nummer.',
         'System FQDN' => 'OTRS FQDN',
         'Fully qualified domain name of your system.' => 'Fully Qualified Domain Name van het systeem.',
         'AdminEmail' => 'E-mailadres beheerder',
