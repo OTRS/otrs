@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.154 2011-03-17 17:16:58 ep Exp $
+# $Id: nl.pm,v 1.155 2011-04-05 09:06:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.154 $) [1];
+$VERSION = qw($Revision: 1.155 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -589,8 +589,8 @@ sub Data {
         '4 high' => '4 hoog',
         '5 very high' => '5 zeer hoog',
         'Ticket "%s" created!' => 'Ticket "%s" aangemaakt.',
-        'Ticket Number' => 'Ticket nummer',
-        'Ticket Object' => 'Ticket onderwerp',
+        'Ticket Number' => 'Ticketnummer',
+        'Ticket Object' => 'Ticketonderwerp',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Er kan dus geen koppeling worden gemaakt.',
         'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
         'Show closed Tickets' => 'Gesloten tickets wel tonen',
@@ -636,7 +636,7 @@ sub Data {
         'Mark as Spam!' => 'Markeer als spam.',
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat tickets zien',
-        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met ticket nummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
+        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Uw e-mail met ticketnummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: eerste antwoord tijd is voorbij (%s).',
         'Ticket %s: first response time will be over in %s!' => 'Ticket %s: eerste antwoord tijd zal voorbij zijn binnen %s.',
         'Ticket %s: update time is over (%s)!' => 'Ticket %s: vervolg tijd is voorbij (%s).',
@@ -732,6 +732,7 @@ sub Data {
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'SystemRequest: "%s"',
         'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
+        'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',
@@ -1888,7 +1889,7 @@ sub Data {
 
         # Template: InstallerSystem
         'SystemID' => 'Systeem identificatie',
-        'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'De identifier van het systeem. Ieder ticket nummer en elk HTTP sessie ID bevat dit nummer.',
+        'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'De identifier van het systeem. Ieder ticketnummer en elk HTTP sessie ID bevat dit nummer.',
         'System FQDN' => 'OTRS FQDN',
         'Fully qualified domain name of your system.' => 'Fully Qualified Domain Name van het systeem.',
         'AdminEmail' => 'E-mailadres beheerder',
