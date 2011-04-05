@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.46 2010-11-19 22:28:58 en Exp $
+# $Id: AdminAutoResponse.pm,v 1.47 2011-04-05 12:22:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -297,8 +297,9 @@ sub _Edit {
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name => 'AddressID',
-        SelectedID => $Param{AddressID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        SelectedID  => $Param{AddressID},
+        Translation => 0,
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(
