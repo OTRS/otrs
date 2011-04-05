@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.35 2010-11-19 22:28:58 en Exp $
+# $Id: AdminSLA.pm,v 1.36 2011-04-05 12:28:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -360,6 +360,7 @@ sub _MaskNew {
         Data         => \%CalendarList,
         Name         => 'Calendar',
         SelectedID   => $Param{Calendar} || $SLAData{Calendar},
+        Translation  => 0,
         PossibleNone => 1,
     );
     my %NotifyLevelList = (
@@ -377,18 +378,21 @@ sub _MaskNew {
         Data         => \%NotifyLevelList,
         Name         => 'FirstResponseNotify',
         SelectedID   => $Param{FirstResponseNotify} || $SLAData{FirstResponseNotify},
+        Translation  => 0,
         PossibleNone => 1,
     );
     $SLAData{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%NotifyLevelList,
         Name         => 'UpdateNotify',
         SelectedID   => $Param{UpdateNotify} || $SLAData{UpdateNotify},
+        Translation  => 0,
         PossibleNone => 1,
     );
     $SLAData{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%NotifyLevelList,
         Name         => 'SolutionNotify',
         SelectedID   => $Param{SolutionNotify} || $SLAData{SolutionNotify},
+        Translation  => 0,
         PossibleNone => 1,
     );
 
