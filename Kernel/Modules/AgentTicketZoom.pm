@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.149 2011-03-23 03:45:57 mp Exp $
+# $Id: AgentTicketZoom.pm,v 1.150 2011-04-05 18:52:53 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1759,8 +1759,14 @@ sub _ArticleItem {
                     },
                     Article => \%Article,
                 );
-                next JOB if !%Data;
 
+                # check for the display of the filesize
+                if ( $Job eq '2-HTML-Viewer' && !%Data ) {
+                    $Data{DataFileSize} = ", " . $File{Filesize};
+                }
+                elsif ( $Job eq '2-HTML-Viewer' && %Data ) {
+                    $Data{DataFileSize} = ", " . $Data{Filesize};
+                }
                 $Self->{LayoutObject}->Block(
                     Name => $Data{Block} || 'ArticleAttachmentRowLink',
                     Data => {%Data},
