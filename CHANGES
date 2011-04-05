@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1830 2011-04-05 09:34:59 mg Exp $
+# $Id: CHANGES,v 1.1831 2011-04-05 12:06:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
     notifications.
  - 2011-03-24 Fixed bug#6981 - ReadOnly CustomerUser sources should not be selectable for

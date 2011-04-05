@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.38 2011-01-17 18:47:59 mp Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.39 2011-04-05 12:04:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,7 +42,7 @@ sub new {
     # remember filter
     if ( $Self->{Filter} ) {
 
-        # update ssession
+        # update session
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $PreferencesKey,
@@ -95,7 +95,8 @@ sub Preferences {
                 20 => '20',
                 25 => '25',
             },
-            SelectedID => $Self->{PageShown},
+            SelectedID  => $Self->{PageShown},
+            Translation => 0,
         },
     );
 

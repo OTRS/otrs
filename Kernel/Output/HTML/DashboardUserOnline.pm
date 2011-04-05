@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardUserOnline.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.19 2010-11-04 14:48:31 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.20 2011-04-05 12:04:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub new {
     # remember filter
     if ( $Self->{Filter} ) {
 
-        # update ssession
+        # update session
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $PreferencesKey,
@@ -95,7 +95,8 @@ sub Preferences {
                 20 => '20',
                 25 => '25',
             },
-            SelectedID => $Self->{PageShown},
+            SelectedID  => $Self->{PageShown},
+            Translation => 0,
         },
     );
 
