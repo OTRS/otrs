@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.96 2011-03-20 09:01:20 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.97 2011-04-05 12:37:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -557,29 +557,32 @@ sub _MaskUpdate {
         Valid => 1,
     );
     $JobData{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%ShownUsers,
-        Name       => 'OwnerIDs',
-        Multiple   => 1,
-        Size       => 5,
-        SelectedID => $JobData{OwnerIDs},
+        Data        => \%ShownUsers,
+        Name        => 'OwnerIDs',
+        Multiple    => 1,
+        Size        => 5,
+        Translation => 0,
+        SelectedID  => $JobData{OwnerIDs},
     );
     $JobData{NewOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%ShownUsers,
-        Name       => 'NewOwnerID',
-        Size       => 5,
-        Multiple   => 1,
-        SelectedID => $JobData{NewOwnerID},
+        Data        => \%ShownUsers,
+        Name        => 'NewOwnerID',
+        Size        => 5,
+        Multiple    => 1,
+        Translation => 0,
+        SelectedID  => $JobData{NewOwnerID},
     );
     my %Hours;
     for my $Number ( 0 .. 23 ) {
         $Hours{$Number} = sprintf( "%02d", $Number );
     }
     $JobData{ScheduleHoursList} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%Hours,
-        Name       => 'ScheduleHours',
-        Size       => 6,
-        Multiple   => 1,
-        SelectedID => $JobData{ScheduleHours},
+        Data        => \%Hours,
+        Name        => 'ScheduleHours',
+        Size        => 6,
+        Multiple    => 1,
+        Translation => 0,
+        SelectedID  => $JobData{ScheduleHours},
     );
     $JobData{ScheduleMinutesList} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -590,10 +593,11 @@ sub _MaskUpdate {
             40   => '40',
             50   => '50',
         },
-        Name       => 'ScheduleMinutes',
-        Size       => 6,
-        Multiple   => 1,
-        SelectedID => $JobData{ScheduleMinutes},
+        Name        => 'ScheduleMinutes',
+        Size        => 6,
+        Multiple    => 1,
+        Translation => 0,
+        SelectedID  => $JobData{ScheduleMinutes},
     );
     $JobData{ScheduleDaysList} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -906,18 +910,20 @@ sub _MaskUpdate {
     # ticket responsible string
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         $JobData{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
-            Name       => 'ResponsibleIDs',
-            Multiple   => 1,
-            Size       => 5,
-            SelectedID => $JobData{ResponsibleIDs},
+            Data        => \%ShownUsers,
+            Name        => 'ResponsibleIDs',
+            Multiple    => 1,
+            Size        => 5,
+            Translation => 0,
+            SelectedID  => $JobData{ResponsibleIDs},
         );
         $JobData{NewResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
-            Name       => 'NewResponsibleID',
-            Multiple   => 1,
-            Size       => 5,
-            SelectedID => $JobData{NewResponsibleID},
+            Data        => \%ShownUsers,
+            Name        => 'NewResponsibleID',
+            Multiple    => 1,
+            Size        => 5,
+            Translation => 0,
+            SelectedID  => $JobData{NewResponsibleID},
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketResponsible',
@@ -1021,7 +1027,7 @@ sub _MaskUpdate {
     for my $ID ( 1 .. 16 ) {
         if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
 
-            # $Flag to show the hole freefield block
+            # $Flag to show the whole freefield block
             if ($Flag) {
                 $Self->{LayoutObject}->Block( Name => 'NewTicketFreeField', );
                 $Flag = 0;
