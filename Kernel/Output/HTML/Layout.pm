@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.359 2011-03-20 08:51:15 mb Exp $
+# $Id: Layout.pm,v 1.360 2011-04-05 21:54:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.359 $) [1];
+$VERSION = qw($Revision: 1.360 $) [1];
 
 =head1 NAME
 
@@ -1173,14 +1173,14 @@ create notify lines
     infos, the text will be translated
 
     my $Output = $LayoutObject->Notify(
-        Priority => 'warning',
+        Priority => 'Warning',
         Info => 'Some Info Message',
     );
 
     data with link, the text will be translated
 
     my $Output = $LayoutObject->Notify(
-        Priority => 'warning',
+        Priority => 'Warning',
         Data => '$Text{"Some DTL Stuff"}',
         Link => 'http://example.com/',
     );
@@ -1188,14 +1188,14 @@ create notify lines
     errors, the text will be translated
 
     my $Output = $LayoutObject->Notify(
-        Priority => 'error',
+        Priority => 'Error',
         Info => 'Some Error Message',
     );
 
     errors from log backend, if no error extists, a '' will be returned
 
     my $Output = $LayoutObject->Notify(
-        Priority => 'error',
+        Priority => 'Error',
     );
 
 =cut
@@ -4863,6 +4863,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.359 $ $Date: 2011-03-20 08:51:15 $
+$Revision: 1.360 $ $Date: 2011-04-05 21:54:42 $
 
 =cut
