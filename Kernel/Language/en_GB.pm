@@ -2,7 +2,7 @@
 # Kernel/Language/en_GB.pm - provides British English language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: en_GB.pm,v 1.10 2011-04-05 09:08:05 mb Exp $
+# $Id: en_GB.pm,v 1.11 2011-04-05 09:10:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -87,7 +87,7 @@ sub Data {
         'History::EscalationResponseTimeStop' => 'Escalation response time finished',
         'History::EscalationUpdateTimeStop' => 'Escalation update time finished',
         'History::EscalationSolutionTimeStop' => 'Escalation solution time finished',
-        'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
+        'History::ArchiveFlagUpdate' => 'Archive state changed: "%s"',
         #CustomerUser fields
         'Title{CustomerUser}' => 'Title',
         'Firstname{CustomerUser}' => 'First name',
