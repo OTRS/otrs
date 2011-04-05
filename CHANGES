@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1832 2011-04-05 14:01:01 mb Exp $
+# $Id: CHANGES,v 1.1833 2011-04-05 14:28:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-04-05 Added feature bug#7183 - Usage of HTML5 form field 'email'.
  - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
     notifications.
@@ -83,7 +82,7 @@
  - 2011-02-14 Fixed bug#6869 - ITSM 3 Link Object "close window" refreshes and settings lost
  - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
     in database and session.
- - 2011-02-09 Updated French translation, thanks to Rémi Seguy!
+ - 2011-02-09 Updated French translation, thanks to Rï¿½mi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
@@ -167,7 +166,7 @@
  - 2010-12-30 Updated CPAN module JSON to version 2.50.
  - 2010-12-30 Updated CPAN module JSON::PP to version 2.27103.
  - 2010-12-30 Updated CPAN module Text::CSV to version 1.21.
- - 2010-12-28 Fixed bug#6595 - umleiten != Zurückweisen an.
+ - 2010-12-28 Fixed bug#6595 - umleiten != Zurï¿½ckweisen an.
  - 2010-12-28 Fixed bug#6057 - Some action buttons don't have tooltips.
  - 2010-12-27 Fixed bug#6606 - Login screen in area of ticket details.
  - 2010-12-27 Fixed bug#6609 - Created date in article is overlapping the Loader icon.

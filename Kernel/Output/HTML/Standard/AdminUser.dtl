@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.32 2011-04-05 13:58:00 mb Exp $
+# $Id: AdminUser.dtl,v 1.33 2011-04-05 14:27:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -203,7 +203,7 @@
 
                         <label class="Mandatory" for="UserEmail"><span class="Marker">*</span> $Text{"Email"}:</label>
                         <div class="Field">
-                            <input type="email" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc Validate_Email Validate_Required $QData{"UserEmailInvalid"}" maxlength="250"/>
+                            <input type="text" name="UserEmail" id="UserEmail" value="$QData{"UserEmail"}" class="W50pc Validate_Email Validate_Required $QData{"UserEmailInvalid"}" maxlength="250"/>
                             <div id="UserEmailError" class="TooltipErrorMessage"><p>$Text{"This field is required and needs to be a valid email address."}</p></div>
 <!-- dtl:block:UserEmailServerErrorMsg -->
                             <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
