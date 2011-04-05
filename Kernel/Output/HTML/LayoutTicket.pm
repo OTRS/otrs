@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.124 2011-03-20 08:53:05 mb Exp $
+# $Id: LayoutTicket.pm,v 1.125 2011-04-05 08:00:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1195,7 +1195,7 @@ sub TicketListShow {
         %Data = %{ $Config->{$Group}->{Data} };
     }
 
-    # calculate max. sown page
+    # calculate max. shown per page
     if ( $StartHit > $Param{Total} ) {
         my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
         $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
@@ -1213,14 +1213,15 @@ sub TicketListShow {
         IDPrefix  => $Env->{LayoutObject}->{Action},
     );
 
-    # build shown ticket a page
+    # build shown ticket per page
     $Param{RequestedURL}    = "Action=$Self->{Action}";
     $Param{Group}           = $Group;
     $Param{PreferencesKey}  = $PageShownPreferencesKey;
     $Param{PageShownString} = $Self->BuildSelection(
-        Name       => $PageShownPreferencesKey,
-        SelectedID => $PageShown,
-        Data       => \%Data,
+        Name        => $PageShownPreferencesKey,
+        SelectedID  => $PageShown,
+        Translation => 0,
+        Data        => \%Data,
     );
 
     # nav bar at the beginning of a overview
