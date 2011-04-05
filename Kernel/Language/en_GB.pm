@@ -2,7 +2,7 @@
 # Kernel/Language/en_GB.pm - provides British English language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: en_GB.pm,v 1.7.2.1 2011-02-02 15:44:06 mb Exp $
+# $Id: en_GB.pm,v 1.7.2.2 2011-04-05 09:10:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7.2.1 $) [1];
+$VERSION = qw($Revision: 1.7.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -78,6 +78,7 @@ sub Data {
         'History::Subscribe' => 'Added subscription for user "%s".',
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => 'System Request (%s).',
+        'History::ArchiveFlagUpdate' => 'Archive state changed: "%s"',
         #CustomerUser fields
         'Title{CustomerUser}' => 'Title',
         'Firstname{CustomerUser}' => 'First name',
