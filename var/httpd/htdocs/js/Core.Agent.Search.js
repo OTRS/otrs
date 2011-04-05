@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.38.2.3 2011-04-04 14:25:30 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.38.2.4 2011-04-05 08:58:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -260,6 +260,7 @@ Core.Agent.Search = (function (TargetNS) {
                 // show add profile block or not
                 $('#SearchProfileNew').bind('click', function (Event) {
                     $('#SearchProfileAddBlock').toggle();
+                    $('#SearchProfileAddName').focus();
                     Event.preventDefault();
                     return false;
                 });
