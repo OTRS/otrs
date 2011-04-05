@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.48 2011-04-05 13:25:48 mb Exp $
+# $Id: AgentTicketBounce.dtl,v 1.49 2011-04-05 13:58:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
             <fieldset class="TableLike FixedLabel">
                 <label for="BounceTo">$Text{"Bounce to"}:</label>
                 <div class="Field">
-                    <input type="text" name="BounceTo" id="BounceTo" value="" class="W50pc Validate_Required Validate_Email $QData{"BounceToInvalid"}"/>
+                    <input type="email" name="BounceTo" id="BounceTo" value="" class="W50pc Validate_Required Validate_Email $QData{"BounceToInvalid"}"/>
                     <div id="BounceToError" class="TooltipErrorMessage" ><p>$Text{"You need a email address."}</p></div>
                     <div id="BounceToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                 </div>

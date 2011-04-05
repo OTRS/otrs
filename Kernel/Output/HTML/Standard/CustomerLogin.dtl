@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.57 2011-04-05 13:31:22 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.58 2011-04-05 13:58:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,7 +91,7 @@ $Include{"CustomerHeader"}
                     </div>
                     <div class="NewLine">
                         <label class="Mandatory" for="Email"><span class="Marker">*</span> $Text{"Email{CustomerUser}"}</label>
-                        <input title="$Text{"Your email address (this will become your username)"}" name="Email" type="text" id="Email" maxlength="128" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
+                        <input title="$Text{"Your email address (this will become your username)"}" name="Email" type="email" id="Email" maxlength="128" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
                         <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"Please supply a"} $Text{"Email{CustomerUser}"}</p></div>
                     </div>
                     <div class="NewLine">
