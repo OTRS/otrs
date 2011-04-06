@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.1 2011-02-05 00:05:20 en Exp $
+# $Id: Ticket.pm,v 1.488.2.2 2011-04-06 09:17:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.1 $) [1];
+$VERSION = qw($Revision: 1.488.2.2 $) [1];
 
 =head1 NAME
 
@@ -3700,9 +3700,9 @@ To find tickets in your system.
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
 
-        # articles created after 60 minutes (article newer than 60 minutes)  (optional)
+        # articles created more than 60 minutes ago (article older than 60 minutes) (optional)
         ArticleCreateTimeOlderMinutes => 60,
-        # articles created before 120 minutes (article older than 120 minutes) (optional)
+        # articles created less than 120 minutes ago (article newer than 60 minutes) (optional)
         ArticleCreateTimeNewerMinutes => 120,
 
         # articles with create time after ... (article newer than this date) (optional)
@@ -3710,9 +3710,9 @@ To find tickets in your system.
         # articles with created time before ... (article older than this date) (optional)
         ArticleCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets created after 60 minutes (ticket newer than 60 minutes)  (optional)
+        # tickets created more than 60 minutes ago (ticket older than 60 minutes)  (optional)
         TicketCreateTimeOlderMinutes => 60,
-        # tickets created before 120 minutes (ticket older than 120 minutes) (optional)
+        # tickets created less than 120 minutes ago (ticket newer than 120 minutes) (optional)
         TicketCreateTimeNewerMinutes => 120,
 
         # tickets with create time after ... (ticket newer than this date) (optional)
@@ -3720,9 +3720,9 @@ To find tickets in your system.
         # tickets with created time before ... (ticket older than this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets changed after 60 minutes (ticket changed newer than 60 minutes)  (optional)
+        # tickets changed more than 60 minutes ago (optional)
         TicketChangeTimeOlderMinutes => 60,
-        # tickets changed before 120 minutes (ticket changed older 120 minutes) (optional)
+        # tickets changed less than 120 minutes ago (optional)
         TicketChangeTimeNewerMinutes => 120,
 
         # tickets with changed time after ... (ticket changed newer than this date) (optional)
@@ -3730,9 +3730,9 @@ To find tickets in your system.
         # tickets with changed time before ... (ticket changed older than this date) (optional)
         TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets closed after 60 minutes (ticket closed newer than 60 minutes)  (optional)
+        # tickets closed more than 60 minutes ago (optional)
         TicketCloseTimeOlderMinutes => 60,
-        # tickets closed before 120 minutes (ticket closed older than 120 minutes) (optional)
+        # tickets closed less than 120 minutes ago (optional)
         TicketCloseTimeNewerMinutes => 120,
 
         # tickets with closed time after ... (ticket closed newer than this date) (optional)
@@ -3740,9 +3740,9 @@ To find tickets in your system.
         # tickets with closed time before ... (ticket closed older than this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets pending after 60 minutes (optional)
+        # tickets pending time of more than 60 minutes ago (optional)
         TicketPendingTimeOlderMinutes => 60,
-        # tickets pending before 120 minutes (optional)
+        # tickets pending time of less than 120 minutes ago (optional)
         TicketPendingTimeNewerMinutes => 120,
 
         # tickets with pending time after ... (optional)
@@ -3756,9 +3756,9 @@ To find tickets in your system.
         # TicketEscalationResponseTime...
         # TicketEscalationSolutionTime...
 
-        # ticket escalations over 60 minutes (optional)
+        # ticket escalation time of more than 60 minutes ago (optional)
         TicketEscalationTimeOlderMinutes => -60,
-        # ticket escalations in 120 minutes (optional)
+        # ticket escalation time of less than 120 minutes ago (optional)
         TicketEscalationTimeNewerMinutes => -120,
 
         # tickets with escalation time after ... (optional)
@@ -8434,6 +8434,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.1 $ $Date: 2011-02-05 00:05:20 $
+$Revision: 1.488.2.2 $ $Date: 2011-04-06 09:17:58 $
 
 =cut
