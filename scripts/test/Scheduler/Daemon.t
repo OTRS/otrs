@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.7 2011-04-06 12:40:58 cr Exp $
+# $Id: Daemon.t,v 1.8 2011-04-06 18:32:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -274,6 +274,15 @@ $Self->IsNot(
     'Scheduler should have restarted, different PID',
 );
 
+# check configuration so shceduler will not be auto-restarted anymore during the test
+$ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Scheduler::RestartAfterSeconds',
+    Value => 240,
+);
+
+sleep 6;
+
 # check for Framework.xml file
 use File::Copy;
 my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
@@ -304,7 +313,7 @@ $CheckAction->(
 
 # check for Config file timestamp
 $CheckAction->(
-    Name                => 'Check status before change Timestap',
+    Name                => 'Check status before config checksum change',
     Action              => 'status',
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
@@ -312,47 +321,37 @@ $CheckAction->(
     PIDChangeExpected   => 0,
 );
 
-# change Config file timestamp
+my %PIDInfo6 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+# change Config file timestamp to change the checksum
 my $ConfigFile = $Home . '/Kernel/Config.pm';
 my $TimeStamp  = time;
 utime $TimeStamp, $TimeStamp, $ConfigFile;
 
-sleep 6;
+sleep 3;
 
 # check after Config file timestamp changed
 $CheckAction->(
-    Name                => 'Check status after change Timestap',
-    Action              => 'status',
-    ExpectActionSuccess => 0,
-    StateBefore         => 'not running',
-    StateAfter          => 'not running',
-    PIDChangeExpected   => 0,
-);
-
-# start deamon again
-$CheckAction->(
-    Name                => 'start after change Timestap',
-    Action              => 'start',
-    ExpectActionSuccess => 1,
-    StateBefore         => 'not running',
-    StateAfter          => 'running',
-    PIDChangeExpected   => 1,
-);
-
-# check after daemon started
-$CheckAction->(
-    Name                => 'Check status after change Timestap',
+    Name                => 'Check status after config checksum change',
     Action              => 'status',
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'running',
     PIDChangeExpected   => 0,
+);
+
+my %PIDInfo7 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+
+$Self->IsNot(
+    $PIDInfo6{PID},
+    $PIDInfo7{PID},
+    'Scheduler should have restarted, different PID',
 );
 
 # delete PID on database
 $PIDObject->PIDDelete( Name => 'otrs.Scheduler' );
 
-sleep 6;
+sleep 3;
 
 # check after delete PID on database
 $CheckAction->(
@@ -376,7 +375,7 @@ $CheckAction->(
 
 # check after daemon started
 $CheckAction->(
-    Name                => 'Check status after change Timestap',
+    Name                => 'Check status after re-start',
     Action              => 'status',
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
@@ -384,7 +383,7 @@ $CheckAction->(
     PIDChangeExpected   => 0,
 );
 
-sleep 2;
+sleep 3;
 
 $CheckAction->(
     Name                => 'Final stop',

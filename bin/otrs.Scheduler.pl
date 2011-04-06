@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.18 2011-04-06 12:13:41 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.19 2011-04-06 18:32:02 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,7 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Proc::Daemon;
-use File::stat;
 
 # get options
 my %Opts = ();
@@ -254,10 +253,8 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     my $StartTime = $CommonObject{TimeObject}->SystemTime();
 
-    # get initial Config.pm timestamp
-    my $Home            = $CommonObject{ConfigObject}->Get('Home');
-    my $ConfigFile      = $Home . '/Kernel/Config.pm';
-    my $ConfigTimestamp = stat($ConfigFile)->mtime;
+    # get config checksum
+    my $InitConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
 
     # main loop
     while (1) {
@@ -269,80 +266,46 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
         # check if process ID was deleted from DB
         if ( !%PID ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Process could not be found in the process table!",
+            my $ExitCode = _AutoStop(
+                Message => "Process could not be found in the process table!\n"
+                    . "Scheduler is stopping...!\n",
             );
-            exit 1;
+            return $ExitCode;
         }
 
         # check if Framework.xml file exists, otherwise quits because the otrs instalation
         # might not be ok. for example UnitTest machines during change scenario process
+        my $Home                = $CommonObject{ConfigObject}->Get('Home');
         my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
         if ( !-e $FrameworkConfigFile ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "$FrameworkConfigFile file is part of the OTRS file set and "
+            my $ExitCode = _AutoStop(
+                Message => "$FrameworkConfigFile file is part of the OTRS file set and "
                     . "is not present! \n"
-                    . "scheduler is stopping...!\n",
+                    . "Scheduler is stopping...!\n",
+                DeletePID => 1,
             );
-
-            # delete pid lock
-            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
-
-            # log daemon stop
-            if ( !$PIDDelSuccess ) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Process could not be deleted from process table! "
-                        . "PID $PID{PID}",
-                );
-            }
-            exit 1;
+            return $ExitCode;
         }
 
-        # get current Config.pm timestamp
-        my $CurrConfigTimestamp = stat($ConfigFile)->mtime;
+        # get config checksum
+        my $CurrConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
 
-        # check if Config.pm timesatamp changed and quit
-        # for example UnitTest machines during change scenario process
-        if ( $CurrConfigTimestamp ne $ConfigTimestamp ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Config.pm Timestamp changed unsafe to continue! \n"
-                    . "scheduler is stopping...!\n",
+        # check if cheksum changed and restart
+        if ( $InitConfigMD5 ne $CurrConfigMD5 ) {
+
+            my $ExitCode = _AutoRestart(
+                Message => "Config.pm changed, unsafe to continue! \n"
+                    . "Scheduler is restarting...!\n",
             );
-
-            # delete pid lock
-            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
-
-            # log daemon stop
-            if ( !$PIDDelSuccess ) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Process could not be deleted from process table! "
-                        . "PID $PID{PID}",
-                );
-            }
-            exit 1;
+            exit $ExitCode;
         }
 
         # check for stop signal (again)
         if ($Interrupt) {
-
-            # delete pid lock
-            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
-
-            # log daemon stop
-            if ( !$PIDDelSuccess ) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Process could not be deleted from process table! PID $PID{PID}",
-                );
-                exit 1;
-            }
-
-            exit 0;
+            my $ExitCode = _AutoStop(
+                DeletePID => 1,
+            );
+            return $ExitCode;
         }
 
         # check for hangup signal, requesting a config reload
@@ -357,43 +320,11 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
         # The Scheduler needs to be restarted from time to time because
         #   of memory leaks in some external perl modules.
-
         if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
-
-            # Log deamon startup
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Scheduler Daemon restarts itself (PID $PID{PID}).",
+            my $ExitCode = _AutoRestart(
+                Message => "Scheduler Daemon restarts itself (PID $PID{PID})."
             );
-
-            # delete pid lock
-            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
-
-            if ( !$PIDDelSuccess ) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Could not remove Scheduler PID $PID{PID} from database to prepare Scheduler restart, exiting.",
-                );
-
-                exit 1;
-            }
-
-            my $Home      = $CommonObject{ConfigObject}->Get('Home');
-            my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-
-            my $Result = system("$Scheduler -a start");
-
-            if ( !$Result ) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Could not startup new Scheduler instance.",
-                );
-
-                exit 1;
-            }
-
-            exit 0;
+            exit $ExitCode;
         }
 
         # sleep to avoid overloading the processor
@@ -437,4 +368,98 @@ sub _CommonObjects {
     $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
     $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
     return %CommonObject;
+}
+
+sub _AutoRestart {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # Log deamon startup
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message => $Param{Message} || 'Unknown reason to restart',
+    );
+
+    # delete pid lock
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+    my $ExitCode;
+    if ( !$PIDDelSuccess ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Could not remove Scheduler PID $PID{PID} from database to prepare Scheduler restart, exiting.",
+        );
+        $ExitCode = 1;
+        return $ExitCode;
+    }
+
+    my $Home      = $CommonObject{ConfigObject}->Get('Home');
+    my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+
+    my $Result = system("$Scheduler -a start");
+
+    if ( !$Result ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Could not startup new Scheduler instance.",
+        );
+
+        $ExitCode = 1;
+        return $ExitCode;
+    }
+
+    $ExitCode = 0;
+    return $ExitCode;
+}
+
+sub _AutoStop {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    if ( $Param{Message} ) {
+
+        # log error
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Param{Message},
+        );
+    }
+
+    my $ExitCode;
+    if ( $Param{DeletePID} ) {
+
+        # get the process ID
+        my %PID = $CommonObject{PIDObject}->PIDGet(
+            Name => 'otrs.Scheduler',
+        );
+
+        # delete pid lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+        # log daemon stop
+        if ( !$PIDDelSuccess ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Process could not be deleted from process table! PID $PID{PID}",
+            );
+            $ExitCode = 1;
+            return $ExitCode;
+        }
+
+        $ExitCode = 0;
+        return $ExitCode;
+    }
+    $ExitCode = 1;
+    return $ExitCode;
+
 }
