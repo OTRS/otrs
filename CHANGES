@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1834 2011-04-06 10:56:21 mh Exp $
+# $Id: CHANGES,v 1.1835 2011-04-06 11:44:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-06 Fixed bug#7058 - AJAX communication error when picking queue during ticket split.
  - 2011-04-05 Fixed bug#7179 - MasterAction causes browser problem.
  - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived.
  - 2011-04-04 Fixed bug#6801 - Bulk Actions are not working.
