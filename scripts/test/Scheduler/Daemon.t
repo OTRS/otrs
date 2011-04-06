@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.3 2011-03-23 09:23:16 mg Exp $
+# $Id: Daemon.t,v 1.4 2011-04-06 05:17:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -272,6 +272,118 @@ $Self->IsNot(
     $PIDInfo5{PID},
     $PIDInfo4{PID},
     'Scheduler should have restarted, different PID',
+);
+
+# check for COPYING file
+use File::Copy;
+my $CopyingFile = $Home . '/COPYING';
+move( "$CopyingFile", "$CopyingFile.save" );
+
+sleep 6;
+
+$CheckAction->(
+    Name                => 'COPYING file missing',
+    Action              => 'status',
+    ExpectActionSuccess => 0,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+);
+
+# recover COPYING file
+move( "$CopyingFile.save", "$CopyingFile" );
+
+$CheckAction->(
+    Name                => 'COPYING file recovered',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+# check for Config file timestamp
+$CheckAction->(
+    Name                => 'Check status before change Timestap',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+# change Config file timestamp
+my $ConfigFile = $Home . '/Kernel/Config.pm';
+my $TimeStamp  = time;
+utime $TimeStamp, $TimeStamp, $ConfigFile;
+
+sleep 6;
+
+# check after Config file timestamp changed
+$CheckAction->(
+    Name                => 'Check status after change Timestap',
+    Action              => 'status',
+    ExpectActionSuccess => 0,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+);
+
+# start deamon again
+$CheckAction->(
+    Name                => 'start after change Timestap',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+# check after daemon started
+$CheckAction->(
+    Name                => 'Check status after change Timestap',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+# delete PID on database
+use Kernel::System::PID
+    $PIDObject = Kernel::System::PID->new( %{$Self} );
+$PIDObject->PIDDelete( Name => 'otrs.Scheduler' );
+
+sleep 6;
+
+# check after delete PID on database
+$CheckAction->(
+    Name                => 'Check status after delete PID',
+    Action              => 'status',
+    ExpectActionSuccess => 0,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+);
+
+# start deamon again
+$CheckAction->(
+    Name                => 'start after delete PID',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+# check after daemon started
+$CheckAction->(
+    Name                => 'Check status after change Timestap',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
 );
 
 $CheckAction->(

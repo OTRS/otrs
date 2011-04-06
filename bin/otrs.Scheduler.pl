@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.16 2011-03-25 13:53:58 ep Exp $
+# $Id: otrs.Scheduler.pl,v 1.17 2011-04-06 05:17:47 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,6 +42,7 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Proc::Daemon;
+use File::stat;
 
 # get options
 my %Opts = ();
@@ -253,8 +254,77 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     my $StartTime = $CommonObject{TimeObject}->SystemTime();
 
+    # get initial Config.pm timestamp
+    my $Home            = $CommonObject{ConfigObject}->Get('Home');
+    my $ConfigFile      = $Home . '/Kernel/Config.pm';
+    my $ConfigTimestamp = stat($ConfigFile)->mtime;
+
     # main loop
     while (1) {
+
+        # get the process ID
+        my %PID = $CommonObject{PIDObject}->PIDGet(
+            Name => 'otrs.Scheduler',
+        );
+
+        # check if process ID was deleted from DB
+        if ( !%PID ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Process could not be found in the process table!",
+            );
+            exit 1;
+        }
+
+        # check if COPYING file exists, otherwise quits because the otrs instalation might not be ok
+        # for example UnitTest machines during change scenario process
+        my $CopyngFile = $Home . '/COPYING';
+        if ( !-e $CopyngFile ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$CopyngFile file is part of the OTRS file set and is not present! \n"
+                    . "scheduler is stopping...!\n",
+            );
+
+            # delete pid lock
+            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+            # log daemon stop
+            if ( !$PIDDelSuccess ) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Process could not be deleted from process table! "
+                        . "PID $PID{PID}",
+                );
+            }
+            exit 1;
+        }
+
+        # get current Config.pm timestamp
+        my $CurrConfigTimestamp = stat($ConfigFile)->mtime;
+
+        # check if Config.pm timesatamp changed and quit
+        # for example UnitTest machines during change scenario process
+        if ( $CurrConfigTimestamp ne $ConfigTimestamp ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Config.pm Timestamp changed unsafe to continue! \n"
+                    . "scheduler is stopping...!\n",
+            );
+
+            # delete pid lock
+            my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+            # log daemon stop
+            if ( !$PIDDelSuccess ) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Process could not be deleted from process table! "
+                        . "PID $PID{PID}",
+                );
+            }
+            exit 1;
+        }
 
         # check for stop signal (again)
         if ($Interrupt) {
