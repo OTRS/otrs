@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.434 2011-04-04 16:53:50 en Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.435 2011-04-06 10:56:21 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -631,7 +631,7 @@
             <String Regex="">AgentInfo</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::HeaderMetaModule###100-Refresh" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to generate html refresh headers of html sites.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
@@ -641,7 +641,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###100-CharsetCheck" Required="1" Valid="1">
         <Description Translatable="1">Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
@@ -651,7 +651,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###2-UID-Check" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###200-UID-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
@@ -661,7 +661,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###3-ShowAgentOnline" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::NotifyModule###300-ShowAgentOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows all the currently logged in agents in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
@@ -673,7 +673,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###4-ShowCustomerOnline" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::NotifyModule###400-ShowCustomerOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows all the currently loged in customers in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
@@ -682,6 +682,20 @@
                 <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###900-Generic" Required="0" Valid="0">
+        <Description Translatable="1">Defines the module that shows a generic notify in the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationGeneric</Item>
+                <Item Key="Priority">Warning</Item>
+                <Item Key="Text">The OTRS Website</Item>
+                <Item Key="File">&lt;OTRS_CONFIG_Home&gt;/var/notify.txt</Item>
+                <Item Key="Link">http://www.otrs.com</Item>
             </Hash>
         </Setting>
     </ConfigItem>

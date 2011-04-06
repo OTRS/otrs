@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1833 2011-04-05 14:28:20 mb Exp $
+# $Id: CHANGES,v 1.1834 2011-04-06 10:56:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-06 Added generic notification module to show messages in the agent interface.
  - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
     notifications.
