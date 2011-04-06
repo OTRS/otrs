@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.15 2010-11-25 10:44:22 mn Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.15.2.1 2011-04-06 16:38:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.15.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,14 +63,14 @@ sub Param {
         {
             %Param,
             Option => $Self->{LayoutObject}->AgentQueueListOption(
-                Data                => \%QueueData,
-                Size                => 10,
-                Name                => 'QueueID',
-                SelectedIDRefArray  => \@CustomQueueIDs,
-                Multiple            => 1,
-                LanguageTranslation => 0,
-                OnChangeSubmit      => 0,
-                OptionTitle         => 1,
+                Data               => \%QueueData,
+                Size               => 10,
+                Name               => 'QueueID',
+                SelectedIDRefArray => \@CustomQueueIDs,
+                Multiple           => 1,
+                Translation        => 0,
+                OnChangeSubmit     => 0,
+                OptionTitle        => 1,
             ),
             Name => 'QueueID',
         },

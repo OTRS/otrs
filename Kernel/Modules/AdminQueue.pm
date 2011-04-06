@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.77.2.1 2011-02-01 23:36:11 mp Exp $
+# $Id: AdminQueue.pm,v 1.77.2.2 2011-04-06 16:37:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77.2.1 $) [1];
+$VERSION = qw($Revision: 1.77.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -415,10 +415,10 @@ sub _Edit {
                 Valid => 1,
             ),
         },
-        LanguageTranslation => 0,
-        Name                => 'GroupID',
-        SelectedID          => $Param{GroupID},
-        Class               => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
+        Translation => 0,
+        Name        => 'GroupID',
+        SelectedID  => $Param{GroupID},
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'GroupIDInvalid'} || '' ),
     );
 
     my $ParentQueue = '';

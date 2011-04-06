@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.22 2010-11-23 17:59:44 en Exp $
+# $Id: AdminCustomerCompany.pm,v 1.22.2.1 2011-04-06 16:37:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.22.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -301,13 +301,12 @@ sub _Edit {
                     Data => $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}
                         ->{ $Entry->[0] },
                     Name  => $Entry->[0],
-                    Class => $OptionRequired . ' ' .
-                        ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
-                    LanguageTranslation => 0,
-                    SelectedID          => $Param{ $Entry->[0] },
-                    Max                 => 35,
+                    Class => $OptionRequired . ' '
+                        . ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
+                    Translation => 0,
+                    SelectedID  => $Param{ $Entry->[0] },
+                    Max         => 35,
                 );
-
             }
             elsif ( $Entry->[0] =~ /^ValidID/i ) {
                 my $OptionRequired = '';

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.36 2011-01-19 16:06:43 mp Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.36.2.1 2011-04-06 16:37:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.36.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -258,20 +258,20 @@ sub _MaskUpdate {
     # build strings
     for my $Number ( 1 .. 12 ) {
         $Data{"MatchHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
-            Data                => \%Header,
-            Name                => "MatchHeader$Number",
-            SelectedID          => $Data{"MatchHeader$Number"},
-            Class               => $Data{ 'MatchHeader' . $Number . 'Invalid' } || '',
-            LanguageTranslation => 0,
-            HTMLQuote           => 1,
+            Data        => \%Header,
+            Name        => "MatchHeader$Number",
+            SelectedID  => $Data{"MatchHeader$Number"},
+            Class       => $Data{ 'MatchHeader' . $Number . 'Invalid' } || '',
+            Translation => 0,
+            HTMLQuote   => 1,
         );
         $Data{"SetHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
-            Data                => \%SetHeader,
-            Name                => "SetHeader$Number",
-            SelectedID          => $Data{"SetHeader$Number"},
-            Class               => $Data{ 'SetHeader' . $Number . 'Invalid' } || '',
-            LanguageTranslation => 0,
-            HTMLQuote           => 1,
+            Data        => \%SetHeader,
+            Name        => "SetHeader$Number",
+            SelectedID  => $Data{"SetHeader$Number"},
+            Class       => $Data{ 'SetHeader' . $Number . 'Invalid' } || '',
+            Translation => 0,
+            HTMLQuote   => 1,
         );
     }
     $Data{"StopAfterMatch"} = $Self->{LayoutObject}->BuildSelection(
@@ -279,8 +279,8 @@ sub _MaskUpdate {
         Name => 'StopAfterMatch',
         SelectedID => $Data{StopAfterMatch} || 0,
         Class => 'Validate_RequiredDropdown',
-        LanguageTranslation => 1,
-        HTMLQuote           => 1,
+        Translation => 1,
+        HTMLQuote   => 1,
     );
 
     $Self->{LayoutObject}->Block(

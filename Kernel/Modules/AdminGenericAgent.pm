@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.93.2.1 2011-03-13 19:27:28 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.93.2.2 2011-04-06 16:37:27 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93.2.1 $) [1];
+$VERSION = qw($Revision: 1.93.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1011,12 +1011,12 @@ sub _MaskUpdate {
             }
             else {
                 $NewTicketFreeKey = $Self->{LayoutObject}->BuildSelection(
-                    Data                => \%TicketFreeKey,
-                    Name                => 'NewTicketFreeKey' . $ID,
-                    Size                => 4,
-                    Multiple            => 1,
-                    LanguageTranslation => 0,
-                    SelectedID          => $JobData{ 'NewTicketFreeKey' . $ID },
+                    Data        => \%TicketFreeKey,
+                    Name        => 'NewTicketFreeKey' . $ID,
+                    Size        => 4,
+                    Multiple    => 1,
+                    Translation => 0,
+                    SelectedID  => $JobData{ 'NewTicketFreeKey' . $ID },
                 );
             }
 
@@ -1033,12 +1033,12 @@ sub _MaskUpdate {
             else {
                 my %TicketFreeText = %{ $Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) };
                 $NewTicketFreeText = $Self->{LayoutObject}->BuildSelection(
-                    Data                => \%TicketFreeText,
-                    Name                => 'NewTicketFreeText' . $ID,
-                    Size                => 4,
-                    Multiple            => 1,
-                    LanguageTranslation => 0,
-                    SelectedID          => $JobData{ 'NewTicketFreeText' . $ID },
+                    Data        => \%TicketFreeText,
+                    Name        => 'NewTicketFreeText' . $ID,
+                    Size        => 4,
+                    Multiple    => 1,
+                    Translation => 0,
+                    SelectedID  => $JobData{ 'NewTicketFreeText' . $ID },
                 );
             }
 

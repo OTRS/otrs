@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.351.2.7 2011-04-05 21:53:59 mh Exp $
+# $Id: Layout.pm,v 1.351.2.8 2011-04-06 16:38:52 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351.2.7 $) [1];
+$VERSION = qw($Revision: 1.351.2.8 $) [1];
 
 =head1 NAME
 
@@ -2823,12 +2823,12 @@ sub BuildDateSelection {
             }
         }
         $Param{Year} = $Self->BuildSelection(
-            Name                => $Prefix . 'Year',
-            Data                => \%Year,
-            SelectedID          => int( $Param{ $Prefix . 'Year' } || $Y ),
-            LanguageTranslation => 0,
-            Class               => $Validate ? 'Validate_DateYear' : '',
-            Title               => $Self->{LanguageObject}->Get('Year'),
+            Name        => $Prefix . 'Year',
+            Data        => \%Year,
+            SelectedID  => int( $Param{ $Prefix . 'Year' } || $Y ),
+            Translation => 0,
+            Class       => $Validate ? 'Validate_DateYear' : '',
+            Title       => $Self->{LanguageObject}->Get('Year'),
         );
     }
     else {
@@ -2849,12 +2849,12 @@ sub BuildDateSelection {
             $Month{$_} = $Tmp;
         }
         $Param{Month} = $Self->BuildSelection(
-            Name                => $Prefix . 'Month',
-            Data                => \%Month,
-            SelectedID          => int( $Param{ $Prefix . 'Month' } || $M ),
-            LanguageTranslation => 0,
-            Class               => $Validate ? 'Validate_DateMonth' : '',
-            Title               => $Self->{LanguageObject}->Get('Month'),
+            Name        => $Prefix . 'Month',
+            Data        => \%Month,
+            SelectedID  => int( $Param{ $Prefix . 'Month' } || $M ),
+            Translation => 0,
+            Class       => $Validate ? 'Validate_DateMonth' : '',
+            Title       => $Self->{LanguageObject}->Get('Month'),
         );
     }
     else {
@@ -2885,12 +2885,12 @@ sub BuildDateSelection {
             $Day{$_} = $Tmp;
         }
         $Param{Day} = $Self->BuildSelection(
-            Name                => $Prefix . 'Day',
-            Data                => \%Day,
-            SelectedID          => int( $Param{ $Prefix . 'Day' } || $D ),
-            LanguageTranslation => 0,
-            Class               => "$DateValidateClasses $Class",
-            Title               => $Self->{LanguageObject}->Get('Day'),
+            Name        => $Prefix . 'Day',
+            Data        => \%Day,
+            SelectedID  => int( $Param{ $Prefix . 'Day' } || $D ),
+            Translation => 0,
+            Class       => "$DateValidateClasses $Class",
+            Title       => $Self->{LanguageObject}->Get('Day'),
         );
     }
     else {
@@ -2917,9 +2917,9 @@ sub BuildDateSelection {
                 SelectedID => defined( $Param{ $Prefix . 'Hour' } )
                 ? int( $Param{ $Prefix . 'Hour' } )
                 : int($h),
-                LanguageTranslation => 0,
-                Class               => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
-                Title               => $Self->{LanguageObject}->Get('Hours'),
+                Translation => 0,
+                Class       => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
+                Title       => $Self->{LanguageObject}->Get('Hours'),
             );
         }
         else {
@@ -2949,9 +2949,9 @@ sub BuildDateSelection {
                 SelectedID => defined( $Param{ $Prefix . 'Minute' } )
                 ? int( $Param{ $Prefix . 'Minute' } )
                 : int($m),
-                LanguageTranslation => 0,
-                Class               => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
-                Title               => $Self->{LanguageObject}->Get('Minutes'),
+                Translation => 0,
+                Class       => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
+                Title       => $Self->{LanguageObject}->Get('Minutes'),
             );
         }
         else {
@@ -4876,6 +4876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.351.2.7 $ $Date: 2011-04-05 21:53:59 $
+$Revision: 1.351.2.8 $ $Date: 2011-04-06 16:38:52 $
 
 =cut
