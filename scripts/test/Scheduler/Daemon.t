@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.6 2011-04-06 12:34:01 cr Exp $
+# $Id: Daemon.t,v 1.7 2011-04-06 12:40:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -350,8 +350,6 @@ $CheckAction->(
 );
 
 # delete PID on database
-use Kernel::System::PID
-    $PIDObject = Kernel::System::PID->new( %{$Self} );
 $PIDObject->PIDDelete( Name => 'otrs.Scheduler' );
 
 sleep 6;
