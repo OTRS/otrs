@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.492 2011-04-06 09:17:25 mg Exp $
+# $Id: Ticket.pm,v 1.493 2011-04-06 12:29:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.492 $) [1];
+$VERSION = qw($Revision: 1.493 $) [1];
 
 =head1 NAME
 
@@ -3743,9 +3743,9 @@ To find tickets in your system.
         # tickets with closed time before ... (ticket closed older than this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets pending time of more than 60 minutes ago (optional)
+        # tickets with pending time of more than 60 minutes ago (optional)
         TicketPendingTimeOlderMinutes => 60,
-        # tickets pending time of less than 120 minutes ago (optional)
+        # tickets with pending time of less than 120 minutes ago (optional)
         TicketPendingTimeNewerMinutes => 120,
 
         # tickets with pending time after ... (optional)
@@ -8438,6 +8438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.492 $ $Date: 2011-04-06 09:17:25 $
+$Revision: 1.493 $ $Date: 2011-04-06 12:29:26 $
 
 =cut
