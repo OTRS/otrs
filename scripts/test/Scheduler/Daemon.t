@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.5 2011-04-06 12:13:42 cr Exp $
+# $Id: Daemon.t,v 1.6 2011-04-06 12:34:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -385,6 +385,8 @@ $CheckAction->(
     StateAfter          => 'running',
     PIDChangeExpected   => 0,
 );
+
+sleep 2;
 
 $CheckAction->(
     Name                => 'Final stop',
