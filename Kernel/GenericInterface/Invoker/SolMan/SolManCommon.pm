@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/SolManCommon.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolManCommon.pm,v 1.17 2011-04-04 19:26:18 cr Exp $
+# $Id: SolManCommon.pm,v 1.18 2011-04-06 23:01:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,12 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::GenericInterface::ObjectLockState;
+use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -111,6 +113,8 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{ObjectLockStateObject}
+        = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
     return $Self;
 }
 
@@ -514,8 +518,6 @@ this function is not yet implemented, returns empty hash ref
 sub GetAditionalInfo {
     my ( $Self, %Param ) = @_;
 
-    #TODO Implement if needed
-
     my %IctAdditionalInfos;
 
     #    my %IctAdditionalInfos = (
@@ -540,8 +542,6 @@ this function is not yet implemented, returns empty hash ref
 
 sub GetSapNotesInfo {
     my ( $Self, %Param ) = @_;
-
-    #TODO Implement if needed
 
     my %IctSapNotes;
 
@@ -572,8 +572,6 @@ this function is not yet implemented, returns empty hash ref
 sub GetSolutionsInfo {
     my ( $Self, %Param ) = @_;
 
-    #TODO Implement if needed
-
     my %IctSolutions;
 
     #    my %IctSolutions = (
@@ -602,8 +600,6 @@ this function is not yet implemented, returns empty hash ref
 
 sub GetUrlsInfo {
     my ( $Self, %Param ) = @_;
-
-    #TODO Implement if needed
 
     my %IctUrls;
 
@@ -930,6 +926,349 @@ sub SetRemoteSystemGuid {
 
     return $Success;
 }
+
+=item GetArticleLockStatus()
+
+returns 1 if the operation was successfull.
+
+    my $Success = $SolManCommonObject->GetArticleLockStatus(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+        ArticleID       => $Self->{ArticleID},
+        UserID          => $Ticket{OwnerID},
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub GetArticleLockStatus {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID TicketID ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "GetArticleLockStatus: Got no $Needed",
+            );
+            return;
+        }
+    }
+    my $LockState      = 'locked';
+    my $ReplicateState = 'replicate';
+    my $AttempMax      = 5;
+
+    my $TicketReplicate  = 0;
+    my $TicketAttempts   = 0;
+    my $ArticleReplicate = 0;
+    my $ArticleAttempts  = 0;
+
+    # ticket check list
+    my $TicketLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+    );
+
+    for my $TicketLockState ( @{$TicketLockStates} ) {
+        next if ( $TicketLockState->{ObjectID} ne $Param{TicketID} );
+        $TicketAttempts = $TicketLockState->{LockStateCounter}
+            if ( $TicketLockState->{LockState} eq $LockState );
+
+        $TicketReplicate = 1
+            if ( $TicketLockState->{LockState} eq $ReplicateState );
+    }
+
+    # Article check list
+    my $ArticleLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Article',
+    );
+
+    for my $ArticleLockState ( @{$ArticleLockStates} ) {
+        next if ( $ArticleLockState->{ObjectID} ne $Param{ArticleID} );
+
+        $ArticleAttempts = $ArticleLockState->{LockStateCounter}
+            if ( $ArticleLockState->{LockState} eq $LockState );
+
+        $ArticleReplicate = 1
+            if ( $ArticleLockState->{LockState} eq $ReplicateState );
+    }
+
+    # if not $TicketAttemptFlagPresent and $TicketReplicateFlagPresent
+    # are set yet, file a task in the scheduler for this ticket
+
+    # if $TicketAttemptFlagPresent is present and it value
+    # is less that max allowed, file a task in the scheduler
+    # for this ticket
+    if ( !$TicketReplicate && $TicketAttempts < $AttempMax ) {
+        my $Success = $Self->ScheduleTask(
+            Type         => 'GenericInterface',
+            Invoker      => 'ReplicateIncident',
+            WebserviceID => $Param{WebserviceID},
+            Data         => {                       # data for invoker
+                WebserviceID => $Param{WebserviceID},
+                TicketID     => $Param{TicketID},
+            },
+        );
+        $Self->{DebuggerObject}->Info(
+            Summary =>
+                "GetArticleLockStatus: Ticket replication has been file as a new task",
+        );
+        return;
+    }
+
+    # if $ArticleAttempts is present and it value
+    # is less that max allowed
+    if ( !$ArticleReplicate && $ArticleAttempts < $AttempMax ) {
+        my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+            WebserviceID     => $Param{WebserviceID},
+            ObjectType       => 'Article',
+            ObjectID         => $Param{ArticleID},
+            LockState        => $LockState,
+            LockStateCounter => ++$ArticleAttempts,
+        );
+        $Self->{DebuggerObject}->Info(
+            Summary =>
+                "GetArticleLockStatus: Attemp Ticket flag has been set with a new value",
+        );
+        return $SuccessArticleLock;
+    }
+
+    $Self->{DebuggerObject}->Error(
+        Summary => "GetArticleLockStatus: AddInfo is not allowed.",
+    );
+    return 0;
+}
+
+=item GetTicketLockStatus()
+
+returns 1 if the operation was successfull.
+
+    my $Success = $SolManCommonObject->GetTicketLockStatus(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+        UserID          => $Ticket{OwnerID},
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub GetTicketLockStatus {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "GetTicketReplicateStatus: Got no $Needed",
+            );
+            return;
+        }
+    }
+    my $LockState      = 'locked';
+    my $ReplicateState = 'replicate';
+    my $AttempMax      = 5;
+
+    my $TicketReplicate = 0;
+    my $TicketAttempts  = 0;
+
+    # ticket check list
+    my $TicketLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+    );
+
+    for my $TicketLockState ( @{$TicketLockStates} ) {
+        next if ( $TicketLockState->{ObjectID} ne $Param{TicketID} );
+
+        $TicketAttempts = $TicketLockState->{LockStateCounter}
+            if ( $TicketLockState->{LockState} eq $LockState );
+
+        $TicketReplicate = 1
+            if ( $TicketLockState->{LockState} eq $ReplicateState );
+    }
+
+    # if $TicketAttemptFlagPresent is present and it value
+    # is less that max allowed
+    if ( !$TicketReplicate && $TicketAttempts < $AttempMax ) {
+        my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+            WebserviceID     => $Param{WebserviceID},
+            ObjectType       => 'Ticket',
+            ObjectID         => $Param{TicketID},
+            LockState        => $LockState,
+            LockStateCounter => ++$TicketAttempts,
+        );
+        $Self->{DebuggerObject}->Info(
+            Summary =>
+                "GetTicketReplicateStatus: Attemp Ticket flag has been set with a new value",
+        );
+        return $SuccessTicketLock;
+    }
+
+    $Self->{DebuggerObject}->Error(
+        Summary => "GetTicketReplicateStatus: Replicate Incident is not allowed.",
+    );
+    return 0;
+}
+
+=item SetArticleReplicateState()
+
+returns 1 if the operation was successfull.
+
+    my $Success = $SolManCommonObject->SetArticleReplicateState(
+        WebserviceID    => $Self->{WebserviceID},
+        ArticleID       => $Self->{ArticleID},
+        UserID          => $Self->{OwnerID},
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub SetArticleReplicateState {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "GetArticleLockStatus: Got no $Needed",
+            );
+            return;
+        }
+    }
+    my $LockState      = 'locked';
+    my $ReplicateState = 'replicate';
+
+    my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+        WebserviceID     => $Param{WebserviceID},
+        ObjectType       => 'Article',
+        ObjectID         => $Param{ArticleID},
+        LockState        => $ReplicateState,
+        LockStateCounter => 0,
+    );
+    $Self->{DebuggerObject}->Info(
+        Summary =>
+            "SetArticleReplicateState: Replicate Article state has been set",
+    );
+
+    return $SuccessArticleLock;
+}
+
+=item SetTicketReplicateState()
+writes the Replicate flag and delete the Attempt flag.
+returns 1 if the operation was successfull.
+
+    my $Success = $SolManCommonObject->SetTicketReplicateState(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+        UserID          => $Self->{OwnerID},
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub SetTicketReplicateState {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "SetTicketReplicateState: Got no $Needed",
+            );
+            return;
+        }
+    }
+    my $LockState      = 'locked';
+    my $ReplicateState = 'replicate';
+
+    my @Articles = $Self->{TicketObject}->ArticleGet(
+        TicketID => $Param{TicketID},
+    );
+
+    for my $Article (@Articles) {
+
+        # set replicate flag
+        my $ReplicateArticleStatus = $Self->SetArticleReplicateState(
+            WebserviceID => $Param{WebserviceID},
+            ArticleID    => $Article->{ArticleID},
+            UserID       => $Param{UserID},
+        );
+    }
+
+    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+        WebserviceID     => $Param{WebserviceID},
+        ObjectType       => 'Ticket',
+        ObjectID         => $Param{TicketID},
+        LockState        => $ReplicateState,
+        LockStateCounter => 0,
+    );
+    $Self->{DebuggerObject}->Info(
+        Summary =>
+            "SetTicketReplicateState: Replicate Ticket flag has been set",
+    );
+
+    return 1;
+}
+
+=item ScheduleTask()
+schedule a new task.
+
+    my $Success = $SolManCommonObject->ScheduleTask(
+        Type            => $Self->{ArticleID},
+        Invoker         => $Self->{TicketID},
+        WebserviceID    => $Self->{WebserviceID},
+        Data            => {                               # data for invoker
+            WebserviceID => $Self->{WebserviceID},
+            TicketID     => $Self->{TicketID},
+        },
+    );
+
+    $Success = 1;      # or ''
+=cut
+
+sub ScheduleTask {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Type Invoker WebserviceID Data)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "ScheduleTask: Got no $Param{$Needed}",
+            );
+            return;
+        }
+    }
+
+    my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
+    my $DueTimeStamp  = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $DueSystemTime,
+    );
+
+    my $SchedulerObject = Kernel::Scheduler->new( %{$Self} );
+    my $TaskID          = $SchedulerObject->TaskRegister(
+        Type => $Param{Type},
+        Data => {               # data for task register
+            WebserviceID => $Param{WebserviceID},
+            Invoker      => $Param{Invoker},
+
+            Data => $Param{Data},
+        },
+        DueTime => $DueTimeStamp,
+    );
+
+    return $TaskID || 0;
+}
+
 1;
 
 =back
@@ -946,6 +1285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-04-04 19:26:18 $
+$Revision: 1.18 $ $Date: 2011-04-06 23:01:06 $
 
 =cut
