@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.17 2011-04-06 05:17:47 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.18 2011-04-06 12:13:41 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -276,13 +276,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             exit 1;
         }
 
-        # check if COPYING file exists, otherwise quits because the otrs instalation might not be ok
-        # for example UnitTest machines during change scenario process
-        my $CopyngFile = $Home . '/COPYING';
-        if ( !-e $CopyngFile ) {
+        # check if Framework.xml file exists, otherwise quits because the otrs instalation
+        # might not be ok. for example UnitTest machines during change scenario process
+        my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
+        if ( !-e $FrameworkConfigFile ) {
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
-                Message  => "$CopyngFile file is part of the OTRS file set and is not present! \n"
+                Message  => "$FrameworkConfigFile file is part of the OTRS file set and "
+                    . "is not present! \n"
                     . "scheduler is stopping...!\n",
             );
 

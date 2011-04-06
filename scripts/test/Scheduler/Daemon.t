@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.4 2011-04-06 05:17:47 cr Exp $
+# $Id: Daemon.t,v 1.5 2011-04-06 12:13:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -274,15 +274,15 @@ $Self->IsNot(
     'Scheduler should have restarted, different PID',
 );
 
-# check for COPYING file
+# check for Framework.xml file
 use File::Copy;
-my $CopyingFile = $Home . '/COPYING';
-move( "$CopyingFile", "$CopyingFile.save" );
+my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
+move( "$FrameworkConfigFile", "$FrameworkConfigFile.save" );
 
 sleep 6;
 
 $CheckAction->(
-    Name                => 'COPYING file missing',
+    Name                => 'a Config file is missing',
     Action              => 'status',
     ExpectActionSuccess => 0,
     StateBefore         => 'not running',
@@ -290,11 +290,11 @@ $CheckAction->(
     PIDChangeExpected   => 0,
 );
 
-# recover COPYING file
-move( "$CopyingFile.save", "$CopyingFile" );
+# recover Framework.xml file
+move( "$FrameworkConfigFile.save", "$FrameworkConfigFile" );
 
 $CheckAction->(
-    Name                => 'COPYING file recovered',
+    Name                => 'a Config file is recovered',
     Action              => 'start',
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
