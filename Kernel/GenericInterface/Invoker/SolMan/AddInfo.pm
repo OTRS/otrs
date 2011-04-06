@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/AddInfo.pm - GenericInterface SolMan AddInfo Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.pm,v 1.2 2011-03-30 23:46:17 cg Exp $
+# $Id: AddInfo.pm,v 1.3 2011-04-06 22:54:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -124,12 +124,16 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
+
     # check needed params
     for my $Needed (qw( ArticleID TicketID )) {
         if ( !IsStringWithData( $Param{Data}->{$Needed} ) ) {
+            $ErrorMessage = "Got no $Needed!";
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
             return {
                 Success      => 0,
-                ErrorMessage => "Got no $Needed!"
+                ErrorMessage => $ErrorMessage,
             };
         }
 
@@ -141,7 +145,31 @@ sub PrepareRequest {
 
     # compare TicketNumber from Param and from DB
     if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Error getting Ticket Data' );
+        $ErrorMessage = 'Error getting Ticket Data';
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # set OwnerID
+    $Self->{OwnerID} = $Ticket{OwnerID};
+
+    # check current replicate article status
+    my $ReplicateArticleStatus = $Self->{SolManCommonObject}->GetArticleLockStatus(
+        WebserviceID => $Self->{WebserviceID},
+        TicketID     => $Self->{TicketID},
+        ArticleID    => $Self->{ArticleID},
+        UserID       => $Ticket{OwnerID},
+    );
+    if ( !$ReplicateArticleStatus ) {
+        $ErrorMessage = "Was not possible to replicate the article: $Self->{ArticleID}";
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success => 0,
+            Data => { ErrorMessage => $ErrorMessage, },
+        };
     }
 
     #    # check all needed stuff about ticket
@@ -484,6 +512,13 @@ sub HandleResponse {
         Data    => \%ReturnData,
     );
 
+    # set replicate flag
+    my $ReplicateArticleStatus = $Self->{SolManCommonObject}->SetArticleReplicateState(
+        WebserviceID => $Self->{WebserviceID},
+        ArticleID    => $Self->{ArticleID},
+        UserID       => $Self->{OwnerID},
+    );
+
     return {
         Success => 1,
         Data    => \%ReturnData,
@@ -506,6 +541,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-03-30 23:46:17 $
+$Revision: 1.3 $ $Date: 2011-04-06 22:54:52 $
 
 =cut

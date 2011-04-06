@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.29 2011-04-04 19:26:46 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.30 2011-04-06 22:54:05 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -150,6 +150,24 @@ sub PrepareRequest {
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # set OwnerID
+    $Self->{OwnerID}    =   $Ticket{OwnerID};
+
+    # check current replicate article status
+    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->GetTicketLockStatus(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+        UserID          => $Ticket{OwnerID},
+    );
+    if ( !$ReplicateTicketStatus ) {
+        $ErrorMessage = "Was not possible to replicate the ticket: $Self->{TicketID}";
+        $Self->{DebuggerObject}->Error( Summary =>  $ErrorMessage );
+        return {
+            Success => 0,
+            Data    => {ErrorMessage  => $ErrorMessage,},
         };
     }
 
@@ -490,6 +508,13 @@ sub HandleResponse {
         PersonMaps => $HandlePersonMaps->{PersonMaps},
     );
 
+    # set replicate flag
+    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->SetTicketReplicateState(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+        UserID          => $Self->{OwnerID},
+    );
+
     # write in debug log
     $Self->{DebuggerObject}->Info(
         Summary => 'ReplicateIncident return success',
@@ -518,6 +543,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-04-04 19:26:46 $
+$Revision: 1.30 $ $Date: 2011-04-06 22:54:05 $
 
 =cut
