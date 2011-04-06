@@ -1,8 +1,8 @@
 # --
 # SMIME.t - SMIME tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.14 2010-11-20 20:50:46 dz Exp $
+# $Id: SMIME.t,v 1.14.2.1 2011-04-06 21:30:16 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -250,7 +250,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     $Self->True(
-        $Crypted =~ m{Content-Type: application/x-pkcs7-mime;}
+        $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
             && $Crypted =~ m{Content-Transfer-Encoding: base64},
         "#$Count Crypt() - Data seems ok (crypted)",
     );
@@ -341,7 +341,7 @@ for my $Count ( 1 .. 2 ) {
             "#$Count Crypt()",
         );
         $Self->True(
-            $Crypted =~ m{Content-Type: application/x-pkcs7-mime;}
+            $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
                 && $Crypted =~ m{Content-Transfer-Encoding: base64},
             "#$Count Crypt() - Data seems ok (crypted)",
         );
