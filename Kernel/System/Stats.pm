@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.100.2.1 2011-03-09 16:12:31 des Exp $
+# $Id: Stats.pm,v 1.100.2.2 2011-04-07 11:50:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100.2.1 $) [1];
+$VERSION = qw($Revision: 1.100.2.2 $) [1];
 
 =head1 NAME
 
@@ -843,19 +843,26 @@ sub GenerateGraph {
         $graph->set_legend(@YLine);
     }
 
-    # plot graph
-    my $Ext = '';
-    if ( !$graph->can('png') ) {
+    # check the content type
+    my $Ext;
+    if ( $graph->can('png') ) {
         $Ext = 'png';
     }
     else {
+
+        # get the fallback type
         $Ext = $graph->export_format;
+
+        # log the problem
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't write png! Write: $Ext",
+            Message  => "Can't create png content! Using $Ext instead.",
         );
     }
+
+    # create graph
     my $Content = eval { $graph->plot( \@PData )->$Ext() };
+
     return $Content;
 }
 
@@ -3304,6 +3311,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.100.2.1 $ $Date: 2011-03-09 16:12:31 $
+$Revision: 1.100.2.2 $ $Date: 2011-04-07 11:50:44 $
 
 =cut
