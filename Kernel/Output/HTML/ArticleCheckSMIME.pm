@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.20.6.3 2011-04-08 19:00:41 dz Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.20.6.4 2011-04-08 19:32:59 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20.6.3 $) [1];
+$VERSION = qw($Revision: 1.20.6.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,9 +169,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key => 'Crypted',
-                        Value =>
-                            'Impossible to decrypt: private key for email doesn\'t found!',
+                        Key   => 'Crypted',
+                        Value => 'Impossible to decrypt: private key for email doesn\'t found!',
                     }
                 );
                 return @Return;
@@ -243,14 +242,11 @@ sub Check {
                 return @Return;
             }
             else {
-                my $ErrorMessage = 'Impossible to decrypt:';
-                $ErrorMessage .= ( $Decrypt{Message} ? " $Decrypt{Message}" : ' unknow error' );
-
                 push(
                     @Return,
                     {
                         Key   => 'Crypted',
-                        Value => "$ErrorMessage",
+                        Value => "$Decrypt{Message}",
                         %Decrypt,
                     }
                 );
