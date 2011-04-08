@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.77 2010-12-10 13:03:31 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.77.2.1 2011-04-08 16:54:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.77.2.1 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -184,7 +184,8 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # return if only delete in my backend
+    # return if only delete in my backend...
+    # it is for moving attachments form one backend to the other one
     return 1 if $Param{OnlyMyBackend};
 
     # delete attachments from db
