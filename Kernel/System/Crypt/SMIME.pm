@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43.2.1 2011-03-08 04:22:01 dz Exp $
+# $Id: SMIME.pm,v 1.43.2.2 2011-04-08 19:00:40 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.1 $) [1];
+$VERSION = qw($Revision: 1.43.2.2 $) [1];
 
 =head1 NAME
 
@@ -190,6 +190,19 @@ sub Decrypt {
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
+
+    if (
+        $Param{SearchingNeededKey}
+        && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
+        && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
+        )
+    {
+        return (
+            Successful => 0,
+            Message    => 'Impossible to decrypt with installed private keys!',
+        );
+    }
+
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
@@ -976,6 +989,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43.2.1 $ $Date: 2011-03-08 04:22:01 $
+$Revision: 1.43.2.2 $ $Date: 2011-04-08 19:00:40 $
 
 =cut
