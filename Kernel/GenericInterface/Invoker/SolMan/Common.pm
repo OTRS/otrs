@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.1 2011-04-11 16:28:31 cg Exp $
+# $Id: Common.pm,v 1.2 2011-04-11 20:45:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -1218,16 +1218,87 @@ sub SetTicketReplicateState {
     return 1;
 }
 
+=item RescheduleReplicateTask()
+writes the Replicate flag and delete the Attempt flag.
+returns 1 if the operation was successfull.
+
+        Type         => 'GenericInterface',
+        Invoker      => 'ReplicateIncident',
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => 123,
+        Data         => {                       # data for invoker
+            WebserviceID => $Param{WebserviceID},
+            TicketID     => $Param{TicketID},
+        },
+
+    $Success = 1;      # or ''
+=cut
+
+sub RescheduleReplicateTask {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Type Invoker WebserviceID Data ObjectType ObjectID )) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "RescheduleReplicateTask: Got no $Needed",
+            );
+            return;
+        }
+    }
+    my $LockState      = 'locked';
+    my $ReplicateState = 'replicate';
+    my $AttempMax      = 5;
+
+    my $ObjectReplicate = 0;
+    my $ObjectAttempts  = 0;
+
+    # ticket check list
+    my $ObjectLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => $Param{ObjectType},
+    );
+
+    for my $ObjectLockState ( @{$ObjectLockStates} ) {
+        next if ( $ObjectLockState->{ObjectID} ne $Param{ObjectID} );
+        $ObjectAttempts = $ObjectLockState->{LockStateCounter}
+            if ( $ObjectLockState->{LockState} eq $LockState );
+
+        $ObjectReplicate = 1
+            if ( $ObjectLockState->{LockState} eq $ReplicateState );
+    }
+
+    if ( !$ObjectReplicate && $ObjectAttempts < $AttempMax ) {
+        my $Success = $Self->ScheduleTask(
+            Type         => 'GenericInterface',
+            Invoker      => $Param{Invoker},
+            WebserviceID => $Param{WebserviceID},
+            Data         => $Param{Data},
+        );
+        $Self->{DebuggerObject}->Info(
+            Summary =>
+                "RescheduleReplicateTask: Reschedule $Param{Invoker}:$Param{ObjectType}:$Param{ObjectID}:$Success",
+        );
+
+        return $Success;
+    }
+
+    return 0;
+}
+
 =item ScheduleTask()
 schedule a new task.
 
     my $Success = $CommonObject->ScheduleTask(
-        Type            => $Self->{ArticleID},
-        Invoker         => $Self->{TicketID},
-        WebserviceID    => $Self->{WebserviceID},
-        Data            => {                               # data for invoker
-            WebserviceID => $Self->{WebserviceID},
-            TicketID     => $Self->{TicketID},
+        Type         => 'GenericInterface',
+        Invoker      => 'ReplicateIncident',
+        WebserviceID => $Param{WebserviceID},
+        Data         => {                       # data for invoker
+            WebserviceID => $Param{WebserviceID},
+            TicketID     => $Param{TicketID},
         },
     );
 
@@ -1285,6 +1356,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-04-11 16:28:31 $
+$Revision: 1.2 $ $Date: 2011-04-11 20:45:40 $
 
 =cut
