@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.75.2.2 2011-04-06 16:22:46 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.75.2.3 2011-04-11 16:50:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.2 $) [1];
+$VERSION = qw($Revision: 1.75.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -107,8 +107,9 @@ sub Run {
 
         # check some stuff
         if (
-            ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
-            && !defined $GetParam{TimeUnits}
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            && !$GetParam{TimeUnits}
             )
         {
             $Error{'TimeUnitsInvalid'} = 'ServerError';
