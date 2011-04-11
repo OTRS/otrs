@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.2 2011-04-11 20:45:40 cg Exp $
+# $Id: Common.pm,v 1.3 2011-04-11 22:31:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -1121,6 +1121,8 @@ returns 1 if the operation was successfull.
     my $Success = $CommonObject->SetArticleReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         ArticleID       => $Self->{ArticleID},
+        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
+        Value           => 'RemoteTicketID',
         UserID          => $Self->{OwnerID},
     );
 
@@ -1131,7 +1133,7 @@ sub SetArticleReplicateState {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID ArticleID UserID)) {
+    for my $Needed (qw(WebserviceID ArticleID Key Value UserID)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1144,12 +1146,19 @@ sub SetArticleReplicateState {
     my $LockState      = 'locked';
     my $ReplicateState = 'replicate';
 
-    my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
-        WebserviceID     => $Param{WebserviceID},
-        ObjectType       => 'Article',
-        ObjectID         => $Param{ArticleID},
-        LockState        => $ReplicateState,
-        LockStateCounter => 0,
+    # set replicate flag
+    my $SuccessArticleFlagSet = $Self->{TicketObject}->ArticleFlagSet(
+        ArticleID => $Param{ArticleID},
+        Key       => $Param{Key},
+        Value     => $Param{Value},
+        UserID    => $Param{UserID},      # apply to this user
+    );
+
+    # delete lock state
+    my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Article',
+        ObjectID     => $Param{ArticleID},
     );
     $Self->{DebuggerObject}->Info(
         Summary =>
@@ -1166,6 +1175,8 @@ returns 1 if the operation was successfull.
     my $Success = $CommonObject->SetTicketReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
+        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
+        Value           => 'RemoteTicketID',
         UserID          => $Self->{OwnerID},
     );
 
@@ -1176,7 +1187,7 @@ sub SetTicketReplicateState {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID TicketID UserID)) {
+    for my $Needed (qw(WebserviceID TicketID Key Value UserID)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1199,17 +1210,27 @@ sub SetTicketReplicateState {
         my $ReplicateArticleStatus = $Self->SetArticleReplicateState(
             WebserviceID => $Param{WebserviceID},
             ArticleID    => $Article->{ArticleID},
+            Key          => $Param{Key},
+            Value        => $Param{Value},
             UserID       => $Param{UserID},
         );
     }
 
-    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
-        WebserviceID     => $Param{WebserviceID},
-        ObjectType       => 'Ticket',
-        ObjectID         => $Param{TicketID},
-        LockState        => $ReplicateState,
-        LockStateCounter => 0,
+    # set replicate flag
+    my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+        TicketID => $Param{TicketID},
+        Key      => $Param{Key},
+        Value    => $Param{Value},
+        UserID   => $Param{UserID},     # apply to this user
     );
+
+    # delete lock state
+    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => $Param{TicketID},
+    );
+
     $Self->{DebuggerObject}->Info(
         Summary =>
             "SetTicketReplicateState: Replicate Ticket flag has been set",
@@ -1356,6 +1377,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-04-11 20:45:40 $
+$Revision: 1.3 $ $Date: 2011-04-11 22:31:22 $
 
 =cut
