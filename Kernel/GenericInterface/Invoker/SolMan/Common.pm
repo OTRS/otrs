@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.3 2011-04-11 22:31:22 cg Exp $
+# $Id: Common.pm,v 1.4 2011-04-11 22:33:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -1361,6 +1361,86 @@ sub ScheduleTask {
     return $TaskID || 0;
 }
 
+=item GetSyncInfo()
+check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+
+    my $SyncInfo = $CommonObject->GetSyncInfo(
+        WebserviceID   => 123,
+        ObjectType     => 'Ticket',    # or 'Article'
+        ObjectID       => 1234,
+        UserID         => 1,
+    );
+
+    $SyncInfo = {
+        Success        => 1     # or '' if error
+        RemoteTicketID => 1234  # or '' if not synchronized
+    };
+=cut
+
+sub GetSyncInfo {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID ObjectType ObjectID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "GetSyncInfo: Got no $Param{$Needed}",
+            );
+            return {
+                Success => 0
+            };
+        }
+    }
+
+    my %Flags;
+
+    # get ticket flags
+    if ( $Param{ObjectType} eq 'Ticket' ) {
+        %Flags = $Self->{TicketObject}->TicketFlagGet(
+            TicketID => $Param{ObjectID},
+            UserID   => 1,
+        );
+    }
+
+    # get article flags
+    elsif ( $Param{ObjectType} eq 'Article' ) {
+        %Flags = $Self->{TicketObject}->ArticleFlagGet(
+            ArticleID => $Param{ObjectID},
+            UserID    => 1,
+        );
+    }
+
+    # invalid ObjectType
+    else {
+
+        # write in debug log
+        $Self->{DebuggerObject}->Error(
+            Summary => "GetSyncInfo: Invalid ObjectType $Param{ObjectType}",
+        );
+        return {
+            Success => 0,
+        };
+    }
+
+    # set flag key to search
+    my $Key = 'RemoteTicketID::WebserviceID::' . $Param{WebserviceID};
+
+    # return flag key if any
+    if ( $Flags{$Key} ) {
+        return {
+            Success        => 1,
+            RemoteTicketID => $Flags{$Key}
+        };
+    }
+
+    # otherwise since no erros found just return success
+    return {
+        Success => 1,
+    };
+}
+
 1;
 
 =back
@@ -1377,6 +1457,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-04-11 22:31:22 $
+$Revision: 1.4 $ $Date: 2011-04-11 22:33:53 $
 
 =cut
