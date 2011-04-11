@@ -1,8 +1,8 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.75 2010-12-27 18:30:44 dz Exp $
+# $Id: AdminPackageManager.dtl,v 1.76 2011-04-11 18:32:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -331,7 +331,7 @@
                                     <br/>
 <!-- dtl:block:ShowLocalPackageUninstall -->
 <!-- dtl:block:ShowLocalPackageReinstall -->
-                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}" title="$Text{"Package not correctly deployed! You should reinstall the package again!"}">$Text{"Reinstall"}</a>
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Reinstall;Name=$LQData{"Name"};Version=$LQData{"Version"}" title="$Text{"Package not correctly deployed! Please reinstall the package."}">$Text{"Reinstall"}</a>
                                     <br/>
 <!-- dtl:block:ShowLocalPackageReinstall -->
                                 </td>
