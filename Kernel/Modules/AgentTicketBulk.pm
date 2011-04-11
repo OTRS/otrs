@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.80 2011-04-04 21:06:35 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.81 2011-04-11 17:15:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,7 +90,7 @@ sub Run {
         }
 
         # get time stamp based on user time zone
-        %Time = $Self->{LayoutObject}->TransformDateSelection(
+        %Time = $Self->{LayoutObject}->TransfromDateSelection(
             Year   => $Self->{ParamObject}->GetParam( Param => 'Year' ),
             Month  => $Self->{ParamObject}->GetParam( Param => 'Month' ),
             Day    => $Self->{ParamObject}->GetParam( Param => 'Day' ),
@@ -107,8 +107,9 @@ sub Run {
 
         # check some stuff
         if (
-            ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
-            && !defined $GetParam{TimeUnits}
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            && !$GetParam{TimeUnits}
             )
         {
             $Error{'TimeUnitsInvalid'} = 'ServerError';

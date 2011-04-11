@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.167 2011-04-01 09:44:43 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.168 2011-04-11 17:15:43 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.167 $) [1];
+$VERSION = qw($Revision: 1.168 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -696,7 +696,7 @@ sub Run {
             if (
                 $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
                 && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-                && !defined $GetParam{TimeUnits}
+                && !$GetParam{TimeUnits}
                 )
             {
                 $Error{'TimeUnitsInvalid'} = 'ServerError';
