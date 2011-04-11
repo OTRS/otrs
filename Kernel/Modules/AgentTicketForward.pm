@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.99 2011-04-11 17:15:43 mp Exp $
+# $Id: AgentTicketForward.pm,v 1.100 2011-04-11 18:29:23 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -496,7 +496,7 @@ sub SendEmail {
     if (
         $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
         && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-        && !$GetParam{TimeUnits}
+        && $GetParam{TimeUnits} eq ''
         )
     {
         $Error{'TimeUnitsInvalid'} = 'ServerError';
