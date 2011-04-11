@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.109.2.1 2011-03-21 16:43:35 mb Exp $
+# $Id: it.pm,v 1.109.2.2 2011-04-11 08:10:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109.2.1 $) [1];
+$VERSION = qw($Revision: 1.109.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -480,8 +480,8 @@ sub Data {
         # Template: AAATicket
         'Status View' => 'Visualizzazione Stato',
         'Bulk' => 'Blocco',
-        'Lock' => 'Prendi in gestione',
-        'Unlock' => 'Abbandona gestione',
+        'Lock' => 'Preso in gestione',
+        'Unlock' => 'Libero',
         'History' => 'Storico',
         'Zoom' => 'Dettagli',
         'Age' => 'Tempo trascorso',
@@ -569,8 +569,8 @@ sub Data {
         'phone' => 'telefono',
         'sms' => '',
         'webrequest' => 'richiesta da web',
-        'lock' => 'prendi in gestione',
-        'unlock' => 'abbandona gestione',
+        'lock' => 'preso in gestione',
+        'unlock' => 'libero',
         'very low' => 'molto basso',
         'low' => 'basso',
         'normal' => 'normale',
