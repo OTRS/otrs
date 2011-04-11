@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.30 2011-04-06 22:54:05 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.31 2011-04-11 16:30:51 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
+use Kernel::GenericInterface::Invoker::SolMan::Common;
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -72,7 +72,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
+    $Self->{CommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
         %{$Self}
     );
 
@@ -157,7 +157,7 @@ sub PrepareRequest {
     $Self->{OwnerID}    =   $Ticket{OwnerID};
 
     # check current replicate article status
-    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->GetTicketLockStatus(
+    my $ReplicateTicketStatus = $Self->{CommonObject}->GetTicketLockStatus(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         UserID          => $Ticket{OwnerID},
@@ -178,7 +178,7 @@ sub PrepareRequest {
 
     # remote SystemGuid
     # get it from invoker config
-    my $RemoteSystemGuid = $Self->{SolManCommonObject}->GetRemoteSystemGuid(
+    my $RemoteSystemGuid = $Self->{CommonObject}->GetRemoteSystemGuid(
         WebserviceID => $Self->{WebserviceID},
         Invoker      => 'ReplicateIncident',
     );
@@ -212,13 +212,13 @@ sub PrepareRequest {
     }
 
     # local SystemGuid
-    my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
+    my $LocalSystemGuid = $Self->{CommonObject}->GetSystemGuid();
 
     # IctAdditionalInfos
-    my $IctAdditionalInfos = $Self->{SolManCommonObject}->GetAditionalInfo();
+    my $IctAdditionalInfos = $Self->{CommonObject}->GetAditionalInfo();
 
     # IctPersons
-    my $PersonsInfo = $Self->{SolManCommonObject}->GetPersonsInfo(
+    my $PersonsInfo = $Self->{CommonObject}->GetPersonsInfo(
         UserID          => $Ticket{OwnerID},
         CustomerUserID  => $Ticket{CustomerUserID},
     );
@@ -264,7 +264,7 @@ sub PrepareRequest {
         };
     }
 
-    my $ArticleInfo = $Self->{SolManCommonObject}->GetArticlesInfo(
+    my $ArticleInfo = $Self->{CommonObject}->GetArticlesInfo(
         TicketID => $Self->{TicketID},
         UserID   => $Ticket{OwnerID},
         Language => $Language,
@@ -283,13 +283,13 @@ sub PrepareRequest {
     };
 
     # IctSapNotes
-    my $IctSapNotes = $Self->{SolManCommonObject}->GetSapNotesInfo();
+    my $IctSapNotes = $Self->{CommonObject}->GetSapNotesInfo();
 
     # IctSolutions
-    my $IctSolutions = $Self->{SolManCommonObject}->GetSolutionsInfo();
+    my $IctSolutions = $Self->{CommonObject}->GetSolutionsInfo();
 
     # IctUrls
-    my $IctUrls = $Self->{SolManCommonObject}->GetUrlsInfo();
+    my $IctUrls = $Self->{CommonObject}->GetUrlsInfo();
 
     # IctTimestamp
     my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
@@ -450,7 +450,7 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( IsHashRefWithData( $Data->{Errors} ) ) {
 
-        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
+        my $HandleErrorsResult = $Self->{CommonObject}->HandleErrors(
             Errors  => $Data->{Errors},
             Invoker => 'ReplicateIncident',
         );
@@ -489,7 +489,7 @@ sub HandleResponse {
     }
 
     # handle the person maps
-    my $HandlePersonMaps = $Self->{SolManCommonObject}->HandlePersonMaps(
+    my $HandlePersonMaps = $Self->{CommonObject}->HandlePersonMaps(
         Invoker    => 'ReplicateIncident',
         PersonMaps => $Param{Data}->{PersonMaps},
     );
@@ -509,7 +509,7 @@ sub HandleResponse {
     );
 
     # set replicate flag
-    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->SetTicketReplicateState(
+    my $ReplicateTicketStatus = $Self->{CommonObject}->SetTicketReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         UserID          => $Self->{OwnerID},
@@ -543,6 +543,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-04-06 22:54:05 $
+$Revision: 1.31 $ $Date: 2011-04-11 16:30:51 $
 
 =cut

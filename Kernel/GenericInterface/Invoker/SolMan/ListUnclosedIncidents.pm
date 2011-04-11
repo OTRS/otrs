@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ListUnclosedIncidents.pm - GenericInterface SolMan ListUnclosedIncidents Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ListUnclosedIncidents.pm,v 1.1 2011-03-29 23:22:31 cg Exp $
+# $Id: ListUnclosedIncidents.pm,v 1.2 2011-04-11 16:30:51 cg Exp $
 # $OldId: ListUnclosedIncidents.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -16,14 +16,14 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
+use Kernel::GenericInterface::Invoker::SolMan::Common;
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -71,7 +71,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
+    $Self->{CommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
         %{$Self}
     );
 
@@ -223,7 +223,7 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( IsHashRefWithData( $Data->{Errors} ) ) {
 
-        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
+        my $HandleErrorsResult = $Self->{CommonObject}->HandleErrors(
             Errors  => $Data->{Errors},
             Invoker => 'ListUnclosedIncidents',
         );
@@ -247,7 +247,7 @@ sub HandleResponse {
     }
 
     # local SystemGuid
-    my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
+    my $LocalSystemGuid = $Self->{CommonObject}->GetSystemGuid();
 
     # to store each incident item
     my @Incidents;
@@ -352,6 +352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-03-29 23:22:31 $
+$Revision: 1.2 $ $Date: 2011-04-11 16:30:51 $
 
 =cut
