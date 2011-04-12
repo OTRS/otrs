@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.32 2011-04-12 15:42:43 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.33 2011-04-12 20:52:49 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -160,6 +160,7 @@ sub PrepareRequest {
     my $ReplicateTicketStatus = $Self->{SolManCommonObject}->GetTicketLockStatus(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
+        LockState       => 'ReplicateIncident',
         UserID          => $Ticket{OwnerID},
     );
     if ( !$ReplicateTicketStatus ) {
@@ -512,6 +513,8 @@ sub HandleResponse {
     my $ReplicateTicketStatus = $Self->{SolManCommonObject}->SetTicketReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
+        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Value           => $Param{Data}->{PrdIctId},
         UserID          => $Self->{OwnerID},
     );
 
@@ -543,6 +546,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2011-04-12 15:42:43 $
+$Revision: 1.33 $ $Date: 2011-04-12 20:52:49 $
 
 =cut
