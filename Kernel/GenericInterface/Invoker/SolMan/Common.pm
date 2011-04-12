@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.6 2011-04-12 15:42:43 cr Exp $
+# $Id: Common.pm,v 1.7 2011-04-12 15:53:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -1424,13 +1424,13 @@ sub GetSyncInfo {
     }
 
     # set flag key to search
-    my $Key = 'RemoteTicketID::WebserviceID::' . $Param{WebserviceID};
+    my $IncidentGuidTicketFlagName = "GI_$Param{WebserviceID}_SolMan_IncidentGuid";
 
     # return flag key if any
-    if ( $Flags{$Key} ) {
+    if ( $Flags{$$IncidentGuidTicketFlagName} ) {
         return {
             Success        => 1,
-            RemoteTicketID => $Flags{$Key}
+            RemoteTicketID => $Flags{$$IncidentGuidTicketFlagName}
         };
     }
 
@@ -1456,6 +1456,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-04-12 15:42:43 $
+$Revision: 1.7 $ $Date: 2011-04-12 15:53:37 $
 
 =cut
