@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.8 2011-04-12 20:47:52 cg Exp $
+# $Id: Common.pm,v 1.9 2011-04-12 22:08:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -115,6 +115,10 @@ sub new {
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     $Self->{ObjectLockStateObject}
         = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
+
+    # get max sync attemps
+    $Self->{MaxSyncAttempts}
+        = $Self->{ConfigObject}->Get('GenericInterface::Invoker::Common::MaxSyncAttempts');
     return $Self;
 }
 
@@ -1097,7 +1101,6 @@ sub IsPossibleToSyncObject {
         }
     }
 
-    my $AttempMax      = 5;
     my $ObjectSyncInfo = $Self->GetSyncInfo(
         WebserviceID => $Param{WebserviceID},
         ObjectType   => $Param{ObjectType},
@@ -1109,7 +1112,7 @@ sub IsPossibleToSyncObject {
             ObjectType   => $Param{ObjectType},
             ObjectID     => $Param{ObjectID},
         );
-        if ( $ObjectLockState->{LockStateCounter} < $AttempMax ) {
+        if ( $ObjectLockState->{LockStateCounter} < $Self->{MaxSyncAttempts} ) {
             return {
                 Possible         => 1,
                 LockStateCounter => $ObjectLockState->{LockStateCounter},
@@ -1449,6 +1452,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-04-12 20:47:52 $
+$Revision: 1.9 $ $Date: 2011-04-12 22:08:26 $
 
 =cut
