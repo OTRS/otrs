@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.11 2011-03-30 12:07:56 mg Exp $
+# $Id: ReplicateIncident.pm,v 1.12 2011-04-12 14:07:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::GenericInterface::Operation::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -46,7 +46,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject)
+        qw(DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject WebserviceID)
         )
     {
         if ( !$Param{$Needed} ) {
@@ -135,6 +135,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-03-30 12:07:56 $
+$Revision: 1.12 $ $Date: 2011-04-12 14:07:01 $
 
 =cut
