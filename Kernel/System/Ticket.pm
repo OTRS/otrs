@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.3 2011-04-06 12:29:59 mg Exp $
+# $Id: Ticket.pm,v 1.488.2.4 2011-04-12 12:24:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.3 $) [1];
+$VERSION = qw($Revision: 1.488.2.4 $) [1];
 
 =head1 NAME
 
@@ -4003,8 +4003,12 @@ sub TicketSearch {
 
     # add ticket flag table
     if ( $Param{TicketFlag} ) {
-        $SQL    .= ', ticket_flag tf ';
-        $SQLExt .= ' AND st.id = tf.ticket_id';
+        my $Index = 1;
+        for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
+            $SQL    .= ", ticket_flag tf$Index ";
+            $SQLExt .= " AND st.id = tf$Index.ticket_id";
+            $Index++;
+        }
     }
     $SQLExt = ' WHERE sq.id = st.queue_id' . $SQLExt;
 
@@ -4440,21 +4444,21 @@ sub TicketSearch {
 
     # add ticket flag extension
     if ( $Param{TicketFlag} ) {
-        my @Values;
+
+        my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
+        return if !defined $TicketFlagUserID;
+
+        my $Index = 1;
         for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
             my $Value = $Param{TicketFlag}->{$Key};
-            $Value = $Self->{DBObject}->Quote($Value);
             return if !defined $Value;
-            push @Values, $Value;
+
+            $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
+            $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
+            $SQLExt .= " AND tf$Index.create_by = " . $Self->{DBObject}->Quote($TicketFlagUserID);
+
+            $Index++;
         }
-
-        # create the id string
-        my $TypeString = "'" . join "', '", @Values . "'";
-
-        # create the sql part
-        my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
-        return if !defined $Self->{DBObject}->Quote($TicketFlagUserID);
-        $SQLExt .= " AND tf.create_by = $TicketFlagUserID AND tf.ticket_value IN ($TypeString)";
     }
 
     # other ticket stuff
@@ -8434,6 +8438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.3 $ $Date: 2011-04-06 12:29:59 $
+$Revision: 1.488.2.4 $ $Date: 2011-04-12 12:24:07 $
 
 =cut

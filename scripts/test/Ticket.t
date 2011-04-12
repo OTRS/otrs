@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.68.2.1 2011-02-05 00:05:20 en Exp $
+# $Id: Ticket.t,v 1.68.2.2 2011-04-12 12:24:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -368,91 +368,6 @@ $Self->Is(
     '1',
     'TicketGet() (TypeID)',
 );
-
-# create a new ticket
-my $NewTicket = $TicketObject->TicketCreate(
-    Title        => 'My ticket created by Agent A',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'open',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-# check 'Seen' flag of the new ticket with another agent
-my %TicketFlag = $TicketObject->TicketFlagGet(
-    TicketID => $NewTicket,
-    UserID   => 1,
-);
-$Self->False(
-    $TicketFlag{seen},
-    'Check seen flag with a secondary agent.',
-);
-
-my @Tests = (
-    {
-        Name   => 'seen flag',
-        Key    => 'seen',
-        Value  => 1,
-        UserID => 1,
-    },
-    {
-        Name   => 'not seend flag',
-        Key    => 'not seen',
-        Value  => 2,
-        UserID => 1,
-    },
-);
-
-for my $Test (@Tests) {
-    my %Flag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->False(
-        $Flag{ $Test->{Key} },
-        'TicketFlagGet()',
-    );
-    my $Set = $TicketObject->TicketFlagSet(
-        TicketID => $TicketID,
-        Key      => $Test->{Key},
-        Value    => $Test->{Value},
-        UserID   => 1,
-    );
-    $Self->True(
-        $Set,
-        'TicketFlagSet()',
-    );
-    %Flag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->Is(
-        $Flag{ $Test->{Key} },
-        $Test->{Value},
-        'TicketFlagGet()',
-    );
-    my $Delete = $TicketObject->TicketFlagDelete(
-        TicketID => $TicketID,
-        Key      => $Test->{Key},
-        UserID   => 1,
-    );
-    $Self->True(
-        $Delete,
-        'TicketFlagDelete()',
-    );
-    %Flag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->False(
-        $Flag{ $Test->{Key} },
-        'TicketFlagGet()',
-    );
-}
 
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID    => $TicketID,
@@ -4169,7 +4084,7 @@ $Self->Is(
 );
 
 # article flag tests
-@Tests = (
+my @Tests = (
     {
         Name   => 'seen flag',
         Key    => 'seen',
@@ -5441,183 +5356,6 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     $Self->True(
         $Delete,
         'TicketDelete()',
-    );
-}
-
-# ---
-# ticket/article flag tests
-# ---
-
-# create 2 new users
-my @UserIDs;
-for ( 1 .. 2 ) {
-    my $random_number = rand(1000);
-
-    my $UserID = $UserObject->UserAdd(
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
-        ValidID       => 1,
-        ChangeUserID  => 1,
-    );
-    push @UserIDs, $UserID;
-}
-
-# create some content
-$TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'closed successful',
-    CustomerNo   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-$Self->True(
-    $TicketID,
-    'TicketCreate()',
-);
-my @TicketIDs = ($TicketID);
-
-# create article
-my @ArticleIDs;
-for ( 1 .. 2 ) {
-    my $ArticleID = $TicketObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'Fax Agreement laalala',
-        Body        => 'the message text
-Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
-    );
-    push @ArticleIDs, $ArticleID;
-}
-
-# check initial ticket and article flags
-for my $UserID (@UserIDs) {
-    my %TicketFlag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => $UserID,
-    );
-    $Self->False(
-        $TicketFlag{Seen},
-        "Initial FlagCheck (false) - TicketFlagGet() - TicketID($TicketID) - UserID($UserID)",
-    );
-    for my $ArticleID (@ArticleIDs) {
-        my %ArticleFlag = $TicketObject->ArticleFlagGet(
-            ArticleID => $ArticleID,
-            UserID    => $UserID,
-        );
-        $Self->False(
-            $ArticleFlag{Seen},
-            "Initial FlagCheck (false) - ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleID) - UserID($UserID)",
-        );
-    }
-}
-
-# update one article
-for my $UserID (@UserIDs) {
-    my $Success = $TicketObject->ArticleFlagSet(
-        ArticleID => $ArticleIDs[0],
-        Key       => 'Seen',
-        Value     => 1,
-        UserID    => $UserID,
-    );
-    $Self->True(
-        $Success,
-        "UpdateOne FlagCheck ArticleFlagSet() - ArticleID($ArticleIDs[0])",
-    );
-    my %TicketFlag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => $UserID,
-    );
-    $Self->False(
-        $TicketFlag{Seen},
-        "UpdateOne FlagCheck (false) TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
-    );
-    my %ArticleFlag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleIDs[0],
-        UserID    => $UserID,
-    );
-    $Self->True(
-        $ArticleFlag{Seen},
-        "UpdateOne FlagCheck (true) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
-    );
-    %ArticleFlag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleIDs[1],
-        UserID    => $UserID,
-    );
-    $Self->False(
-        $ArticleFlag{Seen},
-        "UpdateOne FlagCheck (false) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[1]) - UserID($UserID)",
-    );
-}
-
-# update second article
-for my $UserID (@UserIDs) {
-    my $Success = $TicketObject->ArticleFlagSet(
-        ArticleID => $ArticleIDs[1],
-        Key       => 'Seen',
-        Value     => 1,
-        UserID    => $UserID,
-    );
-    $Self->True(
-        $Success,
-        "UpdateTwo FlagCheck ArticleFlagSet() - ArticleID($ArticleIDs[1])",
-    );
-    my %TicketFlag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => $UserID,
-    );
-    $Self->True(
-        $TicketFlag{Seen},
-        "UpdateTwo FlagCheck (true) TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[1]) - UserID($UserID)",
-    );
-    for my $ArticleID (@ArticleIDs) {
-        my %ArticleFlag = $TicketObject->ArticleFlagGet(
-            ArticleID => $ArticleID,
-            UserID    => $UserID,
-        );
-        $Self->True(
-            $ArticleFlag{Seen},
-            "UpdateTwo FlagCheck (true) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleID) - UserID($UserID)",
-        );
-    }
-}
-
-# delete tickets
-for my $TicketID (@TicketIDs) {
-    $Self->True(
-        $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        ),
-        'TicketDelete()',
-    );
-}
-
-# set created users to invalid
-for my $UserID (@UserIDs) {
-    my $random_number = rand(1000);
-
-    $UserObject->UserUpdate(
-        UserID        => $UserID,
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
-        ValidID       => 2,
-        ChangeUserID  => 1,
     );
 }
 
