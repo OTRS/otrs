@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.2 2011-03-30 11:51:00 martin Exp $
+# $Id: Common.pm,v 1.3 2011-04-12 14:08:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -90,7 +90,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw( DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject )
+        qw( DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject WebserviceID)
         )
     {
 
@@ -116,6 +116,7 @@ sub new {
 Create/Update a local ticket.
 
     my $Result = $OperationObject->TicketSync(
+        Operation => 'ReplicateIncident', # ProcessIncident, ReplicateIncident, AddInfo or CloseIncident
         Data => {
             IctAdditionalInfos  => {},
             IctAttachments      => {},
@@ -159,6 +160,10 @@ Create/Update a local ticket.
 sub TicketSync {
     my ( $Self, %Param ) = @_;
 
+    if ( !IsStringWithData( $Param{Operation} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
+    }
+
     # we need Data
     if ( !IsHashRefWithData( $Param{Data} ) ) {
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
@@ -170,31 +175,113 @@ sub TicketSync {
             return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
         }
     }
-    for my $Key (qw(IctId IctTimestamp)) {
-        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
-            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
+
+    for my $Key (qw(IncidentGuid)) {
+        if ( !IsStringWithData( $Param{Data}->{IctHead}->{$Key} ) ) {
+            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->IctHead->$Key" );
         }
     }
 
-    # create ticket
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
-        Title        => $Param{Data}->{IctHead}->{ShortDescription},
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'closed successful',
-        CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
-        CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
-        OwnerID      => 1,
-        UserID       => 1,
+    #    for my $Key (qw(IctTimestamp)) {
+    #        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
+    #            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
+    #        }
+    #    }
+
+    my $TicketID;
+
+    my $IncidentGuidTicketFlagName = "GI_$Self->{WebserviceID}_SolMan_IncidentGuid";
+
+    my %PrioritySolMan2OTRS = (
+        1 => '5 very high',
+        2 => '4 high',
+        3 => '3 normal',
+        4 => '2 low',
     );
-    if ( !$TicketID ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => $Self->{LogObject}->GetLogEntry(
-                Type => 'error',
-                What => 'message',
-            ),
+
+    my $TargetPriority = $PrioritySolMan2OTRS{ $Param{Data}->{IctHead}->{Priority} || 3 };
+
+    if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
+
+        # create ticket
+        $TicketID = $Self->{TicketObject}->TicketCreate(
+            Title        => $Param{Data}->{IctHead}->{ShortDescription},
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => $TargetPriority,
+            State        => 'closed successful',
+            CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
+            CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
+            OwnerID      => 1,
+            UserID       => 1,
         );
+        if ( !$TicketID ) {
+            return $Self->{DebuggerObject}->Error(
+                Summary => $Self->{LogObject}->GetLogEntry(
+                    Type => 'error',
+                    What => 'message',
+                ),
+            );
+        }
+
+        my $Success = $Self->{TicketObject}->TicketFlagSet(
+            TicketID => $TicketID,
+            Key      => $IncidentGuidTicketFlagName,
+            Value    => $Param{Data}->{IctHead}->{IncidentGuid},
+            UserID   => 1,
+        );
+    }
+    else {
+
+        # find ticket based on IncidentGuid
+        my @Tickets = $Self->{TicketObject}->TicketSearch(
+            Result     => 'ARRAY',
+            Limit      => 2,
+            TicketFlag => {
+                $IncidentGuidTicketFlagName => $Param{Data}->{IctHead}->{IncidentGuid},
+            },
+            UserID     => 1,
+            Permission => 'rw',
+        );
+
+        if ( scalar @Tickets != 1 ) {
+            return $Self->{DebuggerObject}->Error(
+                Summary =>
+                    "Could not find ticket for IncidentGuid $Param{Data}->{IctHead}->{IncidentGuid}"
+            );
+        }
+
+        $TicketID = $Tickets[0];
+
+        # update fields if neccessary
+        if ( $Param{Data}->{IctHead}->{ShortDescription} ) {
+            my $Success = $Self->{TicketObject}->TicketTitleUpdate(
+                Title    => $Param{Data}->{IctHead}->{ShortDescription},
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+
+            if ( !$Success ) {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => "Could not update ticket title!",
+                );
+            }
+        }
+
+        if ( $Param{Data}->{IctHead}->{Priority} ) {
+            my $Success = $Self->{TicketObject}->TicketPrioritySet(
+                TicketID => $TicketID,
+                Priority => $TargetPriority,
+                UserID   => 1,
+            );
+
+            if ( !$Success ) {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => "Could not update ticket priority!",
+                );
+            }
+        }
+
     }
 
     # create article
@@ -208,10 +295,12 @@ sub TicketSync {
             next if !$Items->{Texts}->{item};
             next if ref $Items->{Texts}->{item} ne 'ARRAY';
 
+            # construct the text body from multiple item nodes
             my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Items->{Timestamp}
                 =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
             my $Body = "($Items->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
             $Body .= join "\n", @{ $Items->{Texts}->{item} };
+
             my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
@@ -222,7 +311,7 @@ sub TicketSync {
                 Charset        => 'utf-8',
                 MimeType       => 'text/plain',
                 HistoryType    => 'AddNote',
-                HistoryComment => 'Update from SolMan!',
+                HistoryComment => 'Update from SolMan',
                 UserID         => 1,
             );
             if ( !$ArticleIDLocal ) {
@@ -284,6 +373,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-03-30 11:51:00 $
+$Revision: 1.3 $ $Date: 2011-04-12 14:08:55 $
 
 =cut

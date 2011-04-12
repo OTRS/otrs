@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.21 2011-03-30 23:08:34 cr Exp $
+# $Id: ReplicateIncident.t,v 1.22 2011-04-12 14:08:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-return 1;
+#return 1;
 
 use MIME::Base64 ();
 
@@ -22,11 +22,14 @@ use Kernel::System::Ticket;
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
 my %PrioritySolMan2OTRS = (
-    1 => '1 very high',
-    2 => '2 high',
+    1 => '5 very high',
+    2 => '4 high',
     3 => '3 normal',
-    4 => '4 low',
+    4 => '2 low',
 );
+
+my $RandomID1 = int rand 1_000_000_000;
+my $RandomID2 = $RandomID1 + 1;
 
 my @Tests = (
     [
@@ -73,7 +76,7 @@ my @Tests = (
                 IctAttachments     => {
                     item => [
                         {
-                            AttachmentGuid => 'Solman-3476084274-1-1',
+                            AttachmentGuid => "Solman-$RandomID1-1-1",
                             Filename       => 'test.txt',
                             MimeType       => 'text/plain',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
@@ -86,7 +89,7 @@ my @Tests = (
                     ],
                 },
                 IctHead => {
-                    IncidentGuid     => 'Solman-3476084274',
+                    IncidentGuid     => "Solman-$RandomID1",
                     RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
                     ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
                     AgentId          => 1,
@@ -97,7 +100,7 @@ my @Tests = (
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
                 },
-                IctId      => 'Solman-3476084274',
+                IctId      => "Solman-$RandomID1",
                 IctPersons => {
                     Item => [
                         PersonId    => 'stefan.bedorf@otrs.com',
@@ -154,7 +157,7 @@ works too',
                 IctAttachments     => {
                     item => [
                         {
-                            AttachmentGuid => 'Solman-3476084274-2-1',
+                            AttachmentGuid => "Solman-$RandomID1-2-1",
                             Filename       => 'test4.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
@@ -167,12 +170,12 @@ works too',
                     ],
                 },
                 IctHead => {
-                    IncidentGuid     => 'Solman-3476084274',
+                    IncidentGuid     => "Solman-$RandomID1",
                     RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
                     ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
-                    ShortDescription => 'ProcessIncident Test',
+                    ShortDescription => 'AddInfo Test',
                     Priority         => 2,
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
@@ -233,7 +236,7 @@ works too',
                 IctAttachments     => {
                     item => [
                         {
-                            AttachmentGuid => 'Solman-266383424-1-1',
+                            AttachmentGuid => "Solman-$RandomID2-1-1",
                             Filename       => 'test.txt',
                             MimeType       => 'text/plain',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
@@ -246,18 +249,18 @@ works too',
                     ],
                 },
                 IctHead => {
-                    IncidentGuid     => 'Solman-266383424',
+                    IncidentGuid     => "Solman-$RandomID2",
                     RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
                     ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
-                    Priority         => 3,
+                    Priority         => 4,
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
                 },
-                IctId      => 'Solman-266383424',
+                IctId      => "Solman-$RandomID2",
                 IctPersons => {
                     Item => [
                         PersonId    => 'stefan.bedorf@otrs.com',
@@ -395,6 +398,11 @@ for my $TestChain (@Tests) {
             push @TestTicketIDs, $LastTicketID;
         }
 
+        $TicketObject->{CacheInternalObject}->CleanUp();
+
+        # recreate TicketObject to avoid problems with the in-memory cache
+        $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+
         my %TicketData = $TicketObject->TicketGet(
             TicketID => $LastTicketID,
             UserID   => 1,
@@ -407,23 +415,29 @@ for my $TestChain (@Tests) {
             "$Test->{Name} Ticket data contains correct TicketNumber",
         );
 
-        $Self->Is(
-            $TicketData{Title},
-            $Test->{Data}->{IctHead}->{ShortDescription},
-            "$Test->{Name} Ticket data contains correct Title",
-        );
+        if ( $Test->{Data}->{IctHead}->{ShortDescription} ) {
+            $Self->Is(
+                $TicketData{Title},
+                $Test->{Data}->{IctHead}->{ShortDescription},
+                "$Test->{Name} Ticket data contains correct Title",
+            );
+        }
 
-        $Self->Is(
-            $TicketData{Priority},
-            $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
-            "$Test->{Name} Ticket data contains correct Priority",
-        );
+        if ( $Test->{Data}->{IctHead}->{Priority} ) {
+            $Self->Is(
+                $TicketData{Priority},
+                $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
+                "$Test->{Name} Ticket data contains correct Priority",
+            );
+        }
 
-        $Self->Is(
-            $TicketData{CustomerUserID},
-            $Test->{Data}->{IctHead}->{ReporterId},
-            "$Test->{Name} Ticket data contains correct customer",
-        );
+        if ( $Test->{Data}->{IctHead}->{ReporterId} ) {
+            $Self->Is(
+                $TicketData{CustomerUserID},
+                $Test->{Data}->{IctHead}->{ReporterId},
+                "$Test->{Name} Ticket data contains correct customer",
+            );
+        }
 
         my @ArticleIDs = $TicketObject->ArticleIndex(
             TicketID => $LastTicketID,
