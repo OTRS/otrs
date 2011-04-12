@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.1 2011-04-04 19:29:09 cr Exp $
+# $Id: ReplicateIncident.t,v 1.2 2011-04-12 15:43:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::GenericInterface::Invoker::SolMan::SolManCommon;
+use Kernel::GenericInterface::Invoker::SolMan::Common;
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %$Self,
@@ -378,7 +378,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 );
 
 # create invokers SolManCommon Object
-my $SolManCommonObject = Kernel::GenericInterface::Invoker::SolMan::SolManCommon->new(
+my $SolManCommonObject = Kernel::GenericInterface::Invoker::SolMan::Common->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
 );
