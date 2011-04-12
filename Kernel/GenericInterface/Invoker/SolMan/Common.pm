@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.5 2011-04-12 14:16:33 cr Exp $
+# $Id: Common.pm,v 1.6 2011-04-12 15:42:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -73,7 +73,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $CommonObject = Kernel::GenericInterface::Invoker::SolMan::Common->new(
+    my $SolManCommonObject = Kernel::GenericInterface::Invoker::SolMan::Common->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
@@ -123,7 +123,7 @@ sub new {
 =item HandleErrors()
 Process errors from remote server, the result will be a string with all erros
 
-    my $Result = $CommonObject->HandleErrors(
+    my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
             item => {
                 ErrorCode => '01'
@@ -135,7 +135,7 @@ Process errors from remote server, the result will be a string with all erros
         }
     );
 
-    my $Result = $CommonObject->HandleErrors(
+    my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
             item => [
                 {
@@ -247,7 +247,7 @@ sub HandleErrors {
 =item HandlePersonMaps()
 Process person maps from the remote server, the result will always be an array ref
 
-    my $Result = $CommonObject->HandlePersonMaps(
+    my $Result = $SolManCommonObject->HandlePersonMaps(
         PersonMaps     => {
             item => {
                 PersonId    => '0001',
@@ -256,7 +256,7 @@ Process person maps from the remote server, the result will always be an array r
         }
     );
 
-    my $Result = $CommonObject->HandlePersonMaps(
+    my $Result = $SolManCommonObject->HandlePersonMaps(
         PersonMaps     => {
             item => [
                 {
@@ -390,7 +390,7 @@ sub HandlePersonMaps {
 =item GetSystemGuid()
 returns the System ID as MD5sum, to be used as local SystemGuid for SolMan communication
 
-    my $Result = $CommonObject->GetSystemGuid();
+    my $Result = $SolManCommonObject->GetSystemGuid();
 
     $Result = 123ABC123ABC123ABC123ABC123ABC12;
 =cut
@@ -415,7 +415,7 @@ sub GetSystemGuid {
 =item GetPersonsInfo()
 returns the IctPersons array and Language for SolMan communication
 
-    my $Result = $CommonObject->GetPersonsInfo(
+    my $Result = $SolManCommonObject->GetPersonsInfo(
         UserID         => 123,
         CustomerUserID => 'JDoe'
     );
@@ -627,7 +627,7 @@ sub GetUrlsInfo {
 =item GetArticlesInfo()
 returns the IctAttachments array and IctStatements array for SolMan communication
 
-    my $Result = $CommonObject->GetArticlesInfo(
+    my $Result = $SolManCommonObject->GetArticlesInfo(
         UserID   => 123,
         TicketID => 67
         Language => 'en'
@@ -752,7 +752,7 @@ sub GetArticlesInfo {
 reads the SystemGuid from the invoker configuration
 returns the SystemGuid or empty if it is not set for the invoker
 
-    my $RemoteSystemGuid = $CommonObject->GetRemoteSystemGuid(
+    my $RemoteSystemGuid = $SolManCommonObject->GetRemoteSystemGuid(
         WebserviceID => 123,
         Invoker      => 'RepliateIncident',
     );
@@ -823,13 +823,13 @@ writes the SystemGuid in the specified invoker configuration or in all invokers 
 is present. Only one, Invoker or AllInvokers parameter should be passed.
 returns 1 if the operation was successfull.
 
-    my $Success = $CommonObject->SetRemoteSystemGuid(
+    my $Success = $SolManCommonObject->SetRemoteSystemGuid(
         WebserviceID => 123,
         SystemGuid   => '123ABC123ABC123ABC123ABC123ABC12'
         Invoker      => 'RepliateIncident',
     );
 
-    my $Success = $CommonObject->SetRemoteSystemGuid(
+    my $Success = $SolManCommonObject->SetRemoteSystemGuid(
         WebserviceID => 123,
         SystemGuid   => '123ABC123ABC123ABC123ABC123ABC12'
         AllInvokers  =>1,
@@ -931,7 +931,7 @@ sub SetRemoteSystemGuid {
 
 returns 1 if the operation was successfull.
 
-    my $Success = $CommonObject->GetArticleLockStatus(
+    my $Success = $SolManCommonObject->GetArticleLockStatus(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         ArticleID       => $Self->{ArticleID},
@@ -1045,7 +1045,7 @@ sub GetArticleLockStatus {
 
 returns 1 if the operation was successfull.
 
-    my $Success = $CommonObject->GetTicketLockStatus(
+    my $Success = $SolManCommonObject->GetTicketLockStatus(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         UserID          => $Ticket{OwnerID},
@@ -1118,7 +1118,7 @@ sub GetTicketLockStatus {
 
 returns 1 if the operation was successfull.
 
-    my $Success = $CommonObject->SetArticleReplicateState(
+    my $Success = $SolManCommonObject->SetArticleReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         ArticleID       => $Self->{ArticleID},
         Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
@@ -1172,7 +1172,7 @@ sub SetArticleReplicateState {
 writes the Replicate flag and delete the Attempt flag.
 returns 1 if the operation was successfull.
 
-    my $Success = $CommonObject->SetTicketReplicateState(
+    my $Success = $SolManCommonObject->SetTicketReplicateState(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
@@ -1313,7 +1313,7 @@ sub RescheduleReplicateTask {
 =item ScheduleTask()
 schedule a new task.
 
-    my $Success = $CommonObject->ScheduleTask(
+    my $Success = $SolManCommonObject->ScheduleTask(
         Type         => 'GenericInterface',
         Invoker      => 'ReplicateIncident',
         WebserviceID => $Param{WebserviceID},
@@ -1364,7 +1364,7 @@ sub ScheduleTask {
 =item GetSyncInfo()
 check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
 
-    my $SyncInfo = $CommonObject->GetSyncInfo(
+    my $SyncInfo = $SolManCommonObject->GetSyncInfo(
         WebserviceID   => 123,
         ObjectType     => 'Ticket',    # or 'Article'
         ObjectID       => 1234,
@@ -1456,6 +1456,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-04-12 14:16:33 $
+$Revision: 1.6 $ $Date: 2011-04-12 15:42:43 $
 
 =cut
