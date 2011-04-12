@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.9 2011-04-12 22:08:26 cg Exp $
+# $Id: Common.pm,v 1.10 2011-04-12 22:13:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -1132,14 +1132,14 @@ sub IsPossibleToSyncObject {
     };
 }
 
-=item SetArticleReplicateState()
+=item MarkArticleAsSynced()
 
 returns 1 if the operation was successfull.
 
-    my $Success = $SolManCommonObject->SetArticleReplicateState(
+    my $Success = $SolManCommonObject->MarkArticleAsSynced(
         WebserviceID    => $Self->{WebserviceID},
         ArticleID       => $Self->{ArticleID},
-        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
+        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
         Value           => 'RemoteTicketID',
         UserID          => $Self->{OwnerID},
     );
@@ -1147,7 +1147,7 @@ returns 1 if the operation was successfull.
     $Success = 1;      # or ''
 =cut
 
-sub SetArticleReplicateState {
+sub MarkArticleAsSynced {
     my ( $Self, %Param ) = @_;
 
     # check needed params
@@ -1178,20 +1178,20 @@ sub SetArticleReplicateState {
     );
     $Self->{DebuggerObject}->Info(
         Summary =>
-            "SetArticleReplicateState: Replicate Article state has been set",
+            "MarkArticleAsSynced: Replicate Article state has been set",
     );
 
     return $SuccessArticleLock;
 }
 
-=item SetTicketReplicateState()
+=item MarkTicketAsSynced()
 writes the Replicate flag and delete the Attempt flag.
 returns 1 if the operation was successfull.
 
-    my $Success = $SolManCommonObject->SetTicketReplicateState(
+    my $Success = $SolManCommonObject->MarkTicketAsSynced(
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
-        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID}',
+        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
         Value           => 'RemoteTicketID',
         UserID          => $Self->{OwnerID},
     );
@@ -1199,7 +1199,7 @@ returns 1 if the operation was successfull.
     $Success = 1;      # or ''
 =cut
 
-sub SetTicketReplicateState {
+sub MarkTicketAsSynced {
     my ( $Self, %Param ) = @_;
 
     # check needed params
@@ -1208,7 +1208,7 @@ sub SetTicketReplicateState {
 
             # write in debug log
             $Self->{DebuggerObject}->Error(
-                Summary => "SetTicketReplicateState: Got no $Needed",
+                Summary => "MarkTicketAsSynced: Got no $Needed",
             );
             return;
         }
@@ -1221,7 +1221,7 @@ sub SetTicketReplicateState {
     for my $Article (@Articles) {
 
         # set replicate flag
-        my $ReplicateArticleStatus = $Self->SetArticleReplicateState(
+        my $ReplicateArticleStatus = $Self->MarkArticleAsSynced(
             WebserviceID => $Param{WebserviceID},
             ArticleID    => $Article->{ArticleID},
             Key          => $Param{Key},
@@ -1247,7 +1247,7 @@ sub SetTicketReplicateState {
 
     $Self->{DebuggerObject}->Info(
         Summary =>
-            "SetTicketReplicateState: Replicate Ticket flag has been set",
+            "MarkTicketAsSynced: Replicate Ticket flag has been set",
     );
 
     return 1;
@@ -1452,6 +1452,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-04-12 22:08:26 $
+$Revision: 1.10 $ $Date: 2011-04-12 22:13:41 $
 
 =cut
