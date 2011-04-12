@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.7 2011-04-12 15:53:37 cr Exp $
+# $Id: Common.pm,v 1.8 2011-04-12 20:47:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -935,6 +935,7 @@ returns 1 if the operation was successfull.
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         ArticleID       => $Self->{ArticleID},
+        LockState      => 'InvokerName',
         UserID          => $Ticket{OwnerID},
     );
 
@@ -945,7 +946,7 @@ sub GetArticleLockStatus {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID TicketID ArticleID UserID)) {
+    for my $Needed (qw(WebserviceID TicketID ArticleID LockState UserID)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -955,45 +956,6 @@ sub GetArticleLockStatus {
             return;
         }
     }
-    my $LockState      = 'locked';
-    my $ReplicateState = 'replicate';
-    my $AttempMax      = 5;
-
-    my $TicketReplicate  = 0;
-    my $TicketAttempts   = 0;
-    my $ArticleReplicate = 0;
-    my $ArticleAttempts  = 0;
-
-    # ticket check list
-    my $TicketLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Ticket',
-    );
-
-    for my $TicketLockState ( @{$TicketLockStates} ) {
-        next if ( $TicketLockState->{ObjectID} ne $Param{TicketID} );
-        $TicketAttempts = $TicketLockState->{LockStateCounter}
-            if ( $TicketLockState->{LockState} eq $LockState );
-
-        $TicketReplicate = 1
-            if ( $TicketLockState->{LockState} eq $ReplicateState );
-    }
-
-    # Article check list
-    my $ArticleLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Article',
-    );
-
-    for my $ArticleLockState ( @{$ArticleLockStates} ) {
-        next if ( $ArticleLockState->{ObjectID} ne $Param{ArticleID} );
-
-        $ArticleAttempts = $ArticleLockState->{LockStateCounter}
-            if ( $ArticleLockState->{LockState} eq $LockState );
-
-        $ArticleReplicate = 1
-            if ( $ArticleLockState->{LockState} eq $ReplicateState );
-    }
 
     # if not $TicketAttemptFlagPresent and $TicketReplicateFlagPresent
     # are set yet, file a task in the scheduler for this ticket
@@ -1001,7 +963,12 @@ sub GetArticleLockStatus {
     # if $TicketAttemptFlagPresent is present and it value
     # is less that max allowed, file a task in the scheduler
     # for this ticket
-    if ( !$TicketReplicate && $TicketAttempts < $AttempMax ) {
+    my $IsPossibleToSyncTicket = $Self->IsPossibleToSyncObject(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => $Param{TicketID},
+    );
+    if ( $IsPossibleToSyncTicket->{Possible} ) {
         my $Success = $Self->ScheduleTask(
             Type         => 'GenericInterface',
             Invoker      => 'ReplicateIncident',
@@ -1020,17 +987,22 @@ sub GetArticleLockStatus {
 
     # if $ArticleAttempts is present and it value
     # is less that max allowed
-    if ( !$ArticleReplicate && $ArticleAttempts < $AttempMax ) {
+    my $IsPossibleToSyncArticle = $Self->IsPossibleToSyncObject(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Article',
+        ObjectID     => $Param{ArticleID},
+    );
+    if ( $IsPossibleToSyncArticle->{Possible} ) {
         my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
             WebserviceID     => $Param{WebserviceID},
             ObjectType       => 'Article',
             ObjectID         => $Param{ArticleID},
-            LockState        => $LockState,
-            LockStateCounter => ++$ArticleAttempts,
+            LockState        => $Param{LockState},
+            LockStateCounter => ++$IsPossibleToSyncArticle->{LockStateCounter},
         );
         $Self->{DebuggerObject}->Info(
             Summary =>
-                "GetArticleLockStatus: Attemp Ticket flag has been set with a new value",
+                "GetArticleLockStatus: Article lock state has been set with a new value",
         );
         return $SuccessArticleLock;
     }
@@ -1038,7 +1010,7 @@ sub GetArticleLockStatus {
     $Self->{DebuggerObject}->Error(
         Summary => "GetArticleLockStatus: AddInfo is not allowed.",
     );
-    return 0;
+    return;
 }
 
 =item GetTicketLockStatus()
@@ -1058,7 +1030,7 @@ sub GetTicketLockStatus {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID TicketID UserID)) {
+    for my $Needed (qw(WebserviceID TicketID LockState UserID)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1068,38 +1040,18 @@ sub GetTicketLockStatus {
             return;
         }
     }
-    my $LockState      = 'locked';
-    my $ReplicateState = 'replicate';
-    my $AttempMax      = 5;
-
-    my $TicketReplicate = 0;
-    my $TicketAttempts  = 0;
-
-    # ticket check list
-    my $TicketLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+    my $IsPossibleToSyncTicket = $Self->IsPossibleToSyncObject(
         WebserviceID => $Param{WebserviceID},
         ObjectType   => 'Ticket',
+        ObjectID     => $Param{TicketID},
     );
-
-    for my $TicketLockState ( @{$TicketLockStates} ) {
-        next if ( $TicketLockState->{ObjectID} ne $Param{TicketID} );
-
-        $TicketAttempts = $TicketLockState->{LockStateCounter}
-            if ( $TicketLockState->{LockState} eq $LockState );
-
-        $TicketReplicate = 1
-            if ( $TicketLockState->{LockState} eq $ReplicateState );
-    }
-
-    # if $TicketAttemptFlagPresent is present and it value
-    # is less that max allowed
-    if ( !$TicketReplicate && $TicketAttempts < $AttempMax ) {
+    if ( $IsPossibleToSyncTicket->{Possible} ) {
         my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
             WebserviceID     => $Param{WebserviceID},
             ObjectType       => 'Ticket',
             ObjectID         => $Param{TicketID},
-            LockState        => $LockState,
-            LockStateCounter => ++$TicketAttempts,
+            LockState        => $Param{LockState},
+            LockStateCounter => ++$IsPossibleToSyncTicket->{LockStateCounter},
         );
         $Self->{DebuggerObject}->Info(
             Summary =>
@@ -1111,7 +1063,70 @@ sub GetTicketLockStatus {
     $Self->{DebuggerObject}->Error(
         Summary => "GetTicketReplicateStatus: Replicate Incident is not allowed.",
     );
-    return 0;
+    return;
+}
+
+=item IsPossibleToSyncObject()
+
+check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+
+    my $SyncInfo = $SolManCommonObject->IsPossibleToSyncObject(
+        WebserviceID   => 123,
+        ObjectType     => 'Ticket',    # or 'Article'
+        ObjectID       => 1234,
+    );
+
+    $SyncInfo = {
+        Success        => 1     # or '' if error
+        RemoteTicketID => 1234  # or '' if not synchronized
+    };
+=cut
+
+sub IsPossibleToSyncObject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID ObjectType ObjectID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "IsPossibleToSyncObject: Got no $Needed",
+            );
+            return;
+        }
+    }
+
+    my $AttempMax      = 5;
+    my $ObjectSyncInfo = $Self->GetSyncInfo(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => $Param{ObjectType},
+        ObjectID     => $Param{ObjectID},
+    );
+    if ( $ObjectSyncInfo->{Success} && !$ObjectSyncInfo->{RemoteObjectID} ) {
+        my $ObjectLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
+            WebserviceID => $Param{WebserviceID},
+            ObjectType   => $Param{ObjectType},
+            ObjectID     => $Param{ObjectID},
+        );
+        if ( $ObjectLockState->{LockStateCounter} < $AttempMax ) {
+            return {
+                Possible         => 1,
+                LockStateCounter => $ObjectLockState->{LockStateCounter},
+            };
+        }
+    }
+    else {
+        $Self->{DebuggerObject}->Error(
+            Summary =>
+                "IsPossibleToSyncObject: Was not possible to get Object:$Param{ObjectType} sync info",
+        );
+        return;
+    }
+    return {
+        Possible       => 0,
+        RemoteObjectID => $ObjectSyncInfo->{RemoteObjectID},
+    };
 }
 
 =item SetArticleReplicateState()
@@ -1143,8 +1158,6 @@ sub SetArticleReplicateState {
             return;
         }
     }
-    my $LockState      = 'locked';
-    my $ReplicateState = 'replicate';
 
     # set replicate flag
     my $SuccessArticleFlagSet = $Self->{TicketObject}->ArticleFlagSet(
@@ -1197,8 +1210,6 @@ sub SetTicketReplicateState {
             return;
         }
     }
-    my $LockState      = 'locked';
-    my $ReplicateState = 'replicate';
 
     my @Articles = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
@@ -1260,7 +1271,7 @@ sub RescheduleReplicateTask {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(Type Invoker WebserviceID Data ObjectType ObjectID )) {
+    for my $Needed (qw(Type Invoker WebserviceID Data ObjectType LockState ObjectID )) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1270,29 +1281,12 @@ sub RescheduleReplicateTask {
             return;
         }
     }
-    my $LockState      = 'locked';
-    my $ReplicateState = 'replicate';
-    my $AttempMax      = 5;
-
-    my $ObjectReplicate = 0;
-    my $ObjectAttempts  = 0;
-
-    # ticket check list
-    my $ObjectLockStates = $Self->{ObjectLockStateObject}->ObjectLockStateList(
+    my $IsPossibleToSyncObject = $Self->IsPossibleToSyncObject(
         WebserviceID => $Param{WebserviceID},
-        ObjectType   => $Param{ObjectType},
+        ObjectType   => 'Object',
+        ObjectID     => $Param{ObjectID},
     );
-
-    for my $ObjectLockState ( @{$ObjectLockStates} ) {
-        next if ( $ObjectLockState->{ObjectID} ne $Param{ObjectID} );
-        $ObjectAttempts = $ObjectLockState->{LockStateCounter}
-            if ( $ObjectLockState->{LockState} eq $LockState );
-
-        $ObjectReplicate = 1
-            if ( $ObjectLockState->{LockState} eq $ReplicateState );
-    }
-
-    if ( !$ObjectReplicate && $ObjectAttempts < $AttempMax ) {
+    if ( $IsPossibleToSyncObject->{Possible} ) {
         my $Success = $Self->ScheduleTask(
             Type         => 'GenericInterface',
             Invoker      => $Param{Invoker},
@@ -1303,11 +1297,10 @@ sub RescheduleReplicateTask {
             Summary =>
                 "RescheduleReplicateTask: Reschedule $Param{Invoker}:$Param{ObjectType}:$Param{ObjectID}:$Success",
         );
-
         return $Success;
     }
 
-    return 0;
+    return;
 }
 
 =item ScheduleTask()
@@ -1427,10 +1420,10 @@ sub GetSyncInfo {
     my $IncidentGuidTicketFlagName = "GI_$Param{WebserviceID}_SolMan_IncidentGuid";
 
     # return flag key if any
-    if ( $Flags{$$IncidentGuidTicketFlagName} ) {
+    if ( $Flags{$IncidentGuidTicketFlagName} ) {
         return {
             Success        => 1,
-            RemoteTicketID => $Flags{$$IncidentGuidTicketFlagName}
+            RemoteTicketID => $Flags{$IncidentGuidTicketFlagName}
         };
     }
 
@@ -1456,6 +1449,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-04-12 15:53:37 $
+$Revision: 1.8 $ $Date: 2011-04-12 20:47:52 $
 
 =cut
