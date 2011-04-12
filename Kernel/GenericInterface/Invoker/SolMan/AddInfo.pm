@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/AddInfo.pm - GenericInterface SolMan AddInfo Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.pm,v 1.6 2011-04-12 17:44:28 cr Exp $
+# $Id: AddInfo.pm,v 1.7 2011-04-12 20:52:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -161,6 +161,7 @@ sub PrepareRequest {
         WebserviceID => $Self->{WebserviceID},
         TicketID     => $Self->{TicketID},
         ArticleID    => $Self->{ArticleID},
+        LockState    => 'AddInfo',
         UserID       => $Ticket{OwnerID},
     );
     if ( !$ReplicateArticleStatus ) {
@@ -516,6 +517,8 @@ sub HandleResponse {
     my $ReplicateArticleStatus = $Self->{SolManCommonObject}->SetArticleReplicateState(
         WebserviceID => $Self->{WebserviceID},
         ArticleID    => $Self->{ArticleID},
+        Key          => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Value        => $Param{Data}->{PrdIctId},
         UserID       => $Self->{OwnerID},
     );
 
@@ -541,6 +544,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-04-12 17:44:28 $
+$Revision: 1.7 $ $Date: 2011-04-12 20:52:01 $
 
 =cut
