@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.10 2011-04-12 22:13:41 cr Exp $
+# $Id: Common.pm,v 1.11 2011-04-12 22:18:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -1137,11 +1137,11 @@ sub IsPossibleToSyncObject {
 returns 1 if the operation was successfull.
 
     my $Success = $SolManCommonObject->MarkArticleAsSynced(
-        WebserviceID    => $Self->{WebserviceID},
-        ArticleID       => $Self->{ArticleID},
-        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
-        Value           => 'RemoteTicketID',
-        UserID          => $Self->{OwnerID},
+        WebserviceID    => 12,
+        ArticleID       => 4567,
+        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Value           => 1234,
+        UserID          => 123,
     );
 
     $Success = 1;      # or ''
@@ -1189,11 +1189,11 @@ writes the Replicate flag and delete the Attempt flag.
 returns 1 if the operation was successfull.
 
     my $Success = $SolManCommonObject->MarkTicketAsSynced(
-        WebserviceID    => $Self->{WebserviceID},
+        WebserviceID    => 12,
         TicketID        => $Self->{TicketID},
-        Key             => 'RemoteTicketID::WebserviceID::' . $Self->{WebserviceID},
-        Value           => 'RemoteTicketID',
-        UserID          => $Self->{OwnerID},
+        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Value           => 1234,
+        UserID          => 123,
     );
 
     $Success = 1;      # or ''
@@ -1452,6 +1452,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-04-12 22:13:41 $
+$Revision: 1.11 $ $Date: 2011-04-12 22:18:45 $
 
 =cut
