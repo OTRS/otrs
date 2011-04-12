@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.11 2011-04-12 22:18:45 cr Exp $
+# $Id: Common.pm,v 1.12 2011-04-12 22:30:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -1139,9 +1139,9 @@ returns 1 if the operation was successfull.
     my $Success = $SolManCommonObject->MarkArticleAsSynced(
         WebserviceID    => 12,
         ArticleID       => 4567,
-        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Key             => "GI_12_SolMan_IncidentGuid",
         Value           => 1234,
-        UserID          => 123,
+        UserID          => 1,
     );
 
     $Success = 1;      # or ''
@@ -1191,9 +1191,9 @@ returns 1 if the operation was successfull.
     my $Success = $SolManCommonObject->MarkTicketAsSynced(
         WebserviceID    => 12,
         TicketID        => $Self->{TicketID},
-        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+        Key             => "GI_12_SolMan_IncidentGuid",
         Value           => 1234,
-        UserID          => 123,
+        UserID          => 1,
     );
 
     $Success = 1;      # or ''
@@ -1363,12 +1363,13 @@ check if ticket or article is sycrhonized with a remote system depending on the 
     my $SyncInfo = $SolManCommonObject->GetSyncInfo(
         WebserviceID   => 123,
         ObjectType     => 'Ticket',    # or 'Article'
+        Key            => "GI_123_SolMan_IncidentGuid",
         ObjectID       => 1234,
     );
 
     $SyncInfo = {
-        Success        => 1     # or '' if error
-        RemoteTicketID => 1234  # or '' if not synchronized
+        Success  => 1                 # or '' if error
+        Value    => 1234              # or '' if not synchronized
     };
 =cut
 
@@ -1376,7 +1377,7 @@ sub GetSyncInfo {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID ObjectType ObjectID)) {
+    for my $Needed (qw(WebserviceID ObjectType ObjectID Key)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1419,14 +1420,11 @@ sub GetSyncInfo {
         };
     }
 
-    # set flag key to search
-    my $IncidentGuidTicketFlagName = "GI_$Param{WebserviceID}_SolMan_IncidentGuid";
-
     # return flag key if any
-    if ( $Flags{$IncidentGuidTicketFlagName} ) {
+    if ( $Flags{ $Param{Key} } ) {
         return {
-            Success        => 1,
-            RemoteTicketID => $Flags{$IncidentGuidTicketFlagName}
+            Success => 1,
+            Value   => $Flags{ $Param{Key} }
         };
     }
 
@@ -1452,6 +1450,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-04-12 22:18:45 $
+$Revision: 1.12 $ $Date: 2011-04-12 22:30:32 $
 
 =cut
