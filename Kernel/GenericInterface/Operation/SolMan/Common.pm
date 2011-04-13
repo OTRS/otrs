@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.3 2011-04-12 14:08:55 mg Exp $
+# $Id: Common.pm,v 1.4 2011-04-13 13:27:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -209,7 +209,7 @@ sub TicketSync {
             Queue        => 'Raw',
             Lock         => 'unlock',
             Priority     => $TargetPriority,
-            State        => 'closed successful',
+            State        => 'open',
             CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
             CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
             OwnerID      => 1,
@@ -339,6 +339,22 @@ sub TicketSync {
         }
     }
 
+    if ( $Param{Operation} eq 'CloseIncident' ) {
+
+        # close ticket
+        my $Success = $Self->{TicketObject}->TicketStateSet(
+            State    => 'closed successful',
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        if ( !$Success ) {
+            return $Self->{DebuggerObject}->Error(
+                Summary => "Could not close ticket!",
+            );
+        }
+    }
+
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID => $TicketID,
         UserID   => 1,
@@ -373,6 +389,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-04-12 14:08:55 $
+$Revision: 1.4 $ $Date: 2011-04-13 13:27:54 $
 
 =cut

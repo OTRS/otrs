@@ -1,8 +1,8 @@
 # --
-# ReplicateIncident.t - ReplicateIncident Operation tests
+# Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.22 2011-04-12 14:08:55 mg Exp $
+# $Id: Common.t,v 1.1 2011-04-13 13:27:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,8 +12,6 @@
 use strict;
 use warnings;
 use vars (qw($Self));
-
-#return 1;
 
 use MIME::Base64 ();
 
@@ -308,6 +306,53 @@ works too',
                 IctUrls      => {},
             },
         },
+        {
+            Name      => 'CloseIncident',
+            Operation => 'SolMan::CloseIncident',
+            Success   => 1,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {},
+                IctHead            => {
+                    IncidentGuid     => "Solman-$RandomID2",
+                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
+                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'title',
+                    Priority         => 4,
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctId      => "Solman-$RandomID2",
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {},
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
     ],
 );
 
@@ -539,6 +584,21 @@ for my $TestChain (@Tests) {
                 '',
                 $TestAttachmentItem->{Filename},
                 "$Test->{Name} Ticket data found attachment",
+            );
+        }
+
+        if ( $Test->{Operation} eq 'SolMan::CloseIncident' ) {
+            $Self->Is(
+                $TicketData{State},
+                'closed successful',
+                "$Test->{Name} Ticket was closed",
+            );
+        }
+        else {
+            $Self->IsNot(
+                $TicketData{State},
+                'closed successful',
+                "$Test->{Name} Ticket is not closed",
             );
         }
 
