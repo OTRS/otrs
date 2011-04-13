@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.15 2011-04-13 20:09:15 cr Exp $
+# $Id: Common.pm,v 1.16 2011-04-13 20:48:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -1577,7 +1577,8 @@ sub PrepareRequest {
 
     # LastSync check for ReplicateIncident Invoker
     if ( $Self->{Invoker} eq 'ReplicateIncident' && $LastSync ne 0 ) {
-        $ErrorMessage = "The ticket $Self->{TicketID}, is already replicated can't continue!";
+        $ErrorMessage
+            = "The ticket $Self->{TicketID}, is already replicated can't continue! $LastSync";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -1747,6 +1748,237 @@ sub PrepareRequest {
     };
 }
 
+=item HandleResponse()
+handle response data of the configured remote webservice.
+
+    my $SyncInfo = $SolManCommonObject->HandleResponse(
+        WebserviceID => $Self->{WebserviceID},
+        TicketID     => $Self->{TicketID},
+        Invoker      => 'ReplicateIncident',
+        %Param
+    );
+
+    $SyncInfo = {
+        Success        => 1     # or 0 if error
+        RemoteTicketID => 1234  # or '' if not synchronized
+    };
+=cut
+
+sub HandleResponse {
+    my ( $Self, %Param ) = @_;
+
+    my $ErrorMessage;
+
+    # add sync attemp
+    $Self->AddSyncAttempt(
+        WebserviceID => $Self->{WebserviceID},
+        TicketID     => $Self->{TicketID},
+        Invoker      => $Self->{Invoker},
+    );
+
+    # break early if response was not successfull
+    if ( !$Param{ResponseSuccess} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Invoker $Self->{Invoker}: Response failure!",
+        };
+    }
+
+    # to store data
+    my $Data = $Param{Data};
+
+    if ( !defined $Data->{Errors} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => "Invoker $Self->{Invoker}: Response failure!"
+                . "An Error parameter was expected",
+        );
+    }
+
+    # if there was an error in the response, forward it
+    if ( IsHashRefWithData( $Data->{Errors} ) ) {
+
+        my $HandleErrorsResult = $Self->HandleErrors(
+            Errors  => $Data->{Errors},
+            Invoker => $Self->{Invoker},
+        );
+
+        return {
+            Success => $HandleErrorsResult->{Success},
+            Data    => \$HandleErrorsResult->{ErrorMessage},
+        };
+    }
+
+    # we need a Incident Identifier from the remote system
+    if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
+        $ErrorMessage = 'Got no PrdIctId!';
+
+        # write in the debug log
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # response should have a person maps and it sould be empty
+    if ( !defined $Param{Data}->{PersonMaps} ) {
+
+        $ErrorMessage = 'Got no PersonMaps!';
+
+        # write in the debug log
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # handle the person maps
+    my $HandlePersonMaps = $Self->HandlePersonMaps(
+        Invoker    => $Self->{Invoker},
+        PersonMaps => $Param{Data}->{PersonMaps},
+    );
+
+    # forward error if any
+    if ( !$HandlePersonMaps->{Success} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => $HandlePersonMaps->{ErrorMessage},
+        };
+    }
+
+    # create return data
+    my %ReturnData = (
+        PrdIctId   => $Param{Data}->{PrdIctId},
+        PersonMaps => $HandlePersonMaps->{PersonMaps},
+    );
+
+    # set sync timestamp
+    my $ReplicateTicketStatus = $Self->SetSyncTimestamp(
+        WebserviceID => $Self->{WebserviceID},
+        TicketID     => $Self->{TicketID},
+        UserID       => $Self->{OwnerID},
+    );
+
+    # write in debug log
+    $Self->{DebuggerObject}->Info(
+        Summary => "$Self->{Invoker} return success",
+        Data    => \%ReturnData,
+    );
+
+    return {
+        Success => 1,
+        Data    => \%ReturnData,
+    };
+
+}
+
+=item SetSyncTimestamp()
+check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+
+    my $SyncInfo = $SolManCommonObject->SetSyncTimestamp(
+        WebserviceID    => $Self->{WebserviceID},
+        TicketID        => $Self->{TicketID},
+    );
+
+=cut
+
+sub SetSyncTimestamp {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "SetSyncTimestamp: Got no $Needed",
+            );
+            return;
+        }
+    }
+
+    my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+
+    # set replicate flag
+    my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+        TicketID => $Param{TicketID},
+        Key      => "GI_$Param{WebserviceID}_SolMan_SyncTimestamp",
+        Value    => $TimeStamp,
+        UserID   => $Param{UserID},                                   # apply to this user
+    );
+
+    # delete lock state
+    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => $Param{TicketID},
+    );
+
+    $Self->{DebuggerObject}->Info(
+        Summary =>
+            "SetSyncTimestamp: Replicate Ticket flag has been set",
+    );
+
+    return;
+
+}
+
+=item AddSyncAttempt()
+check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+
+    my $SyncInfo = $SolManCommonObject->AddSyncAttempt(
+        WebserviceID    => $Param{WebserviceID},
+        TicketID        => $Param{TicketID},
+        Invoker         => $Self->{Invoker},
+    );
+
+    $SuccessTicketLock = 1 or 0;
+=cut
+
+sub AddSyncAttempt {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(WebserviceID TicketID Invoker)) {
+        if ( !$Param{$Needed} ) {
+
+            # write in debug log
+            $Self->{DebuggerObject}->Error(
+                Summary => "AddSyncAttempt: Got no $Needed",
+            );
+            return;
+        }
+    }
+
+    # get lock state info
+    my $TicketLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
+        WebserviceID => $Param{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => $Param{TicketID},
+    );
+
+    # set new state counter
+    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+        WebserviceID     => $Param{WebserviceID},
+        ObjectType       => 'Ticket',
+        ObjectID         => $Param{TicketID},
+        LockState        => $Param{Invoker},
+        LockStateCounter => ++$TicketLockState->{LockStateCounter},
+    );
+
+    $Self->{DebuggerObject}->Info(
+        Summary =>
+            "AddSyncAttempt: New lock state counter for ticket " .
+            $Param{TicketID} . " is " . $TicketLockState->{LockStateCounter},
+    );
+
+    return $SuccessTicketLock;
+
+}
+
 1;
 
 =back
@@ -1763,6 +1995,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-04-13 20:09:15 $
+$Revision: 1.16 $ $Date: 2011-04-13 20:48:06 $
 
 =cut
