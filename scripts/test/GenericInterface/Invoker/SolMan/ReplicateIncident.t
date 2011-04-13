@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.3 2011-04-13 20:11:29 cr Exp $
+# $Id: ReplicateIncident.t,v 1.4 2011-04-13 22:37:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,39 @@ my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
 my $WebserviceObject   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
 my $RandomID = $HelperObject->GetRandomID();
+
+# remember all webservices
+my $WebserviceList = $WebserviceObject->WebserviceList();
+
+# is needed to set all webservices to invalid or ticket events will be fired on those webservices
+# loop trought all configured webservices
+WEBSERVICEID:
+for my $WebserviceID ( keys %{$WebserviceList} ) {
+
+    # get webservice data
+    my $Webservice = $WebserviceObject->WebserviceGet(
+        ID => $WebserviceID,
+    );
+
+    if ( $Webservice->{ValidID} ne 1 ) {
+        delete $WebserviceList->{$WebserviceID};
+        next WEBSERVICEID;
+    }
+
+    # set webservice to invalid
+    my $Success = $WebserviceObject->WebserviceUpdate(
+        ID      => $WebserviceID,
+        Name    => $Webservice->{Name},
+        Config  => $Webservice->{Config},
+        ValidID => 2,
+        UserID  => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "Webservice $WebserviceID is set to invalid",
+    );
+}
 
 # create a new ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -903,5 +936,30 @@ $Self->True(
     $Success,
     'WebserviceDelete()',
 );
+
+# is needed to set all reamining webservices to valid
+# loop trought all configured webservices
+WEBSERVICEID:
+for my $WebserviceID ( keys %{$WebserviceList} ) {
+
+    # get webservice data
+    my $Webservice = $WebserviceObject->WebserviceGet(
+        ID => $WebserviceID,
+    );
+
+    # set webservice to valid
+    my $Success = $WebserviceObject->WebserviceUpdate(
+        ID      => $WebserviceID,
+        Name    => $Webservice->{Name},
+        Config  => $Webservice->{Config},
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "Webservice $WebserviceID is set to valid",
+    );
+}
 
 1;
