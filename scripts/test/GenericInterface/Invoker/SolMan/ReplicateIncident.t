@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.2 2011-04-12 15:43:48 cr Exp $
+# $Id: ReplicateIncident.t,v 1.3 2011-04-13 20:11:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -381,6 +381,8 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 my $SolManCommonObject = Kernel::GenericInterface::Invoker::SolMan::Common->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
+    WebserviceID   => $WebserviceID,
+    Invoker        => 'ReplicateIncident',
 );
 
 # get local SystemGud
@@ -740,7 +742,7 @@ for my $Test (@Tests) {
             # TODO this test might need to be changed
             $Self->Is(
                 $Result->{Data}->{IctStatements}->{item}[0]->{TextType},
-                'SU99',
+                'note-internal',
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctStatements item [0] "
                     . "TextType",
             );
