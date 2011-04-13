@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.7 2011-04-12 22:07:45 cg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.8 2011-04-13 15:45:58 mg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -8,6 +8,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Transaction">1</Item>
                 <Item Key="Event">.*</Item>
             </Hash>
         </Setting>
