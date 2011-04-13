@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.39 2011-04-13 21:15:22 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.40 2011-04-13 21:17:42 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -225,7 +225,7 @@ sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
     my $ReturnData = $Self->{SolManCommonObject}->HandleResponse(
-        %Param
+        %Param,
     );
 
     return $ReturnData;
@@ -247,6 +247,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2011-04-13 21:15:22 $
+$Revision: 1.40 $ $Date: 2011-04-13 21:17:42 $
 
 =cut
