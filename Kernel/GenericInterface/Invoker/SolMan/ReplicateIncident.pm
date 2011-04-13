@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.36 2011-04-13 01:51:21 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.37 2011-04-13 20:10:12 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -73,7 +73,9 @@ sub new {
 
     # create additional objects
     $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
-        %{$Self}
+        %{$Self},
+        Invoker      => 'ReplicateIncident',
+        WebserviceID => $Self->{WebserviceID},
     );
 
     # create Ticket Object
@@ -125,219 +127,11 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    my $ErrorMessage;
-
-    # we need a ID
-    if ( !IsStringWithData( $Param{Data}->{TicketID} ) ) {
-        $ErrorMessage = 'Got no TicketID';
-        $Self->{DebuggerObject}->Error( Summary =>  $ErrorMessage );
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
-    }
-
-    # create Ticket Object
-    $Self->{TicketID} = $Param{Data}->{TicketID};
-
-    # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-
-    # compare TicketNumber from Param and from DB
-    if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
-        $ErrorMessage = 'ReplicateIncident: Error getting Ticket Data';
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
-    }
-
-    # set OwnerID
-    $Self->{OwnerID}    =   $Ticket{OwnerID};
-
-    # check current replicate article status
-    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->GetTicketLockStatus(
-        WebserviceID    => $Self->{WebserviceID},
-        TicketID        => $Self->{TicketID},
-        LockState       => 'ReplicateIncident',
-        UserID          => $Ticket{OwnerID},
-        SyncKey         => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
-    );
-    if ( !$ReplicateTicketStatus ) {
-        $ErrorMessage = "Was not possible to replicate the ticket: $Self->{TicketID}";
-        $Self->{DebuggerObject}->Error( Summary =>  $ErrorMessage );
-        return {
-            Success => 0,
-            ErrorMessage  => $ErrorMessage,
-        };
-    }
-
-    #    # check all needed stuff about ticket
-    #    # ( permissions, locked, etc . . . )
-
-    # request Systems Guids
-
-    # remote SystemGuid
-    # get it from invoker config
-    my $RemoteSystemGuid = $Self->{SolManCommonObject}->GetRemoteSystemGuid(
-        WebserviceID => $Self->{WebserviceID},
-        Invoker      => 'ReplicateIncident',
+    my $Response =  $Self->{SolManCommonObject}->PrepareRequest(
+        %Param,
     );
 
-    # otherwise trigger a request to get it from the remote system
-    if (!$RemoteSystemGuid) {
-        my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
-        my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
-            WebserviceID => $Self->{WebserviceID},
-            Invoker      => 'RequestSystemGuid',
-            Data         => {},
-        );
-
-        # forward error message from Requestsystemguid if any and exit
-        if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
-            return {
-                Success      => 0,
-                ErrorMessage => $RequestSolManSystemGuid->{ErrorMessage},
-            };
-        }
-
-        # check SystemGuid data otherwise exit
-        if ( !$RequestSolManSystemGuid->{Data}->{SystemGuid} ) {
-            return {
-                Success => 0,
-                Data    => 'Can\'t get SystemGuid',
-            };
-        }
-
-        $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
-    }
-
-    # local SystemGuid
-    my $LocalSystemGuid = $Self->{SolManCommonObject}->GetSystemGuid();
-
-    # IctAdditionalInfos
-    my $IctAdditionalInfos = $Self->{SolManCommonObject}->GetAditionalInfo();
-
-    # IctPersons
-    my $PersonsInfo = $Self->{SolManCommonObject}->GetPersonsInfo(
-        UserID          => $Ticket{OwnerID},
-        CustomerUserID  => $Ticket{CustomerUserID},
-    );
-    my $IctPersons;
-    if  ( IsArrayRefWithData($PersonsInfo->{IctPersons}) ) {
-        $IctPersons = $PersonsInfo->{IctPersons};
-    };
-
-    # set Language from customer
-    my $Language = $PersonsInfo->{Language} || 'en';
-
-    # check if ticket has articles
-    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
-        TicketID => $Self->{TicketID},
-    );
-
-    # check if ticket has articles otherwise needs to reschedule
-    if ( !scalar @ArticleIDs ) {
-
-        my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
-        my $DueTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $DueSystemTime,
-        );
-
-        my $SchedulerObject = Kernel::Scheduler->new( %{$Self} );
-        $SchedulerObject->TaskRegister(
-            Type       => 'GenericInterface',
-            Data     => {                                   # data for task register
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'ReplicateIncident',
-
-                Data         => {                           # data for invoker
-                    WebserviceID => $Self->{WebserviceID},
-                    TicketID     => $Self->{TicketID},
-                },
-            },
-            DueTime    => $DueTimeStamp,
-        );
-
-        return {
-            Success => 0,
-            ErrorMessage => 'ReplicateIncident task reschedule, no articles found yet',
-        };
-    }
-
-    my $ArticleInfo = $Self->{SolManCommonObject}->GetArticlesInfo(
-        TicketID => $Self->{TicketID},
-        UserID   => $Ticket{OwnerID},
-        Language => $Language,
-    );
-
-    # IctAttachments
-    my $IctAttachments;
-    if  ( IsArrayRefWithData($ArticleInfo->{IctAttachments}) ) {
-        $IctAttachments = $ArticleInfo->{IctAttachments};
-    };
-
-    # IctStatements
-    my $IctStatements;
-    if  ( IsArrayRefWithData($ArticleInfo->{IctStatements}) ) {
-        $IctStatements = $ArticleInfo->{IctStatements};
-    };
-
-    # IctSapNotes
-    my $IctSapNotes = $Self->{SolManCommonObject}->GetSapNotesInfo();
-
-    # IctSolutions
-    my $IctSolutions = $Self->{SolManCommonObject}->GetSolutionsInfo();
-
-    # IctUrls
-    my $IctUrls = $Self->{SolManCommonObject}->GetUrlsInfo();
-
-    # IctTimestamp
-    my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
-    $IctTimestamp =~ s{[:|\-|\s]}{}g;
-
-    my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime() + 1,
-    );
-    $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
-
-    my %RequestData = (
-        IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos) ?
-            $IctAdditionalInfos : '',
-        IctAttachments     => IsArrayRefWithData($IctAttachments) ?
-            { item => $IctAttachments } : '',
-        IctHead            => {
-            IncidentGuid     => $Ticket{TicketNumber},           # type="n0:char32"
-            RequesterGuid    => $LocalSystemGuid,                # type="n0:char32"
-            ProviderGuid     => $RemoteSystemGuid,               # type="n0:char32"
-            AgentId          => $Ticket{OwnerID},                # type="n0:char32"
-            ReporterId       => $Ticket{CustomerUserID},         # type="n0:char32"
-            ShortDescription => substr( $Ticket{Title}, 0, 40 ), # type="n0:char40"
-            Priority         => $Ticket{PriorityID},             # type="n0:char32"
-            Language         => $Language,                       # type="n0:char2"
-            RequestedBegin   => $IctTimestamp,                   # type="n0:decimal15.0"
-            RequestedEnd     => $IctTimestampEnd,                # type="n0:decimal15.0"
-            IctId            => $Ticket{TicketNumber},           # type="n0:char32"
-        },
-        IctId              => $Ticket{TicketNumber},             # type="n0:char32"
-        IctPersons         => IsArrayRefWithData($IctPersons) ?
-            { item => $IctPersons } : '',
-        IctSapNotes        => IsHashRefWithData($IctSapNotes) ?
-            $IctSapNotes : '',
-        IctSolutions       => IsHashRefWithData($IctSolutions) ?
-            $IctSolutions : '',
-        IctStatements      => IsArrayRefWithData($IctStatements) ?
-            { item => $IctStatements} : '',
-        IctTimestamp       => $IctTimestamp,                    # type="n0:decimal15.0"
-        IctUrls            => IsHashRefWithData($IctUrls) ?
-            $IctUrls : '',
-    );
-
-    return {
-        Success => 1,
-        Data    => \%RequestData,
-    };
+    return $Response;
 }
 
 =item HandleResponse()
@@ -547,6 +341,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2011-04-13 01:51:21 $
+$Revision: 1.37 $ $Date: 2011-04-13 20:10:12 $
 
 =cut
