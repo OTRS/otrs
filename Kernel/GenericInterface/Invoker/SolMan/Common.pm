@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.18 2011-04-13 21:30:55 cg Exp $
+# $Id: Common.pm,v 1.19 2011-04-13 21:45:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -1950,7 +1950,7 @@ sub HandleResponse {
     );
 
     # set sync timestamp
-    my $ReplicateTicketStatus = $Self->_SetSyncTimestamp();
+    my $SyncFlag = $Self->_SetSyncTimestamp();
 
     # write in debug log
     $Self->{DebuggerObject}->Info(
@@ -1990,8 +1990,11 @@ sub _SetSyncTimestamp {
             "SetSyncTimestamp: Replicate Ticket flag has been set",
     );
 
-    return;
-
+    # return succesful or not
+    if ( !$SuccessTicketFlagSet || !$SuccessTicketLock ) {
+        return 0;
+    }
+    return 1;
 }
 
 sub _AddSyncAttempt {
@@ -2039,6 +2042,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-04-13 21:30:55 $
+$Revision: 1.19 $ $Date: 2011-04-13 21:45:08 $
 
 =cut
