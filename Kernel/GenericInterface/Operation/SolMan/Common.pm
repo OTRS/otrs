@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.4 2011-04-13 13:27:54 mg Exp $
+# $Id: Common.pm,v 1.5 2011-04-13 14:00:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -244,6 +244,7 @@ sub TicketSync {
             Permission => 'rw',
         );
 
+        # only if exactly one ticket can be found
         if ( scalar @Tickets != 1 ) {
             return $Self->{DebuggerObject}->Error(
                 Summary =>
@@ -389,6 +390,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-04-13 13:27:54 $
+$Revision: 1.5 $ $Date: 2011-04-13 14:00:40 $
 
 =cut
