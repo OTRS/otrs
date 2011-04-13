@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.13 2011-04-13 01:50:30 cr Exp $
+# $Id: Common.pm,v 1.14 2011-04-13 14:26:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,14 @@
 # --
 
 package Kernel::GenericInterface::Invoker::SolMan::Common;
+
+#QA: The naming of many functions here is pretty confusing, please improve. The names should indicate what this function does.
+#QA: Internal functions should start with _.
+#QA: The WebserviceID should be removed from all function signatures and put into the constructor as an argument once instead. This will not change within one object.
+#QA: Same probably works with the Invoker as this should be known at instantiation already, please check.
+#QA: Please check for code duplication in AddInfo, CloseIncident and ReplicateIncident.
+#QA: We need to check which function stores which flags on which objects. This should be unified, if possible, also with the Operations.
+#QA: see more comments below.
 
 use strict;
 use warnings;
@@ -24,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -931,6 +939,8 @@ sub SetRemoteSystemGuid {
     return $Success;
 }
 
+#QA: what int the world does this function do? Improve naming and pod. What do the parameters do?
+
 =item GetArticleLockStatus()
 
 returns 1 if the operation was successfull.
@@ -960,6 +970,8 @@ sub GetArticleLockStatus {
             return;
         }
     }
+
+  #QA: this function is supposed to 'get' a status, but here all of a sudden it schedules something!
 
     # if not $TicketAttemptFlagPresent and $TicketReplicateFlagPresent
     # are set yet, file a task in the scheduler for this ticket
@@ -1017,6 +1029,9 @@ sub GetArticleLockStatus {
     return;
 }
 
+#QA: what int the world does this function do? Improve naming and pod. What do the parameters do?
+#QA: parameter SyncKey seems obsolete, as it can be computed from WebserviceID
+
 =item GetTicketLockStatus()
 
 returns 1 if the operation was successfull.
@@ -1072,9 +1087,12 @@ sub GetTicketLockStatus {
     return;
 }
 
+#QA: SyncKey seems obsolete, see comment above
+#QA: From the name, this function returns 0 or 1 (IsPossible), but it does return a structure! Fix.
+
 =item IsPossibleToSyncObject()
 
-check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+check if ticket or article is sychronized with a remote system depending on the WerbserviceID.
 
     my $SyncInfo = $SolManCommonObject->IsPossibleToSyncObject(
         WebserviceID   => 123,
@@ -1169,6 +1187,8 @@ sub IsPossibleToSyncObject {
     };
 }
 
+#QA: SyncKey seems obsolete. What does 'Value' mean? Does it have to be passed?
+
 =item MarkArticleAsSynced()
 
 returns 1 if the operation was successfull.
@@ -1220,6 +1240,11 @@ sub MarkArticleAsSynced {
 
     return $SuccessArticleLock;
 }
+
+#QA: improve POD. Do you mean 'replicated' or 'replicate' (='still to replicate')?
+#QA: in the function name you use the term 'Synced' instead. Unify.
+#QA: Key seems obsolete
+#QA: What about Value?
 
 =item MarkTicketAsSynced()
 writes the Replicate flag and delete the Attempt flag.
@@ -1289,6 +1314,9 @@ sub MarkTicketAsSynced {
 
     return 1;
 }
+
+#QA: see comments above.
+#QA: Name? Reschedule or Replicate?
 
 =item RescheduleReplicateTask()
 writes the Replicate flag and delete the Attempt flag.
@@ -1374,6 +1402,8 @@ sub ScheduleTask {
         }
     }
 
+    #QA: hardcoded 3 seconds?
+
     my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
     my $DueTimeStamp  = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $DueSystemTime,
@@ -1393,6 +1423,8 @@ sub ScheduleTask {
 
     return $TaskID || 0;
 }
+
+#QA: name?
 
 =item GetSyncInfo()
 check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
@@ -1487,6 +1519,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-04-13 01:50:30 $
+$Revision: 1.14 $ $Date: 2011-04-13 14:26:38 $
 
 =cut

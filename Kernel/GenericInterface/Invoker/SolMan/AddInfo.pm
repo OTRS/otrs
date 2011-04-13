@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/AddInfo.pm - GenericInterface SolMan AddInfo Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.pm,v 1.9 2011-04-12 22:41:25 cr Exp $
+# $Id: AddInfo.pm,v 1.10 2011-04-13 14:26:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -518,8 +518,10 @@ sub HandleResponse {
         WebserviceID => $Self->{WebserviceID},
         ArticleID    => $Self->{ArticleID},
         Key          => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
-        Value        => $Param{Data}->{PrdIctId},
-        UserID       => 1,
+
+        #QA: what is the purpose of the incident ID as a sync flag for articles?
+        Value  => $Param{Data}->{PrdIctId},
+        UserID => 1,
     );
 
     return {
@@ -544,6 +546,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-04-12 22:41:25 $
+$Revision: 1.10 $ $Date: 2011-04-13 14:26:38 $
 
 =cut
