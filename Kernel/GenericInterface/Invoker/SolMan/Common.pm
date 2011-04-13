@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.16 2011-04-13 20:48:06 cg Exp $
+# $Id: Common.pm,v 1.17 2011-04-13 21:15:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -715,7 +715,7 @@ sub GetArticlesInfo {
         my %IctStatement = (
             TextType => $Article->{ArticleType},    # type="n0:char32"
 
-            #            TextType => 'SU99',                    # type="n0:char32"
+            #TextType => 'SU99',                     # type="n0:char32"
             Texts => {                              # type="tns:IctTexts"
                 item => [
                     $Article->{Subject} || '',
@@ -1497,6 +1497,36 @@ sub GetSyncInfo {
     };
 }
 
+=item PrepareRequest()
+
+prepare the invocation of the configured remote webservice.
+
+    my $Result = $InvokerObject->PrepareRequest(
+        Data => {                               # data payload depending on the invoker
+            TicketID => 123,                    # Mandatory
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '...',               # in case of error or undef
+        Data            => {                    # data payload after Invoker or undef
+            IctAdditionalInfos  => {},
+            IctAttachments      => {},
+            IctHead             => {},
+            IctId               => '',  # type="n0:char32"
+            IctPersons          => {},
+            IctSapNotes         => {},
+            IctSolutions        => {},
+            IctStatements       => {},
+            IctTimestamp        => '',  # type="n0:decimal15.0"
+            IctUrls             => {},
+        },
+    };
+
+=cut
+
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
@@ -1995,6 +2025,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-04-13 20:48:06 $
+$Revision: 1.17 $ $Date: 2011-04-13 21:15:03 $
 
 =cut
