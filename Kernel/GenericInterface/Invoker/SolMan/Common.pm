@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.19 2011-04-13 21:45:08 cr Exp $
+# $Id: Common.pm,v 1.20 2011-04-13 22:56:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -1025,289 +1025,291 @@ sub GetArticleLockStatus {
 
 #QA: what int the world does this function do? Improve naming and pod. What do the parameters do?
 #QA: parameter SyncKey seems obsolete, as it can be computed from WebserviceID
-
-=item GetTicketLockStatus()
-
-returns 1 if the operation was successfull.
-
-    my $Success = $SolManCommonObject->GetTicketLockStatus(
-        WebserviceID    => $Self->{WebserviceID},
-        TicketID        => $Self->{TicketID},
-        UserID          => $Ticket{OwnerID},
-        SyncKey         => GI_123_SolMan_IncidentGuid
-    );
-
-    $Success = 1;      # or ''
-=cut
-
-sub GetTicketLockStatus {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(WebserviceID TicketID LockState UserID SyncKey)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "GetTicketReplicateStatus: Got no $Needed",
-            );
-            return;
-        }
-    }
-    my $IsPossibleToSyncTicket = $Self->IsPossibleToSyncObject(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Ticket',
-        ObjectID     => $Param{TicketID},
-        SyncKey      => $Param{SyncKey},
-    );
-    if ( $IsPossibleToSyncTicket->{Possible} ) {
-        my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
-            WebserviceID     => $Param{WebserviceID},
-            ObjectType       => 'Ticket',
-            ObjectID         => $Param{TicketID},
-            LockState        => $Param{LockState},
-            LockStateCounter => ++$IsPossibleToSyncTicket->{LockStateCounter},
-        );
-        $Self->{DebuggerObject}->Info(
-            Summary =>
-                "GetTicketReplicateStatus: Attemp Ticket flag has been set with a new value",
-        );
-        return $SuccessTicketLock;
-    }
-
-    $Self->{DebuggerObject}->Error(
-        Summary => "GetTicketReplicateStatus: Replicate Incident is not allowed.",
-    );
-    return;
-}
+# TODO this is probable not needed anymore
+#=item GetTicketLockStatus()
+#
+#returns 1 if the operation was successfull.
+#
+#    my $Success = $SolManCommonObject->GetTicketLockStatus(
+#        WebserviceID    => $Self->{WebserviceID},
+#        TicketID        => $Self->{TicketID},
+#        UserID          => $Ticket{OwnerID},
+#        SyncKey         => GI_123_SolMan_IncidentGuid
+#    );
+#
+#    $Success = 1;      # or ''
+#=cut
+#
+#sub GetTicketLockStatus {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(WebserviceID TicketID LockState UserID SyncKey)) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "GetTicketReplicateStatus: Got no $Needed",
+#            );
+#            return;
+#        }
+#    }
+#    my $IsPossibleToSyncTicket = $Self->IsPossibleToSyncObject(
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => 'Ticket',
+#        ObjectID     => $Param{TicketID},
+#        SyncKey      => $Param{SyncKey},
+#    );
+#    if ( $IsPossibleToSyncTicket->{Possible} ) {
+#        my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
+#            WebserviceID     => $Param{WebserviceID},
+#            ObjectType       => 'Ticket',
+#            ObjectID         => $Param{TicketID},
+#            LockState        => $Param{LockState},
+#            LockStateCounter => ++$IsPossibleToSyncTicket->{LockStateCounter},
+#        );
+#        $Self->{DebuggerObject}->Info(
+#            Summary =>
+#                "GetTicketReplicateStatus: Attemp Ticket flag has been set with a new value",
+#        );
+#        return $SuccessTicketLock;
+#    }
+#
+#    $Self->{DebuggerObject}->Error(
+#        Summary => "GetTicketReplicateStatus: Replicate Incident is not allowed.",
+#    );
+#    return;
+#}
 
 #QA: SyncKey seems obsolete, see comment above
 #QA: From the name, this function returns 0 or 1 (IsPossible), but it does return a structure! Fix.
+# this is proble not needed anymore
 
-=item IsPossibleToSyncObject()
-
-check if ticket or article is sychronized with a remote system depending on the WerbserviceID.
-
-    my $SyncInfo = $SolManCommonObject->IsPossibleToSyncObject(
-        WebserviceID   => 123,
-        ObjectType     => 'Ticket',    # or 'Article'
-        ObjectID       => 1234,
-        SyncKey        => GI_123_SolMan_IncidentGuid
-    );
-
-    $SyncInfo = {
-        Success          => 1     # or '' if error
-        RemoteTicketID   => 1234  # or '' if not synchronized
-        LockStateCounter => 5,
-    };
-=cut
-
-sub IsPossibleToSyncObject {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(WebserviceID ObjectType ObjectID SyncKey)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "IsPossibleToSyncObject: Got no $Needed",
-            );
-            return;
-        }
-    }
-
-    # get Sync information
-    my $ObjectSyncInfo = $Self->GetSyncInfo(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => $Param{ObjectType},
-        ObjectID     => $Param{ObjectID},
-        Key          => $Param{SyncKey},
-    );
-
-    # exit if cant get the sync info
-    if ( !$ObjectSyncInfo->{Success} ) {
-        $Self->{DebuggerObject}->Error(
-            Summary =>
-                "IsPossibleToSyncObject: Was not possible to get Object:$Param{ObjectType} "
-                . "sync info",
-        );
-        return {
-            Possible => 0,
-        };
-    }
-
-    # check if object is not sync
-    if ( $ObjectSyncInfo->{Success} && !$ObjectSyncInfo->{Value} ) {
-
-        # get the lock state
-        my $ObjectLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
-            WebserviceID => $Param{WebserviceID},
-            ObjectType   => $Param{ObjectType},
-            ObjectID     => $Param{ObjectID},
-        );
-
-        # check if attempts to sync are less than the maximum
-        # return that is possible and the sync attempts
-        if ( $ObjectLockState->{LockStateCounter} < $Self->{MaxSyncAttempts} ) {
-            return {
-                Possible         => 1,
-                LockStateCounter => $ObjectLockState->{LockStateCounter},
-            };
-        }
-
-        # otherwise return error
-        else {
-            $Self->{DebuggerObject}->Error(
-                Summary =>
-                    "IsPossibleToSyncObject: The Object:$Param{ObjectType} $Param{ObjectID} "
-                    . "reach the maximum number of attempts to synchronize current value is"
-                    . "$ObjectLockState->{LockStateCounter}/$Self->{MaxSyncAttempts}",
-            );
-            return {
-                Possible => 0,
-            };
-        }
-    }
-
-    # otherwise, the object is synced and return the remote value
-    $Self->{DebuggerObject}->Debug(
-        Summary =>
-            "IsPossibleToSyncObject: the Object:$Param{ObjectType} is already synchronized",
-    );
-    return {
-        Possible       => 0,
-        RemoteObjectID => $ObjectSyncInfo->{Value},
-    };
-}
+#=item IsPossibleToSyncObject()
+#
+#check if ticket or article is sychronized with a remote system depending on the WerbserviceID.
+#
+#    my $SyncInfo = $SolManCommonObject->IsPossibleToSyncObject(
+#        WebserviceID   => 123,
+#        ObjectType     => 'Ticket',    # or 'Article'
+#        ObjectID       => 1234,
+#        SyncKey        => GI_123_SolMan_IncidentGuid
+#    );
+#
+#    $SyncInfo = {
+#        Success          => 1     # or '' if error
+#        RemoteTicketID   => 1234  # or '' if not synchronized
+#        LockStateCounter => 5,
+#    };
+#=cut
+#
+#sub IsPossibleToSyncObject {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(WebserviceID ObjectType ObjectID SyncKey)) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "IsPossibleToSyncObject: Got no $Needed",
+#            );
+#            return;
+#        }
+#    }
+#
+#    # get Sync information
+#    my $ObjectSyncInfo = $Self->GetSyncInfo(
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => $Param{ObjectType},
+#        ObjectID     => $Param{ObjectID},
+#        Key          => $Param{SyncKey},
+#    );
+#
+#    # exit if cant get the sync info
+#    if ( !$ObjectSyncInfo->{Success} ) {
+#        $Self->{DebuggerObject}->Error(
+#            Summary =>
+#                "IsPossibleToSyncObject: Was not possible to get Object:$Param{ObjectType} "
+#                . "sync info",
+#        );
+#        return {
+#            Possible => 0,
+#        };
+#    }
+#
+#    # check if object is not sync
+#    if ( $ObjectSyncInfo->{Success} && !$ObjectSyncInfo->{Value} ) {
+#
+#        # get the lock state
+#        my $ObjectLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
+#            WebserviceID => $Param{WebserviceID},
+#            ObjectType   => $Param{ObjectType},
+#            ObjectID     => $Param{ObjectID},
+#        );
+#
+#        # check if attempts to sync are less than the maximum
+#        # return that is possible and the sync attempts
+#        if ( $ObjectLockState->{LockStateCounter} < $Self->{MaxSyncAttempts} ) {
+#            return {
+#                Possible         => 1,
+#                LockStateCounter => $ObjectLockState->{LockStateCounter},
+#            };
+#        }
+#
+#        # otherwise return error
+#        else {
+#            $Self->{DebuggerObject}->Error(
+#                Summary =>
+#                    "IsPossibleToSyncObject: The Object:$Param{ObjectType} $Param{ObjectID} "
+#                    . "reach the maximum number of attempts to synchronize current value is"
+#                    . "$ObjectLockState->{LockStateCounter}/$Self->{MaxSyncAttempts}",
+#            );
+#            return {
+#                Possible => 0,
+#            };
+#        }
+#    }
+#
+#    # otherwise, the object is synced and return the remote value
+#    $Self->{DebuggerObject}->Debug(
+#        Summary =>
+#            "IsPossibleToSyncObject: the Object:$Param{ObjectType} is already synchronized",
+#    );
+#    return {
+#        Possible       => 0,
+#        RemoteObjectID => $ObjectSyncInfo->{Value},
+#    };
+#}
 
 #QA: SyncKey seems obsolete. What does 'Value' mean? Does it have to be passed?
-
-=item MarkArticleAsSynced()
-
-returns 1 if the operation was successfull.
-
-    my $Success = $SolManCommonObject->MarkArticleAsSynced(
-        WebserviceID    => 12,
-        ArticleID       => 4567,
-        SyncKey         => "GI_12_SolMan_IncidentGuid",
-        Value           => 1234,
-        UserID          => 1,
-    );
-
-    $Success = 1;      # or ''
-=cut
-
-sub MarkArticleAsSynced {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(WebserviceID ArticleID Key Value UserID)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "GetArticleLockStatus: Got no $Needed",
-            );
-            return;
-        }
-    }
-
-    # set replicate flag
-    my $SuccessArticleFlagSet = $Self->{TicketObject}->ArticleFlagSet(
-        ArticleID => $Param{ArticleID},
-        Key       => $Param{SyncKey},
-        Value     => $Param{Value},
-        UserID    => $Param{UserID},      # apply to this user
-    );
-
-    # delete lock state
-    my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Article',
-        ObjectID     => $Param{ArticleID},
-    );
-    $Self->{DebuggerObject}->Info(
-        Summary =>
-            "MarkArticleAsSynced: Replicate Article state has been set",
-    );
-
-    return $SuccessArticleLock;
-}
+# TODO This is probable not needed
+#=item MarkArticleAsSynced()
+#
+#returns 1 if the operation was successfull.
+#
+#    my $Success = $SolManCommonObject->MarkArticleAsSynced(
+#        WebserviceID    => 12,
+#        ArticleID       => 4567,
+#        SyncKey         => "GI_12_SolMan_IncidentGuid",
+#        Value           => 1234,
+#        UserID          => 1,
+#    );
+#
+#    $Success = 1;      # or ''
+#=cut
+#
+#sub MarkArticleAsSynced {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(WebserviceID ArticleID Key Value UserID)) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "GetArticleLockStatus: Got no $Needed",
+#            );
+#            return;
+#        }
+#    }
+#
+#    # set replicate flag
+#    my $SuccessArticleFlagSet = $Self->{TicketObject}->ArticleFlagSet(
+#        ArticleID => $Param{ArticleID},
+#        Key       => $Param{SyncKey},
+#        Value     => $Param{Value},
+#        UserID    => $Param{UserID},      # apply to this user
+#    );
+#
+#    # delete lock state
+#    my $SuccessArticleLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => 'Article',
+#        ObjectID     => $Param{ArticleID},
+#    );
+#    $Self->{DebuggerObject}->Info(
+#        Summary =>
+#            "MarkArticleAsSynced: Replicate Article state has been set",
+#    );
+#
+#    return $SuccessArticleLock;
+#}
 
 #QA: improve POD. Do you mean 'replicated' or 'replicate' (='still to replicate')?
 #QA: in the function name you use the term 'Synced' instead. Unify.
 #QA: Key seems obsolete
 #QA: What about Value?
+# TODO This is probable not needed anymore
 
-=item MarkTicketAsSynced()
-writes the Replicate flag and delete the Attempt flag.
-returns 1 if the operation was successfull.
-
-    my $Success = $SolManCommonObject->MarkTicketAsSynced(
-        WebserviceID    => 12,
-        TicketID        => $Self->{TicketID},
-        Key             => "GI_12_SolMan_IncidentGuid",
-        Value           => 1234,
-        UserID          => 1,
-    );
-
-    $Success = 1;      # or ''
-=cut
-
-sub MarkTicketAsSynced {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(WebserviceID TicketID Key Value UserID)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "MarkTicketAsSynced: Got no $Needed",
-            );
-            return;
-        }
-    }
-
-    my @Articles = $Self->{TicketObject}->ArticleGet(
-        TicketID => $Param{TicketID},
-    );
-
-    for my $Article (@Articles) {
-
-        # set replicate flag
-        my $ReplicateArticleStatus = $Self->MarkArticleAsSynced(
-            WebserviceID => $Param{WebserviceID},
-            ArticleID    => $Article->{ArticleID},
-            Key          => $Param{Key},
-            Value        => $Param{Value},
-            UserID       => $Param{UserID},
-        );
-    }
-
-    # set replicate flag
-    my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
-        TicketID => $Param{TicketID},
-        Key      => $Param{Key},
-        Value    => $Param{Value},
-        UserID   => $Param{UserID},     # apply to this user
-    );
-
-    # delete lock state
-    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Ticket',
-        ObjectID     => $Param{TicketID},
-    );
-
-    $Self->{DebuggerObject}->Info(
-        Summary =>
-            "MarkTicketAsSynced: Replicate Ticket flag has been set",
-    );
-
-    return 1;
-}
+#=item MarkTicketAsSynced()
+#writes the Replicate flag and delete the Attempt flag.
+#returns 1 if the operation was successfull.
+#
+#    my $Success = $SolManCommonObject->MarkTicketAsSynced(
+#        WebserviceID    => 12,
+#        TicketID        => $Self->{TicketID},
+#        Key             => "GI_12_SolMan_IncidentGuid",
+#        Value           => 1234,
+#        UserID          => 1,
+#    );
+#
+#    $Success = 1;      # or ''
+#=cut
+#
+#sub MarkTicketAsSynced {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(WebserviceID TicketID Key Value UserID)) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "MarkTicketAsSynced: Got no $Needed",
+#            );
+#            return;
+#        }
+#    }
+#
+#    my @Articles = $Self->{TicketObject}->ArticleGet(
+#        TicketID => $Param{TicketID},
+#    );
+#
+#    for my $Article (@Articles) {
+#
+#        # set replicate flag
+#        my $ReplicateArticleStatus = $Self->MarkArticleAsSynced(
+#            WebserviceID => $Param{WebserviceID},
+#            ArticleID    => $Article->{ArticleID},
+#            Key          => $Param{Key},
+#            Value        => $Param{Value},
+#            UserID       => $Param{UserID},
+#        );
+#    }
+#
+#    # set replicate flag
+#    my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+#        TicketID => $Param{TicketID},
+#        Key      => $Param{Key},
+#        Value    => $Param{Value},
+#        UserID   => $Param{UserID},     # apply to this user
+#    );
+#
+#    # delete lock state
+#    my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateDelete(
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => 'Ticket',
+#        ObjectID     => $Param{TicketID},
+#    );
+#
+#    $Self->{DebuggerObject}->Info(
+#        Summary =>
+#            "MarkTicketAsSynced: Replicate Ticket flag has been set",
+#    );
+#
+#    return 1;
+#}
 
 #QA: see comments above.
 #QA: Name? Reschedule or Replicate?
@@ -1419,83 +1421,83 @@ sub ScheduleTask {
 }
 
 #QA: name?
-
-=item GetSyncInfo()
-check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
-
-    my $SyncInfo = $SolManCommonObject->GetSyncInfo(
-        WebserviceID   => 123,
-        ObjectType     => 'Ticket',    # or 'Article'
-        Key            => "GI_123_SolMan_IncidentGuid",
-        ObjectID       => 1234,
-    );
-
-    $SyncInfo = {
-        Success  => 1                 # or '' if error
-        Value    => 1234              # or '' if not synchronized
-    };
-=cut
-
-sub GetSyncInfo {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(WebserviceID ObjectType ObjectID Key)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "GetSyncInfo: Got no $Needed",
-            );
-            return {
-                Success => 0
-            };
-        }
-    }
-
-    my %Flags;
-
-    # get ticket flags
-    if ( $Param{ObjectType} eq 'Ticket' ) {
-        %Flags = $Self->{TicketObject}->TicketFlagGet(
-            TicketID => $Param{ObjectID},
-            UserID   => 1,
-        );
-    }
-
-    # get article flags
-    elsif ( $Param{ObjectType} eq 'Article' ) {
-        %Flags = $Self->{TicketObject}->ArticleFlagGet(
-            ArticleID => $Param{ObjectID},
-            UserID    => 1,
-        );
-    }
-
-    # invalid ObjectType
-    else {
-
-        # write in debug log
-        $Self->{DebuggerObject}->Error(
-            Summary => "GetSyncInfo: Invalid ObjectType $Param{ObjectType}",
-        );
-        return {
-            Success => 0,
-        };
-    }
-
-    # return flag key if any
-    if ( $Flags{ $Param{Key} } ) {
-        return {
-            Success => 1,
-            Value   => $Flags{ $Param{Key} }
-        };
-    }
-
-    # otherwise since no erros found just return success
-    return {
-        Success => 1,
-    };
-}
+# TODO this is probable not needed anymore
+#=item GetSyncInfo()
+#check if ticket or article is sycrhonized with a remote system depending on the WerbserviceID.
+#
+#    my $SyncInfo = $SolManCommonObject->GetSyncInfo(
+#        WebserviceID   => 123,
+#        ObjectType     => 'Ticket',    # or 'Article'
+#        Key            => "GI_123_SolMan_IncidentGuid",
+#        ObjectID       => 1234,
+#    );
+#
+#    $SyncInfo = {
+#        Success  => 1                 # or '' if error
+#        Value    => 1234              # or '' if not synchronized
+#    };
+#=cut
+#
+#sub GetSyncInfo {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(WebserviceID ObjectType ObjectID Key)) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "GetSyncInfo: Got no $Needed",
+#            );
+#            return {
+#                Success => 0
+#            };
+#        }
+#    }
+#
+#    my %Flags;
+#
+#    # get ticket flags
+#    if ( $Param{ObjectType} eq 'Ticket' ) {
+#        %Flags = $Self->{TicketObject}->TicketFlagGet(
+#            TicketID => $Param{ObjectID},
+#            UserID   => 1,
+#        );
+#    }
+#
+#    # get article flags
+#    elsif ( $Param{ObjectType} eq 'Article' ) {
+#        %Flags = $Self->{TicketObject}->ArticleFlagGet(
+#            ArticleID => $Param{ObjectID},
+#            UserID    => 1,
+#        );
+#    }
+#
+#    # invalid ObjectType
+#    else {
+#
+#        # write in debug log
+#        $Self->{DebuggerObject}->Error(
+#            Summary => "GetSyncInfo: Invalid ObjectType $Param{ObjectType}",
+#        );
+#        return {
+#            Success => 0,
+#        };
+#    }
+#
+#    # return flag key if any
+#    if ( $Flags{ $Param{Key} } ) {
+#        return {
+#            Success => 1,
+#            Value   => $Flags{ $Param{Key} }
+#        };
+#    }
+#
+#    # otherwise since no erros found just return success
+#    return {
+#        Success => 1,
+#    };
+#}
 
 =item PrepareRequest()
 
@@ -2042,6 +2044,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-04-13 21:45:08 $
+$Revision: 1.20 $ $Date: 2011-04-13 22:56:46 $
 
 =cut
