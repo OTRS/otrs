@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.12 2011-04-12 22:30:32 cr Exp $
+# $Id: Common.pm,v 1.13 2011-04-13 01:50:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -1025,6 +1025,7 @@ returns 1 if the operation was successfull.
         WebserviceID    => $Self->{WebserviceID},
         TicketID        => $Self->{TicketID},
         UserID          => $Ticket{OwnerID},
+        SyncKey         => GI_123_SolMan_IncidentGuid
     );
 
     $Success = 1;      # or ''
@@ -1034,7 +1035,7 @@ sub GetTicketLockStatus {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID TicketID LockState UserID)) {
+    for my $Needed (qw(WebserviceID TicketID LockState UserID SyncKey)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1048,6 +1049,7 @@ sub GetTicketLockStatus {
         WebserviceID => $Param{WebserviceID},
         ObjectType   => 'Ticket',
         ObjectID     => $Param{TicketID},
+        SyncKey      => $Param{SyncKey},
     );
     if ( $IsPossibleToSyncTicket->{Possible} ) {
         my $SuccessTicketLock = $Self->{ObjectLockStateObject}->ObjectLockStateSet(
@@ -1078,11 +1080,13 @@ check if ticket or article is sycrhonized with a remote system depending on the 
         WebserviceID   => 123,
         ObjectType     => 'Ticket',    # or 'Article'
         ObjectID       => 1234,
+        SyncKey        => GI_123_SolMan_IncidentGuid
     );
 
     $SyncInfo = {
-        Success        => 1     # or '' if error
-        RemoteTicketID => 1234  # or '' if not synchronized
+        Success          => 1     # or '' if error
+        RemoteTicketID   => 1234  # or '' if not synchronized
+        LockStateCounter => 5,
     };
 =cut
 
@@ -1090,7 +1094,7 @@ sub IsPossibleToSyncObject {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(WebserviceID ObjectType ObjectID)) {
+    for my $Needed (qw(WebserviceID ObjectType ObjectID SyncKey)) {
         if ( !$Param{$Needed} ) {
 
             # write in debug log
@@ -1101,34 +1105,67 @@ sub IsPossibleToSyncObject {
         }
     }
 
+    # get Sync information
     my $ObjectSyncInfo = $Self->GetSyncInfo(
         WebserviceID => $Param{WebserviceID},
         ObjectType   => $Param{ObjectType},
         ObjectID     => $Param{ObjectID},
+        Key          => $Param{SyncKey},
     );
-    if ( $ObjectSyncInfo->{Success} && !$ObjectSyncInfo->{RemoteObjectID} ) {
+
+    # exit if cant get the sync info
+    if ( !$ObjectSyncInfo->{Success} ) {
+        $Self->{DebuggerObject}->Error(
+            Summary =>
+                "IsPossibleToSyncObject: Was not possible to get Object:$Param{ObjectType} "
+                . "sync info",
+        );
+        return {
+            Possible => 0,
+        };
+    }
+
+    # check if object is not sync
+    if ( $ObjectSyncInfo->{Success} && !$ObjectSyncInfo->{Value} ) {
+
+        # get the lock state
         my $ObjectLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
             WebserviceID => $Param{WebserviceID},
             ObjectType   => $Param{ObjectType},
             ObjectID     => $Param{ObjectID},
         );
+
+        # check if attempts to sync are less than the maximum
+        # return that is possible and the sync attempts
         if ( $ObjectLockState->{LockStateCounter} < $Self->{MaxSyncAttempts} ) {
             return {
                 Possible         => 1,
                 LockStateCounter => $ObjectLockState->{LockStateCounter},
             };
         }
+
+        # otherwise return error
+        else {
+            $Self->{DebuggerObject}->Error(
+                Summary =>
+                    "IsPossibleToSyncObject: The Object:$Param{ObjectType} $Param{ObjectID} "
+                    . "reach the maximum number of attempts to synchronize current value is"
+                    . "$ObjectLockState->{LockStateCounter}/$Self->{MaxSyncAttempts}",
+            );
+            return {
+                Possible => 0,
+            };
+        }
     }
-    else {
-        $Self->{DebuggerObject}->Error(
-            Summary =>
-                "IsPossibleToSyncObject: Was not possible to get Object:$Param{ObjectType} sync info",
-        );
-        return;
-    }
+
+    # otherwise, the object is synced and return the remote value
+    $Self->{DebuggerObject}->Debug(
+        Summary =>
+            "IsPossibleToSyncObject: the Object:$Param{ObjectType} is already synchronized",
+    );
     return {
         Possible       => 0,
-        RemoteObjectID => $ObjectSyncInfo->{RemoteObjectID},
+        RemoteObjectID => $ObjectSyncInfo->{Value},
     };
 }
 
@@ -1139,7 +1176,7 @@ returns 1 if the operation was successfull.
     my $Success = $SolManCommonObject->MarkArticleAsSynced(
         WebserviceID    => 12,
         ArticleID       => 4567,
-        Key             => "GI_12_SolMan_IncidentGuid",
+        SyncKey         => "GI_12_SolMan_IncidentGuid",
         Value           => 1234,
         UserID          => 1,
     );
@@ -1165,7 +1202,7 @@ sub MarkArticleAsSynced {
     # set replicate flag
     my $SuccessArticleFlagSet = $Self->{TicketObject}->ArticleFlagSet(
         ArticleID => $Param{ArticleID},
-        Key       => $Param{Key},
+        Key       => $Param{SyncKey},
         Value     => $Param{Value},
         UserID    => $Param{UserID},      # apply to this user
     );
@@ -1382,7 +1419,7 @@ sub GetSyncInfo {
 
             # write in debug log
             $Self->{DebuggerObject}->Error(
-                Summary => "GetSyncInfo: Got no $Param{$Needed}",
+                Summary => "GetSyncInfo: Got no $Needed",
             );
             return {
                 Success => 0
@@ -1450,6 +1487,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-04-12 22:30:32 $
+$Revision: 1.13 $ $Date: 2011-04-13 01:50:30 $
 
 =cut
