@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.35 2011-04-12 22:41:25 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.36 2011-04-13 01:51:21 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -145,7 +145,7 @@ sub PrepareRequest {
 
     # compare TicketNumber from Param and from DB
     if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
-        $ErrorMessage = 'Error getting Ticket Data';
+        $ErrorMessage = 'ReplicateIncident: Error getting Ticket Data';
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -162,13 +162,14 @@ sub PrepareRequest {
         TicketID        => $Self->{TicketID},
         LockState       => 'ReplicateIncident',
         UserID          => $Ticket{OwnerID},
+        SyncKey         => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
     );
     if ( !$ReplicateTicketStatus ) {
         $ErrorMessage = "Was not possible to replicate the ticket: $Self->{TicketID}";
         $Self->{DebuggerObject}->Error( Summary =>  $ErrorMessage );
         return {
             Success => 0,
-            Data    => {ErrorMessage  => $ErrorMessage,},
+            ErrorMessage  => $ErrorMessage,
         };
     }
 
@@ -546,6 +547,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2011-04-12 22:41:25 $
+$Revision: 1.36 $ $Date: 2011-04-13 01:51:21 $
 
 =cut
