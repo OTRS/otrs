@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.37 2011-04-13 20:10:12 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.38 2011-04-13 20:49:03 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -223,106 +223,11 @@ handle response data of the configured remote webservice.
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    my $ErrorMessage;
-
-    # break early if response was not successfull
-    if ( !$Param{ResponseSuccess} ) {
-        return {
-            Success      => 0,
-            ErrorMessage => 'Invoker ReplicateIncident: Response failure!',
-        };
-    }
-
-    # to store data
-    my $Data = $Param{Data};
-
-    if ( !defined $Data->{Errors} ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Invoker ReplicateIncident: Response failure!'
-                . 'An Error parameter was expected',
-        );
-    }
-
-    # if there was an error in the response, forward it
-    if ( IsHashRefWithData( $Data->{Errors} ) ) {
-
-        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
-            Errors  => $Data->{Errors},
-            Invoker => 'ReplicateIncident',
-        );
-
-        return {
-            Success => $HandleErrorsResult->{Success},
-            Data    => \$HandleErrorsResult->{ErrorMessage},
-        };
-    }
-
-    # we need a Incident Identifier from the remote system
-    if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
-        $ErrorMessage = 'Got no PrdIctId!';
-
-        # write in the debug log
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
-    }
-
-    # response should have a person maps and it sould be empty
-    if ( !defined $Param{Data}->{PersonMaps} ) {
-
-        $ErrorMessage = 'Got no PersonMaps!';
-
-        # write in the debug log
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
-    }
-
-    # handle the person maps
-    my $HandlePersonMaps = $Self->{SolManCommonObject}->HandlePersonMaps(
-        Invoker    => 'ReplicateIncident',
-        PersonMaps => $Param{Data}->{PersonMaps},
+    my $ReturnData = $Self->{SolManCommonObject}->HandleResponse(
+        %Param
     );
 
-    # forward error if any
-    if ( !$HandlePersonMaps->{Success} ) {
-        return {
-            Success => 0,
-            ErrorMessage    => $HandlePersonMaps->{ErrorMessage},
-        };
-    }
-
-    # create return data
-    my %ReturnData = (
-        PrdIctId   => $Param{Data}->{PrdIctId},
-        PersonMaps => $HandlePersonMaps->{PersonMaps},
-    );
-
-    # set replicate flag
-    my $ReplicateTicketStatus = $Self->{SolManCommonObject}->MarkTicketAsSynced(
-        WebserviceID    => $Self->{WebserviceID},
-        TicketID        => $Self->{TicketID},
-        Key             => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
-        Value           => $Param{Data}->{PrdIctId},
-        UserID          => 1,
-    );
-
-    # write in debug log
-    $Self->{DebuggerObject}->Info(
-        Summary => 'ReplicateIncident return success',
-        Data    => \%ReturnData,
-    );
-
-    return {
-        Success => 1,
-        Data    => \%ReturnData,
-    };
+    return $ReturnData;
 }
 
 1;
@@ -341,6 +246,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2011-04-13 20:10:12 $
+$Revision: 1.38 $ $Date: 2011-04-13 20:49:03 $
 
 =cut
