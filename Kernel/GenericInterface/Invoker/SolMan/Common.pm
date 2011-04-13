@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.14 2011-04-13 14:26:38 mg Exp $
+# $Id: Common.pm,v 1.15 2011-04-13 20:09:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -88,6 +88,8 @@ create an object
         MainObject         => $MainObject,
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
+        Invoker            => 'ReplicateIncident'   # The invoker name
+        WebserviceID       => '123'                 # The ID of the Webservice
     );
 
 =cut
@@ -101,7 +103,8 @@ sub new {
     # check needed objects
     for my $Needed (
         qw(
-        DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject
+        DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject Invoker
+        WebserviceID
         )
         )
     {
@@ -641,7 +644,8 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
 
     my $Result = $SolManCommonObject->GetArticlesInfo(
         UserID   => 123,
-        TicketID => 67
+        TicketID => 67,
+        LastSync => 1302724965,  # Last sync time as SystemTime fomat or 0 if none
         Language => 'en'
     );
 
@@ -688,35 +692,40 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
 sub GetArticlesInfo {
     my ( $Self, %Param ) = @_;
 
-    my $ArticleID = $Param{ArticleID} || '';
     my @Articles = $Self->{TicketObject}->ArticleGet(
         TicketID => $Param{TicketID},
     );
 
     my @IctAttachments;
     my @IctStatements;
+
+    ARTICLE:
     for my $Article (@Articles) {
-        next
-            if (
-            $ArticleID ne '' &&
-            $Article->{ArticleID} ne $ArticleID
-            );
+
+        # checkif article needs to be synced
+        my $ArticleCreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Article->{Created},
+        );
+        next ARTICLE if ( $ArticleCreateTime <= $Param{LastSync} );
+
         my $CreateTime = $Article->{Created};
         $CreateTime =~ s{[:|\-|\s]}{}g;
 
         # IctStatements
         my %IctStatement = (
-            TextType => 'SU99',    # type="n0:char32"
-            Texts    => {          # type="tns:IctTexts"
+            TextType => $Article->{ArticleType},    # type="n0:char32"
+
+            #            TextType => 'SU99',                    # type="n0:char32"
+            Texts => {                              # type="tns:IctTexts"
                 item => [
                     $Article->{Subject} || '',
                     "\n",
                     $Article->{Body} || '',
                     ]
             },
-            Timestamp => $CreateTime,         # type="n0:decimal15.0"
-            PersonId  => $Param{UserID},      # type="n0:char32"
-            Language  => $Param{Language},    # type="n0:char2"
+            Timestamp => $CreateTime,               # type="n0:decimal15.0"
+            PersonId  => $Param{UserID},            # type="n0:char32"
+            Language  => $Param{Language},          # type="n0:char2"
         );
         push @IctStatements, {%IctStatement};
 
@@ -764,10 +773,7 @@ sub GetArticlesInfo {
 reads the SystemGuid from the invoker configuration
 returns the SystemGuid or empty if it is not set for the invoker
 
-    my $RemoteSystemGuid = $SolManCommonObject->GetRemoteSystemGuid(
-        WebserviceID => 123,
-        Invoker      => 'RepliateIncident',
-    );
+    my $RemoteSystemGuid = $SolManCommonObject->GetRemoteSystemGuid();
 
     $RemoteSystemGuid = '123ABC123ABC123ABC123ABC123ABC12';  # or ''
 =cut
@@ -775,21 +781,9 @@ returns the SystemGuid or empty if it is not set for the invoker
 sub GetRemoteSystemGuid {
     my ( $Self, %Param ) = @_;
 
-    # check needed params
-    for my $Needed (qw(WebserviceID Invoker)) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "GetRemoteSystemGuid: Got no $Param{$Needed}",
-            );
-            return;
-        }
-    }
-
     # get webservice configuration
     my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
-        ID => $Param{WebserviceID},
+        ID => $Self->{WebserviceID},
     );
 
     # check if webservice configuration is valid
@@ -802,17 +796,17 @@ sub GetRemoteSystemGuid {
 
     # check if invoker configuration is valid
     if (
-        !IsHashRefWithData( $Webservice->{Config}->{Requester}->{Invoker}->{ $Param{Invoker} } )
+        !IsHashRefWithData( $Webservice->{Config}->{Requester}->{Invoker}->{ $Self->{Invoker} } )
         )
     {
         $Self->{DebuggerObject}->Error(
-            Summary => "GetRemoteSystemGuid: Invoker configuration for $Param{Invoker} is invalid",
+            Summary => "GetRemoteSystemGuid: Invoker configuration for $Self->{Invoker} is invalid",
         );
         return;
     }
 
     # get invoker configuration
-    my $Invoker = $Webservice->{Config}->{Requester}->{Invoker}->{ $Param{Invoker} };
+    my $Invoker = $Webservice->{Config}->{Requester}->{Invoker}->{ $Self->{Invoker} };
 
     my $SystemGuid;
 
@@ -1503,6 +1497,256 @@ sub GetSyncInfo {
     };
 }
 
+sub PrepareRequest {
+    my ( $Self, %Param ) = @_;
+
+    # to store any error messages
+    my $ErrorMessage;
+
+    # check needed params
+    for my $Needed (qw( TicketID )) {
+        if ( !IsStringWithData( $Param{Data}->{$Needed} ) ) {
+            $ErrorMessage = "PrepareRequest: Got no $Needed!";
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+
+        $Self->{$Needed} = $Param{Data}->{$Needed};
+    }
+
+    # create Ticket Object
+    $Self->{TicketID} = $Param{Data}->{TicketID};
+
+    # get ticket data
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+
+    # compare TicketNumber from Param and from DB
+    if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
+        $ErrorMessage = "$Self->{Invoker}: Error getting Ticket Data";
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # get the lock state
+    my $ObjectLockState = $Self->{ObjectLockStateObject}->ObjectLockStateGet(
+        WebserviceID => $Self->{WebserviceID},
+        ObjectType   => 'Ticket',
+        ObjectID     => $Self->{TicketID},
+    );
+
+    # get current sync attempts
+    my $SyncAttempts = $ObjectLockState->{LockStateCounter} || 0;
+
+    # check current sync attempts and return if maximum has been reached
+    if ( int($SyncAttempts) >= int( $Self->{MaxSyncAttempts} ) ) {
+        $ErrorMessage = "The attempts to syncrhonize ticket $Self->TicketID "
+            . "has reached or overpassed the maximum allowed "
+            . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts}), can't continue!";
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # get ticket flags
+    my %TicketFlags = $Self->{TicketObject}->TicketFlagGet(
+        TicketID => $Self->{TicketID},
+        UserID   => 1,
+    );
+
+    # get last sync timestamp
+    my $LastSync = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_SyncTimestamp"} || 0;
+
+    # check for sync information errors
+    if ( !defined $LastSync ) {
+        $ErrorMessage = "There was an error while tying to get sync information for "
+            . " ticket $Self->TicketID, can't continue!";
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # LastSync check for ReplicateIncident Invoker
+    if ( $Self->{Invoker} eq 'ReplicateIncident' && $LastSync ne 0 ) {
+        $ErrorMessage = "The ticket $Self->{TicketID}, is already replicated can't continue!";
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # set OwnerID
+    $Self->{OwnerID} = $Ticket{OwnerID};
+
+    #    # check all needed stuff about ticket
+    #    # ( permissions, locked, etc . . . )
+
+    # request Systems Guids
+
+    # remote SystemGuid
+    # get it from invoker config
+    my $RemoteSystemGuid = $Self->GetRemoteSystemGuid();
+
+    # otherwise trigger a request to get it from the remote system
+    if ( !$RemoteSystemGuid ) {
+        my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
+        my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
+            WebserviceID => $Self->{WebserviceID},
+            Invoker      => $Self->{Invoker},
+            Data         => {},
+        );
+
+        # forward error message from Requestsystemguid if any and exit
+        if ( !$RequestSolManSystemGuid->{Success} || $RequestSolManSystemGuid->{ErrorMessage} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => $RequestSolManSystemGuid->{ErrorMessage},
+            };
+        }
+
+        # check SystemGuid data otherwise exit
+        if ( !$RequestSolManSystemGuid->{Data}->{SystemGuid} ) {
+            return {
+                Success => 0,
+                Data    => 'Can\'t get SystemGuid',
+            };
+        }
+
+        $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
+    }
+
+    # local SystemGuid
+    my $LocalSystemGuid = $Self->GetSystemGuid();
+
+    # IctAdditionalInfos
+    my $IctAdditionalInfos = $Self->GetAditionalInfo();
+
+    # IctPersons
+    my $PersonsInfo = $Self->GetPersonsInfo(
+        UserID         => $Ticket{OwnerID},
+        CustomerUserID => $Ticket{CustomerUserID},
+    );
+    my $IctPersons;
+    if ( IsArrayRefWithData( $PersonsInfo->{IctPersons} ) ) {
+        $IctPersons = $PersonsInfo->{IctPersons};
+    }
+
+    # set Language from customer
+    my $Language = $PersonsInfo->{Language} || 'en';
+
+    # get ticket article IDs
+    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
+        TicketID => $Self->{TicketID},
+    );
+
+    # IctAttachments
+    my $IctAttachments;
+
+    # IctStatements
+    my $IctStatements;
+
+    # check if ticket has articles
+    if ( scalar @ArticleIDs ) {
+
+        # get articles and attachments information in SolMan format
+        my $ArticleInfo = $Self->GetArticlesInfo(
+            TicketID => $Self->{TicketID},
+            UserID   => $Ticket{OwnerID},
+            LastSync => $LastSync,
+            Language => $Language,
+        );
+
+        # set IctAttachments
+        if ( IsArrayRefWithData( $ArticleInfo->{IctAttachments} ) ) {
+            $IctAttachments = $ArticleInfo->{IctAttachments};
+        }
+
+        # set IctStatements
+        if ( IsArrayRefWithData( $ArticleInfo->{IctStatements} ) ) {
+            $IctStatements = $ArticleInfo->{IctStatements};
+        }
+    }
+
+    # IctSapNotes
+    my $IctSapNotes = $Self->GetSapNotesInfo();
+
+    # IctSolutions
+    my $IctSolutions = $Self->GetSolutionsInfo();
+
+    # IctUrls
+    my $IctUrls = $Self->GetUrlsInfo();
+
+    # IctTimestamp
+    my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
+    $IctTimestamp =~ s{[:|\-|\s]}{}g;
+
+    my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Self->{TimeObject}->SystemTime() + 1,
+    );
+    $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
+
+    my %RequestData = (
+        IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos)
+        ?
+            $IctAdditionalInfos
+        : '',
+        IctAttachments => IsArrayRefWithData($IctAttachments)
+        ?
+            { item => $IctAttachments }
+        : '',
+        IctHead => {
+            IncidentGuid     => $Ticket{TicketNumber},              # type="n0:char32"
+            RequesterGuid    => $LocalSystemGuid,                   # type="n0:char32"
+            ProviderGuid     => $RemoteSystemGuid,                  # type="n0:char32"
+            AgentId          => $Ticket{OwnerID},                   # type="n0:char32"
+            ReporterId       => $Ticket{CustomerUserID},            # type="n0:char32"
+            ShortDescription => substr( $Ticket{Title}, 0, 40 ),    # type="n0:char40"
+            Priority         => $Ticket{PriorityID},                # type="n0:char32"
+            Language         => $Language,                          # type="n0:char2"
+            RequestedBegin   => $IctTimestamp,                      # type="n0:decimal15.0"
+            RequestedEnd     => $IctTimestampEnd,                   # type="n0:decimal15.0"
+            IctId            => $Ticket{TicketNumber},              # type="n0:char32"
+        },
+        IctId      => $Ticket{TicketNumber},                        # type="n0:char32"
+        IctPersons => IsArrayRefWithData($IctPersons)
+        ?
+            { item => $IctPersons }
+        : '',
+        IctSapNotes => IsHashRefWithData($IctSapNotes)
+        ?
+            $IctSapNotes
+        : '',
+        IctSolutions => IsHashRefWithData($IctSolutions)
+        ?
+            $IctSolutions
+        : '',
+        IctStatements => IsArrayRefWithData($IctStatements)
+        ?
+            { item => $IctStatements }
+        : '',
+        IctTimestamp => $IctTimestamp,                # type="n0:decimal15.0"
+        IctUrls      => IsHashRefWithData($IctUrls)
+        ?
+            $IctUrls
+        : '',
+    );
+
+    return {
+        Success => 1,
+        Data    => \%RequestData,
+    };
+}
+
 1;
 
 =back
@@ -1519,6 +1763,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-04-13 14:26:38 $
+$Revision: 1.15 $ $Date: 2011-04-13 20:09:15 $
 
 =cut
