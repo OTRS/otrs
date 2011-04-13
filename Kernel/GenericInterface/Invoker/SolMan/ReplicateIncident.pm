@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.40 2011-04-13 21:17:42 cr Exp $
+# $Id: ReplicateIncident.pm,v 1.41 2011-04-13 21:26:21 cg Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -139,66 +139,8 @@ sub PrepareRequest {
 
 handle response data of the configured remote webservice.
 
-    my $Result = $InvokerObject->HandleResponse(
-        ResponseSuccess      => 1,              # success status of the remote webservice
-        ResponseErrorMessage => '',             # in case of webservice error
-        Data => {                               # data payload
-            PersonMaps => {
-                Item => {
-                    PersonId    => '0001',
-                    PersonIdExt => '5050',
-                }
-            },
-            PrdIctId => '0000000000001',
-            Errors     => {
-                item => {
-                    ErrorCode => '01'
-                    Val1      =>  'Error Description',
-                    Val2      =>  'Error Detail 1',
-                    Val3      =>  'Error Detail 2',
-                    Val4      =>  'Error Detail 3',
-
-                }
-            }
-        },
-    );
-
-    my $Result = $InvokerObject->HandleResponse(
-        ResponseSuccess      => 1,              # success status of the remote webservice
-        ResponseErrorMessage => '',             # in case of webservice error
-        Data => {                               # data payload
-            PersonMaps => {
-                Item => [
-                    {
-                        PersonId    => '0001',
-                        PersonIdExt => '5050',
-                    },
-                    {
-                        PersonId    => '0002',
-                        PersonIdExt => '5051',
-                    },
-                ],
-            }
-            PrdIctId => '0000000000001',
-            Errors     => {
-                item => [
-                    {
-                        ErrorCode => '01'
-                        Val1      =>  'Error Description',
-                        Val2      =>  'Error Detail 1',
-                        Val3      =>  'Error Detail 2',
-                        Val4      =>  'Error Detail 3',
-                    },
-                    {
-                        ErrorCode => '04'
-                        Val1      =>  'Error Description',
-                        Val2      =>  'Error Detail 1',
-                        Val3      =>  'Error Detail 2',
-                        Val4      =>  'Error Detail 3',
-                    },
-                ],
-            }
-        },
+    my $ReturnData = $InvokerObject->HandleResponse(
+        %Param,
     );
 
     $Result = {
@@ -247,6 +189,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2011-04-13 21:17:42 $
+$Revision: 1.41 $ $Date: 2011-04-13 21:26:21 $
 
 =cut
