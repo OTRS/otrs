@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ListUnclosedIncidents.pm - GenericInterface SolMan ListUnclosedIncidents Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ListUnclosedIncidents.pm,v 1.3 2011-04-12 15:42:43 cr Exp $
+# $Id: ListUnclosedIncidents.pm,v 1.4 2011-04-14 06:57:24 sb Exp $
 # $OldId: ListUnclosedIncidents.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -72,7 +72,9 @@ sub new {
 
     # create additional objects
     $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
-        %{$Self}
+        %{$Self},
+        Invoker      => 'ListUnclosedIncidents',
+        WebserviceID => $Self->{WebserviceID},
     );
 
     # create Ticket Object
@@ -352,6 +354,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-04-12 15:42:43 $
+$Revision: 1.4 $ $Date: 2011-04-14 06:57:24 $
 
 =cut
