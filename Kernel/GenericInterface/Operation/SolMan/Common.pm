@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.10 2011-04-14 08:46:07 mg Exp $
+# $Id: Common.pm,v 1.11 2011-04-14 09:02:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -305,20 +305,29 @@ sub TicketSync {
     # create articles from IctStatements
     if ( $Param{Data}->{IctStatements} && $Param{Data}->{IctStatements}->{item} ) {
 
-        for my $Items ( @{ $Param{Data}->{IctStatements}->{item} } ) {
-            next if !$Items;
-            next if ref $Items ne 'HASH';
-            next if !$Items->{Texts};
-            next if ref $Items->{Texts} ne 'HASH';
-            next if !$Items->{Texts}->{item};
-            next if ref $Items->{Texts}->{item} ne 'ARRAY';
+        my @Statements;
+
+        if ( ref $Param{Data}->{IctStatements}->{item} eq 'ARRAY' ) {
+            @Statements = @{ $Param{Data}->{IctStatements}->{item} };
+        }
+        else {
+            @Statements = ( $Param{Data}->{IctStatements}->{item} );
+        }
+
+        for my $Statement (@Statements) {
+            next if !$Statement;
+            next if ref $Statement ne 'HASH';
+            next if !$Statement->{Texts};
+            next if ref $Statement->{Texts} ne 'HASH';
+            next if !$Statement->{Texts}->{item};
+            next if ref $Statement->{Texts}->{item} ne 'ARRAY';
 
             #QA: use person mapping, if no person id is passed, use empty parentheses
             # construct the text body from multiple item nodes
-            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Items->{Timestamp}
+            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Statement->{Timestamp}
                 =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
-            my $Body = "($Items->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
-            $Body .= join "\n", @{ $Items->{Texts}->{item} };
+            my $Body = "($Statement->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
+            $Body .= join "\n", @{ $Statement->{Texts}->{item} };
 
 #QA: use TextType as article type (is converted in mapping layer), use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -348,7 +357,17 @@ sub TicketSync {
 
     # create attachments
     if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
-        for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
+
+        my @Attachments;
+
+        if ( ref $Param{Data}->{IctAttachments}->{item} eq 'ARRAY' ) {
+            @Attachments = @{ $Param{Data}->{IctAttachments}->{item} };
+        }
+        else {
+            @Attachments = ( $Param{Data}->{IctAttachments}->{item} );
+        }
+
+        for my $Attachment (@Attachments) {
 
             # should the attachment be created or deleted?
             my $DeleteFlag
@@ -437,6 +456,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-04-14 08:46:07 $
+$Revision: 1.11 $ $Date: 2011-04-14 09:02:14 $
 
 =cut

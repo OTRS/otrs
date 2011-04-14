@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.4 2011-04-14 08:46:07 mg Exp $
+# $Id: Common.t,v 1.5 2011-04-14 09:02:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -319,25 +319,23 @@ works too',
     ],
     [
         {
-            Name      => 'ProcessIncident',
+            Name      => 'ProcessIncident with {} instead of []',
             Operation => 'SolMan::ProcessIncident',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {
-                    item => [
-                        {
-                            AttachmentGuid => "Solman-$RandomID2-1-1",
-                            Filename       => 'test.txt',
-                            MimeType       => 'text/plain',
-                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
-                            Timestamp      => '20110324000000',
-                            PersonId       => 1,
-                            Url            => 'http://localhost',
-                            Language       => 'de',
-                            Delete         => '',
-                        },
-                    ],
+                    item => {
+                        AttachmentGuid => "Solman-$RandomID2-1-1",
+                        Filename       => 'test.txt',
+                        MimeType       => 'text/plain',
+                        Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                        Timestamp      => '20110324000000',
+                        PersonId       => 1,
+                        Url            => 'http://localhost',
+                        Language       => 'de',
+                        Delete         => '',
+                    },
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID2",
@@ -353,7 +351,7 @@ works too',
                 },
                 IctId      => "Solman-$RandomID2",
                 IctPersons => {
-                    Item => [
+                    Item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -369,30 +367,28 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
                 IctStatements => {
-                    item => [
-                        {
-                            TextType => 'SU99',
+                    item => {
+                        TextType => 'SU99',
 
-                            # text lines
-                            Texts => {
-                                item => [
-                                    'a line of text',
-                                    'another line',
-                                    'multiline
+                        # text lines
+                        Texts => {
+                            item => [
+                                'a line of text',
+                                'another line',
+                                'multiline
 text
 works too',
-                                ],
-                            },
-                            Timestamp => '20110323000000',
-                            PersonId  => 1,
-                            Language  => 'de',
+                            ],
                         },
-                    ],
+                        Timestamp => '20110323000000',
+                        PersonId  => 1,
+                        Language  => 'de',
+                    },
                 },
 
                 IctTimestamp => '20010101000000',
@@ -583,6 +579,14 @@ for my $TestChain (@Tests) {
             TicketID => $LastTicketID,
         );
 
+        if (
+            $Test->{Data}->{IctStatements}->{item}
+            && ref $Test->{Data}->{IctStatements}->{item} ne 'ARRAY'
+            )
+        {
+            $Test->{Data}->{IctStatements}->{item} = [ $Test->{Data}->{IctStatements}->{item} ];
+        }
+
         TEST_STATEMENT_ITEM:
         for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
 
@@ -622,8 +626,16 @@ for my $TestChain (@Tests) {
 
         }
 
+        if (
+            $Test->{Data}->{IctAttachments}->{item}
+            && ref $Test->{Data}->{IctAttachments}->{item} ne 'ARRAY'
+            )
+        {
+            $Test->{Data}->{IctAttachments}->{item} = [ $Test->{Data}->{IctAttachments}->{item} ];
+        }
+
         TEST_ATTACHMENT_ITEM:
-        for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
+        for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} } ) {
 
             # should the attachment be created or deleted?
             my $DeleteFlag
