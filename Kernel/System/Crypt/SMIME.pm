@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.47 2011-03-07 23:32:12 dz Exp $
+# $Id: SMIME.pm,v 1.48 2011-04-14 19:17:48 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -163,7 +163,7 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Needed $_ to can decrypt!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -190,6 +190,19 @@ sub Decrypt {
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
+
+    if (
+        $Param{SearchingNeededKey}
+        && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
+        && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
+        )
+    {
+        return (
+            Successful => 0,
+            Message    => 'Impossible to decrypt with installed private keys!',
+        );
+    }
+
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
@@ -976,6 +989,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2011-03-07 23:32:12 $
+$Revision: 1.48 $ $Date: 2011-04-14 19:17:48 $
 
 =cut

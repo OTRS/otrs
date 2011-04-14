@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.24 2011-03-08 04:21:06 dz Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.25 2011-04-14 19:17:48 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,6 +112,18 @@ sub Check {
             )
         {
 
+            # check if article is already decrypted
+            if ( $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
+                push(
+                    @Return,
+                    {
+                        Key        => 'Crypted',
+                        Value      => 'Ticket decrypted before',
+                        Successful => 1,
+                    }
+                );
+            }
+
             # check sender (don't decrypt sent emails)
             if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
 
@@ -157,9 +169,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key => 'Crypted',
-                        Value =>
-                            "Impossible to decrypt: private key for email doesn't found",
+                        Key   => 'Crypted',
+                        Value => 'Impossible to decrypt: private key for email doesn\'t found!',
                     }
                 );
                 return @Return;
@@ -171,7 +182,8 @@ sub Check {
 
                 # decrypt
                 %Decrypt = $Self->{CryptObject}->Decrypt(
-                    Message => $Message,
+                    Message            => $Message,
+                    SearchingNeededKey => 1,
                     %{$CertResult},
                 );
                 last PRIVATESEARCH if ( $Decrypt{Successful} );
@@ -233,8 +245,8 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key => 'Crypted',
-                        Value => $Decrypt{Message} || 'Impossible decrypt, unknown error',
+                        Key   => 'Crypted',
+                        Value => "$Decrypt{Message}",
                         %Decrypt,
                     }
                 );
@@ -247,6 +259,19 @@ sub Check {
             && $ContentType =~ /signed/i
             )
         {
+
+            # check if article is already verified
+            if ( $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
+
+                # return result
+                push(
+                    @Return,
+                    {
+                        Key   => 'Signed',
+                        Value => 'Signature verified before!',
+                    }
+                );
+            }
 
             # check sign and get clear content
             %SignCheck = $Self->{CryptObject}->Verify( Message => $Message, );
