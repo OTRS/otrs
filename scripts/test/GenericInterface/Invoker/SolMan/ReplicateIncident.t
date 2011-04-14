@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.5 2011-04-14 07:48:34 mg Exp $
+# $Id: ReplicateIncident.t,v 1.6 2011-04-14 15:47:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -538,7 +538,7 @@ for my $Test (@Tests) {
 
             $Self->Is(
                 $Result->{Data}->{IctHead}->{Priority},
-                $Ticket{PriorityID},
+                $Ticket{Priority},
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead Priority",
             );
 
@@ -892,7 +892,7 @@ for my $Test (@Tests) {
                 $Self->IsDeeply(
                     $Result->{Data},
                     $Test->{HandleResponse}->{ExpectedResponse},
-                    "Test $Test->{Name}: RequestSystemGuid HandleResponse Response",
+                    "Test $Test->{Name}: ReplicateIncident HandleResponse Response",
                 );
             }
         }
