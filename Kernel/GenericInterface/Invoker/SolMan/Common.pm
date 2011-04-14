@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.21 2011-04-14 01:34:38 cr Exp $
+# $Id: Common.pm,v 1.22 2011-04-14 05:40:36 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -812,8 +812,8 @@ sub GetRemoteSystemGuid {
 
     # check if invoker has SystemGuid defined in its configuration and return it, otherwise
     # return empty
-    if ( $Invoker->{SystemGuid} ) {
-        $SystemGuid = $Invoker->{SystemGuid};
+    if ( $Invoker->{RemoteSystemGuid} ) {
+        $SystemGuid = $Invoker->{RemoteSystemGuid};
 
         # write on the debug log
         $Self->{DebuggerObject}->Debug(
@@ -898,13 +898,14 @@ sub SetRemoteSystemGuid {
     # set SystemGuid to all invokers
     if ( $Param{AllInvokers} ) {
         for my $Invoker ( sort keys %{ $Config->{Requester}->{Invoker} } ) {
-            $Config->{Requester}->{Invoker}->{$Invoker}->{SystemGuid} = $Param{SystemGuid};
+            $Config->{Requester}->{Invoker}->{$Invoker}->{RemoteSystemGuid} = $Param{SystemGuid};
         }
     }
 
     # otherwise set SystemGuid to especific invoker
     else {
-        $Config->{Requester}->{Invoker}->{ $Param{Invoker} }->{SystemGuid} = $Param{SystemGuid};
+        $Config->{Requester}->{Invoker}->{ $Param{Invoker} }->{RemoteSystemGuid}
+            = $Param{SystemGuid};
     }
 
     # update config
@@ -2113,6 +2114,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-04-14 01:34:38 $
+$Revision: 1.22 $ $Date: 2011-04-14 05:40:36 $
 
 =cut
