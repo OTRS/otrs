@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.41 2011-04-13 21:26:21 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.42 2011-04-14 01:24:15 cr Exp $
 # $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -15,16 +15,10 @@ package Kernel::GenericInterface::Invoker::SolMan::ReplicateIncident;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::Common;
-use Kernel::System::Ticket;
-use Kernel::System::CustomerUser;
-use Kernel::System::User;
-use Kernel::Scheduler;
-use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -76,21 +70,6 @@ sub new {
         %{$Self},
         Invoker      => 'ReplicateIncident',
         WebserviceID => $Self->{WebserviceID},
-    );
-
-    # create Ticket Object
-    $Self->{TicketObject} = Kernel::System::Ticket->new(
-        %{$Self},
-    );
-
-    # create CustomerUser Object
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(
-        %{$Self},
-    );
-
-    # create CustomerUser Object
-    $Self->{UserObject} = Kernel::System::User->new(
-        %{$Self},
     );
 
     return $Self;
@@ -189,6 +168,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-04-13 21:26:21 $
+$Revision: 1.42 $ $Date: 2011-04-14 01:24:15 $
 
 =cut
