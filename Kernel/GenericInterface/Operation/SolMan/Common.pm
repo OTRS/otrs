@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.13 2011-04-14 11:28:49 mg Exp $
+# $Id: Common.pm,v 1.14 2011-04-14 12:00:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -133,7 +133,7 @@ Create/Update a local ticket.
 
     $Result = {
         Success         => 1,                       # 0 or 1
-        ErrorMessage    => '',                      # in case of error
+        ErrorMessage    => '',                      # In case of an error
         Data            => {                        # result data payload after Operation
             PrdIctId   => '2011032400001',          # Incident number in the provider (help desk system) / type="n0:char32"
             PersonMaps => {                         # Mapping of person IDs / tns:IctPersonMaps
@@ -142,15 +142,17 @@ Create/Update a local ticket.
                     PersonIdExt => '5050',
                 },
             },
-            Errors => {                         # should not return errors
-                item => {
-                    ErrorCode => '01'
-                    Val1      =>  'Error Description',
-                    Val2      =>  'Error Detail 1',
-                    Val3      =>  'Error Detail 2',
-                    Val4      =>  'Error Detail 3',
+            Errors => {                             # In case of an error
+                item => [
+                    {
+                        ErrorCode => '01'
+                        Val1      =>  'Error Description',
+                        Val2      =>  'Error Detail 1',
+                        Val3      =>  'Error Detail 2',
+                        Val4      =>  'Error Detail 3',
 
-                },
+                    },
+                ],
             },
         },
     };
@@ -161,38 +163,54 @@ sub TicketSync {
     my ( $Self, %Param ) = @_;
 
     if ( !IsStringWithData( $Param{Operation} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
+        return $Self->_ReturnError(
+            ErrorCode => '09',
+            ErrorMessage =>
+                'Got no Data in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()',
+        );
     }
 
     # we need Data
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-
-        #QA: implement proper error handling with <Errors> instead
-
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
+        return $Self->_ReturnError(
+            ErrorCode => '09',
+            ErrorMessage =>
+                'Got no Data in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()',
+        );
     }
 
     # check needed data
     for my $Key (qw(IctHead)) {
         if ( !IsHashRefWithData( $Param{Data}->{$Key} ) ) {
-            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
+            return $Self->_ReturnError(
+                ErrorCode => '09',
+                ErrorMessage =>
+                    "Got no Data->$Key in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+            );
         }
     }
 
     for my $Key (qw(IncidentGuid ProviderGuid RequesterGuid)) {
         if ( !IsStringWithData( $Param{Data}->{IctHead}->{$Key} ) ) {
-            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->IctHead->$Key" );
+            return $Self->_ReturnError(
+                ErrorCode => '09',
+                ErrorMessage =>
+                    "Got no Data->IctHead->$Key in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+            );
         }
     }
 
 #QA: add check if ProviderGuid or RequesterGuid matches our SystemGuid and the other value matches the SystemGuid from the operation config
 #QA: i think we should use get the remote SystemGuid dynamically at some point, but for now please use $Webservice->{Config}->{Requester}->{Operation}->{ $Param{Operation} }->{RemoteSystemGuid};
 
-    #    for my $Key (qw(IctTimestamp)) {
-    #        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
-    #            return $Self->{DebuggerObject}->Error( Summary => "Got no Data->$Key" );
-    #        }
-    #    }
+#    for my $Key (qw(IctTimestamp)) {
+#        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
+#        return $Self->_ReturnError(
+#            ErrorCode => '09',
+#            ErrorMessage => "Got no Data->$Key in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+#        );
+#        }
+#    }
 
     my $TicketID;
 
@@ -231,11 +249,14 @@ sub TicketSync {
         );
         if ( !$TicketID ) {
 
-            return $Self->{DebuggerObject}->Error(
-                Summary => $Self->{LogObject}->GetLogEntry(
-                    Type => 'error',
-                    What => 'Message',
-                ),
+            my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
+                Type => 'error',
+                What => 'Message',
+            );
+
+            return $Self->_ReturnError(
+                ErrorCode    => '09',
+                ErrorMessage => $ErrorMessage,
             );
         }
 
@@ -261,9 +282,11 @@ sub TicketSync {
 
         # only if exactly one ticket can be found
         if ( scalar @Tickets != 1 ) {
-            return $Self->{DebuggerObject}->Error(
-                Summary =>
-                    "Could not find ticket for IncidentGuid $Param{Data}->{IctHead}->{IncidentGuid}"
+
+            return $Self->_ReturnError(
+                ErrorCode => '09',
+                ErrorMessage =>
+                    "Could not find ticket for IncidentGuid $Param{Data}->{IctHead}->{IncidentGuid} in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
             );
         }
 
@@ -280,8 +303,10 @@ sub TicketSync {
             );
 
             if ( !$Success ) {
-                return $Self->{DebuggerObject}->Error(
-                    Summary => "Could not update ticket title!",
+                return $Self->_ReturnError(
+                    ErrorCode => '09',
+                    ErrorMessage =>
+                        "Could not update ticket title in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
                 );
             }
         }
@@ -294,8 +319,10 @@ sub TicketSync {
             );
 
             if ( !$Success ) {
-                return $Self->{DebuggerObject}->Error(
-                    Summary => "Could not update ticket priority!",
+                return $Self->_ReturnError(
+                    ErrorCode => '09',
+                    ErrorMessage =>
+                        "Could not update ticket priority in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
                 );
             }
         }
@@ -346,11 +373,14 @@ sub TicketSync {
                 UserID         => 1,
             );
             if ( !$ArticleID ) {
-                return $Self->{DebuggerObject}->Error(
-                    Summary => $Self->{LogObject}->GetLogEntry(
-                        Type => 'error',
-                        What => 'message',
-                    ),
+                my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
+                    Type => 'error',
+                    What => 'Message',
+                );
+
+                return $Self->_ReturnError(
+                    ErrorCode    => '09',
+                    ErrorMessage => $ErrorMessage,
                 );
             }
             $LastArticleID = $ArticleID;
@@ -401,6 +431,18 @@ sub TicketSync {
                     ArticleID   => $LastArticleID,
                     UserID      => 1,
                 );
+
+                if ( !$Success ) {
+                    my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
+                        Type => 'error',
+                        What => 'Message',
+                    );
+
+                    return $Self->_ReturnError(
+                        ErrorCode    => '09',
+                        ErrorMessage => $ErrorMessage,
+                    );
+                }
             }
 
         }
@@ -417,8 +459,10 @@ sub TicketSync {
         );
 
         if ( !$Success ) {
-            return $Self->{DebuggerObject}->Error(
-                Summary => "Could not close ticket!",
+            return $Self->_ReturnError(
+                ErrorCode => '09',
+                ErrorMessage =>
+                    "Could not close ticket in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
             );
         }
     }
@@ -442,6 +486,39 @@ sub TicketSync {
     return $ReturnData;
 }
 
+=item _ReturnError()
+
+helper function to return an error message from within TicketSync() in the way
+SolMan expects it. See TicketSync() for how the error structure looks like.
+
+    return $CommonObject->_ReturnError(
+        ErrorCode => '09',
+        ErrorMessage => 'Der Aufruf ist unvollständig oder unerlaubt',
+    );
+
+=cut
+
+sub _ReturnError {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{DebuggerObject}->Error( Summary => "$Param{ErrorCode}: $Param{ErrorMessage}" );
+
+    return {
+        Success      => 0,
+        ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
+        Data         => {
+            Errors => {
+                item => [
+                    {
+                        ErrorCode => $Param{ErrorCode},
+                        Val1      => $Param{ErrorMessage},
+                    }
+                ],
+            },
+        },
+    };
+}
+
 1;
 
 =back
@@ -458,6 +535,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-04-14 11:28:49 $
+$Revision: 1.14 $ $Date: 2011-04-14 12:00:39 $
 
 =cut
