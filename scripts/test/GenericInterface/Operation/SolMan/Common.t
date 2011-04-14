@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.1 2011-04-13 13:27:54 mg Exp $
+# $Id: Common.t,v 1.2 2011-04-14 07:56:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -454,11 +454,13 @@ for my $TestChain (@Tests) {
             Extended => 1,
         );
 
-        $Self->Is(
-            $TicketData{TicketNumber},
-            $Result->{Data}->{PrdIctId},
-            "$Test->{Name} Ticket data contains correct TicketNumber",
-        );
+        if ( $TicketCreatingOperations{ $Test->{Operation} } ) {
+            $Self->Is(
+                $TicketData{TicketNumber},
+                $Result->{Data}->{PrdIctId},
+                "$Test->{Name} Ticket data contains correct TicketNumber",
+            );
+        }
 
         if ( $Test->{Data}->{IctHead}->{ShortDescription} ) {
             $Self->Is(

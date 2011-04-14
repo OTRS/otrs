@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.6 2011-04-14 05:39:26 sb Exp $
+# $Id: Common.pm,v 1.7 2011-04-14 07:56:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -374,23 +374,23 @@ sub TicketSync {
         }
     }
 
-    my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-
-    #QA: only return PrdIctId element when a new ticket was created
-    # copy data
     my $ReturnData = {
-        Errors   => '',
-        PrdIctId => $Ticket{TicketNumber},
+        Errors  => '',
+        Success => 1,
     };
+
+    if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
+
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        $ReturnData->{Data}->{PrdIctId} = $Ticket{TicketNumber};
+    }
 
     # return result
-    return {
-        Success => 1,
-        Data    => $ReturnData,
-    };
+    return $ReturnData;
 }
 
 1;
@@ -409,6 +409,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-04-14 05:39:26 $
+$Revision: 1.7 $ $Date: 2011-04-14 07:56:01 $
 
 =cut
