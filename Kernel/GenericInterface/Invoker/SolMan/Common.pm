@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.28 2011-04-14 21:00:37 cr Exp $
+# $Id: Common.pm,v 1.29 2011-04-14 21:02:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1617,8 +1617,8 @@ sub PrepareRequest {
     # check current sync attempts and return if maximum has been reached
     if ( int($SyncAttempts) >= int( $Self->{MaxSyncAttempts} ) ) {
         $ErrorMessage = "Self->{Invoker} PrepareRequest: The attempts to syncrhonize ticket"
-            . "$Self->TicketID has reached or overpassed the maximum allowed "
-            . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts}), can't continue!";
+            . "$Self->{TicketID} has reached or overpassed the maximum allowed "
+            . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts} ), can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -1682,7 +1682,8 @@ sub PrepareRequest {
             },
         );
 
-        $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
+        $ErrorMessage
+            = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
             . "replicated on the remote system can't continue! ReplicateIncident Will be fired";
 
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
@@ -2118,6 +2119,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-04-14 21:00:37 $
+$Revision: 1.29 $ $Date: 2011-04-14 21:02:33 $
 
 =cut
