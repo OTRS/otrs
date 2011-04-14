@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.5 2011-04-13 14:00:40 mg Exp $
+# $Id: Common.pm,v 1.6 2011-04-14 05:39:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -176,11 +176,14 @@ sub TicketSync {
         }
     }
 
-    for my $Key (qw(IncidentGuid)) {
+    for my $Key (qw(IncidentGuid ProviderGuid RequesterGuid)) {
         if ( !IsStringWithData( $Param{Data}->{IctHead}->{$Key} ) ) {
             return $Self->{DebuggerObject}->Error( Summary => "Got no Data->IctHead->$Key" );
         }
     }
+
+#QA: add check if ProviderGuid or RequesterGuid matches our SystemGuid and the other value matches the SystemGuid from the operation config
+#QA: i think we should use get the remote SystemGuid dynamically at some point, but for now please use $Webservice->{Config}->{Requester}->{Operation}->{ $Param{Operation} }->{RemoteSystemGuid};
 
     #    for my $Key (qw(IctTimestamp)) {
     #        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
@@ -192,6 +195,7 @@ sub TicketSync {
 
     my $IncidentGuidTicketFlagName = "GI_$Self->{WebserviceID}_SolMan_IncidentGuid";
 
+    #QA: can be removed - will be done in mapping layer
     my %PrioritySolMan2OTRS = (
         1 => '5 very high',
         2 => '4 high',
@@ -199,15 +203,22 @@ sub TicketSync {
         4 => '2 low',
     );
 
+    #QA: default will be supplied by mapping
     my $TargetPriority = $PrioritySolMan2OTRS{ $Param{Data}->{IctHead}->{Priority} || 3 };
+
+    #QA: add person mapping
 
     if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
 
-        # create ticket
+#QA: use default for queue from operation (like RemoteSystemGuid)
+#QA: defaults for state will be supplied from mapping layer (AddInfoValue from $Param{Data}->{IctAdditionalInfos}->[item]->{AddInfoAttribute} = 'SAPUserStatus')
+#QA: if we have an AgentId, we should use it as owner
+#QA: replace values for CustomerNo and CustomerUser with values from person mapping (if ReporterId is set)
+# create ticket
         $TicketID = $Self->{TicketObject}->TicketCreate(
-            Title        => $Param{Data}->{IctHead}->{ShortDescription},
-            Queue        => 'Raw',
-            Lock         => 'unlock',
+            Title => $Param{Data}->{IctHead}->{ShortDescription} || '',
+            Queue => 'Raw',
+            Lock  => 'unlock',
             Priority     => $TargetPriority,
             State        => 'open',
             CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
@@ -254,6 +265,8 @@ sub TicketSync {
 
         $TicketID = $Tickets[0];
 
+        #QA: title and priority will be passed on every request - compare and update if necessary
+        #QA: also ReporterId and AgentId will be passed every time - compare and update as well
         # update fields if neccessary
         if ( $Param{Data}->{IctHead}->{ShortDescription} ) {
             my $Success = $Self->{TicketObject}->TicketTitleUpdate(
@@ -285,6 +298,7 @@ sub TicketSync {
 
     }
 
+    #QA: more than one article might be passed
     # create article
     if ( $Param{Data}->{IctStatements} && $Param{Data}->{IctStatements}->{item} ) {
         my $ArticleID;
@@ -296,12 +310,14 @@ sub TicketSync {
             next if !$Items->{Texts}->{item};
             next if ref $Items->{Texts}->{item} ne 'ARRAY';
 
+            #QA: use person mapping, if no person id is passed, use empty parentheses
             # construct the text body from multiple item nodes
             my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Items->{Timestamp}
                 =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
             my $Body = "($Items->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
             $Body .= join "\n", @{ $Items->{Texts}->{item} };
 
+#QA: use TextType as article type (is converted in mapping layer), use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
             my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
@@ -326,6 +342,7 @@ sub TicketSync {
             $ArticleID = $ArticleIDLocal;
         }
 
+        #QA: only create attachment if Delete param is empty ('' or ' ')
         # create attachments
         if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
             for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
@@ -342,7 +359,8 @@ sub TicketSync {
 
     if ( $Param{Operation} eq 'CloseIncident' ) {
 
-        # close ticket
+#QA: default close state will be supplied from operation  ($Webservice->{Config}->{Requester}->{Operation}->{ $Param{Operation} }->{CloseState};)
+# close ticket
         my $Success = $Self->{TicketObject}->TicketStateSet(
             State    => 'closed successful',
             TicketID => $TicketID,
@@ -361,6 +379,7 @@ sub TicketSync {
         UserID   => 1,
     );
 
+    #QA: only return PrdIctId element when a new ticket was created
     # copy data
     my $ReturnData = {
         Errors   => '',
@@ -390,6 +409,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-04-13 14:00:40 $
+$Revision: 1.6 $ $Date: 2011-04-14 05:39:26 $
 
 =cut
