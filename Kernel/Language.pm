@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.77 2010-06-17 21:22:52 cr Exp $
+# $Id: Language.pm,v 1.77.2.1 2011-04-14 12:20:54 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.77.2.1 $) [1];
 
 =head1 NAME
 
@@ -229,6 +229,12 @@ Translate a string.
 
     my $Text = $LanguageObject->Get('Hello');
 
+    Example: (the quoting looks strange, but is in fact correct!)
+
+    my $String = 'History::NewTicket", "2011031110000023", "Postmaster", "3 normal", "open", "9';
+
+    my $TranslatedString = $LanguageObject->Get( $String );
+
 =cut
 
 sub Get {
@@ -272,7 +278,7 @@ sub Get {
         }
         my $Text = $Self->{Translation}->{$What};
         if (@Dyn) {
-            for ( 0 .. 2 ) {
+            for ( 0 .. $#Dyn ) {
 
                 # be careful $Dyn[$_] can be 0! bug#3826
                 last if !defined $Dyn[$_];
@@ -305,7 +311,7 @@ sub Get {
     }
 
     if (@Dyn) {
-        for ( 0 .. 2 ) {
+        for ( 0 .. $#Dyn ) {
 
             # be careful $Dyn[$_] can be 0! bug#3826
             last if !defined $Dyn[$_];
@@ -526,6 +532,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2010-06-17 21:22:52 $
+$Revision: 1.77.2.1 $ $Date: 2011-04-14 12:20:54 $
 
 =cut
