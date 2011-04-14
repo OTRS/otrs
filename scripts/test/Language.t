@@ -2,7 +2,7 @@
 # scripts/test/Language.t - Language module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.t,v 1.2 2011-04-14 12:22:10 ub Exp $
+# $Id: Language.t,v 1.3 2011-04-14 12:50:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,28 +40,34 @@ my $LanguageObject = Kernel::Language->new(
 # the translations for the test cases must be defined in Kernel/Language/de_OTRSLanguageUnitTest.pm
 my %Test = (
     'OTRSLanguageUnitTest::Test1' => {
-        Parameters => ['Hallo'],    # test with not needed parameter
-        Translated => 'Test1',
+        TranslationString => 'Test1',
+        TranslationResult => 'Test1',
+        Parameters        => ['Hallo'],    # test with not needed parameter
     },
     'OTRSLanguageUnitTest::Test2' => {
-        Parameters => ['Hallo'],
-        Translated => 'Test2 [Hallo]',
+        TranslationString => 'Test2 [%s]',
+        TranslationResult => 'Test2 [Hallo]',
+        Parameters        => ['Hallo'],
     },
     'OTRSLanguageUnitTest::Test3' => {
-        Parameters => [ 'Hallo', 'A' ],
-        Translated => 'Test3 [Hallo] (A=A)',
+        TranslationString => 'Test3 [%s] (A=%s)',
+        TranslationResult => 'Test3 [Hallo] (A=A)',
+        Parameters        => [ 'Hallo', 'A' ],
     },
     'OTRSLanguageUnitTest::Test4' => {
-        Parameters => [ 'Hallo', 'A', 'B' ],
-        Translated => 'Test4 [Hallo] (A=A;B=B)',
+        TranslationString => 'Test4 [%s] (A=%s;B=%s)',
+        TranslationResult => 'Test4 [Hallo] (A=A;B=B)',
+        Parameters        => [ 'Hallo', 'A', 'B' ],
     },
     'OTRSLanguageUnitTest::Test5' => {
-        Parameters => [ 'Hallo', 'A', 'B', 'C' ],
-        Translated => 'Test5 [Hallo] (A=A;B=B;C=C)',
+        TranslationString => 'Test5 [%s] (A=%s;B=%s;C=%s)',
+        TranslationResult => 'Test5 [Hallo] (A=A;B=B;C=C)',
+        Parameters        => [ 'Hallo', 'A', 'B', 'C' ],
     },
     'OTRSLanguageUnitTest::Test6' => {
-        Parameters => [ 'Hallo', 'A', 'B', 'C', 'D' ],
-        Translated => 'Test6 [Hallo] (A=A;B=B;C=C;D=D)',
+        TranslationString => 'Test6 [%s] (A=%s;B=%s;C=%s;D=%s)',
+        TranslationResult => 'Test6 [Hallo] (A=A;B=B;C=C;D=D)',
+        Parameters        => [ 'Hallo', 'A', 'B', 'C', 'D' ],
     },
 );
 
@@ -75,13 +81,16 @@ for my $OriginalString ( sort keys %Test ) {
         $ParameterString .= '", "' . $Parameter;
     }
 
+    # add translation string to language object
+    $LanguageObject->{Translation}->{$OriginalString} = $Test{$OriginalString}->{TranslationString};
+
     # get the translation
     my $TranslatedString = $LanguageObject->Get( $OriginalString . $ParameterString );
 
     # compare with expected translation
     $Self->Is(
         $TranslatedString || '',
-        $Test{$OriginalString}->{Translated},
+        $Test{$OriginalString}->{TranslationResult},
         'Translation of ' . $OriginalString,
     );
 }
