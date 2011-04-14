@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.4 2011-04-13 22:37:50 cr Exp $
+# $Id: ReplicateIncident.t,v 1.5 2011-04-14 07:48:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -377,8 +377,8 @@ my $WebserviceConfig = {
         },
         Invoker => {
             ReplicateIncident => {
-                Type       => 'SolMan::ReplicateIncident',
-                SystemGuid => '123ABC123ABC123ABC'
+                Type             => 'SolMan::ReplicateIncident',
+                RemoteSystemGuid => '123ABC123ABC123ABC'
             },
         },
     },
@@ -544,7 +544,7 @@ for my $Test (@Tests) {
 
             $Self->Is(
                 $Result->{Data}->{IctHead}->{ProviderGuid},
-                $WebserviceConfig->{Requester}->{Invoker}->{ReplicateIncident}->{SystemGuid},
+                $WebserviceConfig->{Requester}->{Invoker}->{ReplicateIncident}->{RemoteSystemGuid},
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead ProviderGuid",
             );
 
