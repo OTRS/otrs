@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.13 2011-03-29 12:36:15 mg Exp $
+# $Id: Operation.pm,v 1.14 2011-04-14 11:58:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsStringWithData);
 use Kernel::GenericInterface::Operation::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -154,12 +154,6 @@ perform the selected Operation.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got Data but it is not a hash ref in Operation handler!' );
-    }
-
     # start map on backend
     return $Self->{BackendObject}->Run(%Param);
 }
@@ -180,6 +174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-03-29 12:36:15 $
+$Revision: 1.14 $ $Date: 2011-04-14 11:58:18 $
 
 =cut
