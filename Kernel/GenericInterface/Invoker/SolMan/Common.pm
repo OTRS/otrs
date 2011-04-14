@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.24 2011-04-14 16:31:27 cg Exp $
+# $Id: Common.pm,v 1.25 2011-04-14 16:40:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -135,10 +135,10 @@ sub new {
 
 # handle common
 
-=item _HandleErrors()
+=item HandleErrors()
 Process errors from remote server, the result will be a string with all erros
 
-    my $Result = $SolManCommonObject->_HandleErrors(
+    my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
             item => {
                 ErrorCode => '01'
@@ -150,7 +150,7 @@ Process errors from remote server, the result will be a string with all erros
         }
     );
 
-    my $Result = $SolManCommonObject->_HandleErrors(
+    my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
             item => [
                 {
@@ -178,7 +178,7 @@ Process errors from remote server, the result will be a string with all erros
 
 =cut
 
-sub _HandleErrors {
+sub HandleErrors {
     my ( $Self, %Param ) = @_;
 
     # check for needed objects
@@ -1969,7 +1969,7 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( IsHashRefWithData( $Data->{Errors} ) ) {
 
-        my $HandleErrorsResult = $Self->_HandleErrors(
+        my $HandleErrorsResult = $Self->HandleErrors(
             Errors => $Data->{Errors},
         );
 
@@ -2118,6 +2118,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-04-14 16:31:27 $
+$Revision: 1.25 $ $Date: 2011-04-14 16:40:05 $
 
 =cut
