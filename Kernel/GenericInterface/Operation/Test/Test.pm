@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.4 2011-03-17 01:57:53 sb Exp $
+# $Id: Test.pm,v 1.5 2011-04-14 11:57:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -85,10 +85,9 @@ sub Run {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Operation Test backend)!'
-            );
+        );
     }
 
     # copy data
@@ -123,6 +122,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-03-17 01:57:53 $
+$Revision: 1.5 $ $Date: 2011-04-14 11:57:34 $
 
 =cut
