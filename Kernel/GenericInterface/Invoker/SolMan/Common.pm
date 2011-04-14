@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.20 2011-04-13 22:56:46 cr Exp $
+# $Id: Common.pm,v 1.21 2011-04-14 01:34:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -129,7 +129,7 @@ sub new {
 
     # get max sync attemps
     $Self->{MaxSyncAttempts}
-        = $Self->{ConfigObject}->Get('GenericInterface::Invoker::Common::MaxSyncAttempts');
+        = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::MaxSyncAttempts') || 5;
     return $Self;
 }
 
@@ -1313,59 +1313,59 @@ sub GetArticleLockStatus {
 
 #QA: see comments above.
 #QA: Name? Reschedule or Replicate?
-
-=item RescheduleReplicateTask()
-writes the Replicate flag and delete the Attempt flag.
-returns 1 if the operation was successfull.
-
-        Type         => 'GenericInterface',
-        Invoker      => 'ReplicateIncident',
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Ticket',
-        ObjectID     => 123,
-        Data         => {                       # data for invoker
-            WebserviceID => $Param{WebserviceID},
-            TicketID     => $Param{TicketID},
-        },
-
-    $Success = 1;      # or ''
-=cut
-
-sub RescheduleReplicateTask {
-    my ( $Self, %Param ) = @_;
-
-    # check needed params
-    for my $Needed (qw(Type Invoker WebserviceID Data ObjectType LockState ObjectID )) {
-        if ( !$Param{$Needed} ) {
-
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "RescheduleReplicateTask: Got no $Needed",
-            );
-            return;
-        }
-    }
-    my $IsPossibleToSyncObject = $Self->IsPossibleToSyncObject(
-        WebserviceID => $Param{WebserviceID},
-        ObjectType   => 'Object',
-        ObjectID     => $Param{ObjectID},
-    );
-    if ( $IsPossibleToSyncObject->{Possible} ) {
-        my $Success = $Self->ScheduleTask(
-            Type         => 'GenericInterface',
-            Invoker      => $Param{Invoker},
-            WebserviceID => $Param{WebserviceID},
-            Data         => $Param{Data},
-        );
-        $Self->{DebuggerObject}->Info(
-            Summary =>
-                "RescheduleReplicateTask: Reschedule $Param{Invoker}:$Param{ObjectType}:$Param{ObjectID}:$Success",
-        );
-        return $Success;
-    }
-
-    return;
-}
+# TODO this is propably not needed anymore
+#=item RescheduleReplicateTask()
+#writes the Replicate flag and delete the Attempt flag.
+#returns 1 if the operation was successfull.
+#
+#        Type         => 'GenericInterface',
+#        Invoker      => 'ReplicateIncident',
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => 'Ticket',
+#        ObjectID     => 123,
+#        Data         => {                       # data for invoker
+#            WebserviceID => $Param{WebserviceID},
+#            TicketID     => $Param{TicketID},
+#        },
+#
+#    $Success = 1;      # or ''
+#=cut
+#
+#sub RescheduleReplicateTask {
+#    my ( $Self, %Param ) = @_;
+#
+#    # check needed params
+#    for my $Needed (qw(Type Invoker WebserviceID Data ObjectType LockState ObjectID )) {
+#        if ( !$Param{$Needed} ) {
+#
+#            # write in debug log
+#            $Self->{DebuggerObject}->Error(
+#                Summary => "RescheduleReplicateTask: Got no $Needed",
+#            );
+#            return;
+#        }
+#    }
+#    my $IsPossibleToSyncObject = $Self->IsPossibleToSyncObject(
+#        WebserviceID => $Param{WebserviceID},
+#        ObjectType   => 'Object',
+#        ObjectID     => $Param{ObjectID},
+#    );
+#    if ( $IsPossibleToSyncObject->{Possible} ) {
+#        my $Success = $Self->ScheduleTask(
+#            Type         => 'GenericInterface',
+#            Invoker      => $Param{Invoker},
+#            WebserviceID => $Param{WebserviceID},
+#            Data         => $Param{Data},
+#        );
+#        $Self->{DebuggerObject}->Info(
+#            Summary =>
+#                "RescheduleReplicateTask: Reschedule $Param{Invoker}:$Param{ObjectType}:$Param{ObjectID}:$Success",
+#        );
+#        return $Success;
+#    }
+#
+#    return;
+#}
 
 =item ScheduleTask()
 schedule a new task.
@@ -1398,9 +1398,9 @@ sub ScheduleTask {
         }
     }
 
-    #QA: hardcoded 3 seconds?
+    my $TaskDelay = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::TaskDelay') || 3;
 
-    my $DueSystemTime = $Self->{TimeObject}->SystemTime() + 3;
+    my $DueSystemTime = $Self->{TimeObject}->SystemTime() + $TaskDelay;
     my $DueTimeStamp  = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $DueSystemTime,
     );
@@ -1538,7 +1538,7 @@ sub PrepareRequest {
     # check needed params
     for my $Needed (qw( TicketID )) {
         if ( !IsStringWithData( $Param{Data}->{$Needed} ) ) {
-            $ErrorMessage = "PrepareRequest: Got no $Needed!";
+            $ErrorMessage = "Self->{Invoker} PrepareRequest: Got no $Needed!";
             $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
             return {
                 Success      => 0,
@@ -1557,12 +1557,50 @@ sub PrepareRequest {
 
     # compare TicketNumber from Param and from DB
     if ( $Self->{TicketID} ne $Ticket{TicketID} ) {
-        $ErrorMessage = "$Self->{Invoker}: Error getting Ticket Data";
+        $ErrorMessage = "$Self->{Invoker} PrepareRequest: Error getting Ticket Data";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
         };
+    }
+
+    # additional checks for CloseIncident Invoker
+    if ( $Self->{Invoker} eq 'CloseIncident' ) {
+
+        # we need the old ticket info
+        if ( !IsHashRefWithData( $Param{Data}->{OldTicketID} ) ) {
+            $ErrorMessage = 'Self->{Invoker} PrerareRequest: Invalid old ticket data';
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+
+        my $OldTicketData = $Param{OldTicketData};
+
+        # return if this is not ticket close
+        if ( $Ticket{StateType} ne 'closed' ) {
+            $ErrorMessage = "Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
+                . "state but $Ticket{StateType} state, CloseIncident Invoker Cancelled";
+            $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+
+        # return if ticket was already closed
+        elsif ( $OldTicketData->{StateType} eq 'closed' ) {
+            $ErrorMessage = "Self->{Invoker} Prerpare Request: This is ticket was already in "
+                . "closed state, CloseIncident Invoker Cancelled";
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
     }
 
     # get the lock state
@@ -1577,8 +1615,8 @@ sub PrepareRequest {
 
     # check current sync attempts and return if maximum has been reached
     if ( int($SyncAttempts) >= int( $Self->{MaxSyncAttempts} ) ) {
-        $ErrorMessage = "The attempts to syncrhonize ticket $Self->TicketID "
-            . "has reached or overpassed the maximum allowed "
+        $ErrorMessage = "Self->{Invoker} PrepareRequest: The attempts to syncrhonize ticket"
+            . "$Self->TicketID has reached or overpassed the maximum allowed "
             . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts}), can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -1598,8 +1636,8 @@ sub PrepareRequest {
 
     # check for sync information errors
     if ( !defined $LastSync ) {
-        $ErrorMessage = "There was an error while tying to get sync information for "
-            . " ticket $Self->TicketID, can't continue!";
+        $ErrorMessage = "Self->{Invoker} PrepareRequest: There was an error while tying to get "
+            . "sync information for ticket $Self->TicketID, can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -1609,8 +1647,39 @@ sub PrepareRequest {
 
     # LastSync check for ReplicateIncident Invoker
     if ( $Self->{Invoker} eq 'ReplicateIncident' && $LastSync ne 0 ) {
-        $ErrorMessage
-            = "The ticket $Self->{TicketID}, is already replicated can't continue! $LastSync";
+
+        # get LastSync as human readeble timestamp
+        my $LastSyncTimestamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $LastSync,
+        );
+
+        $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, is already "
+            . "replicated can't continue! " . $LastSyncTimestamp;
+
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # LastSync check for CloseIncident Invoker
+    if ( $Self->{Invoker} eq 'CloseIncident' && $LastSync eq 0 ) {
+
+        # schedule a new task to replicate insident and exit
+        my $Success = $Self->ScheduleTask(
+            Type         => 'GenericInterface',
+            Invoker      => 'ReplicateIncident',
+            WebserviceID => $Self->{WebserviceID},
+            Data         => {
+                WebserviceID => $Self->{WebserviceID},
+                TicketID     => $Self->{TicketID},
+            },
+        );
+
+        $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
+            . "replicatedon the remote system can't continue! ReplicateIncident Will be fired";
+
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -1635,7 +1704,7 @@ sub PrepareRequest {
         my $RequesterSystemGuid     = Kernel::GenericInterface::Requester->new( %{$Self} );
         my $RequestSolManSystemGuid = $RequesterSystemGuid->Run(
             WebserviceID => $Self->{WebserviceID},
-            Invoker      => $Self->{Invoker},
+            Invoker      => 'RequestSystemGuid',
             Data         => {},
         );
 
@@ -2044,6 +2113,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-04-13 22:56:46 $
+$Revision: 1.21 $ $Date: 2011-04-14 01:34:38 $
 
 =cut
