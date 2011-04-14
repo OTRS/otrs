@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.5 2011-04-14 09:02:14 mg Exp $
+# $Id: Common.t,v 1.6 2011-04-14 09:27:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,7 @@ my @Tests = (
                     item => [
                         {
                             AttachmentGuid => "Solman-$RandomID1-1-1",
-                            Filename       => 'test.txt',
+                            Filename       => 'test1.txt',
                             MimeType       => 'text/plain',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -156,7 +156,7 @@ works too',
                     item => [
                         {
                             AttachmentGuid => "Solman-$RandomID1-2-1",
-                            Filename       => 'test4.bin',
+                            Filename       => 'test2.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -167,7 +167,7 @@ works too',
                         },
                         {
                             AttachmentGuid => "Solman-$RandomID1-3-1",
-                            Filename       => 'test5.bin',
+                            Filename       => 'test3.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -244,8 +244,8 @@ works too',
             },
         },
         {
-            Name      => 'AddInfo without statements, but with attachments',
-            Operation => 'SolMan::AddInfo',
+            Name      => 'AcceptIncidentProcessing without statements, but with attachments',
+            Operation => 'SolMan::AcceptIncidentProcessing',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -253,7 +253,7 @@ works too',
                     item => [
                         {
                             AttachmentGuid => "Solman-$RandomID1-4-1",
-                            Filename       => 'test6.bin',
+                            Filename       => 'test4.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -264,7 +264,7 @@ works too',
                         },
                         {
                             AttachmentGuid => "Solman-$RandomID1-5-1",
-                            Filename       => 'test7.bin',
+                            Filename       => 'test5.bin',
                             MimeType       => 'application/octet-stream',
                             Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
                             Timestamp      => '20110324000000',
@@ -310,6 +310,176 @@ works too',
                 IctSolutions  => {},
                 IctStatements => {
                     item => [],
+                },
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
+        {
+            Name      => 'VerifyIncidentSolution',
+            Operation => 'SolMan::VerifyIncidentSolution',
+            Success   => 1,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {
+                    item => [
+                        {
+                            AttachmentGuid => "Solman-$RandomID1-6-1",
+                            Filename       => 'test6.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => ' ',
+                        },
+                        {
+                            AttachmentGuid => "Solman-$RandomID1-7-1",
+                            Filename       => 'test7.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => '1',
+                        },
+                    ],
+                },
+                IctHead => {
+                    IncidentGuid     => "Solman-$RandomID1",
+                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
+                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'AddInfo Test',
+                    Priority         => 2,
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {
+                    item => [
+                        {
+                            TextType => 'SU99',
+                            Texts    => {
+                                item => [
+                                    'verify incident solution',
+                                ],
+                            },
+                            Timestamp => '20110323000000',
+                            PersonId  => 1,
+                            Language  => 'de',
+                        },
+                    ],
+                },
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
+        {
+            Name      => 'RejectIncidentSolution',
+            Operation => 'SolMan::RejectIncidentSolution',
+            Success   => 1,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {
+                    item => [
+                        {
+                            AttachmentGuid => "Solman-$RandomID1-8-1",
+                            Filename       => 'test8.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => ' ',
+                        },
+                        {
+                            AttachmentGuid => "Solman-$RandomID1-9-1",
+                            Filename       => 'test9.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => '1',
+                        },
+                    ],
+                },
+                IctHead => {
+                    IncidentGuid     => "Solman-$RandomID1",
+                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
+                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'AddInfo Test',
+                    Priority         => 2,
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {
+                    item => [
+                        {
+                            TextType => 'SU99',
+                            Texts    => {
+                                item => [
+                                    'reject incident solution',
+                                ],
+                            },
+                            Timestamp => '20110323000000',
+                            PersonId  => 1,
+                            Language  => 'de',
+                        },
+                    ],
                 },
 
                 IctTimestamp => '20010101000000',

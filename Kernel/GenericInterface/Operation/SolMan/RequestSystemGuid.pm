@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.6 2011-03-30 12:07:56 mg Exp $
+# $Id: RequestSystemGuid.pm,v 1.7 2011-04-14 09:27:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::SolMan - GenericInterface SolMan RequestGuid Operation backend
+Kernel::GenericInterface::Operation::SolMan::RequestSystemGuid - GenericInterface SolMan RequestSystemGuid Operation backend
 
 =head1 SYNOPSIS
 
@@ -120,6 +120,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-03-30 12:07:56 $
+$Revision: 1.7 $ $Date: 2011-04-14 09:27:31 $
 
 =cut

@@ -1,15 +1,15 @@
 # --
-# Kernel/GenericInterface/Operation/SolMan/CloseIncident.pm - GenericInterface SolMan CloseIncident operation backend
+# Kernel/GenericInterface/Operation/SolMan/RejectIncidentSolution.pm - GenericInterface SolMan RejectIncidentSolution operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.pm,v 1.2 2011-04-14 09:27:31 mg Exp $
+# $Id: RejectIncidentSolution.pm,v 1.1 2011-04-14 09:27:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GenericInterface::Operation::SolMan::CloseIncident;
+package Kernel::GenericInterface::Operation::SolMan::RejectIncidentSolution;
 
 use strict;
 use warnings;
@@ -17,13 +17,15 @@ use warnings;
 use Kernel::GenericInterface::Operation::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::SolMan::CloseIncident - GenericInterface SolMan CloseIncident Operation backend
+Kernel::GenericInterface::Operation::SolMan::RejectIncidentSolution - GenericInterface SolMan RejectIncidentSolution Operation backend
 
 =head1 SYNOPSIS
+
+This works in the same way as Kernel::GenericInterface::Operation::SolMan::AddInfo.
 
 =head1 PUBLIC INTERFACE
 
@@ -67,7 +69,7 @@ sub new {
 
 =item Run()
 
-perform CloseIncident Operation. This will return the created ticket number.
+perform RejectIncidentSolution Operation. This will return the created ticket number.
 
     my $Result = $OperationObject->Run(
         Data => {
@@ -115,7 +117,7 @@ sub Run {
 
     return $Self->{SolManCommonObject}->TicketSync(
         %Param,
-        Operation => 'CloseIncident',
+        Operation => 'RejectIncidentSolution',
     );
 }
 
@@ -135,6 +137,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-04-14 09:27:31 $
+$Revision: 1.1 $ $Date: 2011-04-14 09:27:31 $
 
 =cut

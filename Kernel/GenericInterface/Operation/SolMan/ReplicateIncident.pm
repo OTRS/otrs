@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.12 2011-04-12 14:07:01 mg Exp $
+# $Id: ReplicateIncident.pm,v 1.13 2011-04-14 09:27:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,11 +17,11 @@ use warnings;
 use Kernel::GenericInterface::Operation::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::SolMan - GenericInterface SolMan ReplicateIncident Operation backend
+Kernel::GenericInterface::Operation::SolMan::ReplicateIncident - GenericInterface SolMan ReplicateIncident Operation backend
 
 =head1 SYNOPSIS
 
@@ -135,6 +135,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-04-12 14:07:01 $
+$Revision: 1.13 $ $Date: 2011-04-14 09:27:31 $
 
 =cut
