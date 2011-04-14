@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.26 2011-04-14 17:26:11 cr Exp $
+# $Id: Common.pm,v 1.27 2011-04-14 20:33:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -1571,7 +1571,7 @@ sub PrepareRequest {
 
         # we need the old ticket info
         if ( !IsHashRefWithData( $Param{Data}->{OldTicketData} ) ) {
-            $ErrorMessage = "Self->{Invoker} PrerareRequest: Invalid old ticket data";
+            $ErrorMessage = "$Self->{Invoker} PrerareRequest: Invalid old ticket data";
             $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
             return {
                 Success      => 0,
@@ -1579,12 +1579,12 @@ sub PrepareRequest {
             };
         }
 
-        my $OldTicketData = $Param{OldTicketData};
+        my $OldTicketData = $Param{Data}->{OldTicketData};
 
         # return if this is not ticket close
         if ( $Ticket{StateType} ne 'closed' ) {
-            $ErrorMessage = "Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
-                . "state but $Ticket{StateType} state, CloseIncident Invoker Cancelled";
+            $ErrorMessage = "$Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
+                . "state but on an \"$Ticket{StateType}\" state, CloseIncident Invoker Cancelled";
             $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
             return {
                 Success      => 0,
@@ -1594,7 +1594,7 @@ sub PrepareRequest {
 
         # return if ticket was already closed
         elsif ( $OldTicketData->{StateType} eq 'closed' ) {
-            $ErrorMessage = "Self->{Invoker} Prerpare Request: This is ticket was already in "
+            $ErrorMessage = "$Self->{Invoker} Prerpare Request: This is ticket was already in "
                 . "closed state, CloseIncident Invoker Cancelled";
             $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
             return {
@@ -1683,7 +1683,7 @@ sub PrepareRequest {
         );
 
         $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
-            . "replicatedon the remote system can't continue! ReplicateIncident Will be fired";
+            . "replicated on the remote system can't continue! ReplicateIncident Will be fired";
 
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -2118,6 +2118,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2011-04-14 17:26:11 $
+$Revision: 1.27 $ $Date: 2011-04-14 20:33:43 $
 
 =cut
