@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.11 2011-04-14 01:46:48 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.12 2011-04-14 16:40:38 cg Exp $
 # $OldId: RequestSystemGuid.pm,v 1.3 2011/03/19 15:58:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -184,7 +184,7 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( IsHashRefWithData( $Data->{Errors} ) ) {
 
-        my $HandleErrorsResult = $Self->{SolManCommonObject}->_HandleErrors(
+        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
             Invoker => 'RequestSystemGuid',
             Errors  => $Data->{Errors},
         );
@@ -240,6 +240,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-04-14 01:46:48 $
+$Revision: 1.12 $ $Date: 2011-04-14 16:40:38 $
 
 =cut
