@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.27 2011-04-14 20:33:43 cr Exp $
+# $Id: Common.pm,v 1.28 2011-04-14 21:00:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -1638,7 +1638,7 @@ sub PrepareRequest {
     # check for sync information errors
     if ( !defined $LastSync ) {
         $ErrorMessage = "Self->{Invoker} PrepareRequest: There was an error while tying to get "
-            . "sync information for ticket $Self->TicketID, can't continue!";
+            . "sync information for ticket $Self->{TicketID}, can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
             Success      => 0,
@@ -2118,6 +2118,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-04-14 20:33:43 $
+$Revision: 1.28 $ $Date: 2011-04-14 21:00:37 $
 
 =cut
