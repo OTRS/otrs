@@ -1,8 +1,8 @@
 # --
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.32 2010-11-13 00:51:38 en Exp $
+# $Id: AdminMailAccount.dtl,v 1.33 2011-04-14 22:42:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,19 +159,19 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Trusted">$Text{"Trusted"}:</label>
+                        <label class="Mandatory" for="Trusted"><span class="Marker">*</span> $Text{"Trusted"}:</label>
                         <div class="Field">
                             $Data{"TrustedOption"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="DispatchingBy">$Text{"Dispatching"}:</label>
+                        <label class="Mandatory" for="DispatchingBy"><span class="Marker">*</span> $Text{"Dispatching"}:</label>
                         <div class="Field">
                             $Data{"DispatchingOption"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="QueueID">$Text{"Queue"}:</label>
+                        <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
                         <div class="Field">
                             $Data{"QueueOption"}
                         </div>
@@ -261,6 +261,7 @@
                             <div id="HostEditServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
+                            <p class="FieldExplanation">$Text{"Example: mail.example.com"}</p>
                         </div>
                         <div class="Clear"></div>
 
