@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.23 2011-04-14 15:47:32 cr Exp $
+# $Id: Common.pm,v 1.24 2011-04-14 16:31:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -706,7 +706,7 @@ sub GetArticlesInfo {
         my $ArticleCreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Article->{Created},
         );
-        next ARTICLE if ( $ArticleCreateTime <= $Param{LastSync} );
+        next ARTICLE if ( int $ArticleCreateTime <= int $Param{LastSync} );
 
         my $CreateTime = $Article->{Created};
         $CreateTime =~ s{[:|\-|\s]}{}g;
@@ -1665,7 +1665,11 @@ sub PrepareRequest {
     }
 
     # LastSync check for CloseIncident Invoker
-    if ( $Self->{Invoker} eq 'CloseIncident' && $LastSync eq 0 ) {
+    if (
+        ( $Self->{Invoker} eq 'CloseIncident' || $Self->{Invoker} eq 'AddInfo' )
+        && $LastSync eq 0
+        )
+    {
 
         # schedule a new task to replicate insident and exit
         my $Success = $Self->ScheduleTask(
@@ -2040,7 +2044,7 @@ sub HandleResponse {
 sub _SetSyncTimestamp {
     my ( $Self, %Param ) = @_;
 
-    my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+    my $TimeStamp = $Self->{TimeObject}->SystemTime();
 
     # set replicate flag
     my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
@@ -2114,6 +2118,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2011-04-14 15:47:32 $
+$Revision: 1.24 $ $Date: 2011-04-14 16:31:27 $
 
 =cut
