@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.9 2011-04-14 08:41:27 sb Exp $
+# $Id: Common.pm,v 1.10 2011-04-14 08:46:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -300,9 +300,11 @@ sub TicketSync {
 
     }
 
-    # create article(s)
+    my $LastArticleID;
+
+    # create articles from IctStatements
     if ( $Param{Data}->{IctStatements} && $Param{Data}->{IctStatements}->{item} ) {
-        my $ArticleID;
+
         for my $Items ( @{ $Param{Data}->{IctStatements}->{item} } ) {
             next if !$Items;
             next if ref $Items ne 'HASH';
@@ -319,7 +321,7 @@ sub TicketSync {
             $Body .= join "\n", @{ $Items->{Texts}->{item} };
 
 #QA: use TextType as article type (is converted in mapping layer), use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
-            my $ArticleIDLocal = $Self->{TicketObject}->ArticleCreate(
+            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',
@@ -332,7 +334,7 @@ sub TicketSync {
                 HistoryComment => 'Update from SolMan',
                 UserID         => 1,
             );
-            if ( !$ArticleIDLocal ) {
+            if ( !$ArticleID ) {
                 return $Self->{DebuggerObject}->Error(
                     Summary => $Self->{LogObject}->GetLogEntry(
                         Type => 'error',
@@ -340,28 +342,46 @@ sub TicketSync {
                     ),
                 );
             }
-            $ArticleID = $ArticleIDLocal;
+            $LastArticleID = $ArticleID;
         }
+    }
 
-        # create attachments
-        if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
-            for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
+    # create attachments
+    if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
+        for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
 
-                # should the attachment be created or deleted?
-                my $DeleteFlag
-                    = ( $Attachment->{Delete} ne '' && $Attachment->{Delete} ne ' ' ) ? 1 : 0;
+            # should the attachment be created or deleted?
+            my $DeleteFlag
+                = ( $Attachment->{Delete} ne '' && $Attachment->{Delete} ne ' ' ) ? 1 : 0;
 
-                if ( !$DeleteFlag ) {
-                    my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
-                        Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
-                        Filename    => $Attachment->{Filename},
-                        ContentType => $Attachment->{MimeType},
-                        ArticleID   => $ArticleID,
-                        UserID      => 1,
+            if ( !$DeleteFlag ) {
+
+                # if no article was created yet, create one to attach attachments to
+                if ( !$LastArticleID ) {
+                    $LastArticleID = $Self->{TicketObject}->ArticleCreate(
+                        TicketID       => $TicketID,
+                        ArticleType    => 'note-internal',
+                        SenderType     => 'system',
+                        From           => '',
+                        Subject        => "Attachments from SolMan",
+                        Body           => '',
+                        Charset        => 'utf-8',
+                        MimeType       => 'text/plain',
+                        HistoryType    => 'AddNote',
+                        HistoryComment => 'Update from SolMan',
+                        UserID         => 1,
                     );
                 }
 
+                my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
+                    Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
+                    Filename    => $Attachment->{Filename},
+                    ContentType => $Attachment->{MimeType},
+                    ArticleID   => $LastArticleID,
+                    UserID      => 1,
+                );
             }
+
         }
     }
 
@@ -417,6 +437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-04-14 08:41:27 $
+$Revision: 1.10 $ $Date: 2011-04-14 08:46:07 $
 
 =cut
