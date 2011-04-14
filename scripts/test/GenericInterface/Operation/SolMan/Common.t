@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.2 2011-04-14 07:56:01 mg Exp $
+# $Id: Common.t,v 1.3 2011-04-14 08:18:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,7 +163,18 @@ works too',
                             PersonId       => 1,
                             Url            => 'http://localhost',
                             Language       => 'de',
-                            Delete         => '',
+                            Delete         => ' ',
+                        },
+                        {
+                            AttachmentGuid => "Solman-$RandomID1-3-1",
+                            Filename       => 'test5.bin',
+                            MimeType       => 'application/octet-stream',
+                            Data           => 'ZWluIHRlc3Qgw6TDtsO8w5/DhMOWw5zigqw=',
+                            Timestamp      => '20110324000000',
+                            PersonId       => 1,
+                            Url            => 'http://localhost',
+                            Language       => 'de',
+                            Delete         => '1',
                         },
                     ],
                 },
@@ -532,6 +543,12 @@ for my $TestChain (@Tests) {
         TEST_ATTACHMENT_ITEM:
         for my $TestAttachmentItem ( @{ $Test->{Data}->{IctAttachments}->{item} || [] } ) {
 
+            # should the attachment be created or deleted?
+            my $DeleteFlag
+                = ( $TestAttachmentItem->{Delete} ne '' && $TestAttachmentItem->{Delete} ne ' ' )
+                ? 1
+                : 0;
+
             # try to find current attachment item in Ticket attachments
             ARTICLE_ID:
             for my $ArticleID (@ArticleIDs) {
@@ -549,44 +566,66 @@ for my $TestChain (@Tests) {
                         eq $TestAttachmentItem->{Filename}
                         )
                     {
+                        if ($DeleteFlag) {
 
-                        # Success, attachment found
+                            # Attachment with delete flag was found, show error
+                            $Self->False(
+                                1,
+                                "$Test->{Name} Ticket data attachment $TestAttachmentItem->{Filename} with delete flag was found",
+                            );
 
-                        $Self->Is(
-                            $ArticleAttachmentIndex{$AttachmentID}->{Filename},
-                            $TestAttachmentItem->{Filename},
-                            "$Test->{Name} found attachment",
-                        );
+                        }
+                        else {
 
-                        my %Attachment = $TicketObject->ArticleAttachment(
-                            ArticleID => $ArticleID,
-                            FileID    => $AttachmentID,
-                            UserID    => 1,
-                        );
+                            # Success, attachment found
+                            $Self->Is(
+                                $ArticleAttachmentIndex{$AttachmentID}->{Filename},
+                                $TestAttachmentItem->{Filename},
+                                "$Test->{Name} found attachment",
+                            );
 
-                        $Self->Is(
-                            $Attachment{Content},
-                            MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
-                            "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
-                        );
+                            my %Attachment = $TicketObject->ArticleAttachment(
+                                ArticleID => $ArticleID,
+                                FileID    => $AttachmentID,
+                                UserID    => 1,
+                            );
 
-                        $Self->Is(
-                            $Attachment{ContentType},
-                            $TestAttachmentItem->{MimeType},
-                            "$Test->{Name} attachment content type for $TestAttachmentItem->{Filename}",
-                        );
+                            $Self->Is(
+                                $Attachment{Content},
+                                MIME::Base64::decode_base64( $TestAttachmentItem->{Data} ),
+                                "$Test->{Name} attachment content for $TestAttachmentItem->{Filename}",
+                            );
+
+                            $Self->Is(
+                                $Attachment{ContentType},
+                                $TestAttachmentItem->{MimeType},
+                                "$Test->{Name} attachment content type for $TestAttachmentItem->{Filename}",
+                            );
+                        }
 
                         next TEST_ATTACHMENT_ITEM;
                     }
                 }
             }
 
-            # Attachment was not found, show error
-            $Self->Is(
-                '',
-                $TestAttachmentItem->{Filename},
-                "$Test->{Name} Ticket data found attachment",
-            );
+            if ($DeleteFlag) {
+
+                # Attachment with delete flag was not found
+                $Self->True(
+                    1,
+                    "$Test->{Name} Ticket data attachment $TestAttachmentItem->{Filename} with delete flag was not found",
+                );
+            }
+            else {
+
+                # Attachment that should be created was not found, show error
+                $Self->Is(
+                    '',
+                    $TestAttachmentItem->{Filename},
+                    "$Test->{Name} Ticket data found attachment",
+                );
+            }
+
         }
 
         if ( $Test->{Operation} eq 'SolMan::CloseIncident' ) {

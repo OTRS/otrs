@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.7 2011-04-14 07:56:01 mg Exp $
+# $Id: Common.pm,v 1.8 2011-04-14 08:18:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -342,17 +342,24 @@ sub TicketSync {
             $ArticleID = $ArticleIDLocal;
         }
 
-        #QA: only create attachment if Delete param is empty ('' or ' ')
         # create attachments
         if ( $Param{Data}->{IctAttachments} && $Param{Data}->{IctAttachments}->{item} ) {
             for my $Attachment ( @{ $Param{Data}->{IctAttachments}->{item} } ) {
-                my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
-                    Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
-                    Filename    => $Attachment->{Filename},
-                    ContentType => $Attachment->{MimeType},
-                    ArticleID   => $ArticleID,
-                    UserID      => 1,
-                );
+
+                # should the attachment be created or deleted?
+                my $DeleteFlag
+                    = ( $Attachment->{Delete} ne '' && $Attachment->{Delete} ne ' ' ) ? 1 : 0;
+
+                if ( !$DeleteFlag ) {
+                    my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
+                        Content     => MIME::Base64::decode_base64( $Attachment->{Data} ),
+                        Filename    => $Attachment->{Filename},
+                        ContentType => $Attachment->{MimeType},
+                        ArticleID   => $ArticleID,
+                        UserID      => 1,
+                    );
+                }
+
             }
         }
     }
@@ -409,6 +416,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-04-14 07:56:01 $
+$Revision: 1.8 $ $Date: 2011-04-14 08:18:18 $
 
 =cut
