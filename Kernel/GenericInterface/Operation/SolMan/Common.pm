@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.11 2011-04-14 09:02:14 mg Exp $
+# $Id: Common.pm,v 1.12 2011-04-14 09:05:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -166,6 +166,9 @@ sub TicketSync {
 
     # we need Data
     if ( !IsHashRefWithData( $Param{Data} ) ) {
+
+        #QA: implement proper error handling with <Errors> instead
+
         return $Self->{DebuggerObject}->Error( Summary => 'Got no Data' );
     }
 
@@ -456,6 +459,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-04-14 09:02:14 $
+$Revision: 1.12 $ $Date: 2011-04-14 09:05:51 $
 
 =cut
