@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.7 2011-04-14 12:00:39 mg Exp $
+# $Id: Common.t,v 1.8 2011-04-14 12:11:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -682,7 +682,22 @@ for my $TestChain (@Tests) {
 
             $Self->True(
                 $Result->{Data}->{Errors}->{item}->[0]->{Val1},
-                "$Test->{Name} SolMan error message",
+                "$Test->{Name} SolMan error message 1",
+            );
+
+            $Self->True(
+                exists $Result->{Data}->{Errors}->{item}->[0]->{Val2},
+                "$Test->{Name} SolMan error message 2",
+            );
+
+            $Self->True(
+                exists $Result->{Data}->{Errors}->{item}->[0]->{Val3},
+                "$Test->{Name} SolMan error message 3",
+            );
+
+            $Self->True(
+                exists $Result->{Data}->{Errors}->{item}->[0]->{Val4},
+                "$Test->{Name} SolMan error message 4",
             );
 
             next TEST;
