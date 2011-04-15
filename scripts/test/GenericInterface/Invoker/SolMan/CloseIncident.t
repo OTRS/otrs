@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.3 2011-04-15 04:20:08 cr Exp $
+# $Id: CloseIncident.t,v 1.4 2011-04-15 04:26:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,7 +148,7 @@ my $ClosedTicketID = $TicketObject->TicketCreate(
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
-    State        => 'closed Successful',
+    State        => 'closed successful',
     CustomerNo   => '123465',
     CustomerUser => 'customer@localunittest.com',
     OwnerID      => 1,
@@ -220,7 +220,7 @@ my $SyncedTicketID = $TicketObject->TicketCreate(
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
-    State        => 'closed Successful',
+    State        => 'closed successful',
     CustomerNo   => '123465',
     CustomerUser => 'customer@localunittest.com',
     OwnerID      => 1,
