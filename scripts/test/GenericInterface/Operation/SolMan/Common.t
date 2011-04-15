@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.11 2011-04-15 12:29:29 mg Exp $
+# $Id: Common.t,v 1.12 2011-04-15 13:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,13 +38,95 @@ my $WebserviceConfig = {
             },
         },
         Operation => {
+            ReplicateIncident => {
+                Type             => 'SolMan::ReplicateIncident',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
+            ProcessIncident => {
+                Type             => 'SolMan::ProcessIncident',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
+            AddInfo => {
+                Type             => 'SolMan::AddInfo',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
+            AcceptIncidentProcessing => {
+                Type             => 'SolMan::AcceptIncidentProcessing',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
+            VerifyIncidentSolution => {
+                Type             => 'SolMan::VerifyIncidentSolution',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
+            RejectIncidentSolution => {
+                Type             => 'SolMan::RejectIncidentSolution',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+            },
             CloseIncident => {
-                Type       => 'SolMan::CloseIncident',
-                CloseState => 'closed successful',
+                Type             => 'SolMan::CloseIncident',
+                CloseState       => 'closed successful',
+                RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
             },
         },
     },
 };
+
+# add config
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => $WebserviceConfig,
+    Name    => "Test $RandomID1",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
+
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    %{$Self},
+    DebuggerConfig => {
+        DebugThreshold => 'debug',
+        TestMode       => 1,
+    },
+    WebserviceID      => $WebserviceID,
+    CommunicationType => 'Provider',
+);
+
+my $LocalSystemGuid;
+
+{
+
+    # Get local SystemGuid
+    my $OperationObject = Kernel::GenericInterface::Operation->new(
+        %{$Self},
+        DebuggerObject => $DebuggerObject,
+        WebserviceID   => $WebserviceID,
+        OperationType  => "SolMan::RequestSystemGuid",
+    );
+
+    $Self->Is(
+        ref $OperationObject,
+        'Kernel::GenericInterface::Operation',
+        'Operation::new() success',
+    );
+
+    my $Result = $OperationObject->Run();
+
+    $Self->Is(
+        $Result->{Success},
+        1,
+        "RequestSystemGuid success status",
+    );
+
+    $LocalSystemGuid = $Result->{Data}->{SystemGuid};
+
+    $Self->True(
+        $LocalSystemGuid,
+        "RequestSystemGuid result value",
+    );
+}
 
 my @Tests = (
     [
@@ -105,8 +187,8 @@ my @Tests = (
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID1",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
@@ -197,8 +279,8 @@ works too',
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID1",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
@@ -294,8 +376,8 @@ works too',
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID1",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
@@ -367,8 +449,8 @@ works too',
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID1",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
@@ -452,8 +534,8 @@ works too',
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID1",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
@@ -526,8 +608,8 @@ works too',
                 },
                 IctHead => {
                     IncidentGuid     => "Solman-$RandomID2",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
@@ -591,8 +673,8 @@ works too',
                 IctAttachments     => {},
                 IctHead            => {
                     IncidentGuid     => "Solman-$RandomID2",
-                    RequesterGuid    => 'D3D9446802A44259755D38E6D163E820',
-                    ProviderGuid     => 'DE86768CD3D015F181D0001438BF50C6',
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
@@ -630,29 +712,102 @@ works too',
             },
         },
     ],
-);
-
-# add config
-my $WebserviceID = $WebserviceObject->WebserviceAdd(
-    Config  => $WebserviceConfig,
-    Name    => "Test $RandomID1",
-    ValidID => 1,
-    UserID  => 1,
-);
-
-$Self->True(
-    $WebserviceID,
-    "WebserviceAdd()",
-);
-
-my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
-    DebuggerConfig => {
-        DebugThreshold => 'debug',
-        TestMode       => 1,
-    },
-    WebserviceID      => $WebserviceID,
-    CommunicationType => 'Provider',
+    [
+        {
+            Name      => 'ProcessIncident with wrong RequesterGuid',
+            Operation => 'ProcessIncident',
+            Success   => 0,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {},
+                IctHead            => {
+                    IncidentGuid     => "Solman-$RandomID2",
+                    RequesterGuid    => 'wrong_value',
+                    ProviderGuid     => $LocalSystemGuid,
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'title',
+                    Priority         => '2 low',
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctId      => "Solman-$RandomID2",
+                IctPersons => {
+                    Item => {
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    },
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {},
+                IctTimestamp  => '20010101000000',
+                IctUrls       => {},
+            },
+        },
+    ],
+    [
+        {
+            Name      => 'ProcessIncident with wrong RequesterGuid',
+            Operation => 'ProcessIncident',
+            Success   => 0,
+            Data      => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {},
+                IctHead            => {
+                    IncidentGuid     => "Solman-$RandomID2",
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => 'wrong_value',
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'title',
+                    Priority         => '2 low',
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctId      => "Solman-$RandomID2",
+                IctPersons => {
+                    Item => {
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    },
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {},
+                IctTimestamp  => '20010101000000',
+                IctUrls       => {},
+            },
+        },
+    ],
 );
 
 TESTCHAIN:
@@ -998,4 +1153,5 @@ $Self->True(
     $Success,
     "WebserviceDelete()",
 );
+
 1;

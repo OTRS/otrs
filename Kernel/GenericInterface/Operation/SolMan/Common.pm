@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.18 2011-04-15 12:29:29 mg Exp $
+# $Id: Common.pm,v 1.19 2011-04-15 13:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -216,17 +216,28 @@ sub TicketSync {
         }
     }
 
-#QA: add check if ProviderGuid or RequesterGuid matches our SystemGuid and the other value matches the SystemGuid from the operation config
-#QA: i think we should use get the remote SystemGuid dynamically at some point, but for now please use $Webservice->{Config}->{Requester}->{Operation}->{ $Param{Operation} }->{RemoteSystemGuid};
+    # Check if RequesterGuid matches our known value from the webservice configuration.
+    #   If not, return an error.
+    my $RequesterSystemGuid
+        = $Self->{Webservice}->{Config}->{Provider}->{Operation}->{ $Param{Operation} }
+        ->{RemoteSystemGuid};
 
-#    for my $Key (qw(IctTimestamp)) {
-#        if ( !IsStringWithData( $Param{Data}->{$Key} ) ) {
-#        return $Self->_ReturnError(
-#            ErrorCode => '09',
-#            ErrorMessage => "Got no Data->$Key in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
-#        );
-#        }
-#    }
+    if ( $Param{Data}->{IctHead}->{RequesterGuid} ne $RequesterSystemGuid ) {
+        return $Self->_ReturnError(
+            ErrorCode => '09',
+            ErrorMessage =>
+                "Invalid RequesterGuid $Param{Data}->{IctHead}->{RequesterGuid} in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+        );
+    }
+
+    my $LocalSystemGuid = $Self->LocalSystemGuid();
+    if ( $Param{Data}->{IctHead}->{ProviderGuid} ne $LocalSystemGuid ) {
+        return $Self->_ReturnError(
+            ErrorCode => '09',
+            ErrorMessage =>
+                "Invalid ProviderGuid $Param{Data}->{IctHead}->{ProviderGuid} in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+        );
+    }
 
     my $TicketID;
 
@@ -428,7 +439,7 @@ sub TicketSync {
                         Charset        => 'utf-8',
                         MimeType       => 'text/plain',
                         HistoryType    => 'AddNote',
-                        HistoryComment => 'Update from SolMan',
+                        HistoryComment => 'Attachments from SolMan',
                         UserID         => 1,
                     );
                 }
@@ -499,6 +510,30 @@ sub TicketSync {
     return $ReturnData;
 }
 
+=item LocalSystemGuid()
+
+generates a SystemGuid for this system. This will return the SystemID as a MD5 sum in upper case
+to match SolMan style.
+
+    my $LocalSystemGuid = $CommonObject->LocalSystemGuid();
+
+=cut
+
+sub LocalSystemGuid {
+    my ( $Self, %Param ) = @_;
+
+    # get SystemID
+    my $SystemID = $Self->{ConfigObject}->Get('SystemID') || 10;
+
+    # convert SystemID to MD5 string
+    my $SystemIDMD5 = $Self->{MainObject}->MD5sum(
+        String => $SystemID,
+    );
+
+    # conver to upper case to match SolMan style
+    return uc $SystemIDMD5;
+}
+
 =item _ReturnError()
 
 helper function to return an error message from within TicketSync() in the way
@@ -551,6 +586,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-04-15 12:29:29 $
+$Revision: 1.19 $ $Date: 2011-04-15 13:16:04 $
 
 =cut

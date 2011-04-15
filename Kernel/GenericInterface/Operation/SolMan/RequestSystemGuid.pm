@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.7 2011-04-14 09:27:31 mg Exp $
+# $Id: RequestSystemGuid.pm,v 1.8 2011-04-15 13:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,9 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
+
+use Kernel::GenericInterface::Operation::SolMan::Common;
 
 =head1 NAME
 
@@ -43,7 +45,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(DebuggerObject ConfigObject MainObject)) {
+    for my $Needed (
+        qw(DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject WebserviceID)
+        )
+    {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -53,6 +58,9 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    $Self->{SolManCommonObject}
+        = Kernel::GenericInterface::Operation::SolMan::Common->new( %{$Self} );
 
     return $Self;
 }
@@ -67,9 +75,8 @@ to match SolMan style.
     );
 
     $Result = {
-        Success         => 1,                                 # 0 or 1
-        ErrorMessage    => '',                                # in case of error
-        Data            => {                                  # result data payload after Operation
+        Success         => 1,
+        Data            => {
             SystemGuid => '123ABC123ABC123ABC123ABC123ABC12', # MD5 applied to SystemID (32 chars long)
             Errors     => '',                                 # should not return errors
         },
@@ -80,27 +87,12 @@ to match SolMan style.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get SystemID
-    my $SystemID = $Self->{ConfigObject}->Get('SystemID') || 10;
-
-    # convert SystemID to MD5 string
-    my $SystemIDMD5 = $Self->{MainObject}->MD5sum(
-        String => $SystemID,
-    );
-
-    # conver to upper case to match SolMan style
-    $SystemIDMD5 = uc $SystemIDMD5;
-
-    # copy data
-    my $ReturnData = {
-        SystemGuid => $SystemIDMD5,
-        Errors     => '',
-    };
-
-    # return result
     return {
         Success => 1,
-        Data    => $ReturnData,
+        Data    => {
+            SystemGuid => $Self->{SolManCommonObject}->LocalSystemGuid(),
+            Errors     => '',
+        },
     };
 }
 
@@ -120,6 +112,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-04-14 09:27:31 $
+$Revision: 1.8 $ $Date: 2011-04-15 13:16:04 $
 
 =cut

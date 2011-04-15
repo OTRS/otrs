@@ -2,7 +2,7 @@
 # RequestSystemGuid.t - RequestSystemGuid Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.t,v 1.4 2011-04-14 11:58:17 mg Exp $
+# $Id: RequestSystemGuid.t,v 1.5 2011-04-15 13:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,27 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-# create needed objects
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation;
+use Kernel::System::GenericInterface::Webservice;
+
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+my $RandomID = int rand 1_000_000_000;
+
+# add config
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => {},
+    Name    => "Test $RandomID",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
@@ -24,7 +41,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         DebugThreshold => 'debug',
         TestMode       => 1,
     },
-    WebserviceID      => 1,
+    WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
 
@@ -32,7 +49,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 my $OperationObject = Kernel::GenericInterface::Operation->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
-    WebserviceID   => 1,
+    WebserviceID   => $WebserviceID,
     OperationType  => 'SolMan::RequestSystemGuid',
 );
 $Self->Is(
@@ -110,6 +127,17 @@ $Self->Is(
     length( $ReturnData->{Data}->{SystemGuid} ),
     32,
     'RequestSystemGuid call response',
+);
+
+# delete config
+my $Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
 );
 
 1;
