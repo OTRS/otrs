@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/SolMan.pm - GenericInterface SolMan mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolMan.pm,v 1.1 2011-04-14 05:42:13 sb Exp $
+# $Id: SolMan.pm,v 1.2 2011-04-15 17:00:44 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,10 @@ package Kernel::GenericInterface::Mapping::SolMan;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -127,10 +127,10 @@ sub Map {
     # map article types
     if (
         IsHashRefWithData( $Param{Data}->{IctStatements} )
-        && IsArrayRefWithData( $Param{Data}->{IctStatements}->{item} )
+        && $Param{Data}->{IctStatements}->{item}
         )
     {
-        $Param{Data}->{IctStatements}->{item} = $Self->_ArticleTypeMap(
+        $Self->_ArticleTypeMap(
             Articles => $Param{Data}->{IctStatements}->{item},
             Map     => $Self->{MappingConfig}->{Config}->{ArticleTypeMap}        || {},
             Default => $Self->{MappingConfig}->{Config}->{ArticleTypeMapDefault} || 'note-internal',
@@ -149,7 +149,7 @@ sub Map {
     # map state
     if (
         IsHashRefWithData( $Param{Data}->{IctAdditionalInfos} )
-        && IsArrayRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} )
+        && $Param{Data}->{IctAdditionalInfos}->{item}
         )
     {
         $Param{Data}->{IctAdditionalInfos}->{item} = $Self->_StateMap(
@@ -191,6 +191,13 @@ if there is no current type for an article or no mapping value exists, the defau
 
 sub _ArticleTypeMap {
     my ( $Self, %Param ) = @_;
+
+    # if only one article is passed
+    if ( IsHashRefWithData( $Param{Articles} ) ) {
+        $Param{Articles}->{TextType} = $Param{Map}->{ $Param{Articles}->{TextType} }
+            || $Param{Default};
+        return;
+    }
 
     # loop through articles and map their types
     for my $Article ( @{ $Param{Articles} } ) {
@@ -260,6 +267,13 @@ sub _StateMap {
     my @AdditionalInfos = ();
     my %StatePart;
 
+    # if only attribute is passed
+    if ( IsHashRefWithData( $Param{AdditionalInfos} ) ) {
+        my %StateHash = %{ $Param{AdditionalInfos} };
+        $StateHash{AddInfoValue} = $Param{Map}->{ $StateHash{AddInfoValue} } || $Param{Default};
+        return \%StateHash;
+    }
+
     # get current state value if existing and remember all other add info fields
     ADDINFO:
     for my $AddInfo ( @{ $Param{AdditionalInfos} } ) {
@@ -311,6 +325,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-04-14 05:42:13 $
+$Revision: 1.2 $ $Date: 2011-04-15 17:00:44 $
 
 =cut
