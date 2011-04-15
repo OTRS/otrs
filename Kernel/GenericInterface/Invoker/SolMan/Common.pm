@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.31 2011-04-15 17:34:14 cr Exp $
+# $Id: Common.pm,v 1.32 2011-04-15 23:23:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -1704,7 +1704,28 @@ sub PrepareRequest {
 
         $ErrorMessage
             = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
-            . "replicated on the remote system can't continue! ReplicateIncident Will be fired";
+            . "replicated on the remote system can't continue! ReplicateIncident will be fired";
+
+        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        return {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        };
+    }
+
+    # get IncidentGuid
+    my $IncidentGuid = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_IncidentGuid"} || '';
+
+    # IncidentGuid check for CloseIncident and AddInfo Invoker
+    if (
+        ( $Self->{Invoker} eq 'CloseIncident' || $Self->{Invoker} eq 'AddInfo' )
+        && !$IncidentGuid
+        )
+    {
+
+        $ErrorMessage
+            = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
+            . "got not remote IncidentGuid can't continue!";
 
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -1823,6 +1844,19 @@ sub PrepareRequest {
     );
     $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
 
+    # If ticket is generated in OTRS the IncidentGuid must be the ticket number
+    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
+        $IncidentGuid = $Ticket{TicketNumber};
+
+        # set IncidentGuid flag
+        my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+            TicketID => $Self->{TicketID},
+            Key      => "GI_$Self->{WebserviceID}_SolMan_IncidentGuid",
+            Value    => $IncidentGuid,
+            UserID   => 1,
+        );
+    }
+
     my %RequestData = (
         IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos)
         ?
@@ -1833,7 +1867,7 @@ sub PrepareRequest {
             { item => $IctAttachments }
         : '',
         IctHead => {
-            IncidentGuid     => $Ticket{TicketNumber},              # type="n0:char32"
+            IncidentGuid     => $IncidentGuid,                      # type="n0:char32"
             RequesterGuid    => $LocalSystemGuid,                   # type="n0:char32"
             ProviderGuid     => $RemoteSystemGuid,                  # type="n0:char32"
             AgentId          => $Ticket{OwnerID},                   # type="n0:char32"
@@ -2066,6 +2100,17 @@ sub HandleResponse {
     # set sync timestamp
     my $SyncFlag = $Self->_SetSyncTimestamp();
 
+    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
+
+        # set Incidentid flag
+        my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+            TicketID => $Self->{RequestData}->{TicketID},
+            Key      => "GI_$Self->{WebserviceID}_SolMan_Incidentid",
+            Value    => $Param{Data}->{PrdIctId},
+            UserID   => 1,
+        );
+    }
+
     # write in debug log
     $Self->{DebuggerObject}->Info(
         Summary => "$Self->{Invoker} return success",
@@ -2156,6 +2201,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2011-04-15 17:34:14 $
+$Revision: 1.32 $ $Date: 2011-04-15 23:23:10 $
 
 =cut
