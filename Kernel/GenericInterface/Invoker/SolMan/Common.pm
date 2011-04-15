@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.30 2011-04-15 02:30:14 cr Exp $
+# $Id: Common.pm,v 1.31 2011-04-15 17:34:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -173,6 +173,7 @@ Process errors from remote server, the result will be a string with all erros
 
     $Result = {
         Success      => 1,             # 1 or 0
+        ReSchedule   => 1,             # 1 or undef depending on the error
         ErrorMessage => 'Error 01 System Error Details: Error Detail 1 Error Detail 2 Error Detail 1 | .',
     };
 
@@ -213,6 +214,17 @@ sub HandleErrors {
         push @ErrorItems, $Param{Errors}->{item};
     }
 
+    # error that does not make reschedule (might be a sysconfig setting)
+    my %NonReScheduleErrorCodes = (
+        '01' => 1,
+        '02' => 1,
+        '03' => 1,
+        '04' => 1,
+    );
+
+    # to store if needs to reschedule
+    my $ReSchedule;
+
     if ( scalar @ErrorItems gt 0 ) {
 
         # cicle trough all error items
@@ -221,6 +233,13 @@ sub HandleErrors {
             # check error code
             if ( IsStringWithData( $Item->{ErrorCode} ) ) {
                 $ErrorMessage .= "Error Code $Item->{ErrorCode} ";
+
+                # if at leat one error item contains an error code that is not on the
+                # NonReSchduleerrorCodes list, then the taks should de rescheduled
+                if ( !defined $NonReScheduleErrorCodes{ $Item->{ErrorCode} } ) {
+                    $ReSchedule = 1;
+                }
+
             }
             else {
                 $ErrorMessage .= 'An error message was received but no Error Code found! ';
@@ -254,6 +273,7 @@ sub HandleErrors {
 
     return {
         Success      => 1,
+        ReSchedule   => $ReSchedule,
         ErrorMessage => $ErrorMessage,
     };
 
@@ -1849,6 +1869,9 @@ sub PrepareRequest {
         : '',
     );
 
+    # store all data pased to the invoker in case of a reschdule on handle response
+    $Self->{RequestData} = $Param{Data};
+
     return {
         Success => 1,
         Data    => \%RequestData,
@@ -1974,9 +1997,23 @@ sub HandleResponse {
             Errors => $Data->{Errors},
         );
 
+        # check if task needs to reschedule
+        if ( $HandleErrorsResult->{ReSchedule} ) {
+            my $ReScheduleSuccess = $Self->ScheduleTask(
+                Type         => 'GenericInterface',
+                Invoker      => $Self->{Invoker},
+                WebserviceID => $Self->{WebserviceID},
+                Data         => {                        # data for invoker
+                    WebserviceID => $Self->{WebserviceID},
+                    %{ $Self->{RequestData} },
+                },
+            );
+        }
+
         return {
-            Success => $HandleErrorsResult->{Success},
-            Data    => \$HandleErrorsResult->{ErrorMessage},
+            Success      => $HandleErrorsResult->{Success},
+            ReSchedule   => $HandleErrorsResult->{ReSchedule},
+            ErrorMessage => $HandleErrorsResult->{ErrorMessage},
         };
     }
 
@@ -2119,6 +2156,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-04-15 02:30:14 $
+$Revision: 1.31 $ $Date: 2011-04-15 17:34:14 $
 
 =cut
