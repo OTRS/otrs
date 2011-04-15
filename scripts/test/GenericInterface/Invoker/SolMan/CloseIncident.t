@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.2 2011-04-15 02:31:23 cr Exp $
+# $Id: CloseIncident.t,v 1.3 2011-04-15 04:20:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,7 +137,7 @@ my $OpenTicketID = $TicketObject->TicketCreate(
 $Self->IsNot(
     $OpenTicketID,
     undef,
-    "TicketCreate() $OpenTicketID",
+    "TicketCreate() Ticket with state open ID $OpenTicketID",
 );
 
 push @TicketIDs, $OpenTicketID;
@@ -158,7 +158,7 @@ my $ClosedTicketID = $TicketObject->TicketCreate(
 $Self->IsNot(
     $ClosedTicketID,
     undef,
-    "TicketCreate() $ClosedTicketID",
+    "TicketCreate() Ticket wiith state closed ID $ClosedTicketID",
 );
 
 push @TicketIDs, $ClosedTicketID;
@@ -191,12 +191,12 @@ my $CantSyncTicketID = $TicketObject->TicketCreate(
 $Self->IsNot(
     $CantSyncTicketID,
     undef,
-    "TicketCreate() $CantSyncTicketID",
+    "TicketCreate() Ticket to test Sync Attempts $CantSyncTicketID",
 );
 
 push @TicketIDs, $CantSyncTicketID;
 
-# get Maximum number of  Sync Attempts
+# get Maximum number of Sync Attempts
 my $MaxSyncAttempts
     = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::MaxSyncAttempts') || 5;
 
@@ -230,7 +230,7 @@ my $SyncedTicketID = $TicketObject->TicketCreate(
 $Self->IsNot(
     $SyncedTicketID,
     undef,
-    "TicketCreate() $SyncedTicketID",
+    "TicketCreate() Ticket to test correct Sync $SyncedTicketID",
 );
 
 push @TicketIDs, $SyncedTicketID;
