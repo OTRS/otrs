@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.112.2.1 2011-04-06 16:37:27 en Exp $
+# $Id: AdminSysConfig.pm,v 1.112.2.2 2011-04-15 07:46:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112.2.1 $) [1];
+$VERSION = qw($Revision: 1.112.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1032,12 +1032,20 @@ sub ListConfigItem {
         if ( $Item->{String}->[1]->{Default} ) {
             $Default = $Item->{String}->[1]->{Default};
         }
+
+        my $InputType = 'text';
+
+        if ( $Item->{String}->[1]->{Type} eq 'Password' ) {
+            $InputType = 'password';
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
             Data => {
                 ElementKey => $ItemHash{Name},
                 Content    => $Item->{String}->[1]->{Content},
                 Default    => $Default,
+                InputType  => $InputType,
             },
         );
 

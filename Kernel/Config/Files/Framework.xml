@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.416.2.7 2011-04-04 16:55:32 en Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.416.2.8 2011-04-15 07:46:25 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -564,7 +564,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
-            <String Regex="">MailserverPassword</String>
+            <String Regex="" Type="Password">MailserverPassword</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailBcc" Required="0" Valid="1" ConfigLevel="200">
@@ -2643,7 +2643,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::SOAP</SubGroup>
         <Setting>
-            <String Regex="">some_pass</String>
+            <String Regex="" Type="Password">some_pass</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF" Required="1" Valid="1">
@@ -3588,7 +3588,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
-            <String Regex="">some_password</String>
+            <String Regex="" Type="Password">some_password</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::Type" Required="0" Valid="0" ConfigLevel="200">
@@ -3735,7 +3735,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
-            <String Regex="">radiussecret</String>
+            <String Regex="" Type="Password">radiussecret</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1" ConfigLevel="200">
@@ -5153,7 +5153,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
-            <String Regex="">some_password</String>
+            <String Regex="" Type="Password">some_password</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
