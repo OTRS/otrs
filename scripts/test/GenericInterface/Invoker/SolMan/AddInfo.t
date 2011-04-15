@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.1 2011-04-15 22:59:55 cg Exp $
+# $Id: AddInfo.t,v 1.2 2011-04-15 23:31:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -215,6 +215,27 @@ $Self->True(
 );
 
 # create a new closed ticket
+my $NoIncidnetGuidTicketID = $TicketObject->TicketCreate(
+    Title        => 'My ticket created by Agent A',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@localunittest.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+$Self->IsNot(
+    $NoIncidnetGuidTicketID,
+    undef,
+    "TicketCreate() Ticket to test no IncientGuid $NoIncidnetGuidTicketID",
+);
+
+push @TicketIDs, $NoIncidnetGuidTicketID;
+
+# create a new closed ticket
 my $SyncedTicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent A',
     Queue        => 'Raw',
@@ -261,6 +282,19 @@ my $TimeStamp = $Self->{TimeObject}->SystemTime();
 
 # simulate ticket is synced
 my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+    TicketID => $NoIncidnetGuidTicketID,
+    Key      => "GI_" . $WebserviceID . "_SolMan_SyncTimestamp",
+    Value    => $TimeStamp,
+    UserID   => 1,
+);
+
+$Self->True(
+    $SuccessTicketFlagSet,
+    "Ticket $NoIncidnetGuidTicketID has succesfuly set as synced",
+);
+
+# simulate ticket is synced
+$SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
     TicketID => $SyncedTicketID,
     Key      => "GI_" . $WebserviceID . "_SolMan_SyncTimestamp",
     Value    => $TimeStamp,
@@ -310,12 +344,40 @@ my %Ticket = $TicketObject->TicketGet(
     TicketID => $SyncedTicketID,
     UserID   => 1,
 );
+my %NoIncidentGuidTicket = $TicketObject->TicketGet(
+    TicketID => $NoIncidnetGuidTicketID,
+    UserID   => 1,
+);
 
-# simulatethat the ticket was opened before
-$Ticket{State}     = 'open';
-$Ticket{StateType} = 'open';
+my %CantSyncTicket = $TicketObject->TicketGet(
+    TicketID => $CantSyncTicketID,
+    UserID   => 1,
+);
 
-# tests for Prepare Request and HandleResponse
+# simulate that the ticket was opened before
+$Ticket{State}                   = 'open';
+$Ticket{StateType}               = 'open';
+$NoIncidentGuidTicket{State}     = 'open';
+$NoIncidentGuidTicket{StateType} = 'open';
+$CantSyncTicket{State}           = 'open';
+$CantSyncTicket{StateType}       = 'open';
+
+# simulate that the ticket IncidentGuid is set
+$SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+    TicketID => $SyncedTicketID,
+    Key      => "GI_" . $WebserviceID . "_SolMan_IncidentGuid",
+    Value    => $Ticket{TicketNumber},
+    UserID   => 1,
+);
+
+$SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+    TicketID => $CantSyncTicketID,
+    Key      => "GI_" . $WebserviceID . "_SolMan_IncidentGuid",
+    Value    => $CantSyncTicket{TicketNumber},
+    UserID   => 1,
+);
+
+# tests for PrepareRequest and HandleResponse
 my @Tests = (
 
     {
@@ -368,7 +430,7 @@ my @Tests = (
         PrepareRequest => {
             Data => {
                 TicketID      => $CantSyncTicketID,
-                OldTicketData => \%Ticket,
+                OldTicketData => \%CantSyncTicket,
             },
             Success => 0,
         },
@@ -383,6 +445,17 @@ my @Tests = (
             Success => 0,
         },
     },
+    {
+        Name           => 'No IncidentGuid Ticket',
+        PrepareRequest => {
+            Data => {
+                TicketID      => $NoIncidnetGuidTicketID,
+                OldTicketData => \%NoIncidentGuidTicket,
+            },
+            Success => 0,
+        },
+    },
+
     {
         Name           => 'Correct Ticket',
         PrepareRequest => {
