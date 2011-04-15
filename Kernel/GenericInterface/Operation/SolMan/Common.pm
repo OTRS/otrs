@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.15 2011-04-14 12:11:15 mg Exp $
+# $Id: Common.pm,v 1.16 2011-04-15 11:50:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -292,10 +292,14 @@ sub TicketSync {
 
         $TicketID = $Tickets[0];
 
-        #QA: title and priority will be passed on every request - compare and update if necessary
-        #QA: also ReporterId and AgentId will be passed every time - compare and update as well
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        #QA: ReporterId and AgentId will be passed every time - compare and update as well
         # update fields if neccessary
-        if ( $Param{Data}->{IctHead}->{ShortDescription} ) {
+        if ( $Param{Data}->{IctHead}->{ShortDescription} ne $Ticket{Title} ) {
             my $Success = $Self->{TicketObject}->TicketTitleUpdate(
                 Title    => $Param{Data}->{IctHead}->{ShortDescription},
                 TicketID => $TicketID,
@@ -311,7 +315,7 @@ sub TicketSync {
             }
         }
 
-        if ( $Param{Data}->{IctHead}->{Priority} ) {
+        if ( $Param{Data}->{IctHead}->{Priority} ne $Ticket{Priority} ) {
             my $Success = $Self->{TicketObject}->TicketPrioritySet(
                 TicketID => $TicketID,
                 Priority => $TargetPriority,
@@ -358,11 +362,11 @@ sub TicketSync {
             my $Body = "($Statement->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
             $Body .= join "\n", @{ $Statement->{Texts}->{item} };
 
-#QA: use TextType as article type (is converted in mapping layer), use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
+#QA: use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => 'note-internal',
-                SenderType     => 'agent',
+                TicketID    => $TicketID,
+                ArticleType => $Statement->{TextType}, # this will be converted in the mapping layer
+                SenderType  => 'agent',
                 From           => 'Some Agent <email@example.com>',
                 Subject        => "IctStatement from SolMan",
                 Body           => $Body,
@@ -538,6 +542,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-04-14 12:11:15 $
+$Revision: 1.16 $ $Date: 2011-04-15 11:50:58 $
 
 =cut

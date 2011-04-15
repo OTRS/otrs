@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.8 2011-04-14 12:11:14 mg Exp $
+# $Id: Common.t,v 1.9 2011-04-15 11:50:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@ my @Tests = (
                 IctStatements => {
                     item => [
                         {
-                            TextType => 'SU99',
+                            TextType => 'note-internal',
 
                             # text lines
                             Texts => {
@@ -214,7 +214,7 @@ works too',
                 IctStatements => {
                     item => [
                         {
-                            TextType => 'SU99',
+                            TextType => 'note-internal',
                             Texts    => {
                                 item => [
                                     'another',
@@ -226,7 +226,7 @@ works too',
                             Language  => 'de',
                         },
                         {
-                            TextType => 'SU99',
+                            TextType => 'note-internal',
                             Texts    => {
                                 item => [
                                     'a new second article',
@@ -384,7 +384,7 @@ works too',
                 IctStatements => {
                     item => [
                         {
-                            TextType => 'SU99',
+                            TextType => 'note-internal',
                             Texts    => {
                                 item => [
                                     'verify incident solution',
@@ -469,7 +469,7 @@ works too',
                 IctStatements => {
                     item => [
                         {
-                            TextType => 'SU99',
+                            TextType => 'note-internal',
                             Texts    => {
                                 item => [
                                     'reject incident solution',
@@ -543,7 +543,7 @@ works too',
                 IctSolutions  => {},
                 IctStatements => {
                     item => {
-                        TextType => 'SU99',
+                        TextType => 'note-internal',
 
                         # text lines
                         Texts => {
