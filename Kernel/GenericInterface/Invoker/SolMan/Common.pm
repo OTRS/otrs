@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.29 2011-04-14 21:02:33 cr Exp $
+# $Id: Common.pm,v 1.30 2011-04-15 02:30:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -1616,7 +1616,7 @@ sub PrepareRequest {
 
     # check current sync attempts and return if maximum has been reached
     if ( int($SyncAttempts) >= int( $Self->{MaxSyncAttempts} ) ) {
-        $ErrorMessage = "Self->{Invoker} PrepareRequest: The attempts to syncrhonize ticket"
+        $ErrorMessage = "$Self->{Invoker} PrepareRequest: The attempts to syncrhonize ticket "
             . "$Self->{TicketID} has reached or overpassed the maximum allowed "
             . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts} ), can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
@@ -1637,7 +1637,7 @@ sub PrepareRequest {
 
     # check for sync information errors
     if ( !defined $LastSync ) {
-        $ErrorMessage = "Self->{Invoker} PrepareRequest: There was an error while tying to get "
+        $ErrorMessage = "$Self->{Invoker} PrepareRequest: There was an error while trying to get "
             . "sync information for ticket $Self->{TicketID}, can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -2119,6 +2119,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-04-14 21:02:33 $
+$Revision: 1.30 $ $Date: 2011-04-15 02:30:14 $
 
 =cut
