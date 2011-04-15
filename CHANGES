@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1840 2011-04-14 12:22:10 ub Exp $
+# $Id: CHANGES,v 1.1841 2011-04-15 07:46:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-14 Fixed bug#7230 - Password fields in SysConfig GUI are not protected.
  - 2011-04-14 Fixed bug#7222 - Translation strings with more than 3 placeholders are not translated.
  - 2011-04-12 Fixed bug#7213 - TicketSearch() TicketFlags handling broken.
  - 2011-04-11 Fixed bug#7209 - TimeUnits validation not working.
