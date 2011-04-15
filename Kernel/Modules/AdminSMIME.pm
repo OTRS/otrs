@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.34 2010-11-19 21:58:06 en Exp $
+# $Id: AdminSMIME.pm,v 1.35 2011-04-15 20:14:06 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -99,9 +99,11 @@ sub Run {
                 Data => {},
             );
         }
+        $Self->_Overview;
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ($Message) {
+
+        if ( $Message && $Message != 1 ) {
             $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         }
         $Output .= $Self->{LayoutObject}->Output(
@@ -178,7 +180,7 @@ sub Run {
                     Name => 'ActionAdd',
                 );
                 $Self->{LayoutObject}->Block(
-                    Name => 'ActionSearch',
+                    Name => 'SMIMEFilter',
                 );
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
@@ -439,10 +441,10 @@ sub _Overview {
         Name => 'OverviewResult',
     );
     if (@List) {
-        for my $Key (@List) {
+        for my $Attributes (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
-                Data => { %{$Key} },
+                Data => $Attributes,
             );
         }
     }
@@ -459,7 +461,7 @@ sub _Overview {
         Name => 'ActionAdd',
     );
     $Self->{LayoutObject}->Block(
-        Name => 'ActionSearch',
+        Name => 'SMIMEFilter',
     );
     return 1;
 }

@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.21 2011-02-07 18:42:42 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.22 2011-04-15 20:14:06 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,16 +20,6 @@
             </div>
             <div class="Content">
                 <ul class="ActionList">
-<!-- dtl:block:ActionSearch -->
-                    <li>
-                        <form class="SearchBox" action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Search"/>
-                            <input type="text" class="W50pc" id="Search" title="$Text{"Search"}" />
-                            <button type="submit"><span>$Text{"Search"}</span></button>
-                        </form>
-                    </li>
-<!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
                         <a class="CallForAction Plus" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ShowAddCertificate"><span>$Text{"Add certificate"}</span></a>
@@ -48,6 +38,33 @@
         </div>
 
 <!-- dtl:block:ActionList -->
+
+<!-- dtl:block:SMIMEFilter -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSMIME">$Text{"Filter for certificates"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterSMIME" class="W50pc" name="FilterSMIME" value="" title="$Text{"Filter for SMIME certs"}" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterSMIME'), $('#SMIME'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:SMIMEFilter -->
+
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Hint"}</h2>
@@ -70,7 +87,7 @@
                 <h2>$Text{"Results"}</h2>
             </div>
             <div class="Content ">
-                <table class="DataTable">
+                <table class="DataTable" id="SMIME">
                     <thead>
                         <tr>
                             <th>$Text{"Type"}</th>
@@ -83,6 +100,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">$Text{"No matches found."}</td>
+                        </tr>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
                             <td colspan="5">$Text{"No data found."}</td>
@@ -93,10 +113,10 @@
                             <td>$QData{"Type"}</td>
                             <td>$QData{"Subject"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Hash","80"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}">$QData{"Fingerprint","12"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</a>
                             </td>
                             <td>$QData{"ShortStartDate"}</td>
                             <td>$QData{"ShortEndDate"}</td>
