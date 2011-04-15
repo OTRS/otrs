@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.1 2011-04-14 21:03:40 cr Exp $
+# $Id: CloseIncident.t,v 1.2 2011-04-15 02:31:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,26 @@ my $WebserviceObject      = Kernel::System::GenericInterface::Webservice->new( %
 my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
 my $RandomID = $HelperObject->GetRandomID();
+
+my $Home = $Self->{ConfigObject}->Get('Home');
+
+my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+if ( $^O =~ /^win/i ) {
+    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+}
+
+# get scheduler status
+my $PreviousSchedulerStatus = `$Scheduler -a status`;
+
+# stop scheduler if it was already running before this test
+if ( $PreviousSchedulerStatus =~ /^running/i ) {
+    `$Scheduler -a stop`;
+}
+
+sleep 1;
+
+# start the scheduler again to refresh all objects
+`$Scheduler -a start -f 1`;
 
 # remember all webservices
 my $WebserviceList = $WebserviceObject->WebserviceList();
@@ -102,7 +122,7 @@ $Self->True(
 my @TicketIDs;
 
 # create a new ticket
-my $TicketID = $TicketObject->TicketCreate(
+my $OpenTicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent A',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -115,34 +135,12 @@ my $TicketID = $TicketObject->TicketCreate(
 );
 
 $Self->IsNot(
-    $TicketID,
+    $OpenTicketID,
     undef,
-    "TicketCreate() $TicketID",
+    "TicketCreate() $OpenTicketID",
 );
 
-push @TicketIDs, $TicketID;
-
-# create a new article
-my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'note-internal',
-    SenderType     => 'agent',
-    From           => 'Some Agent <agentl@localunittest.com>',
-    To             => 'Some Customer <customer@localunittest.com',
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
-);
-
-$Self->IsNot(
-    $ArticleID,
-    undef,
-    "ArticleCreate()",
-);
+push @TicketIDs, $OpenTicketID;
 
 # create a new closed ticket
 my $ClosedTicketID = $TicketObject->TicketCreate(
@@ -177,7 +175,7 @@ $Self->Is(
     "Closed Ticket StateType",
 );
 
-# create a new ticket to symulated that overpased the maximum ticket sync attempts
+# create a new ticket to simulate that overpased the maximum ticket sync attempts
 my $CantSyncTicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent A',
     Queue        => 'Raw',
@@ -191,7 +189,7 @@ my $CantSyncTicketID = $TicketObject->TicketCreate(
 );
 
 $Self->IsNot(
-    $TicketID,
+    $CantSyncTicketID,
     undef,
     "TicketCreate() $CantSyncTicketID",
 );
@@ -216,70 +214,155 @@ $Self->True(
     'Tikcet is set as can\'t sync',
 );
 
+# create a new closed ticket
+my $SyncedTicketID = $TicketObject->TicketCreate(
+    Title        => 'My ticket created by Agent A',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed Successful',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@localunittest.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+$Self->IsNot(
+    $SyncedTicketID,
+    undef,
+    "TicketCreate() $SyncedTicketID",
+);
+
+push @TicketIDs, $SyncedTicketID;
+
+# create a new article
+my $ArticleID = $TicketObject->ArticleCreate(
+    TicketID       => $SyncedTicketID,
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Some Agent <agentl@localunittest.com>',
+    To             => 'Some Customer <customer@localunittest.com',
+    Subject        => 'some short description',
+    Body           => 'the message text',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    NoAgentNotify => 1,    # if you don't want to send agent notifications
+);
+
+$Self->IsNot(
+    $ArticleID,
+    undef,
+    "ArticleCreate()",
+);
+
+my $TimeStamp = $Self->{TimeObject}->SystemTime();
+
+# simulate ticket is synced
+my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+    TicketID => $SyncedTicketID,
+    Key      => "GI_" . $WebserviceID . "_SolMan_SyncTimestamp",
+    Value    => $TimeStamp,
+    UserID   => 1,
+);
+
+$Self->True(
+    $SuccessTicketFlagSet,
+    "Ticket $SyncedTicketID has succesfuly set as synced",
+);
+
+# wait a second so the new article will get a diferent timestamp
+sleep 1;
+
+# create a new article this article was not synced
+my $SecondArticleID = $TicketObject->ArticleCreate(
+    TicketID       => $SyncedTicketID,
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Some Agent <agentl@localunittest.com>',
+    To             => 'Some Customer <customer@localunittest.com',
+    Subject        => 'some short description',
+    Body           => 'the message text',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    NoAgentNotify => 1,    # if you don't want to send agent notifications
+);
+
+$Self->IsNot(
+    $SecondArticleID,
+    undef,
+    "ArticleCreate()",
+);
+
 # get users data
 my %User = $UserObject->GetUserData(
     UserID => 1,
 );
 my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
     User => 'customer@localunittest.com',
-
-    #User => 'cr',
 );
 
 # get ticket data
 my %Ticket = $TicketObject->TicketGet(
-    TicketID => $TicketID,
+    TicketID => $SyncedTicketID,
     UserID   => 1,
 );
+
+# simulatethat the ticket was opened before
+$Ticket{State}     = 'open';
+$Ticket{StateType} = 'open';
 
 # tests for Prepare Request and HandleResponse
 my @Tests = (
 
-    #    {
-    #        Name           => 'Empty data',
-    #        PrepareRequest => {
-    #            Data    => {},
-    #            Success => 0,
-    #        },
-    #    },
-    #    {
-    #        Name           => 'Wrong TicketID',
-    #        PrepareRequest => {
-    #            Data => {
-    #                TicketID => -999,
-    #            },
-    #            Success => 0,
-    #        },
-    #    },
-    #    {
-    #        Name           => 'Invalid OldTicketData',
-    #        PrepareRequest => {
-    #            Data => {
-    #                TicketID => $TicketID,
-    #            },
-    #            Success => 0,
-    #        },
-    #    },
-    #    {
-    #        Name           => 'Not Closed Ticket',
-    #        PrepareRequest => {
-    #            Data => {
-    #                TicketID => $TicketID,
-    #                OldTicketData => \%Ticket,
-    #            },
-    #            Success => 0,
-    #        },
-    #    },
-    #    {
-    #        Name           => 'Closed Ticket already closed',
-    #        PrepareRequest => {
-    #            Data => {
-    #                TicketID      => $ClosedTicketID,
-    #                OldTicketData => \%ClosedTicket,
-    #            },
-    #            Success => 0,
-    #        },
-    #    },
+    {
+        Name           => 'Empty data',
+        PrepareRequest => {
+            Data    => {},
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Wrong TicketID',
+        PrepareRequest => {
+            Data => {
+                TicketID => -999,
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Invalid OldTicketData',
+        PrepareRequest => {
+            Data => {
+                TicketID => $OpenTicketID,
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Not Closed Ticket',
+        PrepareRequest => {
+            Data => {
+                TicketID      => $OpenTicketID,
+                OldTicketData => \%Ticket,
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Closed Ticket already closed',
+        PrepareRequest => {
+            Data => {
+                TicketID      => $ClosedTicketID,
+                OldTicketData => \%ClosedTicket,
+            },
+            Success => 0,
+        },
+    },
     {
         Name           => 'Can\'t sync Ticket',
         PrepareRequest => {
@@ -290,7 +373,241 @@ my @Tests = (
             Success => 0,
         },
     },
+    {
+        Name           => 'Not\'t synced Ticket',
+        PrepareRequest => {
+            Data => {
+                TicketID      => $ClosedTicketID,
+                OldTicketData => \%Ticket,
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Correct Ticket',
+        PrepareRequest => {
+            Data => {
+                TicketID      => $SyncedTicketID,
+                OldTicketData => \%Ticket,
+            },
+            ResponseData => {
 
+            },
+            Success => 1,
+        },
+    },
+    {
+        Name           => 'Server Error',
+        HandleResponse => {
+            ResponseSuccess => 0,
+            Data            => {},
+            Success         => 0,
+        },
+    },
+    {
+        Name           => 'Empty Response Data',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {},
+            Success         => 0,
+        },
+    },
+    {
+        Name           => 'No Errors parameter',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                PersonMaps => '',
+                PrdIctId   => '',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Incomplete error parameter',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors => {
+                    ErrorCode => '03',
+                },
+            },
+            Success => 1,
+        },
+    },
+    {
+        Name           => 'Complete error parameter',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors => {
+                    item => {
+                        ErrorCode => '03',
+                        Val1      => 'Description',
+                        Val2      => 'Deatil1',
+                        Val3      => 'Detail2',
+                        Val4      => 'Detail3',
+                        }
+                },
+            },
+            Success      => 1,
+            ErrorMessage => 'Error Code 03 Description Details: Detail1 Detail2 Detail3 |',
+        },
+    },
+
+    {
+        Name           => 'No PersonMaps',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors   => '',
+                PrdIctId => '0001',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'No PrdIctId',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                },
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Empty PrdIctId',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                },
+                PrdIctId => '',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Wrong PersonMaps (without Item)',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    PersonId    => '0001',
+                    PersonIdExt => '5050',
+                },
+                PrdIctId => '10001',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Wrong PersonMaps (without PersonId)',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => {
+                        PersonIdExt => '5050',
+                    },
+                },
+                PrdIctId => '10001',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'Wrong PersonMaps (without PersonIdExt)',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => {
+                        PersonId => '0001',
+                    },
+                },
+                PrdIctId => '10001',
+            },
+            Success => 0,
+        },
+    },
+    {
+        Name           => 'One Person Map',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                },
+                PrdIctId => '10001',
+            },
+            Success          => 1,
+            ExpectedResponse => {
+                PersonMaps => [
+                    {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                ],
+                PrdIctId => '10001',
+                }
+        },
+    },
+    {
+        Name           => 'Two Persons Map',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors     => '',
+                PersonMaps => {
+                    item => [
+                        {
+                            PersonId    => '0001',
+                            PersonIdExt => '5050',
+                        },
+                        {
+                            PersonId    => '8080',
+                            PersonIdExt => '1024',
+                        },
+                    ],
+                },
+                PrdIctId => '10001',
+            },
+            Success          => 1,
+            ExpectedResponse => {
+                PersonMaps => [
+                    {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                    {
+                        PersonId    => '8080',
+                        PersonIdExt => '1024',
+                    },
+                ],
+                PrdIctId => '10001',
+                }
+        },
+    },
 );
 
 # create debuger object
@@ -440,7 +757,7 @@ for my $Test (@Tests) {
 
             $Self->Is(
                 $Result->{Data}->{IctHead}->{ProviderGuid},
-                $WebserviceConfig->{Requester}->{Invoker}->{ReplicateIncident}->{RemoteSystemGuid},
+                $WebserviceConfig->{Requester}->{Invoker}->{CloseIncident}->{RemoteSystemGuid},
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead ProviderGuid",
             );
 
@@ -858,6 +1175,21 @@ for my $WebserviceID ( keys %{$WebserviceList} ) {
         $Success,
         "Webservice $WebserviceID is set to valid",
     );
+}
+
+# wait until scheduler process tasks
+my $SchedulerSleep = $Self->{ConfigObject}->Get('Scheduler::SleepTime');
+
+$Self->True(
+    1,
+    'Waiting for scheduler to process tasks...'
+);
+
+sleep $SchedulerSleep + 5;
+
+# stop scheduler if it was not running
+if ( $PreviousSchedulerStatus !~ /^running/i ) {
+    `$Scheduler -a stop`;
 }
 
 1;
