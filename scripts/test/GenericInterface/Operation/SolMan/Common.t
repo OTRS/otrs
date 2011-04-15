@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.10 2011-04-15 12:01:34 mg Exp $
+# $Id: Common.t,v 1.11 2011-04-15 12:29:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,24 +16,48 @@ use vars (qw($Self));
 use MIME::Base64 ();
 
 use Kernel::System::Ticket;
+use Kernel::System::GenericInterface::Webservice;
+use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Operation;
 
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+my $TicketObject     = Kernel::System::Ticket->new( %{$Self} );
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
 my $RandomID1 = int rand 1_000_000_000;
 my $RandomID2 = $RandomID1 + 1;
+
+my $WebserviceConfig = {
+    Debugger => {
+        DebugThreshold => 'debug',
+    },
+    Provider => {
+        Transport => {
+            Type   => 'HTTP::Test',
+            Config => {
+                Fail => 0,
+            },
+        },
+        Operation => {
+            CloseIncident => {
+                Type       => 'SolMan::CloseIncident',
+                CloseState => 'closed successful',
+            },
+        },
+    },
+};
 
 my @Tests = (
     [
         {
             Name      => 'ReplicateIncident without data',
-            Operation => 'SolMan::ReplicateIncident',
+            Operation => 'ReplicateIncident',
             Success   => 0,
         },
     ],
     [
         {
             Name      => 'ReplicateIncident with wrong data (arrayref)',
-            Operation => 'SolMan::ReplicateIncident',
+            Operation => 'ReplicateIncident',
             Success   => 0,
             Data      => [],
         },
@@ -41,7 +65,7 @@ my @Tests = (
     [
         {
             Name      => 'ReplicateIncident with correct structure, no data',
-            Operation => 'SolMan::ReplicateIncident',
+            Operation => 'ReplicateIncident',
             Success   => 0,
             Data      => {
                 IctAdditionalInfos => {},
@@ -60,7 +84,7 @@ my @Tests = (
     [
         {
             Name      => 'ReplicateIncident',
-            Operation => 'SolMan::ReplicateIncident',
+            Operation => 'ReplicateIncident',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -141,7 +165,7 @@ works too',
         },
         {
             Name      => 'AddInfo',
-            Operation => 'SolMan::AddInfo',
+            Operation => 'AddInfo',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -238,7 +262,7 @@ works too',
         },
         {
             Name      => 'AcceptIncidentProcessing without statements, but with attachments',
-            Operation => 'SolMan::AcceptIncidentProcessing',
+            Operation => 'AcceptIncidentProcessing',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -311,7 +335,7 @@ works too',
         },
         {
             Name      => 'VerifyIncidentSolution',
-            Operation => 'SolMan::VerifyIncidentSolution',
+            Operation => 'VerifyIncidentSolution',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -396,7 +420,7 @@ works too',
         },
         {
             Name      => 'RejectIncidentSolution',
-            Operation => 'SolMan::RejectIncidentSolution',
+            Operation => 'RejectIncidentSolution',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -483,7 +507,7 @@ works too',
     [
         {
             Name      => 'ProcessIncident with {} instead of []',
-            Operation => 'SolMan::ProcessIncident',
+            Operation => 'ProcessIncident',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -560,7 +584,7 @@ works too',
         },
         {
             Name      => 'CloseIncident',
-            Operation => 'SolMan::CloseIncident',
+            Operation => 'CloseIncident',
             Success   => 1,
             Data      => {
                 IctAdditionalInfos => {},
@@ -608,15 +632,26 @@ works too',
     ],
 );
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation;
+# add config
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => $WebserviceConfig,
+    Name    => "Test $RandomID1",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
+
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
     },
-    WebserviceID      => 1,
+    WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
 );
 
@@ -639,8 +674,8 @@ for my $TestChain (@Tests) {
         my $OperationObject = Kernel::GenericInterface::Operation->new(
             %{$Self},
             DebuggerObject => $DebuggerObject,
-            WebserviceID   => 1,
-            OperationType  => $Test->{Operation},
+            WebserviceID   => $WebserviceID,
+            OperationType  => "SolMan::$Test->{Operation}",
         );
 
         $Self->Is(
@@ -702,8 +737,8 @@ for my $TestChain (@Tests) {
         );
 
         my %TicketCreatingOperations = (
-            'SolMan::ReplicateIncident' => 1,
-            'SolMan::ProcessIncident'   => 1,
+            'ReplicateIncident' => 1,
+            'ProcessIncident'   => 1,
         );
 
         # a new ticket was created, remember the data of this
@@ -918,7 +953,7 @@ for my $TestChain (@Tests) {
 
         }
 
-        if ( $Test->{Operation} eq 'SolMan::CloseIncident' ) {
+        if ( $Test->{Operation} eq 'CloseIncident' ) {
             $Self->Is(
                 $TicketData{State},
                 'closed successful',
@@ -953,4 +988,14 @@ for my $TestChain (@Tests) {
 
 }    # END TESTCHAIN
 
+# delete config
+my $Success = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "WebserviceDelete()",
+);
 1;

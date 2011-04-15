@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.17 2011-04-15 12:01:34 mg Exp $
+# $Id: Common.pm,v 1.18 2011-04-15 12:29:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +20,10 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
+use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -107,6 +108,21 @@ sub new {
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
+
+    $Self->{WebserviceObject}
+        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+    $Self->{Webservice} = $Self->{WebserviceObject}->WebserviceGet(
+        ID => $Param{WebserviceID},
+    );
+
+    if ( !IsHashRefWithData( $Self->{Webservice} ) ) {
+        return $Self->_ReturnError(
+            ErrorCode => '09',
+            ErrorMessage =>
+                'Could not determine Webservice configuration in Kernel::GenericInterface::Operation::SolMan::Common::new()',
+        );
+    }
 
     return $Self;
 }
@@ -443,10 +459,14 @@ sub TicketSync {
 
     if ( $Param{Operation} eq 'CloseIncident' ) {
 
-#QA: default close state will be supplied from operation  ($Webservice->{Config}->{Requester}->{Operation}->{ $Param{Operation} }->{CloseState};)
-# close ticket
+        # close ticket, default close state comes from webservice configuration
+
+        my $CloseState
+            = $Self->{Webservice}->{Config}->{Provider}->{Operation}->{ $Param{Operation} }
+            ->{CloseState};
+
         my $Success = $Self->{TicketObject}->TicketStateSet(
-            State    => 'closed successful',
+            State    => $CloseState,
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -531,6 +551,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-04-15 12:01:34 $
+$Revision: 1.18 $ $Date: 2011-04-15 12:29:29 $
 
 =cut
