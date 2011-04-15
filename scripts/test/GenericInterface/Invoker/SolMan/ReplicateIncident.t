@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.6 2011-04-14 15:47:32 cr Exp $
+# $Id: ReplicateIncident.t,v 1.7 2011-04-15 17:37:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,18 +19,40 @@ use Kernel::System::CustomerUser;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Invoker::SolMan::Common;
+use Kernel::System::GenericInterface::ObjectLockState;
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %$Self,
     UnitTestObject => $Self,
 );
 
-my $TicketObject       = Kernel::System::Ticket->new( %{$Self} );
-my $UserObject         = Kernel::System::User->new( %{$Self} );
-my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
-my $WebserviceObject   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $TicketObject          = Kernel::System::Ticket->new( %{$Self} );
+my $UserObject            = Kernel::System::User->new( %{$Self} );
+my $CustomerUserObject    = Kernel::System::CustomerUser->new( %{$Self} );
+my $WebserviceObject      = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
 my $RandomID = $HelperObject->GetRandomID();
+
+my $Home = $Self->{ConfigObject}->Get('Home');
+
+my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+if ( $^O =~ /^win/i ) {
+    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+}
+
+# get scheduler status
+my $PreviousSchedulerStatus = `$Scheduler -a status`;
+
+# stop scheduler if it was already running before this test
+if ( $PreviousSchedulerStatus =~ /^running/i ) {
+    `$Scheduler -a stop`;
+}
+
+sleep 1;
+
+# start the scheduler again to refresh all objects
+`$Scheduler -a start -f 1`;
 
 # remember all webservices
 my $WebserviceList = $WebserviceObject->WebserviceList();
@@ -64,6 +86,37 @@ for my $WebserviceID ( keys %{$WebserviceList} ) {
         "Webservice $WebserviceID is set to invalid",
     );
 }
+
+# webservice confuration
+my $WebserviceConfig = {
+    Debugger => {
+        DebugThreshold => 'debug',
+    },
+    Requester => {
+        Transport => {
+            Type => 'HTTP::Test',
+        },
+        Invoker => {
+            ReplicateIncident => {
+                Type             => 'SolMan::ReplicateIncident',
+                RemoteSystemGuid => '123ABC123ABC123ABC'
+            },
+        },
+    },
+};
+
+# add a webservice
+my $WebserviceID = $WebserviceObject->WebserviceAdd(
+    Config  => $WebserviceConfig,
+    Name    => "ReplicateIncidentInvokerTest - . $RandomID",
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $WebserviceID,
+    "WebserviceAdd()",
+);
 
 # create a new ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -185,14 +238,14 @@ my @Tests = (
             ResponseSuccess => 1,
             Data            => {
                 Errors => {
-                    ErrorCode => '03',
+                    ErrorCode => '09',
                 },
             },
             Success => 1,
         },
     },
     {
-        Name           => 'Complete error parameter',
+        Name           => 'Complete error parameter No ReSchedule',
         HandleResponse => {
             ResponseSuccess => 1,
             Data            => {
@@ -207,7 +260,28 @@ my @Tests = (
                 },
             },
             Success      => 1,
+            ReSchedule   => undef,
             ErrorMessage => 'Error Code 03 Description Details: Detail1 Detail2 Detail3 |',
+        },
+    },
+    {
+        Name           => 'Complete error parameter ReSchedule',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors => {
+                    item => {
+                        ErrorCode => '0999',
+                        Val1      => 'Description',
+                        Val2      => 'Deatil1',
+                        Val3      => 'Detail2',
+                        Val4      => 'Detail3',
+                        }
+                },
+            },
+            Success      => 1,
+            ReSchedule   => 1,
+            ErrorMessage => 'Error Code 0999 Description Details: Detail1 Detail2 Detail3 |',
         },
     },
 
@@ -366,37 +440,6 @@ my @Tests = (
     },
 );
 
-# webservice confuration
-my $WebserviceConfig = {
-    Debugger => {
-        DebugThreshold => 'debug',
-    },
-    Requester => {
-        Transport => {
-            Type => 'HTTP::Test',
-        },
-        Invoker => {
-            ReplicateIncident => {
-                Type             => 'SolMan::ReplicateIncident',
-                RemoteSystemGuid => '123ABC123ABC123ABC'
-            },
-        },
-    },
-};
-
-# add a webservice
-my $WebserviceID = $WebserviceObject->WebserviceAdd(
-    Config  => $WebserviceConfig,
-    Name    => "ReplicateIncidentInvokerTest - . $RandomID",
-    ValidID => 1,
-    UserID  => 1,
-);
-
-$Self->True(
-    $WebserviceID,
-    "WebserviceAdd()",
-);
-
 # create debuger object
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
@@ -486,7 +529,6 @@ for my $Test (@Tests) {
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest ErrorMessage",
             );
         }
-
         else {
 
             # otherwise it should not be an error message
@@ -864,6 +906,13 @@ for my $Test (@Tests) {
                     "Test $Test->{Name}: ReplicateIncident HandleResponse error message not empty",
                 );
 
+                # check reschedule status
+                $Self->Is(
+                    $Result->{ReSchedule},
+                    $Test->{HandleResponse}->{ReSchedule},
+                    "Test $Test->{Name}: ReplicateIncident PrepareRequest ReSchedule",
+                );
+
                 # should not be any PersonMaps
                 $Self->Is(
                     $Result->{PersonMaps},
@@ -912,6 +961,14 @@ for my $Test (@Tests) {
                 "Test $Test->{Name}: ReplicateIncident HandleResponse ErrorMessage",
             );
         }
+
+        # delete lock state
+        my $Success = $ObjectLockStateObject->ObjectLockStateDelete(
+            WebserviceID => $WebserviceID,
+            ObjectType   => 'Ticket',        # type of the object
+            ObjectID     => $TicketID,       # ID of the object
+        );
+
     }
 }
 
@@ -960,6 +1017,21 @@ for my $WebserviceID ( keys %{$WebserviceList} ) {
         $Success,
         "Webservice $WebserviceID is set to valid",
     );
+}
+
+# wait until scheduler process tasks
+my $SchedulerSleep = $Self->{ConfigObject}->Get('Scheduler::SleepTime');
+
+$Self->True(
+    1,
+    'Waiting for scheduler to process tasks...'
+);
+
+sleep $SchedulerSleep + 5;
+
+# stop scheduler if it was not running
+if ( $PreviousSchedulerStatus !~ /^running/i ) {
+    `$Scheduler -a stop`;
 }
 
 1;
