@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.4 2011-04-15 04:26:17 cr Exp $
+# $Id: CloseIncident.t,v 1.5 2011-04-15 17:35:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -436,7 +436,7 @@ my @Tests = (
         },
     },
     {
-        Name           => 'Complete error parameter',
+        Name           => 'Complete error parameter No ReSchedule',
         HandleResponse => {
             ResponseSuccess => 1,
             Data            => {
@@ -451,7 +451,28 @@ my @Tests = (
                 },
             },
             Success      => 1,
+            ReSchedule   => undef,
             ErrorMessage => 'Error Code 03 Description Details: Detail1 Detail2 Detail3 |',
+        },
+    },
+    {
+        Name           => 'Complete error parameter ReSchedule',
+        HandleResponse => {
+            ResponseSuccess => 1,
+            Data            => {
+                Errors => {
+                    item => {
+                        ErrorCode => '0999',
+                        Val1      => 'Description',
+                        Val2      => 'Deatil1',
+                        Val3      => 'Detail2',
+                        Val4      => 'Detail3',
+                        }
+                },
+            },
+            Success      => 1,
+            ReSchedule   => 1,
+            ErrorMessage => 'Error Code 0999 Description Details: Detail1 Detail2 Detail3 |',
         },
     },
 
@@ -1075,6 +1096,13 @@ for my $Test (@Tests) {
                     $Result->{ErrorMessage},
                     '',
                     "Test $Test->{Name}: ReplicateIncident HandleResponse error message not empty",
+                );
+
+                # check reschedule status
+                $Self->Is(
+                    $Result->{ReSchedule},
+                    $Test->{HandleResponse}->{ReSchedule},
+                    "Test $Test->{Name}: ReplicateIncident PrepareRequest ReSchedule",
                 );
 
                 # should not be any PersonMaps
