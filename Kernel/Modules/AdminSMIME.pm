@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.35 2011-04-15 20:14:06 dz Exp $
+# $Id: AdminSMIME.pm,v 1.36 2011-04-15 20:29:58 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -435,7 +435,7 @@ sub _Overview {
 
     my @List = ();
     if ( $Self->{CryptObject} ) {
-        @List = $Self->{CryptObject}->Search( Search => $Param{Search} );
+        @List = $Self->{CryptObject}->Search();
     }
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
