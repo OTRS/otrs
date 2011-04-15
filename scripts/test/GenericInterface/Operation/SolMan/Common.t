@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.9 2011-04-15 11:50:58 mg Exp $
+# $Id: Common.t,v 1.10 2011-04-15 12:01:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,6 @@ use MIME::Base64 ();
 use Kernel::System::Ticket;
 
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-
-my %PrioritySolMan2OTRS = (
-    1 => '5 very high',
-    2 => '4 high',
-    3 => '3 normal',
-    4 => '2 low',
-);
 
 my $RandomID1 = int rand 1_000_000_000;
 my $RandomID2 = $RandomID1 + 1;
@@ -93,7 +86,7 @@ my @Tests = (
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
-                    Priority         => 3,
+                    Priority         => '3 normal',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -185,7 +178,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
-                    Priority         => 2,
+                    Priority         => '4 high',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -282,7 +275,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
-                    Priority         => 2,
+                    Priority         => '4 high',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -355,7 +348,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
-                    Priority         => 2,
+                    Priority         => '4 high',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -440,7 +433,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
-                    Priority         => 2,
+                    Priority         => '4 high',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -514,7 +507,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
-                    Priority         => 4,
+                    Priority         => '2 low',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -579,7 +572,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'title',
-                    Priority         => 4,
+                    Priority         => '2 low',
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -765,7 +758,7 @@ for my $TestChain (@Tests) {
         if ( $Test->{Data}->{IctHead}->{Priority} ) {
             $Self->Is(
                 $TicketData{Priority},
-                $PrioritySolMan2OTRS{ $Test->{Data}->{IctHead}->{Priority} },
+                $Test->{Data}->{IctHead}->{Priority},
                 "$Test->{Name} Ticket data contains correct Priority",
             );
         }

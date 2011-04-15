@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.16 2011-04-15 11:50:58 mg Exp $
+# $Id: Common.pm,v 1.17 2011-04-15 12:01:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -216,17 +216,6 @@ sub TicketSync {
 
     my $IncidentGuidTicketFlagName = "GI_$Self->{WebserviceID}_SolMan_IncidentGuid";
 
-    #QA: can be removed - will be done in mapping layer
-    my %PrioritySolMan2OTRS = (
-        1 => '5 very high',
-        2 => '4 high',
-        3 => '3 normal',
-        4 => '2 low',
-    );
-
-    #QA: default will be supplied by mapping
-    my $TargetPriority = $PrioritySolMan2OTRS{ $Param{Data}->{IctHead}->{Priority} || 3 };
-
     #QA: add person mapping
 
     if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
@@ -240,7 +229,7 @@ sub TicketSync {
             Title => $Param{Data}->{IctHead}->{ShortDescription} || '',
             Queue => 'Raw',
             Lock  => 'unlock',
-            Priority     => $TargetPriority,
+            Priority     => $Param{Data}->{IctHead}->{Priority},     # will be converted by mapping
             State        => 'open',
             CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
             CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
@@ -318,7 +307,7 @@ sub TicketSync {
         if ( $Param{Data}->{IctHead}->{Priority} ne $Ticket{Priority} ) {
             my $Success = $Self->{TicketObject}->TicketPrioritySet(
                 TicketID => $TicketID,
-                Priority => $TargetPriority,
+                Priority => $Param{Data}->{IctHead}->{Priority},    # will be converted by mapping
                 UserID   => 1,
             );
 
@@ -542,6 +531,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-04-15 11:50:58 $
+$Revision: 1.17 $ $Date: 2011-04-15 12:01:34 $
 
 =cut
