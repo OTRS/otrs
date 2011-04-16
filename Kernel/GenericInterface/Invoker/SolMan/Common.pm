@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.33 2011-04-16 01:23:27 cr Exp $
+# $Id: Common.pm,v 1.34 2011-04-16 23:56:57 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -739,7 +739,7 @@ sub GetArticlesInfo {
             Texts => {                              # type="tns:IctTexts"
                 item => [
                     $Article->{Subject} || '',
-                    "\n",
+                    '',
                     $Article->{Body} || '',
                     ]
             },
@@ -1835,12 +1835,13 @@ sub PrepareRequest {
     # IctUrls
     my $IctUrls = $Self->GetUrlsInfo();
 
-    # IctTimestamp
-    my $IctTimestamp = $Self->{TimeObject}->CurrentTimestamp();
+    # IctTimestamp = ticket create time
+    my $IctTimestamp = $Ticket{Created};
     $IctTimestamp =~ s{[:|\-|\s]}{}g;
 
+    # IctTimestampEnd = ticket create time + 3 days
     my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime() + 1,
+        SystemTime => $Ticket{CreateTimeUnix} + 3 * 24 * 60 * 60,
     );
     $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
 
@@ -1877,7 +1878,6 @@ sub PrepareRequest {
             Language         => $Language,                          # type="n0:char2"
             RequestedBegin   => $IctTimestamp,                      # type="n0:decimal15.0"
             RequestedEnd     => $IctTimestampEnd,                   # type="n0:decimal15.0"
-            IctId            => $Ticket{TicketNumber},              # type="n0:char32"
         },
         IctId      => $Ticket{TicketNumber},                        # type="n0:char32"
         IctPersons => IsArrayRefWithData($IctPersons)
@@ -2220,6 +2220,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2011-04-16 01:23:27 $
+$Revision: 1.34 $ $Date: 2011-04-16 23:56:57 $
 
 =cut
