@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.32 2011-04-15 23:23:10 cr Exp $
+# $Id: Common.pm,v 1.33 2011-04-16 01:23:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -2051,17 +2051,36 @@ sub HandleResponse {
         };
     }
 
-    # we need a Incident Identifier from the remote system
-    if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
-        $ErrorMessage = 'Got no PrdIctId!';
+    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
 
-        # write in the debug log
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        # we need a Incident Identifier from the remote system
+        if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
+            $ErrorMessage = 'Got no PrdIctId!';
 
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
+            # write in the debug log
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+    }
+
+    if ( $Self->{Invoker} eq 'CloseIncident' || $Self->{Invoker} eq 'AddInfo' ) {
+
+        # we need a Incident Identifier from the remote system
+        if ( defined $Param{Data}->{PrdIctId} && $Param{Data}->{PrdIctId} eq '' ) {
+            $ErrorMessage = 'Got no PrdIctId!';
+
+            # write in the debug log
+            $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
     }
 
     # response should have a person maps and it sould be empty
@@ -2201,6 +2220,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2011-04-15 23:23:10 $
+$Revision: 1.33 $ $Date: 2011-04-16 01:23:27 $
 
 =cut
