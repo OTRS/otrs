@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.2 2011-04-15 23:31:14 cr Exp $
+# $Id: AddInfo.t,v 1.3 2011-04-16 01:24:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -573,7 +573,15 @@ my @Tests = (
                     },
                 },
             },
-            Success => 0,
+            ExpectedResponse => {
+                PersonMaps => [
+                    {
+                        PersonId    => '0001',
+                        PersonIdExt => '5050',
+                    },
+                ],
+            },
+            Success => 1,
         },
     },
     {
