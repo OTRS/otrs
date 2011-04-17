@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.19 2011-04-15 13:16:04 mg Exp $
+# $Id: Common.pm,v 1.20 2011-04-17 00:02:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -216,26 +216,35 @@ sub TicketSync {
         }
     }
 
-    # Check if RequesterGuid matches our known value from the webservice configuration.
-    #   If not, return an error.
-    my $RequesterSystemGuid
+    # Check if RequesterGuid and ProviderGuid match remote system guid and local system guid
+    my $RemoteSystemGuid
         = $Self->{Webservice}->{Config}->{Provider}->{Operation}->{ $Param{Operation} }
         ->{RemoteSystemGuid};
-
-    if ( $Param{Data}->{IctHead}->{RequesterGuid} ne $RequesterSystemGuid ) {
-        return $Self->_ReturnError(
-            ErrorCode => '09',
-            ErrorMessage =>
-                "Invalid RequesterGuid $Param{Data}->{IctHead}->{RequesterGuid} in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
-        );
-    }
-
     my $LocalSystemGuid = $Self->LocalSystemGuid();
-    if ( $Param{Data}->{IctHead}->{ProviderGuid} ne $LocalSystemGuid ) {
+    my $ProviderGuid    = $Param{Data}->{IctHead}->{ProviderGuid};
+    my $RequesterGuid   = $Param{Data}->{IctHead}->{RequesterGuid};
+    if (
+        (
+            $RemoteSystemGuid ne $ProviderGuid
+            && $RemoteSystemGuid ne $RequesterGuid
+        )
+        ||
+        (
+            $RemoteSystemGuid eq $ProviderGuid
+            && $LocalSystemGuid ne $RequesterGuid
+        )
+        ||
+        (
+            $RemoteSystemGuid eq $RequesterGuid
+            && $LocalSystemGuid ne $ProviderGuid
+        )
+        )
+    {
         return $Self->_ReturnError(
-            ErrorCode => '09',
+            ErrorCode => 9,
             ErrorMessage =>
-                "Invalid ProviderGuid $Param{Data}->{IctHead}->{ProviderGuid} in Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+                "Invalid RequesterGuid $RequesterGuid or ProviderGuid $ProviderGuid in"
+                . " Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
         );
     }
 
@@ -369,14 +378,22 @@ sub TicketSync {
             next if !$Statement->{Texts};
             next if ref $Statement->{Texts} ne 'HASH';
             next if !$Statement->{Texts}->{item};
-            next if ref $Statement->{Texts}->{item} ne 'ARRAY';
+
+            my @Items;
+
+            if ( ref $Statement->{Texts}->{item} eq 'ARRAY' ) {
+                @Items = @{ $Statement->{Texts}->{item} };
+            }
+            else {
+                @Items = ( $Statement->{Texts}->{item} );
+            }
 
             #QA: use person mapping, if no person id is passed, use empty parentheses
             # construct the text body from multiple item nodes
             my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Statement->{Timestamp}
                 =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
             my $Body = "($Statement->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
-            $Body .= join "\n", @{ $Statement->{Texts}->{item} };
+            $Body .= join "\n", @Items;
 
 #QA: use proper sender type based on person type (or 'system' if no person is passed), set From accordingly
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -492,7 +509,11 @@ sub TicketSync {
     }
 
     my $ReturnData = {
-        Errors  => '',
+        Data => {
+            Errors     => '',
+            PersonMaps => '',
+            PrdIctId   => '',
+        },
         Success => 1,
     };
 
@@ -541,7 +562,7 @@ SolMan expects it. See TicketSync() for how the error structure looks like.
 
     return $CommonObject->_ReturnError(
         ErrorCode => '09',
-        ErrorMessage => 'Der Aufruf ist unvollständig oder unerlaubt',
+        ErrorMessage => 'Der Aufruf ist unvollstï¿½ndig oder unerlaubt',
     );
 
 =cut
@@ -586,6 +607,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-04-15 13:16:04 $
+$Revision: 1.20 $ $Date: 2011-04-17 00:02:53 $
 
 =cut
