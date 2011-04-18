@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1841 2011-04-15 07:46:42 mg Exp $
+# $Id: CHANGES,v 1.1842 2011-04-18 21:05:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-18 Fixed bug#7216 - Company names containing "&" pulled from Active Directory cause errors in error.log when using Company Tickets.
  - 2011-04-06 Added generic notification module to show messages in the agent interface.
  - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
