@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.7 2011-04-16 01:24:21 cr Exp $
+# $Id: CloseIncident.t,v 1.8 2011-04-18 14:42:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -377,9 +377,20 @@ $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
     UserID   => 1,
 );
 
+# get artice data
+my %Article = $TicketObject->ArticleGet(
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
+
+my @ArticleFormat = (
+    $Article{Subject},
+    '',
+    $Article{Body},
+);
+
 # tests for PrepareRequest and HandleResponse
 my @Tests = (
-
     {
         Name           => 'Empty data',
         PrepareRequest => {
@@ -502,7 +513,7 @@ my @Tests = (
             ResponseSuccess => 1,
             Data            => {
                 Errors => {
-                    ErrorCode => '03',
+                    ErrorCode => '09',
                 },
             },
             Success => 1,
@@ -801,7 +812,6 @@ for my $Test (@Tests) {
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest ErrorMessage",
             );
         }
-
         else {
 
             # otherwise it should not be an error message
@@ -837,12 +847,6 @@ for my $Test (@Tests) {
                 $Result->{Data}->{IctHead}->{AgentId},
                 1,
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead AgentId",
-            );
-
-            $Self->Is(
-                $Result->{Data}->{IctHead}->{IctId},
-                $Ticket{TicketNumber},
-                "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead IctId",
             );
 
             $Self->Is(
@@ -1110,12 +1114,14 @@ for my $Test (@Tests) {
                     . "Texts item ref",
             );
 
-            for my $ItemLine ( @{ $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item} } ) {
-                $Self->IsNot(
-                    $ItemLine,
-                    '',
+            for my $Index
+                ( 0 .. $#{ $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item} } )
+            {
+                $Self->Is(
+                    $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item}->[$Index],
+                    $ArticleFormat[$Index],
                     "Test $Test->{Name}: ReplicateIncident PrepareRequest IctStatements item [0] "
-                        . "Texts item line non empty",
+                        . "Texts item [$Index]",
                 );
             }
 
