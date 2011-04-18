@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.9 2011-04-18 16:08:03 cr Exp $
+# $Id: Requester.pm,v 1.10 2011-04-18 17:08:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -214,10 +214,23 @@ sub Run {
     );
 
     if ( !$FunctionResult->{Success} ) {
-        return $Self->{DebuggerObject}->Debug(
+        $Self->{DebuggerObject}->Debug(
             Summary => 'InvokerObject returned an error, cancelling Request',
             Data    => $FunctionResult->{ErrorMessage},
         );
+
+        # to store the success value to return (0 by default)
+        my $Success;
+
+        # not always this means an error for example if the invokers has nothing to do then the
+        # Success from FunctionResult is 0 but the call should return Success = 1
+        if ( $FunctionResult->{CleanExit} && $FunctionResult->{CleanExit} eq 1 ) {
+            $Success = 1;
+        }
+
+        return {
+            Success => $Success,
+        };
     }
 
     #
@@ -395,6 +408,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-04-18 16:08:03 $
+$Revision: 1.10 $ $Date: 2011-04-18 17:08:08 $
 
 =cut
