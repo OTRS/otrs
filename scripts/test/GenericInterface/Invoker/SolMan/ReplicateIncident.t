@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.7 2011-04-15 17:37:22 cr Exp $
+# $Id: ReplicateIncident.t,v 1.8 2011-04-18 11:35:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,8 +175,20 @@ my %Ticket = $TicketObject->TicketGet(
     UserID   => 1,
 );
 
-# tests for Prepare Request and HandleResponse
-my @Tests = (
+# get artice data
+my %Article = $TicketObject->ArticleGet(
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
+
+my @ArticleFormat = (
+    $Article{Subject},
+    '',
+    $Article{Body},
+    ),
+
+    # tests for Prepare Request and HandleResponse
+    my @Tests = (
     {
         Name           => 'Empty data',
         PrepareRequest => {
@@ -438,7 +450,7 @@ my @Tests = (
                 }
         },
     },
-);
+    );
 
 # create debuger object
 use Kernel::GenericInterface::Debugger;
@@ -564,12 +576,6 @@ for my $Test (@Tests) {
                 $Result->{Data}->{IctHead}->{AgentId},
                 1,
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead AgentId",
-            );
-
-            $Self->Is(
-                $Result->{Data}->{IctHead}->{IctId},
-                $Ticket{TicketNumber},
-                "Test $Test->{Name}: ReplicateIncident PrepareRequest IctHead IctId",
             );
 
             $Self->Is(
@@ -837,12 +843,14 @@ for my $Test (@Tests) {
                     . "Texts item ref",
             );
 
-            for my $ItemLine ( @{ $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item} } ) {
-                $Self->IsNot(
-                    $ItemLine,
-                    '',
+            for my $Index
+                ( 0 .. $#{ $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item} } )
+            {
+                $Self->Is(
+                    $Result->{Data}->{IctStatements}->{item}[0]->{Texts}->{item}->[$Index],
+                    $ArticleFormat[$Index],
                     "Test $Test->{Name}: ReplicateIncident PrepareRequest IctStatements item [0] "
-                        . "Texts item line non empty",
+                        . "Texts item [$Index]",
                 );
             }
 
