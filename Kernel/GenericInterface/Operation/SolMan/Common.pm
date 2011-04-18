@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.20 2011-04-17 00:02:53 sb Exp $
+# $Id: Common.pm,v 1.21 2011-04-18 10:23:57 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -254,19 +254,42 @@ sub TicketSync {
 
     #QA: add person mapping
 
+    # get state
+    my $State;
+    if ( IsHashRefWithData( $Param{Data}->{IctAdditionalInfos} ) ) {
+        if (
+            IsHashRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} )
+            && $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoAttribute} eq 'SAPUserStatus'
+            )
+        {
+            $State = $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue};
+        }
+        elsif ( IsArrayRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} ) ) {
+            ADDINFO:
+            for my $AddInfo ( @{ $Param{Data}->{IctAdditionalInfos}->{item} } ) {
+                next ADDINFO if $AddInfo->{AddInfoAttribute} ne 'SAPUserStatus';
+                $State = $AddInfo->{AddInfoValue};
+                last ADDINFO;
+            }
+        }
+    }
+    $State ||= 'open';
+
     if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
 
-#QA: use default for queue from operation (like RemoteSystemGuid)
-#QA: defaults for state will be supplied from mapping layer (AddInfoValue from $Param{Data}->{IctAdditionalInfos}->[item]->{AddInfoAttribute} = 'SAPUserStatus')
 #QA: if we have an AgentId, we should use it as owner
 #QA: replace values for CustomerNo and CustomerUser with values from person mapping (if ReporterId is set)
-# create ticket
+
+        # create ticket
+        my $Queue =
+            $Self->{Webservice}->{Config}->{Provider}->{Operation}->{ $Param{Operation} }->{Queue}
+            || 'Raw';
         $TicketID = $Self->{TicketObject}->TicketCreate(
             Title => $Param{Data}->{IctHead}->{ShortDescription} || '',
-            Queue => 'Raw',
+            Queue => $Queue,
             Lock  => 'unlock',
             Priority     => $Param{Data}->{IctHead}->{Priority},     # will be converted by mapping
-            State        => 'open',
+            State        => $State,
             CustomerNo   => $Param{Data}->{IctHead}->{ReporterId},
             CustomerUser => $Param{Data}->{IctHead}->{ReporterId},
             OwnerID      => 1,
@@ -607,6 +630,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-04-17 00:02:53 $
+$Revision: 1.21 $ $Date: 2011-04-18 10:23:57 $
 
 =cut
