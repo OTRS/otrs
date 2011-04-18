@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.36 2011-04-18 16:13:22 cr Exp $
+# $Id: Common.pm,v 1.37 2011-04-18 16:31:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -1201,6 +1201,42 @@ sub PrepareRequest {
         };
     }
 
+    if ( $Self->{Invoker} eq 'AddInfo' ) {
+
+        # get last ticket changed timestamp
+        my $TicketChanged = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Ticket{Changed},
+        );
+
+        my $LastArticleCreated;
+
+        my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
+            TicketID => $Self->{TicketID},
+        );
+
+        if (@ArticleIDs) {
+
+            my %Article = $Self->{TicketObject}->ArticleGet(
+                ArticleID => $ArticleIDs[-1],
+                UserID    => 1,
+            );
+
+            $LastArticleCreated = $Article{IncomingTime};
+        }
+
+        if ( $LastSync > $TicketChanged && $LastSync > $LastArticleCreated ) {
+            $ErrorMessage
+                = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
+                . "currently have not changes to replicate!";
+
+            $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+    }
+
     # get IncidentGuid
     my $IncidentGuid = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_IncidentGuid"} || '';
 
@@ -1708,6 +1744,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2011-04-18 16:13:22 $
+$Revision: 1.37 $ $Date: 2011-04-18 16:31:38 $
 
 =cut
