@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.8 2011-03-23 17:13:27 cg Exp $
+# $Id: Requester.pm,v 1.9 2011-04-18 16:08:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -214,7 +214,7 @@ sub Run {
     );
 
     if ( !$FunctionResult->{Success} ) {
-        return $Self->{DebuggerObject}->Error(
+        return $Self->{DebuggerObject}->Debug(
             Summary => 'InvokerObject returned an error, cancelling Request',
             Data    => $FunctionResult->{ErrorMessage},
         );
@@ -395,6 +395,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-03-23 17:13:27 $
+$Revision: 1.9 $ $Date: 2011-04-18 16:08:03 $
 
 =cut
