@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.9 2011-04-14 01:38:11 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.10 2011-04-18 16:04:24 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -47,10 +47,10 @@
     </ConfigItem>
     <ConfigItem Name="GenericInterface::Invoker::SolMan::TaskDelay" Required="0" Valid="0">
         <Description Translatable="1">Number in seconds after current time to schedule tasks .</Description>
-        <Group>GenericInterface</Group>
+        <Group>Scheduler</Group>
         <SubGroup>SolMan::Scheduler</SubGroup>
         <Setting>
-            <String Regex="">3</String><!-- default 3 seconds -->
+            <String Regex="">60</String><!-- default 60 seconds -->
         </Setting>
     </ConfigItem>
 </otrs_config>

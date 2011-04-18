@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.34 2011-04-16 23:56:57 sb Exp $
+# $Id: Common.pm,v 1.35 2011-04-18 16:05:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -1419,7 +1419,8 @@ sub ScheduleTask {
         }
     }
 
-    my $TaskDelay = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::TaskDelay') || 3;
+    my $TaskDelay = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::TaskDelay')
+        || 60;
 
     my $DueSystemTime = $Self->{TimeObject}->SystemTime() + $TaskDelay;
     my $DueTimeStamp  = $Self->{TimeObject}->SystemTime2TimeStamp(
@@ -2220,6 +2221,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2011-04-16 23:56:57 $
+$Revision: 1.35 $ $Date: 2011-04-18 16:05:05 $
 
 =cut
