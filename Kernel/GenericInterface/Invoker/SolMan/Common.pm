@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.37 2011-04-18 16:31:38 cg Exp $
+# $Id: Common.pm,v 1.38 2011-04-18 17:06:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -1232,6 +1232,7 @@ sub PrepareRequest {
             $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
             return {
                 Success      => 0,
+                CleanExit    => 1,
                 ErrorMessage => $ErrorMessage,
             };
         }
@@ -1744,6 +1745,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2011-04-18 16:31:38 $
+$Revision: 1.38 $ $Date: 2011-04-18 17:06:47 $
 
 =cut
