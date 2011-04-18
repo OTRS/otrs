@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.8 2011-04-18 11:35:33 cr Exp $
+# $Id: ReplicateIncident.t,v 1.9 2011-04-18 14:41:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -185,10 +185,10 @@ my @ArticleFormat = (
     $Article{Subject},
     '',
     $Article{Body},
-    ),
+);
 
-    # tests for Prepare Request and HandleResponse
-    my @Tests = (
+# tests for PrepareRequest and HandleResponse
+my @Tests = (
     {
         Name           => 'Empty data',
         PrepareRequest => {
@@ -450,7 +450,7 @@ my @ArticleFormat = (
                 }
         },
     },
-    );
+);
 
 # create debuger object
 use Kernel::GenericInterface::Debugger;
@@ -992,13 +992,13 @@ $Self->True(
 );
 
 # remove Webservice
-$Success = $WebserviceObject->WebserviceDelete(
+my $WsDeleteSuccess = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
 
 $Self->True(
-    $Success,
+    $WsDeleteSuccess,
     'WebserviceDelete()',
 );
 
