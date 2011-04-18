@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.19 2011-04-06 18:32:02 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.20 2011-04-18 21:04:08 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -208,14 +208,63 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         # get detault log path from configuration
         my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath') || '/tmp';
 
+        # backup old logfiles
+        my $FileExt    = '.log';
+        my $FileStdOut = $LogPath . '/SchedulerOUT.log';
+        my $FileStdErr = $LogPath . '/SchedulerERR.log';
+        use File::Copy;
+        my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+        if ( -e $FileStdOut ) {
+            move( "$FileStdOut", "$LogPath/SchedulerOUT-$SystemTime.log" );
+        }
+        if ( -e $FileStdErr ) {
+            move( "$FileStdErr", "$LogPath/SchedulerERR-$SystemTime.log" );
+        }
+
+        # delete old log files
+        my $DaysToKeep = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
+        my $DaysToKeepSystemTime
+            = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
+
+        my @LogFiles = <$LogPath/*.log>;
+
+        LOGFILE:
+        for my $LogFile (@LogFiles) {
+
+            # skip if is not a backup file
+            next LOGFILE if ( $LogFile !~ m{(?: .* /)* Scheduler (?: OUT|ERR ) - (\d+) \.log}igmx );
+
+            # skip if is not older than the maximum allowed
+            next LOGFILE if ( $1 > $DaysToKeepSystemTime );
+
+            #delete file
+            if ( unlink($LogFile) == 0 ) {
+
+                # log old backup file cannot be deleted
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Scheduler could not delete old backup file $LogFile! $!",
+                );
+
+            }
+            else {
+
+                # log old backup file deleted
+                $CommonObject{LogObject}->Log(
+                    Priority => 'notice',
+                    Message  => "Scheduler deleted old backup file $LogFile!",
+                );
+            }
+        }
+
         # create a new daemon object
         my $Daemon = Proc::Daemon->new();
 
         # demonize itself
         $Daemon->Init(
             {
-                child_STDOUT => $LogPath . '/SchedulerOUT.log',
-                child_STDERR => $LogPath . '/SchedulerERR.log',
+                child_STDOUT => $FileStdOut,
+                child_STDERR => $FileStdErr,
             }
         );
     }
