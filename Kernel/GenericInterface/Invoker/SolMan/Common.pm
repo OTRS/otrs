@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.38 2011-04-18 17:06:47 cg Exp $
+# $Id: Common.pm,v 1.39 2011-04-18 17:36:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -1208,7 +1208,7 @@ sub PrepareRequest {
             String => $Ticket{Changed},
         );
 
-        my $LastArticleCreated;
+        my $LastArticleModified;
 
         my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
             TicketID => $Self->{TicketID},
@@ -1221,10 +1221,12 @@ sub PrepareRequest {
                 UserID    => 1,
             );
 
-            $LastArticleCreated = $Article{IncomingTime};
+            $LastArticleModified = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Article{Changed},
+            );
         }
 
-        if ( $LastSync > $TicketChanged && $LastSync > $LastArticleCreated ) {
+        if ( $LastSync > $TicketChanged && $LastSync > $LastArticleModified ) {
             $ErrorMessage
                 = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
                 . "currently have not changes to replicate!";
@@ -1745,6 +1747,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2011-04-18 17:06:47 $
+$Revision: 1.39 $ $Date: 2011-04-18 17:36:21 $
 
 =cut
