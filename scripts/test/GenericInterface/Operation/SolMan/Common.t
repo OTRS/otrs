@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.12 2011-04-15 13:16:04 mg Exp $
+# $Id: Common.t,v 1.13 2011-04-18 14:28:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -337,6 +337,100 @@ works too',
                         },
                     ],
                 },
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
+        {
+            Name                 => 'AddInfo for incompletely synchronized ticket',
+            Operation            => 'AddInfo',
+            TicketSyncIncomplete => 1,
+            Success              => 0,
+            Data                 => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {},
+                IctHead            => {
+                    IncidentGuid     => "Solman-$RandomID1",
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'AddInfo Test',
+                    Priority         => '4 high',
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {},
+
+                IctTimestamp => '20010101000000',
+                IctUrls      => {},
+            },
+        },
+        {
+            Name                  => 'AddInfo for incompletely synchronized articles',
+            Operation             => 'AddInfo',
+            ArticleSyncIncomplete => 1,
+            Success               => 0,
+            Data                  => {
+                IctAdditionalInfos => {},
+                IctAttachments     => {},
+                IctHead            => {
+                    IncidentGuid     => "Solman-$RandomID1",
+                    RequesterGuid    => 'DE86768CD3D015F181D0001438BF50C6',
+                    ProviderGuid     => $LocalSystemGuid,
+                    AgentId          => 1,
+                    ReporterId       => 'stefan.bedorf@otrs.com',
+                    ShortDescription => 'AddInfo Test',
+                    Priority         => '4 high',
+                    Language         => 'de',
+                    RequestedBegin   => '20000101000000',
+                    RequestedEnd     => '20111231235959',
+                },
+                IctPersons => {
+                    Item => [
+                        PersonId    => 'stefan.bedorf@otrs.com',
+                        PersonIdExt => 292,
+                        Sex         => 'm',
+                        FirstName   => 'Stefan',
+                        LastName    => 'Bedorf',
+                        Telephone   => {
+                            PhoneNo          => '+49 9421 56818',
+                            PhoneNoExtension => '0',
+                        },
+                        MobilePhone => '-',
+                        Fax         => {
+                            FaxNo          => '+49 9421 56818',
+                            FaxNoExtension => '18',
+                        },
+                        Email => 'stefan.bedorf@otrs.com',
+                    ],
+                },
+                IctSapNotes   => {},
+                IctSolutions  => {},
+                IctStatements => {},
 
                 IctTimestamp => '20010101000000',
                 IctUrls      => {},
@@ -841,6 +935,74 @@ for my $TestChain (@Tests) {
 
         next TEST if ref $OperationObject ne 'Kernel::GenericInterface::Operation';
 
+        # Bring the ticket out of sync by updating it.
+        if ( $Test->{TicketSyncIncomplete} ) {
+
+            # Wait a little bit to make sure that the new ticket change time really is later.
+            sleep 1;
+
+            my $Success = $TicketObject->TicketArchiveFlagSet(
+                ArchiveFlag => 'y',
+                TicketID    => $LastTicketID,
+                UserID      => 1,
+            );
+
+            $Self->True(
+                $Success,
+                "$Test->{Name} ticket archive flag updated in test case to make ticket synchronization incomplete",
+            );
+
+            $Success = $TicketObject->TicketArchiveFlagSet(
+                ArchiveFlag => 'n',
+                TicketID    => $LastTicketID,
+                UserID      => 1,
+            );
+
+            $Self->True(
+                $Success,
+                "$Test->{Name} ticket archive flag updated in test case to make ticket synchronization incomplete",
+            );
+        }
+
+        # Bring the ticket out of sync by updating it.
+        if ( $Test->{ArticleSyncIncomplete} ) {
+
+            my %TicketFlags = $TicketObject->TicketFlagGet(
+                TicketID => $LastTicketID,
+                UserID   => 1,
+            );
+
+            # get last sync timestamp
+            my $LastSync = $TicketFlags{"GI_${WebserviceID}_SolMan_SyncTimestamp"} || 0;
+
+            # Wait a little bit to make sure that the new ticket change time really is later.
+            sleep 1;
+
+            my $ArticleID = $TicketObject->ArticleCreate(
+                TicketID    => $LastTicketID,
+                ArticleType => 'note-internal',    # this will be converted in the mapping layer
+                SenderType  => 'system',
+                From           => 'Some Agent <email@example.com>',
+                Subject        => "Dummy test article",
+                Body           => '',
+                Charset        => 'utf-8',
+                MimeType       => 'text/plain',
+                HistoryType    => 'AddNote',
+                HistoryComment => 'Dummy test article',
+                UserID         => 1,
+            );
+
+            $Self->True(
+                $ArticleID,
+                "$Test->{Name} article $ArticleID added to ticket in test case to make ticket synchronization incomplete",
+            );
+
+            my %Article = $TicketObject->ArticleGet(
+                ArticleID => $ArticleID,
+                User      => 1,
+            );
+        }
+
         my $Result = $OperationObject->Run(
             Data => $Test->{Data},
         );
@@ -848,8 +1010,19 @@ for my $TestChain (@Tests) {
         $Self->Is(
             $Result->{Success} ? 1 : 0,
             $Test->{Success}   ? 1 : 0,
-            "$Test->{Name} success status",
+            "$Test->{Name} Run() success status",
         );
+
+        if ( $Test->{TicketSyncIncomplete} || $Test->{ArticleSyncIncomplete} ) {
+
+            # Set synchronization timestamp to let subsequent tests work ok on this ticket.
+            my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+                TicketID => $LastTicketID,
+                Key      => "GI_${WebserviceID}_SolMan_SyncTimestamp",
+                Value    => $Self->{TimeObject}->SystemTime(),
+                UserID   => 1,
+            );
+        }
 
         if ( !$Test->{Success} ) {
 
@@ -857,6 +1030,14 @@ for my $TestChain (@Tests) {
                 $Result->{ErrorMessage},
                 "$Test->{Name} error message",
             );
+
+            $Self->Is(
+                ref $Result->{Data}->{Errors},
+                'HASH',
+                "$Test->{Name} SolMan error structure returned",
+            );
+
+            next TEST if ref $Result->{Data}->{Errors} ne 'HASH';
 
             $Self->True(
                 $Result->{Data}->{Errors}->{item}->[0]->{ErrorCode},

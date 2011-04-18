@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.21 2011-04-18 10:23:57 sb Exp $
+# $Id: Common.pm,v 1.22 2011-04-18 14:28:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -345,6 +345,46 @@ sub TicketSync {
             UserID   => 1,
         );
 
+        # Now check for the synchronization timestamp. This value indicates when the last
+        #   synchronization of the ticket was made. If the ticket was changed in the meantime,
+        #   this operation must be rejected.
+
+        my %TicketFlags = $Self->{TicketObject}->TicketFlagGet(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        # get last sync timestamp
+        my $LastSync = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_SyncTimestamp"} || 0;
+
+        my $TicketChanged = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Ticket{Changed},
+        );
+
+        my $LastArticleCreated;
+
+        my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
+            TicketID => $TicketID,
+        );
+
+        if (@ArticleIDs) {
+
+            my %Article = $Self->{TicketObject}->ArticleGet(
+                ArticleID => $ArticleIDs[-1],
+                UserID    => 1,
+            );
+
+            $LastArticleCreated = $Article{IncomingTime};
+        }
+
+        if ( $LastSync < $TicketChanged || $LastSync < $LastArticleCreated ) {
+            return $Self->_ReturnError(
+                ErrorCode => '11',
+                ErrorMessage =>
+                    "Ticket is not completely synchronized, cannot update at Kernel::GenericInterface::Operation::SolMan::Common::TicketSync()",
+            );
+        }
+
         #QA: ReporterId and AgentId will be passed every time - compare and update as well
         # update fields if neccessary
         if ( $Param{Data}->{IctHead}->{ShortDescription} ne $Ticket{Title} ) {
@@ -531,6 +571,14 @@ sub TicketSync {
         }
     }
 
+    # Set synchronization timestamp
+    my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
+        TicketID => $TicketID,
+        Key      => "GI_$Self->{WebserviceID}_SolMan_SyncTimestamp",
+        Value    => $Self->{TimeObject}->SystemTime(),
+        UserID   => 1,
+    );
+
     my $ReturnData = {
         Data => {
             Errors     => '',
@@ -630,6 +678,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-04-18 10:23:57 $
+$Revision: 1.22 $ $Date: 2011-04-18 14:28:23 $
 
 =cut
