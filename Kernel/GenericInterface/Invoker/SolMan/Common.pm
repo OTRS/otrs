@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.39 2011-04-18 17:36:21 cg Exp $
+# $Id: Common.pm,v 1.40 2011-04-18 18:11:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -1154,6 +1154,9 @@ sub PrepareRequest {
         };
     }
 
+    # get IncidentGuid
+    my $IncidentGuid = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_IncidentGuid"} || '';
+
     # LastSync check for ReplicateIncident Invoker
     if ( $Self->{Invoker} eq 'ReplicateIncident' && $LastSync ne 0 ) {
 
@@ -1162,14 +1165,26 @@ sub PrepareRequest {
             SystemTime => $LastSync,
         );
 
-        $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, is already "
-            . "replicated can't continue! " . $LastSyncTimestamp;
+        # this ticket comes from OTRS has a sync flag and this ticket shoud not be replicated again
+        # but use AddInfo or CloseInsitent Instead
+        if ( $IncidentGuid eq $Ticket{TicketNumber} ) {
+            $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
+                . "is already replicated can't continue! " . $LastSyncTimestamp;
+            return $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        }
 
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
+        # otherwise the ticket was originated in SolMan shoud not continue
+        # but use a clean exit so it wil not be logged as an error
+        else {
+            $Self->{DebuggerObject}->Debug(
+                Summary => "The ticket $Self->{TicketID} was originated in SolMan and does not "
+                    . "need to be replicated",
+            );
+            return {
+                Success   => 0,
+                CleanExit => 1,
+            };
+        }
     }
 
     # LastSync check for CloseIncident Invoker
@@ -1239,9 +1254,6 @@ sub PrepareRequest {
             };
         }
     }
-
-    # get IncidentGuid
-    my $IncidentGuid = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_IncidentGuid"} || '';
 
     # IncidentGuid check for CloseIncident and AddInfo Invoker
     if (
@@ -1747,6 +1759,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2011-04-18 17:36:21 $
+$Revision: 1.40 $ $Date: 2011-04-18 18:11:32 $
 
 =cut
