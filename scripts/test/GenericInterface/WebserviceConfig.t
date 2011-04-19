@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.3 2011-02-28 18:22:13 cg Exp $
+# $Id: WebserviceConfig.t,v 1.4 2011-04-19 17:45:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -156,14 +156,14 @@ for my $Test (@Tests) {
     if ( !$Test->{SuccessAdd} ) {
         $Self->True(
             $?,
-            "$Test->{Name} - WebserviceConfig $Test->{ParamsAdd}",
+            "$Test->{Name} - Add - WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}",
         );
         next;
     }
     else {
         $Self->False(
             $?,
-            "$Test->{Name} - WebserviceConfig $Test->{ParamsAdd}",
+            "$Test->{Name} - Add - WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}",
         );
     }
 
@@ -180,14 +180,14 @@ for my $Test (@Tests) {
     if ( !$Test->{SuccessRead} ) {
         $Self->False(
             $WebserviceConfigResult,
-            "$Test->{Name} - Webservice Read",
+            "$Test->{Name} - Read - Webservice $Test->{ParamsRead} $WebserviceID",
         );
         next;
     }
     else {
         $Self->True(
             $WebserviceConfigResult,
-            "$Test->{Name} - Webservice Read",
+            "$Test->{Name} - Read - Webservice $Test->{ParamsRead} $WebserviceID",
         );
     }
 
@@ -211,14 +211,14 @@ for my $Test (@Tests) {
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
             $WebserviceConfigResult,
-            "$Test->{Name} - Webservice Update",
+            "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
         );
         next;
     }
     else {
         $Self->True(
             $WebserviceConfigResult,
-            "$Test->{Name} - Webservice Update",
+            "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
         );
     }
 
