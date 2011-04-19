@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.14 2011-04-19 05:14:19 sb Exp $
+# $Id: Common.t,v 1.15 2011-04-19 14:17:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,20 +112,7 @@ my $LocalSystemGuid;
         'Operation::new() success',
     );
 
-    # simulate system id = 10 for all systems to match tests
-    my $OrgSystemID = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{ConfigObject}->Set(
-        Key   => 'SystemID',
-        Value => 10,
-    );
-
     my $Result = $OperationObject->Run();
-
-    # restore original system id
-    $Self->{ConfigObject}->Set(
-        Key   => 'SystemID',
-        Value => $OrgSystemID,
-    );
 
     $Self->Is(
         $Result->{Success},
@@ -134,10 +121,6 @@ my $LocalSystemGuid;
     );
 
     $LocalSystemGuid = $Result->{Data}->{SystemGuid};
-    $Self->True(
-        $LocalSystemGuid,
-        "RequestSystemGuid result value",
-    );
 }
 
 my @Tests = (
@@ -951,7 +934,7 @@ for my $TestChain (@Tests) {
         if ( $LastTicketID && $Test->{TicketSyncIncomplete} ) {
 
             # Wait a little bit to make sure that the new ticket change time really is later.
-            sleep 5;
+            sleep 2;
 
             # enable archive system feature for all systems to match tests
             my $OrgArchiveSystem = $Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
@@ -1001,7 +984,7 @@ for my $TestChain (@Tests) {
             my $LastSync = $TicketFlags{"GI_${WebserviceID}_SolMan_SyncTimestamp"} || 0;
 
             # Wait a little bit to make sure that the new ticket change time really is later.
-            sleep 5;
+            sleep 2;
 
             my $ArticleID = $TicketObject->ArticleCreate(
                 TicketID    => $LastTicketID,
