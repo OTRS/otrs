@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.4 2011-04-19 17:45:36 cg Exp $
+# $Id: WebserviceConfig.t,v 1.5 2011-04-19 18:29:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,6 +161,11 @@ for my $Test (@Tests) {
         next;
     }
     else {
+        my $FileExist = -e $Test->{FileAdd} ? 1 : 0;
+        $Self->True(
+            $FileExist,
+            "$Test->{Name} - File for add - WebserviceConfig $Test->{FileAdd}",
+        );
         $Self->False(
             $?,
             "$Test->{Name} - Add - WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}",
@@ -216,6 +221,11 @@ for my $Test (@Tests) {
         next;
     }
     else {
+        my $FileExist = -e $Test->{FileUpdate} ? 1 : 0;
+        $Self->True(
+            $FileExist,
+            "$Test->{Name} - File for update - WebserviceConfig $Test->{FileUpdate}",
+        );
         $Self->True(
             $WebserviceConfigResult,
             "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
