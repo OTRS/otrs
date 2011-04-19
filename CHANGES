@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1842 2011-04-18 21:05:54 en Exp $
+# $Id: CHANGES,v 1.1843 2011-04-19 18:50:45 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-19 Fixed bug#3549 - ACLs don't work against queues with nonlatin characters.
  - 2011-04-18 Fixed bug#7216 - Company names containing "&" pulled from Active Directory cause errors in error.log when using Company Tickets.
  - 2011-04-06 Added generic notification module to show messages in the agent interface.
  - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
