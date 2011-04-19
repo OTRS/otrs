@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1843 2011-04-19 18:50:45 en Exp $
+# $Id: CHANGES,v 1.1844 2011-04-19 22:08:55 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,6 +34,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-19 Fixed bug#7229 - Apache configuration file references nonexisting javascript directory.
  - 2011-04-14 Fixed bug#7230 - Password fields in SysConfig GUI are not protected.
  - 2011-04-14 Fixed bug#7222 - Translation strings with more than 3 placeholders are not translated.
  - 2011-04-12 Fixed bug#7213 - TicketSearch() TicketFlags handling broken.
