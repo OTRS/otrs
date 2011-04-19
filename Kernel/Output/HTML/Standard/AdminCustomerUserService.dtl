@@ -2,7 +2,7 @@
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.39.2.1 2011-03-25 13:54:04 en Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.39.2.2 2011-04-19 20:40:58 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
                             <button class="Primary" type="submit" value="$Text{"Search"}"><span>$Text{"Search"}</span></button>
                             <p class="FieldExplanation">
                                 <label for="CustomerUserSearch">
-                                    $Text{"Search for customers (wildcards like '*' are allowed)."}
+                                    $Text{"Search for customers."} $Text{"Wildcards like '*' are allowed."}
                                 </label>
                             </p>
                         </form>
