@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.8 2011-03-10 14:05:29 mg Exp $
+# $Id: TaskManager.t,v 1.9 2011-04-19 21:58:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,24 @@ $Self->Is(
     'Kernel::System::Scheduler::TaskManager',
     "Kernel::System::Scheduler::TaskManager->new()",
 );
+
+# get task list
+my @TaskList = $TaskManagerObject->TaskList();
+
+# check if there is a remaining task from prior tests (look for type Test)
+TASK:
+for my $Task (@TaskList) {
+    next TASK if $Task->{Type} ne 'Test';
+
+    # delete all remaning Tests tasks
+    # this is needed because if prior tests left tasks un proceces this test will also fail
+    my $TaskDelete = $TaskManagerObject->TaskDelete( ID => $Task->{ID} );
+
+    $Self->True(
+        $TaskDelete,
+        "Warning: Task deleted from a prior failed test Task ID $Task->{ID}"
+    );
+}
 
 $Self->Is(
     scalar $TaskManagerObject->TaskList(),
