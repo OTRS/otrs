@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.436 2011-04-15 07:46:41 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.437 2011-04-19 10:18:51 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -1026,7 +1026,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar1Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 1.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1034,7 +1034,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1068,7 +1068,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1083,7 +1083,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1093,7 +1093,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 1, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
@@ -1181,7 +1181,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar2Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 2.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1189,7 +1189,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1223,7 +1223,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1238,7 +1238,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1248,7 +1248,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 2, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
@@ -1336,7 +1336,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar3Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 3.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1344,7 +1344,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 3, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1378,7 +1378,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 3. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1393,7 +1393,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 3. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1403,7 +1403,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 3, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
@@ -1491,7 +1491,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar4Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 4.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1499,7 +1499,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 4, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1533,7 +1533,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 4. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1548,7 +1548,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 4. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1558,7 +1558,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 4, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
@@ -1646,7 +1646,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar5Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 5.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1654,7 +1654,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 5, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1688,7 +1688,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 5. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1703,7 +1703,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 5. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1713,7 +1713,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 5, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
@@ -1801,7 +1801,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar6Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 6.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1809,7 +1809,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 6, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1843,7 +1843,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 6. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1858,7 +1858,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 6. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1868,7 +1868,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 6, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
@@ -1956,7 +1956,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar7Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 7.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1964,7 +1964,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 7, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -1998,7 +1998,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 7. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -2013,7 +2013,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 7. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -2023,7 +2023,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 7, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
@@ -2111,7 +2111,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar8Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 8.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2119,7 +2119,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 8, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2153,7 +2153,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 8. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2168,7 +2168,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 8. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2178,7 +2178,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 8, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
@@ -2266,7 +2266,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar9Name" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the calendar number 9.</Description>
+        <Description Translatable="1">Defines the name of the indicated calendar.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2274,7 +2274,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Defines the time zone of the calendar number 9, which can be assigned later to a specific queue.</Description>
+        <Description Translatable="1">Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2308,7 +2308,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2323,7 +2323,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
@@ -2333,7 +2333,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Defines the hours and week days of the calendar number 9, to count the working time.</Description>
+        <Description Translatable="1">Defines the hours and week days of the indicated calendar, to count the working time.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
