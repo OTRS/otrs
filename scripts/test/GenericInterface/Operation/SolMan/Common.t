@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.17 2011-04-19 15:00:35 mg Exp $
+# $Id: Common.t,v 1.18 2011-04-19 16:18:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1118,7 +1118,10 @@ for my $TestChain (@Tests) {
         $TicketObject->{CacheInternalObject}->CleanUp();
 
         # recreate TicketObject to avoid problems with the in-memory cache
-        $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+        $TicketObject = Kernel::System::Ticket->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
 
         my %TicketData = $TicketObject->TicketGet(
             TicketID => $LastTicketID,
