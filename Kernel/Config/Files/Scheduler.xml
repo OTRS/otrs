@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Scheduler.xml,v 1.2 2011-03-21 11:09:17 mg Exp $</CVS>
+    <CVS>$Id: Scheduler.xml,v 1.3 2011-04-19 18:37:04 cr Exp $</CVS>
     <ConfigItem Name="Scheduler::LogPath" Required="1" Valid="1">
         <Description Translatable="1">Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).</Description>
         <Group>Scheduler</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Scheduler::Log::DaysToKeep" Required="0" Valid="0">
+        <Description Translatable="1">Defines the time in days to keep log backup files.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core::Log</SubGroup>
+        <Setting>
+            <String Regex="[1-9]\d*">10</String><!-- default 10 days -->
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Scheduler::SleepTime" Required="1" Valid="1">
