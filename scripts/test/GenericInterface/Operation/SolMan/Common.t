@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.15 2011-04-19 14:17:36 mg Exp $
+# $Id: Common.t,v 1.16 2011-04-19 14:53:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,17 @@ use Kernel::System::Ticket;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation;
+use Kernel::Config;
 
-my $TicketObject     = Kernel::System::Ticket->new( %{$Self} );
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $ConfigObject = Kernel::Config->new();
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my $RandomID1 = int rand 1_000_000_000;
 my $RandomID2 = $RandomID1 + 1;
@@ -86,6 +94,7 @@ $Self->True(
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
+    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -101,6 +110,7 @@ my $LocalSystemGuid;
     # Get local SystemGuid
     my $OperationObject = Kernel::GenericInterface::Operation->new(
         %{$Self},
+        ConfigObject   => $ConfigObject,
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
         OperationType  => "SolMan::RequestSystemGuid",
@@ -917,6 +927,7 @@ for my $TestChain (@Tests) {
         # create object
         my $OperationObject = Kernel::GenericInterface::Operation->new(
             %{$Self},
+            ConfigObject   => $ConfigObject,
             DebuggerObject => $DebuggerObject,
             WebserviceID   => $WebserviceID,
             OperationType  => "SolMan::$Test->{Operation}",
@@ -937,7 +948,6 @@ for my $TestChain (@Tests) {
             sleep 2;
 
             # enable archive system feature for all systems to match tests
-            my $OrgArchiveSystem = $Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
             $Self->{ConfigObject}->Set(
                 Key   => 'Ticket::ArchiveSystem',
                 Value => 1,
@@ -963,12 +973,6 @@ for my $TestChain (@Tests) {
             $Self->True(
                 $UnSetSuccess,
                 "$Test->{Name} ticket archive flag updated in test case to make ticket synchronization incomplete",
-            );
-
-            # restore original archive system state
-            $Self->{ConfigObject}->Set(
-                Key   => 'Ticket::ArchiveSystem',
-                Value => $OrgArchiveSystem,
             );
         }
 
