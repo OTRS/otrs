@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Popup.js,v 1.11.2.1 2011-03-18 06:35:04 mp Exp $
+// $Id: Core.UI.Popup.js,v 1.11.2.2 2011-04-19 12:14:49 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -181,7 +181,8 @@ Core.UI.Popup = (function (TargetNS) {
      */
     TargetNS.InitRegisterPopupAtParentWindow = function () {
         window.setTimeout(function () {
-            if (window.opener &&
+            if (window.WindowType &&
+                window.opener &&
                 window.opener.Core &&
                 window.opener.Core.UI &&
                 window.opener.Core.UI.Popup
@@ -304,7 +305,7 @@ Core.UI.Popup = (function (TargetNS) {
         Core.UI.Popup.RegisterPopupEvent();
 
         // if this window is a popup itself, register another function
-        if (window.opener !== null) {
+        if (window.WindowType && window.opener !== null) {
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
             $('.CancelClosePopup').bind('click', function () {
                 window.close();
