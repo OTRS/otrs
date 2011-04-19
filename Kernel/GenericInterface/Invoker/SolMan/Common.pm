@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.41 2011-04-19 05:19:21 sb Exp $
+# $Id: Common.pm,v 1.42 2011-04-19 05:58:48 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -584,7 +584,7 @@ sub GetSapNotesInfo {
     #        IctSapNote => {
     #            NoteId          => '',                       # type="n0:char30"
     #            NoteDescription => '',                       # type="n0:char60"
-    #            Timestamp       => '',                       # type="n0:decimal15.0"
+    #            Timestamp       => '',                       # type="n0:decimal15.0", UTC time
     #            PersonId        => '',                       # type="n0:char32"
     #            Url             => '',                       # type="n0:char4096"
     #            Language        => '',                       # type="n0:char2"
@@ -613,7 +613,7 @@ sub GetSolutionsInfo {
     #        IctSolution => {
     #            SolutionId          => '',                   # type="n0:char32"
     #            SolutionDescription => '',                   # type="n0:char60"
-    #            Timestamp           => '',                   # type="n0:decimal15.0"
+    #            Timestamp           => '',                   # type="n0:decimal15.0", UTC time
     #            PersonId            => '',                   # type="n0:char32"
     #            Url                 => '',                   # type="n0:char4096"
     #            Language            => '',                   # type="n0:char2"
@@ -644,7 +644,7 @@ sub GetUrlsInfo {
     #            Url            => '',                        # type="n0:char4096"
     #            UrlName        => '',                        # type="n0:char40"
     #            UrlDescription => '',                        # type="n0:char64"
-    #            Timestamp      => '',                        # type="n0:decimal15.0"
+    #            Timestamp      => '',                        # type="n0:decimal15.0", UTC time
     #            PersonId       => '',                        # type="n0:char32"
     #            Language       => '',                        # type="n0:char2"
     #            Delete         => '',                        # type="n0:char1"
@@ -681,7 +681,7 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
                                                         # attachment base 64 encoded
 
                 Timestamp      => '20110329124029',     # type="n0:decimal15.0" timestamp without
-                                                        # any separators
+                                                        # any separators, UTC time
 
                 PersonId       => 123,                  # type="n0:char32"
                 Url            => '',                   # type="n0:char4096"
@@ -700,7 +700,7 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
                     ]
                 },
                 Timestamp => '20110329124029',          # type="n0:decimal15.0" timestamp without
-                                                        # any separators
+                                                        # any separators, UTC time
 
                 PersonId  => 123,                       # type="n0:char32"
                 Language  => 'de,                       # type="n0:char2"
@@ -743,7 +743,7 @@ sub GetArticlesInfo {
                     $Article->{Body} || '',
                     ]
             },
-            Timestamp => $CreateTime,               # type="n0:decimal15.0"
+            Timestamp => $CreateTime,               # type="n0:decimal15.0", UTC time
             PersonId  => $Param{UserID},            # type="n0:char32"
             Language  => $Param{Language},          # type="n0:char2"
         );
@@ -771,11 +771,11 @@ sub GetArticlesInfo {
                 Filename       => $AttachmentIndex{$Index}->{Filename},    # type="xsd:string"
                 MimeType       => $Attachment{ContentType},                # type="n0:char128"
                 Data           => encode_base64( $Attachment{Content} ),   # type="xsd:base64Binary"
-                Timestamp      => $CreateTime,                             # type="n0:decimal15.0"
-                PersonId       => $Param{UserID},                          # type="n0:char32"
-                Url            => '',                                      # type="n0:char4096"
-                Language       => $Param{Language},                        # type="n0:char2"
-                Delete         => '',                                      # type="n0:char1"
+                Timestamp => $CreateTime,         # type="n0:decimal15.0", UTC time
+                PersonId  => $Param{UserID},      # type="n0:char32"
+                Url       => '',                  # type="n0:char4096"
+                Language  => $Param{Language},    # type="n0:char2"
+                Delete    => '',                  # type="n0:char1"
             );
             push @IctAttachments, {%IctAttachment};
         }
@@ -1031,7 +1031,7 @@ prepare the invocation of the configured remote webservice.
             IctSapNotes         => {},
             IctSolutions        => {},
             IctStatements       => {},
-            IctTimestamp        => '',  # type="n0:decimal15.0"
+            IctTimestamp        => '',  # type="n0:decimal15.0", UTC time
             IctUrls             => {},
         },
     };
@@ -1379,8 +1379,11 @@ sub PrepareRequest {
     $IctTimestamp =~ s{[:|\-|\s]}{}g;
 
     # IctTimestampEnd = ticket create time + 3 days
+    my $IctTimestampUnix = $Self->{TimeObject}->TimeStamp2SystemTime(
+        String => $IctTimestamp,
+    );
     my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Ticket{CreateTimeUnix} + 3 * 24 * 60 * 60,
+        SystemTime => $IctTimestampUnix + 3 * 24 * 60 * 60,
     );
     $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
 
@@ -1407,18 +1410,18 @@ sub PrepareRequest {
             { item => $IctAttachments }
         : '',
         IctHead => {
-            IncidentGuid     => $IncidentGuid,                      # type="n0:char32"
-            RequesterGuid    => $LocalSystemGuid,                   # type="n0:char32"
-            ProviderGuid     => $RemoteSystemGuid,                  # type="n0:char32"
-            AgentId          => $Ticket{OwnerID},                   # type="n0:char32"
-            ReporterId       => $Ticket{CustomerUserID},            # type="n0:char32"
-            ShortDescription => substr( $Ticket{Title}, 0, 40 ),    # type="n0:char40"
-            Priority         => $Ticket{Priority},                  # type="n0:char32"
-            Language         => $Language,                          # type="n0:char2"
-            RequestedBegin   => $IctTimestamp,                      # type="n0:decimal15.0"
-            RequestedEnd     => $IctTimestampEnd,                   # type="n0:decimal15.0"
+            IncidentGuid     => $IncidentGuid,                     # type="n0:char32"
+            RequesterGuid    => $LocalSystemGuid,                  # type="n0:char32"
+            ProviderGuid     => $RemoteSystemGuid,                 # type="n0:char32"
+            AgentId          => $Ticket{OwnerID},                  # type="n0:char32"
+            ReporterId       => $Ticket{CustomerUserID},           # type="n0:char32"
+            ShortDescription => substr( $Ticket{Title}, 0, 40 ),   # type="n0:char40"
+            Priority         => $Ticket{Priority},                 # type="n0:char32"
+            Language         => $Language,                         # type="n0:char2"
+            RequestedBegin   => $IctTimestamp,                     # type="n0:decimal15.0", UTC time
+            RequestedEnd     => $IctTimestampEnd,                  # type="n0:decimal15.0", UTC time
         },
-        IctId      => $Ticket{TicketNumber},                        # type="n0:char32"
+        IctId      => $Ticket{TicketNumber},                       # type="n0:char32"
         IctPersons => IsArrayRefWithData($IctPersons)
         ?
             { item => $IctPersons }
@@ -1435,7 +1438,7 @@ sub PrepareRequest {
         ?
             { item => $IctStatements }
         : '',
-        IctTimestamp => $IctTimestamp,                # type="n0:decimal15.0"
+        IctTimestamp => $IctTimestamp,                # type="n0:decimal15.0", UTC time
         IctUrls      => IsHashRefWithData($IctUrls)
         ?
             $IctUrls
@@ -1759,6 +1762,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-04-19 05:19:21 $
+$Revision: 1.42 $ $Date: 2011-04-19 05:58:48 $
 
 =cut
