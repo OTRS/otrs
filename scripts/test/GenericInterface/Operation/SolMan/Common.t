@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.16 2011-04-19 14:53:22 mg Exp $
+# $Id: Common.t,v 1.17 2011-04-19 15:00:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -948,7 +948,7 @@ for my $TestChain (@Tests) {
             sleep 2;
 
             # enable archive system feature for all systems to match tests
-            $Self->{ConfigObject}->Set(
+            $ConfigObject->Set(
                 Key   => 'Ticket::ArchiveSystem',
                 Value => 1,
             );
