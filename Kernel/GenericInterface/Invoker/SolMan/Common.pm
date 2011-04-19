@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.42 2011-04-19 05:58:48 sb Exp $
+# $Id: Common.pm,v 1.43 2011-04-19 11:48:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -1380,7 +1380,7 @@ sub PrepareRequest {
 
     # IctTimestampEnd = ticket create time + 3 days
     my $IctTimestampUnix = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $IctTimestamp,
+        String => $Ticket{Created},
     );
     my $IctTimestampEnd = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $IctTimestampUnix + 3 * 24 * 60 * 60,
@@ -1762,6 +1762,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2011-04-19 05:58:48 $
+$Revision: 1.43 $ $Date: 2011-04-19 11:48:20 $
 
 =cut
