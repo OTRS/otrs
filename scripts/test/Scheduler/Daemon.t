@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.8 2011-04-06 18:32:02 cr Exp $
+# $Id: Daemon.t,v 1.9 2011-04-19 19:35:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -274,7 +274,7 @@ $Self->IsNot(
     'Scheduler should have restarted, different PID',
 );
 
-# check configuration so shceduler will not be auto-restarted anymore during the test
+# set new configuration so shceduler will not be auto-restarted anymore during the test
 $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
