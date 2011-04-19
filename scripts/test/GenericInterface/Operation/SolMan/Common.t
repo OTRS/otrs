@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.13 2011-04-18 14:28:23 mg Exp $
+# $Id: Common.t,v 1.14 2011-04-19 05:14:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,20 @@ my $LocalSystemGuid;
         'Operation::new() success',
     );
 
+    # simulate system id = 10 for all systems to match tests
+    my $OrgSystemID = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{ConfigObject}->Set(
+        Key   => 'SystemID',
+        Value => 10,
+    );
+
     my $Result = $OperationObject->Run();
+
+    # restore original system id
+    $Self->{ConfigObject}->Set(
+        Key   => 'SystemID',
+        Value => $OrgSystemID,
+    );
 
     $Self->Is(
         $Result->{Success},
@@ -121,7 +134,6 @@ my $LocalSystemGuid;
     );
 
     $LocalSystemGuid = $Result->{Data}->{SystemGuid};
-
     $Self->True(
         $LocalSystemGuid,
         "RequestSystemGuid result value",
@@ -936,36 +948,49 @@ for my $TestChain (@Tests) {
         next TEST if ref $OperationObject ne 'Kernel::GenericInterface::Operation';
 
         # Bring the ticket out of sync by updating it.
-        if ( $Test->{TicketSyncIncomplete} ) {
+        if ( $LastTicketID && $Test->{TicketSyncIncomplete} ) {
 
             # Wait a little bit to make sure that the new ticket change time really is later.
-            sleep 1;
+            sleep 5;
 
-            my $Success = $TicketObject->TicketArchiveFlagSet(
+            # enable archive system feature for all systems to match tests
+            my $OrgArchiveSystem = $Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
+            $Self->{ConfigObject}->Set(
+                Key   => 'Ticket::ArchiveSystem',
+                Value => 1,
+            );
+
+            my $SetSuccess = $TicketObject->TicketArchiveFlagSet(
                 ArchiveFlag => 'y',
                 TicketID    => $LastTicketID,
                 UserID      => 1,
             );
 
             $Self->True(
-                $Success,
+                $SetSuccess,
                 "$Test->{Name} ticket archive flag updated in test case to make ticket synchronization incomplete",
             );
 
-            $Success = $TicketObject->TicketArchiveFlagSet(
+            my $UnSetSuccess = $TicketObject->TicketArchiveFlagSet(
                 ArchiveFlag => 'n',
                 TicketID    => $LastTicketID,
                 UserID      => 1,
             );
 
             $Self->True(
-                $Success,
+                $UnSetSuccess,
                 "$Test->{Name} ticket archive flag updated in test case to make ticket synchronization incomplete",
+            );
+
+            # restore original archive system state
+            $Self->{ConfigObject}->Set(
+                Key   => 'Ticket::ArchiveSystem',
+                Value => $OrgArchiveSystem,
             );
         }
 
         # Bring the ticket out of sync by updating it.
-        if ( $Test->{ArticleSyncIncomplete} ) {
+        if ( $LastTicketID && $Test->{ArticleSyncIncomplete} ) {
 
             my %TicketFlags = $TicketObject->TicketFlagGet(
                 TicketID => $LastTicketID,
@@ -976,7 +1001,7 @@ for my $TestChain (@Tests) {
             my $LastSync = $TicketFlags{"GI_${WebserviceID}_SolMan_SyncTimestamp"} || 0;
 
             # Wait a little bit to make sure that the new ticket change time really is later.
-            sleep 1;
+            sleep 5;
 
             my $ArticleID = $TicketObject->ArticleCreate(
                 TicketID    => $LastTicketID,
@@ -1013,7 +1038,11 @@ for my $TestChain (@Tests) {
             "$Test->{Name} Run() success status",
         );
 
-        if ( $Test->{TicketSyncIncomplete} || $Test->{ArticleSyncIncomplete} ) {
+        if (
+            $LastTicketID
+            && ( $Test->{TicketSyncIncomplete} || $Test->{ArticleSyncIncomplete} )
+            )
+        {
 
             # Set synchronization timestamp to let subsequent tests work ok on this ticket.
             my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
@@ -1157,12 +1186,14 @@ for my $TestChain (@Tests) {
         TEST_STATEMENT_ITEM:
         for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
 
-            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $TestStatementItem->{Timestamp}
-                =~ m/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/smx;
+            my $SubjectExpected;
+            my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $TestStatementItem->{Timestamp} =~
+                m{ \A ( \d{4} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) \z }xms;
+            if ( $Year && $Month && $Day && $Hour && $Minute && $Second ) {
+                $SubjectExpected .= " $Day.$Month.$Year $Hour:$Minute:$Second (+0)";
+            }
 
-            my $BodyExpected
-                = "($TestStatementItem->{PersonId}) $Day.$Month.$Year $Hour:$Minute:$Second\n";
-            $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
+            my $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
 
             # try to find current attachment item in Ticket attachments
             ARTICLE_ID:
@@ -1173,15 +1204,33 @@ for my $TestChain (@Tests) {
                     UserID    => 1,
                 );
 
+                my $ArticleError;
+
+                if ( $Article{Subject} eq $SubjectExpected ) {
+                    $Self->Is(
+                        $Article{Subject},
+                        $SubjectExpected,
+                        "$Test->{Name} found plaintext article subject for IctStatemtent",
+                    );
+
+                }
+                else {
+                    $ArticleError = 1;
+                }
+
                 if ( $Article{Body} eq $BodyExpected ) {
                     $Self->Is(
                         $Article{Body},
                         $BodyExpected,
-                        "$Test->{Name} found plaintext article for IctStatemtent",
+                        "$Test->{Name} found plaintext article body for IctStatemtent",
                     );
 
-                    next TEST_STATEMENT_ITEM;
                 }
+                else {
+                    $ArticleError = 1;
+                }
+
+                next TEST_STATEMENT_ITEM if !$ArticleError;
             }
 
             # Article was not found, show error.
