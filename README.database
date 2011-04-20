@@ -2,7 +2,7 @@
 # README.database - database description of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README.database,v 1.22 2011-02-28 10:53:29 bes Exp $
+# $Id: README.database,v 1.23 2011-04-20 07:09:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ In case you would need to transform the .xml file to .sql yourself, use:
 
 a) table definitions
 --------------------
-shell> cat scripts/database/otrs-schema.xml | bin/otrs.xml2sql.pl -n otrs_own-schema -o /tmp/ -t postgresql
+shell> cat scripts/database/otrs-schema.xml | bin/otrs.xml2sql.pl -n otrs_own-schema -o /tmp/ -t postgresql -s 1
 
 Then you will find
 
