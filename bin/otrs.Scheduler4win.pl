@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.7 2011-03-28 21:20:09 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.8 2011-04-20 22:35:58 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,13 +42,14 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 use Win32::Daemon;
+use Win32::Service;
 
-# sleep time between loop intervals in seconds
-my $SleepTime = 1;
+# to store service name
+my $Service = 'OTRSScheduler';
 
 # get options
 my %Opts = ();
-getopt( 'ha', \%Opts );
+getopt( 'haf', \%Opts );
 
 # check if is running on windows
 if ( $^O ne "MSWin32" ) {
@@ -63,16 +64,26 @@ if ( $Opts{h} ) {
 
 # check if a stop request is sent
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
+
+    # stop the scheduler service (same as "stop"" in service control manger)
+    Win32::Service::StopService( '', $Service );
+}
+elsif ( $Opts{a} && $Opts{a} eq "servicestop" ) {
+
+    # stop the schduler process
     _stop();
 }
 elsif ( $Opts{a} && $Opts{a} eq "status" ) {
     _status();
 }
+elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
-# OS services control
-else {
+    # start the scheduler service (same as "play" in service control manager)
+    Win32::Service::StartService( '', $Service );
+}
+elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
 
-    # start the service
+    # start the scheduler process
     _start();
 }
 
@@ -80,7 +91,7 @@ else {
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.Scheduler4win.pl -a <ACTION> (stop) ";
+    print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f force]\n";
 }
 
 sub _start {
@@ -103,10 +114,21 @@ sub _start {
         exit 1;
     }
 
+    # sleep time between loop intervals in seconds
+    my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+    my $RestartAfterSeconds = $CommonObject{ConfigObject}->Get('Scheduler::RestartAfterSeconds')
+        || ( 60 * 60 * 24 );    # default 1 day
+
+    my $StartTime = $CommonObject{TimeObject}->SystemTime();
+
+    # get config checksum
+    my $InitConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
+
     # start the service
     Win32::Daemon::StartService();
 
-    # to stroe the current sevice state
+    # to store the current sevice state
     my $State;
     $State = Win32::Daemon::State();
 
@@ -225,12 +247,55 @@ sub _stop {
 
 sub _status {
 
-    # to store the current sevice state
-    my $State;
+    # Windows service status table
+    # 5 => 'The service continue is pending.',
+    # 6 => 'The service pause is pending.',
+    # 7 => 'The service is paused.',
+    # 4 => 'The service is running.',
+    # 2 => 'The service is starting.',
+    # 3 => 'The service is stopping.',
+    # 1 => 'The service is not running.',
 
-    #TODO Implement
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
-    print "$State";
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # no proces ID means that is not running
+    if ( !%PID ) {
+        print "Not Running!\n";
+        exit 1;
+    }
+
+    # log daemon stop
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon status request! PID $PID{PID}",
+    );
+
+    # to store the service status, needs to be an explcit hash ref
+    my $ServiceStatus = {};
+
+    Win32::Service::GetStatus( '', $Service, $ServiceStatus );
+
+    # check if service is starting (state 2)
+    while ( $ServiceStatus->{CurrentState} eq 2 ) {
+        Win32::Service::GetStatus( '', $Service, $ServiceStatus );
+    }
+
+    # check if service is runing (state 4)
+    if ( $ServiceStatus->{CurrentState} eq 4 ) {
+        print "Running $PID{PID}\n"
+    }
+    else {
+        print
+            "Not Running, but PID still registered! Use '-a stop --force' to unregister the PID from the database.\n";
+    }
+
+    exit 0;
 }
 
 sub _CommonObjects {
