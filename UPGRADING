@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.49.2.1 2011-03-08 12:51:47 mb Exp $
+# $Id: UPGRADING,v 1.49.2.2 2011-04-20 12:55:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@ and applies both for RPM and source code (tarball) upgrades.
 If you are running a lower version of OTRS you have to follow the upgrade path
 to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0 ...)!
 
-Please note that if you upgrade from OTRS 2.2 or earlier, you have to 
+Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; read http://bugs.otrs.org/show_bug.cgi?id=6798
 
-If you need to do a "patch level upgrade", which is an upgrade for instance 
+If you need to do a "patch level upgrade", which is an upgrade for instance
 from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
 
 
@@ -189,8 +189,56 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     module specific CSS. If this setting is not activated on your system, you can
     safely omit this step.
 
+15) Check for customized PreferencesGroups entries
+    ----------------------------------------------
 
-15) Customer Database Backend Field Renaming
+    With OTRS 3.1, there were a few corrections in PreferencesGroups configuration entries.
+    Notably, the keys 'Activ' and 'Colum' were changed to 'Active' and 'Column', respectively.
+    You only need to take action if you have customized such settings on your system, otherwise
+    they will be updated automatically.
+
+    To check if you are affected, please look at the file Kernel/Config/Files/ZZZAuto.pm
+    and look for entries like:
+
+    $Self->{'CustomerPreferencesGroups'}->{'RefreshTime'} =  {
+      'Activ' => '0',
+      'Colum' => 'Frontend',
+      'Data' => {
+        '' => 'off',
+        '10' => '10 minutes',
+        '15' => '15 minutes',
+        '2' => ' 2 minutes',
+        '5' => ' 5 minutes',
+        '7' => ' 7 minutes'
+      },
+      'Desc' => 'Select your QueueView refresh time.',
+      'Label' => 'QueueView refresh time',
+      'Module' => 'Kernel::Output::HTML::PreferencesGeneric',
+      'PrefKey' => 'UserRefreshTime',
+      'Prio' => '4000'
+    };
+
+    This needs to be changed as follows:
+
+    $Self->{'CustomerPreferencesGroups'}->{'RefreshTime'} =  {
+      'Active' => '0',
+      'Column' => 'Frontend',
+      'Data' => {
+        '' => 'off',
+        '10' => '10 minutes',
+        '15' => '15 minutes',
+        '2' => ' 2 minutes',
+        '5' => ' 5 minutes',
+        '7' => ' 7 minutes'
+      },
+      'Desc' => 'Select your QueueView refresh time.',
+      'Label' => 'QueueView refresh time',
+      'Module' => 'Kernel::Output::HTML::PreferencesGeneric',
+      'PrefKey' => 'UserRefreshTime',
+      'Prio' => '4000'
+    };
+
+16) Customer Database Backend Field Renaming
     ----------------------------------------
 
     The field 'salutation' in the built-in customer database has been renamed to
@@ -209,10 +257,10 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
 
     Please note that this can also affect any salutations or other templates
     where you've used the string <OTRS_*_UserSalutation>. If you have used this
-    string AND you use the built-in customer table, please replace it with 
+    string AND you use the built-in customer table, please replace it with
     <OTRS_CURRENT_UserTitle> instead.
 
-16) Optional: Mark Tickets as Read
+17) Optional: Mark Tickets as Read
     ------------------------------
 
     In OTRS 3.0 there is a new feature: new tickets and new articles which an Agent
@@ -225,5 +273,5 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     shell> bin/otrs.MarkTicketAsSeen.pl
 
 
-17) Well done!
+18) Well done!
     ----------
