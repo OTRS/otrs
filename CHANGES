@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1845 2011-04-20 11:14:48 martin Exp $
+# $Id: CHANGES,v 1.1846 2011-04-20 14:26:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,12 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-20 Fixed ticket#2011041942007629 - Uninitialized value problem in AgentPreferences.pm.
  - 2011-04-20 Fixed bug#7243 - Problem if current_timestamp of database system is
     different to system time (e. g. time()).
  - 2011-04-19 Fixed bug#3549 - ACLs don't work against queues with nonlatin characters.
- - 2011-04-18 Fixed bug#7216 - Company names containing "&" pulled from Active Directory cause errors in error.log when using Company Tickets.
+ - 2011-04-18 Fixed bug#7216 - Company names containing "&" pulled from Active Directory cause
+    errors in error.log when using Company Tickets.
  - 2011-04-06 Added generic notification module to show messages in the agent interface.
  - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
  - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.50 2010-12-22 09:21:27 mg Exp $
+# $Id: AgentPreferences.pm,v 1.51 2011-04-20 14:26:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -174,23 +174,41 @@ sub AgentPreferencesForm {
     );
 
     my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };
+
+    COLUMN:
     for my $Column (@Groups) {
-        my %Data        = ();
+
+        next COLUMN if !$Column;
+
+        my %Data;
         my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+
+        GROUP:
         for my $Group ( keys %Preferences ) {
-            if ( $Preferences{$Group}->{Column} eq $Column ) {
-                if ( $Data{ $Preferences{$Group}->{Prio} } ) {
-                    for ( 1 .. 151 ) {
-                        $Preferences{$Group}->{Prio}++;
-                        if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
-                            $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                            last;
-                        }
-                    }
+
+            next GROUP if !$Group;
+            next GROUP if !$Preferences{$Group};
+            next GROUP if ref $Preferences{$Group} ne 'HASH';
+            next GROUP if !$Preferences{$Group}->{Column};
+            next GROUP if $Preferences{$Group}->{Column} ne $Column;
+
+            if ( $Data{ $Preferences{$Group}->{Prio} } ) {
+
+                COUNT:
+                for ( 1 .. 151 ) {
+
+                    $Preferences{$Group}->{Prio}++;
+
+                    next COUNT if !$Data{ $Preferences{$Group}->{Prio} };
+
+                    $Data{ $Preferences{$Group}->{Prio} } = $Group;
+                    last COUNT;
                 }
-                $Data{ $Preferences{$Group}->{Prio} } = $Group;
             }
+
+            $Data{ $Preferences{$Group}->{Prio} } = $Group;
         }
+
         $Self->{LayoutObject}->Block(
             Name => 'Column',
             Data => {
