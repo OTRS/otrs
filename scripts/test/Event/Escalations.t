@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.3 2011-03-15 15:22:50 mg Exp $
+# $Id: Escalations.t,v 1.4 2011-04-20 13:53:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ my ( $QueueID, $QueueName );
         FirstResponseNotify => 80,
         UpdateTime          => -20,
         UpdateNotify        => 80,
-        SolutionTime        => -30,
+        SolutionTime        => -40,
         SolutionNotify      => 80,
         SystemAddressID     => 1,
         SalutationID        => 1,
@@ -102,7 +102,7 @@ my $TicketID;
     );
     $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
-    # not sure why sleeping make the test more stable
+    # sleep to have escalations with min 1
     sleep 1;
 
     my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
@@ -431,8 +431,8 @@ my %NumEvents;
     # make sure that a least a minute is taken off the used up time
     # A timespan of less than 1 minute comes up the 0% reached.
     # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-    $Self->True( 1, 'sleeping for 61 s, percentage reached should not be 0%' );
-    sleep 61;
+    $Self->True( 1, 'sleeping for 21 s, percentage reached should not be 0%' );
+    sleep 21;
 
     # explicitly invalidate the cache for the next TicketGet(),
     # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
