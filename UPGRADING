@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.49.2.2 2011-04-20 12:55:27 mg Exp $
+# $Id: UPGRADING,v 1.49.2.3 2011-04-20 14:18:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -192,7 +192,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
 15) Check for customized PreferencesGroups entries
     ----------------------------------------------
 
-    With OTRS 3.1, there were a few corrections in PreferencesGroups configuration entries.
+    With OTRS 3.0, there were a few corrections in PreferencesGroups configuration entries.
     Notably, the keys 'Activ' and 'Colum' were changed to 'Active' and 'Column', respectively.
     You only need to take action if you have customized such settings on your system, otherwise
     they will be updated automatically.
