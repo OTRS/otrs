@@ -3,7 +3,7 @@
 # otrs.Scheduler4winInstaller.pl - helps to install OTRS Scheduler on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4winInstaller.pl,v 1.1 2011-02-08 16:50:21 cr Exp $
+# $Id: otrs.Scheduler4winInstaller.pl,v 1.2 2011-04-20 22:37:11 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -64,11 +64,11 @@ $WorkDir =~ s/\//\\/g;
 my %ServiceConfig = (
     name        => "OTRSScheduler",
     display     => "OTRS Scheduler",
-    description => 'The OTRS Scheduler service for Windows'
-        path    => $^X,
-    user       => '',
-    passwd     => '',
-    parameters => '"' . $WorkDir . '\otrs.Scheduler4win.pl' . '"',
+    description => 'The OTRS Scheduler service for Windows',
+    path        => $^X,
+    user        => '',
+    passwd      => '',
+    parameters  => '"' . $WorkDir . '\otrs.Scheduler4win.pl' . '" -a servicestart',
 
 );
 
