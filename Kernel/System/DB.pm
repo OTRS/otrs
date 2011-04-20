@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.128 2011-04-18 21:05:54 en Exp $
+# $Id: DB.pm,v 1.129 2011-04-20 11:14:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 =head1 NAME
 
@@ -384,19 +384,10 @@ sub Do {
             }
         }
     }
-    if ( !$Self->{ConfigObject}->Get('TimeZone') ) {
 
-        # timestamp workaround (if needed)
-        if ( $Self->{Backend}->{'DB::CurrentTimestamp'} ) {
-            $Param{SQL} =~ s/current_timestamp/$Self->{Backend}->{'DB::CurrentTimestamp'}/g;
-        }
-    }
-    else {
-
-        # replace current_timestamp
-        my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
-        $Param{SQL} =~ s/(\s|\(|,| )current_timestamp(\s|\)|,| )/$1'$Timestamp'$2/g;
-    }
+    # replace current_timestamp
+    my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
+    $Param{SQL} =~ s/(\s|\(|,| )current_timestamp(\s|\)|,| )/$1'$Timestamp'$2/g;
 
     # debug
     if ( $Self->{Debug} > 0 ) {
@@ -1291,6 +1282,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.128 $ $Date: 2011-04-18 21:05:54 $
+$Revision: 1.129 $ $Date: 2011-04-20 11:14:48 $
 
 =cut
