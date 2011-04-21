@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.21 2011-04-21 11:47:09 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.22 2011-04-21 17:48:40 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -206,7 +206,8 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
 
         # get detault log path from configuration
-        my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath') || '/tmp';
+        my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
+            || '<OTRS_CONFIG_Home>/var/log';
 
         # backup old logfiles
         my $FileExt    = '.log';
