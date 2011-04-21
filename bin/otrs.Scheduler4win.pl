@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.8 2011-04-20 22:35:58 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.9 2011-04-21 16:14:22 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -65,6 +65,15 @@ if ( $Opts{h} ) {
 # check if a stop request is sent
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    if ( $Opts{f} ) {
+
+        # delete pid lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
+    }
+
     # stop the scheduler service (same as "stop"" in service control manger)
     Win32::Service::StopService( '', $Service );
 }
@@ -77,6 +86,36 @@ elsif ( $Opts{a} && $Opts{a} eq "status" ) {
     _status();
 }
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    # check for force to start option
+    # check if PID is already there
+    if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
+        if ( !$Opts{f} ) {
+            print
+                "NOTICE: otrs.Scheduler.pl is already running (use '-force' if you want to start it\n";
+            print "forced)!\n";
+
+            # log daemon already running
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Scheduler Daemon tries to start but there is a running Service already!\n",
+            );
+            exit 1;
+        }
+        elsif ( $Opts{f} ) {
+            print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+
+            # log daemon forced start
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Scheduler Daemon is forced to Start!",
+            );
+        }
+    }
 
     # start the scheduler service (same as "play" in service control manager)
     Win32::Service::StartService( '', $Service );
@@ -99,20 +138,13 @@ sub _start {
     # create common objects
     my %CommonObject = _CommonObjects();
 
-    # check for process running
-    if ( !$CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' ) ) {
-        print
-            "NOTICE: otrs.Scheduler4win.pl is already running (use 'otrs.Sehduler4win.pl -a stop' ";
-        print "to stop se service correctly)!\n";
+    # create new PID on the Database
+    $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
 
-        # log service already running
-        $CommonObject{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Scheduler Service tries to start but there is a running Service already!",
-        );
-
-        exit 1;
-    }
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
 
     # sleep time between loop intervals in seconds
     my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
@@ -193,12 +225,10 @@ sub _start {
             # Call Scheduler
             my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
             $SchedulerObject->Run();
-
         }
 
         # sleep to avoid overloading the processor
         sleep $SleepTime;
-
         $State = Win32::Daemon::State();
     }
 
@@ -224,8 +254,6 @@ sub _stop {
 
     # stop the service
     Win32::Daemon::StopService();
-
-    print "try to start the OTRS Scheduler service again from the Services interface!\n";
 
     # delete pid lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
@@ -292,7 +320,7 @@ sub _status {
     }
     else {
         print
-            "Not Running, but PID still registered! Use '-a stop --force' to unregister the PID from the database.\n";
+            "Not Running, but PID still registered! Use '-a stop -force' to unregister the PID from the database.\n";
     }
 
     exit 0;
