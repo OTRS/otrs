@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.9 2011-04-21 16:14:22 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.10 2011-04-21 17:49:52 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -46,6 +46,9 @@ use Win32::Service;
 
 # to store service name
 my $Service = 'OTRSScheduler';
+
+# to store the service status, needs to be an explcit hash ref
+my $ServiceStatus = {};
 
 # get options
 my %Opts = ();
@@ -90,24 +93,33 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create common objects
     my %CommonObject = _CommonObjects();
 
+    # get current service status
+    Win32::Service::GetStatus( '', $Service, $ServiceStatus );
+
+    # could it bee that the service is stopping
+    while ( $ServiceStatus->{CurrentState} eq 3 ) {
+        Win32::Service::GetStatus( '', $Service, $ServiceStatus );
+        sleep 1;
+    }
+
     # check for force to start option
     # check if PID is already there
     if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
         if ( !$Opts{f} ) {
             print
-                "NOTICE: otrs.Scheduler.pl is already running (use '-force' if you want to start it\n";
+                "NOTICE: otrs.Scheduler4win.pl is already running (use '-force' if you want to start it\n";
             print "forced)!\n";
 
             # log daemon already running
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
                 Message =>
-                    "Scheduler Daemon tries to start but there is a running Service already!\n",
+                    "Scheduler service tries to start but there is a running service already!\n",
             );
             exit 1;
         }
         elsif ( $Opts{f} ) {
-            print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+            print "NOTICE: otrs.Scheduler4win.pl is already running but is starting again!\n";
 
             # log daemon forced start
             $CommonObject{LogObject}->Log(
@@ -130,7 +142,7 @@ elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f force]\n";
+    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status) [-f force]\n";
 }
 
 sub _start {
@@ -145,6 +157,61 @@ sub _start {
     my %PID = $CommonObject{PIDObject}->PIDGet(
         Name => 'otrs.Scheduler',
     );
+
+    # get detault log path from configuration
+    my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
+        || '<OTRS_CONFIG_Home>/var/log';
+
+    # set proper directory separators on windows
+    $LogPath =~ s{/}{\\}g;
+
+    # backup old logfiles
+    my $FileStdOut = $LogPath . '\SchedulerOUT.log';
+    my $FileStdErr = $LogPath . '\SchedulerERR.log';
+    use File::Copy;
+    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+    if ( -e $FileStdOut ) {
+        move( "$FileStdOut", "$LogPath/SchedulerOUT-$SystemTime.log" );
+    }
+    if ( -e $FileStdErr ) {
+        move( "$FileStdErr", "$LogPath/SchedulerERR-$SystemTime.log" );
+    }
+
+    # delete old log files
+    my $DaysToKeep = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
+    my $DaysToKeepSystemTime
+        = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
+
+    my @LogFiles = <$LogPath/*.log>;
+
+    LOGFILE:
+    for my $LogFile (@LogFiles) {
+
+        # skip if is not a backup file
+        next LOGFILE if ( $LogFile !~ m{(?: .* /)* Scheduler (?: OUT|ERR ) - (\d+) \.log}igmx );
+
+        # skip if is not older than the maximum allowed
+        next LOGFILE if ( $1 > $DaysToKeepSystemTime );
+
+        #delete file
+        if ( unlink($LogFile) == 0 ) {
+
+            # log old backup file cannot be deleted
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Scheduler could not delete old backup file $LogFile! $!",
+            );
+
+        }
+        else {
+
+            # log old backup file deleted
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Scheduler deleted old backup file $LogFile!",
+            );
+        }
+    }
 
     # sleep time between loop intervals in seconds
     my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
@@ -164,6 +231,10 @@ sub _start {
     my $State;
     $State = Win32::Daemon::State();
 
+    # Redirect STDOUT and STDERR to log file
+    open( STDOUT, ">$FileStdOut" );
+    open( STDERR, ">$FileStdErr" );
+
     # main loop
     while ( SERVICE_STOPPED != $State ) {
 
@@ -173,7 +244,7 @@ sub _start {
             # Log service startup
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Scheduler Service Start!",
+                Message  => "Scheduler service is Starting...!",
             );
 
             # set running state
@@ -186,7 +257,7 @@ sub _start {
             # Log service pause
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Scheduler Service Paused!",
+                Message  => "Scheduler service is Pausing...!",
             );
 
             # set paused state
@@ -199,7 +270,7 @@ sub _start {
             # Log service resume
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Scheduler Service Resumeed!",
+                Message  => "Scheduler service Resuming...!",
             );
 
             # set running state
@@ -212,7 +283,7 @@ sub _start {
             # Log service stop
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Scheduler Service Stop!",
+                Message  => "Scheduler service is Stoping...!",
             );
 
             # set stop state
@@ -268,7 +339,7 @@ sub _stop {
     }
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon Stop! PID $PID{PID}",
+        Message  => "Scheduler service Stop! PID $PID{PID}",
     );
     exit 0;
 }
@@ -304,14 +375,12 @@ sub _status {
         Message  => "Scheduler Daemon status request! PID $PID{PID}",
     );
 
-    # to store the service status, needs to be an explcit hash ref
-    my $ServiceStatus = {};
-
     Win32::Service::GetStatus( '', $Service, $ServiceStatus );
 
     # check if service is starting (state 2)
     while ( $ServiceStatus->{CurrentState} eq 2 ) {
         Win32::Service::GetStatus( '', $Service, $ServiceStatus );
+        sleep 1;
     }
 
     # check if service is runing (state 4)
