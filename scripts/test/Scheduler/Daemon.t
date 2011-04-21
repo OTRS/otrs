@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.9 2011-04-19 19:35:51 cr Exp $
+# $Id: Daemon.t,v 1.10 2011-04-21 11:51:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,6 +78,11 @@ my $CheckAction = sub {
         );
     }
 
+    if ( $Param{SleepAfterAction} ) {
+        print "Sleeping $Param{SleepAfterAction}s\n";
+        sleep $Param{SleepAfterAction};
+    }
+
     my $StateAfter = `$Scheduler -a status`;
 
     $Self->True(
@@ -138,10 +143,11 @@ $CheckAction->(
 $CheckAction->(
     Name                => 'Reload',
     Action              => 'reload',
+    SleepAfterAction    => 10,
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'running',
-    PIDChangeExpected   => 0,
+    PIDChangeExpected   => 1,
 );
 
 $CheckAction->(
@@ -179,7 +185,7 @@ $CheckAction->(
 my $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
-    Value => 5,
+    Value => 10,
 );
 
 $Self->True(
@@ -198,7 +204,8 @@ $CheckAction->(
 
 my %PIDInfo1 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
-sleep 1;
+print "Sleeping 2s\n";
+sleep 2;
 
 my %PIDInfo2 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
@@ -217,7 +224,8 @@ $Self->Is(
     'Not restarted yet, same PID',
 );
 
-sleep 6;
+print "Sleeping 14s\n";
+sleep 14;
 
 $CheckAction->(
     Name                => 'Status check 3',
@@ -236,42 +244,13 @@ $Self->IsNot(
     'Scheduler should have restarted, different PID',
 );
 
-sleep 1;
-
-my %PIDInfo4 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
-
 $CheckAction->(
-    Name                => 'Status check 4',
-    Action              => 'status',
+    Name                => 'Stop self-restarting',
+    Action              => 'stop',
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
-    StateAfter          => 'running',
-    PIDChangeExpected   => 0,
-);
-
-$Self->Is(
-    $PIDInfo3{PID},
-    $PIDInfo4{PID},
-    'After 1 restart, still same PID',
-);
-
-sleep 6;
-
-$CheckAction->(
-    Name                => 'Status check 5',
-    Action              => 'status',
-    ExpectActionSuccess => 1,
-    StateBefore         => 'running',
-    StateAfter          => 'running',
-    PIDChangeExpected   => 0,
-);
-
-my %PIDInfo5 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
-
-$Self->IsNot(
-    $PIDInfo5{PID},
-    $PIDInfo4{PID},
-    'Scheduler should have restarted, different PID',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
 );
 
 # set new configuration so shceduler will not be auto-restarted anymore during the test
@@ -281,17 +260,26 @@ $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Value => 240,
 );
 
-sleep 6;
+$CheckAction->(
+    Name                => 'Start auto-stop tests',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
 
 # check for Framework.xml file
 use File::Copy;
 my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
 move( "$FrameworkConfigFile", "$FrameworkConfigFile.save" );
 
-sleep 6;
+# Wait for slow systems
+print "Sleeping 10s\n";
+sleep 10;
 
 $CheckAction->(
-    Name                => 'a Config file is missing',
+    Name                => 'Config file is missing, scheduler must die',
     Action              => 'status',
     ExpectActionSuccess => 0,
     StateBefore         => 'not running',
@@ -303,7 +291,7 @@ $CheckAction->(
 move( "$FrameworkConfigFile.save", "$FrameworkConfigFile" );
 
 $CheckAction->(
-    Name                => 'a Config file is recovered',
+    Name                => 'Config file is recovered, start Scheduler again',
     Action              => 'start',
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
@@ -311,24 +299,15 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
-# check for Config file timestamp
-$CheckAction->(
-    Name                => 'Check status before config checksum change',
-    Action              => 'status',
-    ExpectActionSuccess => 1,
-    StateBefore         => 'running',
-    StateAfter          => 'running',
-    PIDChangeExpected   => 0,
-);
-
+# Check for auto-restart on Config file timestamp change.
 my %PIDInfo6 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
 # change Config file timestamp to change the checksum
-my $ConfigFile = $Home . '/Kernel/Config.pm';
-my $TimeStamp  = time;
-utime $TimeStamp, $TimeStamp, $ConfigFile;
+utime time, time, "$Home/Kernel/Config.pm";
 
-sleep 3;
+# wait for slow systems
+print "Sleeping 10s\n";
+sleep 10;
 
 # check after Config file timestamp changed
 $CheckAction->(
@@ -348,10 +327,12 @@ $Self->IsNot(
     'Scheduler should have restarted, different PID',
 );
 
-# delete PID on database
+# Delete PID on database, scheduler must die
 $PIDObject->PIDDelete( Name => 'otrs.Scheduler' );
 
-sleep 3;
+# Wait for slow systems
+print "Sleeping 10s\n";
+sleep 10;
 
 # check after delete PID on database
 $CheckAction->(
@@ -365,25 +346,13 @@ $CheckAction->(
 
 # start deamon again
 $CheckAction->(
-    Name                => 'start after delete PID',
+    Name                => 'Start after delete PID',
     Action              => 'start',
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
 );
-
-# check after daemon started
-$CheckAction->(
-    Name                => 'Check status after re-start',
-    Action              => 'status',
-    ExpectActionSuccess => 1,
-    StateBefore         => 'running',
-    StateAfter          => 'running',
-    PIDChangeExpected   => 0,
-);
-
-sleep 3;
 
 $CheckAction->(
     Name                => 'Final stop',
