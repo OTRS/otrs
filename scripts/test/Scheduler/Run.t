@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.1 2011-03-21 09:16:26 mg Exp $
+# $Id: Run.t,v 1.2 2011-04-21 13:15:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,7 +173,8 @@ for my $Test (@Tests) {
     );
 
     # wait for scheduler to execute tasks
-    sleep 2;
+    print "Sleeping 10s\n";
+    sleep 10;
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
@@ -198,7 +199,7 @@ for my $Test (@Tests) {
     $Test = Storable::dclone($Test);
 
     my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 4 ),
+        SystemTime => ( $Self->{TimeObject}->SystemTime() + 14 ),
     );
 
     # register tasks
@@ -232,7 +233,8 @@ for my $Test (@Tests) {
     );
 
     # wait for scheduler, it will not execute the tasks yet
-    sleep 2;
+    print "Sleeping 10s\n";
+    sleep 10;
 
     # check task list again
     $Self->Is(
@@ -250,7 +252,8 @@ for my $Test (@Tests) {
     }
 
     # wait for scheduler to execute tasks
-    sleep 4;
+    print "Sleeping 10s\n";
+    sleep 10;
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
@@ -275,7 +278,7 @@ for my $Test (@Tests) {
     $Test = Storable::dclone($Test);
 
     my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 4 ),
+        SystemTime => ( $Self->{TimeObject}->SystemTime() + 14 ),
     );
 
     # register tasks
@@ -332,7 +335,8 @@ for my $Test (@Tests) {
     );
 
     # wait for scheduler to execute and reschedule the tasks
-    sleep 2;
+    print "Sleeping 10s\n";
+    sleep 10;
 
     # check task list again
     $Self->Is(
@@ -359,7 +363,8 @@ for my $Test (@Tests) {
     }
 
     # wait for scheduler to execute tasks
-    sleep 4;
+    print "Sleeping 10s\n";
+    sleep 10;
 
     # check if files are there
     for my $FileToCheck (@RescheduleFileRemember) {
