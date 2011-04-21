@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.3.2.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -21,9 +21,13 @@
 .ActionRow ul.Actions li input#SelectAll {
     margin-top: 1px;
 }
-    
+
 .Actions li input#SelectAllTickets {
     margin: -2px 0 0;
+}
+
+.Actions li select {
+    margin-top: 4px;
 }
 
 .ActionRow ul.Actions li form {
