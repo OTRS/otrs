@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.31 $
+ * @version     $Revision: 1.31.2.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -612,7 +612,7 @@ td.Attachment {
 .Handle.ui-resizable-handle {
     display: block;
     font-size: inherit;
-    z-index: 50;
+    z-index: 19;
 }
 
 

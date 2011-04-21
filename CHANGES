@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.67 2011-04-19 22:09:24 en Exp $
+# $Id: CHANGES,v 1.1758.2.68 2011-04-21 09:26:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-04-21 Fixed bug#7188 - Resizable handle always in foreground.
  - 2011-04-19 Fixed bug#7229 - Apache configuration file references nonexisting javascript directory.
  - 2011-04-14 Fixed bug#7230 - Password fields in SysConfig GUI are not protected.
  - 2011-04-14 Fixed bug#7222 - Translation strings with more than 3 placeholders are not translated.
