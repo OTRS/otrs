@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.20 2011-04-18 21:04:08 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.21 2011-04-21 11:47:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -358,8 +358,12 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
 
         # check for hangup signal, requesting a config reload
-        _Hangup() if $Hangup;
-        $Hangup = 0;
+        if ($Hangup) {
+            my $ExitCode = _AutoRestart(
+                Message => "Reload requested, scheduler daemon restarts itself (PID $PID{PID})."
+            );
+            exit $ExitCode;
+        }
 
         # Call Scheduler
         my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
@@ -371,7 +375,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         #   of memory leaks in some external perl modules.
         if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
             my $ExitCode = _AutoRestart(
-                Message => "Scheduler Daemon restarts itself (PID $PID{PID})."
+                Message => "Scheduler daemon restarts itself (PID $PID{PID})."
             );
             exit $ExitCode;
         }
@@ -397,11 +401,6 @@ sub _help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f force]\n";
-}
-
-sub _Hangup {
-
-    # TODO Implement
 }
 
 sub _CommonObjects {
