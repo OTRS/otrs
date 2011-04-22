@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.11 2011-04-22 15:26:04 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.12 2011-04-22 19:45:59 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -316,6 +316,51 @@ sub _start {
                 $AlreadyStarted = 1;
             }
 
+            # get the process ID
+            my %PID = $CommonObject{PIDObject}->PIDGet(
+                Name => 'otrs.Scheduler',
+            );
+
+            # check if process ID was deleted from DB
+            if ( !%PID ) {
+                my $ExitCode = _AutoStop(
+                    Message => "Process could not be found in the process table!\n"
+                        . "Scheduler is stopping...!\n",
+                );
+                return $ExitCode;
+            }
+
+            # check if Framework.xml file exists, otherwise quits because the otrs instalation
+            # might not be ok. for example UnitTest machines during change scenario process
+            my $Home                = $CommonObject{ConfigObject}->Get('Home');
+            my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
+
+            # convert FrameworkConfigFile path to windows format
+            $FrameworkConfigFile =~ s{/}{\\}g;
+
+            if ( !-e $FrameworkConfigFile ) {
+                my $ExitCode = _AutoStop(
+                    Message => "$FrameworkConfigFile file is part of the OTRS file set and "
+                        . "is not present! \n"
+                        . "Scheduler is stopping...!\n",
+                    DeletePID => 1,
+                );
+                return $ExitCode;
+            }
+
+            # get config checksum
+            my $CurrConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
+
+            # check if cheksum changed and restart
+            if ( $InitConfigMD5 ne $CurrConfigMD5 ) {
+
+                my $ExitCode = _AutoRestart(
+                    Message => "Config.pm changed, unsafe to continue! \n"
+                        . "Scheduler is restarting...!\n",
+                );
+                exit $ExitCode;
+            }
+
             # Call Scheduler
             my $SchedulerObject = Kernel::Scheduler->new(%CommonObject);
             $SchedulerObject->Run();
@@ -503,4 +548,51 @@ sub _AutoRestart {
 
     $ExitCode = 0;
     return $ExitCode;
+}
+
+sub _AutoStop {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    if ( $Param{Message} ) {
+
+        # log error
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Param{Message},
+        );
+    }
+
+    my $ExitCode;
+    if ( $Param{DeletePID} ) {
+
+        # get the process ID
+        my %PID = $CommonObject{PIDObject}->PIDGet(
+            Name => 'otrs.Scheduler',
+        );
+
+        # delete pid lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
+        # log daemon stop
+        if ( !$PIDDelSuccess ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Process could not be deleted from process table! PID $PID{PID}",
+            );
+            $ExitCode = 1;
+            Win32::Daemon::StopService();
+            return $ExitCode;
+        }
+
+        $ExitCode = 0;
+        Win32::Daemon::StopService();
+        return $ExitCode;
+    }
+    $ExitCode = 1;
+    Win32::Daemon::StopService();
+    return $ExitCode;
+
 }
