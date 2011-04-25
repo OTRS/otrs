@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.76 2011-04-12 12:23:11 mg Exp $
+# $Id: Ticket.t,v 1.77 2011-04-25 22:35:59 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,9 @@ use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::User;
 use Kernel::System::PostMaster;
+use Kernel::System::Type;
+use Kernel::System::Service;
+use Kernel::System::SLA;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
@@ -38,6 +41,9 @@ my $QueueObject = Kernel::System::Queue->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $TypeObject    = Kernel::System::Type->new( %{$Self} );
+my $ServiceObject = Kernel::System::Service->new( %{$Self} );
+my $SLAObject     = Kernel::System::SLA->new( %{$Self} );
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -3693,6 +3699,18 @@ $Self->True(
     'PrioritySet()',
 );
 
+# get ticket data
+my %TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# save current change_time
+my $ChangeTime = $TicketData{Changed};
+
+# wait 5 seconds
+sleep(5);
+
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title    => 'Some Title 1234567',
     TicketID => $TicketID,
@@ -3701,6 +3719,276 @@ my $TicketTitle = $TicketObject->TicketTitleUpdate(
 $Self->True(
     $TicketTitle,
     'TicketTitleUpdate()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketTitleUpdate()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# save current change_time
+$ChangeTime = $TicketData{Changed};
+
+# wait 5 seconds
+sleep(5);
+
+# set unlock timeout
+my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
+    UnlockTimeout => $Self->{TimeObject}->SystemTime() + 10000,
+    TicketID      => $TicketID,
+    UserID        => 1,
+);
+
+$Self->True(
+    $UnlockTimeout,
+    'TicketUnlockTimeoutUpdate()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketUnlockTimeoutUpdate()',
+);
+
+# save current change_time
+$ChangeTime = $TicketData{Changed};
+
+# save current queue
+my $CurrentQueueID = $TicketData{QueueID};
+
+# wait 5 seconds
+sleep(5);
+
+my $NewQueue = $CurrentQueueID != 1 ? 1 : 2;
+
+# set queue
+my $TicketQueueSet = $TicketObject->TicketQueueSet(
+    QueueID  => $NewQueue,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $TicketQueueSet,
+    'TicketQueueSet()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketQueueSet()',
+);
+
+# restore queue
+$TicketQueueSet = $TicketObject->TicketQueueSet(
+    QueueID  => $CurrentQueueID,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# save current change_time
+$ChangeTime = $TicketData{Changed};
+
+# save current type
+my $CurrentTicketType = $TicketData{TypeID};
+
+# wait 5 seconds
+sleep(5);
+
+# create a test type
+my $TypeID = $TypeObject->TypeAdd(
+    Name    => 'Unit Test New Type' . int( rand(10000) ),
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# set type
+my $TicketTypeSet = $TicketObject->TicketTypeSet(
+    TypeID   => $TypeID,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $TicketTypeSet,
+    'TicketTypeSet()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketTypeSet()',
+);
+
+# restore type
+$TicketTypeSet = $TicketObject->TicketTypeSet(
+    TypeID   => $CurrentTicketType,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# set as invalid the test type
+$TypeObject->TypeUpdate(
+    ID      => $TypeID,
+    Name    => 'Unit Test New Type' . int( rand(10000) ),
+    ValidID => 2,
+    UserID  => 1,
+);
+
+# create a test service
+my $ServiceID = $ServiceObject->ServiceAdd(
+    Name    => 'Unit Test New Service' . int( rand(10000) ),
+    ValidID => 1,
+    Comment => 'Unit Test Comment',
+    UserID  => 1,
+);
+
+# wait 5 seconds
+sleep(5);
+
+# set type
+my $TicketServiceSet = $TicketObject->TicketServiceSet(
+    ServiceID => $ServiceID,
+    TicketID  => $TicketID,
+    UserID    => 1,
+);
+
+$Self->True(
+    $TicketServiceSet,
+    'TicketServiceSet()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketServiceSet()',
+);
+
+# set as invalid the test service
+$ServiceObject->ServiceUpdate(
+    ServiceID => 123,
+    Name      => 'Unit Test New Service' . int( rand(10000) ),
+    ValidID   => 2,
+    UserID    => 1,
+);
+
+# save current change_time
+$ChangeTime = $TicketData{Changed};
+
+# wait 5 seconds
+sleep(5);
+
+my $TicketEscalationIndexBuild = $TicketObject->TicketEscalationIndexBuild(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $TicketEscalationIndexBuild,
+    'TicketEscalationIndexBuild()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketEscalationIndexBuild()',
+);
+
+# save current change_time
+$ChangeTime = $TicketData{Changed};
+
+# create a test SLA
+my $SLAID = $SLAObject->SLAAdd(
+    Name    => 'Unit Test New SLA' . int( rand(10000) ),
+    ValidID => 1,
+    Comment => 'Unit Test Comment',
+    UserID  => 1,
+);
+
+# wait 5 seconds
+sleep(5);
+
+# set SLA
+my $TicketSLASet = $TicketObject->TicketSLASet(
+    SLAID    => $SLAID,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $TicketSLASet,
+    'TicketSLASet()',
+);
+
+# get updated ticket data
+%TicketData = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# compare current change_time with old one
+$Self->IsNot(
+    $ChangeTime,
+    $TicketData{Changed},
+    'Change_time updated in TicketSLASet()',
+);
+
+# set as invalid the test SLA
+$SLAObject->SLAUpdate(
+    SLAID   => $SLAID,
+    Name    => 'Unit Test New SLA' . int( rand(10000) ),
+    ValidID => 1,
+    Comment => 'Unit Test Comment',
+    UserID  => 1,
 );
 
 my $TicketLock = $TicketObject->LockSet(
@@ -4156,9 +4444,6 @@ for my $Test (@Tests) {
 # ticket history tests
 use Kernel::System::State;
 my $StateObject = Kernel::System::State->new( %{$Self} );
-
-use Kernel::System::Type;
-my $TypeObject = Kernel::System::Type->new( %{$Self} );
 
 @Tests = (
     {
@@ -4954,7 +5239,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             MergeTicketID => $TicketIDs[ $ArraySize - 1 ],
             UserID        => 1,
         ),
-        "Merge tickets",
+        'Merge tickets',
     );
 
 # verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
