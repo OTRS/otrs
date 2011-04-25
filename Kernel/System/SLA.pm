@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SLA.pm - all sla function
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.37 2010-06-17 21:39:40 cr Exp $
+# $Id: SLA.pm,v 1.38 2011-04-25 22:19:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -368,7 +368,7 @@ add a sla
 
     my $SLAID = $SLAObject->SLAAdd(
         ServiceIDs          => [ 1, 5, 7 ],  # (optional)
-        Name                => 'Service Name',
+        Name                => 'SLA Name',
         Calendar            => 'Calendar1',  # (optional)
         FirstResponseTime   => 120,          # (optional)
         FirstResponseNotify => 60,           # (optional) notify agent if first response escalation is 60% reached
@@ -684,6 +684,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.38 $ $Date: 2011-04-25 22:19:15 $
 
 =cut
