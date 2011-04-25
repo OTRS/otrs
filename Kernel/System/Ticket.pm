@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.494 2011-04-12 12:23:11 mg Exp $
+# $Id: Ticket.pm,v 1.495 2011-04-25 22:23:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.494 $) [1];
+$VERSION = qw($Revision: 1.495 $) [1];
 
 =head1 NAME
 
@@ -1406,8 +1406,9 @@ sub TicketTitleUpdate {
 
     # db access
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET title = ? WHERE id = ?',
-        Bind => [ \$Param{Title}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET title = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{Title}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -1458,8 +1459,9 @@ sub TicketUnlockTimeoutUpdate {
 
     # reset unlock time
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET timeout = ? WHERE id = ?',
-        Bind => [ \$Param{UnlockTimeout}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET timeout = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{UnlockTimeout}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -1650,8 +1652,9 @@ sub TicketQueueSet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET queue_id = ? WHERE id = ?',
-        Bind => [ \$Param{QueueID}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET queue_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{QueueID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # queue lookup
@@ -1896,8 +1899,9 @@ sub TicketTypeSet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET type_id = ? WHERE id = ?',
-        Bind => [ \$Param{TypeID}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET type_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{TypeID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -2064,8 +2068,9 @@ sub TicketServiceSet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET service_id = ? WHERE id = ?',
-        Bind => [ \$Param{ServiceID}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET service_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{ServiceID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -2308,8 +2313,8 @@ sub TicketEscalationDateCalculation {
 build escalation index of one ticket with current settings (SLA, Queue, Calendar...)
 
     my $Success = $TicketObject->TicketEscalationIndexBuild(
-        Ticket => $Param{Ticket},
-        UserID => $Param{UserID},
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
     );
 
 =cut
@@ -2347,8 +2352,10 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = 0 WHERE id = ?",
-                Bind => [ \$Ticket{TicketID}, ]
+                SQL =>
+                    "UPDATE ticket SET $EscalationTimes{$Key} = 0, change_time = current_timestamp, "
+                    . " change_by = ? WHERE id = ?",
+                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
             );
         }
 
@@ -2370,8 +2377,10 @@ sub TicketEscalationIndexBuild {
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_response_time = 0 WHERE id = ?',
-            Bind => [ \$Ticket{TicketID}, ]
+            SQL =>
+                'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
+                . ' change_by = ? WHERE id = ?',
+            Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
         );
     }
     else {
@@ -2385,8 +2394,10 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if (%FirstResponseDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_response_time = 0 WHERE id = ?',
-                Bind => [ \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
             );
         }
 
@@ -2402,8 +2413,10 @@ sub TicketEscalationIndexBuild {
 
             # update first response time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
-                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_response_time = ?, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ]
             );
 
             # remember escalation time
@@ -2414,8 +2427,9 @@ sub TicketEscalationIndexBuild {
     # update update && do not escalate in "pending auto" for escalation update time
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_update_time = 0 WHERE id = ?',
-            Bind => [ \$Ticket{TicketID}, ]
+            SQL => 'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
+                . ' change_by = ? WHERE id = ?',
+            Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
         );
     }
     else {
@@ -2498,8 +2512,10 @@ sub TicketEscalationIndexBuild {
 
             # update update time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
-                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_update_time = ?, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ]
             );
 
             # remember escalation time
@@ -2511,8 +2527,10 @@ sub TicketEscalationIndexBuild {
         # else, no not escalate, because latest sender was agent
         else {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_update_time = 0 WHERE id = ?',
-                Bind => [ \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
             );
         }
     }
@@ -2520,8 +2538,10 @@ sub TicketEscalationIndexBuild {
     # update solution
     if ( !$Escalation{SolutionTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?',
-            Bind => [ \$Ticket{TicketID}, ]
+            SQL =>
+                'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
+                . ' change_by = ? WHERE id = ?',
+            Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
         );
     }
     else {
@@ -2535,8 +2555,10 @@ sub TicketEscalationIndexBuild {
         # update solution time to 0
         if (%SolutionDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?',
-                Bind => [ \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
             );
         }
         else {
@@ -2550,8 +2572,10 @@ sub TicketEscalationIndexBuild {
 
             # update solution time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
-                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+                SQL =>
+                    'UPDATE ticket SET escalation_solution_time = ?, change_time = current_timestamp, '
+                    . ' change_by = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ],
             );
 
             # remember escalation time
@@ -2564,8 +2588,9 @@ sub TicketEscalationIndexBuild {
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
-            Bind => [ \$EscalationTime, \$Ticket{TicketID}, ]
+            SQL => 'UPDATE ticket SET escalation_time = ?, change_time = current_timestamp, '
+                . ' change_by = ? WHERE id = ?',
+            Bind => [ \$EscalationTime, \$Param{UserID}, \$Ticket{TicketID}, ],
         );
     }
 
@@ -2708,8 +2733,9 @@ sub TicketSLASet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET sla_id = ? WHERE id = ?',
-        Bind => [ \$Param{SLAID}, \$Param{TicketID} ],
+        SQL => 'UPDATE ticket SET sla_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{SLAID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -7074,21 +7100,24 @@ sub TicketMerge {
 
     # change ticket id of merge ticket to main ticket
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE article SET ticket_id = ? WHERE ticket_id = ?',
-        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+        SQL => 'UPDATE article SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 
     # reassign article history
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket_history SET ticket_id = ? WHERE ticket_id = ?
+        SQL => 'UPDATE ticket_history SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?
             AND (article_id IS NOT NULL OR article_id != 0)',
-        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+        Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 
     # update the accounted time of the main ticket
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE time_accounting SET ticket_id = ? WHERE ticket_id = ?',
-        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+        SQL => 'UPDATE time_accounting SET ticket_id = ?, change_time = current_timestamp, '
+            . ' change_by = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 
     my %MainTicket  = $Self->TicketGet( TicketID => $Param{MainTicketID} );
@@ -8442,6 +8471,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.494 $ $Date: 2011-04-12 12:23:11 $
+$Revision: 1.495 $ $Date: 2011-04-25 22:23:09 $
 
 =cut
