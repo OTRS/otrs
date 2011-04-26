@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.7 2011-03-15 15:06:53 mg Exp $
+# $Id: Handler.t,v 1.8 2011-04-26 18:29:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -248,8 +248,9 @@ my $Home = $ConfigObject->Get('Home');
 
 # check if scheduler is running (start, if neccessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-if ( $^O =~ /^win/i ) {
-    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+if ( $^O =~ /^mswin/i ) {
+    $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
+    $Scheduler =~ s{/}{\\}g
 }
 my $PreviousSchedulerStatus = `$Scheduler -a status`;
 
@@ -406,6 +407,10 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
 }
 
 $CurrentSchedulerStatus = `$Scheduler -a status`;
+
+# remove the process id
+$PreviousSchedulerStatus =~ s{\d}{}g;
+$CurrentSchedulerStatus  =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,
