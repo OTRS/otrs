@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.14 2011-04-26 17:43:45 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.15 2011-04-26 22:07:56 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -137,7 +137,7 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
     # log daemon reload request
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Service reload request! PID $PID{PID}",
+        Message  => "Scheduler service reload request! PID $PID{PID}",
     );
 
     # stop the scheduler service (same as "stop" in service control manger)
@@ -197,7 +197,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             # log daemon forced start
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Scheduler Daemon is forced to Start!",
+                Message  => "Scheduler service is forced to Start!",
             );
         }
     }
@@ -474,6 +474,8 @@ sub _stop {
     # delete pid lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
 
+    sleep 2;
+
     # log daemon stop
     if ( !$PIDDelSuccess ) {
         $CommonObject{LogObject}->Log(
@@ -517,7 +519,7 @@ sub _status {
     # log daemon stop
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon status request! PID $PID{PID}",
+        Message  => "Scheduler service status request! PID $PID{PID}",
     );
 
     # this call is from outside, can't use Win32::Daemon
