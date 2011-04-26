@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.4 2011-04-18 14:42:42 cr Exp $
+# $Id: AddInfo.t,v 1.5 2011-04-26 19:29:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,8 +37,9 @@ my $RandomID = $HelperObject->GetRandomID();
 my $Home = $Self->{ConfigObject}->Get('Home');
 
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-if ( $^O =~ /^win/i ) {
-    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+if ( $^O =~ /^mswin/i ) {
+    $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
+    $Scheduler =~ s{/}{\\}g
 }
 
 # get scheduler status
