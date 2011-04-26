@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.2 2011-04-21 13:15:28 mg Exp $
+# $Id: Run.t,v 1.3 2011-04-26 18:23:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,8 +76,9 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # check if scheduler is running (start, if neccessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-if ( $^O =~ /^win/i ) {
-    $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+if ( $^O =~ /^mswin/i ) {
+    $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
+    $Scheduler =~ s{/}{\\}g
 }
 my $PreviousSchedulerStatus = `$Scheduler -a status`;
 
@@ -394,6 +395,10 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
 }
 
 $CurrentSchedulerStatus = `$Scheduler -a status`;
+
+# remove the process id
+$PreviousSchedulerStatus =~ s{\d}{}g;
+$CurrentSchedulerStatus  =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,
