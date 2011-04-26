@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.12 2011-04-22 19:45:59 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.13 2011-04-26 03:44:04 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -101,6 +101,28 @@ elsif ( $Opts{a} && $Opts{a} eq "servicestop" ) {
 elsif ( $Opts{a} && $Opts{a} eq "status" ) {
     _status();
 }
+elsif ( $Opts{a} && $Opts{a} eq "restart" ) {
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    # log daemon already running
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message =>
+            "User call Scheduler service to restart!\n",
+    );
+
+    # stop the scheduler service (same as "stop" in service control manger)
+    Win32::Service::StopService( '', $Service );
+
+    # needs to wait untill is fully stop
+    # this value could be change if needed or check the status
+    sleep 2;
+
+    # start the scheduler service (same as "play" in service control manger)
+    Win32::Service::StartService( '', $Service );
+}
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # create common objects
@@ -110,7 +132,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     Win32::Service::GetStatus( '', $Service, $ServiceStatus );
 
     # could it bee that the service is stopping
-    while ( $ServiceStatus->{CurrentState} eq 3 ) {
+    while ( $ServiceStatus->{CurrentState} && $ServiceStatus->{CurrentState} eq 3 ) {
         Win32::Service::GetStatus( '', $Service, $ServiceStatus );
         sleep 1;
     }
@@ -155,7 +177,7 @@ elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status) [-f force]\n";
+    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|restart) [-f force]\n";
 }
 
 sub _start {
