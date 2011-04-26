@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.28 2010-10-07 07:20:16 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.28.2.1 2011-04-26 22:32:17 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.28.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,7 +188,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
+            qw(Recipients RecipientRoles RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
