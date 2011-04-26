@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.13 2011-04-26 03:44:04 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.14 2011-04-26 17:43:45 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -62,7 +62,7 @@ if ( $^O ne "MSWin32" ) {
 # help option
 if ( $Opts{h} ) {
     _help();
-    exit 1;
+    exit 0;
 }
 
 # check if a stop request is sent
@@ -91,44 +91,81 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     }
 
     # stop the scheduler service (same as "stop"" in service control manger)
-    Win32::Service::StopService( '', $Service );
+    # cant use Win32::Daemon becase is called from outside
+    my $Result = Win32::Service::StopService( '', $Service );
+
+    # sleep to let service stop sucessully
+    sleep 2;
+
+    if ($Result) {
+        exit 0;
+    }
+    exit 1;
 }
+
+# check if a stop servicerequest is sent (this should be called by SCM)
 elsif ( $Opts{a} && $Opts{a} eq "servicestop" ) {
 
-    # stop the schduler process
+    # stop the schduler service
     _stop();
 }
+
+# check if a status request is sent
 elsif ( $Opts{a} && $Opts{a} eq "status" ) {
+
+    # query shceduler status
     _status();
 }
-elsif ( $Opts{a} && $Opts{a} eq "restart" ) {
+
+# check if a reload request is sent
+elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # create common objects
     my %CommonObject = _CommonObjects();
 
-    # log daemon already running
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # no proces ID means that is not running
+    if ( !%PID ) {
+        print "Can't get OTRS Scheduler status because is not running!\n";
+        exit 1;
+    }
+
+    # log daemon reload request
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message =>
-            "User call Scheduler service to restart!\n",
+        Message  => "Scheduler Service reload request! PID $PID{PID}",
     );
 
     # stop the scheduler service (same as "stop" in service control manger)
+    # cant use Win32::Daemon becase is called from outside
     Win32::Service::StopService( '', $Service );
 
     # needs to wait untill is fully stop
     # this value could be change if needed or check the status
     sleep 2;
 
+    # delete pid lock
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+
     # start the scheduler service (same as "play" in service control manger)
+    # cant use Win32::Daemon becase is called from outside
     Win32::Service::StartService( '', $Service );
+
+    exit 0;
 }
+
+# check if a start request is sent
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # create common objects
     my %CommonObject = _CommonObjects();
 
     # get current service status
+    # cant use Win32::Daemon becase is called from outside
     Win32::Service::GetStatus( '', $Service, $ServiceStatus );
 
     # could it bee that the service is stopping
@@ -137,9 +174,10 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         sleep 1;
     }
 
-    # check for force to start option
     # check if PID is already there
     if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
+
+        # check for force to start option
         if ( !$Opts{f} ) {
             print
                 "NOTICE: otrs.Scheduler4win.pl is already running (use '-force' if you want to start it\n";
@@ -165,19 +203,29 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # start the scheduler service (same as "play" in service control manager)
+    # cant use Win32::Daemon becase is called from outside
     Win32::Service::StartService( '', $Service );
 }
+
+# check if a servicestart request is sent (This is usually called by SCM)
 elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
 
     # start the scheduler process
     _start();
 }
 
+# otherwise show help
+else {
+
+    # help option
+    _help();
+}
+
 # Internal
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|restart) [-f force]\n";
+    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 
 sub _start {
@@ -248,6 +296,7 @@ sub _start {
         }
     }
 
+    # a flag to only log running status once
     my $AlreadyStarted;
 
     # sleep time between loop intervals in seconds
@@ -272,7 +321,7 @@ sub _start {
     open( STDOUT, ">$FileStdOut" );
     open( STDERR, ">$FileStdErr" );
 
-    # main loop
+    # main service loop
     while ( SERVICE_STOPPED != $State ) {
 
         # check if service is in start pending state
@@ -419,7 +468,7 @@ sub _stop {
         Name => 'otrs.Scheduler',
     );
 
-    # stop the service
+    # stop the service (this can be called because is part of the main loop)
     Win32::Daemon::StopService();
 
     # delete pid lock
@@ -471,6 +520,7 @@ sub _status {
         Message  => "Scheduler Daemon status request! PID $PID{PID}",
     );
 
+    # this call is from outside, can't use Win32::Daemon
     Win32::Service::GetStatus( '', $Service, $ServiceStatus );
 
     # check if service is starting (state 2)
@@ -538,7 +588,7 @@ sub _AutoRestart {
     }
 
     # Send service control an stop message otherwise the execusion of a new scheduler will not be
-    # success.
+    # success.(this can be called because is part of the same loop)
     Win32::Daemon::StopService();
 
     # log service stopping
@@ -556,6 +606,7 @@ sub _AutoRestart {
 
     # create a new scheduler intance
     # this process could take more than 30 secons be aware of that!
+    # needs a separete process
     my $Result = system("\"$^X\" \"$Scheduler\" -a start");
 
     if ( !$Result ) {
@@ -605,16 +656,21 @@ sub _AutoStop {
                 Message  => "Process could not be deleted from process table! PID $PID{PID}",
             );
             $ExitCode = 1;
+
+            # this can be called because is in the same loop
             Win32::Daemon::StopService();
             return $ExitCode;
         }
 
         $ExitCode = 0;
+
+        # this can be called because is in the same loop
         Win32::Daemon::StopService();
         return $ExitCode;
     }
     $ExitCode = 1;
+
+    # this can be called because is in the same loop
     Win32::Daemon::StopService();
     return $ExitCode;
-
 }
