@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.11 2011-04-26 17:44:54 cr Exp $
+# $Id: Daemon.t,v 1.12 2011-04-26 22:05:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -264,6 +264,7 @@ $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
 $CheckAction->(
     Name                => 'Start auto-stop tests',
     Action              => 'start',
+    SleepAfterAction    => 1,
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
