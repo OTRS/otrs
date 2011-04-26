@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.55.2.3 2010-12-22 18:58:36 cg Exp $
+# $Id: AdminQueue.pm,v 1.55.2.4 2011-04-26 21:41:53 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.3 $) [1];
+$VERSION = qw($Revision: 1.55.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,6 +182,18 @@ sub Run {
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+        }
+
+        # check if some fields must be set with default values
+        for my $Optional (
+            qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify FollowUpLock Calendar)
+            )
+        {
+
+            # add default values
+            if ( !$GetParam{$Optional} ) {
+                $GetParam{$Optional} = 0;
+            }
         }
 
         # check queue name
