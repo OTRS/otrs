@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.26 2011-04-27 19:11:03 mb Exp $
+# $Id: CSV.pm,v 1.27 2011-04-27 19:21:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -116,7 +116,7 @@ sub Array2CSV {
         $Param{Quote} = '"';
     }
 
-    # create new csv backen object
+    # create new csv backend object
     my $CSV = Text::CSV->new(
         {
             quote_char          => $Param{Quote},
@@ -200,7 +200,7 @@ sub CSV2Array {
         }
     );
 
-    # do some dos/unix file convertations
+    # do some dos/unix file conversions
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
 
     # if you change the split options, remember that each value can include \n
@@ -236,6 +236,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2011-04-27 19:11:03 $
+$Revision: 1.27 $ $Date: 2011-04-27 19:21:13 $
 
 =cut
