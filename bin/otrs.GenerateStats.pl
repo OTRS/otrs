@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.6 2011-04-27 17:38:51 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.7 2011-04-27 18:54:23 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -82,6 +82,7 @@ GetOptions(
     'format|f=s'     => \$Opts{f},
     'separator|S=s'  => \$Opts{S},
     'reportname|R'   => \$Opts{R},
+    'filename|F=s'   => \$Opts{F},
     'help|h'         => \$Opts{h},
 );
 
@@ -89,7 +90,7 @@ if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-R]\n";
+        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print
         "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
@@ -356,11 +357,16 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     # return the document
     my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
 
-    # save the pdf with the title and timestamp as filename
-    my $Filename =
-        $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
+    # save the csv with the title and timestamp as filename, or read it from param
+    my $Filename;
+    if ( $Opts{F} ) {
+        $Filename = $Opts{F};
+    }
+    else {
+        $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+            String => $Stat->{Title} . " Created",
         );
+    }
     %Attachment = (
         Filename    => $Filename . ".pdf",
         ContentType => "application/pdf",
@@ -377,7 +383,6 @@ else {
 
     # Only add the name if parameter is set
     if ( $Opts{R} ) {
-        warn "R found";
         $Output .= "Name: $Title; Created: $Time\n";
     }
     $Output .= $CommonObject{CSVObject}->Array2CSV(
@@ -386,11 +391,16 @@ else {
         Separator => $Separator,
     );
 
-    # save the csv with the title and timestamp as filename
-    my $Filename =
-        $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Stat->{Title} . " Created",
+    # save the csv with the title and timestamp as filename, or read it from param
+    my $Filename;
+    if ( $Opts{F} ) {
+        $Filename = $Opts{F};
+    }
+    else {
+        $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+            String => $Stat->{Title} . " Created",
         );
+    }
 
     %Attachment = (
         Filename    => $Filename . ".csv",
