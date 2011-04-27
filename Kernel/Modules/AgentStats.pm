@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.118 2011-04-27 17:47:23 mb Exp $
+# $Id: AgentStats.pm,v 1.119 2011-04-27 17:56:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2044,7 +2044,7 @@ sub Run {
             push @StatArray, [ ' ', 0 ];
         }
 
-        # Gernerate Filename
+        # Generate Filename
         my $Filename = $Self->{StatsObject}->StringAndTimestamp2Filename(
             String => $Stat->{Title} . ' Created',
         );
@@ -2088,7 +2088,7 @@ sub Run {
 
         # pdf or html output
         elsif ( $Param{Format} eq 'Print' ) {
-            use Kernel::System::PDF;
+            $Self->{MainObject}->Require('Kernel::System::PDF');
             $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
 
             # PDF Output
