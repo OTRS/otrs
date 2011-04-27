@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.13 2011-02-22 20:51:25 cr Exp $
+# $Id: TaskManager.pm,v 1.14 2011-04-27 23:02:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -210,6 +210,11 @@ sub TaskGet {
             CreateTime => $Data[3],
         );
     }
+
+    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+    # and 0000-00-00 00:00:00 time stamps)
+    $Data{DueTime} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+
     return %Data;
 }
 
@@ -302,6 +307,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-02-22 20:51:25 $
+$Revision: 1.14 $ $Date: 2011-04-27 23:02:51 $
 
 =cut
