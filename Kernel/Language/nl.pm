@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.4 2011-04-05 09:13:41 mb Exp $
+# $Id: nl.pm,v 1.152.2.5 2011-04-27 11:30:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.4 $) [1];
+$VERSION = qw($Revision: 1.152.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:45
+    # Last translation file sync: 2011-04-27 13:26:13
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -183,7 +183,7 @@ sub Data {
         'change' => 'wijzigen',
         'click here' => 'klik hier',
         'Comment' => 'Opmerking',
-        'Valid' => 'Geldigheid',
+        'Valid' => 'Geldig',
         'Invalid Option!' => 'Geen geldige optie.',
         'Invalid time!' => 'Geen geldige tijd.',
         'Invalid date!' => 'Geen geldige datum.',
@@ -783,7 +783,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Beheer bedrijven',
-        'Wildcards are allowed.' => 'Wildcards zijn toegestaan.',
+        'Wildcards like \'*\' are allowed.' => 'Wildcards zoals \'*\' zijn toegestaan.',
         'Add customer company' => 'Nieuw bedrijf',
         'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven.',
         'Add Customer Company' => 'Bedrijf toevoegen',
@@ -809,7 +809,7 @@ sub Data {
         'This feature is disabled!' => 'Deze functie is niet geactiveerd.',
         'Just use this feature if you want to define group permissions for customers.' => 'Gebuik deze mogelijkheid alleen als u groep-permissies voor klanten wilt gebruiken.',
         'Enable it here!' => 'Inschakelen',
-        'Search for customers (wildcards are allowed).' => 'Typ om te zoeken naar klanten (wildcards toegestaan).',
+        'Search for customers.' => 'Zoek naar klanten',
         'Edit Customer Default Groups' => 'Bewerk standaard groepen voor klanten',
         'These groups are automatically assigned to all customers.' => 'Deze groepen worden toegewezen aan alle klanten.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
@@ -1204,10 +1204,12 @@ sub Data {
         'S/MIME Management' => 'S/MIME beheer',
         'Add certificate' => 'Nieuw certificaat',
         'Add private key' => 'Private sleutel toevoegen',
+        'Filter for certificates' => 'Filter op certificaten',
+        'Filter for SMIME certs' => 'Filter voor SMIME-certificaten',
         'In this way you can directly edit the certification and private keys in file system.' => 'Hier kunt u de certificaten en private sleutels van OTRS beheren.',
         'See also' => 'Zie voor meer informatie',
-        'Hash/Fingerprint' => 'Hash',
-        'Create/Expires' => 'Verloopt',
+        'Hash' => 'Hash',
+        'Create' => 'Aanmaken',
         'Delete this certificate' => 'Verwijder certificaat',
         'Add Certificate' => 'Nieuw certificaat',
         'Add Private Key' => 'Nieuwe private sleutel',
@@ -1619,7 +1621,6 @@ sub Data {
         'Create New Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'From customer' => 'Van klant',
         'To queue' => 'In wachtrij',
-        'Create' => 'Aanmaken',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'Telefoongesprek',
@@ -1643,8 +1644,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Template',
-        'Create New' => 'Nieuw',
         'Create Template' => 'Maak template',
+        'Create New' => 'Nieuw',
+        'Profile link' => 'Link voor zoekopdracht',
         'Save changes in template' => 'Sla wijzigingen op in template',
         'Add another attribute' => 'Voeg attribuut toe',
         'Output' => 'Uitvoeren naar',
@@ -3189,6 +3191,7 @@ sub Data {
         'Create new Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Maak nieuwe groepen aan om de toegangsrechten te regelen voor verschillende groepen van agenten (bijvoorbeeld verkoopafdeling, supportafdeling).',
         'Create your first Ticket' => 'Maak uw eerste ticket aan',
+        'Create/Expires' => 'Verloopt',
         'CreateTicket' => 'Ticket aanmaken',
         'Customer Move Notify' => 'Klantmelding bij verplaatsen',
         'Customer Owner Notify' => 'Klantmelding andere eigenaar',
@@ -3260,7 +3263,7 @@ sub Data {
         'Group based' => 'Gebaseerd op groep',
         'Group selection' => 'Groep selectie',
         'HTML' => 'HTML',
-        'Hash' => 'Hash',
+        'Hash/Fingerprint' => 'Hash',
         'Have a lot of fun!' => 'Veel plezier!',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' => 'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de Y-as definiëren. U heeft de mogelijkheid om één of twee elementen te selecteren. Daarna kunt u de attributen kiezen. Als u geen attribuut selecteerd zullen alle attributen gebruikt worden.',
@@ -3444,6 +3447,7 @@ sub Data {
         'Search Result' => 'Zoekresultaat',
         'Search Ticket' => 'Zoek Ticket',
         'Search for' => 'Zoek naar',
+        'Search for customers (wildcards are allowed).' => 'Typ om te zoeken naar klanten (wildcards toegestaan).',
         'Secure Mode need to be enabled!' => 'Secure Mode moet geactiveerd zijn.',
         'Select Box' => 'SQL select query',
         'Select Box Result' => 'Resultaat',
@@ -3576,6 +3580,7 @@ sub Data {
         'WebMail' => 'Webmail',
         'WebWatcher' => 'Webwatcher',
         'Welcome to OTRS' => 'Welkom bij OTRS',
+        'Wildcards are allowed.' => 'Wildcards zijn toegestaan.',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'Als het rapport op ongeldig staat kan deze niet gegenereerd worden.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Met de invoer- en selectievelden is het rapport aanpasbaar. Welke elementen precies aan te passen zijn verschilt per rapportage.',
         'Yes means, send no agent and customer notifications on changes.' => 'Bij \'Ja\' worden er geen meldingen gestuurd naar eigenaar en klant bij wijzigingen.',
