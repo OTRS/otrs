@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.GenerateStats.pl,v 1.4 2011-04-27 16:59:26 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,9 +30,9 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
-use Getopt::Std;
+use Getopt::Long;
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -69,13 +69,26 @@ $CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
 $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # get options
+Getopt::Long::Configure('no_ignore_case');
 my %Opts = ();
-getopt( 'nrsmoplfS', \%Opts );
-if ( $Opts{h} ) {
+GetOptions(
+    'number|n=n'     => \$Opts{n},
+    'param|p=s'      => \$Opts{p},
+    'outputdir|o=s'  => \$Opts{o},
+    'recipient|r=s@' => \$Opts{r},
+    'sender|s=s'     => \$Opts{s},
+    'message|m=s'    => \$Opts{m},
+    'language|l=s'   => \$Opts{l},
+    'format|f=s'     => \$Opts{f},
+    'separator|S=s'  => \$Opts{S},
+    'help|h'         => \$Opts{h},
+);
+
+if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
+        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
     print
         "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
@@ -137,15 +150,6 @@ if ( $Opts{f} ) {
 my $Separator = ';';    # for backwards compatibility no comma as default
 if ( $Opts{c} ) {
     $Separator = $Opts{S};
-}
-
-# recipient check
-if ( $Opts{r} ) {
-    if ( !$CommonObject{CheckItemObject}->CheckEmail( Address => $Opts{r} ) ) {
-        print STDERR "ERROR: "
-            . $CommonObject{CheckItemObject}->CheckError() . "\n";
-        exit 1;
-    }
 }
 
 # sender, if given
@@ -404,18 +408,26 @@ if ( $Opts{o} ) {
 }
 
 # send email
-elsif (
+
+RECIPIENT:
+for my $Recipient ( @{ $Opts{r} } ) {
+
+    # recipient check
+    if ( !$CommonObject{CheckItemObject}->CheckEmail( Address => $Recipient ) ) {
+        print STDERR "Warning: email address $Recipient invalid, skipping address."
+            . $CommonObject{CheckItemObject}->CheckError() . "\n";
+        next RECIPIENT;
+    }
     $CommonObject{EmailObject}->Send(
         From       => $Opts{s},
-        To         => $Opts{r},
+        To         => $Recipient,
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
         Body       => $CommonObject{LanguageObject}->Get( $Opts{m} ),
         Charset    => $CommonObject{ConfigObject}->{DefaultCharset},
         Attachment => [ {%Attachment}, ],
-    )
-    )
-{
-    print "NOTICE: Email sent to '$Opts{r}'.\n";
+    );
+    print "NOTICE: Email sent to '$Recipient'.\n";
+
 }
 exit(0);
 
