@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.4 2011-04-27 16:59:26 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.5 2011-04-27 17:11:02 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -325,7 +325,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     while ($Loop) {
 
         # if first page
-        if ( $Counter eq 1 ) {
+        if ( $Counter == 1 ) {
             $CommonObject{PDFObject}->PageNew(
                 %PageParam, FooterRight => $Page . ' ' . $Counter,
             );
@@ -370,7 +370,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 }
 else {
 
-    # Create the CVS data
+    # Create the CSV data
     my $Output = "Name: $Title; Created: $Time\n";
     $Output .= $CommonObject{CSVObject}->Array2CSV(
         Head      => $HeadArrayRef,
