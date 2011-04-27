@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1849 2011-04-25 22:32:54 en Exp $
+# $Id: CHANGES,v 1.1850 2011-04-27 11:21:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-27 Fixed bug#7211 - 'Valid' used in labels is now replaced with 'Validity'.
  - 2011-04-25 Fixed bug#7236 - Ticket::TicketTitleUpdate() does not update change_time of ticket.
  - 2011-04-20 Fixed ticket#2011041942007629 - Uninitialized value problem in AgentPreferences.pm.
  - 2011-04-20 Fixed bug#7243 - Problem if current_timestamp of database system is
