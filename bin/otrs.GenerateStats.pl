@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.5 2011-04-27 17:11:02 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.6 2011-04-27 17:38:51 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -81,6 +81,7 @@ GetOptions(
     'language|l=s'   => \$Opts{l},
     'format|f=s'     => \$Opts{f},
     'separator|S=s'  => \$Opts{S},
+    'reportname|R'   => \$Opts{R},
     'help|h'         => \$Opts{h},
 );
 
@@ -88,7 +89,7 @@ if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
+        "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-R]\n";
     print
         "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
@@ -371,7 +372,14 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 else {
 
     # Create the CSV data
-    my $Output = "Name: $Title; Created: $Time\n";
+    my $Output;
+    warn "creating data";
+
+    # Only add the name if parameter is set
+    if ( $Opts{R} ) {
+        warn "R found";
+        $Output .= "Name: $Title; Created: $Time\n";
+    }
     $Output .= $CommonObject{CSVObject}->Array2CSV(
         Head      => $HeadArrayRef,
         Data      => \@StatArray,

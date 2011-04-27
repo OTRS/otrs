@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1851 2011-04-27 17:00:21 mb Exp $
+# $Id: CHANGES,v 1.1852 2011-04-27 17:39:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-27 Fixed bug#7257 - Stats CSV outputs report name and timestamp as first line.
  - 2011-04-27 Added feature bug#5607 - otrs.GenerateStats.pl report only can be sent to one
     recipient at a time.
  - 2011-04-27 Fixed bug#7211 - 'Valid' used in labels is now replaced with 'Validity'.

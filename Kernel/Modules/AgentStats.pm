@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.116 2011-04-05 13:59:41 mb Exp $
+# $Id: AgentStats.pm,v 1.117 2011-04-27 17:38:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2064,7 +2064,7 @@ sub Run {
                 SystemTime => $Self->{TimeObject}->SystemTime(),
                 );
             my $Time = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
-            my $Output = "Name: $Title; Created: $Time\n";
+            my $Output;
 
             # get Separator from language file
             my $UserCSVSeparator = $Self->{LayoutObject}->{LanguageObject}->{Separator};
@@ -2244,7 +2244,7 @@ sub Run {
                 );
             }
 
-            # return image to bowser
+            # return image to browser
             return $Self->{LayoutObject}->Attachment(
                 Filename    => $Filename . '.' . $Ext,
                 ContentType => "image/$Ext",
