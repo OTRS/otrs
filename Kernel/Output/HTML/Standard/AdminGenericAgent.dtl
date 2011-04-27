@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.84 2011-03-07 15:37:27 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.85 2011-04-27 10:05:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Last run"}</th>
-                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Validity"}</th>
                             <th>$Text{"Delete"}</th>
                             <th>$Text{"Run Now!"}</th>
                         </tr>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Valid">$Text{"Valid"}:</label>
+                        <label for="Valid">$Text{"Validity"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
                         </div>

@@ -1,8 +1,8 @@
 # --
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.21 2010-11-20 00:03:07 en Exp $
+# $Id: AdminAttachment.dtl,v 1.22 2011-04-27 10:05:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,7 @@
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Filename"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Validity"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                             <th>$Text{"Delete"}</th>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Valid"}:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Validity"}:</label>
                         <div class="Field">
                             $Data{"ValidOption"}
                             <div id="ValidIDError" class="TooltipErrorMessage">

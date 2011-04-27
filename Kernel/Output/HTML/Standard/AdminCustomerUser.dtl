@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.33 2011-03-25 16:08:18 en Exp $
+# $Id: AdminCustomerUser.dtl,v 1.34 2011-04-27 10:05:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,7 +92,7 @@
                             <th>$Text{"Email"}</th>
                             <th>$Text{"CustomerID"}</th>
                             <th>$Text{"Last Login"}</th>
-                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Validity"}</th>
                         </tr>
                     </thead>
                     <tbody>

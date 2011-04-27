@@ -1,8 +1,8 @@
 # --
 # AdminService.dtl - provides HTML form for AdminService
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.35 2010-11-05 17:38:16 ub Exp $
+# $Id: AdminService.dtl,v 1.36 2011-04-27 10:05:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@
                         <tr>
                             <th>$Text{"Service"}</th>
                             <th>$Text{"Comment"}</th>
-                            <th>$Text{"Valid"}</th>
+                            <th>$Text{"Validity"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
                         </tr>
@@ -109,7 +109,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Valid"}: </label>
+                        <label for="ValidID">$Text{"Validity"}: </label>
                         <div class="Field">
                             $Data{"ValidOptionStrg"}
                         </div>
