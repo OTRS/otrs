@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.436 2011-04-19 10:18:51 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.437 2011-04-27 20:21:22 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5317,6 +5317,17 @@ Description>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###RequiredLock" Required="0" Valid="1">
         <Description Translatable="1">Automatically lock and set owner to current Agent after selecting for an Bulk Action.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###TicketType" Required="0" Valid="1">
+        <Description Translatable="1">Sets the ticket type in the ticket bulk screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>

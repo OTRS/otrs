@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.82 2011-04-11 18:29:23 mp Exp $
+# $Id: AgentTicketBulk.pm,v 1.83 2011-04-27 20:21:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
         );
     }
 
-    # get involved tickets, filterung empty TicketIDs
+    # get involved tickets, filtering empty TicketIDs
     my @TicketIDs
         = grep {$_}
         $Self->{ParamObject}->GetArray( Param => 'TicketID' );
@@ -82,7 +82,7 @@ sub Run {
         # get all parameters
         for my $Key (
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
-            Body ArticleTypeID ArticleType StateID State MergeToSelection MergeTo LinkTogether
+            Body ArticleTypeID ArticleType TypeID StateID State MergeToSelection MergeTo LinkTogether
             LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked TimeUnits)
             )
         {
@@ -123,7 +123,7 @@ sub Run {
             $Error{'BodyInvalid'} = 'ServerError';
         }
 
-        # check if pending date must be validate
+        # check if pending date must be validated
         if ( $GetParam{StateID} || $GetParam{State} ) {
             my %StateData;
             if ( $GetParam{StateID} ) {
@@ -291,6 +291,17 @@ sub Run {
                     Priority   => $GetParam{'Priority'},
                     PriorityID => $GetParam{'PriorityID'},
                 );
+            }
+
+            # set type
+            if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) {
+                if ( $GetParam{'TypeID'} ) {
+                    $Self->{TicketObject}->TicketTypeSet(
+                        TypeID   => $GetParam{'TypeID'},
+                        TicketID => $TicketID,
+                        UserID   => $Self->{UserID},
+                    );
+                }
             }
 
             # set queue
@@ -611,6 +622,27 @@ sub _Mask {
         }
     }
 
+    # types
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) {
+        my %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+        $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data         => \%Type,
+            PossibleNone => 1,
+            Name         => 'TypeID',
+            SelectedID   => $Param{TypeID},
+            Sort         => 'AlphanumericValue',
+            Translation  => 0,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Type',
+            Data => {%Param},
+        );
+    }
+
     # owner list
     if ( $Self->{Config}->{Owner} ) {
         my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
@@ -646,7 +678,7 @@ sub _Mask {
         );
     }
 
-    # owner list
+    # responsible list
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
         my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
 

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1853 2011-04-27 18:55:19 mb Exp $
+# $Id: CHANGES,v 1.1854 2011-04-27 20:21:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-27 Added feature bug#5484 / IdeaScale#497 - Bulk action to set/change Ticket Type.
  - 2011-04-27 Added feature bug#7258 - Stats output always has a timestamp and report name in
     the filename.
  - 2011-04-27 Fixed bug#7257 - Stats CSV outputs report name and timestamp as first line.
