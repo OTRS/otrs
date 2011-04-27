@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler daemon control on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.15 2011-04-26 22:07:56 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.16 2011-04-27 21:02:36 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -442,7 +442,7 @@ sub _start {
             #   of memory leaks in some external perl modules.
             if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
                 my $ExitCode = _AutoRestart(
-                    Message => "Scheduler daemon restarts itself (PID $PID{PID})."
+                    Message => "Scheduler service restarts itself (PID $PID{PID})."
                 );
                 exit $ExitCode;
             }
