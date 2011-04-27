@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CSV.pm - all csv functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.25 2010-06-17 21:39:40 cr Exp $
+# $Id: CSV.pm,v 1.26 2011-04-27 19:11:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,11 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
-Kernel::System::CSV - CVS lib
+Kernel::System::CSV - CSV lib
 
 =head1 SYNOPSIS
 
@@ -236,6 +236,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.26 $ $Date: 2011-04-27 19:11:03 $
 
 =cut
