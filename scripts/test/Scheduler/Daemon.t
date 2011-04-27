@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.12 2011-04-26 22:05:19 cr Exp $
+# $Id: Daemon.t,v 1.13 2011-04-27 21:04:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,19 @@ my $CheckAction = sub {
     );
 
     my $Result = system("$Scheduler -a $Param{Action}");
+
+    # special sleep for windows
+    if ( $^O =~ /^mswin/i ) {
+        if (
+            $Param{Action}    eq 'start'
+            || $Param{Action} eq 'stop'
+            || $Param{Action} eq 'reload'
+            )
+        {
+            print "Sleeping 5s (Special for Windows OS)\n";
+            sleep 5;
+        }
+    }
 
     if ( $Param{ExpectActionSuccess} ) {
         $Self->Is(
@@ -183,10 +196,15 @@ $CheckAction->(
 #
 
 # this will be reset by the HelperObject automatically
+my $RestartAfterSeconds = 10;
+if ( $^O =~ /^mswin/i ) {
+    $RestartAfterSeconds = 40;
+}
+
 my $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
-    Value => 10,
+    Value => $RestartAfterSeconds,
 );
 
 $Self->True(
@@ -225,8 +243,14 @@ $Self->Is(
     'Not restarted yet, same PID',
 );
 
-print "Sleeping 14s\n";
-sleep 14;
+if ( $^O =~ /^mswin/i ) {
+    print "Sleeping 34s\n";
+    sleep 34;
+}
+else {
+    print "Sleeping 14s\n";
+    sleep 14;
+}
 
 $CheckAction->(
     Name                => 'Status check 3',
@@ -258,7 +282,7 @@ $CheckAction->(
 $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
-    Value => 240,
+    Value => 18000,
 );
 
 $CheckAction->(
