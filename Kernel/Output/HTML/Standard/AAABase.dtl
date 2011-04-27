@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.101 2011-03-15 08:41:39 mb Exp $
+# $Id: AAABase.dtl,v 1.102 2011-04-27 11:46:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,9 @@ $Text{"Settings"}
 $Text{"Example"}
 $Text{"Examples"}
 $Text{"valid"}
+$Text{"Valid"}
 $Text{"invalid"}
+$Text{"Invalid"}
 $Text{"* invalid"}
 $Text{"invalid-temporarily"}
 
