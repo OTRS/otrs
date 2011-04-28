@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1854 2011-04-27 20:21:22 mb Exp $
+# $Id: CHANGES,v 1.1855 2011-04-28 08:03:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,6 +46,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-04-28 Fixed bug#7244 - Plain Auth with SMTP/TLS does not work.
  - 2011-04-21 Fixed bug#7212 - IE7 Move box alignment issue in AgentTicketZoom.
  - 2011-04-21 Fixed bug#7188 - Resizable handle always in foreground.
  - 2011-04-19 Fixed bug#7229 - Apache configuration file references nonexisting javascript directory.
