@@ -1,11 +1,14 @@
 package Net::SMTP::TLS::ButMaintained;
 
+BEGIN {
+    $Net::SMTP::TLS::ButMaintained::VERSION = '0.16';
+}
+
 # ABSTRACT: An SMTP client supporting TLS and AUTH
 
 use strict;
 use warnings;
 
-our $VERSION = '0.13_01';
 use Carp;
 
 use Net::SSLeay;
@@ -184,7 +187,7 @@ sub auth_PLAIN {
     my $user = $me->{User};
     my $pass = $me->{Password};
     $me->_command(
-        sprintf( "AUTH PLAIN %S", encode_base64( "$user\0$user\0$pass", "" ) )
+        sprintf( "AUTH PLAIN %s", encode_base64( "$user\0$user\0$pass", "" ) )
     );
     my ( $num, $txt ) = $me->_response();
     if ( not $num == 235 ) {
@@ -339,17 +342,17 @@ Net::SMTP::TLS::ButMaintained - An SMTP client supporting TLS and AUTH
 
 =head1 VERSION
 
-version 0.13
+version 0.16
 
 =head1 SYNOPSIS
 
  use Net::SMTP::TLS::ButMaintained;
  my $mailer = Net::SMTP::TLS::ButMaintained->new(
- 	'your.mail.host',
-	Hello	=>	'some.host.name',
- 	Port	=>	25, #redundant
- 	User	=>	'emailguy',
- 	Password=>	's3cr3t');
+    'your.mail.host',
+    Hello   =>  'some.host.name',
+    Port    =>  25, #redundant
+    User    =>  'emailguy',
+    Password=>  's3cr3t');
  $mailer->mail('emailguy@your.mail.host');
  $mailer->to('someonecool@somewhere.else');
  $mailer->data;
