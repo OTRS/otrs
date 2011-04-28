@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.21 2011-03-15 05:04:23 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.22 2011-04-28 15:54:01 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -58,6 +58,18 @@ my @NeededModules = (
         Module   => 'DBD::mysql',
         Required => 0,
         Comment  => 'Required to connect to a MySQL database.',
+    },
+    {
+        Module       => 'DBD::ODBC',
+        Required     => 0,
+        NotSupported => [
+            {
+                Version => '1.23',
+                Comment =>
+                    'This version is broken and not useable! Please upgrade to a higher version.',
+            },
+        ],
+        Comment => 'Required to connect to a MS-SQL database.',
     },
     {
         Module   => 'Digest::MD5',
