@@ -2,7 +2,7 @@
 # TaskManager.t - TaskManager tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.10 2011-04-28 15:21:37 cr Exp $
+# $Id: TaskManager.t,v 1.11 2011-04-28 15:44:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,15 +32,17 @@ my $PreviousSchedulerStatus = `$Scheduler -a status`;
 # stop scheduler if it was already running before this test
 if ( $PreviousSchedulerStatus =~ /^running/i ) {
     `$Scheduler -a stop`;
-}
 
-# wait to get scheduler fully stoped before test continues
-my $SleepTime = 1;
-if ( $^O =~ /^mswin/i ) {
-    $SleepTime = 5;
+    # wait to get scheduler fully stoped before test continues
+    my $SleepTime = 1;
+    if ( $^O =~ /^mswin/i ) {
+        $SleepTime = 5;
+    }
+
+    print "A running Scheduler was detected and need to be stopped...\n";
+    print 'Sleeping ' . $SleepTime . "s\n";
+    sleep $SleepTime;
 }
-print "Sleeping $SleepTime s\n";
-sleep $SleepTime;
 
 $Self->Is(
     ref $TaskManagerObject,
