@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.5 2011-04-19 18:29:20 cg Exp $
+# $Id: WebserviceConfig.t,v 1.6 2011-04-28 21:35:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,8 +22,13 @@ my $PathToTest =
     $Home .
     '/scripts/test/sample/GenericInterface/Webservice/';
 my $WebserviceConfig =
-    $Home .
-    '/bin/otrs.WebserviceConfig.pl';
+    $Home . '/bin/otrs.WebserviceConfig.pl';
+
+# workaround for windows
+if ( $^O =~ /^mswin/i ) {
+    $WebserviceConfig = "\"$^X\" " . $Home . '/bin/otrs.WebserviceConfig.pl';
+}
+
 my $RandomNumber = int( rand(1000000) );
 
 my @Tests = (
