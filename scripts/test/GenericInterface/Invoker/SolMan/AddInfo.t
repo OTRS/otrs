@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.6 2011-04-27 21:07:27 cg Exp $
+# $Id: AddInfo.t,v 1.7 2011-04-28 17:43:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -780,7 +780,7 @@ for my $Test (@Tests) {
         my $ResponseData = $Test->{PrepareRequest}->{ResponseData};
 
         # workaround for windows using mssql
-        if ( $^O =~ /^mswin/i && $Self->{DBObject}->{'DB::Type'} eq 'mssql' ) {
+        if ( $Test->{Name} eq 'Correct Ticket' ) {
             sleep 3;
         }
 
