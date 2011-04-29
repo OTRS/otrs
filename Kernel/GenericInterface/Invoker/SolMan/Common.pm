@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.43 2011-04-19 11:48:20 cr Exp $
+# $Id: Common.pm,v 1.44 2011-04-29 23:55:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,14 +10,6 @@
 # --
 
 package Kernel::GenericInterface::Invoker::SolMan::Common;
-
-#QA: The naming of many functions here is pretty confusing, please improve. The names should indicate what this function does.
-#QA: Internal functions should start with _.
-#QA: The WebserviceID should be removed from all function signatures and put into the constructor as an argument once instead. This will not change within one object.
-#QA: Same probably works with the Invoker as this should be known at instantiation already, please check.
-#QA: Please check for code duplication in AddInfo, CloseIncident and ReplicateIncident.
-#QA: We need to check which function stores which flags on which objects. This should be unified, if possible, also with the Operations.
-#QA: see more comments below.
 
 use strict;
 use warnings;
@@ -32,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -1762,6 +1754,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2011-04-19 11:48:20 $
+$Revision: 1.44 $ $Date: 2011-04-29 23:55:44 $
 
 =cut
