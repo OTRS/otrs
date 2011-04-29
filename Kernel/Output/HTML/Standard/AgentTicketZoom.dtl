@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.188 2011-04-05 18:53:10 mp Exp $
+# $Id: AgentTicketZoom.dtl,v 1.189 2011-04-29 20:11:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -614,6 +614,13 @@ $Data{"Body"}
 <!-- dtl:block:ArticleItemMarkAsSeen -->
 <!-- dtl:block:ArticleItem -->
 
+<!-- dtl:block:TicketItemMarkAsSeen -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketZoom.MarkTicketAsSeen($QData{"TicketID"});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:TicketItemMarkAsSeen -->
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[

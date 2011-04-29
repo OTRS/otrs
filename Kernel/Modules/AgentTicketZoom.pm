@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.150 2011-04-05 18:52:53 mp Exp $
+# $Id: AgentTicketZoom.pm,v 1.151 2011-04-29 20:11:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,6 +119,18 @@ sub Run {
         UserID        => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # mark shown ticket as seen
+    if ( $Self->{Subaction} eq 'TicketMarkAsSeen' ) {
+        my $Success = $Self->_TicketItemSeen( TicketID => $Self->{TicketID} );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => $Success,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
 
     # mark shown article as seen
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
@@ -528,7 +540,15 @@ sub MaskAgentZoom {
             Article           => \%Article,
             AclAction         => \%AclAction,
             StandardResponses => \%StandardResponses,
+            ActualArticleID   => $ArticleID,
             Type              => 'Static',
+        );
+    }
+
+    if ( $Self->{ZoomExpand} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketItemMarkAsSeen',
+            Data => { TicketID => $Ticket{TicketID} },
         );
     }
 
@@ -1214,6 +1234,22 @@ sub _ArticleTree {
     );
 }
 
+sub _TicketItemSeen {
+    my ( $Self, %Param ) = @_;
+
+    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
+        TicketID => $Param{TicketID},
+    );
+
+    for my $ArticleID (@ArticleIDs) {
+        $Self->_ArticleItemSeen(
+            ArticleID => $ArticleID,
+        );
+    }
+
+    return 1;
+}
+
 sub _ArticleItemSeen {
     my ( $Self, %Param ) = @_;
 
@@ -1251,10 +1287,17 @@ sub _ArticleItem {
         $Self->_ArticleItemSeen( ArticleID => $Article{ArticleID} );
     }
     else {
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleItemMarkAsSeen',
-            Data => { %Param, %Article, %AclAction },
-        );
+        if (
+            !$Self->{ZoomExpand}
+            && defined $Param{ActualArticleID}
+            && $Param{ActualArticleID} == $Article{ArticleID}
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleItemMarkAsSeen',
+                Data => { %Param, %Article, %AclAction },
+            );
+        }
     }
 
     # show article actions
