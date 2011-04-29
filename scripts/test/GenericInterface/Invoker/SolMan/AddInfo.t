@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.7 2011-04-28 17:43:25 cg Exp $
+# $Id: AddInfo.t,v 1.8 2011-04-29 01:16:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -307,8 +307,8 @@ $Self->True(
     "Ticket $SyncedTicketID has succesfuly set as synced",
 );
 
-# wait a second so the new article will get a diferent timestamp
-sleep 1;
+# wait some seconds so the new article will get a diferent timestamp
+sleep 5;
 
 # create a new article this article was not synced
 my $SecondArticleID = $TicketObject->ArticleCreate(
