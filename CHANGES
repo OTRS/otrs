@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1856 2011-04-29 20:11:22 martin Exp $
+# $Id: CHANGES,v 1.1857 2011-04-29 20:19:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-04-29 Added enhancement bug#7267 / Performance issue in dtl with large
+    pages. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
  - 2011-04-29 Added enhancement bug#7266 / Performance issue in ticket zoom -
     article seen with many article. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
  - 2011-04-27 Added feature bug#5484 / IdeaScale#497 - Bulk action to set/change Ticket Type.

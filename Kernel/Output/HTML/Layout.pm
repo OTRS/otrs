@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.360 2011-04-05 21:54:42 mh Exp $
+# $Id: Layout.pm,v 1.361 2011-04-29 20:19:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.360 $) [1];
+$VERSION = qw($Revision: 1.361 $) [1];
 
 =head1 NAME
 
@@ -573,32 +573,36 @@ sub Output {
         TemplateFile => $Param{TemplateFile} || '',
     );
 
-    # do time translation (with seconds)
-    $Output =~ s{
+# improve dtl performance of larg pages, see also bug#7267 - thanks to Stelios Gikas <stelios.gikas@noris.net>
+    my @OutputLines = split /\n/, $Output;
+    for my $Output (@OutputLines) {
+
+        # do time translation (with seconds)
+        $Output =~ s{
         \$TimeLong{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1);
     }egx;
 
-    # do time translation (without seconds)
-    $Output =~ s{
+        # do time translation (without seconds)
+        $Output =~ s{
         \$TimeShort{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
     }egx;
 
-    # do date translation
-    $Output =~ s{
+        # do date translation
+        $Output =~ s{
         \$Date{"(.*?)"}
     }
     {
         $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
     }egx;
 
-    # do translation
-    $Output =~ s{
+        # do translation
+        $Output =~ s{
         \$Text{"(.*?)"}
     }
     {
@@ -607,7 +611,7 @@ sub Output {
         );
     }egx;
 
-    $Output =~ s{
+        $Output =~ s{
         \$JSText{"(.*?)"}
     }
     {
@@ -617,8 +621,8 @@ sub Output {
         );
     }egx;
 
-    # do html quote
-    $Output =~ s{
+        # do html quote
+        $Output =~ s{
         \$Quote{"(.*?)"}
     }
     {
@@ -633,6 +637,9 @@ sub Output {
             $Self->Ascii2Html(Text => $Text);
         }
     }egx;
+
+    }
+    $Output = join "\n", @OutputLines;
 
     # rewrite forms, add challenge token : <form action="index.pl" method="get">
     if ( $Self->{SessionID} && $Self->{UserChallengeToken} ) {
@@ -4863,6 +4870,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.360 $ $Date: 2011-04-05 21:54:42 $
+$Revision: 1.361 $ $Date: 2011-04-29 20:19:38 $
 
 =cut
