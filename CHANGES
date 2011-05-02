@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.72 2011-05-02 11:47:05 mg Exp $
+# $Id: CHANGES,v 1.1758.2.73 2011-05-02 11:57:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.8 2011-??-??
- - 2011-04-28 Updated Persian translation, thanks to Masood Ramezani!
+ - 2011-05-02 Updated Brasilian Portugese translation, thanks to Murilo Moreira de Oliveira!
+ - 2011-05-02 Updated Persian translation, thanks to Masood Ramezani!
  - 2011-04-28 Fixed bug#7244 - Plain Auth with SMTP/TLS does not work.
  - 2011-04-26 Fixed bug#7249 - Definition of role based notification - selected roles are not stored initially.
  - 2011-04-21 Fixed bug#7212 - IE7 Move box alignment issue in AgentTicketZoom.
