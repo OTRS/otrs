@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.45 2011-05-02 14:23:53 sb Exp $
+# $Id: Common.pm,v 1.46 2011-05-02 17:02:37 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -538,29 +538,41 @@ sub GetPersonsInfo {
     return $Result
 }
 
-=item GetAditionalInfo()
-this function is not yet implemented, returns empty hash ref
+=item GetAdditionalInfo()
+
+returns the IctAdditionalInfos array for SolMan communication
+
+currently this only contains the ticket state
+
+    my $IctAdditionalInfos = $SolManCommonObject->GetAdditionalInfo(
+        ... # Ticket data
+    );
+
+    $IctAdditionalInfos = [
+        {
+            AddInfoAttribute => 'SAPUserStatusInbound',
+            AddInfoValue     => 'open',
+            Guid             => '',
+            ParentGuid       => '',
+        },
+    ];
+
 =cut
 
-sub GetAditionalInfo {
+sub GetAdditionalInfo {
     my ( $Self, %Param ) = @_;
 
-    my %IctAdditionalInfos;
+    my @IctAdditionalInfos;
 
-    #    my %IctAdditionalInfos = (
-    #        IctAdditionalInfo => {
-    #            Guid             => '',    # type="n0:char32"
-    #            ParentGuid       => '',    # type="n0:char32"
-    #            AddInfoAttribute => '',    # type="n0:char255"
-    #            AddInfoValue     => '',    # type="n0:char255"
-    #        },
-    #    );
+    # add ticket state
+    push @IctAdditionalInfos, {
+        AddInfoAttribute => 'SAPUserStatusInbound',
+        AddInfoValue     => $Param{State},
+        Guid             => '',
+        ParentGuid       => '',
+    };
 
-    if (%IctAdditionalInfos) {
-        return \%IctAdditionalInfos;
-    }
-
-    return '';
+    return \@IctAdditionalInfos;
 }
 
 =item GetSapNotesInfo()
@@ -1335,7 +1347,7 @@ sub PrepareRequest {
     my $LocalSystemGuid = $Self->GetSystemGuid();
 
     # IctAdditionalInfos
-    my $IctAdditionalInfos = $Self->GetAditionalInfo();
+    my $IctAdditionalInfos = $Self->GetAdditionalInfo(%Ticket);
 
     # IctPersons
     my $PersonsInfo = $Self->GetPersonsInfo(
@@ -1419,9 +1431,9 @@ sub PrepareRequest {
     }
 
     my %RequestData = (
-        IctAdditionalInfos => IsHashRefWithData($IctAdditionalInfos)
+        IctAdditionalInfos => IsArrayRefWithData($IctAdditionalInfos)
         ?
-            $IctAdditionalInfos
+            { item => $IctAdditionalInfos }
         : '',
         IctAttachments => IsArrayRefWithData($IctAttachments)
         ?
@@ -1780,6 +1792,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2011-05-02 14:23:53 $
+$Revision: 1.46 $ $Date: 2011-05-02 17:02:37 $
 
 =cut
