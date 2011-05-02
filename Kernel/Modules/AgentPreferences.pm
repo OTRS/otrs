@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.51 2011-04-20 14:26:23 mh Exp $
+# $Id: AgentPreferences.pm,v 1.52 2011-05-02 09:35:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -192,6 +192,7 @@ sub AgentPreferencesForm {
             next GROUP if !$Preferences{$Group}->{Column};
             next GROUP if $Preferences{$Group}->{Column} ne $Column;
 
+            # In case of a priority conflict, increase priority until a free slot is found.
             if ( $Data{ $Preferences{$Group}->{Prio} } ) {
 
                 COUNT:
@@ -199,7 +200,7 @@ sub AgentPreferencesForm {
 
                     $Preferences{$Group}->{Prio}++;
 
-                    next COUNT if !$Data{ $Preferences{$Group}->{Prio} };
+                    next COUNT if $Data{ $Preferences{$Group}->{Prio} };
 
                     $Data{ $Preferences{$Group}->{Prio} } = $Group;
                     last COUNT;
