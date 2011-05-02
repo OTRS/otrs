@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/SolMan.pm - GenericInterface SolMan mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolMan.pm,v 1.2 2011-04-15 17:00:44 sb Exp $
+# $Id: SolMan.pm,v 1.3 2011-05-02 16:44:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -267,17 +267,28 @@ sub _StateMap {
     my @AdditionalInfos = ();
     my %StatePart;
 
-    # if only attribute is passed
+    # if only attribute is passed and it contains the state, replace directly
     if ( IsHashRefWithData( $Param{AdditionalInfos} ) ) {
         my %StateHash = %{ $Param{AdditionalInfos} };
-        $StateHash{AddInfoValue} = $Param{Map}->{ $StateHash{AddInfoValue} } || $Param{Default};
+        if (
+            $StateHash{AddInfoAttribute} eq 'SAPUserStatus'
+            || $StateHash{AddInfoAttribute} eq 'SAPUserStatusInbound'
+            )
+        {
+            $StateHash{AddInfoValue} =
+                $Param{Map}->{ $StateHash{AddInfoValue} } || $Param{Default};
+        }
         return \%StateHash;
     }
 
     # get current state value if existing and remember all other add info fields
     ADDINFO:
     for my $AddInfo ( @{ $Param{AdditionalInfos} } ) {
-        if ( $AddInfo->{AddInfoAttribute} eq 'SAPUserStatus' ) {
+        if (
+            $AddInfo->{AddInfoAttribute} eq 'SAPUserStatus'
+            || $AddInfo->{AddInfoAttribute} eq 'SAPUserStatusInbound'
+            )
+        {
             %StatePart = %{$AddInfo};
             next ADDINFO;
         }
@@ -325,6 +336,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-04-15 17:00:44 $
+$Revision: 1.3 $ $Date: 2011-05-02 16:44:07 $
 
 =cut
