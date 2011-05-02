@@ -2,8 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: RequestSystemGuid.pm,v 1.12 2011-04-14 16:40:38 cg Exp $
-# $OldId: RequestSystemGuid.pm,v 1.3 2011/03/19 15:58:03 cr Exp $
+# $Id: RequestSystemGuid.pm,v 1.13 2011-05-02 14:20:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Invoker::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -190,8 +189,8 @@ sub HandleResponse {
         );
 
         return {
-            Success         => $HandleErrorsResult->{Success},
-            ErrorMessage    => $HandleErrorsResult->{ErrorMessage},
+            Success      => $HandleErrorsResult->{Success},
+            ErrorMessage => $HandleErrorsResult->{ErrorMessage},
         };
     }
 
@@ -240,6 +239,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-04-14 16:40:38 $
+$Revision: 1.13 $ $Date: 2011-05-02 14:20:30 $
 
 =cut

@@ -2,8 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ReplicateIncident.pm - GenericInterface SolMan ReplicateIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.pm,v 1.42 2011-04-14 01:24:15 cr Exp $
-# $OldId: ReplicateIncident.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
+# $Id: ReplicateIncident.pm,v 1.43 2011-05-02 14:20:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +17,7 @@ use warnings;
 use Kernel::GenericInterface::Invoker::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -107,7 +106,7 @@ prepare the invocation of the configured remote webservice.
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
-    my $Response =  $Self->{SolManCommonObject}->PrepareRequest(
+    my $Response = $Self->{SolManCommonObject}->PrepareRequest(
         %Param,
     );
 
@@ -168,6 +167,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2011-04-14 01:24:15 $
+$Revision: 1.43 $ $Date: 2011-05-02 14:20:30 $
 
 =cut

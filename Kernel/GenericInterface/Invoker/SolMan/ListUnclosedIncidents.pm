@@ -2,8 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ListUnclosedIncidents.pm - GenericInterface SolMan ListUnclosedIncidents Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ListUnclosedIncidents.pm,v 1.4 2011-04-14 06:57:24 sb Exp $
-# $OldId: ListUnclosedIncidents.pm,v 1.7 2011/03/24 06:06:29 cg Exp $
+# $Id: ListUnclosedIncidents.pm,v 1.5 2011-05-02 14:20:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +22,7 @@ use Kernel::System::User;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -144,7 +143,7 @@ sub PrepareRequest {
     my $RemoteSystemGuid = $RequestSolManSystemGuid->{Data}->{SystemGuid};
 
     my %DataForReturn = (
-        SystemGuid     => $RemoteSystemGuid,               # type="n0:char32"
+        SystemGuid => $RemoteSystemGuid,    # type="n0:char32"
     );
 
     return {
@@ -297,10 +296,10 @@ sub HandleResponse {
 
         # check for valid data
         if (
-                !IsStringWithData( $Param{Data}->{Incidents}->{item}->{IncidentGuid} )
-                || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{ProviderGuid} )
-                || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{RequesterGuid} )
-                || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{Status} )
+            !IsStringWithData( $Param{Data}->{Incidents}->{item}->{IncidentGuid} )
+            || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{ProviderGuid} )
+            || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{RequesterGuid} )
+            || !IsStringWithData( $Param{Data}->{Incidents}->{item}->{Status} )
             )
         {
 
@@ -318,12 +317,12 @@ sub HandleResponse {
             };
         }
         push @Incidents, $Param{Data}->{Incidents}->{item}
-                    if ( $Param{Data}->{Incidents}->{item}->{ProviderGuid} eq $LocalSystemGuid );
+            if ( $Param{Data}->{Incidents}->{item}->{ProviderGuid} eq $LocalSystemGuid );
     }
 
     # create return data
     my %ReturnData = (
-        Incidents   => \@Incidents,
+        Incidents => \@Incidents,
     );
 
     # write in debug log
@@ -354,6 +353,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-04-14 06:57:24 $
+$Revision: 1.5 $ $Date: 2011-05-02 14:20:30 $
 
 =cut
