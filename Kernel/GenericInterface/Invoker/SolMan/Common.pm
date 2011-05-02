@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.44 2011-04-29 23:55:44 cr Exp $
+# $Id: Common.pm,v 1.45 2011-05-02 14:23:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -1149,8 +1149,12 @@ sub PrepareRequest {
     # get IncidentGuid
     my $IncidentGuid = $TicketFlags{"GI_$Self->{WebserviceID}_SolMan_IncidentGuid"} || '';
 
-    # LastSync check for ReplicateIncident Invoker
-    if ( $Self->{Invoker} eq 'ReplicateIncident' && $LastSync ne 0 ) {
+    # LastSync check for ReplicateIncident/ProcessIncident Invoker
+    if (
+        ( $Self->{Invoker} eq 'ProcessIncident' || $Self->{Invoker} eq 'ReplicateIncident' )
+        && $LastSync ne 0
+        )
+    {
 
         # get LastSync as human readeble timestamp
         my $LastSyncTimestamp = $Self->{TimeObject}->SystemTime2TimeStamp(
@@ -1179,17 +1183,39 @@ sub PrepareRequest {
         }
     }
 
-    # LastSync check for CloseIncident Invoker
+    # LastSync check for AddInfo/CloseIncident Invoker
     if (
         ( $Self->{Invoker} eq 'CloseIncident' || $Self->{Invoker} eq 'AddInfo' )
         && $LastSync eq 0
         )
     {
 
+        # get webservice configuration
+        my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+            ID => $Self->{WebserviceID},
+        );
+
+        # check if webservice configuration is valid
+        if ( !IsHashRefWithData($Webservice) ) {
+            $Self->{DebuggerObject}->Error(
+                Summary => 'PrepareRequest: Webservice configuration is invalid',
+            );
+            return;
+        }
+
+        # determine the type of initial invoker for this webservice, default is ReplicateIncident
+        my $InitialInvokerType = 'ReplicateIncident';
+        if (
+            IsHashRefWithData( $Webservice->{Config}->{Requester}->{Invoker}->{'ProcessIncident'} )
+            )
+        {
+            $InitialInvokerType = 'ProcessIncident';
+        }
+
         # schedule a new task to replicate insident and exit
         my $Success = $Self->ScheduleTask(
             Type         => 'GenericInterface',
-            Invoker      => 'ReplicateIncident',
+            Invoker      => $InitialInvokerType,
             WebserviceID => $Self->{WebserviceID},
             Data         => {
                 WebserviceID => $Self->{WebserviceID},
@@ -1199,7 +1225,7 @@ sub PrepareRequest {
 
         $ErrorMessage
             = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
-            . "replicated on the remote system can't continue! ReplicateIncident will be fired";
+            . "replicated on the remote system can't continue! $InitialInvokerType will be fired";
 
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -1380,7 +1406,7 @@ sub PrepareRequest {
     $IctTimestampEnd =~ s{[:|\-|\s]}{}g;
 
     # If ticket is generated in OTRS the IncidentGuid must be the ticket number
-    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
+    if ( $Self->{Invoker} eq 'ProcessIncident' || $Self->{Invoker} eq 'ReplicateIncident' ) {
         $IncidentGuid = $Ticket{TicketNumber};
 
         # set IncidentGuid flag
@@ -1585,7 +1611,7 @@ sub HandleResponse {
         };
     }
 
-    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
+    if ( $Self->{Invoker} eq 'ProcessIncident' || $Self->{Invoker} eq 'ReplicateIncident' ) {
 
         # we need a Incident Identifier from the remote system
         if ( !IsStringWithData( $Param{Data}->{PrdIctId} ) ) {
@@ -1653,7 +1679,7 @@ sub HandleResponse {
     # set sync timestamp
     my $SyncFlag = $Self->_SetSyncTimestamp();
 
-    if ( $Self->{Invoker} eq 'ReplicateIncident' ) {
+    if ( $Self->{Invoker} eq 'ProcessIncident' || $Self->{Invoker} eq 'ReplicateIncident' ) {
 
         # set Incidentid flag
         my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
@@ -1754,6 +1780,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2011-04-29 23:55:44 $
+$Revision: 1.45 $ $Date: 2011-05-02 14:23:53 $
 
 =cut
