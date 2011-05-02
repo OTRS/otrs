@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.70 2011-04-05 12:23:37 mb Exp $
+# $Id: AAATicket.dtl,v 1.71 2011-05-02 13:27:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -254,6 +254,7 @@ $Text{"Create new Ticket"}
 $Text{"Customer called"}
 $Text{"phone call"}
 $Text{"Phone Call Outbound"}
+$Text{"Phone Call Inbound"}
 $Text{"Reminder Reached"}
 $Text{"Reminder Tickets"}
 $Text{"Escalated Tickets"}

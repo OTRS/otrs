@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1859 2011-05-02 11:57:47 mg Exp $
+# $Id: CHANGES,v 1.1860 2011-05-02 13:28:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,11 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-04-29 Added enhancement bug#7267 / Performance issue in dtl with large
+ - 2011-05-02 Added feature bug#6108 / Ideascale#87 - add the possibility to
+    register inbound phone conversations.
+ - 2011-04-29 Added enhancement bug#7267 0 Performance issue in dtl with large
     pages. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
- - 2011-04-29 Added enhancement bug#7266 / Performance issue in ticket zoom -
+ - 2011-04-29 Added enhancement bug#7266 - Performance issue in ticket zoom -
     article seen with many article. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
  - 2011-04-27 Added feature bug#5484 / IdeaScale#497 - Bulk action to set/change Ticket Type.
  - 2011-04-27 Added feature bug#7258 - Stats output always has a timestamp and report name in
