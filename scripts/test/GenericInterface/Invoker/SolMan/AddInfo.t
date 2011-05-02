@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.8 2011-04-29 01:16:19 cr Exp $
+# $Id: AddInfo.t,v 1.9 2011-05-02 13:10:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -263,7 +263,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
     From           => 'Some Agent <agentl@localunittest.com>',
-    To             => 'Some Customer <customer@localunittest.com',
+    To             => 'Some Customer <customer@localunittest.com>',
     Subject        => 'some short description',
     Body           => 'the message text',
     ContentType    => 'text/plain; charset=ISO-8859-15',
@@ -316,7 +316,7 @@ my $SecondArticleID = $TicketObject->ArticleCreate(
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
     From           => 'Some Agent <agentl@localunittest.com>',
-    To             => 'Some Customer <customer@localunittest.com',
+    To             => 'Some Customer <customer@localunittest.com>',
     Subject        => 'some short description',
     Body           => 'the message text',
     ContentType    => 'text/plain; charset=ISO-8859-15',

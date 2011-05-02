@@ -2,7 +2,7 @@
 # ReplicateIncident.t - ReplicateIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReplicateIncident.t,v 1.10 2011-04-26 19:29:19 cr Exp $
+# $Id: ReplicateIncident.t,v 1.11 2011-05-02 13:10:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,7 +144,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
     From           => 'Some Agent <agentl@localunittest.com>',
-    To             => 'Some Customer <customer@localunittest.com',
+    To             => 'Some Customer <customer@localunittest.com>',
     Subject        => 'some short description',
     Body           => 'the message text',
     ContentType    => 'text/plain; charset=ISO-8859-15',
