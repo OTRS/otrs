@@ -1,0 +1,147 @@
+# --
+# AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.1 2011-05-03 12:38:02 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"System Log"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Debugger Details"}</h2>
+            </div>
+            <div class="Content">
+                <h3>$Text{"Select Request"}</h3>
+
+                <table class="DataTable" id="RequestList">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"Time"}</th>
+                            <th>$Text{"Remote IP"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">$Text{"Loading"}...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="CommunicationDetails" class="Hidden">
+                    <h3>$Text{"Communication Details"}</h3>
+
+                    <div id="CommunicationDetailsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+Core.Agent.Admin = Core.Agent.Admin || {};
+
+Core.Agent.Admin.AdminGenericInterfaceDebugger = {};
+
+Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
+    var Data = {
+        Action: 'AdminGenericInterfaceDebugger',
+        Subaction: 'GetRequestList',
+        WebserviceID: parseInt('$QData{"WebserviceID"}', 10)
+    };
+
+    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+        if (!Response || !Response.LogData) {
+            alert('$JSText{"Error during communication."}');
+        }
+
+        if (!Response.LogData.length) {
+            $('#RequestList tbody').empty().append('<tr><td colspan="3">$JSText{"No data found."}</td></tr>');
+        }
+        else {
+            $('#RequestList tbody').empty();
+
+            $.each(Response.LogData, function(){
+                var $Tr = $('<tr></tr>');
+
+                $Tr.append('<td><a href="#" class="AsBlock">' + this.CommunicationType + '<input type="hidden" class="CommunicationID" value="' + this.CommunicationID + '" /></a></td>');
+                $Tr.append('<td><a href="#" class="AsBlock">' + this.Created + '</a></td>');
+                $Tr.append('<td><a href="#" class="AsBlock">' + (this.RemoteIP || '$JSText{"unknown"}') + '</a></td>');
+
+                $('#RequestList').append($Tr);
+            });
+
+            $('#RequestList a').bind('click', function(Event) {
+                var CommunicationID = $(this).blur().parents('tr').find('input.CommunicationID').val();
+
+                Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails(CommunicationID);
+
+                return false;
+            });
+
+        }
+    }, 'json');
+}
+
+Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = function(CommunicationID) {
+
+    var Data = {
+        Action: 'AdminGenericInterfaceDebugger',
+        Subaction: 'GetCommunicationDetails',
+        WebserviceID: parseInt('$QData{"WebserviceID"}', 10),
+        CommunicationID: CommunicationID
+    };
+
+    $('#CommunicationDetails').hide();
+    $('#CommunicationDetailsContent').empty();
+
+    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+        if (!Response || !Response.LogData || !Response.LogData.Data) {
+            alert('$JSText{"Error during communication."}');
+        }
+
+        if (!Response.LogData.Data.length) {
+            $('#CommunicationDetailsContent').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
+            $('#CommunicationDetails').show();
+        }
+        else {
+            $.each(Response.LogData.Data, function(){
+
+                $('#CommunicationDetailsContent').append('<h4>' + this.Summary + ' (' + this.Created + ')</h4>');
+                if (this.Data && this.Data.length) {
+                    $('#CommunicationDetailsContent').append('<pre>' + this.Data + '</pre>');
+                }
+            });
+            $('#CommunicationDetails').show();
+        }
+    }, 'json');
+}
+
+// Load Request list on startup without active filter
+Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
