@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.14 2011-04-28 16:04:54 cg Exp $
+# $Id: DebugLog.pm,v 1.15 2011-05-03 12:04:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -113,7 +113,7 @@ if we don't already have a communication chain, create it
 
 returns 1 on success or undef on error
 
-    my $Success = $DebugLobObject->LogAdd(
+    my $Success = $DebugLogObject->LogAdd(
         CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
         CommunicationType => 'Provider',        # 'Provider' or 'Requester'
         Data              => 'additional data' # optional
@@ -255,7 +255,7 @@ sub LogAdd {
 
 get communication chain data
 
-    my $LogData = $DebugLobObject->LogGet(
+    my $LogData = $DebugLogObject->LogGet(
         CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
     );
 
@@ -334,7 +334,7 @@ sub LogGet {
 
 get all individual entries for a communication chain
 
-    my $LogData = $DebugLobObject->LogGetWithData(
+    my $LogData = $DebugLogObject->LogGetWithData(
         CommunicationID => '6f1ed002ab5595859014ebf0951522d9',
     );
 
@@ -422,7 +422,7 @@ delete a complete communication chain
 
 returns 1 if successful or undef otherwise
 
-    my $Success = $DebugLobObject->LogDelete(
+    my $Success = $DebugLogObject->LogDelete(
         NoErrorIfEmpty  => 1,                                  # optional
         CommunicationID => '6f1ed002ab5595859014ebf0951522d9', # optional
         WebserviceID    => 1,                                  # optional
@@ -763,7 +763,7 @@ establish communication chain in database
 
 returns 1 on success or undef on error
 
-    my $Success = $DebugLobObject->_LogAddChain(
+    my $Success = $DebugLogObject->_LogAddChain(
         CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',
         CommunicationType => 'Provider',     # 'Provider' or 'Requester'
         RemoteIP          => '192.168.0.1', # optional, must be valid IPv4 or IPv6 address
@@ -872,6 +872,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-04-28 16:04:54 $
+$Revision: 1.15 $ $Date: 2011-05-03 12:04:24 $
 
 =cut
