@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.1 2011-05-03 12:38:02 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.2 2011-05-03 14:07:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,26 +34,56 @@
             <div class="Content">
                 <h3>$Text{"Select Request"}</h3>
 
-                <table class="DataTable" id="RequestList">
-                    <thead>
-                        <tr>
-                            <th>$Text{"Type"}</th>
-                            <th>$Text{"Time"}</th>
-                            <th>$Text{"Remote IP"}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3">$Text{"Loading"}...</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="CommunicationDetails" class="Hidden">
-                    <h3>$Text{"Communication Details"}</h3>
+                <div class="LayoutGrid ColumnsWithSpacing">
+                    <div class="Size1of2">
+                        <table class="DataTable" id="RequestList">
+                            <thead>
+                                <tr>
+                                    <th>$Text{"Type"}</th>
+                                    <th>$Text{"Time"}</th>
+                                    <th>$Text{"Remote IP"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">$Text{"Loading"}...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="Size1of2">
+                        <fieldset class="TableLike">
+                            <label>$Text{"Filter by type"}:</label>
+                            <div class="Field">
+                                <input type="checkbox" name="TypeRequester" checked="checked" /><label for="TypeRequester">$Text{"Requester"}</label><br/>
+                                <input type="checkbox" name="TypeProvider" checked="checked" /><label for="TypeProvider">$Text{"Provider"}</label>
+                            </div>
+                            <div class="Clear"></div>
 
-                    <div id="CommunicationDetailsContent"></div>
+                            <label>$Text{"Filter by date"}:</label>
+                            <div class="Field">
+                                <label>$Text{"From"}</label> ... <label>$Text{"to"}</label> ...
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Filter by remote IP"}:</label>
+                            <div class="Field">
+                                <input type="text" class="w50pc" />
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+
+                    </div>
+                    <div class="Clear"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="WidgetSimple Hidden" id="CommunicationDetails">
+            <div class="Header">
+                <h2>$Text{"Communication Details"}</h2>
+            </div>
+            <div class="Content"></div>
         </div>
     </div>
     <div class="Clear"></div>
@@ -115,27 +145,29 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
         CommunicationID: CommunicationID
     };
 
-    $('#CommunicationDetails').hide();
-    $('#CommunicationDetailsContent').empty();
+    $('#CommunicationDetails').css('visibility', 'hidden');
 
     Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
         if (!Response || !Response.LogData || !Response.LogData.Data) {
             alert('$JSText{"Error during communication."}');
+            return;
         }
 
+        $('#CommunicationDetails .Content').empty();
+
         if (!Response.LogData.Data.length) {
-            $('#CommunicationDetailsContent').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
-            $('#CommunicationDetails').show();
+            $('#CommunicationDetails .Content').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
+            $('#CommunicationDetails').css('visibility', 'visible').show();
         }
         else {
             $.each(Response.LogData.Data, function(){
 
-                $('#CommunicationDetailsContent').append('<h4>' + this.Summary + ' (' + this.Created + ')</h4>');
+                $('#CommunicationDetails .Content').append('<h4>' + this.Summary + ' (' + this.Created + ')</h4>');
                 if (this.Data && this.Data.length) {
-                    $('#CommunicationDetailsContent').append('<pre>' + this.Data + '</pre>');
+                    $('#CommunicationDetails .Content').append('<pre>' + this.Data + '</pre>');
                 }
             });
-            $('#CommunicationDetails').show();
+            $('#CommunicationDetails').css('visibility', 'visible').show();
         }
     }, 'json');
 }
