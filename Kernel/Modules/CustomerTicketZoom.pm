@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.75 2010-11-26 21:16:50 en Exp $
+# $Id: CustomerTicketZoom.pm,v 1.76 2011-05-03 08:46:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,6 +58,14 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # ticket id lookup
+    if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
+        $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
+            TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
+            UserID => $Self->{UserID},
+        );
+    }
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {

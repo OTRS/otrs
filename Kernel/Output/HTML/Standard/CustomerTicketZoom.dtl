@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.109 2011-04-05 06:55:33 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.110 2011-05-03 08:47:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,11 +81,11 @@
                     <div class="MessageHeader">
 
 <!-- dtl:block:ArticleContracted -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject","120"}</span></a></h3>
 <!-- dtl:block:ArticleContracted -->
 
 <!-- dtl:block:ArticleExpanded -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject","120"}</span></a></h3>
 <!-- dtl:block:ArticleExpanded -->
 
                         <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
