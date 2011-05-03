@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.24 2011-04-19 14:34:46 sb Exp $
+# $Id: Common.pm,v 1.25 2011-05-03 11:26:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -708,7 +708,7 @@ SolMan expects it. See TicketSync() for how the error structure looks like.
 
     my $Return = $CommonObject->_ReturnError(
         ErrorCode    => 9,
-        ErrorMessage => 'An error occured',
+        ErrorMessage => 'An error occurred',
     );
 
 =cut
@@ -767,6 +767,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-04-19 14:34:46 $
+$Revision: 1.25 $ $Date: 2011-05-03 11:26:02 $
 
 =cut

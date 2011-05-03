@@ -2,7 +2,7 @@
 // Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Exception.js,v 1.5 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Exception.js,v 1.6 2011-05-03 11:26:02 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ Core.Exception = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.HandleFinalError = function (ErrorObject, Trace) {
-        var UserErrorMessage = 'An error occured! Do you want to see the complete error messages?';
+        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?';
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
             TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
