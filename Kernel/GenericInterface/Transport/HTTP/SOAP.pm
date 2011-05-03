@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.27 2011-05-03 14:20:25 martin Exp $
+# $Id: SOAP.pm,v 1.28 2011-05-03 14:30:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -517,7 +517,7 @@ sub RequesterPerformRequest {
     my $XMLResponse = $SOAPResult->context()->transport()->proxy()->http_response()->content();
 
     # workaround for double encoded string on perl 5.8.8 setups
-    # TODO: REMOVE ME FOR OTRS 3.1
+    # TODO: REMOVE ME FOR OTRS 3.2
     my $PerlVersion = sprintf "%vd\n", $^V;
     if ( $PerlVersion eq '5.8.8' ) {
         $XMLResponse = $Self->{EncodeObject}->Convert(
@@ -1066,6 +1066,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-05-03 14:20:25 $
+$Revision: 1.28 $ $Date: 2011-05-03 14:30:00 $
 
 =cut
