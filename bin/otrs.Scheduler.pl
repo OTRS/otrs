@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.Scheduler.pl - provides Scheduler daemon control on unlix like OS
+# otrs.Scheduler.pl - provides Scheduler Daemon control on unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.22 2011-04-21 17:48:40 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.23 2011-05-03 09:31:54 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -190,17 +190,18 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
                     Message =>
-                        "Scheduler Daemon tries to start but there is a running Daemon already!\n",
+                        "Scheduler Daemon tries to start but found an already running service!\n",
                 );
                 exit 1;
             }
             elsif ( $Opts{f} ) {
-                print "NOTICE: otrs.Scheduler.pl is already running but is starting again!\n";
+                print
+                    "NOTICE: otrs.Scheduler.pl was already running but is starting again (force was used)!\n";
 
                 # log daemon forced start
                 $CommonObject{LogObject}->Log(
                     Priority => 'notice',
-                    Message  => "Scheduler Daemon is forced to Start!",
+                    Message  => "Scheduler Daemon is forced to start!",
                 );
             }
         }
@@ -281,10 +282,10 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # Log deamon startup
+    # Log daemon startup
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon Start! PID $PID{PID}",
+        Message  => "Scheduler Daemon start! PID $PID{PID}",
     );
 
     my $Interrupt;
@@ -376,7 +377,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         #   of memory leaks in some external perl modules.
         if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
             my $ExitCode = _AutoRestart(
-                Message => "Scheduler daemon restarts itself (PID $PID{PID})."
+                Message => "Scheduler Daemon restarts itself (PID $PID{PID})."
             );
             exit $ExitCode;
         }
@@ -399,7 +400,7 @@ exit 1;
 
 # Internal
 sub _help {
-    print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Schaduler Deamon\n";
+    print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f force]\n";
 }
@@ -430,7 +431,7 @@ sub _AutoRestart {
         Name => 'otrs.Scheduler',
     );
 
-    # Log deamon startup
+    # Log daemon startup
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message => $Param{Message} || 'Unknown reason to restart',
