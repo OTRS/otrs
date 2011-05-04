@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Actions" measuredWidth="237" measuredHeight="65"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="Screen title" locked="true" measuredWidth="92" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Actionname" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="176" width="237" height="89" text="Textbox" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="204" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>
