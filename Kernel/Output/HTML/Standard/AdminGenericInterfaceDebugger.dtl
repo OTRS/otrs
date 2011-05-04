@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.4 2011-05-04 11:28:49 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.5 2011-05-04 11:56:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,8 +55,8 @@
                         <fieldset class="TableLike">
                             <label>$Text{"Filter by type"}:</label>
                             <div class="Field">
-                                <input type="checkbox" name="TypeRequester" checked="checked" /><label for="TypeRequester">$Text{"Requester"}</label><br/>
-                                <input type="checkbox" name="TypeProvider" checked="checked" /><label for="TypeProvider">$Text{"Provider"}</label>
+                                <input type="checkbox" id="TypeRequester" checked="checked" /><label for="TypeRequester">$Text{"Requester"}</label><br/>
+                                <input type="checkbox" id="TypeProvider" checked="checked" /><label for="TypeProvider">$Text{"Provider"}</label>
                             </div>
                             <div class="Clear"></div>
 
@@ -66,9 +66,9 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label>$Text{"Filter by remote IP"}:</label>
+                            <label for="FilterRemoteIP">$Text{"Filter by remote IP"}:</label>
                             <div class="Field">
-                                <input type="text" class="w50pc" />
+                                <input type="text" class="w50pc" id="FilterRemoteIP" />
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
@@ -134,7 +134,7 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
 
         }
     }, 'json');
-}
+};
 
 Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = function(CommunicationID) {
 
@@ -180,7 +180,7 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
             Core.UI.InitWidgetActionToggle();
         }
     }, 'json');
-}
+};
 
 // Load Request list on startup without active filter
 Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
