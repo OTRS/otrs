@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.pm,v 1.1 2011-05-03 12:38:02 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.pm,v 1.2 2011-05-04 11:28:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::DebugLog;
@@ -121,7 +121,8 @@ sub Run {
     # default: show start screen
     return $Self->Screen(
         %Param,
-        WebserviceID => $WebserviceID,
+        WebserviceID   => $WebserviceID,
+        WebserviceData => $WebserviceData,
     );
 }
 
@@ -133,7 +134,10 @@ sub Screen {
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericInterfaceDebugger',
-        Data         => \%Param,
+        Data         => {
+            %Param,
+            WebserviceName => $Param{WebserviceData}->{Name},
+        },
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;

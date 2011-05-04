@@ -2,14 +2,14 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.3 2011-05-04 10:18:00 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.4 2011-05-04 11:28:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"System Log"}</h1>
+    <h1>$Text{"GenericInterface Debugger for Webservice %s", "$Data{"WebserviceName"}"}</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
@@ -29,7 +29,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Debugger Details"}</h2>
+                <h2>$Text{"Request List"}</h2>
             </div>
             <div class="Content">
                 <h3>$Text{"Select Request"}</h3>
@@ -81,7 +81,7 @@
 
         <div class="WidgetSimple Hidden" id="CommunicationDetails">
             <div class="Header">
-                <h2>$Text{"Communication Details"}</h2>
+                <h2>$Text{"Request Details"}</h2>
             </div>
             <div class="Content"></div>
         </div>
