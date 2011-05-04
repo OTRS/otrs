@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.5 2011-05-04 11:56:26 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.6 2011-05-04 13:16:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,10 +53,9 @@
                     </div>
                     <div class="Size1of2">
                         <fieldset class="TableLike">
-                            <label>$Text{"Filter by type"}:</label>
+                            <label for="FilterType">$Text{"Filter by type"}:</label>
                             <div class="Field">
-                                <input type="checkbox" id="TypeRequester" checked="checked" /><label for="TypeRequester">$Text{"Requester"}</label><br/>
-                                <input type="checkbox" id="TypeProvider" checked="checked" /><label for="TypeProvider">$Text{"Provider"}</label>
+                                $Data{"FilterTypeStrg"}
                             </div>
                             <div class="Clear"></div>
 
@@ -100,8 +99,12 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
     var Data = {
         Action: 'AdminGenericInterfaceDebugger',
         Subaction: 'GetRequestList',
-        WebserviceID: parseInt('$QData{"WebserviceID"}', 10)
+        WebserviceID: parseInt('$QData{"WebserviceID"}', 10),
+        FilterRemoteIP: $('#FilterRemoteIP').val() || '',
+        FilterType: $('#FilterType').val() || ''
     };
+
+    $('#CommunicationDetails').css('visibility', 'hidden');
 
     Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
         if (!Response || !Response.LogData) {
@@ -184,6 +187,8 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
 
 // Load Request list on startup without active filter
 Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
+
+$('#FilterType, #FilterRemoteIP').bind('change', Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList);
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->
