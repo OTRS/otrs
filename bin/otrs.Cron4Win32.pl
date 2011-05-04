@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Cron4Win32.pl,v 1.3 2010-10-26 10:43:56 mb Exp $
+# $Id: otrs.Cron4Win32.pl,v 1.3.2.1 2011-05-04 20:36:00 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.3.2.1 $) [1];
 
 my $PerlExe   = "";
 my $Directory = "";
@@ -55,8 +55,9 @@ else {
     }
     else {
         my @Entries = readdir(DIR);
+        CRONDATA:
         for my $CronData (@Entries) {
-
+            next CRONDATA if ( $CronData eq 'postmaster.dist' );
             if ( !-d $CronData ) {
 
                 if ( !open( DAT, "<$Directory/$CronData" ) ) {

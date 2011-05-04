@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.74 2011-05-04 09:28:09 mb Exp $
+# $Id: CHANGES,v 1.1758.2.75 2011-05-04 20:36:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-05-04 Fixed bug#7277 - otrs.cleanup is called in Cron on Win32.
  - 2011-05-04 Fixed bug#7272 - i18n: TicketFreeTime field label is not translated.
  - 2011-05-02 Updated Brasilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2011-05-02 Updated Persian translation, thanks to Masood Ramezani!
