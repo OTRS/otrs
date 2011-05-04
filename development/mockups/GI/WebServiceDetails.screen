@@ -34,8 +34,8 @@
   <widgets xsi:type="model:Text" x="286" y="157" width="595" height="28" measuredWidth="595" measuredHeight="28" foreground="#ffffff" dummyText="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Accordion" x="271" y="320" width="621" height="257" text="OTRS as provider" measuredWidth="621" measuredHeight="257" selection="0">
-    <items x="0" y="2" width="621" height="24" text="OTRS as provider"/>
+  <widgets xsi:type="model:Accordion" x="271" y="320" width="621" height="257" text="        OTRS as provider" measuredWidth="621" measuredHeight="257" selection="0">
+    <items x="0" y="2" width="621" height="24" text="        OTRS as provider"/>
   </widgets>
   <widgets xsi:type="model:Label" x="752" y="323" text="Active and running" measuredWidth="113" measuredHeight="21">
     <font size="11" bold="true"/>
@@ -62,26 +62,26 @@
   <widgets xsi:type="model:Table" x="294" y="460" width="579" text="Name,Description,Controller,Mapping,Valid&#xA;GetTicketData,-,TicketGet,[x],[x]&#xA;SetTicketData,-,TicketSet,[],[x]&#xA;SetTicketData,-,TicketSet,[x],[]&#xA;" measuredWidth="579" measuredHeight="93" selection="0" horizontalLines="true" header="false">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="294" y="361" text="Network Settings" measuredWidth="121" measuredHeight="24">
+  <widgets xsi:type="model:Label" x="294" y="361" text="Settings" measuredWidth="60" measuredHeight="24">
     <font size="13" bold="true"/>
   </widgets>
   <widgets xsi:type="model:Label" x="294" y="432" text="Functions (Operations)" measuredWidth="159" measuredHeight="24">
     <font size="13" bold="true"/>
   </widgets>
-  <widgets xsi:type="model:Label" x="303" y="392" text="Transport Type" measuredWidth="87" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="303" y="392" text="Network transport" measuredWidth="103" measuredHeight="21">
     <font size="11" bold="false"/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="395" y="392" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="414" y="392" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="480" y="391" text="Edit current type" measuredWidth="109" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="499" y="391" text="Edit current type" measuredWidth="109" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="784" y="432" width="89" text="Add function" measuredWidth="89" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Accordion" x="271" y="592" width="621" height="257" text="OTRS as requester" measuredWidth="621" measuredHeight="257" selection="0">
-    <items x="0" y="2" width="621" height="24" text="OTRS as requester"/>
+  <widgets xsi:type="model:Accordion" x="271" y="592" width="621" height="257" text="        OTRS as requester" measuredWidth="621" measuredHeight="257" selection="0">
+    <items x="0" y="2" width="621" height="24" text="        OTRS as requester"/>
   </widgets>
   <widgets xsi:type="model:Label" x="752" y="595" text="currently not active" measuredWidth="116" measuredHeight="21">
     <font size="11" bold="true"/>
@@ -92,22 +92,24 @@
   <widgets xsi:type="model:Table" x="294" y="732" width="579" text="Name,Description,Controller,Mapping,Valid&#xA;GetTicketData,-,TicketGet,[x],[x]&#xA;SetTicketData,-,TicketSet,[],[x]&#xA;SetTicketData,-,TicketSet,[x],[]&#xA;" measuredWidth="579" measuredHeight="93" selection="0" horizontalLines="true" header="false">
     <font bold="false"/>
   </widgets>
-  <widgets xsi:type="model:Label" x="294" y="633" text="Network Settings" measuredWidth="121" measuredHeight="24">
+  <widgets xsi:type="model:Label" x="294" y="633" text="Settings" measuredWidth="60" measuredHeight="24">
     <font size="13" bold="true"/>
   </widgets>
   <widgets xsi:type="model:Label" x="294" y="704" text="Invokers" measuredWidth="63" measuredHeight="24">
     <font size="13" bold="true"/>
   </widgets>
-  <widgets xsi:type="model:Label" x="303" y="664" text="Transport Type" measuredWidth="87" measuredHeight="21">
+  <widgets xsi:type="model:Button" x="784" y="704" width="89" text="Add invoker" measuredWidth="89" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="280" y="326" measuredWidth="16" measuredHeight="16" icon="filled-arrow-down (small)"/>
+  <widgets xsi:type="model:Icon" x="280" y="598" measuredWidth="16" measuredHeight="16" icon="filled-arrow-down (small)"/>
+  <widgets xsi:type="model:Label" x="303" y="664" text="Network transport" measuredWidth="103" measuredHeight="21">
     <font size="11" bold="false"/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="395" y="664" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="414" y="664" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="480" y="663" text="Edit current type" measuredWidth="109" measuredHeight="23">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" x="784" y="704" width="89" text="Add invoker" measuredWidth="89" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="499" y="663" text="Edit current type" measuredWidth="109" measuredHeight="23">
     <font/>
   </widgets>
   <hRuler>
