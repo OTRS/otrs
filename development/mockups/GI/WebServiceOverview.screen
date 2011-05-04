@@ -9,7 +9,7 @@
   <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Add Webservice" measuredWidth="217" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Table" x="274" y="125" width="621" height="76" text="Name v,Description v,Remote System v,Protocol v,Valid&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]" measuredWidth="621" measuredHeight="76">
+  <widgets xsi:type="model:Table" x="274" y="125" width="621" height="212" text="Name v,Description v,Remote System v,Protocol v,Valid&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]" measuredWidth="621" measuredHeight="212" selection="0" horizontalLines="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="176" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
@@ -18,6 +18,7 @@
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="280" width="237" height="177" text="Quick Tutorial" measuredWidth="237" measuredHeight="177"/>
   <widgets xsi:type="model:VideoPlayer" x="20" y="308" width="217" height="139" measuredWidth="217" measuredHeight="139"/>
+  <widgets xsi:type="model:Icon" x="25" y="132" measuredWidth="16" measuredHeight="16" icon="circled-plus (small)"/>
   <hRuler>
     <guides position="502"/>
     <guides position="661"/>
