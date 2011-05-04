@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Window" x="10" y="174" width="237" height="201" text="Interface Actions" measuredWidth="237" measuredHeight="201"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="Webservice details" locked="true" measuredWidth="148" measuredHeight="26">
+    <font size="16" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" text="Interface &quot;Lanxess Solman&quot;" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Button" x="20" y="206" width="217" text="Clone" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="390" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="417" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="20" y="240" width="218" text="Export" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="20" y="273" width="217" text="History" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="20" y="307" width="218" text="Delete" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="20" y="340" width="216" text="Debug" measuredWidth="216" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Rectangle" x="274" y="124" width="621" height="72" measuredWidth="621" measuredHeight="72" background="#e06666" foreground="#660000">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="287" y="135" text="Warning" measuredWidth="56" measuredHeight="23" foreground="#ffffff">
+    <font size="12" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Text" x="286" y="157" width="595" height="28" measuredWidth="595" measuredHeight="28" foreground="#ffffff" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="271" y="320" width="621" height="353" text="OTRS as provider&#xA;OTRS as requester" measuredWidth="621" measuredHeight="353" selection="0">
+    <items x="0" y="2" width="621" height="24" text="OTRS as provider"/>
+    <items x="0" y="329" width="621" height="24" text="OTRS as requester"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" x="276" y="380" width="619" measuredWidth="619" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" x="696" y="353" text="Status: Active and running" measuredWidth="168" measuredHeight="23">
+    <font size="12" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Circle" x="866" y="354" width="20" height="20" measuredWidth="20" measuredHeight="20" background="#00ff00">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
+  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to overview" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="24" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
+  <widgets xsi:type="model:Icon" x="25" y="210" measuredWidth="16" measuredHeight="16" icon="unselected (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="244" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="277" measuredWidth="16" measuredHeight="16" icon="book (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="311" measuredWidth="16" measuredHeight="16" icon="error (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="344" measuredWidth="16" measuredHeight="16" icon="eye (small)"/>
+  <widgets xsi:type="model:Table" x="274" y="206" width="295" height="102" text="&#xA;*Name*,Lanxess Solman&#xA;*Description*, -&#xA;*Remote System*,Solman&#xA;*Protocol*,SOAP" measuredWidth="295" measuredHeight="102" selection="0" horizontalLines="true" verticalLines="false" header="false">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Table" x="584" y="206" width="311" height="102" text="&#xA;*Debug*,Active&#xA;*Debuglevel*, 3&#xA;*More Meta Info*,Yes&#xA;*Even more Meta Info*,No" measuredWidth="311" measuredHeight="102" selection="0" horizontalLines="true" verticalLines="false" header="false">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Table" x="294" y="527" width="579" text="Name,Description,Controller,Mapping,Valid&#xA;GetTicketData,-,TicketGet,[x],[x]&#xA;SetTicketData,-,TicketSet,[],[x]&#xA;SetTicketData,-,TicketSet,[x],[]&#xA;" measuredWidth="579" measuredHeight="93">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="294" y="400" text="Network Settings" measuredWidth="121" measuredHeight="24">
+    <font size="13" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="294" y="499" text="Functions (Operations)" measuredWidth="159" measuredHeight="24">
+    <font size="13" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="303" y="431" text="Transport Type" measuredWidth="87" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="395" y="431" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="303" y="459" text="Content Type" measuredWidth="77" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="395" y="459" width="77" text="SOAP" measuredWidth="77" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="480" y="430" text="Edit current type" measuredWidth="109" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="480" y="458" text="Edit current type" measuredWidth="109" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="784" y="499" width="89" text="Add function" measuredWidth="89" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" x="824" y="434" width="40" height="72" measuredWidth="40" measuredHeight="72" direction="bottom"/>
+  <widgets xsi:type="model:Arrow" x="584" y="416" height="37" measuredWidth="200" measuredHeight="37" direction="bottom"/>
+  <widgets xsi:type="model:Note" x="768" y="405" text="Open up overlays (if it is possible&#xA;to place all needed fields there)." measuredWidth="188" measuredHeight="36" textAlignment="Left">
+    <font/>
+  </widgets>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>
