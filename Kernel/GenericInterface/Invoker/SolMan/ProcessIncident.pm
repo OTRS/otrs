@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/ProcessIncident.pm - GenericInterface SolMan ProcessIncident Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessIncident.pm,v 1.1 2011-05-02 14:24:35 sb Exp $
+# $Id: ProcessIncident.pm,v 1.2 2011-05-04 17:58:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::GenericInterface::Invoker::SolMan::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -85,9 +85,11 @@ prepare the invocation of the configured remote webservice.
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '...',               # in case of error or undef
-        Data            => {                    # data payload after Invoker or undef
+        Success         => 1,                     # 0 or 1
+        StopCommunication => 0                    # 0 or 1 in case is not needed to process the
+                                                  # request
+        ErrorMessage    => '...',                 # in case of error or undef
+        Data            => {                      # data payload after Invoker or undef
             IctAdditionalInfos  => {},
             IctAttachments      => {},
             IctHead             => {},
@@ -167,6 +169,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-05-02 14:24:35 $
+$Revision: 1.2 $ $Date: 2011-05-04 17:58:37 $
 
 =cut

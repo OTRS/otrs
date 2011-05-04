@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.46 2011-05-02 17:02:37 sb Exp $
+# $Id: Common.pm,v 1.47 2011-05-04 17:58:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -1024,9 +1024,11 @@ prepare the invocation of the configured remote webservice.
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '...',               # in case of error or undef
-        Data            => {                    # data payload after Invoker or undef
+        Success         => 1,                     # 0 or 1
+        StopCommunication => 0                    # 0 or 1 in case is not needed to process the
+                                                  # request
+        ErrorMessage    => '...',                 # in case of error or undef
+        Data            => {                      # data payload after Invoker or undef
             IctAdditionalInfos  => {},
             IctAttachments      => {},
             IctHead             => {},
@@ -1182,15 +1184,17 @@ sub PrepareRequest {
         }
 
         # otherwise the ticket was originated in SolMan shoud not continue
-        # but use a clean exit so it wil not be logged as an error
+        # but use a StopCommunication so it wil not be logged as an error
         else {
             $Self->{DebuggerObject}->Debug(
                 Summary => "The ticket $Self->{TicketID} was originated in SolMan and does not "
                     . "need to be replicated",
             );
+
+            # stop requester communication
             return {
-                Success   => 0,
-                CleanExit => 1,
+                Success           => 0,
+                StopCommunication => 1,
             };
         }
     }
@@ -1272,15 +1276,16 @@ sub PrepareRequest {
         }
 
         if ( $LastSync > $TicketChanged && $LastSync > $LastArticleModified ) {
-            $ErrorMessage
-                = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
-                . "currently have not changes to replicate!";
 
+            $Self->{DebuggerObject}->Debug(
+                Summary => "The ticket $Self->{TicketID}, currently have not changes to replicate!",
+            );
+
+            # stop requester communication
             $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
             return {
-                Success      => 0,
-                CleanExit    => 1,
-                ErrorMessage => $ErrorMessage,
+                Success           => 0,
+                StopCommunication => 1,
             };
         }
     }
@@ -1792,6 +1797,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2011-05-02 17:02:37 $
+$Revision: 1.47 $ $Date: 2011-05-04 17:58:37 $
 
 =cut
