@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.131 2011-05-03 13:22:10 martin Exp $
+# $Id: DB.pm,v 1.132 2011-05-04 13:44:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 =head1 NAME
 
@@ -385,12 +385,15 @@ sub Do {
         }
     }
 
-    # replace current_timestamp with real time stamp
+    # Replace current_timestamp with real time stamp.
+    # - This avoids time inconsistencies of app and db server
+    # - This avoids timestamp problems in Postgresql servers where
+    #   the timestamp is sometimes 1 second off the perl timestamp.
     my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
     $Param{SQL} =~ s{
-        (?<= (\s|\(|,) )    # lookahead for (\s|\(|,)
+        (?<= \s|\(|, )    # lookahead for (\s|\(|,)
         current_timestamp   # replace current_timestamp by 'yyyy-mm-dd hh:mm:ss'
-        (?= (\s|\)|,) )     # lookbehind for (\s|\)|,)
+        (?= \s|\)|, )     # lookbehind for (\s|\)|,)
     }
     {
         '$Timestamp'
@@ -1289,6 +1292,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.131 $ $Date: 2011-05-03 13:22:10 $
+$Revision: 1.132 $ $Date: 2011-05-04 13:44:01 $
 
 =cut
