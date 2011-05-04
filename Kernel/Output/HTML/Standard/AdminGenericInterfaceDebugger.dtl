@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.2 2011-05-03 14:07:33 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.3 2011-05-04 10:18:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -153,21 +153,31 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
             return;
         }
 
-        $('#CommunicationDetails .Content').empty();
+        $('#CommunicationDetails > .Content').empty();
 
         if (!Response.LogData.Data.length) {
-            $('#CommunicationDetails .Content').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
+            $('#CommunicationDetails > .Content').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
             $('#CommunicationDetails').css('visibility', 'visible').show();
         }
         else {
             $.each(Response.LogData.Data, function(){
+                var $Container = $('<div class="WidgetSimple Collapsed"></div>'),
+                    $Header = $('<div class="Header"></div>'),
+                    $Content = $('<div class="Content"></div>');
 
-                $('#CommunicationDetails .Content').append('<h4>' + this.Summary + ' (' + this.Created + ')</h4>');
+                $Header.append('<div class="WidgetAction Toggle"><a href="#" title="$JSText{"Show or hide the content"}"></a></div>');
+                $Header.append('<h3>' + this.Summary + ' (' + this.Created + ')</h3>');
+                $Container.append($Header);
+
                 if (this.Data && this.Data.length) {
-                    $('#CommunicationDetails .Content').append('<pre>' + this.Data + '</pre>');
+                    $Content.append('<pre><code>' + this.Data + '</code></pre>');
                 }
+                $Container.append($Content);
+
+                $('#CommunicationDetails > .Content').append($Container);
             });
             $('#CommunicationDetails').css('visibility', 'visible').show();
+            Core.UI.InitWidgetActionToggle();
         }
     }, 'json');
 }
