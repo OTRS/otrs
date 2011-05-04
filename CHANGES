@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1861 2011-05-03 08:46:34 mb Exp $
+# $Id: CHANGES,v 1.1862 2011-05-04 09:31:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-05-04 Fixed bug#7272 - i18n: TicketFreeTime field label is not translated.
  - 2011-05-02 Updated Brasilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2011-05-02 Updated Persian translation, thanks to Masood Ramezani!
  - 2011-04-28 Fixed bug#7244 - Plain Auth with SMTP/TLS does not work.
@@ -1919,7 +1920,7 @@
     };
     [...]
 
- - 2008-12-28 Added deamon support to bin/PostMasterMailbox.pl and
+ - 2008-12-28 Added daemon support to bin/PostMasterMailbox.pl and
     bin/GenericAgent.pl by using "-b <BACKGROUND_INTERVAL_IN_MIN>".
  - 2008-12-22 Improved ticket escalation notification, moved to .dtl support
     (Kernel/Output/HTML/Standard/AgentTicketEscalation.dtl) and added ticket

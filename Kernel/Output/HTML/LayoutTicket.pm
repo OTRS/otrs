@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.125 2011-04-05 08:00:10 mb Exp $
+# $Id: LayoutTicket.pm,v 1.126 2011-05-04 09:30:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -564,7 +564,9 @@ sub AgentFreeDate {
                 . $Count
                 . 'Used">'
                 . '<span class="Marker">*</span> '
+                . '$Text{"'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+                . '"}'
                 . ':</label>';
         }
         else {
@@ -575,7 +577,9 @@ sub AgentFreeDate {
                 . ' for="TicketFreeTime'
                 . $Count
                 . 'Used">'
+                . '$Text{"'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+                . '"}'
                 . ':</label>';
         }
     }
@@ -798,7 +802,9 @@ sub CustomerFreeDate {
                 . $Count
                 . 'Used">'
                 . '<span class="Marker">*</span> '
+                . '$Text{"'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+                . '"}'
                 . ':</label>';
         }
         else {
@@ -808,7 +814,9 @@ sub CustomerFreeDate {
                 . '" for="TicketFreeTime'
                 . $Count
                 . 'Used">'
+                . '$Text{"'
                 . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+                . '"}'
                 . ':</label>';
         }
     }
