@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Window" x="10" y="176" width="237" height="97" text="Actions" measuredWidth="237" measuredHeight="97"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Provider > Operation *GetTicketData* > Mapping" locked="true" measuredWidth="735" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Window" x="10" y="286" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="314" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="274" y="125" width="621" height="71" text="Default rule for unmapped keys" measuredWidth="621" measuredHeight="71" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Default rule for unmapped keys"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="161" text="All keys with no mapping rule should be" measuredWidth="221" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Navigation" measuredWidth="237" measuredHeight="65"/>
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Back to operation details" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="132" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
+  <widgets xsi:type="model:Button" x="20" y="208" width="218" height="22" text="Export Mapping Configuration" measuredWidth="218" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="211" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
+  <widgets xsi:type="model:Button" x="20" y="238" width="218" height="24" text="Import Mapping Configuration" measuredWidth="218" measuredHeight="24">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="242" measuredWidth="16" measuredHeight="16" icon="open (small)"/>
+  <widgets xsi:type="model:Combo" x="512" y="161" text="mapped to new name&#xA;ignored" measuredWidth="140" measuredHeight="41">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="665" y="161" measuredWidth="5" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="661" y="161" width="98" text="NewName" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="274" y="229" width="621" height="228" text="Mapping for *My Key*" measuredWidth="621" measuredHeight="228" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Mapping for *My Key*"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="300" text="Map key(s) matching the" measuredWidth="136" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="545" y="300" width="137" text="Status" measuredWidth="137" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="692" y="300" text="to new name" measuredWidth="74" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="770" y="300" width="98" text="state" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="272" text="Speaking name" measuredWidth="87" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="384" y="272" width="137" text="My Key" measuredWidth="137" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="427" y="300" width="110" text="exact name(s)&#xA;" measuredWidth="110" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="284" y="338" width="601" height="103" text="Value mappings" measuredWidth="601" measuredHeight="103" selection="">
+    <items x="0" y="2" width="601" height="24" text="Value mappings"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" x="274" y="211" width="621" measuredWidth="621" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" x="294" y="373" text="Map values matching the" measuredWidth="139" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="435" y="373" width="107" text="exact value(s)" measuredWidth="107" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="549" y="373" width="111" text="1" measuredWidth="111" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="669" y="373" text="to new value" measuredWidth="73" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="743" y="373" width="98" text="1 - very high" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="294" y="403" text="Map values matching the" measuredWidth="139" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="435" y="403" text="reg. expression" measuredWidth="107" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="549" y="403" width="111" text="high|hoch" measuredWidth="111" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="669" y="403" text="to new value" measuredWidth="73" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="743" y="403" width="98" text="2 - high" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="862" y="343" measuredWidth="16" measuredHeight="16" icon="circled-plus (small)"/>
+  <widgets xsi:type="model:Icon" x="848" y="376" measuredWidth="16" measuredHeight="16" icon="circled-minus (small)"/>
+  <widgets xsi:type="model:Icon" x="848" y="406" measuredWidth="16" measuredHeight="16" icon="circled-minus (small)"/>
+  <widgets xsi:type="model:Icon" x="872" y="235" measuredWidth="16" measuredHeight="16" icon="circled-plus (small)"/>
+  <widgets xsi:type="model:Accordion" x="274" y="471" width="621" height="194" text="Mapping for *My Another Key*" measuredWidth="621" measuredHeight="194" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Mapping for *My Another Key*"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="542" text="Map key(s) matching the" measuredWidth="136" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="545" y="542" width="137" text="Stat(e|us)" measuredWidth="137" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="692" y="542" text="to new name" measuredWidth="74" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="770" y="542" width="98" text="state" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="514" text="Speaking name" measuredWidth="87" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="384" y="514" width="137" text="My Another Key" measuredWidth="137" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="427" y="542" width="110" text="reg. expression" measuredWidth="110" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="284" y="580" width="601" height="69" text="Value mappings" measuredWidth="601" measuredHeight="69" selection="">
+    <items x="0" y="2" width="601" height="24" text="Value mappings"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="294" y="615" text="Map values matching the" measuredWidth="139" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="435" y="615" width="107" text="exact value(s)" measuredWidth="107" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="549" y="615" width="111" text="1" measuredWidth="111" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="669" y="615" text="to new value" measuredWidth="73" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="743" y="615" width="98" text="1 - very high" measuredWidth="98" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="862" y="585" measuredWidth="16" measuredHeight="16" icon="circled-plus (small)"/>
+  <widgets xsi:type="model:Icon" x="848" y="618" measuredWidth="16" measuredHeight="16" icon="circled-minus (small)"/>
+  <widgets xsi:type="model:Icon" x="872" y="477" measuredWidth="16" measuredHeight="16" icon="circled-plus (small)"/>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>

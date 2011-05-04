@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Window" x="10" y="176" width="237" height="65" text="Actions" measuredWidth="237" measuredHeight="65"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Provider > Operation *GetTicketData*" locked="true" measuredWidth="645" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Button" x="20" y="208" width="217" text="Clone" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="274" y="333" width="621" height="81" text="Controller Settings" measuredWidth="621" measuredHeight="81" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Controller Settings"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="256" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="284" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="290" y="373" text="Controller" measuredWidth="59" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="362" y="373" width="158" text="SAPTicket::TicketGet" measuredWidth="158" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="212" measuredWidth="16" measuredHeight="16" icon="unselected (small)"/>
+  <widgets xsi:type="model:Accordion" x="274" y="125" width="621" height="81" text="Meta data" measuredWidth="621" measuredHeight="81" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Meta data"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="168" text="Name" measuredWidth="36" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="362" y="168" width="157" text="GetTicketData" measuredWidth="157" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Navigation" measuredWidth="237" measuredHeight="65"/>
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Back to webservice details" measuredWidth="217" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="132" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
+  <widgets xsi:type="model:Accordion" x="274" y="215" width="621" height="106" text="Data Mappings" measuredWidth="621" measuredHeight="106" selection="0">
+    <items x="0" y="2" width="621" height="24" text="Data Mappings"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="379" y="255" text="Mapping type" measuredWidth="78" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="473" y="255" width="158" text="Standard" measuredWidth="158" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="643" y="254" width="109" text="Edit mapping" measuredWidth="109" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="379" y="285" text="Mapping type" measuredWidth="78" measuredHeight="21">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="473" y="285" width="158" text="Custom" measuredWidth="158" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="289" y="255" text="SAP > OTRS" measuredWidth="73" measuredHeight="21">
+    <font size="11" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="289" y="285" text="OTRS > SAP" measuredWidth="73" measuredHeight="21">
+    <font size="11" bold="true"/>
+  </widgets>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>

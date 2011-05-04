@@ -2,7 +2,7 @@
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
   <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Actions" measuredWidth="237" measuredHeight="65"/>
-  <widgets xsi:type="model:Label" x="20" y="62" text="List of Webservices" locked="true" measuredWidth="153" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services" locked="true" measuredWidth="107" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
