@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.4 2011-04-01 18:51:56 mb Exp $
+# $Id: de.pm,v 1.265.2.5 2011-05-04 08:28:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.4 $) [1];
+$VERSION = qw($Revision: 1.265.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2060,7 +2060,7 @@ sub Data {
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Comment for new history entries in the customer interface.' => '',
-        'Companies' => '',
+        'Companies' => 'Firmen',
         'Company Tickets' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
