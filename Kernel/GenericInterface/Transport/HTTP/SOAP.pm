@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.29 2011-05-03 14:36:42 martin Exp $
+# $Id: SOAP.pm,v 1.30 2011-05-05 20:24:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -873,7 +873,7 @@ sub _SOAPOutputRecursion {
 
     # process string
     if ( $Type{Data} eq 'STRING' ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Data} );
+        $Param{Data} = $Self->_SOAPOutputProcessString( Data => $Param{Data} );
         return {
             Success => 1,
             Data    => SOAP::Data->value( $Param{Data} ),
@@ -956,8 +956,8 @@ sub _SOAPOutputRecursion {
             # return on error
             return $RecurseResult if !$RecurseResult->{Success};
 
-            # encode key and add key/value pair to result
-            $Self->{EncodeObject}->EncodeOutput( \$SortKey );
+            # process key and add key/value pair to result
+            $SortKey = $Self->_SOAPOutputProcessString( Data => $SortKey );
             push @Result, SOAP::Data->name($SortKey)->value( $RecurseResult->{Data} );
 
             # delete affected data entry so we don't process it twice
@@ -976,8 +976,8 @@ sub _SOAPOutputRecursion {
         # return on error
         return $RecurseResult if !$RecurseResult->{Success};
 
-        # encode key and add key/value pair to result
-        $Self->{EncodeObject}->EncodeOutput( \$Key );
+        # process key and add key/value pair to result
+        $Key = $Self->_SOAPOutputProcessString( Data => $Key );
         push @Result, SOAP::Data->name($Key)->value( $RecurseResult->{Data} );
     }
 
@@ -1048,6 +1048,34 @@ sub _SOAPOutputHashRecursion {
     };
 }
 
+=item _SOAPOutputProcessString()
+
+This is a part of _SOAPOutputRecursion.
+It contains functions to quote invalid XML characters and encode the string
+
+    my $Result = $TransportObject->_SOAPOutputProcessString(
+        Data => 'a <string> & more',
+    );
+
+    $Result = 'a &lt;string> &amp; more';
+
+=cut
+
+sub _SOAPOutputProcessString {
+    my ( $Self, %Param ) = @_;
+
+    return '' if !$Param{Data};
+
+    # escape characters that are invalid in XML
+    $Param{Data} =~ s{ & }{&amp;}xmsg;
+    $Param{Data} =~ s{ < }{&lt;}xmsg;
+
+    # encode
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Data} );
+
+    return $Param{Data};
+}
+
 1;
 
 =end Internal:
@@ -1066,6 +1094,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-05-03 14:36:42 $
+$Revision: 1.30 $ $Date: 2011-05-05 20:24:22 $
 
 =cut

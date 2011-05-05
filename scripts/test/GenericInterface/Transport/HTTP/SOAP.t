@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.11 2011-03-21 13:48:47 mg Exp $
+# $Id: SOAP.t,v 1.12 2011-05-05 20:24:23 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -178,8 +178,10 @@ my @Tests = (
         RequestData    => {
             PriorityName => '5 very high',
             DataIn       => {
-                Blah   => 'Fasel',
-                Umlaut => 'äöüßÄÖÜ€ис',
+                Blah        => 'Fasel',
+                Umlaut      => 'äöüßÄÖÜ€ис',
+                InvalidXML1 => '<test>',
+                InvalidXML2 => 'test&test',
             },
         },
         ExpectedReturnData => {
@@ -187,8 +189,10 @@ my @Tests = (
             Data    => {
                 PriorityName => '5 sehr hoch',
                 DataOut      => {
-                    Blah   => 'Fasel',
-                    Umlaut => 'äöüßÄÖÜ€ис',
+                    Blah        => 'Fasel',
+                    Umlaut      => 'äöüßÄÖÜ€ис',
+                    InvalidXML1 => '<test>',
+                    InvalidXML2 => 'test&test',
                 },
             },
         },
