@@ -3,7 +3,7 @@
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Cron4Win32.pl,v 1.4 2011-05-04 20:30:59 mb Exp $
+# $Id: otrs.Cron4Win32.pl,v 1.5 2011-05-05 11:35:28 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,62 +30,39 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
-my $PerlExe   = "";
-my $Directory = "";
-my $CronTab   = "";
-my $OTRSHome  = "";
+my $PerlExe     = "";
+my $Directory   = "";
+my $CronTabFile = "";
+my $OTRSHome    = "";
 
-#system ('NSISINSTDIR\cronHelper.pl  --install');
-#system ('NSISCronplfile');
-#system ('NET START CRON');
+opendir( my $DirHandle, $Directory ) or die "ERROR: Can't open $Directory: $!";
 
-if ( !open( DATOUT, ">$CronTab" ) ) {
-    print STDERR "ERROR: Can't open directory 'crontab.txt: $!";
-}
-else {
-    flock( DATOUT, 2 );
-    seek DATOUT, 0, 0;
-    truncate DATOUT, 0;
+my @Entries = readdir($DirHandle);
+closedir($DirHandle);
+open my $CronTab, '>', $CronTabFile
+    or die "ERROR: Can't write to file $CronTabFile: $!";
+CRONFILE:
+for my $CronData (@Entries) {
+    next CRONFILE if ( !-d $CronData );
+    next CRONFILE if ( $CronData eq 'postmaster.dist' );
+    open( my $Data, '<', "$Directory/$CronData" )
+        or die "ERROR: Can't open file $Directory/$CronData: $!";
+    LINE:
+    while ( my $Line = <$Data> ) {
+        next LINE if ( $Line =~ m{ \A \# }xms );
+        next LINE if ( $Line eq "\n" );
 
-    if ( !opendir( DIR, $Directory ) ) {
-        print STDERR "ERROR: Can't open directory '$Directory': $!";
-        exit(1);
+        # replace $HOME with path to Perl plus path to script
+        $Line =~ s{\$HOME}{$PerlExe $OTRSHome}xms;
+
+        # there's no /dev/null on Win32, remove it:
+        $Line =~ s{>>\s*/dev/null}{}xms;
+        print $CronTab "$Line";
     }
-    else {
-        my @Entries = readdir(DIR);
-        CRONDATA:
-        for my $CronData (@Entries) {
-            next CRONDATA if ( $CronData eq 'postmaster.dist' );
-            if ( !-d $CronData ) {
-
-                if ( !open( DAT, "<$Directory/$CronData" ) ) {
-
-                    # print STDERR "ERROR: Can't open directory '$Directory/$CronData: $!";
-                    # exit (1);
-                }
-                else {
-                    flock( DAT, 2 );
-
-                    while ( my $Line = <DAT> ) {
-                        if ( $Line =~ /^#/ ) {
-                            next;
-                        }
-                        else {
-                            $Line =~ s/\$HOME/$PerlExe\ $OTRSHome/;
-                            $Line =~ s/>> \/dev\/null//;
-                            print DATOUT "$Line";
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    closedir(DIR);
-    close(DAT);
-    close(DATOUT);
-
-    1;
+    close($Data);
 }
+close($CronTab);
+
+1;
