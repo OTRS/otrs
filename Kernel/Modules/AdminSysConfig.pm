@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.115 2011-04-15 07:46:42 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.116 2011-05-05 11:45:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1035,7 +1035,7 @@ sub ListConfigItem {
 
         my $InputType = 'text';
 
-        if ( $Item->{String}->[1]->{Type} eq 'Password' ) {
+        if ( $Item->{String}->[1]->{Type} && $Item->{String}->[1]->{Type} eq 'Password' ) {
             $InputType = 'password';
         }
 
