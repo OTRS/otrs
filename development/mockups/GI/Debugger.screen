@@ -1,70 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
   <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
-  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="613" text="Actions" locked="true" measuredWidth="237" measuredHeight="613"/>
-  <widgets xsi:type="model:Label" x="20" y="62" text="Debugger for Webservice 'LanxessSolman'" locked="true" measuredWidth="332" measuredHeight="26">
-    <font size="16"/>
+  <widgets xsi:type="model:Window" x="10" y="175" width="237" height="98" text="Actions" measuredWidth="237" measuredHeight="98"/>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Button" x="20" y="207" width="217" text="Export communication details" measuredWidth="217" measuredHeight="23">
+    <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" text="Debugger Details" locked="true" measuredWidth="641" measuredHeight="613"/>
+  <widgets xsi:type="model:Window" x="10" y="287" width="237" height="89" text="Textbox" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="315" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="12" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
+  <widgets xsi:type="model:Button" x="22" y="127" width="218" text="Back to webservice details" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Debugger" locked="true" measuredWidth="436" measuredHeight="26">
+    <font size="16" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="211" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
+  <widgets xsi:type="model:Button" x="20" y="237" width="218" text="Delete old entries" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="241" measuredWidth="16" measuredHeight="16" icon="error (small)"/>
   <widgets xsi:type="model:Label" x="294" y="136" text="Select Request" measuredWidth="118" measuredHeight="26">
     <font size="16"/>
   </widgets>
-  <widgets xsi:type="model:Button" x="24" y="133" text="Back to webservice" measuredWidth="121" measuredHeight="23">
+  <widgets xsi:type="model:Table" x="295" y="175" width="358" text="Type, Time, Remote IP&#xA;Provider, 2011-03-23 12:23, 182.32.213.2&#xA;Provider, 2011-03-23 12:24, 182.32.213.2&#xA;Provider, 2011-03-23 12:25, 182.32.213.2&#xA;Provider, 2011-03-23 12:28, 182.32.213.2&#xA;Provider, 2011-03-23 12:30, 182.32.213.2" measuredWidth="358" measuredHeight="124" selection="0" verticalScrollbar="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="24" y="175" text="Export communication details" measuredWidth="180" measuredHeight="23">
+  <widgets xsi:type="model:Checkbox" x="694" y="194" text="Provider" measuredWidth="65" measuredHeight="21" selected="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Table" x="323" y="175" width="358" text="Type, Time, Remote IP&#xA;Provider, 2011-03-23 12:23, 182.32.213.2&#xA;Provider, 2011-03-23 12:24, 182.32.213.2&#xA;Provider, 2011-03-23 12:25, 182.32.213.2&#xA;Provider, 2011-03-23 12:28, 182.32.213.2&#xA;Provider, 2011-03-23 12:30, 182.32.213.2" measuredWidth="358" measuredHeight="124" verticalScrollbar="true">
+  <widgets xsi:type="model:Checkbox" x="694" y="214" text="Requester" measuredWidth="75" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Checkbox" x="704" y="196" text="Provider" measuredWidth="65" measuredHeight="21" selected="true">
+  <widgets xsi:type="model:Label" x="683" y="173" text="Filter:" measuredWidth="36" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Checkbox" x="704" y="216" text="Requester" measuredWidth="75" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="694" y="245" text="From" measuredWidth="33" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="693" y="175" text="Filter:" measuredWidth="36" measuredHeight="21">
+  <widgets xsi:type="model:DateField" x="726" y="245" text="  /  /  " measuredWidth="62" measuredHeight="21"/>
+  <widgets xsi:type="model:Label" x="794" y="245" text="to" measuredWidth="16" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="704" y="247" text="From" measuredWidth="33" measuredHeight="21">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:DateField" x="736" y="247" text="  /  /  " measuredWidth="62" measuredHeight="21"/>
-  <widgets xsi:type="model:Label" x="804" y="247" text="to" measuredWidth="16" measuredHeight="21">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:DateField" x="819" y="247" text="  /  /  " measuredWidth="62" measuredHeight="21"/>
+  <widgets xsi:type="model:DateField" x="809" y="245" text="  /  /  " measuredWidth="62" measuredHeight="21"/>
+  <widgets xsi:type="model:Icon" x="416" y="141" measuredWidth="16" measuredHeight="16" icon="reload (small)"/>
   <widgets xsi:type="model:Label" x="294" y="320" text="Communication Details for Selected Request" measuredWidth="350" measuredHeight="26">
     <font size="16"/>
   </widgets>
-  <widgets xsi:type="model:Accordion" x="323" y="352" width="550" height="337" text="HTTP Request&#xA;Data before mapping&#xA;Mapping debug message&#xA;Data after mapping&#xA;Calling Operation 'Ticket::TicketCreate'&#xA;Error: Authentication failed!&#xA;..." measuredWidth="550" measuredHeight="337" selection="0">
-    <items x="0" y="2" width="550" height="24" text="HTTP Request"/>
-    <items x="0" y="193" width="550" height="24" text="Data before mapping"/>
-    <items x="0" y="217" width="550" height="24" text="Mapping debug message"/>
-    <items x="0" y="241" width="550" height="24" text="Data after mapping"/>
-    <items x="0" y="265" width="550" height="24" text="Calling Operation 'Ticket::TicketCreate'"/>
-    <items x="0" y="289" width="550" height="24" text="Error: Authentication failed!"/>
-    <items x="0" y="313" width="550" height="24" text="..."/>
+  <widgets xsi:type="model:Accordion" x="296" y="352" width="577" height="337" text="HTTP Request&#xA;Data before mapping&#xA;Mapping debug message&#xA;Data after mapping&#xA;Calling Operation 'Ticket::TicketCreate'&#xA;Error: Authentication failed!&#xA;..." measuredWidth="577" measuredHeight="337" selection="0">
+    <items x="0" y="2" width="577" height="24" text="HTTP Request"/>
+    <items x="0" y="193" width="577" height="24" text="Data before mapping"/>
+    <items x="0" y="217" width="577" height="24" text="Mapping debug message"/>
+    <items x="0" y="241" width="577" height="24" text="Data after mapping"/>
+    <items x="0" y="265" width="577" height="24" text="Calling Operation 'Ticket::TicketCreate'"/>
+    <items x="0" y="289" width="577" height="24" text="Error: Authentication failed!"/>
+    <items x="0" y="313" width="577" height="24" text="..."/>
   </widgets>
-  <widgets xsi:type="model:Text" x="333" y="386" width="530" height="199" text="POST /index.html HTTP/1.1&#xD;&#xA;Host: www.example.com&#xD;&#xA; &#xD;&#xA;UserName=2;UserPW=test;TicketID=233" measuredWidth="530" measuredHeight="199" dummyText="true">
+  <widgets xsi:type="model:Text" x="306" y="386" width="530" height="199" text="POST /index.html HTTP/1.1&#xD;&#xA;Host: www.example.com&#xD;&#xA; &#xD;&#xA;UserName=2;UserPW=test;TicketID=233" measuredWidth="530" measuredHeight="199" dummyText="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:ButtonBar" x="708" y="321" text="Expand all, Collapse all" measuredWidth="160" measuredHeight="23" selection="0">
+  <widgets xsi:type="model:ButtonBar" x="713" y="321" text="Expand all, Collapse all" measuredWidth="160" measuredHeight="23" selection="0">
     <font/>
     <items x="0" y="0" width="77" height="23" text="Expand all"/>
     <items x="77" y="0" width="83" height="23" text="Collapse all"/>
   </widgets>
-  <widgets xsi:type="model:Button" x="24" y="215" text="Delete old entries" measuredWidth="115" measuredHeight="23">
+  <widgets xsi:type="model:Note" x="69" y="416" text="Opens an overlay where&#xA;a time can be specified (older&#xA;than x days)." measuredWidth="168" measuredHeight="49">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" x="79" y="233" text="Opens an overlay where&#xA;a time can be specified (older&#xA;than x days)." measuredWidth="168" measuredHeight="49">
+  <widgets xsi:type="model:Arrow" x="571" y="136" width="82" height="37" measuredWidth="82" measuredHeight="37" direction="bottom"/>
+  <widgets xsi:type="model:Note" x="622" y="104" text="Here you have to select one communication&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="259" measuredHeight="49">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" x="643" y="124" text="Here you have to select one communication&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="259" measuredHeight="49">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Icon" x="416" y="141" measuredWidth="16" measuredHeight="16" icon="reload (small)"/>
+  <widgets xsi:type="model:Arrow" x="96" y="260" width="49" height="160" measuredWidth="49" measuredHeight="160"/>
   <hRuler>
     <guides position="502"/>
     <guides position="661"/>
