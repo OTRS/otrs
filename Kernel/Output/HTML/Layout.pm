@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.362 2011-04-29 20:21:03 martin Exp $
+# $Id: Layout.pm,v 1.363 2011-05-06 17:29:03 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.362 $) [1];
+$VERSION = qw($Revision: 1.363 $) [1];
 
 =head1 NAME
 
@@ -369,9 +369,21 @@ sub new {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+                "No existing template directory found ('$Self->{TemplateDir}')!.
+                Default theme used instead.",
         );
-        $Self->FatalDie();
+
+        # Set TemplateDir with default theme or standar theme and chek if exist
+        $Theme = 'Standard';
+        $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+        if ( !-e $Self->{TemplateDir} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+            );
+            $Self->FatalDie();
+        }
     }
 
 # FRAMEWORK-2.5: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
@@ -4871,6 +4883,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.362 $ $Date: 2011-04-29 20:21:03 $
+$Revision: 1.363 $ $Date: 2011-05-06 17:29:03 $
 
 =cut
