@@ -1,0 +1,326 @@
+#!/bin/bash
+# --
+# lnx-otrs-scheduler - provides Scheduler init control on linux
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: lnx-otrs-scheduler,v 1.1 2011-05-06 23:57:39 cr Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU AFFERO General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# --
+# This file is based on
+# Linux Additions Guest Additions service daemon init script.
+#
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+
+# chkconfig: - 80 10
+# description: OTRS scheduler.
+### BEGIN INIT INFO
+# Provides:       lnx-otrs-scheduler
+# Default-Start:  3 5
+# Default-Stop:   0 1 6
+# Required-Start: $ALL
+# Required-Stop:
+### END INIT INFO
+#-----------------------------------------------------------------------
+# User defined variables
+OTRSHome=/Users/Carlos/Documents/ws/otrs
+
+# this user and group needs to be the same as the apache user and group
+User=Carlos
+Group=Carlos
+#----------------------------------------------------------------------
+
+PATH=$PATH:/bin:/sbin:/usr/sbin
+prog=otrs-scheduler
+# set Scheduler script and PID File
+Scheduler=$OTRSHome/bin/otrs.Scheduler.pl
+PIDFile=$OTRSHome/var/run/otrs.Scheduler.pid
+
+# Regular expresions
+RegExDigit="[0-9]+"
+
+#Check user and group
+TestUID=$(id -u $User)
+TestGID=$(id -g $Group)
+
+if [[ ! $TestUID =~ $RegExDigit ]]; then
+    echo "The user ${User} does not exist in this system"
+    exit 1
+fi
+if [[ ! $TestGID =~ $RegExDigit ]]; then
+    echo "The group ${Group} does not exist in this system"
+    exit 1
+fi
+
+CanRun() {
+
+    # check if scheduler can be runned
+    test -x "$Scheduler" || {
+        echo "Cannot run $Scheduler"
+        exit 1
+    }
+}
+
+# check if scheduler can be runned
+CanRun
+
+# set Scheduler PID
+STATUS=$("$Scheduler" -a status)
+
+# remove any non numeric character like in "Running 123"
+PID=${STATUS//[^0-9]/}
+
+# set OS
+system=unknown
+if [ -f /etc/redhat-release ]; then
+    system=redhat
+elif [ -f /etc/SuSE-release ]; then
+    system=suse
+elif [ -f /etc/debian_version ]; then
+    system=debian
+elif [ -f /etc/gentoo-release ]; then
+    system=gentoo
+else
+    system=other
+fi
+
+# define special routines for each OS
+if [ "$system" = "redhat" ]; then
+    . /etc/init.d/functions
+    fail_msg() {
+        echo_failure
+        echo
+    }
+
+    succ_msg() {
+        echo_success
+        echo
+    }
+
+    begin() {
+        echo -n "$1"
+    }
+fi
+
+if [ "$system" = "suse" ]; then
+    . /etc/rc.status
+    daemon() {
+
+        # in OpenSUSE 11.3 this value returns 7, and should return 0
+        # in OpenSUSE 11.4 this is fixed and returns 0
+        startproc -u $User $Scheduler -a start
+    }
+
+    # this is part of OpenSUSE 11.3 workaround since it cant find the process
+    # it can't stop it, so a forced killed is needed in a redefined killproc()
+    # in future if OpenSUSE 11.3 became not supported killproc() can be deleted
+    killproc(){
+
+        # send kill signal to scheduler to proper stop
+        if [[  $PID =~ $RegExDigit ]]; then
+            kill -2 $PID > /dev/null
+        fi
+    }
+
+    fail_msg() {
+        rc_failed 1
+        rc_status -v
+    }
+
+    succ_msg() {
+        rc_reset
+        rc_status -v
+    }
+
+    begin() {
+        echo -n "$1"
+    }
+fi
+
+if [ "$system" = "debian" ]; then
+    daemon() {
+        start-stop-daemon --start --chuid $User:$Group --exec $Scheduler -- -a start
+    }
+
+    killproc() {
+        start-stop-daemon --stop --name otrs.Scheduler. --signal 2
+    }
+
+    fail_msg() {
+        echo " ...fail!"
+    }
+
+    succ_msg() {
+        echo " ...done."
+    }
+
+    begin() {
+        echo -n "$1"
+    }
+fi
+
+if [ "$system" = "gentoo" ]; then
+    . /sbin/functions.sh
+    daemon() {
+        start-stop-daemon --start --chuid $User:$Group --exec $Scheduler -- -a start
+#        start-stop-daemon --start --exec $1 -- $2
+    }
+
+    killproc() {
+        start-stop-daemon --stop --name otrs.Scheduler. --signal 2
+#        start-stop-daemon --stop --exec $@
+    }
+
+    fail_msg() {
+        echo " ...fail!"
+    }
+
+    succ_msg() {
+        echo " ...done."
+    }
+
+    begin() {
+        echo -n "$1"
+    }
+
+    if [ "`which $0`" = "/sbin/rc" ]; then
+        shift
+    fi
+fi
+
+if [ "$system" = "other" ]; then
+    fail_msg() {
+        echo " ...fail!"
+    }
+
+    succ_msg() {
+        echo " ...done."
+    }
+
+    begin() {
+        echo -n "$1"
+    }
+fi
+
+start() {
+
+    # check scheduler is not running
+    if [[ ! $PID =~ $RegExDigit ]]; then
+        begin "Starting OTRS Scheduler";
+
+        # start Scheduler
+        daemon  --user $User "${Scheduler} -a start" > /dev/null
+        RETVAL=$?
+
+        # check if Scheduler start successfuly and display success message
+        if [ $RETVAL -eq 0 ]; then
+            succ_msg
+
+        # otherwise display fail message
+        else
+
+            # workaround OpenSUSE 11.3 returns 7 becasuse it can't find the process
+            if [ "$system" = "suse" -a $RETVAL -eq 7 ]; then
+               RETVAL=0
+               succ_msg
+            else
+               fail_msg
+            fi
+        fi
+
+    # otherwise cant run it again
+    else
+       begin "OTRS Scheduler is already running ${PID}"
+       fail_msg
+       return 1
+    fi
+    return $RETVAL
+}
+
+stop() {
+
+    # check if Scheduler is running
+    if [[ $PID =~ $RegExDigit ]]; then
+        begin "Stopping OTRS Scheduler";
+
+        # stop scheduler
+        killproc $Scheduler -2
+        RETVAL=$?
+
+        # query Scheduler PID again to check id is stopped
+        STATUS=$("$Scheduler" -a status)
+
+        # remove any non numeric character like in "Running 123"
+        PID=${STATUS//[^0-9]/}
+
+        # check if still running
+        if [[  $PID =~ $RegExDigit ]]; then
+            fail_msg
+
+        # otherwise is stopped
+        else
+            succ_msg
+        fi
+    else
+        begin "Scheduler is already stopped"
+        succ_msg
+    fi
+    return $RETVAL
+}
+
+
+restart() {
+    stop && start
+}
+
+status() {
+    echo -n "Checking for OTRS Scheduler"
+
+    # check if scheduler returns a numeric PID
+    if [[ $PID =~ $RegExDigit ]]; then
+        echo " ...running ${PID}"
+
+    #otherwise is not running
+    else
+        echo " ...not running"
+    fi
+}
+
+# call the right function
+case "$1" in
+start)
+    start
+    ;;
+stop)
+    stop
+    ;;
+restart)
+    restart
+    ;;
+status)
+    status
+    ;;
+setup)
+    ;;
+cleanup)
+    ;;
+*)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+esac
+
+exit $RETVAL
