@@ -3,7 +3,7 @@
 # lnx-otrs-scheduler - provides Scheduler init control on linux
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: lnx-otrs-scheduler,v 1.1 2011-05-06 23:57:39 cr Exp $
+# $Id: lnx-otrs-scheduler,v 1.2 2011-05-07 00:00:00 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -22,8 +22,7 @@
 # --
 # This file is based on
 # Linux Additions Guest Additions service daemon init script.
-#
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# From Oracle Virtual Box
 # --
 
 # chkconfig: - 80 10
