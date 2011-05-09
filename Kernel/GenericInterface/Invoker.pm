@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.16 2011-03-24 12:37:31 cr Exp $
+# $Id: Invoker.pm,v 1.17 2011-05-09 16:35:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -160,6 +160,11 @@ prepare the invocation of the configured remote webservice.
         },
     };
 
+    $Result = {
+        Success           => 1,                 # 0 or 1
+        StopCommunication => 1,                 # in case of is not needed to continue with the
+                                                # request (do nothing just exist gracefully)
+    };
 =cut
 
 sub PrepareRequest {
@@ -232,6 +237,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-03-24 12:37:31 $
+$Revision: 1.17 $ $Date: 2011-05-09 16:35:00 $
 
 =cut
