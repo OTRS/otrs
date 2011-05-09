@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1865 2011-05-09 13:27:19 mb Exp $
+# $Id: CHANGES,v 1.1866 2011-05-09 16:10:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-05-09 Fixed bug#7092 - Non-existent theme set in user_preferences makes login impossible.
  - 2011-05-09 Fixed bug#7010 - Latest version of PDF::API2 no longer includes DejaVu fonts.
     Fixed by including DejaVu fonts in var/fonts.
  - 2011-05-09 Fixed bug#7245 - Event based notifications are not sent to roles.
@@ -96,7 +97,7 @@
  - 2011-03-14 Fixed bug#7040 - SQL error when retrieving CustomerCompanyList with Valid => 0.
  - 2011-03-14 Updated Chinese translation, thanks to Martin Liu!
  - 2011-03-13 Fixed bug#7042 - Textual and layout issue Archive option in AgentTicketSearch.
- - 2011-03-10 Fixed bug#6946: SelectAllXXX checkbox is not checked when you first enter to the module.
+ - 2011-03-10 Fixed bug#6946 - SelectAllXXX checkbox is not checked when you first enter to the module.
  - 2011-03-09 Fixed bug#7007 - Loader unit tests fail on MSWin32.
  - 2011-03-08 Fixed bug#6790 - Custom directory not considered when running in CGI.
  - 2011-03-08 Fixed bug#5354 - Gratuitous "use lib '../..';" in Kernel::Output::HTML::Layout
