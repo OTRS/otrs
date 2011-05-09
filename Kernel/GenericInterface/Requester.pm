@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Requester.pm,v 1.11 2011-05-04 17:58:37 cr Exp $
+# $Id: Requester.pm,v 1.12 2011-05-09 16:33:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -214,25 +214,19 @@ sub Run {
     );
 
     if ( !$FunctionResult->{Success} ) {
-
-        # to store the success value to return (0 by default)
-        my $Success;
-
-        # not always this means an error for example if the invokers has nothing to do then the
-        # Success from FunctionResult is 0 but the call should return Success = 1
-        if ( $FunctionResult->{StopCommunication} && $FunctionResult->{StopCommunication} eq 1 ) {
-            return {
-                Success => 1,
-            };
-        }
-
-        # otherwise a log entry should be writen
-        $Self->{DebuggerObject}->Debug(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'InvokerObject returned an error, cancelling Request',
             Data    => $FunctionResult->{ErrorMessage},
         );
+    }
+
+    # not always a success on the invoker prepare request means that invoker need to do something
+    # there are cases in which the requester does not need to do anything, for this cases
+    # StopCommunication can be sent. in this cases the request will be successfull with out sending
+    # the request acctually
+    elsif ( $FunctionResult->{StopCommunication} && $FunctionResult->{StopCommunication} eq 1 ) {
         return {
-            Success => 0,
+            Success => 1,
         };
     }
 
@@ -411,6 +405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-05-04 17:58:37 $
+$Revision: 1.12 $ $Date: 2011-05-09 16:33:44 $
 
 =cut
