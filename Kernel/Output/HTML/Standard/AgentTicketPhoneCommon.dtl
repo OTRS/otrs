@@ -1,8 +1,8 @@
 # --
-# AgentTicketPhoneOutbound.dtl - provides HTML form for phone
+# AgentTicketPhoneCommon.dtl - provides HTML form for phone
 # Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.60 2010-11-17 21:32:53 cg Exp $
+# $Id: AgentTicketPhoneCommon.dtl,v 1.1 2011-05-09 12:06:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
