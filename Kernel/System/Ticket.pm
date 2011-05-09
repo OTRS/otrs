@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.4 2011-04-12 12:24:07 mg Exp $
+# $Id: Ticket.pm,v 1.488.2.5 2011-05-09 21:04:21 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.4 $) [1];
+$VERSION = qw($Revision: 1.488.2.5 $) [1];
 
 =head1 NAME
 
@@ -1283,7 +1283,7 @@ sub _TicketGetClosed {
 
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
-            . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
+            . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time",
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
@@ -8438,6 +8438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.4 $ $Date: 2011-04-12 12:24:07 $
+$Revision: 1.488.2.5 $ $Date: 2011-05-09 21:04:21 $
 
 =cut
