@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.14.2.1 2011-04-06 21:30:16 dz Exp $
+# $Id: SMIME.t,v 1.14.2.2 2011-05-09 20:46:27 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,12 +78,12 @@ my %Check = (
             '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
         Hash         => '980a83c7',
         Private      => 'No',
-        Serial       => 'serial=D51FC7523893BCFD',
+        Serial       => 'D51FC7523893BCFD',
         ShortEndDate => '2012-03-29',
         Type         => 'cert',
         Fingerprint  => 'E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
         Issuer =>
-            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
         Email          => 'unittest@example.org',
         StartDate      => 'Feb 19 11:20:56 2008 GMT',
         ShortStartDate => '2008-02-19',
@@ -96,12 +96,12 @@ my %Check = (
             '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
         Hash         => '999bcb2f',
         Private      => 'No',
-        Serial       => 'serial=9BCC39BD2A958C37',
+        Serial       => '9BCC39BD2A958C37',
         ShortEndDate => '2012-03-29',
         Fingerprint  => '3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
         Type         => 'cert',
         Issuer =>
-            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
         Email          => 'unittest2@example.org',
         StartDate      => 'Feb 19 11:32:20 2008 GMT',
         ShortStartDate => '2008-02-19',
@@ -157,7 +157,7 @@ if ( $^O =~ m{Win}i ) {
     $Check{'cert-2'} =~ tr{\r}{}d;
 }
 
-my $TestText = 'hello1234567890öäüß';
+my $TestText = 'hello1234567890ï¿½ï¿½ï¿½ï¿½';
 
 for my $Count ( 1 .. 2 ) {
     my @Certs = $CryptObject->Search( Search => $Search{$Count} );
