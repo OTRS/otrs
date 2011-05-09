@@ -1,0 +1,114 @@
+# --
+# AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.1 2011-05-09 21:00:43 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Webservice Management"}</h1>
+    <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+
+                            <button class="CallForAction Plus" type="submit"><span>$Text{"Add webservice"}</span></button>
+                            <br/>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    $Text{"Hint."}
+                </p>
+            </div>
+        </div>
+<!-- dtl:block:Tutorial -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Quick Tutorial"}</h2>
+            </div>
+            <div class="Content">
+                <div class="VideoThumbnail"></div>
+            </div>
+        </div>
+<!-- dtl:block:Tutorial -->
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+<!-- dtl:block:OverviewHeader -->
+            <div class="Header">
+                <h2>$Text{"Webservice List"}</h2>
+            </div>
+<!-- dtl:block:OverviewHeader -->
+<!-- dtl:block:OverviewResult -->
+            <div class="Content ">
+                <table class="DataTable" id="CustomerTable" summary="List of all registered Webservices">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Name"}</th>
+                            <th>$Text{"Description"}</th>
+                            <th>$Text{"Remote System"}</th>
+                            <th>$Text{"Protocol"}</th>
+                            <th>$Text{"Validity"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan="5">
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+
+<!-- dtl:block:OverviewResultRow -->
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
+                            </td>
+                            <td>$QData{"Description"}</td>
+                            <td>$QData{"RemoteSystem"}</td>
+                            <td>$QData{"Protocol"}</td>
+                            <td>$Text{"$Data{"Valid"}"}</td>
+                        </tr>
+<!-- dtl:block:OverviewResultRow -->
+
+                    </tbody>
+                </table>
+            </div>
+<!-- dtl:block:OverviewResult -->
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- dtl:block:Overview -->
