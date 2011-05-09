@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43.2.2 2011-04-08 19:00:40 dz Exp $
+# $Id: SMIME.pm,v 1.43.2.3 2011-05-09 20:44:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.2 $) [1];
+$VERSION = qw($Revision: 1.43.2.3 $) [1];
 
 =head1 NAME
 
@@ -468,7 +468,7 @@ sub CertificateAdd {
             return;
         }
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificat!" );
+    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificate!" );
     return;
 }
 
@@ -516,8 +516,8 @@ sub CertificateRemove {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
-    unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
-    return 1;
+    my $Result = unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
+    return $Result;
 }
 
 =item CertificateList()
@@ -537,8 +537,8 @@ sub CertificateList {
         Filter    => '*.0',
     );
     for my $File (@List) {
-        $File =~ s!^.*/!!;
-        $File =~ s/(.*)\.0/$1/;
+        $File =~ s{^.*/}{}xms;
+        $File =~ s{(.*)\.0}{$1}xms;
         push @Hash, $File;
     }
     return @Hash;
@@ -747,9 +747,15 @@ sub PrivateRemove {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
-    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
-    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return;
-    return 1;
+    my $CertDelete    = unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
+    my $PrivateDelete = unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return;
+
+    if ( $CertDelete && $PrivateDelete ) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 =item PrivateList()
@@ -768,9 +774,10 @@ sub PrivateList {
         Directory => "$Self->{PrivatePath}",
         Filter    => '*.0',
     );
+
     for my $File (@List) {
-        $File =~ s!^.*/!!;
-        $File =~ s/(.*)\.0/$1/;
+        $File =~ s{^.*/}{}xms;
+        $File =~ s{(.*)\.0}{$1}xms;
         push @Hash, $File;
     }
     return @Hash;
@@ -891,9 +898,9 @@ sub _FetchAttributesFromCert {
     # filters
     my %Filters = (
         Hash        => '(\w{8})',
-        Issuer      => '(issuer=\s.*)',
+        Issuer      => 'issuer=\s(.*)',
         Fingerprint => 'SHA1\sFingerprint=(.*)',
-        Serial      => '(serial=.*)',
+        Serial      => 'serial=(.*)',
         Subject     => 'subject=(.*)',
         StartDate   => 'notBefore=(.*)',
         EndDate     => 'notAfter=(.*)',
@@ -989,6 +996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43.2.2 $ $Date: 2011-04-08 19:00:40 $
+$Revision: 1.43.2.3 $ $Date: 2011-05-09 20:44:32 $
 
 =cut
