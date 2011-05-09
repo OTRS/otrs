@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.78 2011-05-09 16:17:15 mp Exp $
+# $Id: CHANGES,v 1.1758.2.79 2011-05-09 17:57:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-05-09 Added new Croatian translation, thanks to Damir Dzeko!
  - 2011-05-09 Fixed bug#7092 - Non-existent theme set in user_preferences makes login impossible.
  - 2011-05-09 Fixed bug#7010 - Latest version of PDF::API2 no longer includes DejaVu fonts.
     Fixed by including DejaVu fonts in var/fonts.
@@ -30,7 +31,7 @@
  - 2011-04-11 Updated Italian translation, thanks to Lucia Magnanelli!
  - 2011-04-06 Fixed bug#7058 - AJAX communication error when picking queue during ticket split.
  - 2011-04-05 Fixed bug#7179 - MasterAction causes browser problem.
- - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived.
+ - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived with GenericAgent.
  - 2011-04-04 Fixed bug#6801 - Bulk Actions are not working.
  - 2011-04-04 Fixed bug#7156 - NewTicketInNewWindow misplaced group.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
