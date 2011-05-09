@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.26 2011-03-29 11:14:58 mb Exp $
+# $Id: NotificationEvent.pm,v 1.27 2011-05-09 11:18:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -384,7 +384,7 @@ sub _SendNotificationToRecipients {
     # get recipients by RecipientRoles
     if ( $Param{Notification}->{Data}->{RecipientRoles} ) {
         RECIPIENT:
-        for my $Role ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
+        for my $Role ( @{ $Param{Notification}->{Data}->{RecipientRoles} } ) {
             my @RoleMemberList = $Self->{GroupObject}->GroupUserRoleMemberList(
                 Result => 'ID',
                 RoleID => $Role,
