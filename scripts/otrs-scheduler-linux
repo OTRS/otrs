@@ -1,9 +1,9 @@
 #!/bin/bash
 # --
-# lnx-otrs-scheduler - provides Scheduler init control on linux
+# otrs-scheduler-linux - provides Scheduler init control on linux
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: lnx-otrs-scheduler,v 1.4 2011-05-09 11:18:07 cr Exp $
+# $Id: otrs-scheduler-linux,v 1.1 2011-05-09 11:34:17 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,7 +28,7 @@
 # chkconfig: - 80 10
 # description: OTRS scheduler.
 ### BEGIN INIT INFO
-# Provides:       lnx-otrs-scheduler
+# Provides:       otrs-scheduler-linux
 # Default-Start:  3 5
 # Default-Stop:   0 1 6
 # Required-Start: $ALL
