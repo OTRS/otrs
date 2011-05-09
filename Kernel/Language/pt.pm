@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.102 2011-03-17 21:53:34 ep Exp $
+# $Id: pt.pm,v 1.103 2011-05-09 22:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1723,7 +1723,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'Welcome!' => '',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.11 2011-03-17 21:53:34 ep Exp $
+# $Id: sr_Cyrl.pm,v 1.12 2011-05-09 22:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1715,7 +1715,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Споразум о нивоу услуге',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'You have not created a ticket yet.' => 'Још увек нисте отворили тикет.',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you. We stop eating if you wish us to do. Your way to communicate with us is this thing called \'ticket\'. Please command us.' => 'Би као корисник имате привилегију да будете у центру пажње особља техничке подршке. Учинићемо све како би Ви били задовољни. Начин да ефикасно комуницирате са нама је ова ствар кој се зове "тикет". Молимо вас, пренесите нам ваш проблем.',
         'We stop eating if you wish us to do.' => '',

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.272 2011-05-04 08:29:54 mb Exp $
+# $Id: de.pm,v 1.273 2011-05-09 22:21:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.272 $) [1];
+$VERSION = qw($Revision: 1.273 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1732,7 +1732,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service-Level-Vereinbarung',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'Welcome!' => 'Willkommen!',
         'Please click the button below to create your first ticket.' => 'Bitte verwenden Sie den Knopf unten zur Erstellung Ihres ersten Tickets.',
         'Create your first ticket' => 'Ihr erstes Ticket erstellen',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.114 2011-03-17 17:13:30 ep Exp $
+# $Id: bg.pm,v 1.115 2011-05-09 22:21:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1716,7 +1716,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'You have not created a ticket yet.' => '',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
         'We stop eating if you wish us to do.' => '',

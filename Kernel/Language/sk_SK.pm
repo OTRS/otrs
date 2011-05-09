@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.75 2011-03-17 21:53:34 ep Exp $
+# $Id: sk_SK.pm,v 1.76 2011-05-09 22:21:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1715,7 +1715,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'You have not created a ticket yet.' => '',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
         'We stop eating if you wish us to do.' => '',

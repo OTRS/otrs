@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.48 2011-03-17 21:53:35 ep Exp $
+# $Id: vi_VN.pm,v 1.49 2011-05-09 22:21:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1714,7 +1714,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'You have not created a ticket yet.' => '',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
         'We stop eating if you wish us to do.' => '',

@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jorgensen <itlj[at]gyldendal.dk>
 # --
-# $Id: da.pm,v 1.84 2011-03-17 17:13:30 ep Exp $
+# $Id: da.pm,v 1.85 2011-05-09 22:21:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1717,7 +1717,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'You have not created a ticket yet.' => 'Du har endnu ikke oprettet en sag',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => '',
         'We stop eating if you wish us to do.' => '',

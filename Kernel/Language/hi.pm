@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.3 2011-03-17 17:16:57 ep Exp $
+# $Id: hi.pm,v 1.4 2011-05-09 22:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1725,7 +1725,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => 'सेवा स्तर अनुबंध',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'Welcome!' => 'आपका स्वागत है',
         'Please click the button below to create your first ticket.' => 'अपना पहला टिकट बनाने के लिए कृपया नीचे दिए गए बटन को दबाऐ।',
         'Create your first ticket' => 'अपना पहला टिकट बनाएँ',

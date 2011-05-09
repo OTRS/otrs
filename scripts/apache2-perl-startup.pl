@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.48 2011-02-17 21:23:40 en Exp $
+# $Id: apache2-perl-startup.pl,v 1.49 2011-05-09 22:21:07 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -189,7 +189,7 @@ use Kernel::Modules::AdminRoleGroup;
 use Kernel::Modules::CustomerPreferences;
 use Kernel::Modules::CustomerTicketAttachment;
 use Kernel::Modules::CustomerTicketMessage;
-use Kernel::Modules::CustomerTicketOverView;
+use Kernel::Modules::CustomerTicketOverview;
 use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
 

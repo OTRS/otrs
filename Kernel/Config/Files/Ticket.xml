@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.439 2011-05-09 19:26:23 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.440 2011-05-09 22:20:18 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7401,8 +7401,8 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
-            <Option SelectedID="CustomerTicketOverView">
-                <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
+            <Option SelectedID="CustomerTicketOverview">
+                <Item Key="CustomerTicketOverview">CustomerTicketOverview</Item>
                 <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
             </Option>
         </Setting>
@@ -7605,8 +7605,8 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
-            <Option SelectedID="CustomerTicketOverView">
-                <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
+            <Option SelectedID="CustomerTicketOverview">
+                <Item Key="CustomerTicketOverview">CustomerTicketOverview</Item>
                 <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
             </Option>
         </Setting>
@@ -8009,7 +8009,7 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">CustomerTicketOverView</String>
+            <String Regex="">CustomerTicketOverview</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###TicketID" Required="1" Valid="1">
@@ -8977,7 +8977,7 @@ $QData{"Body"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
+    <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
@@ -8992,7 +8992,7 @@ $QData{"Body"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView;Subaction=MyTickets</Link>
+                    <Link>Action=CustomerTicketOverview;Subaction=MyTickets</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
@@ -9003,7 +9003,7 @@ $QData{"Body"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView;Subaction=CompanyTickets</Link>
+                    <Link>Action=CustomerTicketOverview;Subaction=CompanyTickets</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>c</AccessKey>
                     <Prio>120</Prio>

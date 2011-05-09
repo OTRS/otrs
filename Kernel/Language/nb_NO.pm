@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.109 2011-03-17 17:16:58 ep Exp $
+# $Id: nb_NO.pm,v 1.110 2011-05-09 22:21:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.109 $;
+$VERSION = q$Revision: 1.110 $;
 
 sub Data {
     my $Self = shift;
@@ -1737,7 +1737,7 @@ sub Data {
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Tjenestenivåavtale',
 
-        # Template: CustomerTicketOverView
+        # Template: CustomerTicketOverview
         'Welcome!' => 'Velkommen!',
         'Please click the button below to create your first ticket.' => 'Vennligst klikk på knappen under for å opprette din første sak.',
         'Create your first ticket' => 'Opprett din første sak',
