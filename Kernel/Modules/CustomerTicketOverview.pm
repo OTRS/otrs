@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
+# Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.68 2011-05-09 21:30:37 en Exp $
+# $Id: CustomerTicketOverview.pm,v 1.1 2011-05-09 22:18:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::CustomerTicketOverView;
+package Kernel::Modules::CustomerTicketOverview;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
     # check subaction
     if ( !$Self->{Subaction} ) {
         return $Self->{LayoutObject}->Redirect(
-            OP => 'Action=CustomerTicketOverView;Subaction=MyTickets',
+            OP => 'Action=CustomerTicketOverview;Subaction=MyTickets',
         );
     }
 
@@ -239,9 +239,9 @@ sub Run {
             StartHit  => $Self->{StartHit},
             PageShown => $Self->{PageShown},
             AllHits   => $AllTickets,
-            Action    => 'Action=CustomerTicketOverView',
+            Action    => 'Action=CustomerTicketOverview',
             Link      => $Link,
-            IDPrefix  => 'CustomerTicketOverView',
+            IDPrefix  => 'CustomerTicketOverview',
         );
 
         my $OrderBy = 'Down';
@@ -353,7 +353,7 @@ sub Run {
     # build NavigationBar
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketOverView',
+        TemplateFile => 'CustomerTicketOverview',
         Data         => \%Param,
     );
 
