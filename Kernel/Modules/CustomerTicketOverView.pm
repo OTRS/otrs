@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.67 2010-12-07 09:42:42 mg Exp $
+# $Id: CustomerTicketOverView.pm,v 1.68 2011-05-09 21:30:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,9 +43,9 @@ sub new {
         );
 
     # get params
-    $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Open';
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' ) || 'Age';
-    $Self->{Order}  = $Self->{ParamObject}->GetParam( Param => 'Order' )  || 'Down';
+    $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )  || 'Open';
+    $Self->{SortBy}  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
+    $Self->{OrderBy} = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{PageShown} = $Self->{UserShowTickets} || 1;
 
@@ -90,7 +90,7 @@ sub Run {
                 Prio   => 1000,
                 Search => {
                     CustomerUserLogin => $Self->{UserID},
-                    OrderBy           => $Self->{Order},
+                    OrderBy           => $Self->{OrderBy},
                     SortBy            => $Self->{SortBy},
                     CustomerUserID    => $Self->{UserID},
                     Permission        => 'ro',
@@ -102,7 +102,7 @@ sub Run {
                 Search => {
                     CustomerUserLogin => $Self->{UserID},
                     StateType         => 'Open',
-                    OrderBy           => $Self->{Order},
+                    OrderBy           => $Self->{OrderBy},
                     SortBy            => $Self->{SortBy},
                     CustomerUserID    => $Self->{UserID},
                     Permission        => 'ro',
@@ -114,7 +114,7 @@ sub Run {
                 Search => {
                     CustomerUserLogin => $Self->{UserID},
                     StateType         => 'Closed',
-                    OrderBy           => $Self->{Order},
+                    OrderBy           => $Self->{OrderBy},
                     SortBy            => $Self->{SortBy},
                     CustomerUserID    => $Self->{UserID},
                     Permission        => 'ro',
@@ -128,7 +128,7 @@ sub Run {
                 Search => {
                     CustomerID =>
                         [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
-                    OrderBy        => $Self->{Order},
+                    OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
@@ -141,7 +141,7 @@ sub Run {
                     CustomerID =>
                         [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Open',
-                    OrderBy        => $Self->{Order},
+                    OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
@@ -154,7 +154,7 @@ sub Run {
                     CustomerID =>
                         [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Closed',
-                    OrderBy        => $Self->{Order},
+                    OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
@@ -230,7 +230,7 @@ sub Run {
 
         # create & return output
         my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
+            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
             . ';Filter=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
             . ';Subaction=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Subaction} )
             . ';';
@@ -244,9 +244,9 @@ sub Run {
             IDPrefix  => 'CustomerTicketOverView',
         );
 
-        my $Order = 'Down';
-        if ( $Self->{Order} eq 'Down' ) {
-            $Order = 'Up';
+        my $OrderBy = 'Down';
+        if ( $Self->{OrderBy} eq 'Down' ) {
+            $OrderBy = 'Up';
         }
         my $Sort       = '';
         my $StateSort  = '';
@@ -254,11 +254,11 @@ sub Run {
         my $TitleSort  = '';
         my $AgeSort    = '';
 
-        # this sets the opposit to the $Order
-        if ( $Order eq 'Down' ) {
+        # this sets the opposit to the $OrderBy
+        if ( $OrderBy eq 'Down' ) {
             $Sort = 'SortAscending';
         }
-        if ( $Order eq 'Up' ) {
+        if ( $OrderBy eq 'Up' ) {
             $Sort = 'SortDescending';
         }
 
@@ -280,7 +280,7 @@ sub Run {
             Data => {
                 %Param,
                 %PageNav,
-                Order      => $Order,
+                OrderBy    => $OrderBy,
                 StateSort  => $StateSort,
                 TicketSort => $TicketSort,
                 TitleSort  => $TitleSort,
