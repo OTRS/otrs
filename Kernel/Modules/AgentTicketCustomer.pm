@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.38 2010-08-09 17:40:41 cr Exp $
+# $Id: AgentTicketCustomer.pm,v 1.38.2.1 2011-05-09 19:30:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.38.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -232,7 +232,7 @@ sub Form {
             Name => 'CustomerSearchAutoComplete',
             Data => {
                 minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 0.1,
+                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 100,
                 typeAhead           => $AutoCompleteConfig->{TypeAhead}           || 'false',
                 maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
                 ActiveAutoComplete  => $AutoCompleteConfig->{Active},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.165.2.3 2011-04-11 18:18:38 mp Exp $
+# $Id: AgentTicketEmail.pm,v 1.165.2.4 2011-05-09 19:30:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165.2.3 $) [1];
+$VERSION = qw($Revision: 1.165.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1497,7 +1497,7 @@ sub _MaskEmailNew {
         Data => {
             ActiveAutoComplete  => $AutoCompleteConfig->{Active},
             minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 0.1,
+            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 100,
             typeAhead           => $AutoCompleteConfig->{TypeAhead} || 'false',
             maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
         },
