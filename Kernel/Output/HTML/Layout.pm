@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.363 2011-05-06 17:29:03 mp Exp $
+# $Id: Layout.pm,v 1.364 2011-05-09 16:02:10 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.363 $) [1];
+$VERSION = qw($Revision: 1.364 $) [1];
 
 =head1 NAME
 
@@ -373,7 +373,7 @@ sub new {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir with default theme or standar theme and chek if exist
+        # Set TemplateDir to 'Standard' as a fallback and check if it exists.
         $Theme = 'Standard';
         $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
         if ( !-e $Self->{TemplateDir} ) {
@@ -4883,6 +4883,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.363 $ $Date: 2011-05-06 17:29:03 $
+$Revision: 1.364 $ $Date: 2011-05-09 16:02:10 $
 
 =cut
