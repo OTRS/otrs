@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1868 2011-05-09 19:28:01 mb Exp $
+# $Id: CHANGES,v 1.1869 2011-05-09 21:10:52 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-05-09 Fixed bug#6901 - Ticket Search -> CSV export -> close date incorrect.
  - 2011-05-09 Fixed bug#7289 - Ticket::Frontend::CustomerSearchAutoComplete###QueryDelay
     should be specified in milliseconds rather than seconds.
  - 2011-05-09 Added new Croatian translation, thanks to Damir Dzeko!
