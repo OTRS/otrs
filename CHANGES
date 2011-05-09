@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.77 2011-05-09 13:40:26 mb Exp $
+# $Id: CHANGES,v 1.1758.2.78 2011-05-09 16:17:15 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-05-09 Fixed bug#7092 - Non-existent theme set in user_preferences makes login impossible.
  - 2011-05-09 Fixed bug#7010 - Latest version of PDF::API2 no longer includes DejaVu fonts.
     Fixed by including DejaVu fonts in var/fonts.
  - 2011-05-09 Fixed bug#7245 - Event based notifications are not sent to roles.
