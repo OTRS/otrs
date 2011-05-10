@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.56.2.3 2011-04-01 15:19:25 mp Exp $
+# $Id: InterfaceCustomer.pm,v 1.56.2.4 2011-05-10 16:18:02 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.56.2.3 $) [1];
+$VERSION = qw($Revision: 1.56.2.4 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -545,38 +545,53 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        my $Success
+            = $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
 
-        # send notify email
-        my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
-            || 'New Password is: <OTRS_NEWPW>';
-        my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectLostPassword')
-            || 'New Password!';
-        for ( keys %UserData ) {
-            $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
-        }
-        my $Sent = $EmailObject->Send(
-            To       => $UserData{UserEmail},
-            Subject  => $Subject,
-            Charset  => $LayoutObject->{UserCharset},
-            MimeType => 'text/plain',
-            Body     => $Body
-        );
-        if ( !$Sent ) {
-            $LayoutObject->CustomerFatalError(
-                Comment => 'Please contact your administrator'
+        if ( !$Success ) {
+            $LayoutObject->Print(
+                Output => \$LayoutObject->CustomerLogin(
+                    Title => 'Login',
+                    Message =>
+                        "Reset password unsuccessful. Please contact your administrator",
+                    User => $User,
+                ),
             );
             return;
         }
-        $LayoutObject->Print(
-            Output => \$LayoutObject->CustomerLogin(
-                Title => 'Login',
-                Message =>
-                    "Sent new password to \%s. Please check your email.\", \"$UserData{UserEmail}",
-                User => $User,
-            ),
-        );
-        return 1;
+        else {
+
+            # send notify email
+            my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
+                || 'New Password is: <OTRS_NEWPW>';
+            my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectLostPassword')
+                || 'New Password!';
+            for ( keys %UserData ) {
+                $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
+            }
+            my $Sent = $EmailObject->Send(
+                To       => $UserData{UserEmail},
+                Subject  => $Subject,
+                Charset  => $LayoutObject->{UserCharset},
+                MimeType => 'text/plain',
+                Body     => $Body
+            );
+            if ( !$Sent ) {
+                $LayoutObject->CustomerFatalError(
+                    Comment => 'Please contact your administrator'
+                );
+                return;
+            }
+            $LayoutObject->Print(
+                Output => \$LayoutObject->CustomerLogin(
+                    Title => 'Login',
+                    Message =>
+                        "Sent new password to \%s. Please check your email.\", \"$UserData{UserEmail}",
+                    User => $User,
+                ),
+            );
+            return 1;
+        }
     }
 
     # create new customer account
@@ -1042,6 +1057,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56.2.3 $ $Date: 2011-04-01 15:19:25 $
+$Revision: 1.56.2.4 $ $Date: 2011-05-10 16:18:02 $
 
 =cut
