@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1871 2011-05-09 22:33:41 en Exp $
+# $Id: CHANGES,v 1.1872 2011-05-10 11:36:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-05-10 Fixed bug#7271 - AJAX issue when clicking 'Submit' while AJAX requests are still running.
  - 2011-05-09 Fixed bug#7270 - Changing the customer from overviews opens the ticket zoom.
  - 2011-05-09 Fixed bug#7262 - Customer Ticket Overview Sorting by <th>.
  - 2011-05-09 Fixed bug#6901 - Ticket Search -> CSV export -> close date incorrect.

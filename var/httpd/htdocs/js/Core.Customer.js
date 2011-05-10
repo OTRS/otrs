@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Customer.js,v 1.15 2011-03-23 19:03:39 en Exp $
+// $Id: Core.Customer.js,v 1.16 2011-05-10 11:36:24 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,8 @@ Core.Customer = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var $TableElements = $('table.Overview tbody tr');
+
+        Core.Exception.Init();
 
         Core.Form.Validate.Init();
         // Add table functions here (because of performance reasons only do this if table has not more than 200 rows)
