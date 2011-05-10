@@ -3,7 +3,7 @@
 # otrs.Scheduler4winInstaller.pl - helps to install OTRS Scheduler on Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4winInstaller.pl,v 1.5 2011-05-10 12:07:24 mb Exp $
+# $Id: otrs.Scheduler4winInstaller.pl,v 1.6 2011-05-10 16:31:15 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,23 +30,29 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
-use Win32::Daemon;
 
 # get options
 my %Opts = ();
 getopt( 'ha', \%Opts );
 
-# check if is running on windows
-if ( $^O ne "MSWin32" ) {
-    die "This program only works on Microsoft Windows!";
+BEGIN {
+
+    # check if is running on windows
+    if ( $^O ne "MSWin32" ) {
+        print "This program only works on Microsoft Windows!\n";
+        exit 1;
+    }
 }
+
+# load Windows specific modules
+use Win32::Daemon;
 
 # installing and removing of services requires Administrator permissions
 require Win32;

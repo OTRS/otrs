@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.18 2011-05-10 12:07:24 mb Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.19 2011-05-10 16:31:15 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -41,8 +41,6 @@ use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
-use Win32::Daemon;
-use Win32::Service;
 
 # to store service name
 my $Service = 'OTRSScheduler';
@@ -54,10 +52,18 @@ my $ServiceStatus = {};
 my %Opts = ();
 getopt( 'haf', \%Opts );
 
-# check if is running on windows
-if ( $^O ne "MSWin32" ) {
-    die "This program only works on Microsoft Windows, use otrs.Scheduler.pl instead.";
+BEGIN {
+
+    # check if is running on windows
+    if ( $^O ne "MSWin32" ) {
+        print "This program only works on Microsoft Windows, use otrs.Scheduler.pl instead.\n";
+        exit 1;
+    }
 }
+
+# load windows specific modules
+use Win32::Daemon;
+use Win32::Service;
 
 # starting and stopping can only be done with UAC enabled
 if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
