@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.48 2011-05-09 16:33:44 cr Exp $
+# $Id: Common.pm,v 1.49 2011-05-10 02:50:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -1097,12 +1097,16 @@ sub PrepareRequest {
 
         # return if this is not ticket close
         if ( $Ticket{StateType} ne 'closed' ) {
-            $ErrorMessage = "$Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
-                . "state but on an \"$Ticket{StateType}\" state, CloseIncident Invoker Cancelled";
-            $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
+            $Self->{DebuggerObject}->Debug(
+                Summary => "$Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
+                    . "state but on an \"$Ticket{StateType}\" state,"
+                    . " CloseIncident Invoker Cancelled",
+            );
+
+            # stop requester communication
             return {
-                Success      => 0,
-                ErrorMessage => $ErrorMessage,
+                Success           => 1,
+                StopCommunication => 1,
             };
         }
 
@@ -1797,6 +1801,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2011-05-09 16:33:44 $
+$Revision: 1.49 $ $Date: 2011-05-10 02:50:00 $
 
 =cut
