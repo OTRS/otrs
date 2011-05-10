@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.20.2.2 2011-04-15 20:29:18 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.20.2.3 2011-05-10 18:11:28 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,11 +101,11 @@
                     </thead>
                     <tbody>
                         <tr class="FilterMessage Hidden">
-                            <td colspan="5">$Text{"No matches found."}</td>
+                            <td colspan="7">$Text{"No matches found."}</td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan="5">$Text{"No data found."}</td>
+                            <td colspan="7">$Text{"No data found."}</td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Row -->

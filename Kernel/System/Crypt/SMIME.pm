@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43.2.3 2011-05-09 20:44:32 dz Exp $
+# $Id: SMIME.pm,v 1.43.2.4 2011-05-10 18:11:28 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.3 $) [1];
+$VERSION = qw($Revision: 1.43.2.4 $) [1];
 
 =head1 NAME
 
@@ -898,10 +898,10 @@ sub _FetchAttributesFromCert {
     # filters
     my %Filters = (
         Hash        => '(\w{8})',
-        Issuer      => 'issuer=\s(.*)',
+        Issuer      => 'issuer=\s*(.*)',
         Fingerprint => 'SHA1\sFingerprint=(.*)',
         Serial      => 'serial=(.*)',
-        Subject     => 'subject=(.*)',
+        Subject     => 'subject=\s*/(.*)',
         StartDate   => 'notBefore=(.*)',
         EndDate     => 'notAfter=(.*)',
         Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
@@ -928,10 +928,9 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer}  =~ s/=/= /g;
-    $AttributesRef->{Subject} =~ s/subject=//;
-    $AttributesRef->{Subject} =~ s/\// /g;
-    $AttributesRef->{Subject} =~ s/=/= /g;
+    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg;
+    $AttributesRef->{Subject} =~ s{\/}{ }xmsg;
+    $AttributesRef->{Subject} =~ s{=}{= }xmsg;
 
     my %Month = (
         Jan => '01',
@@ -996,6 +995,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43.2.3 $ $Date: 2011-05-09 20:44:32 $
+$Revision: 1.43.2.4 $ $Date: 2011-05-10 18:11:28 $
 
 =cut

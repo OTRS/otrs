@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.14.2.2 2011-05-09 20:46:27 dz Exp $
+# $Id: SMIME.t,v 1.14.2.3 2011-05-10 18:11:28 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,7 @@ my %Check = (
             'B5D12B210C8EF3E6B404162157022CEFF46AF6519571F985C116A3CF096B5BD9DBE306CA6683221F08858C8BA1422F934916FE29EF89DA1F1DD55AA47443F796CB882843E16CB4F722F8038768B6FDCE8F4ADEC5E81DB46F9B300A765737B698FC0B7D1E57410BCF810E4B3B4F74FD5C805378879E8C23CD5CB6A0A160AE42E9',
         EndDate => 'Mar 29 11:20:56 2012 GMT',
         Subject =>
-            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
         Hash         => '980a83c7',
         Private      => 'No',
         Serial       => 'D51FC7523893BCFD',
@@ -93,7 +93,7 @@ my %Check = (
             'C37422BAB1D6CDE930ED44E79C4D3BD3BECBD4E391FB80C3FC74B639A926D670FDDF6A75EBC304E42FD83311C64356C3DF4E468484CF0A71CAACA333BB99B1ACF418B72020A4D44FA28DF97F0DC2E8D64A0926673FBAC1F29A669E6F3776601CC27937A3212228856CAB9396923B60998198FFD2BB10E8667C02C66F11BA5787',
         EndDate => 'Mar 29 11:32:20 2012 GMT',
         Subject =>
-            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
         Hash         => '999bcb2f',
         Private      => 'No',
         Serial       => '9BCC39BD2A958C37',
@@ -157,7 +157,7 @@ if ( $^O =~ m{Win}i ) {
     $Check{'cert-2'} =~ tr{\r}{}d;
 }
 
-my $TestText = 'hello1234567890ï¿½ï¿½ï¿½ï¿½';
+my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
     my @Certs = $CryptObject->Search( Search => $Search{$Count} );
