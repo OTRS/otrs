@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.49 2010-12-22 13:14:45 mb Exp $
+# $Id: AgentTicketBounce.pm,v 1.50 2011-05-10 22:35:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -400,31 +400,35 @@ $Param{Signature}";
             }
         }
 
-        # set state
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-            ID => $Param{BounceStateID},
-        );
-        $Self->{TicketObject}->TicketStateSet(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Self->{ArticleID},
-            StateID   => $Param{BounceStateID},
-            UserID    => $Self->{UserID},
-        );
+        # check if there is a chosen bounce state id
+        if ( $Param{BounceStateID} ) {
 
-        # should i set an unlock?
-        if ( $StateData{TypeName} =~ /^close/i ) {
-            $Self->{TicketObject}->TicketLockSet(
-                TicketID => $Self->{TicketID},
-                Lock     => 'unlock',
-                UserID   => $Self->{UserID},
+            # set state
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $Param{BounceStateID},
             );
-        }
+            $Self->{TicketObject}->TicketStateSet(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Self->{ArticleID},
+                StateID   => $Param{BounceStateID},
+                UserID    => $Self->{UserID},
+            );
 
-        # redirect
-        if ( $StateData{TypeName} =~ /^close/i ) {
-            return $Self->{LayoutObject}->PopupClose(
-                URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
-            );
+            # should i set an unlock?
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{UserID},
+                );
+            }
+
+            # redirect
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                return $Self->{LayoutObject}->PopupClose(
+                    URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
+                );
+            }
         }
         else {
             return $Self->{LayoutObject}->PopupClose(

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1873 2011-05-10 16:23:17 mp Exp $
+# $Id: CHANGES,v 1.1874 2011-05-10 22:35:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@
      of > 70 characters exists.
 
 3.0.8 2011-??-??
+ - 2011-05-10 Fixed bug#7280 - AgentTicketCompose :: empty state selection causes many log entries.
  - 2011-05-10 Fixed bug#7111 - Customer Password reset mail is sent even if the DB could not be updated.
  - 2011-05-10 Fixed bug#7271 - AJAX issue when clicking 'Submit' while AJAX requests are still running.
  - 2011-05-09 Fixed bug#7270 - Changing the customer from overviews opens the ticket zoom.
