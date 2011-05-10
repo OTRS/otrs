@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.7.2.4 2011-02-24 11:16:57 mn Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.7.2.5 2011-05-10 11:36:32 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -403,7 +403,8 @@ Core.AJAX = (function (Namespace) {
                 ChangeErrorHandlingForTest();
                 // Special callback for this test
                 Core.Exception.HandleFinalError = function (Exception) {
-                    var ExceptionMessage = Exception.GetMessage()
+                    var ExceptionMessage = Exception.GetMessage();
+
                     ok(ExceptionMessage.match(/^Invalid callback method.+$/), 'Error handling called');
                     start();
                     RestoreOrignal();
@@ -417,6 +418,36 @@ Core.AJAX = (function (Namespace) {
                     RestoreOrignal();
                 }
             });
+        });
+
+        // test AJAX error message suppression on leaving the page
+        asyncTest('AJAX error handling on leaving the page', 1, function () {
+            var AboutToLeaveOriginal = Core.Exception.AboutToLeave,
+                HandleFinalErrorOriginal = Core.Exception.HandleFinalError;
+
+            Core.Exception.AboutToLeave = true;
+
+            Core.Exception.HandleFinalError = function (ErrorObject, Trace) {
+                var ErrorShownToUser = HandleFinalErrorOriginal(ErrorObject, Trace);
+
+                equals(ErrorShownToUser, false, 'AJAX errors should be suppressed when leaving the page (custom error handler called)');
+                start();
+
+                Core.Exception.HandleFinalError = HandleFinalErrorOriginal;
+                Core.Exception.AboutToLeave = AboutToLeaveOriginal;
+            };
+
+            //ChangeErrorHandlingForTest();
+            try {
+                Core.AJAX.FunctionCall('nonexisting.url', {}, function () {
+                    equals(true, false, 'Callback on nonexisting URL');
+                    start();
+                });
+            }
+            catch (Error) {
+                equals(true, false, 'Error caught, unexpected Exception was thrown');
+                start();
+            }
         });
     };
 

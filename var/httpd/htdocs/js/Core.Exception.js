@@ -2,7 +2,7 @@
 // Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Exception.js,v 1.4.2.1 2011-03-18 06:35:04 mp Exp $
+// $Id: Core.Exception.js,v 1.4.2.2 2011-05-10 11:36:32 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,21 @@ var Core = Core || {};
  *      This namespace contains the functions for handling application errors.
  */
 Core.Exception = (function (TargetNS) {
+
+    /**
+     * @function Initialization code.
+     */
+    TargetNS.Init = function () {
+        /*
+         * Register an 'beforeunload' function which puts a status flag that
+         *  the current page is about to be left. Then AJAX errors because of
+         *  pending AJAX requests must be suppressed.
+         */
+        $(window).bind('beforeunload.Exception', function(){
+            // Use a public member so that we can also set it from a test case.
+            TargetNS.AboutToLeave = true;
+        });
+    };
     /**
      * @function
      *      This is the constructor for the application error object
@@ -73,16 +88,22 @@ Core.Exception = (function (TargetNS) {
      *      This function handles the given error object (used as last possibility to catch the error)
      * @param {Object} Error The error object
      * @param {String} Trace (Optional) A string containing the stacktrace
-     * @return nothing
+     * @return {Boolean} If the error could be handled, returns if it was shown to the user or not.
+     *      If the error could not be handled, this method will rethrow it.
      */
     TargetNS.HandleFinalError = function (ErrorObject, Trace) {
-        var UserErrorMessage = 'An error occured! Do you want to see the complete error messages?';
+        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?';
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
+            // Suppress AJAX errors which were raised by leaving the page while the AJAX call was still running.
+            if (TargetNS.AboutToLeave && ErrorObject.GetType() === 'CommunicationError') {
+                return false;
+            }
             TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
             if (window.confirm(UserErrorMessage)) {
                 alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
             }
+            return true;
         }
         else if (ErrorObject instanceof Error) {
             TargetNS.ShowError(ErrorObject.message, 'JavaScriptError', Trace);
