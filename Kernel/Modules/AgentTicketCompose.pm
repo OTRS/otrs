@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.124.2.6 2011-05-09 19:30:44 mb Exp $
+# $Id: AgentTicketCompose.pm,v 1.124.2.7 2011-05-10 22:34:01 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.6 $) [1];
+$VERSION = qw($Revision: 1.124.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -210,7 +210,16 @@ sub Run {
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' ) {
 
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID}, );
+        # get valid state id
+        if ( !$GetParam{StateID} ) {
+            my %Ticket = $Self->{TicketObject}->TicketGet(
+                TicketID => $Self->{TicketID},
+                UserID   => 1,
+            );
+            $GetParam{StateID} = $Ticket{StateID};
+        }
+
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID} );
 
         my %Error;
 
