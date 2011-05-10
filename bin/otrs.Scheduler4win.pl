@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.17 2011-05-03 09:31:54 mb Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.18 2011-05-10 12:07:24 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -59,6 +59,17 @@ if ( $^O ne "MSWin32" ) {
     die "This program only works on Microsoft Windows, use otrs.Scheduler.pl instead.";
 }
 
+# starting and stopping can only be done with UAC enabled
+if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
+    require Win32;
+
+    if ( !Win32::IsAdminUser() ) {
+        print "To be able to start or stop the Scheduler, call the script with UAC enabled.\n";
+        print "(right-click CMD, select \'Run as administrator\').\n";
+        exit 2;
+    }
+}
+
 # help option
 if ( $Opts{h} ) {
     _help();
@@ -85,7 +96,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
         # no proces ID means that is not running
         if ( !%PID ) {
-            print "Can't stop OTRS Scheduler because is not running!\n";
+            print "OTRS scheduler was already in stopped state.\n";
             exit 1;
         }
     }
@@ -423,7 +434,7 @@ sub _start {
             # get config checksum
             my $CurrConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
 
-            # check if cheksum changed and restart
+            # check if checksum changed and restart
             if ( $InitConfigMD5 ne $CurrConfigMD5 ) {
 
                 my $ExitCode = _AutoRestart(
@@ -597,7 +608,7 @@ sub _AutoRestart {
     # log service stopping
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Schduler service is Stopping due a restart!!!.",
+        Message  => "Scheduler service is stopping due a restart.",
     );
 
     # get the scheduler information to restart
