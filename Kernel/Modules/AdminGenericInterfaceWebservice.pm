@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.1 2011-05-09 21:00:43 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.2 2011-05-10 16:57:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
@@ -63,7 +63,6 @@ sub _ShowScreen {
     );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
-    $Self->{LayoutObject}->Block( Name => 'Tutorial' );
     $Self->{LayoutObject}->Block( Name => 'OverviewHeader' );
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
