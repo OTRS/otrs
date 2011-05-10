@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.25 2011-05-03 11:26:02 mb Exp $
+# $Id: Common.pm,v 1.26 2011-05-10 00:42:38 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -271,29 +271,47 @@ sub TicketSync {
 
     #TODO add person mapping
 
-    # get state from data
+    # get state and ticket freetext fields from data
     my $NewState;
+    my %TicketFreeText;
     if ( IsHashRefWithData( $Param{Data}->{IctAdditionalInfos} ) ) {
 
         # in case there is only one additional info entry
-        if (
-            IsHashRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} )
-            && $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoAttribute} eq 'SAPUserStatus'
-            && IsStringWithData( $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue} )
-            )
-        {
-            $NewState = $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue};
+        if ( IsHashRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} ) ) {
+            if (
+                $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoAttribute} eq 'SAPUserStatus'
+                && IsStringWithData( $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue} )
+                )
+            {
+                $NewState = $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue};
+            }
+            elsif (
+                IsStringWithData(
+                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketFreeTextField}
+                )
+                )
+            {
+                $TicketFreeText{
+                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketFreeTextField}
+                    } = $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue} || '';
+            }
         }
 
         # in case there are more than one additional info entries
         elsif ( IsArrayRefWithData( $Param{Data}->{IctAdditionalInfos}->{item} ) ) {
             ADDINFO:
             for my $AddInfo ( @{ $Param{Data}->{IctAdditionalInfos}->{item} } ) {
-                next ADDINFO if !IsStringWithData( $AddInfo->{AddInfoAttribute} );
-                next ADDINFO if $AddInfo->{AddInfoAttribute} ne 'SAPUserStatus';
-                last ADDINFO if !IsStringWithData( $AddInfo->{AddInfoValue} );
-                $NewState = $AddInfo->{AddInfoValue};
-                last ADDINFO;
+                if (
+                    $AddInfo->{AddInfoAttribute} eq 'SAPUserStatus'
+                    && IsStringWithData( $AddInfo->{AddInfoValue} )
+                    )
+                {
+                    $NewState = $AddInfo->{AddInfoValue};
+                    next ADDINFO;
+                }
+
+                next ADDINFO if !IsStringWithData( $AddInfo->{TicketFreeTextField} );
+                $TicketFreeText{ $AddInfo->{TicketFreeTextField} } = $AddInfo->{AddInfoValue};
             }
         }
     }
@@ -618,6 +636,27 @@ sub TicketSync {
         }
     }
 
+    # set ticket freetext fields
+    for my $Number ( sort keys %TicketFreeText ) {
+        my $TicketFreeTextDefault = $Self->{TicketObject}->TicketFreeTextGet(
+            Type   => 'TicketFreeKey' . $Number,
+            UserID => 1,
+        );
+        my $Key;
+        DEFAULT:
+        for my $Default ( sort keys %{$TicketFreeTextDefault} ) {
+            $Key = $Default;
+            last DEFAULT;
+        }
+        my $TicketFreeTextSuccess = $Self->{TicketObject}->TicketFreeTextSet(
+            Counter  => $Number,
+            Key      => $Key,
+            Value    => $TicketFreeText{$Number},
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+    }
+
     # close ticket
     if ( $Param{Operation} eq 'CloseIncident' ) {
 
@@ -767,6 +806,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-05-03 11:26:02 $
+$Revision: 1.26 $ $Date: 2011-05-10 00:42:38 $
 
 =cut

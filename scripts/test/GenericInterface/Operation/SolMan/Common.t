@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.18 2011-04-19 16:18:17 mg Exp $
+# $Id: Common.t,v 1.19 2011-05-10 00:42:38 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use MIME::Base64 ();
 use Kernel::System::Ticket;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 use Kernel::Config;
 
@@ -57,6 +58,26 @@ my $WebserviceConfig = {
             AddInfo => {
                 Type             => 'SolMan::AddInfo',
                 RemoteSystemGuid => 'DE86768CD3D015F181D0001438BF50C6',
+                MappingInbound   => {
+                    Config => {
+                        ArticleTypeMap => {
+                            SUST => 'phone',
+                        },
+                        ArticleTypeMapDefault => 'email-internal',
+                        PriorityMap           => {
+                            1 => '5 very high',
+                        },
+                        StateMap => {
+                            E0003SLFC0001 => 'pending reminder',
+                        },
+                        TicketFreeTextMap => {
+                            SAPComponent    => 10,
+                            SAPSystemID     => 11,
+                            SAPSystemClient => 12,
+                        },
+                    },
+                    Type => 'SolMan',
+                },
             },
             AcceptIncidentProcessing => {
                 Type             => 'SolMan::AcceptIncidentProcessing',
@@ -254,9 +275,37 @@ works too',
             Name      => 'AddInfo',
             Operation => 'AddInfo',
             Success   => 1,
-            Data      => {
-                IctAdditionalInfos => {},
-                IctAttachments     => {
+            Expected  => {
+                ArticleType => [
+                    'phone',
+                    'email-internal',
+                ],
+                Priority       => '5 very high',
+                State          => 'pending reminder',
+                TicketFreeText => {
+                    10 => 'DE-TST',
+                    11 => 'localhost',
+                    12 => '',
+                },
+            },
+            Data => {
+                IctAdditionalInfos => {
+                    item => [
+                        {
+                            AddInfoAttribute => 'SAPComponent',
+                            AddInfoValue     => 'DE-TST',
+                        },
+                        {
+                            AddInfoAttribute => 'SAPSystemID',
+                            AddInfoValue     => 'localhost',
+                        },
+                        {
+                            AddInfoAttribute => 'SAPUserStatus',
+                            AddInfoValue     => 'E0003SLFC0001',
+                        },
+                    ],
+                },
+                IctAttachments => {
                     item => [
                         {
                             AttachmentGuid => "Solman-$RandomID1-2-1",
@@ -289,7 +338,7 @@ works too',
                     AgentId          => 1,
                     ReporterId       => 'stefan.bedorf@otrs.com',
                     ShortDescription => 'AddInfo Test',
-                    Priority         => '4 high',
+                    Priority         => 1,
                     Language         => 'de',
                     RequestedBegin   => '20000101000000',
                     RequestedEnd     => '20111231235959',
@@ -318,7 +367,7 @@ works too',
                 IctStatements => {
                     item => [
                         {
-                            TextType => 'note-internal',
+                            TextType => 'SUST',
                             Texts    => {
                                 item => [
                                     'another',
@@ -330,7 +379,7 @@ works too',
                             Language  => 'de',
                         },
                         {
-                            TextType => 'note-internal',
+                            TextType => 'UNKNOWN',
                             Texts    => {
                                 item => [
                                     'a new second article',
@@ -1015,6 +1064,34 @@ for my $TestChain (@Tests) {
             );
         }
 
+        # use mapping if mapping config is defined
+        my $MappingConfig =
+            $WebserviceConfig->{Provider}->{Operation}->{ $Test->{Operation} }->{MappingInbound};
+        if ($MappingConfig) {
+            my $MappingObject = Kernel::GenericInterface::Mapping->new(
+                %{$Self},
+                DebuggerObject => $DebuggerObject,
+                MappingConfig  => $MappingConfig,
+            );
+
+            $Self->Is(
+                ref $MappingObject,
+                'Kernel::GenericInterface::Mapping',
+                'Mapping::new() success',
+            );
+
+            my $MappingResult = $MappingObject->Map(
+                Data => $Test->{Data},
+            );
+
+            $Self->Is(
+                $MappingResult->{Success},
+                1,
+                "Mapping success status",
+            );
+            $Test->{Data} = $MappingResult->{Data};
+        }
+
         my $Result = $OperationObject->Run(
             Data => $Test->{Data},
         );
@@ -1161,6 +1238,34 @@ for my $TestChain (@Tests) {
             );
         }
 
+        if ( $MappingConfig && $Test->{Expected} ) {
+            if ( $Test->{Expected}->{Priority} ) {
+                $Self->Is(
+                    $TicketData{Priority},
+                    $Test->{Expected}->{Priority},
+                    "$Test->{Name} Ticket data contains correct Priority after mapping",
+                );
+            }
+            if ( $Test->{Expected}->{State} ) {
+                $Self->Is(
+                    $TicketData{State},
+                    $Test->{Expected}->{State},
+                    "$Test->{Name} Ticket data contains correct State after mapping",
+                );
+            }
+            my $MapTicketFreeText = $Test->{Expected}->{TicketFreeText};
+            if ( ref $MapTicketFreeText eq 'HASH' ) {
+                for my $Number ( sort keys %{$MapTicketFreeText} ) {
+                    $Self->Is(
+                        $TicketData{ 'TicketFreeText' . $Number },
+                        $MapTicketFreeText->{$Number},
+                        "$Test->{Name} Ticket data contains correct TicketFreeText$Number"
+                            . " after mapping",
+                    );
+                }
+            }
+        }
+
         my @ArticleIDs = $TicketObject->ArticleIndex(
             TicketID => $LastTicketID,
         );
@@ -1173,8 +1278,13 @@ for my $TestChain (@Tests) {
             $Test->{Data}->{IctStatements}->{item} = [ $Test->{Data}->{IctStatements}->{item} ];
         }
 
+        my @CompareArticleIDs = @ArticleIDs;
+        my $ExpectedArticleTypes;
+        if ( $Test->{Expected} ) {
+            $ExpectedArticleTypes = $Test->{Expected}->{ArticleType} || [];
+        }
         TEST_STATEMENT_ITEM:
-        for my $TestStatementItem ( @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
+        for my $TestStatementItem ( reverse @{ $Test->{Data}->{IctStatements}->{item} || [] } ) {
 
             my $SubjectExpected;
             my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $TestStatementItem->{Timestamp} =~
@@ -1185,51 +1295,40 @@ for my $TestChain (@Tests) {
 
             my $BodyExpected .= join( "\n", @{ $TestStatementItem->{Texts}->{item} || [] } );
 
-            # try to find current attachment item in Ticket attachments
-            ARTICLE_ID:
-            for my $ArticleID (@ArticleIDs) {
+            # get last article from ticket
+            my $ArticleID = pop @CompareArticleIDs;
 
-                my %Article = $TicketObject->ArticleGet(
-                    ArticleID => $ArticleID,
-                    UserID    => 1,
-                );
-
-                my $ArticleError;
-
-                if ( $Article{Subject} eq $SubjectExpected ) {
-                    $Self->Is(
-                        $Article{Subject},
-                        $SubjectExpected,
-                        "$Test->{Name} found plaintext article subject for IctStatemtent",
-                    );
-
-                }
-                else {
-                    $ArticleError = 1;
-                }
-
-                if ( $Article{Body} eq $BodyExpected ) {
-                    $Self->Is(
-                        $Article{Body},
-                        $BodyExpected,
-                        "$Test->{Name} found plaintext article body for IctStatemtent",
-                    );
-
-                }
-                else {
-                    $ArticleError = 1;
-                }
-
-                next TEST_STATEMENT_ITEM if !$ArticleError;
-            }
-
-            # Article was not found, show error.
-            $Self->Is(
-                '',
-                $BodyExpected,
-                "$Test->{Name} found no plaintext article for IctStatemtent",
+            my %Article = $TicketObject->ArticleGet(
+                ArticleID => $ArticleID,
+                UserID    => 1,
             );
 
+            $Self->True(
+                $Article{ArticleID},
+                "$Test->{Name} plaintext article found for IctStatemtent",
+            );
+            next TEST_STATEMENT_ITEM if !%Article;
+
+            $Self->Is(
+                $Article{Subject},
+                $SubjectExpected,
+                "$Test->{Name} plaintext article subject match for IctStatemtent",
+            );
+
+            $Self->Is(
+                $Article{Body},
+                $BodyExpected,
+                "$Test->{Name} plaintext article body match for IctStatemtent",
+            );
+
+            if ( defined $ExpectedArticleTypes ) {
+                my $ExpectedArticleType = pop @{$ExpectedArticleTypes};
+                $Self->Is(
+                    $Article{ArticleType},
+                    $ExpectedArticleType,
+                    "$Test->{Name} plaintext article type match for IctStatemtent",
+                );
+            }
         }
 
         if (

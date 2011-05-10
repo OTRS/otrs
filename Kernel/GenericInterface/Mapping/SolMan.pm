@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/SolMan.pm - GenericInterface SolMan mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolMan.pm,v 1.3 2011-05-02 16:44:07 sb Exp $
+# $Id: SolMan.pm,v 1.4 2011-05-10 00:42:38 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -146,16 +146,23 @@ sub Map {
         );
     }
 
-    # map state
     if (
         IsHashRefWithData( $Param{Data}->{IctAdditionalInfos} )
         && $Param{Data}->{IctAdditionalInfos}->{item}
         )
     {
+
+        # map state
         $Param{Data}->{IctAdditionalInfos}->{item} = $Self->_StateMap(
             AdditionalInfos => $Param{Data}->{IctAdditionalInfos}->{item},
             Map     => $Self->{MappingConfig}->{Config}->{StateMap}        || {},
             Default => $Self->{MappingConfig}->{Config}->{StateMapDefault} || 'open',
+        );
+
+        # map ticket freetext
+        $Param{Data}->{IctAdditionalInfos}->{item} = $Self->_TicketFreeTextMap(
+            AdditionalInfos => $Param{Data}->{IctAdditionalInfos}->{item},
+            Map => $Self->{MappingConfig}->{Config}->{TicketFreeTextMap} || {},
         );
     }
 
@@ -264,9 +271,6 @@ other additional infos are just passed back
 sub _StateMap {
     my ( $Self, %Param ) = @_;
 
-    my @AdditionalInfos = ();
-    my %StatePart;
-
     # if only attribute is passed and it contains the state, replace directly
     if ( IsHashRefWithData( $Param{AdditionalInfos} ) ) {
         my %StateHash = %{ $Param{AdditionalInfos} };
@@ -282,6 +286,8 @@ sub _StateMap {
     }
 
     # get current state value if existing and remember all other add info fields
+    my @AdditionalInfos = ();
+    my %StatePart;
     ADDINFO:
     for my $AddInfo ( @{ $Param{AdditionalInfos} } ) {
         if (
@@ -318,6 +324,55 @@ sub _StateMap {
     return \@AdditionalInfos;
 }
 
+=item _TicketFreeTextMap()
+
+map ticket freetext fields by using a predefined list
+other additional infos are just passed back
+
+    my $AdditionalInfos => $MappingObject->_TicketFreeTextMap(
+        AdditionalInfos =>[ # list of additional infos
+            ...
+        ],
+        Map      => {       # optional, mapping list
+            ...
+        },
+    );
+
+    $AdditionalInfos = [    # original additional infos plus mapped ticket freetext fields
+        ...
+    ];
+
+=cut
+
+sub _TicketFreeTextMap {
+    my ( $Self, %Param ) = @_;
+
+    # if only attribute is passed, map it directly
+    if (
+        IsHashRefWithData( $Param{AdditionalInfos} )
+        && $Param{Map}->{ $Param{AdditionalInfos}->{AddInfoAttribute} }
+        )
+    {
+        my %MapHash = %{ $Param{AdditionalInfos} };
+        $MapHash{TicketFreeTextField} =
+            $Param{Map}->{ $MapHash{AddInfoAttribute} };
+        return \%MapHash;
+    }
+
+    # loop through additional info fields and map them
+    my @AdditionalInfos = ();
+    ADDINFO:
+    for my $AddInfo ( @{ $Param{AdditionalInfos} } ) {
+        if ( $Param{Map}->{ $AddInfo->{AddInfoAttribute} } ) {
+            $AddInfo->{TicketFreeTextField} =
+                $Param{Map}->{ $AddInfo->{AddInfoAttribute} };
+        }
+        push @AdditionalInfos, $AddInfo;
+    }
+
+    return \@AdditionalInfos;
+}
+
 1;
 
 =end Internal:
@@ -336,6 +391,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-05-02 16:44:07 $
+$Revision: 1.4 $ $Date: 2011-05-10 00:42:38 $
 
 =cut
