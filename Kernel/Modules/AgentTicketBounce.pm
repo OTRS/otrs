@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.50 2011-05-10 22:35:09 en Exp $
+# $Id: AgentTicketBounce.pm,v 1.51 2011-05-11 20:15:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,7 +112,7 @@ sub Run {
                     Type  => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the owner to do this action!",
+                    Message => "Sorry, you need to be the ticket owner to perform this action.",
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer(

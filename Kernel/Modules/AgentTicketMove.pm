@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.83 2011-04-11 18:29:23 mp Exp $
+# $Id: AgentTicketMove.pm,v 1.84 2011-05-11 20:15:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,7 @@ sub Run {
                 Type => 'Small',
             );
             $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, you need to be the owner to do this action!",
+                Message => "Sorry, you need to be the ticket owner to perform this action.",
                 Comment => 'Please change the owner first.',
             );
 
@@ -528,7 +528,7 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the owner to do this action!",
+                    Message => "Sorry, you need to be the ticket owner to perform this action.",
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
