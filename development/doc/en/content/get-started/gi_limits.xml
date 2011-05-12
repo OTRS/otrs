@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id: gi_limits.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
+
+<section id="gi_limits">
+    <title>GI Limits</title>
+    <para>What you can do.</para>
+    <para>What you can't' do.</para>
+</section>

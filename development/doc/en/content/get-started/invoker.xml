@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id: invoker.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
+
+<section id="invoker">
+    <title>invoker</title>
+    <para>
+        The invoker is used to create a request from OTRS to an external system,
+        this part of the GI is in charge of perform necessary task in OTRS side,
+        to make a request via a webservice.
+    </para>
+    <section id="adding_invoker">
+        <title>Invoker backend</title>
+        <para>
+            Next we will see how to develop a new Invoker, each invoker has to implement these subroutines
+        </para>
+        <para>
+            <itemizedlist mark="round">
+                <listitem>
+                    <para>new</para>
+                </listitem>
+                <listitem>
+                    <para>PrepareRequest</para>
+                </listitem>
+                <listitem>
+                    <para>HandleResponse</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            We should implement each one of this methods in order to be able to execute a request using
+            the request handler ('Kernel/GenericInterface/Requester.pm').
+        </para>
+        <section id="invoker_code_example">
+            <title>Code example</title>
+            <para>
+                In this section a sample stats module is shown and each subroutine is explained.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+# --
+# Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+#
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::GenericInterface::Invoker::SolMan::RequestSystemGuid;
+
+use strict;
+use warnings;
+
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Invoker::SolMan::Common;
+
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.1 $) [1];
+
+                ]]></programlisting>
+            </para>
+            <para>
+                This is common boilerplate that can be found in common OTRS modules. The class/package name is
+                declared via the package keyword.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # check needed params
+    for my $Needed (
+        qw(
+        DebuggerObject MainObject TimeObject ConfigObject EncodeObject
+        LogObject TimeObject DBObject WebserviceID
+        )
+        )
+    {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Got no $Needed!"
+            };
+        }
+
+        $Self->{$Needed} = $Param{$Needed};
+    }
+
+    # create additional objects
+    $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
+        %{$Self},
+        Invoker      => 'RequestSystemGuid',
+        WebserviceID => $Self->{WebserviceID},
+    );
+
+    return $Self;
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The constructor 'new'' creates a new instance of the class. According to the coding guidelines
+                objects of other classes that are needed in this module have to be created in "new". Only the
+                'SolManCommonObject' object is created for this module.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub PrepareRequest {
+    my ( $Self, %Param ) = @_;
+
+    return {
+        Success => 1,
+        Data    => {},
+    };
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The 'PrepareRequest' function is used to handled and collect all needed data to be sent
+                into the request call, here we can receive data from the request handler, use it, and after
+                that we can transfer the results to the mapping layer.
+            </para>
+            <para>
+                For this example we have not data to receive and also to transfer.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+
+sub HandleResponse {
+    my ( $Self, %Param ) = @_;
+
+    # break early if response was not successfull
+    if ( !$Param{ResponseSuccess} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Invoker RequestSystemGuid: Response failure!',
+        };
+    }
+
+    # to store data
+    my $Data = $Param{Data};
+
+    if ( !defined $Data->{Errors} ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Invoker RequestSystemGuid: Response failure!'
+                . ' An Error parameter was expected',
+        );
+    }
+
+    # if there was an error in the response, forward it
+    if ( IsHashRefWithData( $Data->{Errors} ) ) {
+
+        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
+            Invoker => 'RequestSystemGuid',
+            Errors  => $Data->{Errors},
+        );
+
+        return {
+            Success      => $HandleErrorsResult->{Success},
+            ErrorMessage => $HandleErrorsResult->{ErrorMessage},
+        };
+    }
+
+    # we need a SystemGuid
+    if ( !IsStringWithData( $Data->{SystemGuid} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no SystemGuid!' );
+    }
+
+    # prepare SystemGuid
+    my %ReturnData = (
+        SystemGuid => $Data->{SystemGuid},
+    );
+
+    # write in debug log
+    $Self->{DebuggerObject}->Info(
+        Summary => 'RequestSystemGuid return success',
+        Data    => \%ReturnData,
+    );
+
+    # set the Remote SystemGuid to the webservice configuration
+    $Self->{SolManCommonObject}->SetRemoteSystemGuid(
+        WebserviceID => $Self->{WebserviceID},
+        SystemGuid   => $Data->{SystemGuid},
+        AllInvokers  => 1,
+    );
+
+    return {
+        Success => 1,
+        Data    => \%ReturnData,
+    };
+}
+
+                ]]></programlisting>
+            </para>
+            <para>
+                The 'HandleResponse' function is used to receive data from the request answer, this data
+                already passed by mapping layer, then you can manipulate it before you pass it to the next layer.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.13 $ $Date: 2011/05/02 14:20:30 $
+
+=cut
+
+                ]]></programlisting>
+            </para>
+        </section>
+    </section>
+</section>
