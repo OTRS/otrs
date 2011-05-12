@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.273 2011-05-09 22:21:55 cr Exp $
+# $Id: de.pm,v 1.274 2011-05-12 13:27:34 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.273 $) [1];
+$VERSION = qw($Revision: 1.274 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -671,7 +671,8 @@ sub Data {
         'Create new Ticket' => 'Neues Ticket erstellen',
         'Customer called' => 'Kunden angerufen',
         'phone call' => 'Telefonanruf',
-        'Phone Call Outbound' => 'Kundenanruf',
+        'Phone Call Outbound' => 'Ausgehender Kundenanruf',
+        'Phone Call Inbound' => 'Eingehender Kundenanruf',
         'Reminder Reached' => 'Erinnerung erreicht',
         'Reminder Tickets' => 'Erinnerungs-Tickets',
         'Escalated Tickets' => 'Eskalierte Tickets',
