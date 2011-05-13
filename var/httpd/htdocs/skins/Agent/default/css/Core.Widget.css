@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.30 $
+ * @version     $Revision: 1.31 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -390,17 +390,37 @@ ul.Tablelike li.Header + li {
 .CallForAction.Upload span {
     background: url("../img/icons/drive-upload.png") no-repeat scroll;
 }
+.CallForAction.Clone span {
+    background: url("../img/icons/reports.png") no-repeat scroll;
+}
+.CallForAction.Trash span {
+    background: url("../img/icons/trash-can.png") no-repeat scroll;
+}
+.CallForAction.History span {
+    background: url("../img/icons/book-brown.png") no-repeat scroll;
+}
+.CallForAction.Debug span {
+    background: url("../img/icons/bug--minus.png") no-repeat scroll;
+}
 
 .CallForAction.Plus span,
 .CallForAction.Download span,
-.CallForAction.Upload span {
+.CallForAction.Upload span,
+.CallForAction.Clone span,
+.CallForAction.Trash span,
+.CallForAction.History span,
+.CallForAction.Debug span {
     padding-left: 23px;
     background-position: 2px 2px;
 }
 
 .CallForAction.Plus:active span,
 .CallForAction.Download:active span,
-.CallForAction.Upload:active span {
+.CallForAction.Upload:active span,
+.CallForAction.Clone:active span,
+.CallForAction.Trash:active span,
+.CallForAction.History:active span,
+.CallForAction.Debug:active span {
     background-position: 2px 3px;
 }
 
