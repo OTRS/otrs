@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.3 2011-05-13 02:13:25 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.4 2011-05-13 20:49:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
@@ -187,6 +187,10 @@ sub _ShowChange {
         Data => \%Param,
     );
     $Self->{LayoutObject}->Block(
+        Name => 'ActionImport',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->Block(
         Name => 'ActionHistory',
         Data => \%Param,
     );
@@ -236,6 +240,7 @@ sub _ShowChange {
     $Self->{LayoutObject}->Block(
         Name => 'Details',
         Data => {
+            %Param,
             %GeneralData,
             DebugThresholdStrg => $DebugThresholdStrg,
             DebugTestStrg      => $DebugTestStrg,
@@ -303,8 +308,7 @@ sub _ShowChange {
             Data          => \@TransportList,
             Name          => $CommunicationType . 'TransportList',
             SelectedValue => $CommTypeConfig{$CommunicationType}->{SelectedTransport},
-            PossibleNone  => 0,
-            Translate     => 0,
+            Sort          => 'AlphanumericValue',
         );
 
         # get the controllers config for Requesters or Providers
@@ -318,10 +322,9 @@ sub _ShowChange {
 
         # create the list of controllers
         my $ControllersStrg = $Self->{LayoutObject}->BuildSelection(
-            Data         => \@ControllerList,
-            Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
-            PossibleNone => 0,
-            Translate    => 0,
+            Data => \@ControllerList,
+            Name => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
+            Sort => 'AlphanumericValue',
         );
 
         $Self->{LayoutObject}->Block(
