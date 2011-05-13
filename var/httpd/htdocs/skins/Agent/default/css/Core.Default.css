@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.41 $
+ * @version     $Revision: 1.42 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -570,7 +570,9 @@ tbody tr:hover span.UnreadArticles {
 }
 
 /* Vacation Days */
-.Highlight .ui-state-default {
+td.Highlight a.ui-state-default {
+    border: 1px solid #fad42e;
+    background: url(../img/datepicker_vacation_days.png) repeat-x;
 }
 
 /* Today */
