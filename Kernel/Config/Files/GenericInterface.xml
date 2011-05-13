@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.12 2011-05-09 22:14:51 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.13 2011-05-13 02:19:21 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -80,4 +80,234 @@
         </Setting>
     </ConfigItem>
 
+
+    <ConfigItem Name="GenericInterface::Transport::Module###HTTP::SOAP" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Transport::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">SOAP</Item>
+                <Item Key="Protocol">HTTP</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceTransportHTTPSOAP</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Transport::Module###HTTP::Test" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Transport::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Test</Item>
+                <Item Key="Protocol">HTTP</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceTransportHTTPTest</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###Test::Test" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Test</Item>
+                <Item Key="Controller">Test</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationTest</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###Test::Test" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Test</Item>
+                <Item Key="Controller">Test</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTest</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###Test::TestSimple" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">TestSimple</Item>
+                <Item Key="Controller">Test</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTest</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::AcceptIncidentProcessing" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">AcceptIncidentProcessing</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::AddInfo" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">AddInfo</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::CloseIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">CloseIncident</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::ProcessIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">ProcessIncident</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::RejectIncidentSolution" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">RejectIncidentSolution</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::ReplicateIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">ReplicateIncident</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::RequestSystemGuid" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">RequestSystemGuid</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###SolMan::VerifyIncidentSolution" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">VerifyIncidentSolution</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::AddInfo" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">AddInfo</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::CloseIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">CloseIncdent</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::ListUnclosedIncidents" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">ListUnclosedIncidents</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::ProcessIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">ProcessIncident</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::ReplicateIncident" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">ReplicateIncident</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Invoker::Module###SolMan::RequestSystemGuid" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">RequestSystemGuid</Item>
+                <Item Key="Controller">SolMan</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 </otrs_config>
