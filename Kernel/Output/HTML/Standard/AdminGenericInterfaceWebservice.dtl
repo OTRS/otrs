@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.4 2011-05-13 20:48:20 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.5 2011-05-13 20:53:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -245,7 +245,7 @@
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigSet -->
 
-<!-- dtl:block:DetailsControl -->
+<!-- dtl:block:DetailsCommunicationType -->
                     <div class="WidgetSimple Expanded">
                         <div class="Header">
                             <div class="WidgetAction Toggle">
@@ -284,7 +284,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-<!-- dtl:block:DetailsControlRow -->
+<!-- dtl:block:DetailsActionsRow -->
                                     <tr>
                                         <td>
                                             <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Module"};$Data{"ActionLink"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
@@ -293,13 +293,13 @@
                                         <td>$QData{"Controller"}</td>
                                         <td>$QData{"Mapping"}</td>
                                     </tr>
-<!-- dtl:block:DetailsControlRow -->
+<!-- dtl:block:DetailsActionsRow -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="SpacingTop"></div>
-<!-- dtl:block:DetailsControl -->
+<!-- dtl:block:DetailsCommunicationType -->
 
                 </form>
             </div>
