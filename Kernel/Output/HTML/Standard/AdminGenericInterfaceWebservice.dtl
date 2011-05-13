@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.5 2011-05-13 20:53:10 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.6 2011-05-13 21:52:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -318,16 +318,23 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 Core.Agent.Admin.AdminGenericInterfaceWebservice = {};
 
 Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect = function( ConfigKey, DataSource, CommunicationType, WebserviceID ) {
-    var TransportConfig, Action;
+    var TransportConfig, Action, ConfigElement;
 
     // get configuration
     TransportConfig = Core.Config.Get(ConfigKey);
 
-    // get action
-    Action = TransportConfig[$('#' + DataSource).val()];
+    // get the Config Element name, if none it will have "null" value
+    ConfigElement = $('#' + DataSource).val();
 
-    // redirect to correct url
-    window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + WebserviceID;
+    // check is config element is a valid scring
+    if ( ConfigElement != null ) {
+
+        // get action
+        Action = TransportConfig[ ConfigElement ];
+
+        // redirect to correct url
+        window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + WebserviceID;
+    }
 };
 
 $('#ProviderTransportProperties').bind('click', function() {
@@ -345,7 +352,6 @@ $('#OperationAdd').bind('click', function() {
 $('#InvokerAdd').bind('click', function() {
     Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester', $('#WebserviceID').val() );
 });
-
 
 //]]></script>
 <!--dtl:js_on_document_complete-->
