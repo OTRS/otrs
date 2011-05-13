@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.3 2011-05-13 02:13:01 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.4 2011-05-13 20:48:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Plus" type="submit"><span>$Text{"Add webservice"}</span></button>
+                            <button class="CallForAction Plus W75pc" type="submit"><span>$Text{"Add webservice"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -42,9 +42,10 @@
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Clone"/>
+                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Plus" type="submit"><span>$Text{"Clone webservice"}</span></button>
+                            <button class="CallForAction Clone W75pc" type="submit"><span>$Text{"Clone webservice"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -54,21 +55,36 @@
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Export"/>
+                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"Export webservice"}</span></button>
+                            <button class="CallForAction Upload W75pc" type="submit"><span>$Text{"Export webservice"}</span></button>
                             <br/>
                         </form>
                     </li>
 <!-- dtl:block:ActionExport -->
+<!-- dtl:block:ActionImport -->
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Import"/>
+                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+
+                            <button class="CallForAction Download W75pc" type="submit"><span>$Text{"Import webservice"}</span></button>
+                            <br/>
+                        </form>
+                    </li>
+<!-- dtl:block:ActionImport -->
 <!-- dtl:block:ActionHistory -->
                     <li>
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="History"/>
+                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"History"}</span></button>
+                            <button class="CallForAction History W75pc" type="submit"><span>$Text{"History"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -78,9 +94,10 @@
                         <form action="$Env{"CGIHandle"}" method="post">
                             <input type="hidden" name="Action" value="$Env{"Action"}"/>
                             <input type="hidden" name="Subaction" value="Delete"/>
+                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"Delete webservice"}</span></button>
+                            <button class="CallForAction Trash W75pc" type="submit"><span>$Text{"Delete webservice"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -92,7 +109,7 @@
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction" type="submit"><span>$Text{"Debugger"}</span></button>
+                            <button class="CallForAction Debug W75pc" type="submit"><span>$Text{"Debugger"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -296,8 +313,11 @@
 <!-- dtl:block:Main -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
+Core.Agent.Admin = Core.Agent.Admin || {};
 
-function GenericInterfaceRedirect(ConfigKey, DataSource, CommunicationType) {
+Core.Agent.Admin.AdminGenericInterfaceWebservice = {};
+
+Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect = function( ConfigKey, DataSource, CommunicationType, WebserviceID ) {
     var TransportConfig, Action;
 
     // get configuration
@@ -307,23 +327,23 @@ function GenericInterfaceRedirect(ConfigKey, DataSource, CommunicationType) {
     Action = TransportConfig[$('#' + DataSource).val()];
 
     // redirect to correct url
-    window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + $('#WebserviceID').val();
+    window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + WebserviceID;
 };
 
 $('#ProviderTransportProperties').bind('click', function() {
-    GenericInterfaceRedirect('Webservice.Transport', 'ProviderTransportList', 'Provider' );
+    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider', $('#WebserviceID').val() );
 });
 
 $('#RequesterTransportProperties').bind('click', function() {
-    GenericInterfaceRedirect('Webservice.Transport', 'RequesterTransportList', 'Requester' );
+    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester', $('#WebserviceID').val() );
 });
 
 $('#OperationAdd').bind('click', function() {
-    GenericInterfaceRedirect('Webservice.Operation', 'OperationList', 'Provider' );
+    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Operation', 'OperationList', 'Provider', $('#WebserviceID').val() );
 });
 
 $('#InvokerAdd').bind('click', function() {
-    GenericInterfaceRedirect('Webservice.Invoker', 'InvokerList', 'Requester' );
+    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester', $('#WebserviceID').val() );
 });
 
 
