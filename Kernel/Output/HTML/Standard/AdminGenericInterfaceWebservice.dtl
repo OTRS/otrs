@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.7 2011-05-13 21:53:36 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.8 2011-05-13 23:03:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -231,6 +231,12 @@
                                     $Data{"DebugTestStrg"}
                                 </div>
                                 <div class="Clear"></div>
+                                <label for="ValidID">$Text{"Validty"}:</label>
+                                <div class="Field">
+                                    $Data{"ValidtyStrg"}
+                                </div>
+                                <div class="Clear"></div>
+
                             </fieldset>
                         </div>
                     </div>
@@ -258,7 +264,7 @@
                                 <h4>$Text{"Settings"}</h4>
                             </div>
                             <fieldset class="TableLike">
-                                <label for="Name">$Text{"Network transport"}:</label>
+                                <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
                                 <div class="Field">
                                     $Data{"TransportsStrg"}
                                     <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="">$Text{"Properties"}</button>
