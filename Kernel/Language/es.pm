@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.127 2011-05-09 22:21:57 cr Exp $
+# $Id: es.pm,v 1.128 2011-05-13 21:43:16 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3024,6 +3024,12 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => '',
+        'New Year\'s Day' => 'Año nuevo',
+        'International Workers\' Day' => 'Día del trabajo',
+        'Christmas Eve' => 'Noche buena',
+        'First Christmas Day' => 'Navidad',
+        'Second Christmas Day' => 'Segundo día de navidad',
+        'New Year\'s Eve' => 'Víspera de año nuevo',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!

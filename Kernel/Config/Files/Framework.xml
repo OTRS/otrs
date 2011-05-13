@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.438 2011-05-09 17:59:14 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.439 2011-05-13 21:32:26 mp Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -919,12 +919,12 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="1" Day="1">New Year's Day</Item>
-                <Item Month="5" Day="1">International Workers' Day</Item>
-                <Item Month="12" Day="24">Christmas Eve</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">New Year's Eve</Item>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
             </TimeVacationDays>
         </Setting>
     </ConfigItem>
@@ -934,7 +934,7 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <TimeVacationDaysOneTime>
-                <Item Year="2004" Month="1" Day="1">test</Item>
+                <Item Year="2004" Month="1" Day="1" Translatable="1">test</Item>
             </TimeVacationDaysOneTime>
         </Setting>
     </ConfigItem>
