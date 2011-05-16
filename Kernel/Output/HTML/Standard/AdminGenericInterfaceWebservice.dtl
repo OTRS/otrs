@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.8 2011-05-13 23:03:43 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.9 2011-05-16 20:34:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,25 @@
 
 <!-- dtl:block:Main -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Webservice Management"}</h1>
+    <h1>$Text{"Webservice Management"} - $QData{"Action"}</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+<!-- dtl:block:WebservicePathElement -->
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}$Data{"Link"};Nav=$LQData{"Nav"}">
+                $QData{"Name"}
+            </a>
+<!-- dtl:block:WebservicePathElement -->
+<!-- dtl:block:WebservicePathElementNoLink -->
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            $QData{"Name"}
+<!-- dtl:block:WebservicePathElementNoLink -->
+
+        </h3>
+    </div>
+
+    <div class="Clear"></div>
+
     <div class="SidebarColumn">
 <!-- dtl:block:ActionList -->
         <div class="WidgetSimple">
@@ -191,30 +209,24 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc Validate_Required " type="text" maxlength="250" value="$QData{"Name"}" name="Name"/>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Name"}" name="Name"/>
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                 </div>
                                 <div class="Clear"></div>
-                                <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Description"}:</label>
+                                <label for="Description">$Text{"Description"}:</label>
                                 <div class="Field">
-                                    <input id="Description" class="W50pc Validate_Required " type="text" maxlength="250" value="$QData{"Description"}" name="Description"/>
-                                    <div id="DecriptionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="DescriptionServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <input id="Description" class="W50pc " type="text" maxlength="250" value="$QData{"Description"}" name="Description"/>
                                 </div>
                                 <div class="Clear"></div>
-                                <label class="Mandatory" for="RemoteSystem"><span class="Marker">*</span> $Text{"Remote System"}:</label>
+                                <label for="RemoteSystem">$Text{"Remote System"}:</label>
                                 <div class="Field">
-                                    <input id="RemoteSystem" class="W50pc Validate_Required " type="text" maxlength="250" value="$QData{"RemoteSystem"}" name="RemoteSystem"/>
-                                    <div id="RemoteSystemError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="RemoteSystemServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <input id="RemoteSystem" class="W50pc" type="text" maxlength="250" value="$QData{"RemoteSystem"}" name="RemoteSystem"/>
                                 </div>
                                 <div class="Clear"></div>
-                                <label class="Mandatory" for="Protocol"><span class="Marker">*</span> $Text{"Protocol"}:</label>
+                                <label for="Protocol">$Text{"Protocol"}:</label>
                                 <div class="Field">
-                                    <input id="Protocol" class="W50pc Validate_Required " type="text" maxlength="250" value="$QData{"Protocol"}" name="Protocol"/>
-                                    <div id="ProtocolError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="ProtocolServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <input id="Protocol" class="W50pc" type="text" maxlength="250" value="$QData{"Protocol"}" name="Protocol"/>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -226,7 +238,7 @@
                                     $Data{"DebugThresholdStrg"}
                                 </div>
                                 <div class="Clear"></div>
-                                <label for="DebugTest">$Text{"Debugger Test Mode"}:</label>
+                                <label for="TestMode">$Text{"Debugger Test Mode"}:</label>
                                 <div class="Field">
                                     $Data{"DebugTestStrg"}
                                 </div>
@@ -267,7 +279,7 @@
                                 <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
                                 <div class="Field">
                                     $Data{"TransportsStrg"}
-                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="">$Text{"Properties"}</button>
+                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="" value="Properties">$Text{"Properties"}</button>
 
                                 </div>
                             </fieldset>
@@ -276,11 +288,11 @@
                                 <h4>$Text{"$Data{"ActionsTitle"}"}
                                     <span>
                                         $Data{"ControllersStrg"}
-                                        <button type="Button" id="$QData{"ActionType"}Add" class="Add">$Text{"Add $QData{"ActionType"}"}</button>
+                                        <button type="button" id="$QData{"ActionType"}Add" class="Add" value="Add $QData{"ActionType"}">$Text{"Add $QData{"ActionType"}"}</button>
                                     </span>
                                 </h4>
                             </div>
-                            <table class="DataTable" id="$QData{"ComponentsTitle"}Table" summary="list of $QData{"ComponentsTitle"}">
+                            <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
                                     <tr>
                                         <th>$Text{"Name"}</th>
@@ -300,6 +312,13 @@
                                         <td>$QData{"Mapping"}</td>
                                     </tr>
 <!-- dtl:block:DetailsActionsRow -->
+<!-- dtl:block:DetailsActionsNoDataFoundMsg -->
+                                    <tr>
+                                        <td colspan="4">
+                                            $Text{"No data found."}
+                                        </td>
+                                    </tr>
+<!-- dtl:block:DetailsActionsNoDataFoundMsg -->
                                 </tbody>
                             </table>
                         </div>
