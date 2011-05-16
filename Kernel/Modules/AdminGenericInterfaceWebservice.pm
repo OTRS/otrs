@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.7 2011-05-16 20:36:47 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.8 2011-05-16 21:01:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -196,6 +196,83 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # subaction AddAction: create a webservice and return to overview
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # get webserice configuration
+        my $WebserviceData;
+
+        # get parameter from web browser
+        my $GetParam = $Self->_GetParams;
+
+        # set new confguration
+        $WebserviceData->{Name}                                 = $GetParam->{Name};
+        $WebserviceData->{Config}->{Name}                       = $GetParam->{Name};
+        $WebserviceData->{Config}->{Description}                = $GetParam->{Description};
+        $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
+        $WebserviceData->{Config}->{Protocol}                   = $GetParam->{Protocol};
+        $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
+        $WebserviceData->{Config}->{Debugger}->{TestMode}       = $GetParam->{TestMode};
+        $WebserviceData->{ValidID}                              = $GetParam->{ValidID};
+
+        for my $CommunicationType (qw( Provider Requester )) {
+
+            $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Type} =
+                $GetParam->{ $CommunicationType . 'Transport' };
+        }
+
+        # check required parameters
+        my %Error;
+        if ( !$GetParam->{Name} ) {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'This field is required';
+        }
+
+        # check if name is duplicated
+        my %WebserviceList = %{ $Self->{WebserviceObject}->WebserviceList() };
+
+        %WebserviceList = reverse %WebserviceList;
+
+        if (
+            $WebserviceList{ $GetParam->{Name} } &&
+            $WebserviceList{ $GetParam->{Name} } ne $WebserviceID
+            )
+        {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'There is another webservice with the same name.';
+        }
+
+        # if there is an error return to edit screen
+        if ( IsHashRefWithData( \%Error ) ) {
+            return $Self->_ShowEdit(
+                %Error,
+                %Param,
+                WebserviceID   => $WebserviceID,
+                WebserviceData => $WebserviceData,
+                Action         => 'Add',
+            );
+        }
+
+        # otherwise save configuration and return to overview screen
+        my $Success = $Self->{WebserviceObject}->WebserviceAdd(
+            Name    => $WebserviceData->{Name},
+            Config  => $WebserviceData->{Config},
+            ValidID => $WebserviceData->{ValidID},
+            UserID  => $Self->{UserID},
+        );
+
+        return $Self->_ShowOverview(
+            %Param,
+            Action => 'Overview',
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # subaction Add: show edit screen (empty)
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' ) {
@@ -332,9 +409,11 @@ sub _ShowEdit {
     }
     elsif ( $Param{Action} eq 'Add' ) {
         $Self->{LayoutObject}->Block(
-            Name => 'WebservicePathElementNoLink',
+            Name => 'WebservicePathElement',
             Data => {
                 Name => 'New Webservice',
+                Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Action},
+                Nav  => '',
             },
         );
     }
@@ -417,7 +496,7 @@ sub _ShowEdit {
     my $ValidtyStrg = $Self->{LayoutObject}->BuildSelection(
         Data         => \%ValidList,
         Name         => 'ValidID',
-        SelectedID   => $WebserviceData->{ValidID},
+        SelectedID   => $WebserviceData->{ValidID} || 1,
         PossibleNone => 0,
         Translate    => 1,
     );
@@ -508,9 +587,10 @@ sub _ShowEdit {
 
         # create the list of controllers
         my $ControllersStrg = $Self->{LayoutObject}->BuildSelection(
-            Data => \@ControllerList,
-            Name => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
-            Sort => 'AlphanumericValue',
+            Data  => \@ControllerList,
+            Name  => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
+            Sort  => 'AlphanumericValue',
+            Class => 'MarginLeft',
         );
 
         $Self->{LayoutObject}->Block(
