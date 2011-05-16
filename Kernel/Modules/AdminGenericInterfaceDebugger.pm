@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.pm,v 1.3 2011-05-04 13:16:59 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.pm,v 1.4 2011-05-16 13:03:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::DebugLog;
@@ -126,7 +126,6 @@ sub _GetRequestList {
     my $LogData = $Self->{DebugLogObject}->LogSearch(
         %LogSearchParam,
 
-        #            CommunicationType => 'Provider',     # optional, 'Provider' or 'Requester'
         #            CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
         #            CreatedArOrBefore => '2011-12-31 23:59:59', # optional
     );

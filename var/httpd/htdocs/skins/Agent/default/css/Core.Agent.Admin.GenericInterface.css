@@ -1,0 +1,34 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  GenericInterface
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.AdminGenericInterfaceDebugger #RequestListContainer {
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/**
+ * @note    Highlight error entries
+ */
+
+.AdminGenericInterfaceDebugger .DebugLevel_error {
+    color: #ff505e;
+}
+
+
+} /* end @media */
