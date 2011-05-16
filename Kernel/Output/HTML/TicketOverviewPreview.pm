@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.50 2011-03-01 18:10:30 cg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.51 2011-05-16 14:17:42 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,14 +226,31 @@ sub _Show {
         );
     }
 
-    # get last 5 articles
-    my @ArticleBody = $Self->{TicketObject}->ArticleGet(
+    # collect params for ArticleGet
+    my %ArticleGetParams = (
         TicketID => $Param{TicketID},
         UserID   => $Self->{UserID},
         Order    => 'DESC',
         Limit    => 5,
     );
-    my %Article = %{ $ArticleBody[0] || {} };
+
+    # check if certain article sender types should be excluded from preview
+    my $PreviewArticleSenderTypes
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
+    my @ActiveArticleSenderTypes;
+    if ( ref $PreviewArticleSenderTypes eq 'HASH' ) {
+        @ActiveArticleSenderTypes
+            = grep { $PreviewArticleSenderTypes->{$_} == 1 } keys %{$PreviewArticleSenderTypes};
+    }
+
+    # if a list of active article sender types has been determined, add them to params hash
+    if (@ActiveArticleSenderTypes) {
+        $ArticleGetParams{ArticleSenderType} = \@ActiveArticleSenderTypes;
+    }
+
+    # get last 5 articles
+    my @ArticleBody  = $Self->{TicketObject}->ArticleGet(%ArticleGetParams);
+    my %Article      = %{ $ArticleBody[0] || {} };
     my $ArticleCount = scalar @ArticleBody;
 
     # user info
@@ -688,14 +705,43 @@ sub _Show {
         );
     }
 
+    # check if a certain article type should be displayed as expanded
+    my $PreviewArticleTypeExpanded
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleTypeExpanded')
+        || '';
+
+    # if a certain article type should be shown as expanded, set the
+    # last article of this type as active
+    if ($PreviewArticleTypeExpanded) {
+
+        my $ClassCount = 0;
+        for my $ArticleItem (@ArticleBody) {
+            next if !$ArticleItem;
+
+            # check if current article type should be shown as expanded
+            if ( $ArticleItem->{ArticleType} eq $PreviewArticleTypeExpanded ) {
+                $ArticleItem->{Class} = 'Active';
+                last;
+            }
+
+            # otherwise display the last article in the list as expanded (default)
+            elsif ( $ClassCount == $#ArticleBody ) {
+                $ArticleBody[0]->{Class} = 'Active';
+            }
+            $ClassCount++;
+        }
+    }
+
     # show inline article
     my $Count = 0;
     for my $ArticleItem ( reverse @ArticleBody ) {
         next if !$ArticleItem;
-        if ( $Count == $#ArticleBody ) {
-            $ArticleItem->{Class} = 'Active';
+        if ( !$PreviewArticleTypeExpanded ) {
+            if ( $Count == $#ArticleBody ) {
+                $ArticleItem->{Class} = 'Active';
+            }
+            $Count++;
         }
-        $Count++;
 
         # check if just a only html email
         my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
