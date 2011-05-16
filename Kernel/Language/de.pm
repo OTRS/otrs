@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.275 2011-05-13 21:40:30 mp Exp $
+# $Id: de.pm,v 1.276 2011-05-16 14:24:11 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.275 $) [1];
+$VERSION = qw($Revision: 1.276 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2896,6 +2896,8 @@ sub Data {
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket responsible screen of the agent interface.' => '',
         'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' => '',
+        'Defines which article sender types should be shown in the preview of a ticket.' => 'Gibt an, welche Artikel-Sendertypen in der Vorschau eines Tickets angezeigt werden sollen.',
+        'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' => 'Gibt an, welcher Artikeltyp beim Öffnen der Übersichtsansicht aufgeklappt dargestellt werden soll. Wenn kein Typ angegeben ist, wird der neueste Artikel aufgeklappt dargestellt.',
         'Shows all both ro and rw queues in the queue view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' => '',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' => '',
