@@ -2,7 +2,7 @@
 # AdminNotification.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.26 2011-01-21 23:57:51 mp Exp $
+# $Id: AdminNotification.dtl,v 1.26.2.1 2011-05-16 08:35:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@ $('#LanguageSelection').bind('change', function(){
 
                         <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                         <div class="Field">
-                            <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $QData{"SubjectInvalid"}" maxlength="120"/>
+                            <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $QData{"SubjectInvalid"}" maxlength="200"/>
                         </div>
                         <div class="Clear"></div>
 

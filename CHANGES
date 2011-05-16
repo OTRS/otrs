@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.86 2011-05-10 22:34:01 en Exp $
+# $Id: CHANGES,v 1.1758.2.87 2011-05-16 08:35:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.8 2011-??-??
+ - 2011-05-16 Fixed bug#7310 - AdminNotification.dtl restricts subject line to 120 characters.
  - 2011-05-10 Fixed bug#7280 - AgentTicketCompose :: empty state selection causes many log entries.
  - 2011-05-10 Fixed bug#7111 - Customer Password reset mail is sent even if the DB could not be updated.
  - 2011-05-10 Fixed bug#7271 - AJAX issue when clicking 'Submit' while AJAX requests are still running.
