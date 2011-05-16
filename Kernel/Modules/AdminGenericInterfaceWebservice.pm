@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.8 2011-05-16 21:01:42 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.9 2011-05-16 22:05:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
 use Kernel::System::JSON;
+use YAML;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -196,6 +197,16 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # subaction Add: show edit screen (empty)
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'Add' ) {
+
+        return $Self->_ShowEdit(
+            Action => 'Add',
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # subaction AddAction: create a webservice and return to overview
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
@@ -273,14 +284,36 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # subaction Add: show edit screen (empty)
+    # subaction Export: create a YAML file with the configuration
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'Add' ) {
+    elsif ( $Self->{Subaction} eq 'Export' ) {
 
-        return $Self->_ShowEdit(
+        # check for WebserviceID
+        if ( !$WebserviceID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
+        }
 
-            #            %Param,
-            Action => 'Add',
+        # get webserice configuration
+        my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+
+        # check for valid webservice configuration
+        if ( !IsHashRefWithData($WebserviceData) ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get data for WebserviceID $WebserviceID",
+            );
+        }
+
+        # dump configuration into a YAML structure
+        my $YAMLContent = YAML::Dump( $WebserviceData->{Config} );
+
+        # return yaml to download
+        my $YAMLFile = $WebserviceData->{Name};
+        return $Self->{LayoutObject}->Attachment(
+            Filename    => $YAMLFile . '.yaml',
+            ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
+            Content     => $YAMLContent,
         );
     }
 
