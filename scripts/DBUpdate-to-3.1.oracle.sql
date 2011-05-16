@@ -172,6 +172,36 @@ CREATE TABLE gi_object_lock_state (
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id NUMBER (12, 0) NOT NULL,
+    cert_hash VARCHAR2 (8) NOT NULL,
+    cert_fingerprint VARCHAR2 (59) NOT NULL,
+    ca_hash VARCHAR2 (8) NOT NULL,
+    ca_fingerprint VARCHAR2 (59) NOT NULL,
+    changed DATE NOT NULL,
+    changed_by NUMBER (12, 0) NOT NULL,
+    created DATE NOT NULL,
+    created_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
+DROP SEQUENCE SE_smime_signer_cert_relatef;
+CREATE SEQUENCE SE_smime_signer_cert_relatef;
+CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
+before insert on smime_signer_cert_relations
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_smime_signer_cert_relatef.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+SET DEFINE
+-- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)

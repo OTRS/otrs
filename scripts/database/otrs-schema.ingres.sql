@@ -1363,3 +1363,19 @@ CREATE TABLE gi_object_lock_state (
 );\g
 MODIFY gi_object_lock_state TO btree;\g
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);\g
+CREATE SEQUENCE smime_signer_cert_relations_791;\g
+
+CREATE SEQUENCE smime_signer_cert_relations_791;\g
+CREATE TABLE smime_signer_cert_relations (
+    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_791.NEXTVAL,
+    cert_hash VARCHAR(8) NOT NULL,
+    cert_fingerprint VARCHAR(59) NOT NULL,
+    ca_hash VARCHAR(8) NOT NULL,
+    ca_fingerprint VARCHAR(59) NOT NULL,
+    changed TIMESTAMP NOT NULL,
+    changed_by INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL,
+    created_by INTEGER NOT NULL
+);\g
+MODIFY smime_signer_cert_relations TO btree unique ON id WITH unique_scope = statement;\g
+ALTER TABLE smime_signer_cert_relations ADD PRIMARY KEY ( id ) WITH index = base table structure;\g

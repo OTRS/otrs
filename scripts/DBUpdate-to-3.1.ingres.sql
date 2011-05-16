@@ -156,3 +156,17 @@ ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (change_by) REFERENCES 
 ALTER TABLE gi_debugger_entry ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
 ALTER TABLE gi_debugger_entry_content ADD FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry(id);\g
 ALTER TABLE gi_object_lock_state ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
+CREATE SEQUENCE smime_signer_cert_relations_791;\g
+CREATE TABLE smime_signer_cert_relations (
+    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_791.NEXTVAL,
+    cert_hash VARCHAR(8) NOT NULL,
+    cert_fingerprint VARCHAR(59) NOT NULL,
+    ca_hash VARCHAR(8) NOT NULL,
+    ca_fingerprint VARCHAR(59) NOT NULL,
+    changed TIMESTAMP NOT NULL,
+    changed_by INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL,
+    created_by INTEGER NOT NULL
+);\g
+MODIFY smime_signer_cert_relations TO btree unique ON id WITH unique_scope = statement;\g
+ALTER TABLE smime_signer_cert_relations ADD PRIMARY KEY ( id ) WITH index = base table structure;\g

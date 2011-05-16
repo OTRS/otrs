@@ -1410,3 +1410,19 @@ CREATE TABLE gi_object_lock_state (
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+
+-- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    cert_hash VARCHAR (8) NOT NULL,
+    cert_fingerprint VARCHAR (59) NOT NULL,
+    ca_hash VARCHAR (8) NOT NULL,
+    ca_fingerprint VARCHAR (59) NOT NULL,
+    changed TIMESTAMP NOT NULL,
+    changed_by INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL,
+    created_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);

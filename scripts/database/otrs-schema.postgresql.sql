@@ -1242,3 +1242,18 @@ CREATE TABLE gi_object_lock_state (
     CONSTRAINT gi_object_lock_state_U_765 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+-- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id serial NOT NULL,
+    cert_hash VARCHAR (8) NOT NULL,
+    cert_fingerprint VARCHAR (59) NOT NULL,
+    ca_hash VARCHAR (8) NOT NULL,
+    ca_fingerprint VARCHAR (59) NOT NULL,
+    changed timestamp(0) NOT NULL,
+    changed_by INTEGER NOT NULL,
+    created timestamp(0) NOT NULL,
+    created_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);

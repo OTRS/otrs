@@ -197,5 +197,16 @@
     <Data Key="change_time">current_timestamp</Data>
 </Insert>
 
+<TableCreate Name="smime_signer_cert_relations">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="cert_hash" Required="true" Size="8" Type="VARCHAR"/>
+    <Column Name="cert_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
+    <Column Name="ca_hash" Required="true" Size="8" Type="VARCHAR"/>
+    <Column Name="ca_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
+    <Column Name="changed" Required="true" Type="DATE"/>
+    <Column Name="changed_by" Required="true" Type="INTEGER"/>
+    <Column Name="created" Required="true" Type="DATE"/>
+    <Column Name="created_by" Required="true" Type="INTEGER"/>
+</TableCreate>
 
 </database>
