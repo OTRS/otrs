@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.279 2011-04-18 14:05:09 mg Exp $
+# $Id: Article.pm,v 1.280 2011-05-16 14:18:34 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.279 $) [1];
+$VERSION = qw($Revision: 1.280 $) [1];
 
 =head1 NAME
 
@@ -1439,6 +1439,25 @@ sub ArticleGet {
         }
     }
 
+    # sender type lookup
+    my $SenderTypeSQL = '';
+    if ( $Param{ArticleSenderType} && ref $Param{ArticleSenderType} eq 'ARRAY' ) {
+        for ( @{ $Param{ArticleSenderType} } ) {
+            if ( $Self->ArticleSenderTypeLookup( SenderType => $_ ) ) {
+                if ($SenderTypeSQL) {
+                    $SenderTypeSQL .= ',';
+                }
+                $SenderTypeSQL .= $Self->{DBObject}->Quote(
+                    $Self->ArticleSenderTypeLookup( SenderType => $_ ),
+                    'Integer',
+                );
+            }
+        }
+        if ($SenderTypeSQL) {
+            $SenderTypeSQL = " AND sa.article_sender_type_id IN ($SenderTypeSQL)";
+        }
+    }
+
     # sql query
     my @Content;
     my @Bind;
@@ -1478,6 +1497,11 @@ sub ArticleGet {
     # add article types
     if ($ArticleTypeSQL) {
         $SQL .= $ArticleTypeSQL;
+    }
+
+    # add sender types
+    if ($SenderTypeSQL) {
+        $SQL .= $SenderTypeSQL;
     }
 
     # set order
@@ -1644,7 +1668,7 @@ sub ArticleGet {
     if ( !@Content ) {
 
         # log only if there is not article type filter to be sure that there is no article
-        if ( !$ArticleTypeSQL ) {
+        if ( !$ArticleTypeSQL && !$SenderTypeSQL ) {
             if ( $Param{ArticleID} ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -3352,6 +3376,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.279 $ $Date: 2011-04-18 14:05:09 $
+$Revision: 1.280 $ $Date: 2011-05-16 14:18:34 $
 
 =cut
