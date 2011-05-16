@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.15 2011-05-03 12:04:24 mg Exp $
+# $Id: DebugLog.pm,v 1.16 2011-05-16 13:55:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -690,6 +690,7 @@ sub LogSearch {
         RemoteIP          => 'remote_ip',
         WebserviceID      => 'webservice_id',
     );
+
     OPTION:
     for my $Option (qw(CommunicationID CommunicationType RemoteIP WebserviceID)) {
         next OPTION if !$Param{$Option};
@@ -697,16 +698,19 @@ sub LogSearch {
         $SQLExt .= " $Type $NameToDB{$Option} = ?";
         push @Bind, \$Param{$Option};
     }
+
     if ( $Param{CreatedAtOrAfter} ) {
         my $Type = $SQLExt ? 'AND' : 'WHERE';
         $SQLExt .= " $Type create_time >= ?";
         push @Bind, \$Param{CreatedAtOrAfter};
     }
+
     if ( $Param{CreatedAtOrBefore} ) {
         my $Type = $SQLExt ? 'AND' : 'WHERE';
         $SQLExt .= " $Type create_time <= ?";
         push @Bind, \$Param{CreatedAtOrBefore};
     }
+
     $SQLExt .= ' ORDER BY create_time ASC';
 
     if (
@@ -872,6 +876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-05-03 12:04:24 $
+$Revision: 1.16 $ $Date: 2011-05-16 13:55:13 $
 
 =cut
