@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.9 2011-05-16 20:34:45 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.10 2011-05-16 21:00:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -279,7 +279,7 @@
                                 <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
                                 <div class="Field">
                                     $Data{"TransportsStrg"}
-                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="" value="Properties">$Text{"Properties"}</button>
+                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="MarginLeft" value="Properties">$Text{"Properties"}</button>
 
                                 </div>
                             </fieldset>
@@ -288,7 +288,7 @@
                                 <h4>$Text{"$Data{"ActionsTitle"}"}
                                     <span>
                                         $Data{"ControllersStrg"}
-                                        <button type="button" id="$QData{"ActionType"}Add" class="Add" value="Add $QData{"ActionType"}">$Text{"Add $QData{"ActionType"}"}</button>
+                                        <button type="button" id="$QData{"ActionType"}Add" class="Add MarginLeft" value="Add $QData{"ActionType"}">$Text{"Add $QData{"ActionType"}"}</button>
                                     </span>
                                 </h4>
                             </div>
