@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1875 2011-05-16 08:35:27 mb Exp $
+# $Id: CHANGES,v 1.1876 2011-05-16 14:21:06 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-05-16 Added feature bug#7316 - Possibility to exclude articles of certain sender types from
+    being displayed in OverviewPreview mode and to display a certain article type as expanded when
+    entering the view.
  - 2011-05-03 Added feature Ideascale#488 - Use ticket number in the URL to access to
     its zoom view.
  - 2011-05-02 Added feature bug#6108 / Ideascale#87 - add the possibility to
