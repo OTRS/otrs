@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.8 2011-05-16 14:08:20 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.9 2011-05-16 22:33:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,8 +113,8 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
         FilterType: $('#FilterType').val() || ''
     };
 
-    Data.FilterFrom = $('#FilterFromYear').val() + '-' + $('#FilterFromMonth').val() + '-' + $('#FilterFromDay').val() + ' 00:00:00';
-    Data.FilterTo = $('#FilterToYear').val() + '-' + $('#FilterToMonth').val() + '-' + $('#FilterToDay').val() + ' 23:59:59';
+    Data.FilterFrom = $('#FilterFromYear :selected').text() + '-' + $('#FilterFromMonth :selected').text() + '-' + $('#FilterFromDay :selected').text() + ' 00:00:00';
+    Data.FilterTo = $('#FilterToYear :selected').text() + '-' + $('#FilterToMonth :selected').text() + '-' + $('#FilterToDay :selected').text() + ' 23:59:59';
 
     $('#CommunicationDetails').css('visibility', 'hidden');
     $('.RequestListWidget').addClass('Loading');
