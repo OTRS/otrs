@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.440 2011-05-09 22:20:18 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.441 2011-05-16 14:15:37 mab Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1523,6 +1523,26 @@ Description>
                 <Item Key="StripEmptyLines">0</Item>
                 <Item Key="TicketActionsPerTicket">0</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview::PreviewArticleSenderTypes" Required="0" Valid="0">
+        <Description Translatable="1">Defines which article sender types should be shown in the preview of a ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="agent">1</Item>
+                <Item Key="system">1</Item>
+                <Item Key="customer">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview::PreviewArticleTypeExpanded" Required="0" Valid="0">
+        <Description Translatable="1">Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <String></String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###Active" Required="1" Valid="1">
