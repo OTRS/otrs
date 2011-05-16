@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.14 2011-05-16 13:03:33 mg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.15 2011-05-16 20:29:57 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -53,6 +53,14 @@
             <String Regex="">60</String><!-- default 60 seconds -->
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="GenericInterface::Webservice::Path::Separator" Required="1" Valid="1">
+        <Description Translatable="1">Webservice path separator.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::Webservice</SubGroup>
+        <Setting>
+            <String>»</String>
+        </Setting>
+    </ConfigItem>
 
 
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceDebugger" Required="0" Valid="1">
@@ -79,6 +87,9 @@
                 <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title Translatable="1">GenericInterface Webservice GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
