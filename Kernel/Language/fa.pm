@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.87.2.2 2011-05-02 11:47:05 mg Exp $
+# $Id: fa.pm,v 1.87.2.3 2011-05-16 20:36:09 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87.2.2 $) [1];
+$VERSION = qw($Revision: 1.87.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3048,6 +3048,12 @@ sub Data {
         'Database' => 'پایگاه داده',
         'OS' => 'سیستم عامل',
         'Webserver' => 'سرور وب',
+        'New Year\'s Day' => '',
+        'International Workers\' Day' => '',
+        'Christmas Eve' => '',
+        'First Christmas Day' => '',
+        'Second Christmas Day' => '',
+        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!

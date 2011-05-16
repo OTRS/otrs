@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanoviæ <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.10.2.1 2011-03-21 16:43:59 mb Exp $
+# $Id: sr_Latn.pm,v 1.10.2.2 2011-05-16 20:39:25 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.1 $) [1];
+$VERSION = qw($Revision: 1.10.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3039,6 +3039,12 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => 'Kada su tiketi spojeni, tiketu koji nije aktivan æe automatski biti dodana bele¹ka. U prostoru za tekst mo¾ete da defini¹ete ovaj tekst (Zaposleni ne mogu menjati ovaj tekst).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => 'Kada su tiketi spojeni, korisnik mo¾e biti informisan imejlom postavljanjem polje za potvrdu "Obavesti po¹iljaoca". U prostoru za tekst, mo¾ete definisati unapred formatirani tekst koji kasnije biti modifikovan od strane zaposlenih.',
         'Your language' => 'Va¹ jezik',
+        'New Year\'s Day' => '',
+        'International Workers\' Day' => '',
+        'Christmas Eve' => '',
+        'First Christmas Day' => '',
+        'Second Christmas Day' => '',
+        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!

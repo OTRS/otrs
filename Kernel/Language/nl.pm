@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.5 2011-04-27 11:30:18 mb Exp $
+# $Id: nl.pm,v 1.152.2.6 2011-05-16 20:37:32 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.5 $) [1];
+$VERSION = qw($Revision: 1.152.2.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3055,6 +3055,12 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Uw taal',
+        'New Year\'s Day' => '',
+        'International Workers\' Day' => '',
+        'Christmas Eve' => '',
+        'First Christmas Day' => '',
+        'Second Christmas Day' => '',
+        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
