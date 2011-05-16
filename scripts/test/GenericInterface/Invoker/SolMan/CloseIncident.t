@@ -2,7 +2,7 @@
 # CloseIncident.t - CloseIncident Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseIncident.t,v 1.10 2011-05-02 13:10:13 sb Exp $
+# $Id: CloseIncident.t,v 1.11 2011-05-16 21:54:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -424,7 +424,8 @@ my @Tests = (
                 TicketID      => $OpenTicketID,
                 OldTicketData => \%Ticket,
             },
-            Success => 0,
+            StopCommunication => 1,
+            Success           => 1,
         },
     },
     {
@@ -810,6 +811,15 @@ for my $Test (@Tests) {
             $Self->IsNot(
                 $Result->{ErrorMessage},
                 undef,
+                "Test $Test->{Name}: ReplicateIncident PrepareRequest ErrorMessage",
+            );
+        }
+
+        # on non-close state updates success is passed back but also StopCommunication
+        elsif ( $Test->{PrepareRequest}->{StopCommunication} ) {
+            $Self->Is(
+                $Result->{StopCommunication},
+                $Test->{PrepareRequest}->{StopCommunication},
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest ErrorMessage",
             );
         }
