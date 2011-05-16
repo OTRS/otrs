@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.dtl,v 1.29 2011-05-16 08:52:37 mb Exp $
+# $Id: AdminAutoResponse.dtl,v 1.30 2011-05-16 09:24:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ $Include{"RichTextEditor"}
 
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="250"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>

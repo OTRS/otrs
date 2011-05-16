@@ -2,7 +2,7 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.59 2011-04-05 14:25:57 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.60 2011-05-16 09:24:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,11 +28,11 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">$Text{"User name"}</label>
-                        <input title="$Text{"Your user name"}" type="text" name="User" id="User" maxlength="128" />
+                        <input title="$Text{"Your user name"}" type="text" name="User" id="User" maxlength="150" />
                     </div>
                     <div>
                         <label for="Password">$Text{"Password"}</label>
-                        <input title="$Text{"Your password"}" type="password" name="Password" id="Password" maxlength="128" />
+                        <input title="$Text{"Your password"}" type="password" name="Password" id="Password" />
 <!-- dtl:block:LostPasswordLink -->
                         <div class="Option">
                             <a href="#Reset" id="ForgotPassword">$Text{"Forgot password?"}</a>
@@ -57,7 +57,7 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}" />
                     <div>
                         <label for="ResetUser">$Text{"User name"}</label>
-                        <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="128" />
+                        <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="150" />
                     </div>
                     <div>
                         <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
@@ -77,21 +77,21 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
                     <div>
                         <label for="Title">$Text{"Title{CustomerUser}"}</label>
-                        <input title="$Text{"How we should address you"}" type="text" name="Title"  id="Title" maxlength="128" value="$QData{"UserTitle"}"/>
+                        <input title="$Text{"How we should address you"}" type="text" name="Title"  id="Title" maxlength="50" value="$QData{"UserTitle"}"/>
                     </div>
                     <div class="NewLine">
                         <label class="Mandatory" for="FirstName"><span class="Marker">*</span> $Text{"Firstname{CustomerUser}"}</label>
-                        <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="128" value="$QData{"UserFirstname"}" class="W50pc Validate_Required"/>
+                        <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="100" value="$QData{"UserFirstname"}" class="W50pc Validate_Required"/>
                         <div id="FirstNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a first name"}</p></div>
                     </div>
                     <div class="NewLine">
                         <label class="Mandatory" for="LastName"><span class="Marker">*</span> $Text{"Lastname{CustomerUser}"}</label>
-                        <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="128" value="$QData{"UserLastname"}" class="W50pc Validate_Required"/>
+                        <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="100" value="$QData{"UserLastname"}" class="W50pc Validate_Required"/>
                         <div id="LastNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a last name"}</p></div>
                     </div>
                     <div class="NewLine">
                         <label class="Mandatory" for="Email"><span class="Marker">*</span> $Text{"Email{CustomerUser}"}</label>
-                        <input title="$Text{"Your email address (this will become your username)"}" name="Email" type="text" id="Email" maxlength="128" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
+                        <input title="$Text{"Your email address (this will become your username)"}" name="Email" type="text" id="Email" maxlength="150" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
                         <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"Please supply a"} $Text{"Email{CustomerUser}"}</p></div>
                     </div>
                     <div class="NewLine">

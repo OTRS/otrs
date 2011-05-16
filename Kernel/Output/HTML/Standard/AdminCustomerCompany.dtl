@@ -2,7 +2,7 @@
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.27 2011-04-27 10:05:39 mb Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.28 2011-05-16 09:24:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,7 +129,7 @@
                             $Text{"$Data{"Item"}"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $Data{"InvalidField"} $QData{"Action"}" maxlength="150" $Data{"ReadOnlyType"}/>
+                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $Data{"InvalidField"} $QData{"Action"}" maxlength="200" $Data{"ReadOnlyType"}/>
 <!-- dtl:block:PreferencesGenericInputRequired -->
                             <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
