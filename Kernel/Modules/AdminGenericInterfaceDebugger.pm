@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.pm,v 1.4 2011-05-16 13:03:33 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.pm,v 1.5 2011-05-16 14:08:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::DebugLog;
@@ -97,12 +97,23 @@ sub _ShowScreen {
         Translate    => 0,
     );
 
+    my $FilterFromStrg = $Self->{LayoutObject}->BuildDateSelection(
+        Prefix   => 'FilterFrom',
+        DiffTime => -60 * 60 * 24 * 356,
+    );
+
+    my $FilterToStrg = $Self->{LayoutObject}->BuildDateSelection(
+        Prefix => 'FilterTo',
+    );
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericInterfaceDebugger',
         Data         => {
             %Param,
             WebserviceName => $Param{WebserviceData}->{Name},
             FilterTypeStrg => $FilterTypeStrg,
+            FilterFromStrg => $FilterFromStrg,
+            FilterToStrg   => $FilterToStrg,
         },
     );
     $Output .= $Self->{LayoutObject}->Footer();
@@ -123,12 +134,10 @@ sub _GetRequestList {
     $LogSearchParam{RemoteIP} = $FilterRemoteIP
         if ( $FilterRemoteIP && IsIPv4Address($FilterRemoteIP) );
 
-    my $LogData = $Self->{DebugLogObject}->LogSearch(
-        %LogSearchParam,
+    $LogSearchParam{CreatedAtOrAfter}  = $Self->{ParamObject}->GetParam( Param => 'FilterFrom' );
+    $LogSearchParam{CreatedAtOrBefore} = $Self->{ParamObject}->GetParam( Param => 'FilterTo' );
 
-        #            CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
-        #            CreatedArOrBefore => '2011-12-31 23:59:59', # optional
-    );
+    my $LogData = $Self->{DebugLogObject}->LogSearch(%LogSearchParam);
 
     # Fail gracefully
     $LogData = [] if ( !$LogData );

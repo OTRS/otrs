@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.7 2011-05-16 13:03:33 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.8 2011-05-16 14:08:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,9 +27,11 @@
     </div>
     <div class="ContentColumn">
 
-        <div class="WidgetSimple">
+        <div class="WidgetSimple RequestListWidget">
             <div class="Header">
-                <h2>$Text{"Request List"}</h2>
+                <h2>
+                    $Text{"Request List"}
+                </h2>
             </div>
             <div class="Content">
                 <div class="LayoutGrid ColumnsWithSpacing">
@@ -62,13 +64,19 @@
 
                             <label>$Text{"Filter by date"}:</label>
                             <div class="Field">
-                                <label>$Text{"From"}</label> ... <label>$Text{"to"}</label> ...
+                                <label>$Text{"From"}</label> $Data{"FilterFromStrg"}
+                                <label>$Text{"to"}</label> $Data{"FilterToStrg"}
                             </div>
                             <div class="Clear"></div>
 
                             <label for="FilterRemoteIP">$Text{"Filter by remote IP"}:</label>
                             <div class="Field">
                                 <input type="text" class="w50pc" id="FilterRemoteIP" />
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="button" id="FilterRefresh" val="$Text{"Refresh"}">$Text{"Refresh"}</button>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
@@ -105,12 +113,19 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
         FilterType: $('#FilterType').val() || ''
     };
 
+    Data.FilterFrom = $('#FilterFromYear').val() + '-' + $('#FilterFromMonth').val() + '-' + $('#FilterFromDay').val() + ' 00:00:00';
+    Data.FilterTo = $('#FilterToYear').val() + '-' + $('#FilterToMonth').val() + '-' + $('#FilterToDay').val() + ' 23:59:59';
+
     $('#CommunicationDetails').css('visibility', 'hidden');
+    $('.RequestListWidget').addClass('Loading');
 
     Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
         if (!Response || !Response.LogData) {
             alert('$JSText{"Error during communication."}');
+            return;
         }
+
+        $('.RequestListWidget').removeClass('Loading');
 
         if (!Response.LogData.length) {
             $('#RequestList tbody').empty().append('<tr><td colspan="3">$JSText{"No data found."}</td></tr>');
@@ -150,6 +165,7 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
     };
 
     $('#CommunicationDetails').css('visibility', 'hidden');
+    $('.RequestListWidget').addClass('Loading');
 
     Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
         if (!Response || !Response.LogData || !Response.LogData.Data) {
@@ -158,6 +174,7 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
         }
 
         $('#CommunicationDetails > .Content').empty();
+        $('.RequestListWidget').removeClass('Loading');
 
         if (!Response.LogData.Data.length) {
             $('#CommunicationDetails > .Content').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
@@ -189,7 +206,7 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
 // Load Request list on startup without active filter
 Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
 
-$('#FilterType, #FilterRemoteIP').bind('change', Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList);
+$('#FilterRefresh').bind('click', Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList);
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->
