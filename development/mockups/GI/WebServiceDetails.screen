@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
   <widgets xsi:type="model:Browser" width="1024" height="968" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="968" verticalScrollbar="true"/>
-  <widgets xsi:type="model:Window" x="10" y="174" width="237" height="201" text="Actions" measuredWidth="237" measuredHeight="201"/>
+  <widgets xsi:type="model:Window" x="10" y="174" width="237" height="239" text="Actions" measuredWidth="237" measuredHeight="239"/>
   <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details" locked="true" measuredWidth="337" measuredHeight="26">
     <font size="16" bold="false"/>
   </widgets>
@@ -9,20 +9,20 @@
   <widgets xsi:type="model:Button" x="20" y="206" width="217" text="Clone" measuredWidth="217" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="10" y="390" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
-  <widgets xsi:type="model:Text" x="20" y="417" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+  <widgets xsi:type="model:Window" x="10" y="424" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="451" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="240" width="218" text="Export" measuredWidth="218" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="240" width="218" text="Import" measuredWidth="218" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="273" width="217" text="History" measuredWidth="217" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="307" width="217" text="History" measuredWidth="217" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="307" width="218" text="Delete" measuredWidth="218" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="341" width="218" text="Delete" measuredWidth="218" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="340" width="216" text="Debugger" measuredWidth="216" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="374" width="216" text="Debugger" measuredWidth="216" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Rectangle" x="274" y="124" width="621" height="72" measuredWidth="621" measuredHeight="72" background="#e06666" foreground="#660000">
@@ -49,10 +49,10 @@
   </widgets>
   <widgets xsi:type="model:Icon" x="24" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
   <widgets xsi:type="model:Icon" x="25" y="210" measuredWidth="16" measuredHeight="16" icon="unselected (small)"/>
-  <widgets xsi:type="model:Icon" x="26" y="244" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
-  <widgets xsi:type="model:Icon" x="26" y="277" measuredWidth="16" measuredHeight="16" icon="book (small)"/>
-  <widgets xsi:type="model:Icon" x="26" y="311" measuredWidth="16" measuredHeight="16" icon="error (small)"/>
-  <widgets xsi:type="model:Icon" x="26" y="344" measuredWidth="16" measuredHeight="16" icon="eye (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="244" measuredWidth="16" measuredHeight="16" icon="download (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="311" measuredWidth="16" measuredHeight="16" icon="book (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="345" measuredWidth="16" measuredHeight="16" icon="error (small)"/>
+  <widgets xsi:type="model:Icon" x="26" y="378" measuredWidth="16" measuredHeight="16" icon="eye (small)"/>
   <widgets xsi:type="model:Table" x="274" y="206" width="295" height="102" text="&#xA;*Name*,*Lanxess Solman*&#xA;*Description*, -&#xA;*Remote System*,Solman&#xA;*Protocol*,SOAP" measuredWidth="295" measuredHeight="102" selection="0" horizontalLines="true" verticalLines="false" header="false">
     <font bold="false"/>
   </widgets>
@@ -112,6 +112,10 @@
   <widgets xsi:type="model:Button" x="499" y="663" text="Edit current type" measuredWidth="109" measuredHeight="23">
     <font/>
   </widgets>
+  <widgets xsi:type="model:Button" x="20" y="272" width="218" text="Export" measuredWidth="218" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="276" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
   <hRuler>
     <guides position="502"/>
     <guides position="661"/>
