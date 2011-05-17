@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.42 $
+ * @version     $Revision: 1.43 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -563,10 +563,6 @@ tbody tr:hover span.UnreadArticles {
 
 .RTL .DatepickerIcon {
     margin: 0 4px 0 0;
-}
-
-#ui-datepicker-div {
-    z-index: 20 !important;
 }
 
 /* Vacation Days */
