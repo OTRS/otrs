@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.pm,v 1.5 2011-05-16 14:08:20 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.pm,v 1.6 2011-05-17 13:36:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::DebugLog;
@@ -72,6 +72,13 @@ sub Run {
             WebserviceData => $WebserviceData,
         );
     }
+    elsif ( $Self->{Subaction} eq 'ClearDebugLog' ) {
+        return $Self->_ClearDebugLog(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
 
     # default: show start screen
     return $Self->_ShowScreen(
@@ -116,6 +123,7 @@ sub _ShowScreen {
             FilterToStrg   => $FilterToStrg,
         },
     );
+
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
@@ -181,6 +189,29 @@ sub _GetCommunicationDetails {
     my $JSON = $Self->{LayoutObject}->JSONEncode(
         Data => {
             LogData => $LogData,
+        },
+    );
+
+    # send JSON response
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
+}
+
+sub _ClearDebugLog {
+    my ( $Self, %Param ) = @_;
+
+    my $Success = $Self->{DebugLogObject}->LogDelete(
+        WebserviceID => $Param{WebserviceID},
+    );
+
+    # build JSON output
+    my $JSON = $Self->{LayoutObject}->JSONEncode(
+        Data => {
+            Success => 1,
         },
     );
 

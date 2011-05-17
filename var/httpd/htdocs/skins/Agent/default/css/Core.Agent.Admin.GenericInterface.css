@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.5 $
+ * @version     $Revision: 1.6 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -14,7 +14,7 @@
 @media screen,projection,tv,handheld {
 
 /**
- * @subsubsection     General
+ * @subsubsection     AdminGenericInterfaceDebugger
  */
 
 .AdminGenericInterfaceDebugger #RequestListContainer {
@@ -22,8 +22,12 @@
     overflow-y: auto;
 }
 
-.Loading h2 {
+.AdminGenericInterfaceDebugger .Loading h2 {
     background: url("../img/loader.gif") no-repeat right center;
+}
+
+#DebuggerDeleteDialog {
+    min-width: 420px;
 }
 
 /**
@@ -33,6 +37,10 @@
 .AdminGenericInterfaceDebugger .DebugLevel_error {
     color: #ff505e;
 }
+
+/**
+ * @subsubsection     AdminGenericInterfaceWebservice
+ */
 
 .GenericInterfaceWebserviceConfigPath {
     margin-bottom: 13px !important;

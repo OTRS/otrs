@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.11 2011-05-17 08:35:23 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.12 2011-05-17 13:36:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,14 @@
                 <ul class="ActionList">
                     <li>
                         <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                    </li>
+                    <li>
+                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Clear"}</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <p id="DebuggerDeleteDialog" class="Warning">
+                                $Text{"Do you really want to clear the debug log of this webservice?"}
+                            </p>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -104,6 +112,28 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
 Core.Agent.Admin.AdminGenericInterfaceDebugger = {};
 
+function FormatISODate (Year, Month, Day) {
+    var Result = '',
+        Temp;
+
+    Temp = parseInt(Year || 0, 10);
+    Result = Result + Temp + '-';
+
+    Temp = parseInt(Month || 0, 10);
+    if (Temp < 10) {
+        Temp = '0' + Temp;
+    }
+    Result = Result + Temp + '-';
+
+    Temp = parseInt(Day || 0, 10);
+    if (Temp < 10) {
+        Temp = '0' + Temp;
+    }
+    Result = Result + Temp;
+
+    return Result;
+}
+
 Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
     var Data = {
         Action: 'AdminGenericInterfaceDebugger',
@@ -113,30 +143,9 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
         FilterType: $('#FilterType').val() || ''
     };
 
-    function FormatISODate (Year, Month, Day) {
-        var Result = '',
-            Temp;
-
-        Temp = parseInt(Year || 0, 10);
-        Result = Result + Temp + '-';
-
-        Temp = parseInt(Month || 0, 10);
-        if (Temp < 10) {
-            Temp = '0' + Temp;
-        }
-        Result = Result + Temp + '-';
-
-        Temp = parseInt(Day || 0, 10);
-        if (Temp < 10) {
-            Temp = '0' + Temp;
-        }
-        Result = Result + Temp;
-
-        return Result;
-    }
 
     Data.FilterFrom = FormatISODate($('#FilterFromYear').val(), $('#FilterFromMonth').val(), $('#FilterFromDay').val()) + ' 00:00:00';
-    Data.FilterTo   = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 00:00:00';
+    Data.FilterTo   = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 23:59:59';
 
     $('#CommunicationDetails').css('visibility', 'hidden');
     $('.RequestListWidget').addClass('Loading');
@@ -229,6 +238,52 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = functi
 Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
 
 $('#FilterRefresh').bind('click', Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList);
+
+$('#DeleteButton').bind('click', function(Event){
+    Core.UI.Dialog.ShowContentDialog(
+        $('#DeleteDialogContainer'),
+        '$JSText{"Clear debug log"}',
+        '240px',
+        'Center',
+        true,
+        [
+           {
+               Label: '$JSText{"Clear"}',
+               Function: function () {
+                   var Data = {
+                        Action: 'AdminGenericInterfaceDebugger',
+                        Subaction: 'ClearDebugLog',
+                        WebserviceID: parseInt('$QData{"WebserviceID"}', 10)
+                    };
+
+                    $('#CommunicationDetails').css('visibility', 'hidden');
+                    $('.RequestListWidget').addClass('Loading');
+
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                        if (!Response || !Response.Success) {
+                            alert('$JSText{"Error during communication."}');
+                            return;
+                        }
+
+                        Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
+
+                    }, 'json');
+
+                   Core.UI.Dialog.CloseDialog($('#DebuggerDeleteDialog'));
+               }
+           },
+           {
+               Label: '$JSText{"Cancel"}',
+               Function: function () {
+                   Core.UI.Dialog.CloseDialog($('#DebuggerDeleteDialog'));
+               }
+           }
+       ]
+    );
+
+    Event.stopPropagation();
+});
+
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->
