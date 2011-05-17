@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="sketch">
+  <widgets xsi:type="model:Browser" width="1024" height="617" text="Browser&#xA;http://..." measuredWidth="1024" measuredHeight="617" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Solman* > Details > Provider > Transport >Test" locked="true" measuredWidth="688" measuredHeight="34">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="264" y="96" width="641" height="385" measuredWidth="641" measuredHeight="385"/>
+  <widgets xsi:type="model:Window" x="10" y="176" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
+  <widgets xsi:type="model:Text" x="20" y="205" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" x="274" y="125" width="621" height="81" text="Meta data" measuredWidth="621" measuredHeight="81" selection="0">
+    <items x="0" y="2" width="621" height="27" text="Meta data"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="291" y="168" text="Module" measuredWidth="57" measuredHeight="26">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="362" y="168" width="343" text="Kernel::GenericInterface::Transport::HTTP::Test" measuredWidth="343" measuredHeight="25" state="disabled">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Navigation" measuredWidth="237" measuredHeight="65"/>
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Back to webservice details" measuredWidth="217" measuredHeight="27">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="26" y="132" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
+  <widgets xsi:type="model:Accordion" x="274" y="215" width="621" height="146" text="Config" measuredWidth="621" measuredHeight="146" selection="0">
+    <items x="0" y="2" width="621" height="27" text="Config"/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="475" y="264" text="Fail" measuredWidth="28" measuredHeight="26">
+    <font size="11" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="274" y="376" width="109" text="Submit" measuredWidth="109" measuredHeight="27">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Breadcrumbs" x="392" y="377" text="or Cancel" measuredWidth="63" measuredHeight="25">
+    <font/>
+    <items x="0" y="0" width="60" height="25" text="or Cancel"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="574" y="264" text="No" measuredWidth="42" measuredHeight="25">
+    <font/>
+  </widgets>
+  <hRuler>
+    <guides position="502"/>
+    <guides position="661"/>
+    <guides position="574"/>
+    <guides position="368"/>
+    <guides position="751"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>
