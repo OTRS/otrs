@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Datepicker.js,v 1.8 2011-02-17 21:30:59 en Exp $
+// $Id: Core.UI.Datepicker.js,v 1.9 2011-05-17 13:17:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -168,32 +168,38 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         $DatepickerElement.datepicker(Options);
 
-        // add datepicker icon and click event
-        $DatepickerElement.after('<a href="#" class="DatepickerIcon" title="' + LocalizationData.IconText + '"></a>').next('a.DatepickerIcon').click(function () {
-            $DatepickerElement.trigger('focus');
-            return false;
-        });
+        // Add some DOM notes to the datepicker, but only if it was not initialized previously.
+        //      Check if one additional DOM node is already present.
+        if (!$('#' + Element.Day.attr('id') + 'Error').length) {
 
-        if (Element.DateInFuture) {
-            ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateInFuture');
-        }
-        else {
-            ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
-        }
+            // add datepicker icon and click event
+            $DatepickerElement.after('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + LocalizationData.IconText + '"></a>');
 
+            if (Element.DateInFuture) {
+                ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateInFuture');
+            }
+            else {
+                ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
+            }
 
-        // Add validation error messages for all dateselection elements
-        Element.Year
+            // Add validation error messages for all dateselection elements
+            Element.Year
             .after('<div id="' + Element.Day.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
             .after('<div id="' + Element.Month.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
             .after('<div id="' + Element.Year.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>');
 
-        // only insert time element error messages if time elements are present
-        if (Element.Hour && Element.Hour.length) {
-            Element.Hour
+            // only insert time element error messages if time elements are present
+            if (Element.Hour && Element.Hour.length) {
+                Element.Hour
                 .after('<div id="' + Element.Hour.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
                 .after('<div id="' + Element.Minute.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>');
+            }
         }
+
+        $('a#' + Element.Day.attr('id') + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
+            $DatepickerElement.trigger('focus');
+            return false;
+        });
 
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();
