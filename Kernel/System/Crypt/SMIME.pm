@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.49 2011-05-16 03:45:46 dz Exp $
+# $Id: SMIME.pm,v 1.50 2011-05-17 05:53:35 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -996,7 +996,7 @@ returns 1 if success
 
     my $RelationID = $CryptObject->SignerCertRelationAdd(
         CertFingerprint => $CertFingerprint,
-        CAFingerprint => $CertFingerprint,
+        CAFingerprint => $CAFingerprint,
         UserID => 1,
     );
 
@@ -1011,6 +1011,14 @@ sub SignerCertRelationAdd {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
+    }
+
+    if ( $Param{CertFingerprint} eq $Param{CAFingerprint} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CertFingerprint must be different to the CAFingerprint param',
+        );
+        return;
     }
 
     # searh certificates by fingerprint
@@ -1249,6 +1257,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2011-05-16 03:45:46 $
+$Revision: 1.50 $ $Date: 2011-05-17 05:53:35 $
 
 =cut

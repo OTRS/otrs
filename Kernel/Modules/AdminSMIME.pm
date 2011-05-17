@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.36 2011-04-15 20:29:58 dz Exp $
+# $Id: AdminSMIME.pm,v 1.37 2011-05-17 05:53:35 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,6 +102,7 @@ sub Run {
         $Self->_Overview;
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->{LayoutObject}->Block( Name => 'Hint' );
 
         if ( $Message && $Message != 1 ) {
             $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
@@ -185,6 +186,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Self->{LayoutObject}->Block( Name => 'Hint' );
                 $Output .= $Self->{LayoutObject}->Notify( Info => $NewCertificate );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminSMIME',
@@ -274,6 +276,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
+                $Self->{LayoutObject}->Block( Name => 'Hint' );
                 $Output .= $Self->{LayoutObject}->Notify( Info => $NewPrivate );
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminSMIME',
@@ -346,12 +349,59 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # SignerCertificates
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'SignerRelations' ) {
+
+        # look for needed parameters
+        my $CertFingerprint = $Self->{ParamObject}->GetParam( Param => 'Fingerprint' ) || '';
+        my $Output = $Self->_SignerCertificateOverview( CertFingerprint => $CertFingerprint );
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # SignerRelationAdd
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'SignerRelationAdd' ) {
+
+        # look for needed parameters
+        my $CertFingerprint = $Self->{ParamObject}->GetParam( Param => 'CertFingerprint' ) || '';
+        my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
+
+        if ( !$CertFingerprint || !$CAFingerprint ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint', );
+        }
+
+        my $Result = $Self->{CryptObject}->SignerCertRelationAdd(
+            CertFingerprint => $CertFingerprint,
+            CAFingerprint   => $CAFingerprint,
+            UserID          => $Self->{UserID},
+        );
+
+        my $Message;
+        if ($Result) {
+            $Message = "Relation added!"
+        }
+
+        $Self->_SignerCertificateOverview(
+            CertFingerprint => $CertFingerprint,
+            Message         => $Message,
+        );
+
+        my $Output = $Self->_SignerCertificateOverview( CertFingerprint => $CertFingerprint );
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
     else {
         $Self->_Overview();
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->{LayoutObject}->Block( Name => 'Hint' );
 
         # check if SMIME is activated in the sysconfig first
         if ( !$Self->{ConfigObject}->Get('SMIME') ) {
@@ -423,6 +473,7 @@ sub _MaskAdd {
         )
         : '';
     $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Self->{LayoutObject}->Block( Name => 'Hint' );
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSMIME',
     );
@@ -466,4 +517,140 @@ sub _Overview {
     return 1;
 }
 
+sub _SignerCertificateOverview {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{CertFingerprint} ) {
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'Needed Fingerprint', );
+    }
+
+    # get all certificates
+    my @AvailableCerts = $Self->{CryptObject}->CertificateSearch();
+
+    # get all relations for that certificate @ActualRelations
+    my @ActualRelations = $Self->{CryptObject}->SignerCertRelationGet(
+        CertFingerprint => $Param{CertFingerprint},
+    );
+
+    # compare 2 lists of certificates (by fingerprint)
+    # and remove from the @Available list the certs which are already in @ActualRelations
+    # also remove the actual SignerCertificate
+
+    my @ShowCertList = @AvailableCerts;
+
+    #    for my $ActualRelation (@ActualRelations) {
+    #        for my $AvailableCert (@AvailableCerts){
+    #            # remove the actual certificate from the list of all certificates
+    #            if ( $AvailableCert->{Fingerprint} eq $ActualRelation->{CAFingerprint} &&
+    #                 $AvailableCert->{Fingerprint} eq $Param{CertFingerprint} ) {
+    #            }
+    #            push @ShowCertList, $AvailableCert;
+    #        }
+    #    }
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'SignerCertHint',
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'SignerCertificates',
+    );
+
+    if (@ActualRelations) {
+        for my $ActualRelation (@ActualRelations) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RelatedCertsRow',
+                Data => {
+                    %{$ActualRelation},
+                    CertFingerprint => $Param{CertFingerprint},
+                },
+            );
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'RelatedCertsNoDataFoundMsg',
+        );
+    }
+
+    if (@ShowCertList) {
+        for my $AvailableCert (@ShowCertList) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AvailableCertsRow',
+                Data => {
+                    %{$AvailableCert},
+                    CertFingerprint => $Param{CertFingerprint},
+                },
+            );
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'AvailableCertsNoDataFoundMsg',
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    if ( $Param{Message} ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => '$Text{"Please activate %s first!", "SMIME"}',
+            Link =>
+                '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+        );
+    }
+
+    # check if SMIME is activated in the sysconfig first
+    if ( !$Self->{ConfigObject}->Get('SMIME') ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => '$Text{"Please activate %s first!", "SMIME"}',
+            Link =>
+                '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+        );
+    }
+
+    # check if SMIME Paths are writable
+    for my $PathKey (qw(SMIME::CertPath SMIME::PrivatePath)) {
+        if ( !-w $Self->{ConfigObject}->Get($PathKey) ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data     => '$Text{"%s is not writable!", "'
+                    . "$PathKey "
+                    . $Self->{ConfigObject}->Get($PathKey) . '"}',
+                Link =>
+                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+            );
+        }
+    }
+    if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => '$Text{"Cannot create %s!", "CryptObject"}',
+            Link =>
+                '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+        );
+    }
+    if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
+        );
+    }
+
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSMIME',
+        Data         => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+
+    return $Output;
+}
 1;
