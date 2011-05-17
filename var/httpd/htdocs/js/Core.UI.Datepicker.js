@@ -2,7 +2,7 @@
 // Core.UI.Datepicker.js - Datepicker
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Datepicker.js,v 1.9 2011-05-17 13:17:37 mg Exp $
+// $Id: Core.UI.Datepicker.js,v 1.10 2011-05-17 13:29:25 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         // Add some DOM notes to the datepicker, but only if it was not initialized previously.
         //      Check if one additional DOM node is already present.
-        if (!$('#' + Element.Day.attr('id') + 'Error').length) {
+        if (!$('#' + Element.Day.attr('id') + 'DatepickerIcon').length) {
 
             // add datepicker icon and click event
             $DatepickerElement.after('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + LocalizationData.IconText + '"></a>');
@@ -196,7 +196,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             }
         }
 
-        $('a#' + Element.Day.attr('id') + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
+        $('#' + Element.Day.attr('id') + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
             $DatepickerElement.trigger('focus');
             return false;
         });
