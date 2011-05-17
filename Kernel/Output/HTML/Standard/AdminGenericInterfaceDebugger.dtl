@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.10 2011-05-17 03:01:04 cr Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.11 2011-05-17 08:35:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,8 +113,30 @@ Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
         FilterType: $('#FilterType').val() || ''
     };
 
-    Data.FilterFrom = $('#FilterFromYear :selected').text() + '-' + $('#FilterFromMonth :selected').text() + '-' + $('#FilterFromDay :selected').text() + ' 00:00:00';
-    Data.FilterTo = $('#FilterToYear :selected').text() + '-' + $('#FilterToMonth :selected').text() + '-' + $('#FilterToDay :selected').text() + ' 23:59:59';
+    function FormatISODate (Year, Month, Day) {
+        var Result = '',
+            Temp;
+
+        Temp = parseInt(Year || 0, 10);
+        Result = Result + Temp + '-';
+
+        Temp = parseInt(Month || 0, 10);
+        if (Temp < 10) {
+            Temp = '0' + Temp;
+        }
+        Result = Result + Temp + '-';
+
+        Temp = parseInt(Day || 0, 10);
+        if (Temp < 10) {
+            Temp = '0' + Temp;
+        }
+        Result = Result + Temp;
+
+        return Result;
+    }
+
+    Data.FilterFrom = FormatISODate($('#FilterFromYear').val(), $('#FilterFromMonth').val(), $('#FilterFromDay').val()) + ' 00:00:00';
+    Data.FilterTo   = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 00:00:00';
 
     $('#CommunicationDetails').css('visibility', 'hidden');
     $('.RequestListWidget').addClass('Loading');
