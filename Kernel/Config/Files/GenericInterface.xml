@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.15 2011-05-16 20:29:57 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.16 2011-05-17 03:01:41 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -127,7 +127,7 @@
             <Hash>
                 <Item Key="Name">Test</Item>
                 <Item Key="Controller">Test</Item>
-                <Item Key="ConfigDialog">AdminGenericInterfaceOperationTest</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationDefault</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -139,7 +139,7 @@
             <Hash>
                 <Item Key="Name">Test</Item>
                 <Item Key="Controller">Test</Item>
-                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTest</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerDefault</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -151,7 +151,7 @@
             <Hash>
                 <Item Key="Name">TestSimple</Item>
                 <Item Key="Controller">Test</Item>
-                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTest</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerDefault</Item>
             </Hash>
         </Setting>
     </ConfigItem>
