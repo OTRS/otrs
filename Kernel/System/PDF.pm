@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.33.2.1 2011-03-07 21:27:29 mb Exp $
+# $Id: PDF.pm,v 1.33.2.2 2011-05-18 08:25:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33.2.1 $) [1];
+$VERSION = qw($Revision: 1.33.2.2 $) [1];
 
 =head1 NAME
 
@@ -161,7 +161,11 @@ sub DocumentNew {
                 'Subject'  => $Self->{Document}->{Title},
             );
 
-            # set testfont (only used in unitests)
+            # add font directory
+            my $FontDir = $Self->{ConfigObject}->Get('Home') . '/var/fonts';
+            $Self->{PDF}->addFontDirs($FontDir);
+
+            # set testfont (only used in unittests)
             $Self->{Font}->{Testfont1}
                 = $Self->{PDF}->corefont( 'Helvetica', -encode => $Self->{Document}->{Encode}, );
             $Self->{Font}->{Testfont2}
@@ -3629,6 +3633,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33.2.1 $ $Date: 2011-03-07 21:27:29 $
+$Revision: 1.33.2.2 $ $Date: 2011-05-18 08:25:43 $
 
 =cut

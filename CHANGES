@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.194 2011-04-26 21:41:53 en Exp $
+# $Id: CHANGES,v 1.993.2.195 2011-05-18 08:21:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 2.4.11 (????/??/??)
- - 2011-04-26 Fixed bug#7250 - Add new queue mask crashes.
+ - 2011-05-09 Fixed bug#7010 - Latest version of PDF::API2 no longer includes DejaVu fonts.
+    Fixed by including DejaVu fonts in var/fonts.
+ - 2011-04-26 Fixed bug#7250 - Add new queue mask crashes on PostgreSQL and MS SQL Server.
  - 2011-04-07 Fixed bug#7195 - Graphs doesn't use GIF as fallback if PNG is not available.
 
 2.4.10 (2011/04/12)
@@ -843,7 +845,7 @@
     };
     [...]
 
- - (2008/12/28) Added deamon support to bin/PostMasterMailbox.pl and
+ - (2008/12/28) Added daemon support to bin/PostMasterMailbox.pl and
     bin/GenericAgent.pl by using "-b <BACKGROUND_INTERVAL_IN_MIN>".
  - (2008/12/22) Improved ticket escalation notification, moved to .dtl support
     (Kernel/Output/HTML/Standard/AgentTicketEscalation.dtl) and added ticket

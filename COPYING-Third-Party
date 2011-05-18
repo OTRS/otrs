@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.2.2.1 2010-01-12 18:10:32 martin Exp $
+# $Id: COPYING-Third-Party,v 1.2.2.2 2011-05-18 08:21:35 mb Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -15,6 +15,10 @@ o Name:    YUI - Yahoo User Interface
 o Name:    fckeditor
   Web:     http://www.fckeditor.net/
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    DejaVu Fonts
+  Web:     http://dejavu-fonts.org
+  License: Free License - http://dejavu-fonts.org/wiki/License
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
