@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.99.2.1 2011-05-18 11:55:06 mb Exp $
+# $Id: AAABase.dtl,v 1.99.2.2 2011-05-18 12:06:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -232,7 +232,7 @@ $Text{"reverse"}
 $Text{"Facility"}
 $Text{"Time Zone"}
 $Text{"Pending till"}
-i$Text{"Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."}
+$Text{"Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."}
 $Text{"Dispatching by email To: field."}
 $Text{"Dispatching by selected Queue."}
 $Text{"No entry found!"}
