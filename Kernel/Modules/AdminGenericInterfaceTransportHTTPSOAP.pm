@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.2 2011-05-18 20:34:41 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.3 2011-05-18 22:05:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -113,7 +113,7 @@ sub Run {
         # check required parameters
         my %Error;
         for my $ParamName (
-            qw( Endpoint NameSpace Encoding SOAPAction )
+            qw( NameSpace Encoding )
             )
         {
             if ( !$GetParam->{$ParamName} ) {
@@ -123,6 +123,15 @@ sub Run {
                 $Error{ $ParamName . 'ServerErrorMessage' } =
                     'This field is required';
             }
+        }
+
+        # check if endpoind is required
+        if ( $CommunicationType ne 'Provider' && !$GetParam->{Endpoint} ) {
+
+            # add server error error class
+            $Error{EndpointServerError} = 'ServerError';
+            $Error{EndpointServerErrorMessage} =
+                'This field is required';
         }
 
         # set new confguration
@@ -143,9 +152,10 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
-                WebserviceID   => $WebserviceID,
-                WebserviceData => $WebserviceData,
-                Action         => 'Change',
+                WebserviceID      => $WebserviceID,
+                WebserviceData    => $WebserviceData,
+                CommunicationType => $CommunicationType,
+                Action            => 'Change',
             );
         }
 
@@ -191,6 +201,14 @@ sub _ShowEdit {
         = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
         ->{MaxLength};
 
+    # check if endpoind is required
+    if ( $Param{CommunicationType} ne 'Provider' ) {
+        $Param{EndpointValidateRequired} = 'Validate_Required';
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'TransportEndpoint' . $Param{CommunicationType},
+    );
+
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
@@ -212,7 +230,7 @@ sub _ShowEdit {
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
-            Name => $Param{Type},
+            Name => $Param{CommunicationType} . ' Transport ' . $Param{Type},
             Link => 'Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=' . $Param{Action}
                 . ';CommunicationType=' . $Param{CommunicationType}
                 . ';WebserviceID=' . $Param{WebserviceID},
