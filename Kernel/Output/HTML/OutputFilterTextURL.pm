@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterTextURL.pm,v 1.4 2010-08-01 04:48:20 dz Exp $
+# $Id: OutputFilterTextURL.pm,v 1.5 2011-05-18 18:20:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,12 +54,11 @@ sub Pre {
             .*?               # this part should be better defined!
         )
         (                               # $3
-            [\?,;!\.\)] (?: \s | $ )    # \)\s this construct is because of bug# 2450
+            [\?,;!\.\)\]] (?: \s | $ )    # \)\s this construct is because of bug#2450 and bug#7288
             | \s
             | \"
             | &quot;
             | &nbsp;
-            | ]
             | '
             | >                           # greater-than and less-than sign
             | <                           # "
