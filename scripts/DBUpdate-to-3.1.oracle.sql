@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-02-28 12:49:21
+--  driver: oracle, generated: 2011-05-18 15:31:41
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -167,40 +167,10 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_624 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_746 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
--- ----------------------------------------------------------
---  create table smime_signer_cert_relations
--- ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
-    id NUMBER (12, 0) NOT NULL,
-    cert_hash VARCHAR2 (8) NOT NULL,
-    cert_fingerprint VARCHAR2 (59) NOT NULL,
-    ca_hash VARCHAR2 (8) NOT NULL,
-    ca_fingerprint VARCHAR2 (59) NOT NULL,
-    changed DATE NOT NULL,
-    changed_by NUMBER (12, 0) NOT NULL,
-    created DATE NOT NULL,
-    created_by NUMBER (12, 0) NOT NULL
-);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
-DROP SEQUENCE SE_smime_signer_cert_relatef;
-CREATE SEQUENCE SE_smime_signer_cert_relatef;
-CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
-before insert on smime_signer_cert_relations
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_smime_signer_cert_relatef.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-SET DEFINE
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
@@ -255,6 +225,37 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id NUMBER (12, 0) NOT NULL,
+    cert_hash VARCHAR2 (8) NOT NULL,
+    cert_fingerprint VARCHAR2 (59) NOT NULL,
+    ca_hash VARCHAR2 (8) NOT NULL,
+    ca_fingerprint VARCHAR2 (59) NOT NULL,
+    changed DATE NOT NULL,
+    changed_by NUMBER (12, 0) NOT NULL,
+    created DATE NOT NULL,
+    created_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
+DROP SEQUENCE SE_smime_signer_cert_relatef;
+CREATE SEQUENCE SE_smime_signer_cert_relatef;
+CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
+before insert on smime_signer_cert_relations
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_smime_signer_cert_relatef.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_smime_signer_cert_relatiob7 ON smime_signer_cert_relations (change_by);
+CREATE INDEX FK_smime_signer_cert_relatiobb ON smime_signer_cert_relations (create_by);
 SET DEFINE OFF;
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_crea72 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_chan93 FOREIGN KEY (change_by) REFERENCES users (id);
@@ -265,3 +266,5 @@ ALTER TABLE gi_webservice_config_history ADD CONSTRAINT FK_gi_webservice_config_
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT FK_gi_debugger_entry_webserv66 FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_content3b FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry (id);
 ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_websbe FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio60 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio77 FOREIGN KEY (change_by) REFERENCES users (id);

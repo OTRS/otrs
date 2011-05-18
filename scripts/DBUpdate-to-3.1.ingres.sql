@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-02-28 12:49:04
+--  driver: ingres, generated: 2011-05-18 15:31:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket_index
@@ -13,9 +13,9 @@ ALTER TABLE ticket_index ALTER COLUMN s_state VARCHAR(200);\g
 --  alter table ticket_index
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN s_lock VARCHAR(200);\g
-CREATE SEQUENCE gi_webservice_config_519;\g
+CREATE SEQUENCE gi_webservice_config_860;\g
 CREATE TABLE gi_webservice_config (
-    id INTEGER NOT NULL DEFAULT gi_webservice_config_519.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT gi_webservice_config_860.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
     config_md5 VARCHAR(32) NOT NULL,
@@ -29,9 +29,9 @@ CREATE TABLE gi_webservice_config (
 );\g
 MODIFY gi_webservice_config TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_webservice_config ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE gi_webservice_config_history_506;\g
+CREATE SEQUENCE gi_webservice_config_history_771;\g
 CREATE TABLE gi_webservice_config_history (
-    id BIGINT NOT NULL DEFAULT gi_webservice_config_history_506.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_webservice_config_history_771.NEXTVAL,
     config_id INTEGER NOT NULL,
     config LONG BYTE NOT NULL,
     config_md5 VARCHAR(32) NOT NULL,
@@ -43,9 +43,9 @@ CREATE TABLE gi_webservice_config_history (
 );\g
 MODIFY gi_webservice_config_history TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_webservice_config_history ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE scheduler_task_list_272;\g
+CREATE SEQUENCE scheduler_task_list_203;\g
 CREATE TABLE scheduler_task_list (
-    id BIGINT NOT NULL DEFAULT scheduler_task_list_272.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT scheduler_task_list_203.NEXTVAL,
     task_data VARCHAR(8000) NOT NULL,
     task_data_md5 VARCHAR(32) NOT NULL,
     task_type VARCHAR(200) NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE scheduler_task_list (
 );\g
 MODIFY scheduler_task_list TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE scheduler_task_list ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE gi_debugger_entry_582;\g
+CREATE SEQUENCE gi_debugger_entry_256;\g
 CREATE TABLE gi_debugger_entry (
-    id BIGINT NOT NULL DEFAULT gi_debugger_entry_582.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_debugger_entry_256.NEXTVAL,
     communication_id VARCHAR(32) NOT NULL,
     communication_type VARCHAR(50) NOT NULL,
     remote_ip VARCHAR(50),
@@ -68,9 +68,9 @@ CREATE TABLE gi_debugger_entry (
 MODIFY gi_debugger_entry TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_debugger_entry ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);\g
-CREATE SEQUENCE gi_debugger_entry_content_275;\g
+CREATE SEQUENCE gi_debugger_entry_content_307;\g
 CREATE TABLE gi_debugger_entry_content (
-    id BIGINT NOT NULL DEFAULT gi_debugger_entry_content_275.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_debugger_entry_content_307.NEXTVAL,
     gi_debugger_entry_id BIGINT NOT NULL,
     debug_level VARCHAR(50) NOT NULL,
     subject VARCHAR(255) NOT NULL,
@@ -147,18 +147,9 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);\g
-ALTER TABLE gi_webservice_config ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
-ALTER TABLE gi_webservice_config ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
-ALTER TABLE gi_webservice_config ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
-ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (config_id) REFERENCES gi_webservice_config(id);\g
-ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
-ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
-ALTER TABLE gi_debugger_entry ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
-ALTER TABLE gi_debugger_entry_content ADD FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry(id);\g
-ALTER TABLE gi_object_lock_state ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
-CREATE SEQUENCE smime_signer_cert_relations_791;\g
+CREATE SEQUENCE smime_signer_cert_relations_950;\g
 CREATE TABLE smime_signer_cert_relations (
-    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_791.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_950.NEXTVAL,
     cert_hash VARCHAR(8) NOT NULL,
     cert_fingerprint VARCHAR(59) NOT NULL,
     ca_hash VARCHAR(8) NOT NULL,
@@ -170,3 +161,14 @@ CREATE TABLE smime_signer_cert_relations (
 );\g
 MODIFY smime_signer_cert_relations TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE smime_signer_cert_relations ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
+ALTER TABLE gi_webservice_config ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE gi_webservice_config ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE gi_webservice_config ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
+ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (config_id) REFERENCES gi_webservice_config(id);\g
+ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE gi_webservice_config_history ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE gi_debugger_entry ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
+ALTER TABLE gi_debugger_entry_content ADD FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry(id);\g
+ALTER TABLE gi_object_lock_state ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
+ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (change_by) REFERENCES users(id);\g

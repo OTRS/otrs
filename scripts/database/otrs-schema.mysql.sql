@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-02-28 16:04:29
+#  driver: mysql, generated: 2011-05-18 15:01:58
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1239,7 +1239,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_850 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_720 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------

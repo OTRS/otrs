@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-02-28 12:48:59
+--  driver: db2, generated: 2011-05-18 15:30:13
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -135,26 +135,10 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_588 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_302 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
-
--- ----------------------------------------------------------
---  create table smime_signer_cert_relations
--- ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    cert_hash VARCHAR (8) NOT NULL,
-    cert_fingerprint VARCHAR (59) NOT NULL,
-    ca_hash VARCHAR (8) NOT NULL,
-    ca_fingerprint VARCHAR (59) NOT NULL,
-    changed TIMESTAMP NOT NULL,
-    changed_by INTEGER NOT NULL,
-    created TIMESTAMP NOT NULL,
-    created_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -219,6 +203,22 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
     VALUES
     ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
 
+-- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    cert_hash VARCHAR (8) NOT NULL,
+    cert_fingerprint VARCHAR (59) NOT NULL,
+    ca_hash VARCHAR (8) NOT NULL,
+    ca_fingerprint VARCHAR (59) NOT NULL,
+    changed TIMESTAMP NOT NULL,
+    changed_by INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL,
+    created_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -236,3 +236,7 @@ ALTER TABLE gi_debugger_entry ADD CONSTRAINT FK_gi_debugger_entry_webservice_id_
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_content_gi_debugger_entry_id_id FOREIGN KEY (gi_debugger_entry_id) REFERENCES gi_debugger_entry (id);
 
 ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_webservice_id_id FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
+
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

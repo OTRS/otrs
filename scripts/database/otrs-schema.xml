@@ -1882,6 +1882,10 @@
     <Column Name="changed_by" Required="true" Type="INTEGER"/>
     <Column Name="created" Required="true" Type="DATE"/>
     <Column Name="created_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
 </TableCreate>
 
 </database>
