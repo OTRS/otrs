@@ -1,0 +1,125 @@
+# --
+# AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.1 2011-05-18 03:30:04 cg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPSOAP">
+    <h1>$Text{"GenericInterface TransportHTTPSOAP for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                    </li>
+                    <li>
+                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Clear"}</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <p id="TransportHTTPSOAPDeleteDialog" class="Warning">
+                                $Text{"Do you really want to clear the debug log of this webservice?"}
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Network transport"}</h2>
+            </div>
+            <div class="Content">
+                <h3>$Text{"Properties"}</h3>
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" id="WebserviceID"/>
+                    <div class="LayoutGrid ColumnsWithSpacing">
+                        <fieldset class="TableLike">
+                            <label>$Text{"Module"}:</label>
+                            <div class="Field">
+                                Kernel::GenericInterface::Transport::HTTP::SOAP
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="Endpoint"><span class="Marker">*</span> $Text{"Endpoint"}:</label>
+                            <div class="Field">
+                                <input id="Endpoint" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Endpoint"}" name="Endpoint"/>
+                                <div id="EndpointError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="EndpointServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EndpointServerErrorMessage"}"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span> $Text{"NameSpace"}:</label>
+                            <div class="Field">
+                                <input id="NameSpace" class="W50pc $QData{"NameSpaceServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"NameSpace"}" name="NameSpace"/>
+                                <div id="NameSpaceError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="NameSpaceServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameSpaceServerErrorMessage"}"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="Encoding"><span class="Marker">*</span> $Text{"Encoding"}:</label>
+                            <div class="Field">
+                                <input id="Encoding" class="W50pc $QData{"EncodingServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Encoding"}" name="Encoding"/>
+                                <div id="EncodingError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="EncodingServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EncodingServerErrorMessage"}"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="SOAPAction"><span class="Marker">*</span> $Text{"SOAPAction"}:</label>
+                            <div class="Field">
+                                <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
+                                <div id="SOAPActionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="SOAPActionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label for="MaxLength">$Text{"MaxLength"}:</label>
+                            <div class="Field">
+                                <input id="MaxLength" class="W25pc $QData{"MaxLengthServerError"} Validate_Number" type="text" maxlength="10" value="$QData{"MaxLength"}" name="MaxLength"/>
+                                <div id="MaxLengthError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+
+<!-- dtl:block:ConfigSet -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Webservice.Transport', $Data{"TransportConfig"} );
+    Core.Config.Set('Webservice.Operation', $Data{"OperationConfig"} );
+    Core.Config.Set('Webservice.Invoker', $Data{"InvokerConfig"} );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:ConfigSet -->
+
+
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
+                    </div>
+                    <div class="Clear"></div>
+
+                </form>
+            </div>
+        </div>
+
+<!--
+        <div class="WidgetSimple Hidden" id="CommunicationDetails">
+            <div class="Header">
+                <h2>$Text{"Request Details"}</h2>
+            </div>
+            <div class="Content"></div>
+        </div>
+        -->
+    </div>
+    <div class="Clear"></div>
+</div>
