@@ -1,8 +1,8 @@
 # --
 # CustomerTicketMessage.dtl - provides HTML form for customer message
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.59 2010-12-03 13:45:54 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.60 2011-05-18 17:55:54 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,8 +21,13 @@
                 <div>
 <!--<label for="TicketNumber">$Config{"Ticket::Hook"}</label>
                     <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />-->
-                    <label for="TypeID">$Text{"Type"}:</label>
+                    <label for="TypeID" class="Mandatory">
+                        <span class="Marker">*</span>
+                        $Text{"Type"}:
+                    </label>
                     $Data{"TypeStrg"}
+                    <div id="TypeIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="TypeIDServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"TypeIDInvalid"}" ><p>$Text{"This field is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
 <!--dtl:js_on_document_complete-->
