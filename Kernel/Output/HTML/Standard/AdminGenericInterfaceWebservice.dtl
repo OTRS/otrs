@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.11 2011-05-17 11:57:19 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.12 2011-05-18 22:26:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,15 +57,21 @@
 <!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionClone -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Clone"/>
-                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
-                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
-
-                            <button class="CallForAction Clone W75pc" type="submit"><span>$Text{"Clone webservice"}</span></button>
-                            <br/>
-                        </form>
+                        <button id="CloneButton" class="CallForAction Clone W75pc" type="submit"><span>$Text{"Clone webservice"}</span></button>
+                        <div class="Hidden" id="CloneDialogContainer">
+                            <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
+                                <fieldset class="TableLike">
+                                    <div class="SpacingTop"></div>
+                                    <label for="CloneName">*$Text{"Name"}:</label>
+                                    <div class="Field">
+                                        <input id="CloneName" class="CloneName W75pc" type="text" maxlength="250" value="Clone" name="CloneName"/>
+                                        <div class="FieldExplanation">the name must be unique.</div>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <br/>
                     </li>
 <!-- dtl:block:ActionClone -->
 <!-- dtl:block:ActionExport -->
@@ -83,15 +89,29 @@
 <!-- dtl:block:ActionExport -->
 <!-- dtl:block:ActionImport -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Import"/>
-                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
-                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
-
-                            <button class="CallForAction Download W75pc" type="submit"><span>$Text{"Import webservice"}</span></button>
-                            <br/>
-                        </form>
+                        <button id="ImportButton" class="CallForAction Download W75pc" type="button"><span>$Text{"Import webservice"}</span></button>
+                        <div class="Hidden" id="ImportDialogContainer">
+                            <div id="ImportDialog" class="InnerContent GenericInterfaceDialog">
+                                <form id="ImportForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
+                                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                                    <input type="hidden" name="Subaction" value="Import"/>
+                                    <fieldset class="TableLike">
+                                        <div class="SpacingTop"></div>
+                                        <label for="ConfigFile">*$Text{"Configuration File"}:</label>
+                                        <div class="Field">
+                                            <input id="ConfigFile" class=" W75pc" type="file" maxlength="250" value="" name="ConfigFile"/>
+                                            <div class="FieldExplanation">the file must be a valid webservice configuration YAML file.</div>
+                                        </div>
+                                        <div class="Clear"></div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="ContentFooter Center">
+                                <button type="submit" id="ImportButtonAction">$Text{"Import"}</button>
+                                <button type="button" id="CancelButtonAction">$Text{"Cancel"}</button>
+                            </div>
+                        </div>
+                        <br/>
                     </li>
 <!-- dtl:block:ActionImport -->
 <!-- dtl:block:ActionHistory -->
@@ -109,15 +129,15 @@
 <!-- dtl:block:ActionHistory -->
 <!-- dtl:block:ActionDelete -->
                     <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Delete"/>
-                            <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
-                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
-
-                            <button class="CallForAction Trash W75pc" type="submit"><span>$Text{"Delete webservice"}</span></button>
-                            <br/>
-                        </form>
+                        <button id="DeleteButton" class="CallForAction Trash W75pc" type="button"><span>$Text{"Delete webservice"}</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <div id ="DeleteDialog" class="InnerContent GenericInterfaceDialog">
+                                <span class="WarningDialog "></span>
+                                <p class="Center">$Text{"Are you sure to that you want to delete this webservice?"}</p>
+                                <div class="SpacingTop"></div>
+                            </div>
+                        </div>
+                        <br/>
                     </li>
 <!-- dtl:block:ActionDelete -->
 <!-- dtl:block:ActionDebugger -->
@@ -345,6 +365,7 @@
     <div class="Clear"></div>
 </div>
 <!-- dtl:block:Main -->
+
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin = Core.Agent.Admin || {};
@@ -370,6 +391,24 @@ Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect = function( ConfigKey,
         window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + WebserviceID;
     }
 };
+
+Core.Agent.Admin.GenericInterfaceWebservice.Init({
+    WebserviceID: $('#WebserviceID').val(),
+    Localization: {
+        CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
+        DeleteWebserviceMsg: '$JSText{"Delete webservice"}',
+        CloneWebserviceMsg: '$JSText{"Clone webservice"}',
+        ImportWebserviceMsg: '$JSText{"Import webservice"}',
+        DeleteMsg: '$JSText{"Delete"}',
+        CloneMsg: '$JSText{"Clone"}',
+        ImportMsg: '$JSText{"Import"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+
+$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowDeleteDialog);
+$('#CloneButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowCloneDialog);
+$('#ImportButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowImportDialog);
 
 $('#ProviderTransportProperties').bind('click', function() {
     Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider', $('#WebserviceID').val() );

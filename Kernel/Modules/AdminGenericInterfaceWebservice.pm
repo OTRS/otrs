@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.10 2011-05-17 11:57:19 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.11 2011-05-18 22:28:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -314,6 +314,169 @@ sub Run {
             Filename    => $YAMLFile . '.yaml',
             ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
             Content     => $YAMLContent,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # subaction Delete: delete webservice and return value to dialog
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Delete' ) {
+
+        my $Success = $Self->{WebserviceObject}->WebserviceDelete(
+            ID     => $WebserviceID,
+            UserID => $Self->{UserID},
+        );
+
+        # build JSON output
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => {
+                Success => $Success,
+            },
+        );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # subaction Clone: clone webservice and return value to dialog
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Clone' ) {
+
+        # get webserice configuration
+        my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+
+        my $CloneName = $Self->{ParamObject}->GetParam( Param => 'CloneName' ) || '';
+
+        # set new confguration
+        $WebserviceData->{Name} = $CloneName;
+        $WebserviceData->{Config}->{Name} = $CloneName;
+
+        # check if name is duplicated
+        my %WebserviceList = %{ $Self->{WebserviceObject}->WebserviceList() };
+
+        %WebserviceList = reverse %WebserviceList;
+
+        # otherwise save configuration and return to overview screen
+        my $Success = $Self->{WebserviceObject}->WebserviceAdd(
+            Name    => $WebserviceData->{Name},
+            Config  => $WebserviceData->{Config},
+            ValidID => $WebserviceData->{ValidID},
+            UserID  => $Self->{UserID},
+        );
+
+        # build JSON output
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => {
+                Success => $Success,
+            },
+        );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # subaction Import: parse the file and return to overview
+    #                   if name errors return to add screen
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Import' ) {
+
+        # get the webservice config file from the http request
+        my %ConfigFile = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'ConfigFile',
+            Source => 'string',
+        );
+
+        # check for file
+        if ( !%ConfigFile ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need a file to import!",
+            );
+        }
+
+        my $ImportedConfig;
+
+        # read configuration from a YAML structure
+        # if there is an errro in YAML it returns a had error eval is needed to handle the error
+        eval {
+            $ImportedConfig = YAML::Load( $ConfigFile{Content} );
+        };
+
+        # display any YAML error message as a normal otrs error message
+        if ($@) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => $@,
+            );
+        }
+
+        # get webservice name
+        my $WebserviceName = $ImportedConfig->{Name};
+
+        # check required parameters
+        my %Error;
+        if ( !$WebserviceName ) {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'This field is required';
+        }
+
+        my $WebserviceData;
+
+        # set WebserviceData
+        $WebserviceData->{Name}    = $ImportedConfig->{Name};
+        $WebserviceData->{Config}  = $ImportedConfig;
+        $WebserviceData->{ValidID} = 1;
+
+        # check if name is duplicated
+        my %WebserviceList = %{ $Self->{WebserviceObject}->WebserviceList() };
+
+        %WebserviceList = reverse %WebserviceList;
+
+        if (
+            $WebserviceList{$WebserviceName} &&
+            $WebserviceList{$WebserviceName} ne $WebserviceID
+            )
+        {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'There is another webservice with the same name.';
+        }
+
+        # if there is an error return to edit screen
+        if ( IsHashRefWithData( \%Error ) ) {
+            return $Self->_ShowEdit(
+                %Error,
+                %Param,
+                WebserviceID   => $WebserviceID,
+                WebserviceData => $WebserviceData,
+                Action         => 'Add',
+            );
+        }
+
+        # otherwise save configuration and return to overview screen
+        my $Success = $Self->{WebserviceObject}->WebserviceAdd(
+            Name    => $WebserviceData->{Name},
+            Config  => $WebserviceData->{Config},
+            ValidID => $WebserviceData->{ValidID},
+            UserID  => $Self->{UserID},
+        );
+
+        return $Self->_ShowOverview(
+            %Param,
+            Action => 'Overview',
         );
     }
 
@@ -690,21 +853,62 @@ sub _ShowEdit {
     return $Output;
 }
 
+sub _ShowDelete {
+    my ( $Self, %Param ) = @_;
+
+    # call all needed dtl blocks
+    $Self->{LayoutObject}->Block(
+        Name => 'DialogDelete',
+        Data => {
+            %Param,
+            WebserviceName => $Param{WebserviceData}->{Name},
+            }
+
+    );
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminGenericInterfaceWebservice',
+        Data         => {},
+    );
+}
+
+sub _ShowClone {
+    my ( $Self, %Param ) = @_;
+
+    # get a non common suggested name for the webservice
+    my $CloneName = $Param{WebserviceData}->{Name} . "-" . $Self->{TimeObject}->SystemTime();
+
+    # call all needed dtl blocks
+    $Self->{LayoutObject}->Block(
+        Name => 'DialogClone',
+        Data => {
+            %Param,
+            CloneName => $CloneName,
+            }
+
+    );
+
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminGenericInterfaceWebservice',
+        Data         => {},
+    );
+}
+
 sub _OutputGIConfig {
     my ( $Self, %Param ) = @_;
 
     # parse the transport config as JSON strucutre
-    my $TransportConfig = $Self->{JSONObject}->Encode(
+    my $TransportConfig = $Self->{LayoutObject}->JSONEncode(
         Data => $Param{GITransports},
     );
 
     # parse the operation config as JSON strucutre
-    my $OpertaionConfig = $Self->{JSONObject}->Encode(
+    my $OpertaionConfig = $Self->{LayoutObject}->JSONEncode(
         Data => $Param{GIOperations},
     );
 
     # parse the operation config as JSON strucutre
-    my $InvokerConfig = $Self->{JSONObject}->Encode(
+    my $InvokerConfig = $Self->{LayoutObject}->JSONEncode(
         Data => $Param{GIInvokers},
     );
 
