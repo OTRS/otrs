@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.12 2011-05-17 13:36:17 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.13 2011-05-18 08:41:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,19 @@
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceDebugger">
     <h1>$Text{"GenericInterface Debugger for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+<!-- breadcrumb -->
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Webservices"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            Debugger
+        </h3>
+    </div>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
