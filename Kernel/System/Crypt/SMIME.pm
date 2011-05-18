@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.51 2011-05-18 06:28:00 dz Exp $
+# $Id: SMIME.pm,v 1.52 2011-05-18 18:21:43 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -267,7 +267,7 @@ sub Sign {
     my ( $FHCACertFile, $CAFileName ) = $Self->{FileTempObject}->TempFile();
     my @CACert;
     my $CertFileCommand = '';
-    if ( $Param{CACert} && ref $Param{CACert} eq 'ARRAY' ) {
+    if (@CACerts) {
 
         # get certificate for every array row
         for my $CertHash (@CACerts) {
@@ -1379,6 +1379,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2011-05-18 06:28:00 $
+$Revision: 1.52 $ $Date: 2011-05-18 18:21:43 $
 
 =cut

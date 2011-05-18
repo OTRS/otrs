@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.18 2011-05-18 06:28:00 dz Exp $
+# $Id: SMIME.t,v 1.19 2011-05-18 18:21:42 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 use vars (qw($Self));
 
 use Kernel::System::Crypt;
-use Kernel::System::FileTemp;
 
 use vars qw($Self);
 use Kernel::Config;
@@ -543,10 +542,6 @@ DJWoW6Kn9MfjSqqvJLlNg+5upmv67nUYtrpiU0HhCBkaQAd4Z9etH2cCVK6MpJZS
 PexBgADUDM/q9w==
 -----END CERTIFICATE-----',
     };
-
-    my $FileTempObject = Kernel::System::FileTemp->new(
-        ConfigObject => $ConfigObject,
-    );
 
     # add CA certificates to the local cert storage
     for my $Cert ( values %Certificates ) {
