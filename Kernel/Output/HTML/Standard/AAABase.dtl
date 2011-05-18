@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.104 2011-05-18 11:56:50 mb Exp $
+# $Id: AAABase.dtl,v 1.105 2011-05-18 12:19:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -256,7 +256,7 @@ $Text{"Cc: (%s) added database email!"}
 $Text{"(Click here to add)"}
 $Text{"Normal"}
 $Text{"Preview"}
-$Text{"Package not correctly deployed! You should reinstall the Package again!"}
+$Text{"Package not correctly deployed! Please reinstall the package."}
 $Text{"%s is not writable!"}
 $Text{"Cannot create %s!"}
 $Text{"You have Out of Office enabled, would you like to disable it?"}
