@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.157 2011-05-13 21:40:30 mp Exp $
+# $Id: nl.pm,v 1.158 2011-05-18 09:45:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1531,7 +1531,7 @@ sub Data {
         'Send mail!' => 'Bericht versturen',
 
         # Template: AgentTicketBulk
-        'Ticket Bulk Action' => 'Ticket bulk aktie',
+        'Ticket Bulk Action' => 'Ticket bulk-actie',
         'Merge to' => 'Voeg samen met',
         'Invalid ticket identifier!' => 'Ongeldige ticket identifier.',
         'Merge to oldest' => 'Voeg samen met oudste',
@@ -3034,12 +3034,12 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Uw taal',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
+        'New Year\'s Day' => 'Nieuwjaarsdag',
+        'International Workers\' Day' => 'Dag van de Arbeid',
+        'Christmas Eve' => 'Kerstavond',
+        'First Christmas Day' => 'Eerste Kerstdag',
+        'Second Christmas Day' => 'Tweede Kerstdag',
+        'New Year\'s Eve' => 'Oudjaarsdag',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
