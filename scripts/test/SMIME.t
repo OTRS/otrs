@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.19 2011-05-18 18:21:42 dz Exp $
+# $Id: SMIME.t,v 1.20 2011-05-18 20:41:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -489,7 +489,7 @@ XgLpk1hOJqMI3lGeiFINPcGWCQW8l6/wqiRZHqM/wdXXoNzvLLayIQ==
     # it must fail
     $Self->False(
         $Data{Successful},
-        '#1 Certificate chain verification, fail verification, not embedded needed CA certificates',
+        'Sign(), failed certificate chain verification, not needed CA certificates embedded',
     );
 
     my %Certificates;
@@ -564,7 +564,7 @@ PexBgADUDM/q9w==
     # it must fail
     $Self->False(
         $Data{Successful},
-        '#2 Certificate chain verification, fail verification, not installed CA root certificate',
+        'Sign(), failed certificate chain verification, not installed CA root certificate',
     );
 
     # add the root CA (dzCA) cert to the trusted certificates path
@@ -609,7 +609,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     # it must works
     $Self->True(
         $Data{Successful},
-        '#3 Certificate chain verification, successful verification, installed CA root certificate and CA embedded certs',
+        'Sign(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
     );
 
     # testing relations between certificates
@@ -623,7 +623,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->False(
         $Success,
-        '#1 Fail SignerCertRelationAdd(), wrong cert fingerprint',
+        'SignerCertRelationAdd(), fail, wrong cert fingerprint',
     );
 
     # get all relations for a certificate
@@ -632,7 +632,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->False(
         $Success,
-        '#2 Fail SignerCertRelationGet(), wrong cert fingerprint',
+        'SignerCertRelationGet(), fail, wrong cert fingerprint',
     );
 
     # get one relation by ID
@@ -641,7 +641,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->False(
         $Success,
-        '#3 Fail SignerCertRelationGet(), wrong ID',
+        'SignerCertRelationGet(), fail, wrong ID',
     );
 
     # true cert
@@ -653,7 +653,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#1 SignerCertRelationAdd()',
+        'SignerCertRelationAdd(), add relation for certificate',
     );
 
     $Success = $CryptObject->SignerCertRelationAdd(
@@ -663,7 +663,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#2 SignerCertRelationAdd()',
+        'SignerCertRelationAdd(), add relation for certificate',
     );
 
 # sign a message after relations added not send CA certs now should be taken automatically by the sign function
@@ -681,7 +681,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     # it must works
     $Self->True(
         $Data{Successful},
-        '#4 Certificate chain verification, successful verification, signed using stored relations',
+        'Sign(), successful certificate chain verification, signed using stored relations',
     );
 
     # get all relations for a certificate
@@ -691,7 +691,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     $Self->Is(
         scalar @CertResults,
         2,
-        '#5 SignerCertRelationGet()',
+        'SignerCertRelationGet(), get all certificate relations',
     );
 
     # get one relation by ID
@@ -700,36 +700,51 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#6 SignerCertRelationGet(), by ID',
+        'SignerCertRelationGet(), get one relation by id',
+    );
+
+    # exists function
+    $Success = $CryptObject->SignerCertRelationExists(
+        CertFingerprint => $CertResults[0]->{CertFingerprint},
+        CAFingerprint   => $CertResults[0]->{CAFingerprint},
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationExists(), check relation by fingerprints',
+    );
+
+    $Success = $CryptObject->SignerCertRelationExists(
+        ID => $CertResults[0]->{ID},
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationExists(), check relation by ID',
     );
 
     # delete one relation by ID
-    $Success = $CryptObject->SignerCertRelationDelete(
+    $CryptObject->SignerCertRelationDelete(
         ID     => $CertResults[0]->{ID},
         UserID => 1,
     );
-    $Self->True(
+    $Success = $CryptObject->SignerCertRelationExists(
+        ID => $CertResults[0]->{ID},
+    );
+    $Self->False(
         $Success,
-        '#7 SignerCertRelationDelete()',
+        'SignerCertRelationDelete(), by ID',
     );
 
     # delete all relations for a certificate
-    $Success = $CryptObject->SignerCertRelationDelete(
+    $CryptObject->SignerCertRelationDelete(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
         UserID          => 1,
     );
-    $Self->True(
-        $Success,
-        '#8 SignerCertRelationDelete()',
-    );
-
-    # verify the delete worked
-    my @Result = $CryptObject->SignerCertRelationGet(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+    $Success = $CryptObject->SignerCertRelationExists(
+        ID => $CertResults[1]->{ID},
     );
     $Self->False(
-        scalar @Result,
-        '#8 SignerCertRelationDelete(), deletion verified',
+        $Success,
+        'SignerCertRelationDelete(), delete all relations',
     );
 
     # delete certificates
