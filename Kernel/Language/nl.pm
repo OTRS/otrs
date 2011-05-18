@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.6 2011-05-16 20:37:32 mp Exp $
+# $Id: nl.pm,v 1.152.2.7 2011-05-18 09:40:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.6 $) [1];
+$VERSION = qw($Revision: 1.152.2.7 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-04-27 13:26:13
+    # Last translation file sync: 2011-05-18 11:37:20
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -1541,7 +1541,7 @@ sub Data {
         'Send mail!' => 'Bericht versturen',
 
         # Template: AgentTicketBulk
-        'Ticket Bulk Action' => 'Ticket bulk aktie',
+        'Ticket Bulk Action' => 'Ticket bulk-actie',
         'Merge to' => 'Voeg samen met',
         'Invalid ticket identifier!' => 'Ongeldige ticket identifier.',
         'Merge to oldest' => 'Voeg samen met oudste',
@@ -2075,6 +2075,7 @@ sub Data {
         'Change the ticket responsible!' => 'Wijzig de verantwoordelijke van het ticket.',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
+        'Christmas Eve' => 'Kerstavond',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
         'Company Tickets' => 'Tickets van groep',
@@ -2520,7 +2521,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2567,6 +2568,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => 'Filter inkomende e-mails.',
+        'First Christmas Day' => 'Eerste Kerstdag',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2641,6 +2643,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Taal',
+        'International Workers\' Day' => 'Dag van de Arbeid',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2705,6 +2708,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => 'Nieuwjaarsdag',
+        'New Year\'s Eve' => 'Oudjaarsdag',
         'New email ticket' => 'Nieuw e-mail ticket',
         'New phone ticket' => 'Nieuw telefoon ticket',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2775,6 +2780,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => 'Tweede Kerstdag',
         'Select your frontend Theme.' => 'Kies uw thema',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -3055,12 +3061,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Uw taal',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
