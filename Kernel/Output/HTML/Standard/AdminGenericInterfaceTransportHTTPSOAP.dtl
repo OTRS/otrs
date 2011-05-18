@@ -2,7 +2,7 @@
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.3 2011-05-18 22:06:23 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.4 2011-05-18 22:12:46 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,7 +88,7 @@
                             <div class="Clear"></div>
                             <label for="SOAPAction">$Text{"SOAP Action"}:</label>
                             <div class="Field">
-                                <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"} type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
+                                <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"}" type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
                                 <div id="SOAPActionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="SOAPActionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
                             </div>
