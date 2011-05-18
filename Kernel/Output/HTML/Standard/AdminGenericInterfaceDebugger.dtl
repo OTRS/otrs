@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.13 2011-05-18 08:41:11 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.14 2011-05-18 09:24:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,10 +83,15 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label>$Text{"Filter by date"}:</label>
+                            <label>$Text{"Filter from"}:</label>
                             <div class="Field">
-                                <label>$Text{"From"}</label> $Data{"FilterFromStrg"}
-                                <label>$Text{"to"}</label> $Data{"FilterToStrg"}
+                                $Data{"FilterFromStrg"}
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label>$Text{"Filter to"}:</label>
+                            <div class="Field">
+                                $Data{"FilterToStrg"}
                             </div>
                             <div class="Clear"></div>
 
@@ -121,182 +126,23 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 
-Core.Agent.Admin = Core.Agent.Admin || {};
-
-Core.Agent.Admin.AdminGenericInterfaceDebugger = {};
-
-function FormatISODate (Year, Month, Day) {
-    var Result = '',
-        Temp;
-
-    Temp = parseInt(Year || 0, 10);
-    Result = Result + Temp + '-';
-
-    Temp = parseInt(Month || 0, 10);
-    if (Temp < 10) {
-        Temp = '0' + Temp;
+Core.Agent.Admin.GenericInterfaceDebugger.Init({
+    WebserviceID: $QData{"WebserviceID"},
+    Localization: {
+        CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
+        NoDataFoundMsg: '$JSText{"No data found."}',
+        ToggleContentMsg: '$JSText{"Show or hide the content."}',
+        ClearDebugLogMsg: '$JSText{"Clear debug log"}',
+        ClearMsg: '$JSText{"Clear"}',
+        CancelMsg: '$JSText{"Cancel"}'
     }
-    Result = Result + Temp + '-';
-
-    Temp = parseInt(Day || 0, 10);
-    if (Temp < 10) {
-        Temp = '0' + Temp;
-    }
-    Result = Result + Temp;
-
-    return Result;
-}
-
-Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList = function() {
-    var Data = {
-        Action: 'AdminGenericInterfaceDebugger',
-        Subaction: 'GetRequestList',
-        WebserviceID: parseInt('$QData{"WebserviceID"}', 10),
-        FilterRemoteIP: $('#FilterRemoteIP').val() || '',
-        FilterType: $('#FilterType').val() || ''
-    };
-
-
-    Data.FilterFrom = FormatISODate($('#FilterFromYear').val(), $('#FilterFromMonth').val(), $('#FilterFromDay').val()) + ' 00:00:00';
-    Data.FilterTo   = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 23:59:59';
-
-    $('#CommunicationDetails').css('visibility', 'hidden');
-    $('.RequestListWidget').addClass('Loading');
-
-    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-        if (!Response || !Response.LogData) {
-            alert('$JSText{"Error during communication."}');
-            return;
-        }
-
-        $('.RequestListWidget').removeClass('Loading');
-
-        if (!Response.LogData.length) {
-            $('#RequestList tbody').empty().append('<tr><td colspan="3">$JSText{"No data found."}</td></tr>');
-        }
-        else {
-            $('#RequestList tbody').empty();
-
-            $.each(Response.LogData, function(){
-                var $Tr = $('<tr></tr>');
-
-                $Tr.append('<td><a href="#" class="AsBlock">' + this.CommunicationType + '<input type="hidden" class="CommunicationID" value="' + this.CommunicationID + '" /></a></td>');
-                $Tr.append('<td><a href="#" class="AsBlock">' + this.Created + '</a></td>');
-                $Tr.append('<td><a href="#" class="AsBlock">' + (this.RemoteIP || '$JSText{"unknown"}') + '</a></td>');
-
-                $('#RequestList').append($Tr);
-            });
-
-            $('#RequestList a').bind('click', function(Event) {
-                var CommunicationID = $(this).blur().parents('tr').find('input.CommunicationID').val();
-
-                Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails(CommunicationID);
-
-                return false;
-            });
-
-        }
-    }, 'json');
-};
-
-Core.Agent.Admin.AdminGenericInterfaceDebugger.LoadCommunicationDetails = function(CommunicationID) {
-
-    var Data = {
-        Action: 'AdminGenericInterfaceDebugger',
-        Subaction: 'GetCommunicationDetails',
-        WebserviceID: parseInt('$QData{"WebserviceID"}', 10),
-        CommunicationID: CommunicationID
-    };
-
-    $('#CommunicationDetails').css('visibility', 'hidden');
-    $('.RequestListWidget').addClass('Loading');
-
-    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-        if (!Response || !Response.LogData || !Response.LogData.Data) {
-            alert('$JSText{"Error during communication."}');
-            return;
-        }
-
-        $('#CommunicationDetails > .Content').empty();
-        $('.RequestListWidget').removeClass('Loading');
-
-        if (!Response.LogData.Data.length) {
-            $('#CommunicationDetails > .Content').append('<p class="ErrorMessage">$JSText{"No data found."}</p>');
-            $('#CommunicationDetails').css('visibility', 'visible').show();
-        }
-        else {
-            $.each(Response.LogData.Data, function(){
-                var $Container = $('<div class="WidgetSimple Expanded"></div>'),
-                    $Header = $('<div class="Header"></div>'),
-                    $Content = $('<div class="Content"></div>');
-
-                $Header.append('<div class="WidgetAction Toggle"><a href="#" title="$JSText{"Show or hide the content"}"></a></div>');
-                $Header.append('<h3 class="DebugLevel_' + this.DebugLevel + '">' + this.Summary + ' (' + this.Created + ', ' + this.DebugLevel + ')</h3>');
-                $Container.append($Header);
-
-                if (this.Data && this.Data.length) {
-                    $Content.append('<pre><code>' + this.Data + '</code></pre>');
-                }
-                $Container.append($Content);
-
-                $('#CommunicationDetails > .Content').append($Container);
-            });
-            $('#CommunicationDetails').css('visibility', 'visible').show();
-            Core.UI.InitWidgetActionToggle();
-        }
-    }, 'json');
-};
-
-// Load Request list on startup without active filter
-Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
-
-$('#FilterRefresh').bind('click', Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList);
-
-$('#DeleteButton').bind('click', function(Event){
-    Core.UI.Dialog.ShowContentDialog(
-        $('#DeleteDialogContainer'),
-        '$JSText{"Clear debug log"}',
-        '240px',
-        'Center',
-        true,
-        [
-           {
-               Label: '$JSText{"Clear"}',
-               Function: function () {
-                   var Data = {
-                        Action: 'AdminGenericInterfaceDebugger',
-                        Subaction: 'ClearDebugLog',
-                        WebserviceID: parseInt('$QData{"WebserviceID"}', 10)
-                    };
-
-                    $('#CommunicationDetails').css('visibility', 'hidden');
-                    $('.RequestListWidget').addClass('Loading');
-
-                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                        if (!Response || !Response.Success) {
-                            alert('$JSText{"Error during communication."}');
-                            return;
-                        }
-
-                        Core.Agent.Admin.AdminGenericInterfaceDebugger.GetRequestList();
-
-                    }, 'json');
-
-                   Core.UI.Dialog.CloseDialog($('#DebuggerDeleteDialog'));
-               }
-           },
-           {
-               Label: '$JSText{"Cancel"}',
-               Function: function () {
-                   Core.UI.Dialog.CloseDialog($('#DebuggerDeleteDialog'));
-               }
-           }
-       ]
-    );
-
-    Event.stopPropagation();
 });
 
+$('#FilterRefresh').bind('click', Core.Agent.Admin.GenericInterfaceDebugger.GetRequestList);
+$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceDebugger.ShowDeleteDialog);
+
+//Load Request list on startup without active filter
+Core.Agent.Admin.GenericInterfaceDebugger.GetRequestList();
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->

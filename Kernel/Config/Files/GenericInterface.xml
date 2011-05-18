@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.16 2011-05-17 03:01:41 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.17 2011-05-18 09:24:26 mg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -74,6 +74,7 @@
                 <Title Translatable="1">GenericInterface Debugger GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceDebugger.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
