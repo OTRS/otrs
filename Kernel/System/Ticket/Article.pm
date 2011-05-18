@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.280 2011-05-16 14:18:34 mab Exp $
+# $Id: Article.pm,v 1.281 2011-05-18 13:22:23 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.280 $) [1];
+$VERSION = qw($Revision: 1.281 $) [1];
 
 =head1 NAME
 
@@ -1390,6 +1390,17 @@ only requested article types
         TicketID    => 123,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
         UserID      => 123,
+    );
+
+returns articles in array / hash by given ticket id but
+only requested article sender types (could be useful when
+trying to exclude autoreplies sent by system sender from
+certain views)
+
+    my @ArticleIndex = $TicketObject->ArticleGet(
+        TicketID            => 123,
+        ArticleSenderType   => [ $ArticleSenderType1, $ArticleSenderType2 ],
+        UserID              => 123,
     );
 
 to get extended ticket attributes, use param Extended - see TicketGet() for extended attributes -
@@ -3376,6 +3387,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.280 $ $Date: 2011-05-16 14:18:34 $
+$Revision: 1.281 $ $Date: 2011-05-18 13:22:23 $
 
 =cut
