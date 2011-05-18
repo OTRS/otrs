@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.11 2011-05-18 22:28:04 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.12 2011-05-18 22:29:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
-use Kernel::System::JSON;
 use YAML;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -39,7 +38,6 @@ sub new {
 
     # create addtional objects
     $Self->{ValidObject}      = Kernel::System::Valid->new( %{$Self} );
-    $Self->{JSONObject}       = Kernel::System::JSON->new( %{$Self} );
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     # get configurations
