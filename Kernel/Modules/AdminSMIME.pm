@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.37 2011-05-17 05:53:35 dz Exp $
+# $Id: AdminSMIME.pm,v 1.38 2011-05-18 06:28:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -374,23 +374,114 @@ sub Run {
                 ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint', );
         }
 
-        my $Result = $Self->{CryptObject}->SignerCertRelationAdd(
+        # relation already exists?
+        my $Exists = $Self->{CryptObject}->SignerCertRelationExists(
             CertFingerprint => $CertFingerprint,
             CAFingerprint   => $CAFingerprint,
-            UserID          => $Self->{UserID},
         );
 
-        my $Message;
-        if ($Result) {
-            $Message = "Relation added!"
+        my %Message;
+        my $Error;
+        my $Output;
+        if ( $CertFingerprint eq $CAFingerprint ) {
+            $Message{Priority} = 'Error';
+            $Message{Message}  = 'CAFingerprint must be different than CertFingerprint';
+            $Error             = 1;
+        }
+        elsif ($Exists) {
+            $Message{Priority} = 'Error';
+            $Message{Message}  = 'Relation exists!';
+            $Error             = 1;
         }
 
-        $Self->_SignerCertificateOverview(
+        if ($Error) {
+            $Output = $Self->_SignerCertificateOverview(
+                CertFingerprint => $CertFingerprint,
+                Message         => \%Message,
+            );
+        }
+        else {
+            my $Result = $Self->{CryptObject}->SignerCertRelationAdd(
+                CertFingerprint => $CertFingerprint,
+                CAFingerprint   => $CAFingerprint,
+                UserID          => $Self->{UserID},
+            );
+
+            if ($Result) {
+                $Message{Priority} = 'Notify';
+                $Message{Message}  = 'Relation added!';
+            }
+            else {
+                $Message{Priority} = 'Error';
+                $Message{Message}  = 'Imposible to add relation!';
+            }
+
+            $Output = $Self->_SignerCertificateOverview(
+                CertFingerprint => $CertFingerprint,
+                Message         => \%Message,
+            );
+        }
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # SignerRelationDelete
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'SignerRelationDelete' ) {
+
+        # look for needed parameters
+        my $CertFingerprint = $Self->{ParamObject}->GetParam( Param => 'CertFingerprint' ) || '';
+        my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
+
+        if ( !$CertFingerprint && !$CAFingerprint ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint!', );
+        }
+
+        # relation exists?
+        my $Exists = $Self->{CryptObject}->SignerCertRelationExists(
             CertFingerprint => $CertFingerprint,
-            Message         => $Message,
+            CAFingerprint   => $CAFingerprint,
         );
 
-        my $Output = $Self->_SignerCertificateOverview( CertFingerprint => $CertFingerprint );
+        my %Message;
+        my $Error;
+        my $Output;
+        if ( !$Exists ) {
+            $Message{Priority} = 'Error';
+            $Message{Message}  = 'Relation doesn\'t exists';
+            $Error             = 1;
+        }
+
+        if ($Error) {
+            $Output = $Self->_SignerCertificateOverview(
+                CertFingerprint => $CertFingerprint,
+                Message         => \%Message,
+            );
+        }
+        else {
+            my $Success = $Self->{CryptObject}->SignerCertRelationDelete(
+                CertFingerprint => $CertFingerprint,
+                CAFingerprint   => $CAFingerprint,
+                UserID          => $Self->{UserID},
+            );
+
+            if ($Success) {
+                $Message{Priority} = 'Notify';
+                $Message{Message}  = 'Relation deleted!';
+            }
+            else {
+                $Message{Priority} = 'Error';
+                $Message{Message}  = 'Imposible to add relation!';
+            }
+
+            $Output = $Self->_SignerCertificateOverview(
+                CertFingerprint => $CertFingerprint,
+                Message         => \%Message,
+            );
+        }
+
         return $Output;
     }
 
@@ -497,6 +588,12 @@ sub _Overview {
                 Name => 'Row',
                 Data => $Attributes,
             );
+            if ( $Attributes->{Type} eq 'key' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CertificateRelationAdd',
+                    Data => $Attributes,
+                );
+            }
         }
     }
     else {
@@ -524,6 +621,11 @@ sub _SignerCertificateOverview {
         return $Self->{LayoutObject}->ErrorScreen( Message => 'Needed Fingerprint', );
     }
 
+    my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(
+        Search => $Param{CertFingerprint},
+    );
+    my %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
+
     # get all certificates
     my @AvailableCerts = $Self->{CryptObject}->CertificateSearch();
 
@@ -532,21 +634,22 @@ sub _SignerCertificateOverview {
         CertFingerprint => $Param{CertFingerprint},
     );
 
-    # compare 2 lists of certificates (by fingerprint)
-    # and remove from the @Available list the certs which are already in @ActualRelations
-    # also remove the actual SignerCertificate
+    # get needed data from actual relations
+    my @RelatedCerts;
+    for my $RelatedCert (@ActualRelations) {
+        my @Certificate = $Self->{CryptObject}->CertificateSearch(
+            Search => $RelatedCert->{CAFingerprint},
+        );
+        push @RelatedCerts, $Certificate[0] if $Certificate[0];
+    }
 
-    my @ShowCertList = @AvailableCerts;
+    # filter the list, show as available cert just those which are not in the list of related certs
+    # and is not equal to the actual Certificate Fingerprint
+    my @ShowCertList;
+    my %RelatedCerts = map { $_->{Fingerprint} => 1 } @RelatedCerts;
+    @ShowCertList = grep ( !defined $RelatedCerts{ $_->{Fingerprint} }
+            && $_->{Fingerprint} ne $Param{CertFingerprint}, @AvailableCerts );
 
-    #    for my $ActualRelation (@ActualRelations) {
-    #        for my $AvailableCert (@AvailableCerts){
-    #            # remove the actual certificate from the list of all certificates
-    #            if ( $AvailableCert->{Fingerprint} eq $ActualRelation->{CAFingerprint} &&
-    #                 $AvailableCert->{Fingerprint} eq $Param{CertFingerprint} ) {
-    #            }
-    #            push @ShowCertList, $AvailableCert;
-    #        }
-    #    }
     $Self->{LayoutObject}->Block(
         Name => 'ActionList',
     );
@@ -559,10 +662,13 @@ sub _SignerCertificateOverview {
 
     $Self->{LayoutObject}->Block(
         Name => 'SignerCertificates',
+        Data => {
+            CertFingerprint => $SignerCert{Subject},
+        },
     );
 
-    if (@ActualRelations) {
-        for my $ActualRelation (@ActualRelations) {
+    if (@RelatedCerts) {
+        for my $ActualRelation (@RelatedCerts) {
             $Self->{LayoutObject}->Block(
                 Name => 'RelatedCertsRow',
                 Data => {
@@ -599,11 +705,10 @@ sub _SignerCertificateOverview {
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     if ( $Param{Message} ) {
+        my %Message = %{ $Param{Message} };
         $Output .= $Self->{LayoutObject}->Notify(
-            Priority => 'Error',
-            Data     => '$Text{"Please activate %s first!", "SMIME"}',
-            Link =>
-                '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+            Priority => $Message{Type},
+            Info     => $Message{Message},
         );
     }
 

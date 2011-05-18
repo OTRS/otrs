@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.50 2011-05-17 05:53:35 dz Exp $
+# $Id: SMIME.pm,v 1.51 2011-05-18 06:28:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -249,18 +249,28 @@ sub Sign {
             return;
         }
     }
-
     my ( $Private, $Secret ) = $Self->PrivateGet( Hash => $Param{Hash} );
     my $Certificate = $Self->CertificateGet( Hash => $Param{Hash} );
+    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
 
     # get CA certs and join all in one file
+    my @CACerts;
+    @CACerts = @{ $Param{CACert} } if ( $Param{CACert} );
+
+    # get the related certificates
+    my @RelatedCertificates
+        = $Self->SignerCertRelationGet( CertFingerprint => $Attributes{Fingerprint} );
+    for my $Cert (@RelatedCertificates) {
+        push @CACerts, $Cert->{CAHash};
+    }
+
     my ( $FHCACertFile, $CAFileName ) = $Self->{FileTempObject}->TempFile();
     my @CACert;
     my $CertFileCommand = '';
     if ( $Param{CACert} && ref $Param{CACert} eq 'ARRAY' ) {
 
         # get certificate for every array row
-        for my $CertHash ( @{ $Param{CACert} } ) {
+        for my $CertHash (@CACerts) {
             print $FHCACertFile $Self->CertificateGet( Hash => $CertHash ) . "\n";
         }
         $CertFileCommand = " -certfile $CAFileName ";
@@ -767,8 +777,21 @@ sub PrivateRemove {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
         return;
     }
+
+    # get the cert attributes
+    my @Results = $Self->PrivateSearch( Search => $Param{Hash} );
+
+    # delete all relations for this cert
+    if (@Results) {
+        $Self->SignerCertRelationDelete(
+            CertFingerprint => $Results[0]->{Fingerprint},
+            UserID          => 1,
+        );
+    }
+
     unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
     unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return;
+
     return 1;
 }
 
@@ -1022,7 +1045,7 @@ sub SignerCertRelationAdd {
     }
 
     # searh certificates by fingerprint
-    my @CertResult = $Self->CertificateSearch(
+    my @CertResult = $Self->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
 
@@ -1137,8 +1160,6 @@ sub SignerCertRelationGet {
 
         if ($Success) {
             while ( my @ResultData = $Self->{DBObject}->FetchrowArray() ) {
-
-                # format date
                 my %ResultData = (
                     ID              => $ResultData[0],
                     CertHash        => $ResultData[1],
@@ -1165,6 +1186,81 @@ sub SignerCertRelationGet {
     return;
 }
 
+=item SignerCertRelationExists ()
+
+returns the ID if the relation exists
+
+    my $Result = $CryptObject->SignerCertRelationExists(
+        CertFingerprint => $CertificateFingerprint,
+        CAFingerprint => $CAFingerprint,
+    );
+
+    my $Result = $CryptObject->SignerCertRelationExists(
+        ID => $RelationID,
+    );
+
+=cut
+
+sub SignerCertRelationExists {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ID} && !( $Param{CertFingerprint} && $Param{CAFingerprint} ) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need ID or CertFingerprint & CAFingerprint!" );
+        return;
+    }
+
+    if ( $Param{CertFingerprint} && $Param{CAFingerprint} ) {
+        my $Data;
+        my $Success = $Self->{DBObject}->Prepare(
+            SQL => 'SELECT id FROM smime_signer_cert_relations '
+                . 'WHERE cert_fingerprint = ? AND ca_fingerprint = ?',
+            Bind => [ \$Param{CertFingerprint}, \$Param{CAFingerprint} ],
+            Limit => 1,
+        );
+
+        if ($Success) {
+            while ( my @ResultData = $Self->{DBObject}->FetchrowArray() ) {
+                $Data = $ResultData[0];
+            }
+            return $Data || '';
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Message  => 'DB error: not possible to check relation!',
+                Priority => 'error',
+            );
+            return;
+        }
+    }
+    elsif ( $Param{ID} ) {
+        my $Data;
+        my $Success = $Self->{DBObject}->Prepare(
+            SQL => 'SELECT id FROM smime_signer_cert_relations '
+                . 'WHERE id = ?',
+            Bind  => [ \$Param{ID}, ],
+            Limit => 1,
+        );
+
+        if ($Success) {
+            while ( my @ResultData = $Self->{DBObject}->FetchrowArray() ) {
+                $Data = $ResultData[0];
+            }
+            return $Data || '';
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Message  => 'DB error: not possible to check relation!',
+                Priority => 'error',
+            );
+            return;
+        }
+    }
+
+    return;
+}
+
 =item SignerCertRelationDelete ()
 
 returns 1 if success
@@ -1178,6 +1274,13 @@ returns 1 if success
     # delete one relation by ID
     $Success = $CryptObject->SignerCertRelationDelete (
         ID => '45',
+        UserID => 1,
+    );
+
+    # delete one relation by CertFingerprint & CAFingerprint
+    $Success = $CryptObject->SignerCertRelationDelete (
+        CertFingerprint => $CertFingerprint,
+        CAFingerprint   => $CAFingerprint,
         UserID => 1,
     );
 
@@ -1211,6 +1314,25 @@ sub SignerCertRelationDelete {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Message  => "DB Error, Not possible to delete relation ID:$Param{ID}!",
+                Priority => 'error',
+            );
+        }
+        return $Success;
+    }
+    elsif ( $Param{CertFingerprint} && $Param{CAFingerprint} ) {
+
+        # delete one row
+        my $Success = $Self->{DBObject}->Do(
+            SQL => 'DELETE FROM smime_signer_cert_relations '
+                . 'WHERE cert_fingerprint = ? AND ca_fingerprint = ?',
+            Bind => [ \$Param{CertFingerprint}, \$Param{CAFingerprint} ],
+        );
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Message =>
+                    "DB Error, Not possible to delete relation for "
+                    . "CertFingerprint:$Param{CertFingerprint} and CAFingerprint:$Param{CAFingerprint}!",
                 Priority => 'error',
             );
         }
@@ -1257,6 +1379,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2011-05-17 05:53:35 $
+$Revision: 1.51 $ $Date: 2011-05-18 06:28:00 $
 
 =cut

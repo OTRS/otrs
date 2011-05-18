@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.17 2011-05-16 21:21:48 dz Exp $
+# $Id: SMIME.t,v 1.18 2011-05-18 06:28:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -622,8 +622,8 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
     # add relation
     my $Success = $CryptObject->SignerCertRelationAdd(
-        CertFingerprint => '',
-        CAFingerprint   => '',
+        CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
+        CAFingerprint   => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:',
         UserID          => 1,
     );
     $Self->False(
@@ -633,7 +633,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
     # get all relations for a certificate
     $Success = $CryptObject->SignerCertRelationGet(
-        CertFingerprint => '',
+        CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
     );
     $Self->False(
         $Success,
@@ -671,6 +671,24 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
         '#2 SignerCertRelationAdd()',
     );
 
+# sign a message after relations added not send CA certs now should be taken automatically by the sign function
+    $Sign = $CryptObject->Sign(
+        Message => $Message,
+        Hash    => $PrivateKeyHash,
+    );
+
+    # verify now must works
+    %Data = $CryptObject->Verify(
+        Message     => $Sign,
+        Certificate => "$CertPath/8b0cc41f.0",
+    );
+
+    # it must works
+    $Self->True(
+        $Data{Successful},
+        '#4 Certificate chain verification, successful verification, signed using stored relations',
+    );
+
     # get all relations for a certificate
     my @CertResults = $CryptObject->SignerCertRelationGet(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
@@ -678,7 +696,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     $Self->Is(
         scalar @CertResults,
         2,
-        '#3 SignerCertRelationGet()',
+        '#5 SignerCertRelationGet()',
     );
 
     # get one relation by ID
@@ -687,7 +705,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#4 SignerCertRelationGet(), by ID',
+        '#6 SignerCertRelationGet(), by ID',
     );
 
     # delete one relation by ID
@@ -697,7 +715,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#5 SignerCertRelationDelete()',
+        '#7 SignerCertRelationDelete()',
     );
 
     # delete all relations for a certificate
@@ -707,7 +725,16 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     );
     $Self->True(
         $Success,
-        '#6 SignerCertRelationDelete()',
+        '#8 SignerCertRelationDelete()',
+    );
+
+    # verify the delete worked
+    my @Result = $CryptObject->SignerCertRelationGet(
+        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+    );
+    $Self->False(
+        scalar @Result,
+        '#8 SignerCertRelationDelete(), deletion verified',
     );
 
     # delete certificates

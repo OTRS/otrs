@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.23 2011-05-17 05:53:35 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.24 2011-05-18 06:28:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,6 @@
 
 <!-- dtl:block:SMIMEFilter -->
 
-
 <!-- dtl:block:SignerCertHint -->
         <div class="WidgetSimple">
             <div class="Header">
@@ -73,7 +72,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"Here you can add relations between your certificates, once you choose the relations for your certificate these will be embedded to the SMIME signature every time you use this certificate to send a signed email."}
+                    $Text{"Here you can add relations to your signer certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email."}
                 </p>
                 <p class="FieldExplanation">
                     $Text{"See also"}: <a href="http://en.wikipedia.org/wiki/S/MIME" target="_blank">http://en.wikipedia.org/wiki/S/MIME</a>
@@ -108,6 +107,7 @@
                 <table class="DataTable" id="SMIME">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Subject"}</th>
                             <th>$Text{"Hash"}</th>
@@ -128,8 +128,17 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Row -->
                         <tr>
+                            <td>
+
+<!-- dtl:block:CertificateRelationAdd -->
+                                <a class="CertificateRelationAdd" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelations;Fingerprint=$Data{"Fingerprint"}">
+                                    $Text{"Embed related certificates"}
+                                </a>
+<!-- dtl:block:CertificateRelationAdd -->
+
+                            </td>
                             <td>$QData{"Type"}</td>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelations;Fingerprint=$Data{"Fingerprint"}">$QData{"Subject"}</a></td>
+                            <td>$QData{"Subject"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
                             </td>
@@ -215,19 +224,19 @@
 <!-- dtl:block:SignerCertificates -->
     <div class="WidgetSimple">
         <div class="Header">
-            <h2>$Text{"Related Certificates"}</h2>
+            <h2>$Text{"Related Certificates for"}: $QData{"CertFingerprint"} </h2>
         </div>
         <div class="Content ">
             <table class="DataTable" id="RelatedCerts">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>$Text{"Type"}</th>
                         <th>$Text{"Subject"}</th>
                         <th>$Text{"Hash"}</th>
                         <th>$Text{"Fingerprint"}</th>
                         <th>$Text{"Create"}</th>
                         <th>$Text{"Expires"}</th>
-                        <th>$Text{"Delete Relation"}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -241,6 +250,11 @@
 <!-- dtl:block:RelatedCertsNoDataFoundMsg -->
 <!-- dtl:block:RelatedCertsRow -->
                     <tr>
+                        <td class="Center">
+                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationDelete;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"}" title="$Text{"Delete this relation"}">
+                                $Text{"Delete this relation"}
+                            </a>
+                        </td>
                         <td>$QData{"Type"}</td>
                         <td>$QData{"Subject"}</td>
                         <td>
@@ -251,9 +265,6 @@
                         </td>
                         <td>$QData{"ShortStartDate"}</td>
                         <td>$QData{"ShortEndDate"}</td>
-                        <td class="Center">
-                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
-                        </td>
                     </tr>
 <!-- dtl:block:RelatedCertsRow -->
                 </tbody>
@@ -270,7 +281,7 @@
             <table class="DataTable" id="AvailableCerts">
                 <thead>
                     <tr>
-                        <th>$Text{"Attach"}</th>
+                        <th></th>
                         <th>$Text{"Type"}</th>
                         <th>$Text{"Subject"}</th>
                         <th>$Text{"Hash"}</th>
@@ -290,7 +301,11 @@
 <!-- dtl:block:AvailableCertsNoDataFoundMsg -->
 <!-- dtl:block:AvailableCertsRow -->
                     <tr>
-                        <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"}" class="Add" >$Text{"Attach"}</a></td>
+                        <td>
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"}" class="Add" title="$Text{"Relate this certificate"}">
+                                $Text{"Relate this certificate"}
+                            </a>
+                        </td>
                         <td>$QData{"Type"}</td>
                         <td>$QData{"Subject"}</td>
                         <td>
