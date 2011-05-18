@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.12 2011-05-18 22:26:50 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.13 2011-05-18 22:41:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -368,30 +368,6 @@
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Admin = Core.Agent.Admin || {};
-
-Core.Agent.Admin.AdminGenericInterfaceWebservice = {};
-
-Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect = function( ConfigKey, DataSource, CommunicationType, WebserviceID ) {
-    var TransportConfig, Action, ConfigElement;
-
-    // get configuration
-    TransportConfig = Core.Config.Get(ConfigKey);
-
-    // get the Config Element name, if none it will have "null" value
-    ConfigElement = $('#' + DataSource).val();
-
-    // check is config element is a valid scring
-    if ( ConfigElement != null ) {
-
-        // get action
-        Action = TransportConfig[ ConfigElement ];
-
-        // redirect to correct url
-        window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + WebserviceID;
-    }
-};
-
 Core.Agent.Admin.GenericInterfaceWebservice.Init({
     WebserviceID: $('#WebserviceID').val(),
     Localization: {
@@ -411,19 +387,19 @@ $('#CloneButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.Show
 $('#ImportButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowImportDialog);
 
 $('#ProviderTransportProperties').bind('click', function() {
-    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider', $('#WebserviceID').val() );
+    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider');
 });
 
 $('#RequesterTransportProperties').bind('click', function() {
-    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester', $('#WebserviceID').val() );
+    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester');
 });
 
 $('#OperationAdd').bind('click', function() {
-    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Operation', 'OperationList', 'Provider', $('#WebserviceID').val() );
+    Core.Agent.Admin.GenericInterfaceWebservicee.Redirect('Webservice.Operation', 'OperationList', 'Provider');
 });
 
 $('#InvokerAdd').bind('click', function() {
-    Core.Agent.Admin.AdminGenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester', $('#WebserviceID').val() );
+    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester');
 });
 
 //]]></script>

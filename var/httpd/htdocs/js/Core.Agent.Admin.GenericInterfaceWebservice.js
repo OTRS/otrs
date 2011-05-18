@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.1 2011-05-18 22:24:58 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.2 2011-05-18 22:41:08 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -136,6 +136,26 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         });
 
         Event.stopPropagation();
+    };
+
+    TargetNS.Redirect = function( ConfigKey, DataSource, CommunicationType ) {
+        var WebserviceConfigPart, Action, ConfigElement;
+
+        // get configuration
+        WebserviceConfigPart = Core.Config.Get(ConfigKey);
+
+        // get the Config Element name, if none it will have "null" value
+        ConfigElement = $('#' + DataSource).val();
+
+        // check is config element is a valid scring
+        if ( ConfigElement != null ) {
+
+            // get action
+            Action = WebserviceConfigPart[ ConfigElement ];
+
+            // redirect to correct url
+            window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + TargetNS.WebserviceID;
+        }
     };
 
     return TargetNS;
