@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.24 2011-05-18 06:28:00 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.25 2011-05-18 21:24:15 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"S/MIME Management"}</h1>
+    <h1>$Text{"S/MIME Management"}$Text{"$Data{"Subtitle"}"}</h1>
     <div class="SidebarColumn">
 
 <!-- dtl:block:ActionList -->
@@ -72,7 +72,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"Here you can add relations to your signer certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email."}
+                    $Text{"Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email."}
                 </p>
                 <p class="FieldExplanation">
                     $Text{"See also"}: <a href="http://en.wikipedia.org/wiki/S/MIME" target="_blank">http://en.wikipedia.org/wiki/S/MIME</a>
@@ -272,12 +272,15 @@
         </div>
     </div>
 
-    <div class="WidgetSimple Small">
+    <div class="WidgetSimple">
         <div class="Header">
-            <h2>$Text{"Filter for Available Certificates"}:</h2>
-            <input type="text" id="FilterSMIMECerts" class="W50pc" name="FilterSMIME" value="" title="$Text{"Filter for SMIME certs"}" />
+            <h2>$Text{"Available Certificates"}</h2>
         </div>
-        <div class="Content ">
+        <div class="Content">
+            <fieldset>
+                <label for="FilterSMIMECerts">$Text{"Filter"}: </label>
+                <input type="text" id="FilterSMIMECerts" class="W50pc" name="FilterSMIME" value="" title="$Text{"Filter for SMIME certs"}" />
+            </fieldset>
             <table class="DataTable" id="AvailableCerts">
                 <thead>
                     <tr>
