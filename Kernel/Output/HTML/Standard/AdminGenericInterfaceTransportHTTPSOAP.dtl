@@ -2,7 +2,7 @@
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.2 2011-05-18 20:35:56 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.3 2011-05-18 22:06:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,14 +60,19 @@
                                 $QData{"Type"}
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="Endpoint"><span class="Marker">*</span> $Text{"Endpoint"}:</label>
+<!-- dtl:block:TransportEndpointProvider -->
+                            <label for="Endpoint">$Text{"End Point"}:</label>
+<!-- dtl:block:TransportEndpointProvider -->
+<!-- dtl:block:TransportEndpointRequester -->
+                            <label class="Mandatory" for="Endpoint"><span class="Marker">*</span> $Text{"End Point"}:</label>
+<!-- dtl:block:TransportEndpointRequester -->
                             <div class="Field">
-                                <input id="Endpoint" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Endpoint"}" name="Endpoint"/>
+                                <input id="Endpoint" class="W50pc $QData{"EndpointServerError"} $QData{"EndpointValidateRequired"}" type="text" maxlength="250" value="$QData{"Endpoint"}" name="Endpoint"/>
                                 <div id="EndpointError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="EndpointServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EndpointServerErrorMessage"}"}</p></div>
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span> $Text{"NameSpace"}:</label>
+                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span> $Text{"Name Space"}:</label>
                             <div class="Field">
                                 <input id="NameSpace" class="W50pc $QData{"NameSpaceServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"NameSpace"}" name="NameSpace"/>
                                 <div id="NameSpaceError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -81,18 +86,18 @@
                                 <div id="EncodingServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EncodingServerErrorMessage"}"}</p></div>
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="SOAPAction"><span class="Marker">*</span> $Text{"SOAPAction"}:</label>
+                            <label for="SOAPAction">$Text{"SOAP Action"}:</label>
                             <div class="Field">
-                                <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
+                                <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"} type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
                                 <div id="SOAPActionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="SOAPActionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
                             </div>
                             <div class="Clear"></div>
-                            <label for="MaxLength">$Text{"MaxLength"}:</label>
+                            <label for="MaxLength">$Text{"Maximum Length"}:</label>
                             <div class="Field">
                                 <input id="MaxLength" class="W25pc $QData{"MaxLengthServerError"} Validate_Number" type="text" maxlength="10" value="$QData{"MaxLength"}" name="MaxLength"/>
                                 <div id="MaxLengthError" class="TooltipErrorMessage"><p>$Text{"This should be a number."}</p></div>
-                                <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
+                                <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"MaxLengthServerErrorMessage"}"}</p></div>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
