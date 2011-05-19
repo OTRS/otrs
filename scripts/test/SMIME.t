@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.7.2.2 2011-04-08 10:38:29 mh Exp $
+# $Id: SMIME.t,v 1.7.2.3 2011-05-19 02:48:49 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -411,6 +411,356 @@ for my $Count ( 1 .. 2 ) {
         $Keys[0] || '',
         "#$Count Search()",
     );
+}
+
+# adding tests for smime certificate chains
+{
+
+    # add certificate smimeuser1
+    my %SMIMEUser1Certificate;
+    %SMIMEUser1Certificate = (
+        Hash        => '051d6705',
+        Fingerprint => '02:61:27:30:DC:15:99:F1:53:AB:09:F9:4D:1D:75:D1:6D:6E:F4:1A',
+        String =>
+            '-----BEGIN CERTIFICATE-----
+MIIDDTCCAnagAwIBAgIBATANBgkqhkiG9w0BAQUFADCBiTELMAkGA1UEBhMCTVgx
+EDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMREwDwYDVQQK
+EwhPVFJTIExhYjEMMAoGA1UECxQDUiZEMREwDwYDVQQDEwhvdHJzLm9yZzEeMBwG
+CSqGSIb3DQEJARYPb3Ryc3JkQHRlc3QuY29tMB4XDTExMDUxMjIxNTc0OFoXDTEy
+MDUxMTIxNTc0OFowgZExCzAJBgNVBAYTAk1YMRAwDgYDVQQIEwdKYWxpc2NvMRQw
+EgYDVQQHEwtHdWFkYWxhamFyYTERMA8GA1UEChMIT1RSUyBMYWIxDDAKBgNVBAsU
+A1ImRDEVMBMGA1UEAxMMU21pbWUgVXNlciAxMSIwIAYJKoZIhvcNAQkBFhNzbWlt
+ZXVzZXIxQHRlc3QuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDOcpur
+SybB79FYJ0bJV3ZIKVAASd1OvSxlNluANquBNfbh8nkAfOixVQUmT9bvrD2UEDqr
+f4WlZ49usY8UOewlgSK+oDs2/h5Lls2UVXGux/4uTH9uha/NjwzhBj5n5YJyO9AZ
+N2xQtA2GBsHsNahkAyQv14pm6jyDC02QS9tzxwIDAQABo3sweTAJBgNVHRMEAjAA
+MCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAd
+BgNVHQ4EFgQUQuF1ZBhRRTs8jmbUezTAqqv7a0IwHwYDVR0jBBgwFoAUJUAnRdY9
+wmh0neVHgC5dHTRKwEkwDQYJKoZIhvcNAQEFBQADgYEAFlHnt3CmQi/EGFRtDk3Z
+cI//dmkTHg81Kt0+Zq3JdhDqoAevIbFnhLsqEf6696yytyL/UHPG1Ivu3dTmPfyh
+Ke3EvjnBq5V0R6TCSHXWMyE5qzSy+z9ZI4dqbBC5m18XokXqK4D1nBKK+mMY532w
+AFZc+igKesPcdjhaBJFPZ+Q=
+-----END CERTIFICATE-----',
+        PrivateSecret => 'smimeuser1',
+        PrivateString =>
+            '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,74A4BA3503D67A48
+
+mrv1oB+iF6G/z2RLLJBrWPm9DWO1d/97bDMpBgau/kLJ55ugZP+iu7r4MdxJgFeh
+CFY2PgswVOHa8MZtx+PFNHfZBIBh06w7MYVjrTU1tUg8LmLARN4L6pEdgUzmVR01
+Cln9yVh52fBSGo5W/2J8Fu/yaAk4QiHy961f5mjT2F6LCFebGzdKLHpuS7zzS4G4
+CqWb31GWHWWKYriKLcwGL4waPjPQrhiHVHjSF297ehPRQmryvQrws4IqZBh/pE8/
+sQVdCmPwTnp06TBvinb4z0zuxEpPjXSyKf2YCCPFUVm09NVy61PJ/THUNjDJqO5R
+Fqz0k3ExqWiSwDZuoDoEtj38DYjUEx8oSUKQLQ40AsbG6e2SpQxPOUdALLzIt21D
+gRa0Idch9NlE6/tpDon4RxJrqXWulAr5dYQc/ria1wpkbLKrJ/EpT9ivSzVsRyFj
+eoHuxMnHZ1h6wOUmFT6X/VjPZapqcmsHO0WpM2gs51WyTmw8AqrXMw3FJ4Fx5dTo
+Wr/fzzAz4ar9k9YmiLI9VWbHUygPCM+Z49obUnW1w8+OUsRWhVT7aiXbh2h2GPbb
+K1PO6DyT8ieF7zTXHhQ6i+x4e/7pZ6HBE5SVKqtZlt5kfrUxOeGgExwQgCxrSWiZ
+P2TOhrdphD+DUf3nxiwRM/khnobofQSKvETP0ZLzOYp00tLQFbLxszfMlbXnEcqA
+cAgAiLDlmdBvN/lawOMoNgMz4YoUWvTdmQRaqchgfRzkTiiCoDlmbVmAawKj4vsi
+XgLpk1hOJqMI3lGeiFINPcGWCQW8l6/wqiRZHqM/wdXXoNzvLLayIQ==
+-----END RSA PRIVATE KEY-----',
+    );
+
+    $Self->{CryptObject}->CertificateAdd(
+        Certificate => $SMIMEUser1Certificate{String},
+    );
+
+    $Self->{CryptObject}->PrivateAdd(
+        Private => $SMIMEUser1Certificate{PrivateString},
+        Secret  => $SMIMEUser1Certificate{PrivateSecret},
+    );
+
+    # sign a message with smimeuser1
+    my $Message =
+        'This is a signed message to sign, and verification must pass a certificate chain validation. -dz';
+
+    my $PrivateKeyHash = '051d6705';
+    my $Sign           = $Self->{CryptObject}->Sign(
+        Message => $Message,
+        Hash    => $PrivateKeyHash,
+    );
+
+    # verify it
+    my %Data = $Self->{CryptObject}->Verify( Message => $Sign, );
+
+    # it must fail
+    $Self->False(
+        $Data{Successful},
+        'Sign(), failed certificate chain verification, not needed CA certificates embedded',
+    );
+
+    my %Certificates;
+    $Certificates{otrslabCA} = {
+        Hash        => '94c8105e',
+        Fingerprint => '17:E8:86:81:1A:B1:8B:60:DF:C5:B5:99:49:F2:EF:19:FC:F6:64:64',
+        String =>
+            '-----BEGIN CERTIFICATE-----
+MIIDJTCCAo6gAwIBAgIBATANBgkqhkiG9w0BAQUFADCBqDELMAkGA1UEBhMCTVgx
+EDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMRgwFgYDVQQK
+Ew9EYW5pZWwgWmFtb3Jhbm8xFDASBgNVBAsTC0RldmVsb3BtZW50MRswGQYDVQQD
+ExJkYW5pZWx6YW1vcmFuby5jb20xJDAiBgkqhkiG9w0BCQEWFWR6QGRhbmllbHph
+bW9yYW5vLmNvbTAeFw0xMTA1MTIxOTQ2MTlaFw0xMjA1MTExOTQ2MTlaMIGHMQsw
+CQYDVQQGEwJNWDEQMA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWph
+cmExETAPBgNVBAoTCE9UUlMgTGFiMQwwCgYDVQQLFANSJkQxETAPBgNVBAMTCG90
+cnMub3JnMRwwGgYJKoZIhvcNAQkBFg1vdHJzQHRlc3QuY29tMIGfMA0GCSqGSIb3
+DQEBAQUAA4GNADCBiQKBgQDEV3q4ita8Yk92x6yOE8NqPx3Wkj5whqJxlGcDUgz6
+wNvE6HgcuAZ4B0Y/opEp1gp7y1b5kYtztv9QaZMEoBAyfSLlpPODMsy/NoHy+Wo8
+Fg7cgJ1BIDarRzgGc+VMxkwX0udJfowaXljdgq5JpfCO1bJpEgQyahyBgQc/+tUC
+8QIDAQABo34wfDAMBgNVHRMEBTADAQH/MCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NM
+IEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUBHKMEg2WLJxvCJswUK0U
+bN+TAGMwHwYDVR0jBBgwFoAUz2QtFg4vN2LoCPemaZeYD1m3lH8wDQYJKoZIhvcN
+AQEFBQADgYEAUWnmjvfRxbjEKmluEWr1noPt8+31ZhBvIYRfygN21e/DqsVzNbNr
+7bbmki7KtgYxggZ3c2gSpnC2TD7Q7TLNp8gZ4x43gbE0BP5g85AFcyPn/63EvC5w
+WAyN4F/4TyH7cr3CSfXQ7hMyd6ZCvnu3sT6tMFSZfRoCtFGc8sAJpg0=
+-----END CERTIFICATE-----',
+    };
+
+    $Certificates{otrsrdCA} = {
+        Hash        => '16765241',
+        Fingerprint => '4C:73:63:FB:26:91:CF:5B:E6:51:5C:5F:4B:06:BF:AB:02:6C:F2:B8',
+        String =>
+            '-----BEGIN CERTIFICATE-----
+MIIDBjCCAm+gAwIBAgIBAjANBgkqhkiG9w0BAQUFADCBhzELMAkGA1UEBhMCTVgx
+EDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMREwDwYDVQQK
+EwhPVFJTIExhYjEMMAoGA1UECxQDUiZEMREwDwYDVQQDEwhvdHJzLm9yZzEcMBoG
+CSqGSIb3DQEJARYNb3Ryc0B0ZXN0LmNvbTAeFw0xMTA1MTIyMTUxMzhaFw0xMjA1
+MTEyMTUxMzhaMIGJMQswCQYDVQQGEwJNWDEQMA4GA1UECBMHSmFsaXNjbzEUMBIG
+A1UEBxMLR3VhZGFsYWphcmExETAPBgNVBAoTCE9UUlMgTGFiMQwwCgYDVQQLFANS
+JkQxETAPBgNVBAMTCG90cnMub3JnMR4wHAYJKoZIhvcNAQkBFg9vdHJzcmRAdGVz
+dC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAL/4muYUMzRrPPhs+6/r
+2o10hWaQbIIMKOTydTej6hDeWyu/MuNnV25TwjoSwgkHkS451d5JKeP8BBnHMe3s
+eWY74tOKQYaT7dRjM3PCvlET3h0H4nJzgQwnpbrkWTwN3mfFdggXizhSUgmQV1CO
+cVOiGjNJM0d1H3VYMC+zkItdAgMBAAGjfjB8MAwGA1UdEwQFMAMBAf8wLAYJYIZI
+AYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRpZmljYXRlMB0GA1UdDgQW
+BBQlQCdF1j3CaHSd5UeALl0dNErASTAfBgNVHSMEGDAWgBQEcowSDZYsnG8ImzBQ
+rRRs35MAYzANBgkqhkiG9w0BAQUFAAOBgQB1b1zKc2zx/hTTtcYbf9wWaibmljPy
+nOOBuCE+xfZ4qoZu74gi+aMwi3vt7rBzWSQBzc1OxlxYzHaxHnZdlZnRexQpPKwU
+DJWoW6Kn9MfjSqqvJLlNg+5upmv67nUYtrpiU0HhCBkaQAd4Z9etH2cCVK6MpJZS
+PexBgADUDM/q9w==
+-----END CERTIFICATE-----',
+    };
+
+    # add CA certificates to the local cert storage
+    for my $Cert ( values %Certificates ) {
+        $Self->{CryptObject}->CertificateAdd(
+            Certificate => $Cert->{String},
+        );
+    }
+
+    # sign a message with smimeuser1 cert and embed all the  needed certificates
+    my @CACertHash = ( "$Certificates{otrslabCA}->{Hash}", "$Certificates{otrsrdCA}->{Hash}" );
+    $Sign = $Self->{CryptObject}->Sign(
+        Message => $Message,
+        Hash    => $PrivateKeyHash,
+        CACert  => \@CACertHash,
+    );
+
+    # verify must fail not root cert added to the trusted cert path
+    %Data = $Self->{CryptObject}->Verify( Message => $Sign, );
+
+    # it must fail
+    $Self->False(
+        $Data{Successful},
+        'Sign(), failed certificate chain verification, not installed CA root certificate',
+    );
+
+    # add the root CA (dzCA) cert to the trusted certificates path
+    $Certificates{dzCA} = {
+        Hash => '8b0cc41f',
+        String =>
+            '-----BEGIN CERTIFICATE-----
+MIID4zCCA0ygAwIBAgIJAIyAzC4orpb1MA0GCSqGSIb3DQEBBQUAMIGoMQswCQYD
+VQQGEwJNWDEQMA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWphcmEx
+GDAWBgNVBAoTD0RhbmllbCBaYW1vcmFubzEUMBIGA1UECxMLRGV2ZWxvcG1lbnQx
+GzAZBgNVBAMTEmRhbmllbHphbW9yYW5vLmNvbTEkMCIGCSqGSIb3DQEJARYVZHpA
+ZGFuaWVsemFtb3Jhbm8uY29tMB4XDTExMDUxMTIxNTA0OFoXDTE2MDUwOTIxNTA0
+OFowgagxCzAJBgNVBAYTAk1YMRAwDgYDVQQIEwdKYWxpc2NvMRQwEgYDVQQHEwtH
+dWFkYWxhamFyYTEYMBYGA1UEChMPRGFuaWVsIFphbW9yYW5vMRQwEgYDVQQLEwtE
+ZXZlbG9wbWVudDEbMBkGA1UEAxMSZGFuaWVsemFtb3Jhbm8uY29tMSQwIgYJKoZI
+hvcNAQkBFhVkekBkYW5pZWx6YW1vcmFuby5jb20wgZ8wDQYJKoZIhvcNAQEBBQAD
+gY0AMIGJAoGBAMl1QdY/qvckELLyR+OjqGI30LGXYiJLDL0ntNK24ivXgLNC+HwJ
+N8zax09w4Wijv2dgBoPPtnx5y0upQzGNO196Hqsq0J1Jzz5y/w4oM9MpLK5BNKnt
+yl7YHi7lUqac4nI15i890lZUXiIWYMFxHhBtCxHS1ghTzNZdWuR9P8c1AgMBAAGj
+ggERMIIBDTAdBgNVHQ4EFgQUz2QtFg4vN2LoCPemaZeYD1m3lH8wgd0GA1UdIwSB
+1TCB0oAUz2QtFg4vN2LoCPemaZeYD1m3lH+hga6kgaswgagxCzAJBgNVBAYTAk1Y
+MRAwDgYDVQQIEwdKYWxpc2NvMRQwEgYDVQQHEwtHdWFkYWxhamFyYTEYMBYGA1UE
+ChMPRGFuaWVsIFphbW9yYW5vMRQwEgYDVQQLEwtEZXZlbG9wbWVudDEbMBkGA1UE
+AxMSZGFuaWVsemFtb3Jhbm8uY29tMSQwIgYJKoZIhvcNAQkBFhVkekBkYW5pZWx6
+YW1vcmFuby5jb22CCQCMgMwuKK6W9TAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEB
+BQUAA4GBAJc8P3QOybn5Gi2mqU3bXgS0yolkxx5wPGVnGG9ikwQK8sLsChK/kJVY
+S9jQadO9ADKExyC82UclxP4uB1o9HXTpcNeFGU8C7VOY+7Og3P6i3L9Rc1v5jgGw
+XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
+-----END CERTIFICATE-----',
+    };
+
+    $Self->{CryptObject}->CertificateAdd(
+        Certificate => $Certificates{dzCA}->{String},
+    );
+
+    # verify now must works
+    %Data = $Self->{CryptObject}->Verify(
+        Message     => $Sign,
+        Certificate => "$CertPath/8b0cc41f.0",
+    );
+
+    # it must works
+    $Self->True(
+        $Data{Successful},
+        'Sign(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
+    );
+
+    # testing relations between certificates
+    # fail
+
+    # add relation
+    my $Success = $Self->{CryptObject}->SignerCertRelationAdd(
+        CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
+        CAFingerprint   => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:',
+        UserID          => 1,
+    );
+    $Self->False(
+        $Success,
+        'SignerCertRelationAdd(), fail, wrong cert fingerprint',
+    );
+
+    # get all relations for a certificate
+    $Success = $Self->{CryptObject}->SignerCertRelationGet(
+        CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
+    );
+    $Self->False(
+        $Success,
+        'SignerCertRelationGet(), fail, wrong cert fingerprint',
+    );
+
+    # get one relation by ID
+    $Success = $Self->{CryptObject}->SignerCertRelationGet(
+        ID => '9999999',
+    );
+    $Self->False(
+        $Success,
+        'SignerCertRelationGet(), fail, wrong ID',
+    );
+
+    # true cert
+    # add relation
+    $Success = $Self->{CryptObject}->SignerCertRelationAdd(
+        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CAFingerprint   => $Certificates{otrsrdCA}->{Fingerprint},
+        UserID          => 1,
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationAdd(), add relation for certificate',
+    );
+
+    $Success = $Self->{CryptObject}->SignerCertRelationAdd(
+        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CAFingerprint   => $Certificates{otrslabCA}->{Fingerprint},
+        UserID          => 1,
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationAdd(), add relation for certificate',
+    );
+
+# sign a message after relations added not send CA certs now should be taken automatically by the sign function
+    $Sign = $Self->{CryptObject}->Sign(
+        Message => $Message,
+        Hash    => $PrivateKeyHash,
+    );
+
+    # verify now must works
+    %Data = $Self->{CryptObject}->Verify(
+        Message     => $Sign,
+        Certificate => "$CertPath/8b0cc41f.0",
+    );
+
+    # it must works
+    $Self->True(
+        $Data{Successful},
+        'Sign(), successful certificate chain verification, signed using stored relations',
+    );
+
+    # get all relations for a certificate
+    my @CertResults = $Self->{CryptObject}->SignerCertRelationGet(
+        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+    );
+    $Self->Is(
+        scalar @CertResults,
+        2,
+        'SignerCertRelationGet(), get all certificate relations',
+    );
+
+    # get one relation by ID
+    $Success = $Self->{CryptObject}->SignerCertRelationGet(
+        ID => $CertResults[0]->{ID},
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationGet(), get one relation by id',
+    );
+
+    # exists function
+    $Success = $Self->{CryptObject}->SignerCertRelationExists(
+        CertFingerprint => $CertResults[0]->{CertFingerprint},
+        CAFingerprint   => $CertResults[0]->{CAFingerprint},
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationExists(), check relation by fingerprints',
+    );
+
+    $Success = $Self->{CryptObject}->SignerCertRelationExists(
+        ID => $CertResults[0]->{ID},
+    );
+    $Self->True(
+        $Success,
+        'SignerCertRelationExists(), check relation by ID',
+    );
+
+    # delete one relation by ID
+    $Self->{CryptObject}->SignerCertRelationDelete(
+        ID     => $CertResults[0]->{ID},
+        UserID => 1,
+    );
+    $Success = $Self->{CryptObject}->SignerCertRelationExists(
+        ID => $CertResults[0]->{ID},
+    );
+    $Self->False(
+        $Success,
+        'SignerCertRelationDelete(), by ID',
+    );
+
+    # delete all relations for a certificate
+    $Self->{CryptObject}->SignerCertRelationDelete(
+        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        UserID          => 1,
+    );
+    $Success = $Self->{CryptObject}->SignerCertRelationExists(
+        ID => $CertResults[1]->{ID},
+    );
+    $Self->False(
+        $Success,
+        'SignerCertRelationDelete(), delete all relations',
+    );
+
+    # delete certificates
+    $Self->{CryptObject}->CertificateRemove(
+        Hash => $SMIMEUser1Certificate{Hash},
+    );
+
+    $Self->{CryptObject}->PrivateRemove(
+        Hash => $SMIMEUser1Certificate{Hash},
+    );
+
+    for my $Cert ( values %Certificates ) {
+        $Self->{CryptObject}->CertificateRemove(
+            Hash => $Cert->{Hash},
+        );
+    }
+
 }
 
 # reset config
