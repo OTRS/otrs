@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.385 2011-05-09 17:58:29 mb Exp $
+# $Id: Defaults.pm,v 1.386 2011-05-19 14:14:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.385 $) [1];
+$VERSION = qw($Revision: 1.386 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -129,7 +129,7 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
 #    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
 
-    # If you want to use an init sql after connect, use this hier.
+    # If you want to use an init sql after connect, use this here.
     # (e. g. can be used for mysql encoding between client and server)
     #    $Self->{'Database::Connect'} = 'SET NAMES utf8';
 
@@ -2219,6 +2219,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.385 $ $Date: 2011-05-09 17:58:29 $
+$Revision: 1.386 $ $Date: 2011-05-19 14:14:54 $
 
 =cut
