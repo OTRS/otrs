@@ -126,4 +126,20 @@
         <ColumnAdd Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
     </TableAlter>
 
+<TableCreate Name="smime_signer_cert_relations">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="cert_hash" Required="true" Size="8" Type="VARCHAR"/>
+    <Column Name="cert_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
+    <Column Name="ca_hash" Required="true" Size="8" Type="VARCHAR"/>
+    <Column Name="ca_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
 </database>
