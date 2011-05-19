@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.14 2011-05-19 17:14:26 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.15 2011-05-19 21:50:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -92,7 +92,9 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # subaction ChangeAction: write config and return to overview
+    # subaction ChangeAction: write basic config and return to edit
+    #                         screen to continue with the rest of
+    #                         the configuration
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
@@ -192,9 +194,23 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        return $Self->_ShowOverview(
+        # show error if cant update
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error updating the webservice",
+            );
+        }
+
+        # define notification
+        my $Notify = 'Webservice "%s" updated!", "' . $WebserviceData->{Name};
+
+        # return to edit to continue changing the configuration
+        return $Self->_ShowEdit(
             %Param,
-            Action => 'Overview',
+            Notify         => $Notify,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+            Action         => 'Change',
         );
     }
 
@@ -209,7 +225,9 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # subaction AddAction: create a webservice and return to overview
+    # subaction AddAction: create a webservice and return to edit
+    #                      screen to continue with the rest of
+    #                      the configuration
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
@@ -280,9 +298,23 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        return $Self->_ShowOverview(
+        # show error if cant create
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error creating the webservice",
+            );
+        }
+
+        # define notification
+        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+
+        # return to edit to continue changing the configuration
+        return $Self->_ShowEdit(
             %Param,
-            Action => 'Overview',
+            Notify         => $Notify,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+            Action         => 'Change',
         );
     }
 
@@ -405,9 +437,13 @@ sub Run {
             );
         }
 
+        # define notification
+        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+
         # return to overview
         return $Self->_ShowOverview(
             %Param,
+            Notify => $Notify,
             Action => 'Overview',
         );
     }
@@ -500,8 +536,12 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
+        # define notification
+        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+
         return $Self->_ShowOverview(
             %Param,
+            Notify => $Notify,
             Action => 'Overview',
         );
     }
@@ -520,6 +560,13 @@ sub _ShowOverview {
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # show notifications if any
+    if ( $Param{Notify} ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => $Param{Notify},
+        );
+    }
 
     # call all needed dtl blocks
     $Self->{LayoutObject}->Block(
@@ -603,6 +650,13 @@ sub _ShowEdit {
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # show notifications if any
+    if ( $Param{Notify} ) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => $Param{Notify},
+        );
+    }
 
     # call all needed dtl blocks
     $Self->{LayoutObject}->Block(
@@ -698,6 +752,7 @@ sub _ShowEdit {
         SelectedID   => $DebuggerData->{DebugThreshold} || '',
         PossibleNone => 0,
         Translate    => 1,
+        Class        => 'HideTrigger',
     );
 
     my %ValidList = $Self->{ValidObject}->ValidList();
@@ -709,6 +764,7 @@ sub _ShowEdit {
         SelectedID   => $WebserviceData->{ValidID} || 1,
         PossibleNone => 0,
         Translate    => 1,
+        Class        => 'HideTrigger',
     );
 
     $Self->{LayoutObject}->Block(
@@ -784,6 +840,7 @@ sub _ShowEdit {
             SelectedValue => $CommTypeConfig{$CommunicationType}->{SelectedTransport},
             PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
+            Class         => 'HideTrigger',
         );
 
         # get the controllers config for Requesters or Providers
@@ -801,11 +858,13 @@ sub _ShowEdit {
             Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
             Sort         => 'AlphanumericValue',
             PossibleNone => 1,
+            Class        => 'HideOnChange',
         );
 
         $Self->{LayoutObject}->Block(
             Name => 'DetailsCommunicationType',
             Data => {
+                %Param,
                 CommunicationType => $CommunicationType,
                 Title             => $CommTypeConfig{$CommunicationType}->{Title},
                 TransportsStrg    => $TransportsStrg,
