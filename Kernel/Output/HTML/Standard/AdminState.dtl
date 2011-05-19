@@ -2,7 +2,7 @@
 # AdminState.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.dtl,v 1.26 2011-05-19 19:11:34 mb Exp $
+# $Id: AdminState.dtl,v 1.27 2011-05-19 19:16:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
                     $Text{"Attention"}: $Text{"Please also update the states in SysConfig where needed."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"See also"}: <a href="http://doc.otrs.org" target="doc">http://doc.otrs.org</a>
+                    $Text{"See also"}: <a href="http://doc.otrs.org" target="_blank">http://doc.otrs.org</a>
                 </p>
             </div>
         </div>
