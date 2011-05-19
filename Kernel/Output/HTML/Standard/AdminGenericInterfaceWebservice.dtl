@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.15 2011-05-19 16:03:54 cg Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.16 2011-05-19 17:20:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,8 +77,8 @@
                                 </form>
                             </div>
                             <div class="ContentFooter Center">
-                                <button type="button" id="CloneButtonAction">$Text{"Clone"}</button>
-                                <button type="button" id="CancelButtonAction">$Text{"Cancel"}</button>
+                                <button class="Primary" type="button" id="CloneButtonAction">$Text{"Clone"}</button>
+                                <button type="button" id="CancelCloneButtonAction">$Text{"Cancel"}</button>
                             </div>
                         </div>
                         <br/>
@@ -102,14 +102,14 @@
                         <button id="ImportButton" class="CallForAction Download W75pc" type="button"><span>$Text{"Import webservice"}</span></button>
                         <div class="Hidden" id="ImportDialogContainer">
                             <div id="ImportDialog" class="InnerContent GenericInterfaceDialog">
-                                <form id="ImportForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
+                                <form id="ImportForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="ImportForm" class="Validate PreventMultipleSubmits">
                                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                     <input type="hidden" name="Subaction" value="Import"/>
                                     <fieldset class="TableLike">
                                         <div class="SpacingTop"></div>
                                         <label class="Mandatory" for="ConfigFile"><span class="Marker">*</span>$Text{"Configuration File"}:</label>
                                         <div class="Field">
-                                            <input id="ConfigFile" class=" W75pc" type="file" maxlength="250" value="" name="ConfigFile"/>
+                                            <input id="ConfigFile" class=" W75pc Validate_Required" type="file" maxlength="250" value="" name="ConfigFile"/>
                                             <div id="ConfigFileError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div class="FieldExplanation">the file must be a valid webservice configuration YAML file.</div>
                                         </div>
@@ -118,8 +118,8 @@
                                 </form>
                             </div>
                             <div class="ContentFooter Center">
-                                <button type="submit" id="ImportButtonAction">$Text{"Import"}</button>
-                                <button type="button" id="CancelButtonAction">$Text{"Cancel"}</button>
+                                <button class="Primary" type="submit" id="ImportButtonAction">$Text{"Import"}</button>
+                                <button type="button" id="CancelImportButtonAction">$Text{"Cancel"}</button>
                             </div>
                         </div>
                         <br/>
@@ -269,11 +269,6 @@
                                     $Data{"DebugThresholdStrg"}
                                 </div>
                                 <div class="Clear"></div>
-                                <label for="TestMode">$Text{"Debugger Test Mode"}:</label>
-                                <div class="Field">
-                                    $Data{"DebugTestStrg"}
-                                </div>
-                                <div class="Clear"></div>
                                 <label for="ValidID">$Text{"Validty"}:</label>
                                 <div class="Field">
                                     $Data{"ValidtyStrg"}
@@ -317,14 +312,7 @@
                             </fieldset>
                             <div class="SpacingTop"></div>
                             <div class="Header">
-                                <h4>$Text{"$Data{"ActionsTitle"}"}
-                                    <span>
-                                        <span class="Spacing"></span>
-                                        $Data{"ControllersStrg"}
-                                        <span class="Spacing"></span>
-                                        <button type="button" id="$QData{"ActionType"}Add" class="Add" value="Add $QData{"ActionType"}">$Text{"Add $QData{"ActionType"}"}</button>
-                                    </span>
-                                </h4>
+                                <h4>$Text{"$Data{"ActionsTitle"}"}</h4>
                             </div>
                             <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
@@ -355,6 +343,10 @@
 <!-- dtl:block:DetailsActionsNoDataFoundMsg -->
                                 </tbody>
                             </table>
+                            <div class="SpacingTop"></div>
+                            <label for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
+                            <span class="Spacing"></span>
+                            $Data{"ControllersStrg"}
                         </div>
                     </div>
                     <div class="SpacingTop"></div>
@@ -405,11 +397,11 @@ $('#RequesterTransportProperties').bind('click', function() {
     Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester');
 });
 
-$('#OperationAdd').bind('click', function() {
-    Core.Agent.Admin.GenericInterfaceWebservicee.Redirect('Webservice.Operation', 'OperationList', 'Provider');
+$('#OperationList').bind('change', function() {
+    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Operation', 'OperationList', 'Provider');
 });
 
-$('#InvokerAdd').bind('click', function() {
+$('#InvokerList').bind('change', function() {
     Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester');
 });
 
