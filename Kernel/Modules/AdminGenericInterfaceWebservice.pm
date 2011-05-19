@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.13 2011-05-19 02:55:04 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.14 2011-05-19 17:14:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -49,6 +49,9 @@ sub new {
 
     # get configured invokers
     $Self->{GIInvokerConfig} = $Self->{ConfigObject}->Get('GenericInterface::Invoker::Module');
+
+    #  get Framework version
+    $Self->{FrameworkVersion} = $Self->{ConfigObject}->Get('Version');
 
     return $Self;
 }
@@ -120,7 +123,8 @@ sub Run {
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Protocol}                   = $GetParam->{Protocol};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
-        $WebserviceData->{Config}->{Debugger}->{TestMode}       = $GetParam->{TestMode};
+        $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
+        $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
         $WebserviceData->{ValidID}                              = $GetParam->{ValidID};
 
         for my $CommunicationType (qw( Provider Requester )) {
@@ -222,7 +226,8 @@ sub Run {
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Protocol}                   = $GetParam->{Protocol};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
-        $WebserviceData->{Config}->{Debugger}->{TestMode}       = $GetParam->{TestMode};
+        $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
+        $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
         $WebserviceData->{ValidID}                              = $GetParam->{ValidID};
 
         for my $CommunicationType (qw( Provider Requester )) {
@@ -695,18 +700,6 @@ sub _ShowEdit {
         Translate    => 1,
     );
 
-    # create the DebugT test select
-    my $DebugTestStrg = $Self->{LayoutObject}->BuildSelection(
-        Data => {
-            0 => 'No',
-            1 => 'Yes',
-        },
-        Name         => 'TestMode',
-        SelectedID   => $DebuggerData->{TestMode},
-        PossibleNone => 0,
-        Translate    => 1,
-    );
-
     my %ValidList = $Self->{ValidObject}->ValidList();
 
     # create the Validty select
@@ -724,7 +717,6 @@ sub _ShowEdit {
             %Param,
             %GeneralData,
             DebugThresholdStrg => $DebugThresholdStrg,
-            DebugTestStrg      => $DebugTestStrg,
             ValidtyStrg        => $ValidtyStrg,
             }
     );
@@ -790,6 +782,7 @@ sub _ShowEdit {
             Data          => \@TransportList,
             Name          => $CommunicationType . 'TransportList',
             SelectedValue => $CommTypeConfig{$CommunicationType}->{SelectedTransport},
+            PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
         );
 
@@ -804,9 +797,10 @@ sub _ShowEdit {
 
         # create the list of controllers
         my $ControllersStrg = $Self->{LayoutObject}->BuildSelection(
-            Data => \@ControllerList,
-            Name => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
-            Sort => 'AlphanumericValue',
+            Data         => \@ControllerList,
+            Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
+            Sort         => 'AlphanumericValue',
+            PossibleNone => 1,
         );
 
         $Self->{LayoutObject}->Block(
@@ -950,7 +944,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name Description RemoteSystem Protocol DebugThreshold TestMode ValidID )
+        qw( Name Description RemoteSystem Protocol DebugThreshold ValidID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
