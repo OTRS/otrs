@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.158 2011-05-18 09:45:01 mb Exp $
+# $Id: nl.pm,v 1.159 2011-05-19 19:05:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.158 $) [1];
+$VERSION = qw($Revision: 1.159 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1106,7 +1106,7 @@ sub Data {
         '0 = no unlock' => '0 = geen ontgrendeling',
         'Only business hours are counted.' => 'Alleen openingstijden tellen mee.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' => 'Als een ticket vergrendeld is en de gebruiker handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, dan wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
-        'Notify by' => 'Melding van',
+        'Notify by' => 'Melding bij',
         '0 = no escalation' => '0 = geen escalatie',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' => 'Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' => 'Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd.',
