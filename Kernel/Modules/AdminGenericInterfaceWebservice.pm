@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.12 2011-05-18 22:29:11 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.13 2011-05-19 02:55:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -346,10 +346,30 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Clone' ) {
 
+        # check for WebserviceID
+        if ( !$WebserviceID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
+        }
+
         # get webserice configuration
         my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
+        # check for valid webservice configuration
+        if ( !IsHashRefWithData($WebserviceData) ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get data for WebserviceID $WebserviceID",
+            );
+        }
+
         my $CloneName = $Self->{ParamObject}->GetParam( Param => 'CloneName' ) || '';
+
+        if ( !$CloneName ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need Name!",
+            );
+        }
 
         # set new confguration
         $WebserviceData->{Name} = $CloneName;
@@ -360,6 +380,12 @@ sub Run {
 
         %WebserviceList = reverse %WebserviceList;
 
+        if ( $WebserviceList{$CloneName} ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There is another webservice with the same name.",
+            );
+        }
+
         # otherwise save configuration and return to overview screen
         my $Success = $Self->{WebserviceObject}->WebserviceAdd(
             Name    => $WebserviceData->{Name},
@@ -368,19 +394,16 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
-            Data => {
-                Success => $Success,
-            },
-        );
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error creating the webservice.",
+            );
+        }
 
-        # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+        # return to overview
+        return $Self->_ShowOverview(
+            %Param,
+            Action => 'Overview',
         );
     }
 

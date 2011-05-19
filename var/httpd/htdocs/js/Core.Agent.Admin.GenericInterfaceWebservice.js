@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.2 2011-05-18 22:41:08 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.3 2011-05-19 02:55:51 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -77,43 +77,24 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             TargetNS.Localization.CloneWebserviceMsg,
             '240px',
             'Center',
-            true,
-            [
-               {
-                   Label: TargetNS.Localization.CloneMsg,
-                   Function: function () {
-                       var Data = {
-                            Action: 'AdminGenericInterfaceWebservice',
-                            Subaction: 'Clone',
-                            WebserviceID: TargetNS.WebserviceID,
-                            CloneName: $('#CloneName').val()
-                        };
-
-                       Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                            if (!Response || !Response.Success) {
-                                alert(TargetNS.Localization.CommunicationErrorMsg);
-                                return;
-                            }
-
-                       }, 'json');
-
-                       // if success return to Overvew
-                       location.href = Core.Config.Get('Baselink') + 'Action=' + Data.Action;
-
-                   }
-               },
-               {
-                   Label: TargetNS.Localization.CancelMsg,
-                   Function: function () {
-                       Core.UI.Dialog.CloseDialog($('#CloneDialog'));
-                   }
-               }
-           ]
+            true
         );
 
+        // get current system time to define suggested the name of the cloned webservice
         CurrentDate = new Date();
         CloneName = $('#Name').val() + "-" +CurrentDate.getTime();
+
+        // set the suggested name
         $('.CloneName').val( CloneName );
+
+        // bind button actions
+        $('#CancelButtonAction').bind('click', function() {
+            Core.UI.Dialog.CloseDialog($('#CloneDialog'));
+        });
+
+        $('#CloneButtonAction').bind('click', function() {
+            $('#CloneForm').submit();
+        });
 
         Event.stopPropagation();
     };
@@ -148,7 +129,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         ConfigElement = $('#' + DataSource).val();
 
         // check is config element is a valid scring
-        if ( ConfigElement != null ) {
+        if ( ConfigElement !== null ) {
 
             // get action
             Action = WebserviceConfigPart[ ConfigElement ];
