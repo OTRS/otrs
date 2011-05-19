@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.15 2011-05-19 21:50:14 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.16 2011-05-19 23:38:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -357,6 +357,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
+        # get webserice configuration
+        my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+
         my $Success = $Self->{WebserviceObject}->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => $Self->{UserID},
@@ -365,7 +368,8 @@ sub Run {
         # build JSON output
         my $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => {
-                Success => $Success,
+                Success           => $Success,
+                DeletedWebservice => $WebserviceData->{Name},
             },
         );
 
@@ -549,8 +553,22 @@ sub Run {
     # ------------------------------------------------------------ #
     # default: show start screen
     # ------------------------------------------------------------ #
+
+    # get Deleted Webservice if any
+    my $DeletedWebservice = $Self->{ParamObject}->GetParam( Param => 'DeletedWebservice' ) || '';
+
+    my $Notify;
+
+    if ($DeletedWebservice) {
+
+        # define notification
+        $Notify = 'Webservice "%s" deleted!", "' . $DeletedWebservice;
+
+    }
+
     return $Self->_ShowOverview(
         %Param,
+        Notify => $Notify,
         Action => 'Overview',
     );
 }
@@ -925,47 +943,6 @@ sub _ShowEdit {
 
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
-}
-
-sub _ShowDelete {
-    my ( $Self, %Param ) = @_;
-
-    # call all needed dtl blocks
-    $Self->{LayoutObject}->Block(
-        Name => 'DialogDelete',
-        Data => {
-            %Param,
-            WebserviceName => $Param{WebserviceData}->{Name},
-            }
-
-    );
-
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminGenericInterfaceWebservice',
-        Data         => {},
-    );
-}
-
-sub _ShowClone {
-    my ( $Self, %Param ) = @_;
-
-    # get a non common suggested name for the webservice
-    my $CloneName = $Param{WebserviceData}->{Name} . "-" . $Self->{TimeObject}->SystemTime();
-
-    # call all needed dtl blocks
-    $Self->{LayoutObject}->Block(
-        Name => 'DialogClone',
-        Data => {
-            %Param,
-            CloneName => $CloneName,
-            }
-
-    );
-
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminGenericInterfaceWebservice',
-        Data         => {},
-    );
 }
 
 sub _OutputGIConfig {
