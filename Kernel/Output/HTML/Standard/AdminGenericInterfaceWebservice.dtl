@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.14 2011-05-19 02:55:03 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.15 2011-05-19 16:03:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@
                         <button id="CloneButton" class="CallForAction Clone W75pc" type="submit"><span>$Text{"Clone webservice"}</span></button>
                         <div class="Hidden" id="CloneDialogContainer">
                             <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
-                                <form id="CloneForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
+                                <form id="CloneForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="CloneForm" class="Validate PreventMultipleSubmits">
                                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                     <input type="hidden" name="Subaction" value="Clone"/>
                                     <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
@@ -68,7 +68,7 @@
                                         <div class="SpacingTop"></div>
                                         <label class="Mandatory" for="CloneName"><span class="Marker">*</span>$Text{"Name"}:</label>
                                         <div class="Field">
-                                            <input id="CloneName" class="CloneName W75pc" type="text" maxlength="250" value="Clone" name="CloneName"/>
+                                            <input id="CloneName" class="CloneName W75pc Validate_Required" type="text" maxlength="250" value="" name="CloneName"/>
                                             <div id="CloneNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div class="FieldExplanation">the name must be unique.</div>
                                         </div>

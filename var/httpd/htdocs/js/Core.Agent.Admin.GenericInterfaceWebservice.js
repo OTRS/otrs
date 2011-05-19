@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.3 2011-05-19 02:55:51 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.4 2011-05-19 16:02:09 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -79,6 +79,10 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             'Center',
             true
         );
+        // init validation
+        Core.Form.Validate.Init();
+//        Currently we have not a function to 
+//        initialize the validation on a single form
 
         // get current system time to define suggested the name of the cloned webservice
         CurrentDate = new Date();
