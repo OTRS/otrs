@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-05-15 11:38:12
+--  driver: oracle, generated: 2011-05-19 10:33:09
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -189,3 +189,5 @@ ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_valid_51 FOR
 ALTER TABLE notification_event_item ADD CONSTRAINT FK_notification_event_item_nf6 FOREIGN KEY (notification_id) REFERENCES notification_event (id);
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_createa6 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_changea2 FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio60 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio77 FOREIGN KEY (change_by) REFERENCES users (id);

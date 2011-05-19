@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-07-13 14:37:00
+--  driver: oracle, generated: 2011-05-19 10:33:09
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1817,3 +1817,34 @@ end;
 --;
 CREATE INDEX FK_package_repository_changed7 ON package_repository (change_by);
 CREATE INDEX FK_package_repository_create99 ON package_repository (create_by);
+-- ----------------------------------------------------------
+--  create table smime_signer_cert_relations
+-- ----------------------------------------------------------
+CREATE TABLE smime_signer_cert_relations (
+    id NUMBER (12, 0) NOT NULL,
+    cert_hash VARCHAR2 (8) NOT NULL,
+    cert_fingerprint VARCHAR2 (59) NOT NULL,
+    ca_hash VARCHAR2 (8) NOT NULL,
+    ca_fingerprint VARCHAR2 (59) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
+DROP SEQUENCE SE_smime_signer_cert_relatef;
+CREATE SEQUENCE SE_smime_signer_cert_relatef;
+CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
+before insert on smime_signer_cert_relations
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_smime_signer_cert_relatef.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_smime_signer_cert_relatiob7 ON smime_signer_cert_relations (change_by);
+CREATE INDEX FK_smime_signer_cert_relatiobb ON smime_signer_cert_relations (create_by);
