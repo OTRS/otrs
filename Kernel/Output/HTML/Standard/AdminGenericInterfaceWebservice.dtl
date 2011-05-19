@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.16 2011-05-19 17:20:49 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.17 2011-05-19 21:51:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@
 <!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionClone -->
                     <li>
-                        <button id="CloneButton" class="CallForAction Clone W75pc" type="submit"><span>$Text{"Clone webservice"}</span></button>
+                        <button id="CloneButton" class="CallForAction Clone W75pc HideActionOnChange" type="submit"><span>$Text{"Clone webservice"}</span></button>
                         <div class="Hidden" id="CloneDialogContainer">
                             <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="CloneForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="CloneForm" class="Validate PreventMultipleSubmits">
@@ -92,14 +92,14 @@
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Upload W75pc" type="submit"><span>$Text{"Export webservice"}</span></button>
+                            <button class="CallForAction Upload W75pc HideActionOnChange" type="submit"><span>$Text{"Export webservice"}</span></button>
                             <br/>
                         </form>
                     </li>
 <!-- dtl:block:ActionExport -->
 <!-- dtl:block:ActionImport -->
                     <li>
-                        <button id="ImportButton" class="CallForAction Download W75pc" type="button"><span>$Text{"Import webservice"}</span></button>
+                        <button id="ImportButton" class="CallForAction Download W75pc " type="button"><span>$Text{"Import webservice"}</span></button>
                         <div class="Hidden" id="ImportDialogContainer">
                             <div id="ImportDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="ImportForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="ImportForm" class="Validate PreventMultipleSubmits">
@@ -133,7 +133,7 @@
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction History W75pc" type="submit"><span>$Text{"History"}</span></button>
+                            <button class="CallForAction History W75pc HideActionOnChange" type="submit"><span>$Text{"History"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -158,7 +158,7 @@
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Debug W75pc" type="submit"><span>$Text{"Debugger"}</span></button>
+                            <button class="CallForAction Debug W75pc HideActionOnChange" type="submit"><span>$Text{"Debugger"}</span></button>
                             <br/>
                         </form>
                     </li>
@@ -240,24 +240,24 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Name"}" name="Name"/>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} Validate_Required HideTrigger" type="text" maxlength="250" value="$QData{"Name"}" name="Name"/>
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                 </div>
                                 <div class="Clear"></div>
                                 <label for="Description">$Text{"Description"}:</label>
                                 <div class="Field">
-                                    <input id="Description" class="W50pc " type="text" maxlength="250" value="$QData{"Description"}" name="Description"/>
+                                    <input id="Description" class="W50pc HideTrigger" type="text" maxlength="250" value="$QData{"Description"}" name="Description"/>
                                 </div>
                                 <div class="Clear"></div>
                                 <label for="RemoteSystem">$Text{"Remote System"}:</label>
                                 <div class="Field">
-                                    <input id="RemoteSystem" class="W50pc" type="text" maxlength="250" value="$QData{"RemoteSystem"}" name="RemoteSystem"/>
+                                    <input id="RemoteSystem" class="W50pc HideTrigger" type="text" maxlength="250" value="$QData{"RemoteSystem"}" name="RemoteSystem"/>
                                 </div>
                                 <div class="Clear"></div>
                                 <label for="Protocol">$Text{"Protocol"}:</label>
                                 <div class="Field">
-                                    <input id="Protocol" class="W50pc" type="text" maxlength="250" value="$QData{"Protocol"}" name="Protocol"/>
+                                    <input id="Protocol" class="W50pc HideTrigger" type="text" maxlength="250" value="$QData{"Protocol"}" name="Protocol"/>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -306,13 +306,13 @@
                                 <div class="Field">
                                     $Data{"TransportsStrg"}
                                     <span class="Spacing"></span>
-                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="" value="Properties">$Text{"Properties"}</button>
+                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="HideOnChange " value="Properties">$Text{"Properties"}</button>
 
                                 </div>
                             </fieldset>
                             <div class="SpacingTop"></div>
                             <div class="Header">
-                                <h4>$Text{"$Data{"ActionsTitle"}"}</h4>
+                                <h4 class="HideOnChange">$Text{"$Data{"ActionsTitle"}"}</h4>
                             </div>
                             <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
@@ -344,7 +344,7 @@
                                 </tbody>
                             </table>
                             <div class="SpacingTop"></div>
-                            <label for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
+                            <label class="HideOnChange " for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
                             <span class="Spacing"></span>
                             $Data{"ControllersStrg"}
                         </div>
@@ -382,28 +382,8 @@ Core.Agent.Admin.GenericInterfaceWebservice.Init({
         CloneMsg: '$JSText{"Clone"}',
         ImportMsg: '$JSText{"Import"}',
         CancelMsg: '$JSText{"Cancel"}'
-    }
+    },
+    Action: "$QData{"Action"}"
 });
-
-$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowDeleteDialog);
-$('#CloneButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowCloneDialog);
-$('#ImportButton').bind('click', Core.Agent.Admin.GenericInterfaceWebservice.ShowImportDialog);
-
-$('#ProviderTransportProperties').bind('click', function() {
-    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider');
-});
-
-$('#RequesterTransportProperties').bind('click', function() {
-    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester');
-});
-
-$('#OperationList').bind('change', function() {
-    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Operation', 'OperationList', 'Provider');
-});
-
-$('#InvokerList').bind('change', function() {
-    Core.Agent.Admin.GenericInterfaceWebservice.Redirect('Webservice.Invoker', 'InvokerList', 'Requester');
-});
-
 //]]></script>
 <!--dtl:js_on_document_complete-->
