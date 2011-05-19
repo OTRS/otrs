@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.4 2011-05-19 16:02:09 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.5 2011-05-19 21:54:07 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +23,43 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
 Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
+    TargetNS.HideElements = function(){
+        $('button.HideActionOnChange').parent().addClass('Hidden')
+        $('.HideOnChange').addClass('Hidden');
+        $('.DataTable').addClass('Hidden');
+    }
+
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Localization = Params.Localization;
+        if (Params.Action === "Add") {
+            TargetNS.HideElements();
+        }
+
+        $('#DeleteButton').bind('click', TargetNS.ShowDeleteDialog);
+        $('#CloneButton').bind('click', TargetNS.ShowCloneDialog);
+        $('#ImportButton').bind('click', TargetNS.ShowImportDialog);
+
+        $('#ProviderTransportProperties').bind('click', function() {
+            TargetNS.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider');
+        });
+
+        $('#RequesterTransportProperties').bind('click', function() {
+            TargetNS.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester');
+        });
+
+        $('#OperationList').bind('change', function() {
+            TargetNS.Redirect('Webservice.Operation', 'OperationList', 'Provider');
+        });
+
+        $('#InvokerList').bind('change', function() {
+            TargetNS.Redirect('Webservice.Invoker', 'InvokerList', 'Requester');
+        });
+
+        $('.HideTrigger').bind('change', function(){
+            TargetNS.HideElements();
+        });
+
     };
 
     TargetNS.ShowDeleteDialog = function(Event){
@@ -79,10 +113,10 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             'Center',
             true
         );
+
         // init validation
+        // Currently we have not a function to initialize the validation on a single form
         Core.Form.Validate.Init();
-//        Currently we have not a function to 
-//        initialize the validation on a single form
 
         // get current system time to define suggested the name of the cloned webservice
         CurrentDate = new Date();
@@ -92,7 +126,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         $('.CloneName').val( CloneName );
 
         // bind button actions
-        $('#CancelButtonAction').bind('click', function() {
+        $('#CancelCloneButtonAction').bind('click', function() {
             Core.UI.Dialog.CloseDialog($('#CloneDialog'));
         });
 
@@ -112,7 +146,12 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             'Center',
             true
         );
-        $('#CancelButtonAction').bind('click', function() {
+
+        // init validation
+        // Currently we have not a function to initialize the validation on a single form
+        Core.Form.Validate.Init();
+
+        $('#CancelImportButtonAction').bind('click', function() {
             Core.UI.Dialog.CloseDialog($('#ImportDialog'));
         });
 
