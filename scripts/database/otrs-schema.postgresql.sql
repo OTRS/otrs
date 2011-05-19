@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-05-19 10:33:23
+--  driver: postgresql, generated: 2009-07-13 14:37:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1108,21 +1108,6 @@ CREATE TABLE package_repository (
     content_size VARCHAR (30) NULL,
     content_type VARCHAR (250) NULL,
     content TEXT NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
--- ----------------------------------------------------------
---  create table smime_signer_cert_relations
--- ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
-    id serial NOT NULL,
-    cert_hash VARCHAR (8) NOT NULL,
-    cert_fingerprint VARCHAR (59) NOT NULL,
-    ca_hash VARCHAR (8) NOT NULL,
-    ca_fingerprint VARCHAR (59) NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
