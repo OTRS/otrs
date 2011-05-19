@@ -1,0 +1,116 @@
+# --
+# AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.1 2011-05-19 15:01:55 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceOperationDefault">
+<!-- dtl:block:TitleAdd -->
+    <h1>$Text{"Add new Operation to Webservice %s", "$Data{"WebserviceName"}"}</h1>
+<!-- dtl:block:TitleAdd -->
+<!-- dtl:block:TitleChange -->
+    <h1>$Text{"Change Operation %s of Webservice %s", "$Data{"Operation"}", "$Data{"WebserviceName"}"}</h1>
+<!-- dtl:block:TitleChange -->
+<!-- breadcrumb -->
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Webservices"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+<!-- dtl:block:NavigationAdd -->
+            $Text{"Add new operation"}
+<!-- dtl:block:NavigationAdd -->
+<!-- dtl:block:NavigationChange -->
+            $Text{"Change operation %s", "$Data{"Operation"}"}
+<!-- dtl:block:NavigationChange -->
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                    </li>
+<!-- dtl:block:ActionListDelete -->
+                    <li>
+                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Delete"}</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <p id="DeleteDialog" class="Warning">
+                                $Text{"Do you really want to delete this operation?"}
+                            </p>
+                        </div>
+                    </li>
+<!-- dtl:block:ActionListDelete -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Operation Details"}</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike">
+
+                    <label for="Name">$Text{"Name"}</label>
+                    <div class="Field">
+                        <input type="text" class="w50pc" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
+                        <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="Name">$Text{"Operation backend"}</label>
+                    <div class="Field">
+                        <input type="text" readonly="readonly" class="w50pc" value="$QData{"OperationType"}" />
+                    </div>
+                    <div class="Clear"></div>
+
+                </fieldset>
+
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Data Mapping"}</h2>
+            </div>
+            <div class="Content">
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+Core.Agent.Admin.GenericInterfaceOperation.Init({
+    WebserviceID: $QData{"WebserviceID"},
+    Localization: {
+        CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
+        DeleteOperationMsg: '$JSText{"Delete this Operation"}',
+        DeleteMsg: '$JSText{"Delete"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+
+$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceOperation.ShowDeleteDialog);
+
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
