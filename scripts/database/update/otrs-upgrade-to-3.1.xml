@@ -203,10 +203,10 @@
     <Column Name="cert_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
     <Column Name="ca_hash" Required="true" Size="8" Type="VARCHAR"/>
     <Column Name="ca_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
-    <Column Name="changed" Required="true" Type="DATE"/>
-    <Column Name="changed_by" Required="true" Type="INTEGER"/>
-    <Column Name="created" Required="true" Type="DATE"/>
-    <Column Name="created_by" Required="true" Type="INTEGER"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>

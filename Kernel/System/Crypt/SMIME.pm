@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.52 2011-05-18 18:21:43 dz Exp $
+# $Id: SMIME.pm,v 1.53 2011-05-19 00:15:32 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -1074,7 +1074,7 @@ sub SignerCertRelationAdd {
 
     my $Success = $Self->{DBObject}->Do(
         SQL => 'INSERT INTO smime_signer_cert_relations'
-            . ' ( cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, created, created_by, changed, changed_by)'
+            . ' ( cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$CertResult[0]->{Hash}, \$CertResult[0]->{Fingerprint}, \$CAResult[0]->{Hash},
@@ -1116,9 +1116,9 @@ sub SignerCertRelationGet {
     if ( $Param{ID} ) {
         my $Success = $Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, created, created_by, changed, changed_by'
+                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, create_time, create_by, change_time, change_by'
                 . ' FROM smime_signer_cert_relations'
-                . ' WHERE id = ? ORDER BY created DESC',
+                . ' WHERE id = ? ORDER BY create_time DESC',
             Bind  => [ \$Param{ID} ],
             Limit => 1,
         );
@@ -1152,7 +1152,7 @@ sub SignerCertRelationGet {
     else {
         my $Success = $Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, created, created_by, changed, changed_by'
+                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, create_time, create_by, change_time, change_by'
                 . ' FROM smime_signer_cert_relations'
                 . ' WHERE cert_fingerprint = ? ORDER BY id DESC',
             Bind => [ \$Param{CertFingerprint} ],
@@ -1379,6 +1379,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2011-05-18 18:21:43 $
+$Revision: 1.53 $ $Date: 2011-05-19 00:15:32 $
 
 =cut

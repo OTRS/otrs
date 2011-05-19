@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-05-18 15:09:46
+--  driver: postgresql, generated: 2011-05-18 18:42:25
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1239,7 +1239,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_530 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_710 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1251,9 +1251,9 @@ CREATE TABLE smime_signer_cert_relations (
     cert_fingerprint VARCHAR (59) NOT NULL,
     ca_hash VARCHAR (8) NOT NULL,
     ca_fingerprint VARCHAR (59) NOT NULL,
-    changed timestamp(0) NOT NULL,
-    changed_by INTEGER NOT NULL,
-    created timestamp(0) NOT NULL,
-    created_by INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );

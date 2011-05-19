@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-05-18 15:31:31
+#  driver: mysql, generated: 2011-05-18 18:52:07
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket_index
@@ -106,7 +106,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_526 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_207 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -172,10 +172,10 @@ CREATE TABLE smime_signer_cert_relations (
     cert_fingerprint VARCHAR (59) NOT NULL,
     ca_hash VARCHAR (8) NOT NULL,
     ca_fingerprint VARCHAR (59) NOT NULL,
-    changed DATETIME NOT NULL,
-    changed_by INTEGER NOT NULL,
-    created DATETIME NOT NULL,
-    created_by INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
