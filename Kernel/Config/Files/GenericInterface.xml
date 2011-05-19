@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.20 2011-05-19 15:01:55 mg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.21 2011-05-19 23:39:13 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -88,6 +88,14 @@
                 <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title Translatable="1">GenericInterface Webservice GUI</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">Webservices</Name>
+                    <Description Translatable="1">Create and manage webservices.</Description>
+                    <Block>System</Block>
+                    <Prio>1000</Prio>
+                </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
                     <JavaScript>Core.Agent.Admin.GenericInterfaceWebservice.js</JavaScript>
