@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.83 2011-04-15 07:46:41 mg Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.84 2011-05-19 12:50:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -316,10 +316,14 @@
                                         <input class="SingleContent" type="text" id="$QData{"ElementKeyID"}_$Data{"Index"}_AccessKey" name="$QData{"ElementKey"}#AccessKey[]" value="$QData{"ContentAccessKey"}"/>
                                         <div class="Clear"></div>
 
-                                        <button class="Remove" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                        <div>
+                                            <button class="Remove" type="submit" name="$QData{"ElementKey"}#$Data{"Index"}#DeleteElement" value="$Text{"Remove this entry"}" title="$Text{"Remove this entry"}">$Text{"Remove this entry"}</button>
+                                        </div>
                                     </div>
 <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
-                                    <button class="Add" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add NavBar entry"}" title="$Text{"Add NavBar entry"}">$Text{"Add NavBar entry"}</button>
+                                    <div>
+                                        <button class="Add" type="submit" name="$QData{"ElementKey"}#NavBar#AddElement" value="$Text{"Add NavBar entry"}" title="$Text{"Add NavBar entry"}">$Text{"Add NavBar entry"}</button>
+                                    </div>
                                 </div>
                                 <br/>
 
