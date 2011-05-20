@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.1 2011-05-19 15:01:55 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.2 2011-05-20 13:01:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,31 +65,85 @@
                 <h2>$Text{"Operation Details"}</h2>
             </div>
             <div class="Content">
-                <fieldset class="TableLike">
+                <form action="#">
+                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
+                    <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
+                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" />
+                    <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
 
-                    <label for="Name">$Text{"Name"}</label>
-                    <div class="Field">
-                        <input type="text" class="w50pc" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
-                        <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
-                    </div>
-                    <div class="Clear"></div>
+                    <fieldset class="TableLike">
+                        <label for="Operation" class="Mandatory">
+                            <span class="Marker">*</span>
+                            $Text{"Name"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc RegisterChange ValidateRequired $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
+                            <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
+                            <p class="FieldExplanation">
+                                $Text{"The name is typically used to call up this webservice operation from a remote system."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="Name">$Text{"Operation backend"}</label>
-                    <div class="Field">
-                        <input type="text" readonly="readonly" class="w50pc" value="$QData{"OperationType"}" />
-                    </div>
-                    <div class="Clear"></div>
+                        <label for="MappingInbound">$Text{"Mapping for incoming request data"}:</label>
+                        <div class="Field">
+                            $Data{"MappingInboundStrg"}
+                            <input type="hidden" id="MappingInboundConfigDialog" value="$QData{"MappingInboundConfigDialog"}" />
+<!-- dtl:block:MappingInboundConfigureButton -->
+                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
 
-                </fieldset>
+// TODO: bind
 
-            </div>
-        </div>
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:MappingInboundConfigureButton -->
+                            <p class="FieldExplanation">
+                                $Text{"The request data will be processed by this mapping, allowing it to map it to the kind of data OTRS expects."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
 
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>$Text{"Data Mapping"}</h2>
-            </div>
-            <div class="Content">
+                        <label for="OperationTypeDisplay">$Text{"Operation backend"}:</label>
+                        <div class="Field">
+                            <input type="text" readonly="readonly" class="W50pc" id="OperationTypeDisplay" value="$QData{"OperationType"}" />
+                            <p class="FieldExplanation">
+                                $Text{"This OTRS operation backend module will be called internally to process the request, generating data for the response."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+
+                        <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
+                        <div class="Field">
+                            $Data{"MappingOutboundStrg"}
+                            <input type="hidden" id="MappingOutboundConfigDialog" value="$QData{"MappingOutboundConfigDialog"}" />
+<!-- dtl:block:MappingOutboundConfigureButton -->
+                            <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+// TODO: bind
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:MappingOutboundConfigureButton -->
+                            <p class="FieldExplanation">
+                                $Text{"The response data will be processed by this mapping, allowing it to map it to the kind of data the remote system expects."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button type="submit" class="" value="$Text{"Add"}">$Text{"Submit"}</button>
+                            or
+                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>
@@ -101,12 +155,18 @@
 
 Core.Agent.Admin.GenericInterfaceOperation.Init({
     WebserviceID: $QData{"WebserviceID"},
+    Operation: "$QData{"Operation"}",
     Localization: {
         CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
         DeleteOperationMsg: '$JSText{"Delete this Operation"}',
         DeleteMsg: '$JSText{"Delete"}',
         CancelMsg: '$JSText{"Cancel"}'
     }
+});
+
+$('.RegisterChange').unbind('change.Core_Form_ChangeToggler').bind('change.Core_Form_ChangeToggler', function (Event) {
+    $('.HideOnChange').hide();
+    $('.ShowOnChange').show();
 });
 
 $('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceOperation.ShowDeleteDialog);

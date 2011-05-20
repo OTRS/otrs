@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.21 2011-05-19 23:39:13 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.22 2011-05-20 13:01:22 mg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -363,6 +363,37 @@
                 <Item Key="Name">RequestSystemGuid</Item>
                 <Item Key="Controller">SolMan</Item>
                 <Item Key="ConfigDialog">AdminGenericInterfaceInvokerSolMan</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="GenericInterface::Mapping::Module###Simple" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ConfigDialog">AdminGenericInterfaceMappingSimple</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Mapping::Module###Test" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ConfigDialog"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Mapping::Module###SolMan" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ConfigDialog">AdminGenericInterfaceMappingSolMan</Item>
             </Hash>
         </Setting>
     </ConfigItem>
