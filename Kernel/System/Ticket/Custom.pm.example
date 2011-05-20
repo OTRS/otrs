@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Custom.pm.example - custom ticket changes
-# Copyright (C) 2003-2009 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Custom.pm.example,v 1.2 2009-02-16 11:46:47 tr Exp $
+# $Id: Custom.pm.example,v 1.3 2011-05-20 13:05:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 # disable redefine warnings in this scope
 {
@@ -34,3 +34,17 @@ sub Kernel::System::Ticket::TicketXXX {
 }
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=head1 VERSION
+
+$Revision: 1.3 $ $Date: 2011-05-20 13:05:33 $
+
+=cut
