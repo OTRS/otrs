@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceOperation.js - provides the special module functions for the GenericInterface debugger.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceOperation.js,v 1.1 2011-05-19 15:01:55 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceOperation.js,v 1.2 2011-05-20 13:36:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
 
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
+        TargetNS.Operation    = Params.Operation;
         TargetNS.Localization = Params.Localization;
     };
 
@@ -40,9 +41,10 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
                    Label: TargetNS.Localization.DeleteMsg,
                    Function: function () {
                        var Data = {
-                            Action: 'AdminGenericInterfaceOperation',
-                            Subaction: 'DeleteOperation',
-                            WebserviceID: TargetNS.WebserviceID
+                            Action: 'AdminGenericInterfaceOperationDefault',
+                            Subaction: 'DeleteAction',
+                            WebserviceID: TargetNS.WebserviceID,
+                            Operation: TargetNS.Operation
                         };
 
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
@@ -51,7 +53,8 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
                                 return;
                             }
 
-                            // TODO: reload
+                            window.location.href =Core.Config.Get('Baselink') + 'Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=' + TargetNS.WebserviceID;
+
                         }, 'json');
 
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));

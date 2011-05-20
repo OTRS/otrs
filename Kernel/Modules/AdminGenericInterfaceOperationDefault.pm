@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.2 2011-05-20 13:01:22 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.3 2011-05-20 13:36:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -198,9 +198,43 @@ sub Run {
             MappingOutbound => $OperationConfig->{MappingOutbound}->{Type},
         );
     }
-    elsif ( $Self->{Subaction} eq 'Delete' ) {
+    elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
 
-        #TODO: implement
+        my $Operation = $Self->{ParamObject}->GetParam( Param => 'Operation' );
+
+        if ( !$Operation ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Got no Operation',
+            );
+        }
+
+        my $Success;
+
+        # Check if Operation exists and delete it.
+        if ( $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ) {
+            delete $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation};
+
+            $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+                %{$WebserviceData},
+                UserID => $Self->{UserID},
+            );
+        }
+
+        # build JSON output
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => {
+                Success => $Success,
+            },
+        );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
 }
