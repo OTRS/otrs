@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.17 2011-05-19 21:51:59 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.18 2011-05-20 15:18:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -314,7 +314,7 @@
                             <div class="Header">
                                 <h4 class="HideOnChange">$Text{"$Data{"ActionsTitle"}"}</h4>
                             </div>
-                            <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
+                            <table class="DataTable HideOnChange" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
                                     <tr>
                                         <th>$Text{"Name"}</th>
