@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.77 2011-04-25 22:35:59 en Exp $
+# $Id: Ticket.t,v 1.78 2011-05-20 14:51:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4779,6 +4779,12 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
+sleep 2;
+my $Success = $TicketObject->TicketStateSet(
+    State    => 'open',
+    TicketID => $TicketIDSortOrder1,
+    UserID   => 123,
+);
 
 # find newest ticket by priority, age
 my @TicketIDsSortOrder = $TicketObject->TicketSearch(
@@ -4807,6 +4813,35 @@ $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
+
+# find last modified ticket by changed time
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => [ 'Down', ],
+    SortBy  => ['Changed'],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+    'TicketTicketSearch() - ticket sort/order by (Changed (Down))',
+);
+
+# find oldest modified by changed time
+@TicketIDsSortOrder = $TicketObject->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => [ 'Up', ],
+    SortBy  => [ 'Changed', ],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+    'TicketTicketSearch() - ticket sort/order by (Changed (Up)))',
+);
+
 my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests2',
     Queue        => 'Raw',
