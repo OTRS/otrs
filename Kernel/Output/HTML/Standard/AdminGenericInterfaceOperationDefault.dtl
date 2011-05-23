@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.3 2011-05-20 13:36:00 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.4 2011-05-23 11:31:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,12 @@
                             <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
                             <p class="FieldExplanation">
                                 $Text{"The name is typically used to call up this webservice operation from a remote system."}
+                                <div id="OperationError" class="TooltipErrorMessage">
+                                    $Text{"This field is required."} $Text{"Please provide a unique name for this webservice."}
+                                </div>
+                                <div id="OperationServerError" class="TooltipErrorMessage">
+                                    $Text{"The name you entered already exists."}
+                                </div>
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -93,9 +99,15 @@
                             <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+$('#MappingInboundConfigureButton').unbind('click').bind('click', function(){
+    var URL;
 
-// TODO: bind
-
+    if ($('#MappingInboundConfigDialog').val()) {
+        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound';
+        window.location.href = URL;
+    }
+});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingInboundConfigureButton -->
@@ -123,9 +135,15 @@
                             <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+$('#MappingOutboundConfigureButton').unbind('click').bind('click', function(){
+    var URL;
 
-// TODO: bind
-
+    if ($('#MappingOutboundConfigDialog').val()) {
+        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound';
+        window.location.href = URL;
+    }
+});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingOutboundConfigureButton -->
@@ -136,7 +154,18 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button type="submit" class="" value="$Text{"Add"}">$Text{"Submit"}</button>
+                            <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
+<!-- dtl:block:SaveAndFinishButton -->
+                            <button type="submit" id="SaveAndFinishButton" class="HideOnChange" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                            <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').unbind('click').bind('click', function(){
+    $('#ReturnToWebservice').val(1);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:SaveAndFinishButton -->
                             or
                             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
                         </div>
@@ -164,7 +193,7 @@ Core.Agent.Admin.GenericInterfaceOperation.Init({
     }
 });
 
-$('.RegisterChange').unbind('change.Core_Form_ChangeToggler').bind('change.Core_Form_ChangeToggler', function (Event) {
+$('.RegisterChange').unbind('change keyup').bind('change keyup', function (Event) {
     $('.HideOnChange').hide();
     $('.ShowOnChange').show();
 });

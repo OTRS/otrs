@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.3 2011-05-20 13:36:00 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.4 2011-05-23 11:31:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -57,186 +57,366 @@ sub Run {
     }
 
     if ( $Self->{Subaction} eq 'Add' ) {
+        return $Self->_Add(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'AddAction' ) {
+        return $Self->_AddAction(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'Change' ) {
+        return $Self->_Change(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+        return $Self->_ChangeAction(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
+        return $Self->_DeleteAction(
+            %Param,
+            WebserviceID   => $WebserviceID,
+            WebserviceData => $WebserviceData,
+        );
+    }
 
-        my $OperationType = $Self->{ParamObject}->GetParam( Param => 'OperationType' );
+}
 
-        if ( !$OperationType ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Need OperationType",
-            );
+sub _Add {
+    my ( $Self, %Param ) = @_;
+
+    my $WebserviceID   = $Param{WebserviceID};
+    my $WebserviceData = $Param{WebserviceData};
+
+    my $OperationType = $Self->{ParamObject}->GetParam( Param => 'OperationType' );
+
+    if ( !$OperationType ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need OperationType",
+        );
+    }
+    if ( !$Self->_OperationTypeCheck( OperationType => $OperationType ) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Operation $OperationType is not registered",
+        );
+    }
+
+    return $Self->_ShowScreen(
+        %Param,
+        Mode           => 'Add',
+        WebserviceID   => $WebserviceID,
+        WebserviceData => $WebserviceData,
+        WebserviceName => $WebserviceData->{Name},
+        OperationType  => $OperationType,
+    );
+}
+
+sub _AddAction {
+    my ( $Self, %Param ) = @_;
+
+    my $WebserviceID   = $Param{WebserviceID};
+    my $WebserviceData = $Param{WebserviceData};
+
+    my %Errors;
+    my %GetParam;
+
+    for my $Needed (qw(Operation OperationType)) {
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        if ( !$GetParam{$Needed} ) {
+            $Errors{ $Needed . 'ServerError' } = 'ServerError';
         }
-        if ( !$Self->_OperationTypeCheck( OperationType => $OperationType ) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Operation $OperationType is not registered",
-            );
-        }
+    }
+
+    # uncorrectable errors
+    if ( !$GetParam{OperationType} ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need OperationType",
+        );
+    }
+    if ( !$Self->_OperationTypeCheck( OperationType => $GetParam{OperationType} ) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "OperationType $GetParam{OperationType} is not registered",
+        );
+    }
+
+    # validation errors
+    if (%Errors) {
 
         return $Self->_ShowScreen(
             %Param,
+            %GetParam,
+            %Errors,
             Mode           => 'Add',
             WebserviceID   => $WebserviceID,
             WebserviceData => $WebserviceData,
             WebserviceName => $WebserviceData->{Name},
-            OperationType  => $OperationType,
+            OperationType  => $GetParam{OperationType},
         );
     }
-    elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
-        my %Errors;
-        my %GetParam;
+    my $Config = {
+        Type => $GetParam{OperationType},
+    };
 
-        for my $Needed (qw(Operation OperationType)) {
-            $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
-            if ( !$GetParam{$Needed} ) {
-                $Errors{ $Needed . 'ServerError' } = 'ServerError';
-            }
-        }
+    my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
+    $MappingInbound
+        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
-        # uncorrectable errors
-        if ( !$GetParam{OperationType} ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Need OperationType",
-            );
-        }
-        if ( !$Self->_OperationTypeCheck( OperationType => $GetParam{OperationType} ) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "OperationType $GetParam{OperationType} is not registered",
-            );
-        }
-
-        # validation errors
-        if (%Errors) {
-
-            return $Self->_ShowScreen(
-                %Param,
-                %Errors,
-                Mode           => 'Add',
-                WebserviceID   => $WebserviceID,
-                WebserviceData => $WebserviceData,
-                WebserviceName => $WebserviceData->{Name},
-                OperationType  => $GetParam{OperationType},
-            );
-        }
-
-        my $Config = {
-            Type => $GetParam{OperationType},
+    if ($MappingInbound) {
+        $Config->{MappingInbound} = {
+            Type => $MappingInbound,
         };
-
-        my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
-        $MappingInbound
-            = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
-
-        if ($MappingInbound) {
-            $Config->{MappingInbound} = {
-                Type => $MappingInbound,
-            };
-        }
-
-        my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
-        $MappingOutbound
-            = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
-
-        if ($MappingOutbound) {
-            $Config->{MappingOutbound} = {
-                Type => $MappingOutbound,
-            };
-        }
-
-        # check if Operation already exists
-        if ( !$WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
-            $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $Config;
-
-            $Self->{WebserviceObject}->WebserviceUpdate(
-                %{$WebserviceData},
-                UserID => $Self->{UserID},
-            );
-        }
-
-        my $RedirectURL
-            = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;";
-        $RedirectURL
-            .= 'Operation=' . $Self->{LayoutObject}->LinkEncode( $GetParam{Operation} ) . ';';
-
-        return $Self->{LayoutObject}->Redirect(
-            OP => $RedirectURL,
-        );
-
     }
-    elsif ( $Self->{Subaction} eq 'Change' ) {
 
-        my $Operation = $Self->{ParamObject}->GetParam( Param => 'Operation' );
+    my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
+    $MappingOutbound
+        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
-        if ( !$Operation ) {
+    if ($MappingOutbound) {
+        $Config->{MappingOutbound} = {
+            Type => $MappingOutbound,
+        };
+    }
+
+    # check if Operation already exists
+    if ( !$WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
+        $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $Config;
+
+        $Self->{WebserviceObject}->WebserviceUpdate(
+            %{$WebserviceData},
+            UserID => $Self->{UserID},
+        );
+    }
+
+    my $RedirectURL
+        = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;";
+    $RedirectURL
+        .= 'Operation=' . $Self->{LayoutObject}->LinkEncode( $GetParam{Operation} ) . ';';
+
+    return $Self->{LayoutObject}->Redirect(
+        OP => $RedirectURL,
+    );
+}
+
+sub _Change {
+    my ( $Self, %Param ) = @_;
+
+    my $WebserviceID   = $Param{WebserviceID};
+    my $WebserviceData = $Param{WebserviceData};
+
+    my $Operation = $Self->{ParamObject}->GetParam( Param => 'Operation' );
+
+    if ( !$Operation ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need Operation",
+        );
+    }
+
+    if (
+        ref $WebserviceData->{Config}                                           ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}                            ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}->{Operation}               ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ne 'HASH'
+        )
+    {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not determine config for operation $Operation",
+        );
+    }
+
+    my $OperationConfig = $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation};
+
+    return $Self->_ShowScreen(
+        %Param,
+        Mode            => 'Change',
+        WebserviceID    => $WebserviceID,
+        WebserviceData  => $WebserviceData,
+        WebserviceName  => $WebserviceData->{Name},
+        Operation       => $Operation,
+        OperationConfig => $OperationConfig,
+        MappingInbound  => $OperationConfig->{MappingInbound}->{Type},
+        MappingOutbound => $OperationConfig->{MappingOutbound}->{Type},
+    );
+}
+
+sub _ChangeAction {
+    my ( $Self, %Param ) = @_;
+
+    my %GetParam;
+    my %Errors;
+
+    my $WebserviceID   = $Param{WebserviceID};
+    my $WebserviceData = $Param{WebserviceData};
+
+    for my $Needed (qw(Operation OldOperation)) {
+
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+
+        if ( !$GetParam{$Needed} ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Need Operation",
+                Message => "Need $Needed",
             );
         }
+    }
 
-        if (
-            ref $WebserviceData->{Config}                                           ne 'HASH'
-            || ref $WebserviceData->{Config}->{Provider}                            ne 'HASH'
-            || ref $WebserviceData->{Config}->{Provider}->{Operation}               ne 'HASH'
-            || ref $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ne 'HASH'
-            )
-        {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not determine config for operation $Operation",
-            );
+    # Get config data of existing operation.
+    if (
+        ref $WebserviceData->{Config}                             ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}              ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}->{Operation} ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} } ne
+        'HASH'
+        )
+    {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not determine config for operation $GetParam{OldOperation}",
+        );
+    }
+
+    my $OperationConfig
+        = $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} };
+
+    # Operation was renamed, avoid conflicts
+    if ( $GetParam{OldOperation} ne $GetParam{Operation} ) {
+
+        # New name already exists, bail out
+        if ( exists $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
+            $Errors{OperationServerError} = 'ServerError';
         }
 
-        my $OperationConfig = $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation};
+        # Ok, remove old Operation. New one will be added below.
+        if ( !%Errors ) {
+            delete $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} };
+        }
+    }
+
+    if (%Errors) {
 
         return $Self->_ShowScreen(
             %Param,
+            %GetParam,
+            %Errors,
             Mode            => 'Change',
             WebserviceID    => $WebserviceID,
             WebserviceData  => $WebserviceData,
             WebserviceName  => $WebserviceData->{Name},
-            Operation       => $Operation,
+            Operation       => $GetParam{OldOperation},
             OperationConfig => $OperationConfig,
             MappingInbound  => $OperationConfig->{MappingInbound}->{Type},
             MappingOutbound => $OperationConfig->{MappingOutbound}->{Type},
         );
     }
-    elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
 
-        my $Operation = $Self->{ParamObject}->GetParam( Param => 'Operation' );
+    # Now handle mappings. If mapping types were not changed, keep the mapping configuration.
+    my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
+    $MappingInbound
+        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
-        if ( !$Operation ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Got no Operation',
-            );
-        }
+    # No inbound mapping set, make sure it is not present in the configuration.
+    if ( !$MappingInbound ) {
+        delete $OperationConfig->{MappingInbound};
+    }
 
-        my $Success;
+    # Inbound mapping changed, initialize with empty config.
+    if ( $MappingInbound && $MappingInbound ne $OperationConfig->{MappingInbound}->{Type} ) {
+        $OperationConfig->{MappingInbound} = {
+            Type => $MappingInbound,
+        };
+    }
 
-        # Check if Operation exists and delete it.
-        if ( $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ) {
-            delete $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation};
+    my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
+    $MappingOutbound
+        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
-            $Success = $Self->{WebserviceObject}->WebserviceUpdate(
-                %{$WebserviceData},
-                UserID => $Self->{UserID},
-            );
-        }
+    # No outbound mapping set, make sure it is not present in the configuration.
+    if ( !$MappingOutbound ) {
+        delete $OperationConfig->{MappingOutbound};
+    }
 
-        # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
-            Data => {
-                Success => $Success,
-            },
-        );
+    # Outbound mapping changed, initialize with empty config.
+    if ( $MappingOutbound && $MappingOutbound ne $OperationConfig->{MappingOutbound}->{Type} ) {
+        $OperationConfig->{MappingOutbound} = {
+            Type => $MappingOutbound,
+        };
+    }
 
-        # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+    # Update operation config.
+    $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $OperationConfig;
+
+    # Write new config to database.
+    $Self->{WebserviceObject}->WebserviceUpdate(
+        %{$WebserviceData},
+        UserID => $Self->{UserID},
+    );
+
+    # Save button: stay in edit mode.
+    my $RedirectURL
+        = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;Operation=$GetParam{Operation}";
+
+    # Save and finish button: go to Webservice.
+    if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
+        $RedirectURL
+            = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+
+    }
+
+    return $Self->{LayoutObject}->Redirect(
+        OP => $RedirectURL,
+    );
+}
+
+sub _DeleteAction {
+    my ( $Self, %Param ) = @_;
+
+    my $WebserviceData = $Param{WebserviceData};
+
+    my $Operation = $Self->{ParamObject}->GetParam( Param => 'Operation' );
+
+    if ( !$Operation ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Operation',
         );
     }
 
+    my $Success;
+
+    # Check if Operation exists and delete it.
+    if ( $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ) {
+        delete $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation};
+
+        $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+            %{$WebserviceData},
+            UserID => $Self->{UserID},
+        );
+    }
+
+    # build JSON output
+    my $JSON = $Self->{LayoutObject}->JSONEncode(
+        Data => {
+            Success => $Success,
+        },
+    );
+
+    # send JSON response
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 sub _ShowScreen {
@@ -263,6 +443,11 @@ sub _ShowScreen {
     elsif ( $Param{Mode} eq 'Change' ) {
         $Self->{LayoutObject}->Block(
             Name => 'ActionListDelete',
+            Data => \%Param
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SaveAndFinishButton',
             Data => \%Param
         );
 
