@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.1 2011-05-23 04:38:15 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.2 2011-05-23 17:36:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,15 +47,15 @@
                 </h2>
             </div>
             <div class="Content">
-                <div class="LayoutGrid ColumnsWithSpacing">
+                <div class="ColumnsWithSpacing">
                     <div class="W75pc">
-                        <div id="WebserviceListContainer"><!-- needed for CSS to limit table height -->
+                        <div id="WebserviceListContainer" class="ListContainer"><!-- needed for CSS to limit table height -->
                             <table class="DataTable" id="WebserviceList">
                                 <thead>
                                     <tr>
-                                        <th>$Text{"id"}</th>
+                                        <th>$Text{"number"}</th>
                                         <th>$Text{"Create time"}</th>
-                                        <th>$Text{"Changed time"}</th>
+                                        <th>$Text{"Change time"}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

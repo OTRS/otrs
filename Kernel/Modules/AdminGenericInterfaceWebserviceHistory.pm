@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.1 2011-05-23 04:37:04 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.2 2011-05-23 17:33:51 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -72,8 +72,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'GetWebserviceHistoryDetails' ) {
         return $Self->_GetWebserviceHistoryDetails(
             %Param,
-            WebserviceID   => $WebserviceHistoryID,
-            WebserviceData => $WebserviceData,
+            WebserviceHistoryID => $WebserviceHistoryID,
+            WebserviceData      => $WebserviceData,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'Export' ) {
+        return $Self->_ExportWebserviceHistory(
+            %Param,
+            WebserviceID        => $WebserviceID,
+            WebserviceHistoryID => $WebserviceHistoryID,
+            WebserviceData      => $WebserviceData,
         );
     }
     elsif ( $Self->{Subaction} eq 'ClearWebserviceHistory' ) {
@@ -151,9 +159,9 @@ sub _GetWebserviceList {
 sub _GetWebserviceHistoryDetails {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceID = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' );
+    my $WebserviceHistoryID = $Self->{ParamObject}->GetParam( Param => 'WebserviceHistoryID' );
 
-    if ( !$WebserviceID ) {
+    if ( !$WebserviceHistoryID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Got no WebserviceID',
@@ -163,8 +171,9 @@ sub _GetWebserviceHistoryDetails {
     }
 
     my $LogData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
-        ID => $WebserviceID,
+        ID => $WebserviceHistoryID,
     );
+    $LogData->{Config} = YAML::Dump( $LogData->{Config} );
 
     # build JSON output
     my $JSON = $Self->{LayoutObject}->JSONEncode(
@@ -179,6 +188,43 @@ sub _GetWebserviceHistoryDetails {
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
+    );
+}
+
+sub _ExportWebserviceHistory {
+    my ( $Self, %Param ) = @_;
+
+    my $WebserviceHistoryID = $Self->{ParamObject}->GetParam( Param => 'WebserviceHistoryID' );
+
+    if ( !$WebserviceHistoryID ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no WebserviceID',
+        );
+
+        return;    # return empty response
+    }
+
+    my $WebserviceData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
+        ID => $WebserviceHistoryID,
+    );
+
+    # check for valid webservice configuration
+    if ( !IsHashRefWithData($WebserviceData) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get history data for WebserviceHistoryID $WebserviceHistoryID",
+        );
+    }
+
+    # dump configuration into a YAML structure
+    my $YAMLContent = YAML::Dump( $WebserviceData->{Config} );
+
+    # return yaml to download
+    my $YAMLFile = $WebserviceData->{Name} || 'yamlfile';
+    return $Self->{LayoutObject}->Attachment(
+        Filename    => $YAMLFile . '.yaml',
+        ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
+        Content     => $YAMLContent,
     );
 }
 
