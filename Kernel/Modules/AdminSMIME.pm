@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.39 2011-05-18 21:24:15 dz Exp $
+# $Id: AdminSMIME.pm,v 1.40 2011-05-23 20:47:20 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -473,7 +473,7 @@ sub Run {
             }
             else {
                 $Message{Priority} = 'Error';
-                $Message{Message}  = 'Imposible to add relation!';
+                $Message{Message}  = 'Imposible to delete relation!';
             }
 
             $Output = $Self->_SignerCertificateOverview(
@@ -754,7 +754,7 @@ sub _SignerCertificateOverview {
         TemplateFile => 'AdminSMIME',
         Data         => {
             %Param,
-            Subtitle => ': Handle Certificate Relations',
+            Subtitle => 'Handle Private Certificate Relations',
         },
     );
     $Output .= $Self->{LayoutObject}->Footer();
