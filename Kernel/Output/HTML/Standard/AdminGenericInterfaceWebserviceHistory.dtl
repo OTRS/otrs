@@ -1,0 +1,106 @@
+# --
+# AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.1 2011-05-23 04:38:15 cg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceWebserviceHistory">
+    <h1>$Text{"GenericInterface WebserviceHistory for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+<!-- breadcrumb -->
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Webservices"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            $Text{"History"}
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple WebserviceListWidget">
+            <div class="Header">
+                <h2>
+                    $Text{"Webservice history List"}
+                </h2>
+            </div>
+            <div class="Content">
+                <div class="LayoutGrid ColumnsWithSpacing">
+                    <div class="W75pc">
+                        <div id="WebserviceListContainer"><!-- needed for CSS to limit table height -->
+                            <table class="DataTable" id="WebserviceList">
+                                <thead>
+                                    <tr>
+                                        <th>$Text{"id"}</th>
+                                        <th>$Text{"Create time"}</th>
+                                        <th>$Text{"Changed time"}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">$Text{"Loading"}...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="FieldExplanation">$Text{"Select a single webservice config to see its details."}</p>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails">
+            <div class="Header">
+                <h2>$Text{"Webservice History Details"}</h2>
+            </div>
+            <div class="Content"></div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
+    WebserviceID: $QData{"WebserviceID"},
+    Localization: {
+        WebserviceHistoryErrorMsg: '$JSText{"An error occurred during communication."}',
+        NoDataFoundMsg: '$JSText{"No data found."}',
+        ToggleContentMsg: '$JSText{"Show or hide the content."}',
+        ClearDebugLogMsg: '$JSText{"Clear debug log"}',
+        ClearMsg: '$JSText{"Clear"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+
+$('#Refresh').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList);
+
+//Load Webservice list on startup without active filter
+Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList();
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
