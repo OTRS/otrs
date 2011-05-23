@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.1 2011-05-23 16:02:34 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.2 2011-05-23 17:36:49 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -106,12 +106,25 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                     var $Container = $('<div class="WidgetSimple"></div>'),
                         $Header = $('<div class="Header"></div>'),
                         $Content = $('<div class="Content"></div>'),
-                        $Fieldset = $('<fieldset class="TableLike"></fieldset>');
+                        $Fieldset = $('<fieldset class="TableLike"></fieldset>'),
+                        $ExportForm    = $(
+                            '<div class="Field">' +
+                            '<form method="post" action="' + Core.Config.Get('CGIHandle') + '">' +
+                            '<input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action">' +
+                            '<input type="hidden" value="Export" name="Subaction">' +
+                            '<input type="hidden" value="'+ TargetNS.WebserviceID +'" name="WebserviceID">' +
+                            '<input type="hidden" value="'+ WebserviceHistoryID +'" name="WebserviceHistoryID">' +
+                            '<input type="hidden" value="" name="Nav">' +
+                            '<button type="submit" class="CallForAction Upload"><span>Export webservice</span></button>' +
+                            '</form>' +
+                            '<div>' +
+                            '<div class="Clear"></div>'
+                        );
 
                     $Container.append($Header);
 
-                    $Fieldset.append('<label for="Config">ID:</label>' +
-                            '<div class="Field">' + Response.LogData.WebserviceID + '<div class="Clear"></div>'
+                    $Fieldset.append('<label for="Config">Number:</label>' +
+                            '<div class="Field">' + Response.LogData.ID + '<div class="Clear"></div>'
                     );
                     $Fieldset.append('<label for="Config">Create time:</label>' +
                             '<div class="Field">' + Response.LogData.CreateTime + '<div class="Clear"></div>'
@@ -121,9 +134,11 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                             '<div class="Field">' + (Response.LogData.ChangeTime || '-') + '<div class="Clear"></div>'
                     );
                     $Fieldset.append('<label for="Config">Config:</label>' +
-                        '<div class="Field"><textarea id="Config" disable="disable">' + Response.LogData.Config + '</textarea></div>'
+                        '<div class="Field"><textarea id="Config" rows="10" cols="80">' + Response.LogData.Config + '</textarea></div>'
                         + '<div class="Clear"></div>'
                     );
+
+                    $Fieldset.append($ExportForm);
 
                     $Content.append($Fieldset);
 
