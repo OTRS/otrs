@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.2 2011-05-23 17:36:49 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.3 2011-05-23 17:43:24 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,6 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
 
                     $Tr.append('<td><a href="#" class="AsBlock">' + this.ID + '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" /></a></td>');
                     $Tr.append('<td><a href="#" class="AsBlock">' + this.CreateTime + '</a></td>');
-                    $Tr.append('<td><a href="#" class="AsBlock">' + (this.ChangeTime || '-') + '</a></td>');
 
                     $('#WebserviceList').append($Tr);
                 });
@@ -130,9 +129,6 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                             '<div class="Field">' + Response.LogData.CreateTime + '<div class="Clear"></div>'
                     );
 
-                    $Fieldset.append('<label for="Config">Change Time:</label>' +
-                            '<div class="Field">' + (Response.LogData.ChangeTime || '-') + '<div class="Clear"></div>'
-                    );
                     $Fieldset.append('<label for="Config">Config:</label>' +
                         '<div class="Field"><textarea id="Config" rows="10" cols="80">' + Response.LogData.Config + '</textarea></div>'
                         + '<div class="Clear"></div>'

@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.2 2011-05-23 17:36:13 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.3 2011-05-23 17:43:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,6 @@
                                     <tr>
                                         <th>$Text{"number"}</th>
                                         <th>$Text{"Create time"}</th>
-                                        <th>$Text{"Change time"}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
