@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.18 2011-05-20 15:18:30 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.19 2011-05-23 16:44:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Main -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Webservice Management"} - $QData{"Action"}</h1>
+    <h1>$Text{"GenericInterface Webservice Management"} - $QData{"Action"}</h1>
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
 <!-- dtl:block:WebservicePathElement -->
@@ -128,12 +128,11 @@
 <!-- dtl:block:ActionHistory -->
                     <li>
                         <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="History"/>
+                            <input type="hidden" name="Action" value="AdminGenericInterfaceWebserviceHistory"/>
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction History W75pc HideActionOnChange" type="submit"><span>$Text{"History"}</span></button>
+                            <button class="CallForAction History W75pc HideActionOnChange" type="submit"><span>$Text{"Configuration history"}</span></button>
                             <br/>
                         </form>
                     </li>
