@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.49 2011-05-23 12:03:33 mg Exp $
+# $Id: Installer.dtl,v 1.50 2011-05-23 12:52:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,6 +99,7 @@
                     <p>OTRS Solution Shd Bdn</p>
                     <p>No 17-1B, Jalan Puteri 2/7, Bandar Puteri, 47100 Puchong</p>
                     <p>Selangor</p>
+                    <p>$Text{"Phone"}: +603 8065-1323</p>
                 </div>
                 <div class="Size1of2">
                     <h4>Hong Kong</h4>
