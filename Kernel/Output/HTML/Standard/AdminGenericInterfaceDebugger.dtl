@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.16 2011-05-19 10:28:55 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.17 2011-05-23 17:12:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@
                 <div class="LayoutGrid ColumnsWithSpacing">
                     <div class="Size1of2">
                         <div id="RequestListContainer"><!-- needed for CSS to limit table height -->
-                            <table class="DataTable" id="RequestList">
+                            <table class="DataTable" id="RequestList" summary="List of webservice communications recorded by the debugger with the applied filter">
                                 <thead>
                                     <tr>
                                         <th>$Text{"Type"}</th>
@@ -102,7 +102,7 @@
                             <div class="Clear"></div>
 
                             <div class="Field">
-                                <button type="button" id="FilterRefresh" val="$Text{"Refresh"}">$Text{"Refresh"}</button>
+                                <button type="button" id="FilterRefresh" value="$Text{"Refresh"}">$Text{"Refresh"}</button>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
