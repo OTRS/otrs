@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceDebugger.js - provides the special module functions for the GenericInterface debugger.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceDebugger.js,v 1.4 2011-05-19 10:24:12 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceDebugger.js,v 1.5 2011-05-24 07:36:39 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -67,6 +67,8 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
         $('.RequestListWidget').addClass('Loading');
 
         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+            var HTML = '';
+
             if (!Response || !Response.LogData) {
                 alert(TargetNS.Localization.CommunicationErrorMsg);
                 return;
@@ -76,29 +78,29 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
 
             if (!Response.LogData.length) {
                 $('#RequestList tbody').empty().append('<tr><td colspan="3">' + TargetNS.Localization.NoDataFoundMsg + '</td></tr>');
+                return;
             }
-            else {
-                $('#RequestList tbody').empty();
 
-                $.each(Response.LogData, function(){
-                    var $Tr = $('<tr></tr>');
+            $('#RequestList tbody').empty();
 
-                    $Tr.append('<td><a href="#" class="AsBlock">' + this.CommunicationType + '<input type="hidden" class="CommunicationID" value="' + this.CommunicationID + '" /></a></td>');
-                    $Tr.append('<td><a href="#" class="AsBlock">' + this.Created + '</a></td>');
-                    $Tr.append('<td><a href="#" class="AsBlock">' + (this.RemoteIP || '-') + '</a></td>');
+            $.each(Response.LogData, function(){
+                HTML += '<tr>';
+                HTML += '<td><a href="#" class="AsBlock">' + this.CommunicationType + '<input type="hidden" class="CommunicationID" value="' + this.CommunicationID + '" /></a></td>';
+                HTML += '<td><a href="#" class="AsBlock">' + this.Created + '</a></td>';
+                HTML += '<td><a href="#" class="AsBlock">' + (this.RemoteIP || '-') + '</a></td>';
+                HTML += '</tr>';
+            });
 
-                    $('#RequestList').append($Tr);
-                });
+            $('#RequestList tbody').html(HTML);
 
-                $('#RequestList a').bind('click', function(Event) {
-                    var CommunicationID = $(this).blur().parents('tr').find('input.CommunicationID').val();
+            $('#RequestList a').bind('click', function(Event) {
+                var CommunicationID = $(this).blur().parents('tr').find('input.CommunicationID').val();
 
-                    TargetNS.LoadCommunicationDetails(CommunicationID);
+                TargetNS.LoadCommunicationDetails(CommunicationID);
 
-                    return false;
-                });
+                return false;
+            });
 
-            }
         }, 'json');
     };
 
