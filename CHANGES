@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1884 2011-05-20 14:51:35 mb Exp $
+# $Id: CHANGES,v 1.1885 2011-05-24 09:14:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,10 @@
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
      of > 70 characters exists.
 
-3.0.8 2011-??-??
+3.0.9 2011-??-??
+ - 2011-05-24 Fixed bug#7328 - PostMastFollowUp.pm value assignment issue.
+
+3.0.8 2011-05-24
  - 2011-05-19 Updated Japanese translation, thanks to Kaz Kamimura!
  - 2011-05-19 Fixed bug#7332 - Some buttons are not shown in the AdminSysConfig in IE7.
  - 2011-05-16 Fixed bug#7300 - Wrong dropdown pre-selection in AdminQueue.
