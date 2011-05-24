@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.78 2011-05-20 14:51:35 mb Exp $
+# $Id: Ticket.t,v 1.79 2011-05-24 14:12:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5700,7 +5700,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     my @TicketIDs;
     my %ArticleIDs;
     my $NamePrefix = "ArticleStorageSwitch ($SourceBackend)";
-    for my $File (qw(1 2 3 4 5 6 7 8 9 10 11)) {
+    for my $File (qw(1 2 3 4 5 6 7 8 9 10 11 20)) {
 
         my $NamePrefix = "$NamePrefix #$File ";
 
@@ -5730,7 +5730,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         );
         $Self->True(
             $Return[1] || 0,
-            $NamePrefix . ' Run() - NewTicket/TicketID',
+            $NamePrefix . " Run() - NewTicket/TicketID:$Return[1]",
         );
 
         # remember created tickets
@@ -5792,7 +5792,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             );
             $Self->True(
                 $Success,
-                "$NamePrefix - backend move",
+                "$NamePrefix - backend move TicketID:$TicketID",
             );
         }
 
