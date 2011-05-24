@@ -3,7 +3,7 @@
 # bin/otrs.PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PendingJobs.pl,v 1.6 2011-05-24 11:25:58 mb Exp $
+# $Id: otrs.PendingJobs.pl,v 1.7 2011-05-24 11:28:16 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -172,6 +172,8 @@ if (@PendingReminderStateIDs) {
             UserID   => 1,
         );
 
+        next TICKETID if $Ticket{UntilTime} >= 1;
+
         # check if it is during business hours, then send reminder
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
@@ -189,8 +191,6 @@ if (@PendingReminderStateIDs) {
             }
             next TICKETID;
         }
-
-        next TICKETID if $Ticket{UntilTime} >= 1;
 
         # send the reminder to the ticket owner, if ticket is locked
         my @UserID;
