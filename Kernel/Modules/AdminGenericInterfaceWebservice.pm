@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.18 2011-05-24 15:48:01 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.19 2011-05-24 16:54:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -291,7 +291,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $Success = $Self->{WebserviceObject}->WebserviceAdd(
+        my $ID = $Self->{WebserviceObject}->WebserviceAdd(
             Name    => $WebserviceData->{Name},
             Config  => $WebserviceData->{Config},
             ValidID => $WebserviceData->{ValidID},
@@ -299,11 +299,14 @@ sub Run {
         );
 
         # show error if cant create
-        if ( !$Success ) {
+        if ( !$ID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the webservice",
             );
         }
+
+        # set WebserviceID to the new created web service
+        $WebserviceID = $ID;
 
         # define notification
         my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
@@ -685,7 +688,6 @@ sub _ShowEdit {
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
-            Name => 'Web Services',
             Link => 'Action=AdminGenericInterfaceWebservice',
             Nav  => '',
         },
