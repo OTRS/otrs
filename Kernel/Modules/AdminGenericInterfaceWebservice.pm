@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.20 2011-05-24 17:36:18 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.21 2011-05-24 17:43:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -123,7 +123,6 @@ sub Run {
         $WebserviceData->{Config}->{Name}                       = $GetParam->{Name};
         $WebserviceData->{Config}->{Description}                = $GetParam->{Description};
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
-        $WebserviceData->{Config}->{Protocol}                   = $GetParam->{Protocol};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
         $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
         $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
@@ -242,7 +241,6 @@ sub Run {
         $WebserviceData->{Config}->{Name}                       = $GetParam->{Name};
         $WebserviceData->{Config}->{Description}                = $GetParam->{Description};
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
-        $WebserviceData->{Config}->{Protocol}                   = $GetParam->{Protocol};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
         $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
         $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
@@ -636,7 +634,6 @@ sub _ShowOverview {
                 Name         => $Webservice->{Name},
                 Description  => $Webservice->{Config}->{Description} || '-',
                 RemoteSystem => $Webservice->{Config}->{RemoteSystem} || '-',
-                Protocol     => $Webservice->{Config}->{Protocol},
                 ProviderTransport =>
                     $Webservice->{Config}->{Provider}->{Transport}->{Type} || '-',
                 RequesterTransport =>
@@ -759,7 +756,6 @@ sub _ShowEdit {
         Name         => $WebserviceData->{Name},
         Description  => $WebserviceData->{Config}->{Description},
         RemoteSystem => $WebserviceData->{Config}->{RemoteSystem},
-        Protocol     => $WebserviceData->{Config}->{Protocol},
     );
 
     # define the debug Thresholds (this needs to be hardcoded)
@@ -987,7 +983,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name Description RemoteSystem Protocol DebugThreshold ValidID )
+        qw( Name Description RemoteSystem DebugThreshold ValidID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
