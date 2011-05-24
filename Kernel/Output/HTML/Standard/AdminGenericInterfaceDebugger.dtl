@@ -2,19 +2,19 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.18 2011-05-24 07:37:16 mg Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.19 2011-05-24 15:48:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceDebugger">
-    <h1>$Text{"GenericInterface Debugger for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"GenericInterface Debugger for Web Service %s", "$Data{"WebserviceName"}"}</h1>
 <!-- breadcrumb -->
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Webservices"}</a>
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
@@ -32,13 +32,13 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
                     </li>
                     <li>
                         <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Clear"}</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
                             <p id="DeleteDialog" class="Warning">
-                                $Text{"Do you really want to clear the debug log of this webservice?"}
+                                $Text{"Do you really want to clear the debug log of this web service?"}
                             </p>
                         </div>
                     </li>

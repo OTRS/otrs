@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.4 2011-05-23 11:31:52 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.5 2011-05-24 15:48:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,10 @@
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceOperationDefault">
 <!-- dtl:block:TitleAdd -->
-    <h1>$Text{"Add new Operation to Webservice %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"Add new Operation to Web Service %s", "$Data{"WebserviceName"}"}</h1>
 <!-- dtl:block:TitleAdd -->
 <!-- dtl:block:TitleChange -->
-    <h1>$Text{"Change Operation %s of Webservice %s", "$Data{"Operation"}", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"Change Operation %s of Web Service %s", "$Data{"Operation"}", "$Data{"WebserviceName"}"}</h1>
 <!-- dtl:block:TitleChange -->
 <!-- breadcrumb -->
     <div class="GenericInterfaceWebserviceConfigPath">
@@ -42,7 +42,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
                     </li>
 <!-- dtl:block:ActionListDelete -->
                     <li>
@@ -80,9 +80,9 @@
                             <input type="text" class="W50pc RegisterChange ValidateRequired $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
                             <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
                             <p class="FieldExplanation">
-                                $Text{"The name is typically used to call up this webservice operation from a remote system."}
+                                $Text{"The name is typically used to call up this web service operation from a remote system."}
                                 <div id="OperationError" class="TooltipErrorMessage">
-                                    $Text{"This field is required."} $Text{"Please provide a unique name for this webservice."}
+                                    $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
                                 </div>
                                 <div id="OperationServerError" class="TooltipErrorMessage">
                                     $Text{"The name you entered already exists."}

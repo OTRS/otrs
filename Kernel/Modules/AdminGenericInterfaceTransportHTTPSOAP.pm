@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.3 2011-05-18 22:05:40 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.4 2011-05-24 15:48:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -212,7 +212,7 @@ sub _ShowEdit {
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
-            Name => 'Webservices',
+            Name => 'Web Services',
             Link => 'Action=AdminGenericInterfaceWebservice',
             Nav  => '',
         },

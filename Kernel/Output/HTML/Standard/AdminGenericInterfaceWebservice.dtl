@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.20 2011-05-24 09:46:13 mb Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.21 2011-05-24 15:48:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Main -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"GenericInterface Webservice Management"} - $QData{"Action"}</h1>
+    <h1>$Text{"GenericInterface Web Service Management"} - $QData{"Action"}</h1>
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
 <!-- dtl:block:WebservicePathElement -->
@@ -50,14 +50,14 @@
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Plus W75pc" type="submit"><span>$Text{"Add webservice"}</span></button>
+                            <button class="CallForAction Plus W75pc" type="submit"><span>$Text{"Add web service"}</span></button>
                             <br/>
                         </form>
                     </li>
 <!-- dtl:block:ActionAdd -->
 <!-- dtl:block:ActionClone -->
                     <li>
-                        <button id="CloneButton" class="CallForAction Clone W75pc HideActionOnChange" type="submit"><span>$Text{"Clone webservice"}</span></button>
+                        <button id="CloneButton" class="CallForAction Clone W75pc HideActionOnChange" type="submit"><span>$Text{"Clone web service"}</span></button>
                         <div class="Hidden" id="CloneDialogContainer">
                             <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="CloneForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="CloneForm" class="Validate PreventMultipleSubmits">
@@ -92,14 +92,14 @@
                             <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}"/>
                             <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Upload W75pc HideActionOnChange" type="submit"><span>$Text{"Export webservice"}</span></button>
+                            <button class="CallForAction Download W75pc HideActionOnChange" type="submit"><span>$Text{"Export web service"}</span></button>
                             <br/>
                         </form>
                     </li>
 <!-- dtl:block:ActionExport -->
 <!-- dtl:block:ActionImport -->
                     <li>
-                        <button id="ImportButton" class="CallForAction Download W75pc " type="button"><span>$Text{"Import webservice"}</span></button>
+                        <button id="ImportButton" class="CallForAction Upload W75pc " type="button"><span>$Text{"Import web service"}</span></button>
                         <div class="Hidden" id="ImportDialogContainer">
                             <div id="ImportDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="ImportForm" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="ImportForm" class="Validate PreventMultipleSubmits">
@@ -111,7 +111,7 @@
                                         <div class="Field">
                                             <input id="ConfigFile" class=" W75pc Validate_Required" type="file" maxlength="250" value="" name="ConfigFile"/>
                                             <div id="ConfigFileError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                            <div class="FieldExplanation">the file must be a valid webservice configuration YAML file.</div>
+                                            <div class="FieldExplanation">the file must be a valid web service configuration YAML file.</div>
                                         </div>
                                         <div class="Clear"></div>
                                     </fieldset>
@@ -139,11 +139,11 @@
 <!-- dtl:block:ActionHistory -->
 <!-- dtl:block:ActionDelete -->
                     <li>
-                        <button id="DeleteButton" class="CallForAction Trash W75pc" type="button"><span>$Text{"Delete webservice"}</span></button>
+                        <button id="DeleteButton" class="CallForAction Trash W75pc" type="button"><span>$Text{"Delete web service"}</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
                             <div id ="DeleteDialog" class="InnerContent GenericInterfaceDialog">
                                 <span class="WarningDialog "></span>
-                                <p class="Center">$Text{"Are you sure to that you want to delete this webservice?"}</p>
+                                <p class="Center">$Text{"Are you sure to that you want to delete this web service?"}</p>
                                 <div class="SpacingTop"></div>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
 <!-- dtl:block:OverviewHeader -->
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Webservice List"}</h2>
+                <h2>$Text{"Web Service List"}</h2>
             </div>
 <!-- dtl:block:OverviewHeader -->
 <!-- dtl:block:OverviewResult -->

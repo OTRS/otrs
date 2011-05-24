@@ -2,14 +2,14 @@
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.4 2011-05-18 22:12:46 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.5 2011-05-24 15:48:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPSOAP">
-    <h1>$Text{"GenericInterface TransportHTTPSOAP for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"GenericInterface Transport HTTP::SOAP for Web Service %s", "$Data{"WebserviceName"}"}</h1>
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
 <!-- dtl:block:WebservicePathElement -->
@@ -34,7 +34,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
                     </li>
                 </ul>
             </div>
