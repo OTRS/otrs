@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.21 2011-05-24 15:48:01 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.22 2011-05-24 17:36:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,7 +193,8 @@
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Description"}</th>
                             <th>$Text{"Remote System"}</th>
-                            <th>$Text{"Protocol"}</th>
+                            <th>$Text{"Provider Transport"}</th>
+                            <th>$Text{"Requester Transport"}</th>
                             <th>$Text{"Validity"}</th>
                         </tr>
                     </thead>
@@ -213,7 +214,8 @@
                             </td>
                             <td>$QData{"Description"}</td>
                             <td>$QData{"RemoteSystem"}</td>
-                            <td>$QData{"Protocol"}</td>
+                            <td>$QData{"ProviderTransport"}</td>
+                            <td>$QData{"RequesterTransport"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
