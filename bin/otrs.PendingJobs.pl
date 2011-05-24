@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PendingJobs.pl,v 1.5 2010-08-25 11:59:14 martin Exp $
+# $Id: otrs.PendingJobs.pl,v 1.6 2011-05-24 11:25:58 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -62,7 +62,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "otrs.PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -120,7 +120,11 @@ if (@PendingAutoStateIDs) {
             next TICKETID;
         }
 
-        if ( $States{ $Ticket{State} } =~ /^close/i ) {
+        # get state type for new state
+        my %State = $CommonObject{StateObject}->StateGet(
+            Name => $States{ $Ticket{State} },
+        );
+        if ( $State{TypeName} eq 'closed' ) {
 
             # set new ticket lock
             $CommonObject{TicketObject}->LockSet(
@@ -142,7 +146,7 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Result => 'ID',
 );
 
-# check if pendig time has reached and send notification
+# check if pending time has been reached and send notification
 if (@PendingReminderStateIDs) {
 
     # ask the database
@@ -168,7 +172,7 @@ if (@PendingReminderStateIDs) {
             UserID   => 1,
         );
 
-        # check if it is during bussines hours, then send escalation info
+        # check if it is during business hours, then send reminder
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
             StopTime => $CommonObject{TimeObject}->SystemTime(),
@@ -180,7 +184,7 @@ if (@PendingReminderStateIDs) {
                 $CommonObject{LogObject}->Log(
                     Priority => 'debug',
                     Message =>
-                        "Send not pending for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
+                        "Did not send pending reminder for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because it's currently outside business hours!",
                 );
             }
             next TICKETID;
