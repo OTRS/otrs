@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1885 2011-05-24 09:14:08 mb Exp $
+# $Id: CHANGES,v 1.1886 2011-05-24 10:49:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,6 +60,7 @@
      of > 70 characters exists.
 
 3.0.9 2011-??-??
+ - 2011-05-24 Fixed bug#6896 - Small inconcistencies in German translation for AgentTicketBulk screen.
  - 2011-05-24 Fixed bug#7328 - PostMastFollowUp.pm value assignment issue.
 
 3.0.8 2011-05-24

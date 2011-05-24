@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.66 2011-04-27 20:21:22 mb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.67 2011-05-24 10:48:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@ $Include{"RichTextEditor"}
                     <div class="Field">
                         <div>
                             <input type="radio" name="MergeToSelection" id="OptionMergeTo" value="OptionMergeTo" $Data{"MergeToChecked"}/>
-                            <label for="MergeTo">$Text{"Merge to"}:</label>
+                            <label for="MergeTo">$Text{"Merge to"} $Config{"Ticket::Hook"}:</label>
                             <input type="text" class="$Data{"MergeToInvalid"} W50pc" id="MergeTo" name="MergeTo" value="$QData{"MergeTo"}"/>
                             <div id="MergeToServerError" class="TooltipErrorMessage"><p>$Text{"Invalid ticket identifier!"}</p></div>
                         </div>
