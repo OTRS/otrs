@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.7 2011-05-18 08:45:36 mn Exp $
+# $Id: de.pm,v 1.265.2.8 2011-05-24 10:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.7 $) [1];
+$VERSION = qw($Revision: 1.265.2.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -637,6 +637,7 @@ sub Data {
         'Agent (All with write permissions)' => 'Agent (alle mit Schreibberechtigung)',
         'Agent (Owner)' => 'Agent (Besitzer)',
         'Agent (Responsible)' => 'Agent (Verantwortlicher)',
+        'Ticket is locked by another agent.' => 'Das Ticket ist für einen anderen Agenten gesperrt.',
         'New ticket notification' => 'Mitteilung bei neuem Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
         'Send new ticket notifications' => 'Benachrichtigung über neue Tickets senden',
@@ -1522,13 +1523,13 @@ sub Data {
         'Need a valid email address or don\'t use a local email address.' => 'Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse.',
         'Next ticket state' => 'Nächster Status des Tickets',
         'Inform sender' => 'Sender informieren',
-        'Send mail!' => 'Mail abschicken!',
+        'Send mail!' => 'Mail übermitteln',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket Sammelaktion',
         'Merge to' => 'Zusammenfassen zu',
         'Invalid ticket identifier!' => 'Ungültiger Ticket-Identifizierer!',
-        'Merge to oldest' => 'Zusammenfassen zu Ältesten',
+        'Merge to oldest' => 'Zusammenfassen zu Ältestem',
         'Link together' => 'Zusammen verlinken',
         'Link to parent' => 'Mit Eltern verknüpfen',
         'Unlock tickets' => 'Tickets entsperren',
