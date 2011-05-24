@@ -2,19 +2,19 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.3 2011-05-23 17:43:43 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.4 2011-05-24 23:08:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceWebserviceHistory">
-    <h1>$Text{"GenericInterface WebserviceHistory for Webservice %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"GenericInterface History for Web Service %s", "$Data{"WebserviceName"}"}</h1>
 <!-- breadcrumb -->
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Webservices"}</a>
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
@@ -32,7 +32,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to webservice"}</span></a>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to Web Service"}</span></a>
                     </li>
                 </ul>
             </div>
@@ -43,17 +43,17 @@
         <div class="WidgetSimple WebserviceListWidget">
             <div class="Header">
                 <h2>
-                    $Text{"Webservice history List"}
+                    $Text{"Web Service history List"}
                 </h2>
             </div>
             <div class="Content">
                 <div class="ColumnsWithSpacing">
                     <div class="W75pc">
-                        <div id="WebserviceListContainer" class="ListContainer"><!-- needed for CSS to limit table height -->
+                        <div id="WebserviceListContainer" class="ListContainer">
                             <table class="DataTable" id="WebserviceList">
                                 <thead>
                                     <tr>
-                                        <th>$Text{"number"}</th>
+                                        <th>$Text{"Version"}</th>
                                         <th>$Text{"Create time"}</th>
                                     </tr>
                                 </thead>
@@ -64,18 +64,27 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p class="FieldExplanation">$Text{"Select a single webservice config to see its details."}</p>
+                        <p class="FieldExplanation">$Text{"Select a single Web Service config to see its details."}</p>
                     </div>
                     <div class="Clear"></div>
                 </div>
             </div>
         </div>
 
-        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails">
-            <div class="Header">
-                <h2>$Text{"Webservice History Details"}</h2>
-            </div>
-            <div class="Content"></div>
+        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails"></div>
+
+        <div class="Hidden" id="RollbackDialogContainer">
+            <p id="RollbackDialog" class="Warning">
+                $Text{"Do you really want to rollback this web service?"}
+            </p>
+        </div>
+        <div class="Hidden">
+            <form action="$Env{"CGIHandle"}" method="post" id="ActionForm">
+                <input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action">
+                <input type="hidden" value="" name="Subaction" id="Subaction">
+                <input type="hidden" value="$QData{"WebserviceID"}" name="WebserviceID">
+                <input type="hidden" value="" name="WebserviceHistoryID" id="WebserviceHistoryID">
+            </form>
         </div>
     </div>
     <div class="Clear"></div>
@@ -90,13 +99,11 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
         WebserviceHistoryErrorMsg: '$JSText{"An error occurred during communication."}',
         NoDataFoundMsg: '$JSText{"No data found."}',
         ToggleContentMsg: '$JSText{"Show or hide the content."}',
-        ClearDebugLogMsg: '$JSText{"Clear debug log"}',
-        ClearMsg: '$JSText{"Clear"}',
+        RollbackLogMsg: '$JSText{"Rollback Web Service"}',
+        RollbackMsg: '$JSText{"Rollback"}',
         CancelMsg: '$JSText{"Cancel"}'
     }
 });
-
-$('#Refresh').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList);
 
 //Load Webservice list on startup without active filter
 Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList();

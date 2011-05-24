@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.3 2011-05-23 17:43:24 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.4 2011-05-24 23:09:47 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,15 +54,17 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
             }
             else {
                 $('#WebserviceList tbody').empty();
+                var HTML = '';
 
                 $.each(Response.LogData, function(){
-                    var $Tr = $('<tr></tr>');
+                    HTML += '<tr>';
 
-                    $Tr.append('<td><a href="#" class="AsBlock">' + this.ID + '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" /></a></td>');
-                    $Tr.append('<td><a href="#" class="AsBlock">' + this.CreateTime + '</a></td>');
+                    HTML += '<td><a href="#" class="AsBlock">' + this.ID + '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" /></a></td>';
+                    HTML += '<td><a href="#" class="AsBlock">' + this.CreateTime + '</a></td>';
+                    HTML += '</tr>';
 
-                    $('#WebserviceList').append($Tr);
                 });
+                $('#WebserviceList tbody').html(HTML);
 
                 $('#WebserviceList a').bind('click', function(Event) {
                     var WebserviceHistoryID = $(this).blur().parents('tr').find('input.WebserviceHistoryID').val();
@@ -94,55 +96,78 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 return;
             }
 
-            $('#WebserviceHistoryDetails > .Content').empty();
+            $('#WebserviceHistoryDetails').empty();
             $('.WebserviceListWidget').removeClass('Loading');
 
             if (!Response.LogData.Config) {
-                $('#WebserviceHistoryDetails > .Content').append('<p class="ErrorMessage">' + TargetNS.Localization.NoDataFoundMsg + '</p>');
+                $('#WebserviceHistoryDetails').append('<p class="ErrorMessage">' + TargetNS.Localization.NoDataFoundMsg + '</p>');
                 $('#WebserviceHistoryDetails').css('visibility', 'visible').show();
             }
             else {
-                    var $Container = $('<div class="WidgetSimple"></div>'),
-                        $Header = $('<div class="Header"></div>'),
-                        $Content = $('<div class="Content"></div>'),
-                        $Fieldset = $('<fieldset class="TableLike"></fieldset>'),
-                        $ExportForm    = $(
-                            '<div class="Field">' +
-                            '<form method="post" action="' + Core.Config.Get('CGIHandle') + '">' +
-                            '<input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action">' +
-                            '<input type="hidden" value="Export" name="Subaction">' +
-                            '<input type="hidden" value="'+ TargetNS.WebserviceID +'" name="WebserviceID">' +
-                            '<input type="hidden" value="'+ WebserviceHistoryID +'" name="WebserviceHistoryID">' +
-                            '<input type="hidden" value="" name="Nav">' +
-                            '<button type="submit" class="CallForAction Upload"><span>Export webservice</span></button>' +
-                            '</form>' +
-                            '<div>' +
-                            '<div class="Clear"></div>'
-                        );
+                var $Container = $('<div class="WidgetSimple Expanded"></div>'),
+                    HTML =
+                    '<div class="Header">' +
+                    '    <h2>History Details: Version ' + Response.LogData.ID + ', ' + Response.LogData.CreateTime +  '</h2>' +
+                    '</div>' +
+//                    '<div class="OverviewActions">' +
+//                    '    <ul class="Actions">' +
+//                    '        <li class="Bulk" id="ExportButton">' +
+//                    '            <span>Export Web Service</span>' +
+//                    '        </li>' +
+//                    '        <li class="Bulk" id="RollbackButton">' +
+//                    '            <span>' + TargetNS.Localization.RollbackLogMsg + '</span>' +
+//                    '        </li>' +
+//                    '    </ul>' +
+//                    '<div>' +
+                    '<div class="Spacing">' +
+                    '<pre><code>' + Response.LogData.Config + '</code></pre> </br>' +
+                  '<button type="submit" class="Spacing" id="ExportButton"><span>Export Web Service</span></button>' +
+                  '<button type="submit" class="Spacing" id="RollbackButton"><span>' + TargetNS.Localization.RollbackLogMsg + '</span></button>' +
+                  '<div>';
 
-                    $Container.append($Header);
+                $('#WebserviceHistoryDetails').append(HTML);
 
-                    $Fieldset.append('<label for="Config">Number:</label>' +
-                            '<div class="Field">' + Response.LogData.ID + '<div class="Clear"></div>'
-                    );
-                    $Fieldset.append('<label for="Config">Create time:</label>' +
-                            '<div class="Field">' + Response.LogData.CreateTime + '<div class="Clear"></div>'
-                    );
+                $('#WebserviceHistoryID').attr('value',WebserviceHistoryID);
+                $('#ExportButton').bind('click', function(){
+                    $('#Subaction').attr('value','Export');
+                    $('#ActionForm').submit();
+                });
+                $('#RollbackButton').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.ShowRollbackDialog);
 
-                    $Fieldset.append('<label for="Config">Config:</label>' +
-                        '<div class="Field"><textarea id="Config" rows="10" cols="80">' + Response.LogData.Config + '</textarea></div>'
-                        + '<div class="Clear"></div>'
-                    );
-
-                    $Fieldset.append($ExportForm);
-
-                    $Content.append($Fieldset);
-
-                    $('#WebserviceHistoryDetails > .Content').append($Content);
                 $('#WebserviceHistoryDetails').css('visibility', 'visible').show();
                 Core.UI.InitWidgetActionToggle();
             }
         }, 'json');
+    };
+
+
+    TargetNS.ShowRollbackDialog = function(Event){
+
+        Core.UI.Dialog.ShowContentDialog(
+            $('#RollbackDialogContainer'),
+            TargetNS.Localization.RollbackLogMsg,
+            '240px',
+            'Center',
+            true,
+            [
+               {
+                   Label: TargetNS.Localization.RollbackLogMsg,
+                   Function: function () {
+                       $('#Subaction').attr('value','Rollback');
+                       $('#ActionForm').submit();
+                   }
+               },
+               {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('#RollbackDialog'));
+                   }
+               }
+           ]
+        );
+
+        Event.stopPropagation();
+        return false;
     };
 
 
