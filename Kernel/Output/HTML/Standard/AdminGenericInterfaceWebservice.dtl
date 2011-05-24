@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.26 2011-05-24 20:37:15 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.27 2011-05-24 21:53:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -178,7 +178,7 @@
                 </p>
                 <br/>
                 <p>
-                    $Text{"If you want to return to overview please click on the "Go to overview button."}
+                    $Text{"If you want to return to overview please click on the "Go to overview" button."}
                 </p>
             </div>
         </div>
