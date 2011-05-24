@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.24 2011-05-24 18:11:14 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.25 2011-05-24 18:51:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -308,9 +308,9 @@
                             </fieldset>
                             <div class="SpacingTop"></div>
                             <div class="Header">
-                                <h4 class="HideOnChange">$Text{"$Data{"ActionsTitle"}"}</h4>
+                                <h4>$Text{"$Data{"ActionsTitle"}"}</h4>
                             </div>
-                            <table class="DataTable HideOnChange" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
+                            <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
                                     <tr>
                                         <th>$Text{"Name"}</th>
@@ -324,7 +324,7 @@
 <!-- dtl:block:DetailsActionsRow -->
                                     <tr>
                                         <td>
-                                            <a class="AsBlock" href="$Env{"Baselink"}Action=$LQData{"Module"};$Data{"ActionLink"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
+                                            <a class="AsBlock HideLinkOnChange" href="$Env{"Baselink"}Action=$LQData{"Module"};$Data{"ActionLink"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
                                         </td>
                                         <td>$QData{"Description"}</td>
                                         <td>$QData{"Controller"}</td>
