@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.23 2011-05-24 18:11:15 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.24 2011-05-24 20:37:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -487,6 +487,11 @@ sub Run {
             );
         }
 
+        # check if imported configuration has current framework version otherwise update it
+        if ( $ImportedConfig->{FrameworkVersion} ne $Self->{FrameworkVersion} ) {
+            $ImportedConfig = $Self->_UpdateConfiguration( Configuration => $ImportedConfig );
+        }
+
         # get webservice name
         my $WebserviceName = $ImportedConfig->{Name};
 
@@ -755,6 +760,7 @@ sub _ShowEdit {
             Data => \%Param,
         );
     }
+    $Self->{LayoutObject}->Block( Name => 'Hint' );
 
     my %GeneralData = (
         Name         => $WebserviceData->{Name},
@@ -791,6 +797,11 @@ sub _ShowEdit {
         Translate    => 1,
         Class        => 'HideTrigger',
     );
+
+    # prevent html validation waring
+    if ( !$Param{NameServerErrorMessage} ) {
+        $Param{NameServerErrorMessage} = '-';
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'Details',
@@ -883,7 +894,7 @@ sub _ShowEdit {
             Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
             Sort         => 'AlphanumericValue',
             PossibleNone => 1,
-            Class        => 'HideOnChange',
+            Class        => 'HideOnChange GenericInterfaceSpacing',
         );
 
         $Self->{LayoutObject}->Block(
@@ -922,8 +933,7 @@ sub _ShowEdit {
                     MappingInbound  => $ActionDails->{MappingInbound}->{Type} || '-',
                     MappingOutbound => $ActionDails->{MappingOutbound}->{Type} || '-',
                     Module          => $GIControllers{ $ActionDails->{Type} },
-                    ActionLink      => $CommTypeConfig{$CommunicationType}->{ActionType} . "="
-                        . $ActionName,
+                    ActionType      => $CommTypeConfig{$CommunicationType}->{ActionType},
                 );
 
                 $Self->{LayoutObject}->Block(
@@ -997,4 +1007,22 @@ sub _GetParams {
 
     return $GetParam;
 }
+
+sub _UpdateConfiguration {
+    my ( $Self, %Param ) = @_;
+
+    my $Configuration = $Param{Configuration};
+
+    # this function needs to be extended for further otrs versions
+    # it could be that newwer otrs versions has different configuration options
+    # migration from previos version sould be automatic and needs to be done here
+
+    # set framework version if is not present
+    if ( !$Configuration->{FrameworkVersion} ) {
+        $Configuration->{FrameworkVersion} = $Self->{FrameworkVersion};
+    }
+
+    return $Configuration;
+}
+
 1;
