@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.22 2011-05-24 17:50:42 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.23 2011-05-24 18:11:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -914,19 +914,15 @@ sub _ShowEdit {
                 my $ActionDails
                     = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
 
-                # set mapping string
-                my $Mapping = 'No';
-                if ( $ActionDails->{MappingInbound} or $ActionDails->{MappingInbound} ) {
-                    $Mapping = 'Yes';
-                }
-
                 # create output data
                 my %ActionData = (
-                    Name       => $ActionName,
-                    Controller => $ActionDails->{Type},
-                    Mapping    => $Mapping,
-                    Module     => $GIControllers{ $ActionDails->{Type} },
-                    ActionLink => $CommTypeConfig{$CommunicationType}->{ActionType} . "="
+                    Name            => $ActionName,
+                    Description     => $ActionDails->{Description} || '-',
+                    Controller      => $ActionDails->{Type},
+                    MappingInbound  => $ActionDails->{MappingInbound}->{Type} || '-',
+                    MappingOutbound => $ActionDails->{MappingOutbound}->{Type} || '-',
+                    Module          => $GIControllers{ $ActionDails->{Type} },
+                    ActionLink      => $CommTypeConfig{$CommunicationType}->{ActionType} . "="
                         . $ActionName,
                 );
 
