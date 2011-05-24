@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.19 2011-05-24 16:54:13 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.20 2011-05-24 17:36:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -634,10 +634,14 @@ sub _ShowOverview {
             my $Data = {
                 ID           => $WebserviceID,
                 Name         => $Webservice->{Name},
-                Description  => $Webservice->{Config}->{Description},
-                RemoteSystem => $Webservice->{Config}->{RemoteSystem},
+                Description  => $Webservice->{Config}->{Description} || '-',
+                RemoteSystem => $Webservice->{Config}->{RemoteSystem} || '-',
                 Protocol     => $Webservice->{Config}->{Protocol},
-                Valid        => $ValidStrg,
+                ProviderTransport =>
+                    $Webservice->{Config}->{Provider}->{Transport}->{Type} || '-',
+                RequesterTransport =>
+                    $Webservice->{Config}->{Requester}->{Transport}->{Type} || '-',
+                Valid => $ValidStrg,
             };
 
             $Self->{LayoutObject}->Block(
@@ -688,6 +692,7 @@ sub _ShowEdit {
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
+            Name => 'Web Services',
             Link => 'Action=AdminGenericInterfaceWebservice',
             Nav  => '',
         },
