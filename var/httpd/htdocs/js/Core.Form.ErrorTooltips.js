@@ -2,7 +2,7 @@
 // Core.UI.Tooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.6 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.7 2011-05-24 11:56:21 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -76,9 +76,9 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @return nothing
      *      This function hides the tooltip for an element
      */
-    function HideTooltip() {
+    TargetNS.HideTooltip = function() {
         $('#' + TooltipContainerID).hide().empty();
-    }
+    };
 
     /**
      * @function
@@ -97,7 +97,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         });
 
         $Element.unbind('blur.Tooltip');
-        $Element.bind('blur.Tooltip', HideTooltip);
+        $Element.bind('blur.Tooltip', TargetNS.HideTooltip);
     };
 
     /**
@@ -109,7 +109,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.RemoveTooltip = function ($Element) {
-        HideTooltip();
+        TargetNS.HideTooltip();
         $Element.unbind('focus.Tooltip');
         $Element.unbind('blur.Tooltip');
     };
@@ -132,7 +132,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function remove the tooltip from a rich text editor
      */
     function RemoveRTETooltip(Event) {
-        HideTooltip();
+        TargetNS.HideTooltip();
     }
 
     /**
@@ -163,7 +163,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].removeListener('focus', ShowRTETooltip);
         CKEDITOR.instances[ElementID].removeListener('blur', RemoveRTETooltip);
-        HideTooltip();
+        TargetNS.HideTooltip();
     };
 
     return TargetNS;

@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.33 2011-03-25 11:00:23 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.34 2011-05-24 11:56:21 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -159,6 +159,12 @@ Core.UI.Dialog = (function (TargetNS) {
         // this invokes the callback and the closing of the dialog
         function HandleClosingAction() {
             var $CloseButton = $('.Dialog:visible button.Close');
+
+            // Hide any possibly existing tooltips.
+            if (Core.Form && Core.Form.ErrorTooltips) {
+                Core.Form.ErrorTooltips.HideTooltip();
+            }
+
             if ($CloseButton.length) {
                 $CloseButton.trigger('click');
             }
@@ -374,7 +380,14 @@ Core.UI.Dialog = (function (TargetNS) {
         if (!(Params.NotDraggableIE7 && $.browser.msie && parseInt($.browser.version, 10) === 7)) {
             $Dialog.draggable({
                 containment: 'body',
-                handle: '.Header'
+                handle: '.Header',
+                start: function(Event, UI) {
+                    // Hide any possibly existing tooltips as they will not be moved
+                    //  with this dialog.
+                    if (Core.Form && Core.Form.ErrorTooltips) {
+                        Core.Form.ErrorTooltips.HideTooltip();
+                    }
+                }
             });
         }
 
