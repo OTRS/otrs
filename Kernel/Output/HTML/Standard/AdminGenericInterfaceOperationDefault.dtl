@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.6 2011-05-24 16:53:20 cr Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.7 2011-05-24 22:31:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,13 +81,13 @@
                             <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
                             <p class="FieldExplanation">
                                 $Text{"The name is typically used to call up this web service operation from a remote system."}
-                                <div id="OperationError" class="TooltipErrorMessage">
-                                    $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
-                                </div>
-                                <div id="OperationServerError" class="TooltipErrorMessage">
-                                    $Text{"The name you entered already exists."}
-                                </div>
                             </p>
+                            <div id="OperationError" class="TooltipErrorMessage">
+                                $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
+                            </div>
+                            <div id="OperationServerError" class="TooltipErrorMessage">
+                                $Text{"The name you entered already exists."}
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
