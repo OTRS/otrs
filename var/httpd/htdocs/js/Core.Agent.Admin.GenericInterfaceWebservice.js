@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.7 2011-05-20 15:18:31 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.8 2011-05-24 16:56:43 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,19 +40,19 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         $('#ImportButton').bind('click', TargetNS.ShowImportDialog);
 
         $('#ProviderTransportProperties').bind('click', function() {
-            TargetNS.Redirect('Webservice.Transport', 'ProviderTransportList', 'Provider');
+            TargetNS.Redirect('Webservice.Transport', 'ProviderTransportList', ';CommunicationType=Provider');
         });
 
         $('#RequesterTransportProperties').bind('click', function() {
-            TargetNS.Redirect('Webservice.Transport', 'RequesterTransportList', 'Requester');
+            TargetNS.Redirect('Webservice.Transport', 'RequesterTransportList', ';CommunicationType=Requester');
         });
 
         $('#OperationList').bind('change', function() {
-            TargetNS.Redirect('Webservice.Operation', 'OperationList', 'Provider');
+            TargetNS.Redirect('Webservice.Operation', 'OperationList', ';OperationType=' + $(this).val());
         });
 
         $('#InvokerList').bind('change', function() {
-            TargetNS.Redirect('Webservice.Invoker', 'InvokerList', 'Requester');
+            TargetNS.Redirect('Webservice.Invoker', 'InvokerList', ';InvokerType=' + $(this).val());
         });
 
         $('.HideTrigger').bind('change', function(){
@@ -160,7 +160,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         Event.stopPropagation();
     };
 
-    TargetNS.Redirect = function( ConfigKey, DataSource, CommunicationType ) {
+    TargetNS.Redirect = function( ConfigKey, DataSource, Parameters ) {
         var WebserviceConfigPart, Action, ConfigElement;
 
         // get configuration
@@ -176,7 +176,8 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             Action = WebserviceConfigPart[ ConfigElement ];
 
             // redirect to correct url
-            window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add;CommunicationType=' + CommunicationType + ';WebserviceID=' + TargetNS.WebserviceID;
+            window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + Parameters + ';WebserviceID=' + TargetNS.WebserviceID;
+
         }
     };
 
