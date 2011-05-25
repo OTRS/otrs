@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.3 2011-05-24 23:09:22 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.4 2011-05-25 17:19:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -46,8 +46,9 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceID        = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' );
     my $WebserviceHistoryID = $Self->{ParamObject}->GetParam( Param => 'WebserviceHistoryID' );
+
+    my $WebserviceID = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' );
     if ( !$WebserviceID ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Need WebserviceID!",
@@ -146,7 +147,6 @@ sub _GetWebserviceList {
         },
     );
 
-    #
     # send JSON response
     return $Self->{LayoutObject}->Attachment(
         ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
@@ -215,10 +215,7 @@ sub _ExportWebserviceHistory {
     my $YAMLContent = YAML::Dump( $WebserviceHistoryData->{Config} );
 
     # return yaml to download
-    my $YAMLFile
-        = $WebserviceHistoryData->{Config}->{Name}
-        || $Param{WebserviceData}->{Name}
-        || 'yamlfile';
+    my $YAMLFile = $Param{WebserviceData}->{Name} || 'yamlfile';
     return $Self->{LayoutObject}->Attachment(
         Filename    => $YAMLFile . '.yaml',
         ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
@@ -242,7 +239,7 @@ sub _RollbackWebserviceHistory {
 
     my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
         ID      => $WebserviceID,
-        Name    => $WebserviceHistoryData->{Config}->{Name} || $Param{WebserviceData}->{Name},
+        Name    => $Param{WebserviceData}->{Name},
         Config  => $WebserviceHistoryData->{Config},
         ValidID => $Param{WebserviceData}->{ValidID},
         UserID  => $Self->{UserID},
