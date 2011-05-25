@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.83 2011-04-27 20:21:23 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.84 2011-05-25 08:55:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,12 +35,28 @@ sub new {
         }
     }
 
-    $Self->{StateObject}     = Kernel::System::State->new(%Param);
-    $Self->{PriorityObject}  = Kernel::System::Priority->new(%Param);
-    $Self->{LinkObject}      = Kernel::System::LinkObject->new(%Param);
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+    $Self->{StateObject}       = Kernel::System::State->new(%Param);
+    $Self->{PriorityObject}    = Kernel::System::Priority->new(%Param);
+    $Self->{LinkObject}        = Kernel::System::LinkObject->new(%Param);
+    $Self->{CheckItemObject}   = Kernel::System::CheckItem->new(%Param);
+    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{Config}            = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+    # get form id for note
+    $Self->{NoteFormID} = $Self->{ParamObject}->GetParam( Param => 'NoteFormID' );
+
+    # create form id for note
+    if ( !$Self->{NoteFormID} ) {
+        $Self->{NoteFormID} = $Self->{UploadCacheObject}->FormIDCreate();
+    }
+
+    # get form id for email
+    $Self->{EmailFormID} = $Self->{ParamObject}->GetParam( Param => 'EmailFormID' );
+
+    # create form id for email
+    if ( !$Self->{EmailFormID} ) {
+        $Self->{EmailFormID} = $Self->{UploadCacheObject}->FormIDCreate();
+    }
 
     return $Self;
 }
@@ -64,7 +80,7 @@ sub Run {
     if ( !@TicketIDs ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No TicketID is given!',
-            Comment => 'You need minimum one selected ticket!',
+            Comment => 'You need at least one selected ticket!',
         );
     }
     my $Output .= $Self->{LayoutObject}->Header(
@@ -83,6 +99,7 @@ sub Run {
         for my $Key (
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
             Body ArticleTypeID ArticleType TypeID StateID State MergeToSelection MergeTo LinkTogether
+            EmailSubject EmailBody EmailTimeUnits
             LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked TimeUnits)
             )
         {
@@ -107,6 +124,8 @@ sub Run {
 
         # check some stuff
         if (
+            $GetParam{Subject}
+            &&
             $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
             && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             && $GetParam{TimeUnits} eq ''
@@ -115,12 +134,31 @@ sub Run {
             $Error{'TimeUnitsInvalid'} = 'ServerError';
         }
 
+        if (
+            $GetParam{EmailSubject}
+            &&
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            && $GetParam{EmailTimeUnits} eq ''
+            )
+        {
+            $Error{'EmailTimeUnitsInvalid'} = 'ServerError';
+        }
+
         # Body and Subject must both be filled in or both be empty
         if ( $GetParam{Subject} eq '' && $GetParam{Body} ne '' ) {
             $Error{'SubjectInvalid'} = 'ServerError';
         }
         if ( $GetParam{Subject} ne '' && $GetParam{Body} eq '' ) {
             $Error{'BodyInvalid'} = 'ServerError';
+        }
+
+        # Email Body and Email Subject must both be filled in or both be empty
+        if ( $GetParam{EmailSubject} eq '' && $GetParam{EmailBody} ne '' ) {
+            $Error{'EmailSubjectInvalid'} = 'ServerError';
+        }
+        if ( $GetParam{EmailSubject} ne '' && $GetParam{EmailBody} eq '' ) {
+            $Error{'EmailBodyInvalid'} = 'ServerError';
         }
 
         # check if pending date must be validated
@@ -314,6 +352,72 @@ sub Run {
                 );
             }
 
+            # send email
+            my $EmailArticleID;
+            if (
+                $GetParam{'EmailSubject'}
+                && $GetParam{'EmailBody'}
+                )
+            {
+                my $MimeType = 'text/plain';
+                if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                    $MimeType = 'text/html';
+
+                    # verify html document
+                    $GetParam{'EmailBody'} = $Self->{LayoutObject}->RichTextDocumentComplete(
+                        String => $GetParam{'EmailBody'},
+                    );
+                }
+
+                # get customer email address
+                my $Customer;
+                if ( $Ticket{CustomerUserID} ) {
+                    my %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Ticket{CustomerUserID}
+                    );
+                    if ( $Customer{UserEmail} ) {
+                        $Customer
+                            = "$Customer{UserFirstname} $Customer{UserLastname} <$Customer{UserEmail}>";
+                    }
+                }
+
+                # check if we have an address, otherwise deduct it from the articles
+                if ( !$Customer ) {
+                    my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                        TicketID => $Self->{TicketID}
+                    );
+
+                    # check article type and replace To with From (in case)
+                    if ( $Data{SenderType} !~ /customer/ ) {
+
+                        # replace From/To, To/From because sender is agent
+                        $Data{From} = $Data{To};
+                    }
+                    $Customer = $Data{From};
+                }
+
+                $GetParam{From}
+                    = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+
+                $EmailArticleID = $Self->{TicketObject}->ArticleCreate(
+                    TicketID    => $TicketID,
+                    ArticleType => 'email-external',
+                    SenderType  => 'agent',
+                    From        => $GetParam{From},
+                    To          => $Customer,
+                    Subject     => $GetParam{'EmailSubject'},
+                    Body        => $GetParam{'EmailBody'},
+                    MimeType    => $MimeType,
+                    Charset     => $Self->{LayoutObject}->{UserCharset},
+                    UserID      => $Self->{UserID},
+
+                    #                    Attachment     => \@AttachmentData,
+                    HistoryType    => 'SendAnswer',
+                    HistoryComment => '%%Bulk',
+                );
+
+            }
+
             # add note
             my $ArticleID;
             if (
@@ -381,7 +485,7 @@ sub Run {
                 }
             }
 
-            # time units
+            # time units for note
             if ( $GetParam{'TimeUnits'} ) {
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
                     $Self->{TicketObject}->TicketAccountTime(
@@ -400,6 +504,30 @@ sub Run {
                         TicketID  => $TicketID,
                         ArticleID => $ArticleID,
                         TimeUnit  => $GetParam{'TimeUnits'},
+                        UserID    => $Self->{UserID},
+                    );
+                }
+            }
+
+            # time units for email
+            if ( $GetParam{'EmailTimeUnits'} ) {
+                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
+                    $Self->{TicketObject}->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $EmailArticleID,
+                        TimeUnit  => $GetParam{'EmailTimeUnits'},
+                        UserID    => $Self->{UserID},
+                    );
+                }
+                elsif (
+                    !$Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime')
+                    && $Counter == 1
+                    )
+                {
+                    $Self->{TicketObject}->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $EmailArticleID,
+                        TimeUnit  => $GetParam{'EmailTimeUnits'},
                         UserID    => $Self->{UserID},
                     );
                 }
@@ -765,8 +893,32 @@ sub _Mask {
             ? 'Validate_Required'
             : ''
         );
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatoryEmail',
+                Data => \%Param,
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelEmail',
+                Data => \%Param,
+            );
+        }
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsEmail',
             Data => \%Param,
         );
     }
@@ -791,10 +943,14 @@ sub _Mask {
         );
     }
 
-    # add rich text editor
+    # add rich text editor for note & email
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'RichTextEmail',
             Data => \%Param,
         );
     }

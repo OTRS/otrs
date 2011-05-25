@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.67 2011-05-24 10:48:40 mb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.68 2011-05-25 08:55:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,8 @@
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="Do"/>
+    <input type="hidden" name="NoteFormID" value="$QData{"NoteFormID"}"/>
+    <input type="hidden" name="EmailFormID" value="$QData{"EmailFormID"}"/>
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
@@ -31,40 +33,121 @@
 <!-- dtl:block:UsedTicketID -->
                 <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
 <!-- dtl:block:UsedTicketID -->
-                <fieldset class="TableLike FixedLabel">
-                    <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
-                    <div class="Field">
-                        <input type="text" class="Validate_DependingRequiredAND Validate_Depending_Body $Data{"SubjectInvalid"} W75pc" id="Subject" name="Subject" value="$QData{"Subject"}" />
-                        <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                <div class="WidgetSimple SpacingTop Collapsed">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
+                        <h2>$Text{"Add Note"}</h2>
                     </div>
-                    <div class="Clear"></div>
+                    <div class="Content">
+
+                        <fieldset class="TableLike FixedLabel">
+                            <label class="Mandatory" for="Subject"><span class="Marker">*</span> $Text{"Subject"}:</label>
+                            <div class="Field">
+                                <input type="text" class="Validate_DependingRequiredAND Validate_Depending_Body $Data{"SubjectInvalid"} W75pc" id="Subject" name="Subject" value="$QData{"Subject"}" />
+                                <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
 
 <!-- dtl:block:SpellCheck -->
-                    <label>$Text{"Options"}:</label>
-                    <div class="Field">
-                        <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
-                    </div>
-                    <div class="Clear"></div>
+                            <label>$Text{"Options"}:</label>
+                            <div class="Field">
+                                <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
+                            </div>
+                            <div class="Clear"></div>
 <!-- dtl:block:SpellCheck -->
 
-                    <label class="Mandatory" for="Body"><span class="Marker">*</span> $Text{"Text"}:</label>
-                    <div class="RichTextField">
+                            <label class="Mandatory" for="Body"><span class="Marker">*</span> $Text{"Text"}:</label>
+                            <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                        <textarea id="Body" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                        <div id="BodyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                        <div id="BodyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                    </div>
-                    <div class="Clear"></div>
+                                <textarea id="Body" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                                <div id="BodyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="BodyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
 
-                    <label for="ArticleTypeID">$Text{"Note type"}:</label>
-                    <div class="Field">
-                        $Data{"NoteStrg"}
+                            <label for="ArticleTypeID">$Text{"Note type"}:</label>
+                            <div class="Field">
+                                $Data{"NoteStrg"}
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:TimeUnitsLabel -->
+                            <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabel -->
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+                            <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatory -->
+<!-- dtl:block:TimeUnits -->
+                            <div class="Field">
+                                <input type="text" class="Validate_TimeUnits W20pc $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}"/>
+                                <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                                <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:TimeUnits -->
+                        </fieldset>
                     </div>
-                    <div class="Clear"></div>
+                </div>
 
+                <div class="WidgetSimple SpacingTop Collapsed">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        </div>
+                        <h2>$Text{"Send Email"}</h2>
+                    </div>
+                    <div class="Content">
+
+                        <fieldset class="TableLike FixedLabel">
+                            <label class="Mandatory" for="EmailSubject"><span class="Marker">*</span> $Text{"Subject"}:</label>
+                            <div class="Field">
+                                <input type="text" class="Validate_DependingRequiredAND Validate_Depending_Body $Data{"SubjectInvalid"} W75pc" id="EmailSubject" name="EmailSubject" value="$QData{"EmailSubject"}" />
+                                <div id="EmailSubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="EmailSubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+
+<!-- dtl:block:SpellCheckEmail -->
+                            <label>$Text{"Options"}:</label>
+                            <div class="Field">
+                                <a href="#" id="EmailOptionSpellCheck">[ $Text{"Spell check"} ]</a>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:SpellCheckEmail -->
+
+                            <label class="Mandatory" for="EmailBody"><span class="Marker">*</span> $Text{"Text"}:</label>
+                            <div class="RichTextField">
+<!-- dtl:block:RichTextEmail -->
+$Include{"RichTextEditor"}
+<!-- dtl:block:RichTextEmail -->
+                                <textarea id="EmailBody" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject $Data{"BodyInvalid"}" name="EmailBody" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"EmailBody"}</textarea>
+                                <div id="EmailBodyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="EmailBodyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:TimeUnitsLabelEmail -->
+                            <label for="EmailTimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelEmail -->
+<!-- dtl:block:TimeUnitsLabelMandatoryEmail -->
+                            <label class="Mandatory" for="EmailTimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+<!-- dtl:block:TimeUnitsLabelMandatoryEmail -->
+<!-- dtl:block:TimeUnitsEmail -->
+                            <div class="Field">
+                                <input type="text" class="Validate_EmailTimeUnits W20pc $QData{"EmailTimeUnitsRequired"} $QData{"EmailTimeUnitsInvalid"}" id="EmailTimeUnits" name="EmailTimeUnits" value="$QData{"EmailTimeUnits"}"/>
+                                <div id="EmailTimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
+                                <div id="EmailTimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:TimeUnitsEmail -->
+                        </fieldset>
+                    </div>
+                </div>
+
+                <fieldset class="TableLike FixedLabel">
 <!-- dtl:block:State -->
                     <label for="StateID">$Text{"Next state"}:</label>
                     <div class="Field">
@@ -153,17 +236,6 @@ $Include{"RichTextEditor"}
                         $Data{"UnlockYesNoOption"}
                     </div>
                     <div class="Clear"></div>
-
-<!-- dtl:block:TimeUnits -->
-                    <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
-                    <div class="Field">
-                        <input type="text" class="Validate_TimeUnits W20pc $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}"/>
-                        <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
-                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                    </div>
-                    <div class="Clear"></div>
-<!-- dtl:block:TimeUnits -->
-
                 </fieldset>
             </div>
         </div>
