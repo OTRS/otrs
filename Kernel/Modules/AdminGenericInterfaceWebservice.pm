@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.24 2011-05-24 20:37:15 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.25 2011-05-25 17:52:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -125,7 +125,6 @@ sub Run {
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
         $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
-        $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
         $WebserviceData->{ValidID}                              = $GetParam->{ValidID};
 
         for my $CommunicationType (qw( Provider Requester )) {
@@ -243,7 +242,6 @@ sub Run {
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
         $WebserviceData->{Config}->{Debugger}->{TestMode}       = 0;
-        $WebserviceData->{Config}->{FrameworkVersion}           = $Self->{FrameworkVersion};
         $WebserviceData->{ValidID}                              = $GetParam->{ValidID};
 
         for my $CommunicationType (qw( Provider Requester )) {
@@ -334,6 +332,9 @@ sub Run {
         # get webserice configuration
         my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
+        # set Framework Version information for import purposes
+        $WebserviceData->{Config}->{FrameworkVersion} = $Self->{FrameworkVersion};
+
         # check for valid webservice configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -347,7 +348,7 @@ sub Run {
         # return yaml to download
         my $YAMLFile = $WebserviceData->{Name};
         return $Self->{LayoutObject}->Attachment(
-            Filename    => $YAMLFile . '.yaml',
+            Filename    => $YAMLFile . '.yml',
             ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
             Content     => $YAMLContent,
         );
@@ -492,8 +493,14 @@ sub Run {
             $ImportedConfig = $Self->_UpdateConfiguration( Configuration => $ImportedConfig );
         }
 
+        # remove framework information since is not needed anymore
+        delete $ImportedConfig->{FrameworkVersion};
+
         # get webservice name
-        my $WebserviceName = $ImportedConfig->{Name};
+        my $WebserviceName = $ConfigFile{Filename};
+
+        # remove file extension
+        $WebserviceName =~ s{\.[^.]+$}{}g;
 
         # check required parameters
         my %Error;
@@ -507,7 +514,7 @@ sub Run {
         my $WebserviceData;
 
         # set WebserviceData
-        $WebserviceData->{Name}    = $ImportedConfig->{Name};
+        $WebserviceData->{Name}    = $WebserviceName;
         $WebserviceData->{Config}  = $ImportedConfig;
         $WebserviceData->{ValidID} = 1;
 
@@ -1016,12 +1023,6 @@ sub _UpdateConfiguration {
     # this function needs to be extended for further otrs versions
     # it could be that newwer otrs versions has different configuration options
     # migration from previos version sould be automatic and needs to be done here
-
-    # set framework version if is not present
-    if ( !$Configuration->{FrameworkVersion} ) {
-        $Configuration->{FrameworkVersion} = $Self->{FrameworkVersion};
-    }
-
     return $Configuration;
 }
 
