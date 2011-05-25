@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.6 2011-05-25 13:44:25 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.7 2011-05-25 13:55:39 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                     '<div class="OverviewActions">' +
                     '    <ul class="Actions">' +
                     '        <li class="Bulk" id="ExportButton">' +
-                    '            <span>Export Web Service</span>' +
+                    '            <span>Export web service configuration</span>' +
                     '        </li>' +
                     '        <li class="Bulk" id="RollbackButton">' +
                     '            <span>' + TargetNS.Localization.RollbackLogMsg + '</span>' +

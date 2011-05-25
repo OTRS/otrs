@@ -2,14 +2,14 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.4 2011-05-24 23:08:57 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.5 2011-05-25 13:55:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceWebserviceHistory">
-    <h1>$Text{"GenericInterface History for Web Service %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"GenericInterface Configuration History for Web Service %s", "$Data{"WebserviceName"}"}</h1>
 <!-- breadcrumb -->
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
@@ -37,13 +37,24 @@
                 </ul>
             </div>
         </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"Here you can view older versions of the current web service's configuration, export or even restore them."}
+                </p>
+            </div>
+        </div>
     </div>
     <div class="ContentColumn">
 
         <div class="WidgetSimple WebserviceListWidget">
             <div class="Header">
                 <h2>
-                    $Text{"Web Service history List"}
+                    $Text{"Configuration History List"}
                 </h2>
             </div>
             <div class="Content">
@@ -64,7 +75,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p class="FieldExplanation">$Text{"Select a single Web Service config to see its details."}</p>
+                        <p class="FieldExplanation">$Text{"Select a single configuration version to see its details."}</p>
                     </div>
                     <div class="Clear"></div>
                 </div>
@@ -75,7 +86,7 @@
 
         <div class="Hidden" id="RollbackDialogContainer">
             <p id="RollbackDialog" class="Warning">
-                $Text{"Do you really want to rollback this web service?"}
+                $Text{"Do you really want to restore this version of the web service configuration?"}
             </p>
         </div>
         <div class="Hidden">
@@ -99,8 +110,8 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
         WebserviceHistoryErrorMsg: '$JSText{"An error occurred during communication."}',
         NoDataFoundMsg: '$JSText{"No data found."}',
         ToggleContentMsg: '$JSText{"Show or hide the content."}',
-        RollbackLogMsg: '$JSText{"Rollback Web Service"}',
-        RollbackMsg: '$JSText{"Rollback"}',
+        RollbackLogMsg: '$JSText{"Restore web service configuration"}',
+        RollbackMsg: '$JSText{"Restore"}',
         CancelMsg: '$JSText{"Cancel"}'
     }
 });
