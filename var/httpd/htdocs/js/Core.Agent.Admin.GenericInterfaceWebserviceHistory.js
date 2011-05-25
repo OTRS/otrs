@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.7 2011-05-25 13:55:39 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.8 2011-05-25 17:17:20 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -95,46 +95,36 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 alert(TargetNS.Localization.WebserviceHistoryErrorMsg);
                 return;
             }
-
-            $('#WebserviceHistoryDetails').empty();
             $('.WebserviceListWidget').removeClass('Loading');
 
             if (!Response.LogData.Config) {
-                $('#WebserviceHistoryDetails').append('<p class="ErrorMessage">' + TargetNS.Localization.NoDataFoundMsg + '</p>');
+                $('#WebserviceHistoryDetails .ControlRow').empty();
+                $('#WebserviceHistoryDetails .ControlRow').append(
+                    '<h2>History Details</h2>'
+                );
+                $('#WebserviceHistoryDetails .ConfigCode pre').empty();
+                $('#WebserviceHistoryDetails .ConfigCode pre').append(
+                    '<span class="ErrorMessage">' + TargetNS.Localization.NoDataFoundMsg + '</span>'
+                );
                 $('#WebserviceHistoryDetails').css('visibility', 'visible').show();
+                $('#WebserviceHistoryDetails .LightRow').hide();
             }
             else {
-                var HTML =
-                    '<div class="ControlRow">' +
-                    '    <h2>History Details: Version ' + Response.LogData.ID + ', ' + Response.LogData.CreateTime +  '</h2>' +
-                    '</div>' +
-                    '<div class="ActionRow">' +
-                    '<div class="OverviewActions">' +
-                    '    <ul class="Actions">' +
-                    '        <li class="Bulk" id="ExportButton">' +
-                    '            <span>Export web service configuration</span>' +
-                    '        </li>' +
-                    '        <li class="Bulk" id="RollbackButton">' +
-                    '            <span>' + TargetNS.Localization.RollbackLogMsg + '</span>' +
-                    '        </li>' +
-                    '    </ul>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="Spacing">' +
-                    '<pre><code>' + Response.LogData.Config + '</code></pre> </br>' +
-                    '</div>';
-
-                $('#WebserviceHistoryDetails').append(HTML);
 
                 $('#WebserviceHistoryID').attr('value',WebserviceHistoryID);
-                $('#ExportButton').bind('click', function(){
-                    $('#Subaction').attr('value','Export');
-                    $('#ActionForm').submit();
-                });
-                $('#RollbackButton').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.ShowRollbackDialog);
+                $('#WebserviceHistoryDetails .ControlRow').empty();
+                $('#WebserviceHistoryDetails .ControlRow').append(
+                    '<h2>History Details: Version ' + Response.LogData.ID + ', ' + Response.LogData.CreateTime +  '</h2>'
+                );
+
+                $('#WebserviceHistoryDetails .ConfigCode pre').empty();
+                $('#WebserviceHistoryDetails .ConfigCode pre').append(
+                    '<code>' + Response.LogData.Config + '</code>'
+                );
 
                 $('#WebserviceHistoryDetails').css('visibility', 'visible').show();
-                Core.UI.InitWidgetActionToggle();
+                $('#WebserviceHistoryDetails .LightRow').show();
+
             }
         }, 'json');
     };
