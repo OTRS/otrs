@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.25 2011-05-25 17:52:07 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.26 2011-05-25 19:37:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -120,7 +120,6 @@ sub Run {
 
         # set new confguration
         $WebserviceData->{Name}                                 = $GetParam->{Name};
-        $WebserviceData->{Config}->{Name}                       = $GetParam->{Name};
         $WebserviceData->{Config}->{Description}                = $GetParam->{Description};
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
@@ -237,7 +236,6 @@ sub Run {
 
         # set new confguration
         $WebserviceData->{Name}                                 = $GetParam->{Name};
-        $WebserviceData->{Config}->{Name}                       = $GetParam->{Name};
         $WebserviceData->{Config}->{Description}                = $GetParam->{Description};
         $WebserviceData->{Config}->{RemoteSystem}               = $GetParam->{RemoteSystem};
         $WebserviceData->{Config}->{Debugger}->{DebugThreshold} = $GetParam->{DebugThreshold};
@@ -416,7 +414,6 @@ sub Run {
 
         # set new confguration
         $WebserviceData->{Name} = $CloneName;
-        $WebserviceData->{Config}->{Name} = $CloneName;
 
         # check if name is duplicated
         my %WebserviceList = %{ $Self->{WebserviceObject}->WebserviceList() };
