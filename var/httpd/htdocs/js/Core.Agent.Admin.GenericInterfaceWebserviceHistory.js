@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.4 2011-05-24 23:09:47 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.5 2011-05-25 01:53:46 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -104,26 +104,25 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 $('#WebserviceHistoryDetails').css('visibility', 'visible').show();
             }
             else {
-                var $Container = $('<div class="WidgetSimple Expanded"></div>'),
-                    HTML =
-                    '<div class="Header">' +
+                var HTML =
+                    '<div class="ControlRow">' +
                     '    <h2>History Details: Version ' + Response.LogData.ID + ', ' + Response.LogData.CreateTime +  '</h2>' +
                     '</div>' +
-//                    '<div class="OverviewActions">' +
-//                    '    <ul class="Actions">' +
-//                    '        <li class="Bulk" id="ExportButton">' +
-//                    '            <span>Export Web Service</span>' +
-//                    '        </li>' +
-//                    '        <li class="Bulk" id="RollbackButton">' +
-//                    '            <span>' + TargetNS.Localization.RollbackLogMsg + '</span>' +
-//                    '        </li>' +
-//                    '    </ul>' +
-//                    '<div>' +
+                    '<div class="ActionRow">' +
+                    '<div class="OverviewActions">' +
+                    '    <ul class="Actions">' +
+                    '        <li class="Bulk" id="ExportButton">' +
+                    '            <span>Export Web Service</span>' +
+                    '        </li>' +
+                    '        <li class="Bulk" id="RollbackButton">' +
+                    '            <span>' + TargetNS.Localization.RollbackLogMsg + '</span>' +
+                    '        </li>' +
+                    '    </ul>' +
+                    '</div>' +
+                    '</div>' +
                     '<div class="Spacing">' +
                     '<pre><code>' + Response.LogData.Config + '</code></pre> </br>' +
-                  '<button type="submit" class="Spacing" id="ExportButton"><span>Export Web Service</span></button>' +
-                  '<button type="submit" class="Spacing" id="RollbackButton"><span>' + TargetNS.Localization.RollbackLogMsg + '</span></button>' +
-                  '<div>';
+                    '</div>';
 
                 $('#WebserviceHistoryDetails').append(HTML);
 
