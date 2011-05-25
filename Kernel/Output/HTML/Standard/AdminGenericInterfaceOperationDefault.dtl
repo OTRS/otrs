@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.8 2011-05-25 12:02:38 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.9 2011-05-25 14:58:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@
                 <h2>$Text{"Operation Details"}</h2>
             </div>
             <div class="Content">
-                <form action="#">
+                <form action="$Env{"CGIHandle"}" class="Validate" method="post">
                     <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
                     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
                     <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" />
@@ -201,7 +201,7 @@ Core.Agent.Admin.GenericInterfaceOperation.Init({
     }
 });
 
-$('.RegisterChange').unbind('change keyup').bind('change keyup', function (Event) {
+$('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {
     $('.HideOnChange').hide();
     $('.ShowOnChange').show();
 });
