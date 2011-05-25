@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.85 2011-05-25 09:20:18 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.86 2011-05-25 09:28:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -847,12 +847,14 @@ sub _Mask {
         Action => $Self->{Action},
         Type   => 'move_into',
     );
-    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->BuildSelection(
+    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { %MoveQueues, '' => '-' },
-        Multiple    => 0,
-        Size        => 0,
-        Name        => 'QueueID',
-        Translation => 0,
+        Multiple => 0,
+        Size     => 0,
+        Name     => 'QueueID',
+
+        #       SelectedID => $Self->{DestQueueID},
+        OnChangeSubmit => 0,
     );
 
     # get priority
