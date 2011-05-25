@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.5 2011-05-25 13:55:39 mg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.6 2011-05-25 17:18:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,23 @@
             </div>
         </div>
 
-        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails"></div>
+        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails">
+            <div class="ControlRow"></div>
+            <div class="LightRow Bottom">
+                <ul class="Actions">
+                    <li id="ExportButton">
+                        <span>$Text{"Export web service configuration"}</span>
+                    </li>
+                    <li id="RollbackButton">
+                        <span>$Text{"Restore web service configuration"}</span>
+                    </li>
+                </ul>
+                <div class="ClearLeft"></div>
+            </div>
+            <div class="Content ConfigCode">
+                <pre></pre>
+            </div>
+        </div>
 
         <div class="Hidden" id="RollbackDialogContainer">
             <p id="RollbackDialog" class="Warning">
@@ -91,10 +107,10 @@
         </div>
         <div class="Hidden">
             <form action="$Env{"CGIHandle"}" method="post" id="ActionForm">
-                <input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action">
-                <input type="hidden" value="" name="Subaction" id="Subaction">
-                <input type="hidden" value="$QData{"WebserviceID"}" name="WebserviceID">
-                <input type="hidden" value="" name="WebserviceHistoryID" id="WebserviceHistoryID">
+                <input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action" />
+                <input type="hidden" value="" name="Subaction" id="Subaction" />
+                <input type="hidden" value="$QData{"WebserviceID"}" name="WebserviceID" />
+                <input type="hidden" value="" name="WebserviceHistoryID" id="WebserviceHistoryID" />
             </form>
         </div>
     </div>
@@ -119,5 +135,10 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
 //Load Webservice list on startup without active filter
 Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList();
 
+$('#ExportButton').bind('click', function(){
+    $('#Subaction').attr('value','Export');
+    $('#ActionForm').submit();
+});
+$('#RollbackButton').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.ShowRollbackDialog);
 //]]></script>
 <!-- dtl:js_on_document_complete -->
