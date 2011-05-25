@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.4 2011-05-23 11:31:52 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.5 2011-05-25 12:02:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -168,6 +168,7 @@ sub _AddAction {
 
     my $Config = {
         Type => $GetParam{OperationType},
+        Description => $Self->{ParamObject}->GetParam( Param => 'Description' ) || '',
     };
 
     my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
@@ -352,6 +353,9 @@ sub _ChangeAction {
         };
     }
 
+    $OperationConfig->{Description} = $Self->{ParamObject}->GetParam( Param => 'Description' )
+        || '';
+
     # Update operation config.
     $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $OperationConfig;
 
@@ -453,6 +457,8 @@ sub _ShowScreen {
 
         $TemplateData{OperationType} = $Param{OperationConfig}->{Type};
     }
+
+    $TemplateData{Description} = $Param{OperationConfig}->{Description};
 
     my $Mappings = $Self->{ConfigObject}->Get('GenericInterface::Mapping::Module') || {};
 

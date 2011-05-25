@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.7 2011-05-24 22:31:36 cr Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.8 2011-05-25 12:02:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,6 +88,14 @@
                             <div id="OperationServerError" class="TooltipErrorMessage">
                                 $Text{"The name you entered already exists."}
                             </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">
+                            $Text{"Description"}:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc RegisterChange" maxlength="200" id="Description" name="Description" value="$QData{"Description"}" />
                         </div>
                         <div class="Clear"></div>
 
