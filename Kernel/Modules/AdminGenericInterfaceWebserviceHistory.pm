@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.4 2011-05-25 17:19:25 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.5 2011-05-25 19:47:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -217,7 +217,7 @@ sub _ExportWebserviceHistory {
     # return yaml to download
     my $YAMLFile = $Param{WebserviceData}->{Name} || 'yamlfile';
     return $Self->{LayoutObject}->Attachment(
-        Filename    => $YAMLFile . '.yaml',
+        Filename    => $YAMLFile . '.yml',
         ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
         Content     => $YAMLContent,
     );
