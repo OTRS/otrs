@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.80 2011-05-26 08:31:52 mb Exp $
+# $Id: Ticket.t,v 1.81 2011-05-26 08:39:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4794,6 +4794,7 @@ my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     OrderBy => [ 'Down', 'Up' ],
     SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
@@ -4808,6 +4809,7 @@ $Self->True(
     OrderBy => [ 'Down', 'Down' ],
     SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
@@ -4822,6 +4824,7 @@ $Self->True(
     OrderBy => [ 'Down', ],
     SortBy  => ['Changed'],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
@@ -4836,6 +4839,7 @@ $Self->True(
     OrderBy => [ 'Up', ],
     SortBy  => [ 'Changed', ],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
@@ -4874,6 +4878,7 @@ my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     OrderBy => [ 'Down', 'Down' ],
     SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
@@ -4888,6 +4893,7 @@ $Self->True(
     OrderBy => [ 'Up', 'Down' ],
     SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
@@ -4902,6 +4908,7 @@ $Self->True(
     OrderBy => 'Down',
     SortBy  => 'Age',
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
@@ -4916,6 +4923,7 @@ $Self->True(
     OrderBy => 'Up',
     SortBy  => 'Age',
     UserID  => 1,
+    Limit   => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
