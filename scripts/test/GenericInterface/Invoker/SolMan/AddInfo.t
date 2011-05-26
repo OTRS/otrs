@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.9 2011-05-02 13:10:13 sb Exp $
+# $Id: AddInfo.t,v 1.10 2011-05-26 04:18:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -458,13 +458,14 @@ my @Tests = (
         },
     },
     {
-        Name           => 'No IncidentGuid Ticket',
+        Name           => 'No IncidentGuid Ticket Stop Communication',
         PrepareRequest => {
             Data => {
                 TicketID      => $NoIncidnetGuidTicketID,
                 OldTicketData => \%NoIncidentGuidTicket,
             },
-            Success => 0,
+            Success           => 1,
+            StopCommunication => 1,
         },
     },
 
@@ -479,6 +480,7 @@ my @Tests = (
 
             },
             Success => 1,
+            ReSync  => 1,
         },
     },
     {
@@ -777,6 +779,17 @@ $Self->Is(
 for my $Test (@Tests) {
     if ( $Test->{PrepareRequest} ) {
 
+        if ( $Test->{PrepareRequest}->{ReSync} ) {
+
+            # simulate ticket is synced
+            my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+                TicketID => $Test->{PrepareRequest}->{Data}->{TicketID},
+                Key      => "GI_" . $WebserviceID . "_SolMan_SyncTimestamp",
+                Value    => $TimeStamp - 5,
+                UserID   => 1,
+            );
+        }
+
         my $ResponseData = $Test->{PrepareRequest}->{ResponseData};
 
         # workaround for windows using mssql
@@ -803,12 +816,20 @@ for my $Test (@Tests) {
             "Test $Test->{Name}: ReplicateIncident PrepareRequest",
         );
 
-        # check response data format
-        $Self->Is(
-            ref $Result->{Data},
-            ref $ResponseData,
-            "Test $Test->{Name}: ReplicateIncident PrepareRequest Data ref",
-        );
+        # if not succes check that there is an error message
+        if ( !$Test->{PrepareRequest}->{StopCommunication} ) {
+            $Self->False(
+                $Result->{StopCommunication},
+                "Test $Test->{Name}: ReplicateIncident Stop Communication",
+            );
+        }
+        else {
+            $Self->True(
+                $Result->{StopCommunication},
+                "Test $Test->{Name}: ReplicateIncident Stop Communication",
+            );
+            next;
+        }
 
         # if not succes check that there is an error message
         if ( !$Test->{PrepareRequest}->{Success} ) {
@@ -828,6 +849,12 @@ for my $Test (@Tests) {
             );
 
             # check if data is what is expected
+            # check response data format
+            $Self->Is(
+                ref $Result->{Data},
+                ref $ResponseData,
+                "Test $Test->{Name}: ReplicateIncident PrepareRequest Data ref",
+            );
 
             # TODO this test might need to be changed
             $Self->IsNot(
@@ -1151,6 +1178,17 @@ for my $Test (@Tests) {
                 $Result->{Data}->{IctUrls},
                 '',
                 "Test $Test->{Name}: ReplicateIncident PrepareRequest IctUrls",
+            );
+        }
+
+        if ( $Test->{PrepareRequest}->{ReSync} ) {
+
+            # simulate ticket is synced
+            my $SuccessTicketFlagSet = $TicketObject->TicketFlagSet(
+                TicketID => $Test->{PrepareRequest}->{Data}->{TicketID},
+                Key      => "GI_" . $WebserviceID . "_SolMan_SyncTimestamp",
+                Value    => $TimeStamp,
+                UserID   => 1,
             );
         }
     }
