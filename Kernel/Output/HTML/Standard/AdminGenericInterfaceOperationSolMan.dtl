@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.1 2011-05-26 01:25:19 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.2 2011-05-26 06:42:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,7 +77,7 @@
                             $Text{"Name"}:
                         </label>
                         <div class="Field">
-                            <input type="text" class="W50pc RegisterChange ValidateRequired $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
+                            <input type="text" class="W50pc RegisterChange Validate_Required $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
                             <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
                             <p class="FieldExplanation">
                                 $Text{"The name is typically used to call up this web service operation from a remote system."}
@@ -107,7 +107,7 @@
                             <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('#MappingInboundConfigureButton').unbind('click').bind('click', function(){
+$('#MappingInboundConfigureButton').bind('click', function(){
     var URL;
 
     if ($('#MappingInboundConfigDialog').val()) {
@@ -143,7 +143,7 @@ $('#MappingInboundConfigureButton').unbind('click').bind('click', function(){
                             <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('#MappingOutboundConfigureButton').unbind('click').bind('click', function(){
+$('#MappingOutboundConfigureButton').bind('click', function(){
     var URL;
 
     if ($('#MappingOutboundConfigDialog').val()) {
@@ -168,7 +168,7 @@ $('#MappingOutboundConfigureButton').unbind('click').bind('click', function(){
                             <button type="button" class="$QData{"ResetGuidClass"}" id="ResetRemoteSystemGuid" value="$Text{"Reset"}">$Text{"Reset"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('#ResetRemoteSystemGuid').unbind('click').bind('click', function(){
+$('#ResetRemoteSystemGuid').bind('click', function(){
     $('#RemoteSystemGuidDisplay').val("");
     $('.HideOnChange').hide();
     $('.ShowOnChange').show();
@@ -190,7 +190,7 @@ $('#ResetRemoteSystemGuid').unbind('click').bind('click', function(){
                             <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').unbind('click').bind('click', function(){
+$('#SaveAndFinishButton').bind('click', function(){
     $('#ReturnToWebservice').val(1);
 });
 //]]></script>
@@ -223,7 +223,7 @@ Core.Agent.Admin.GenericInterfaceOperation.Init({
     }
 });
 
-$('.RegisterChange').unbind('change keyup').bind('change keyup', function (Event) {
+$('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {
     $('.HideOnChange').hide();
     $('.ShowOnChange').show();
 });
