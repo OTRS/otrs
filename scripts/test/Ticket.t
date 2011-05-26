@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.79 2011-05-24 14:12:26 martin Exp $
+# $Id: Ticket.t,v 1.80 2011-05-26 08:31:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4824,7 +4824,7 @@ $Self->True(
     UserID  => 1,
 );
 $Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Changed (Down))',
 );
 
@@ -4838,7 +4838,7 @@ $Self->True(
     UserID  => 1,
 );
 $Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Changed (Up)))',
 );
 
