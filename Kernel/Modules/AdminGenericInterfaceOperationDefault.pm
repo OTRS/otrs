@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.5 2011-05-25 12:02:38 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.6 2011-05-27 17:32:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -512,7 +512,7 @@ sub _ShowScreen {
         $TemplateData{MappingOutboundConfigDialog} = $Mappings->{$MappingOutbound}->{ConfigDialog};
     }
 
-    if ( $TemplateData{MappingOutboundConfigDialog} && $Self->{Subaction} eq 'Change' ) {
+    if ( $TemplateData{MappingOutboundConfigDialog} && $Param{Mode} eq 'Change' ) {
         $Self->{LayoutObject}->Block(
             Name => 'MappingOutboundConfigureButton',
             Data => {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationSolMan.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.pm,v 1.1 2011-05-26 01:25:19 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.pm,v 1.2 2011-05-27 17:32:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -520,7 +520,7 @@ sub _ShowScreen {
         $TemplateData{MappingOutboundConfigDialog} = $Mappings->{$MappingOutbound}->{ConfigDialog};
     }
 
-    if ( $TemplateData{MappingOutboundConfigDialog} && $Self->{Subaction} eq 'Change' ) {
+    if ( $TemplateData{MappingOutboundConfigDialog} && $Param{Mode} eq 'Change' ) {
         $Self->{LayoutObject}->Block(
             Name => 'MappingOutboundConfigureButton',
             Data => {
