@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.86 2011-05-25 09:28:12 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.87 2011-05-27 13:49:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,12 @@ use warnings;
 use Kernel::System::State;
 use Kernel::System::Priority;
 use Kernel::System::LinkObject;
+use Kernel::System::Web::UploadCache;
+use Kernel::System::CustomerUser;
+use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,12 +38,17 @@ sub new {
         }
     }
 
-    $Self->{StateObject}       = Kernel::System::State->new(%Param);
-    $Self->{PriorityObject}    = Kernel::System::Priority->new(%Param);
-    $Self->{LinkObject}        = Kernel::System::LinkObject->new(%Param);
-    $Self->{CheckItemObject}   = Kernel::System::CheckItem->new(%Param);
-    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{Config}            = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+    $Self->{StateObject}             = Kernel::System::State->new(%Param);
+    $Self->{PriorityObject}          = Kernel::System::Priority->new(%Param);
+    $Self->{LinkObject}              = Kernel::System::LinkObject->new(%Param);
+    $Self->{CheckItemObject}         = Kernel::System::CheckItem->new(%Param);
+    $Self->{UploadCacheObject}       = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{CustomerUserObject}      = Kernel::System::CustomerUser->new(%Param);
+    $Self->{TemplateGeneratorObject} = Kernel::System::TemplateGenerator->new(
+        %Param,
+        CustomerUserObject => $Self->{CustomerUserObject},
+    );
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     # get form id for note
     $Self->{NoteFormID} = $Self->{ParamObject}->GetParam( Param => 'NoteFormID' );
@@ -368,6 +376,7 @@ sub Run {
                         String => $GetParam{'EmailBody'},
                     );
                 }
+                print STDERR "$GetParam{'EmailSubject'} --- \n";
 
                 # get customer email address
                 my $Customer;
@@ -396,26 +405,25 @@ sub Run {
                     $Customer = $Data{From};
                 }
 
-                $GetParam{From}
-                    = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-
-                $EmailArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID    => $TicketID,
-                    ArticleType => 'email-external',
-                    SenderType  => 'agent',
-                    From        => $GetParam{From},
-                    To          => $Customer,
-                    Subject     => $GetParam{'EmailSubject'},
-                    Body        => $GetParam{'EmailBody'},
-                    MimeType    => $MimeType,
-                    Charset     => $Self->{LayoutObject}->{UserCharset},
-                    UserID      => $Self->{UserID},
-
-                    #                    Attachment     => \@AttachmentData,
-                    HistoryType    => 'SendAnswer',
-                    HistoryComment => '%%Bulk',
+                my $From = $Self->{TemplateGeneratorObject}->Sender(
+                    QueueID => $Ticket{QueueID},
+                    UserID  => $Self->{UserID},
                 );
 
+                $EmailArticleID = $Self->{TicketObject}->ArticleCreate(
+                    TicketID       => $TicketID,
+                    ArticleType    => 'email-external',
+                    SenderType     => 'agent',
+                    From           => $From,
+                    To             => $Customer,
+                    Subject        => $GetParam{EmailSubject},
+                    Body           => $GetParam{EmailBody},
+                    MimeType       => $MimeType,
+                    Charset        => $Self->{LayoutObject}->{UserCharset},
+                    UserID         => $Self->{UserID},
+                    HistoryType    => 'SendAnswer',
+                    HistoryComment => '%%' . $Customer,
+                );
             }
 
             # add note
