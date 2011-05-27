@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.27 2011-05-24 21:53:34 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.28 2011-05-27 16:55:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -307,7 +307,9 @@
                                 <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
                                 <div class="Field">
                                     $Data{"TransportsStrg"}
-                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="HideOnChange GenericInterfaceSpacing" value="Properties">$Text{"Properties"}</button>
+<!-- dtl:block:DetailsTransportPropertiesButton -->
+                                    <button type="button" id="$QData{"CommunicationType"}TransportProperties" class="HideOnChange GenericInterfaceSpacing" value="Configure">$Text{"Configure"}</button>
+<!-- dtl:block:DetailsTransportPropertiesButton -->
                                 </div>
                             </fieldset>
                             <div class="SpacingTop"></div>
@@ -353,7 +355,7 @@
                     <div class="SpacingTop"></div>
 <!-- dtl:block:DetailsCommunicationType -->
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
                     </div>
