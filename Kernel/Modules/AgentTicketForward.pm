@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.103 2011-05-18 07:22:36 mg Exp $
+# $Id: AgentTicketForward.pm,v 1.104 2011-05-27 10:07:02 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,6 +93,14 @@ sub Form {
 
     my %Error;
     my %GetParam = %{ $Self->{GetParam} };
+
+    # get ticket free text params
+    for my $Count ( 1 .. 16 ) {
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    }
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -457,7 +465,16 @@ sub SendEmail {
     my ( $Self, %Param ) = @_;
 
     my %Error;
-    my %GetParam  = %{ $Self->{GetParam} };
+    my %GetParam = %{ $Self->{GetParam} };
+
+    # get ticket free text params
+    for my $Count ( 1 .. 16 ) {
+        my $Key  = 'TicketFreeKey' . $Count;
+        my $Text = 'TicketFreeText' . $Count;
+        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    }
+
     my $QueueID   = $Self->{QueueID};
     my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
         ID => $GetParam{ComposeStateID},
