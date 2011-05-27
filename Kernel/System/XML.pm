@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.105 2010-11-15 09:57:50 mb Exp $
+# $Id: XML.pm,v 1.106 2011-05-27 13:04:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,8 @@ use warnings;
 
 use Kernel::System::Cache;
 
-use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.105 $) [1];
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.106 $) [1];
 
 =head1 NAME
 
@@ -86,9 +86,6 @@ sub new {
     }
 
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
-
-    # to access object over non object oriented XML::Parser and XML::Parser::Lite
-    $S = $Self;
 
     $Self->{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
 
@@ -717,7 +714,6 @@ sub XMLParse {
     $Self->{XMLTagCount} = 0;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
-    $S = $Self;
 
     # convert string
     if ( $Param{String} =~ /(<.+?>)/ ) {
@@ -739,9 +735,9 @@ sub XMLParse {
     if ( eval 'require XML::Parser' ) {
         my $Parser = XML::Parser->new(
             Handlers => {
-                Start => \&_HS,
-                End   => \&_ES,
-                Char  => \&_CS,
+                Start => sub { $Self->_HS(@_); },
+                End   => sub { $Self->_ES(@_); },
+                Char  => sub { $Self->_CS(@_); },
             },
         );
 
@@ -909,23 +905,23 @@ sub _XMLHash2D {
         return '';
     }
     elsif ( ref $Param{Item} eq 'HASH' ) {
-        $S->{XMLLevel}++;
-        $S->{XMLTagCount}++;
-        $S->{XMLLevelTag}->{ $S->{XMLLevel} } = $Param{Key};
-        if ( $S->{Tll} && $S->{Tll} > $S->{XMLLevel} ) {
-            for ( ( $S->{XMLLevel} + 1 ) .. 30 ) {
-                undef $S->{XMLLevelCount}->{$_};    #->{$Element} = 0;
+        $Self->{XMLLevel}++;
+        $Self->{XMLTagCount}++;
+        $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Param{Key};
+        if ( $Self->{Tll} && $Self->{Tll} > $Self->{XMLLevel} ) {
+            for ( ( $Self->{XMLLevel} + 1 ) .. 30 ) {
+                undef $Self->{XMLLevelCount}->{$_};    #->{$Element} = 0;
             }
         }
-        $S->{XMLLevelCount}->{ $S->{XMLLevel} }->{ $Param{Key} || '' }++;
+        $Self->{XMLLevelCount}->{ $Self->{XMLLevel} }->{ $Param{Key} || '' }++;
 
         # remember old level
-        $S->{Tll} = $S->{XMLLevel};
+        $Self->{Tll} = $Self->{XMLLevel};
 
         my $Key = "[$Param{Counter}]";
-        for ( 2 .. ( $S->{XMLLevel} ) ) {
-            $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
-            $Key .= "[" . $S->{XMLLevelCount}->{$_}->{ $S->{XMLLevelTag}->{$_} } . "]";
+        for ( 2 .. ( $Self->{XMLLevel} ) ) {
+            $Key .= "{'$Self->{XMLLevelTag}->{$_}'}";
+            $Key .= "[" . $Self->{XMLLevelCount}->{$_}->{ $Self->{XMLLevelTag}->{$_} } . "]";
         }
 
         # add tag key to the passed in data structure
@@ -937,7 +933,7 @@ sub _XMLHash2D {
             }
             $Self->_XMLHash2D( Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter} );
         }
-        $S->{XMLLevel} = $S->{XMLLevel} - 1;
+        $Self->{XMLLevel} = $Self->{XMLLevel} - 1;
     }
     elsif ( ref $Param{Item} eq 'ARRAY' ) {
         for ( @{ $Param{Item} } ) {
@@ -960,17 +956,17 @@ sub _XMLStructure2XMLHash {
         if ( $Param{Item}->{TagType} eq 'End' ) {
             return '';
         }
-        $S->{XMLTagCount}++;
-        $S->{XMLLevelTag}->{ $Param{Item}->{TagLevel} } = $Param{Key};
-        if ( $S->{Tll} && $S->{Tll} > $Param{Item}->{TagLevel} ) {
+        $Self->{XMLTagCount}++;
+        $Self->{XMLLevelTag}->{ $Param{Item}->{TagLevel} } = $Param{Key};
+        if ( $Self->{Tll} && $Self->{Tll} > $Param{Item}->{TagLevel} ) {
             for ( ( $Param{Item}->{TagLevel} + 1 ) .. 30 ) {
-                undef $S->{XMLLevelCount}->{$_};
+                undef $Self->{XMLLevelCount}->{$_};
             }
         }
-        $S->{XMLLevelCount}->{ $Param{Item}->{TagLevel} }->{ $Param{Key} }++;
+        $Self->{XMLLevelCount}->{ $Param{Item}->{TagLevel} }->{ $Param{Key} }++;
 
         # remember old level
-        $S->{Tll} = $Param{Item}->{TagLevel};
+        $Self->{Tll} = $Param{Item}->{TagLevel};
 
         if ( $Param{Item}->{TagLevel} == 1 ) {
             for ( keys %{ $Param{Item} } ) {
@@ -978,8 +974,8 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -990,10 +986,10 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1004,12 +1000,12 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1020,14 +1016,14 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1038,16 +1034,16 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1058,18 +1054,18 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1080,20 +1076,20 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1104,22 +1100,22 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1130,24 +1126,24 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1158,26 +1154,26 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1188,28 +1184,28 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]
-                        ->{ $S->{XMLLevelTag}->{11} }
-                        ->[ $S->{XMLLevelCount}->{11}->{ $S->{XMLLevelTag}->{11} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
+                        ->{ $Self->{XMLLevelTag}->{11} }
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1220,30 +1216,30 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]
-                        ->{ $S->{XMLLevelTag}->{11} }
-                        ->[ $S->{XMLLevelCount}->{11}->{ $S->{XMLLevelTag}->{11} } ]
-                        ->{ $S->{XMLLevelTag}->{12} }
-                        ->[ $S->{XMLLevelCount}->{12}->{ $S->{XMLLevelTag}->{12} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
+                        ->{ $Self->{XMLLevelTag}->{11} }
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]
+                        ->{ $Self->{XMLLevelTag}->{12} }
+                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1254,32 +1250,32 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]
-                        ->{ $S->{XMLLevelTag}->{11} }
-                        ->[ $S->{XMLLevelCount}->{11}->{ $S->{XMLLevelTag}->{11} } ]
-                        ->{ $S->{XMLLevelTag}->{12} }
-                        ->[ $S->{XMLLevelCount}->{12}->{ $S->{XMLLevelTag}->{12} } ]
-                        ->{ $S->{XMLLevelTag}->{13} }
-                        ->[ $S->{XMLLevelCount}->{13}->{ $S->{XMLLevelTag}->{13} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
+                        ->{ $Self->{XMLLevelTag}->{11} }
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]
+                        ->{ $Self->{XMLLevelTag}->{12} }
+                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]
+                        ->{ $Self->{XMLLevelTag}->{13} }
+                        ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1290,34 +1286,34 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]
-                        ->{ $S->{XMLLevelTag}->{11} }
-                        ->[ $S->{XMLLevelCount}->{11}->{ $S->{XMLLevelTag}->{11} } ]
-                        ->{ $S->{XMLLevelTag}->{12} }
-                        ->[ $S->{XMLLevelCount}->{12}->{ $S->{XMLLevelTag}->{12} } ]
-                        ->{ $S->{XMLLevelTag}->{13} }
-                        ->[ $S->{XMLLevelCount}->{13}->{ $S->{XMLLevelTag}->{13} } ]
-                        ->{ $S->{XMLLevelTag}->{14} }
-                        ->[ $S->{XMLLevelCount}->{14}->{ $S->{XMLLevelTag}->{14} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
+                        ->{ $Self->{XMLLevelTag}->{11} }
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]
+                        ->{ $Self->{XMLLevelTag}->{12} }
+                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]
+                        ->{ $Self->{XMLLevelTag}->{13} }
+                        ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]
+                        ->{ $Self->{XMLLevelTag}->{14} }
+                        ->[ $Self->{XMLLevelCount}->{14}->{ $Self->{XMLLevelTag}->{14} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1328,36 +1324,36 @@ sub _XMLStructure2XMLHash {
                     $Param{Item}->{$_} = '';
                 }
                 if ( $_ !~ /^Tag/ ) {
-                    $Self->{XMLHash2}->{ $S->{XMLLevelTag}->{1} }
-                        ->[ $S->{XMLLevelCount}->{1}->{ $S->{XMLLevelTag}->{1} } ]
-                        ->{ $S->{XMLLevelTag}->{2} }
-                        ->[ $S->{XMLLevelCount}->{2}->{ $S->{XMLLevelTag}->{2} } ]
-                        ->{ $S->{XMLLevelTag}->{3} }
-                        ->[ $S->{XMLLevelCount}->{3}->{ $S->{XMLLevelTag}->{3} } ]
-                        ->{ $S->{XMLLevelTag}->{4} }
-                        ->[ $S->{XMLLevelCount}->{4}->{ $S->{XMLLevelTag}->{4} } ]
-                        ->{ $S->{XMLLevelTag}->{5} }
-                        ->[ $S->{XMLLevelCount}->{5}->{ $S->{XMLLevelTag}->{5} } ]
-                        ->{ $S->{XMLLevelTag}->{6} }
-                        ->[ $S->{XMLLevelCount}->{6}->{ $S->{XMLLevelTag}->{6} } ]
-                        ->{ $S->{XMLLevelTag}->{7} }
-                        ->[ $S->{XMLLevelCount}->{7}->{ $S->{XMLLevelTag}->{7} } ]
-                        ->{ $S->{XMLLevelTag}->{8} }
-                        ->[ $S->{XMLLevelCount}->{8}->{ $S->{XMLLevelTag}->{8} } ]
-                        ->{ $S->{XMLLevelTag}->{9} }
-                        ->[ $S->{XMLLevelCount}->{9}->{ $S->{XMLLevelTag}->{9} } ]
-                        ->{ $S->{XMLLevelTag}->{10} }
-                        ->[ $S->{XMLLevelCount}->{10}->{ $S->{XMLLevelTag}->{10} } ]
-                        ->{ $S->{XMLLevelTag}->{11} }
-                        ->[ $S->{XMLLevelCount}->{11}->{ $S->{XMLLevelTag}->{11} } ]
-                        ->{ $S->{XMLLevelTag}->{12} }
-                        ->[ $S->{XMLLevelCount}->{12}->{ $S->{XMLLevelTag}->{12} } ]
-                        ->{ $S->{XMLLevelTag}->{13} }
-                        ->[ $S->{XMLLevelCount}->{13}->{ $S->{XMLLevelTag}->{13} } ]
-                        ->{ $S->{XMLLevelTag}->{14} }
-                        ->[ $S->{XMLLevelCount}->{14}->{ $S->{XMLLevelTag}->{14} } ]
-                        ->{ $S->{XMLLevelTag}->{15} }
-                        ->[ $S->{XMLLevelCount}->{15}->{ $S->{XMLLevelTag}->{15} } ]->{$_}
+                    $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
+                        ->{ $Self->{XMLLevelTag}->{2} }
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
+                        ->{ $Self->{XMLLevelTag}->{3} }
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
+                        ->{ $Self->{XMLLevelTag}->{4} }
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
+                        ->{ $Self->{XMLLevelTag}->{5} }
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
+                        ->{ $Self->{XMLLevelTag}->{6} }
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
+                        ->{ $Self->{XMLLevelTag}->{7} }
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
+                        ->{ $Self->{XMLLevelTag}->{8} }
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
+                        ->{ $Self->{XMLLevelTag}->{9} }
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
+                        ->{ $Self->{XMLLevelTag}->{10} }
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
+                        ->{ $Self->{XMLLevelTag}->{11} }
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]
+                        ->{ $Self->{XMLLevelTag}->{12} }
+                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]
+                        ->{ $Self->{XMLLevelTag}->{13} }
+                        ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]
+                        ->{ $Self->{XMLLevelTag}->{14} }
+                        ->[ $Self->{XMLLevelCount}->{14}->{ $Self->{XMLLevelTag}->{14} } ]
+                        ->{ $Self->{XMLLevelTag}->{15} }
+                        ->[ $Self->{XMLLevelCount}->{15}->{ $Self->{XMLLevelTag}->{15} } ]->{$_}
                         = $Param{Item}->{$_};
                 }
             }
@@ -1403,77 +1399,77 @@ sub _Decode {
 }
 
 sub _HS {
-    my ( $Expat, $Element, %Attr ) = @_;
+    my ( $Self, $Expat, $Element, %Attr ) = @_;
 
-    if ( $S->{LastTag} ) {
-        push @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} };
+    if ( $Self->{LastTag} ) {
+        push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
     }
-    undef $S->{LastTag};
-    undef $S->{C};
-    $S->{XMLLevel}++;
-    $S->{XMLTagCount}++;
-    $S->{XMLLevelTag}->{ $S->{XMLLevel} } = $Element;
-    if ( $S->{Tll} && $S->{Tll} > $S->{XMLLevel} ) {
-        for ( ( $S->{XMLLevel} + 1 ) .. 30 ) {
-            undef $S->{XMLLevelCount}->{$_};
+    undef $Self->{LastTag};
+    undef $Self->{C};
+    $Self->{XMLLevel}++;
+    $Self->{XMLTagCount}++;
+    $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Element;
+    if ( $Self->{Tll} && $Self->{Tll} > $Self->{XMLLevel} ) {
+        for ( ( $Self->{XMLLevel} + 1 ) .. 30 ) {
+            undef $Self->{XMLLevelCount}->{$_};
         }
     }
-    $S->{XMLLevelCount}->{ $S->{XMLLevel} }->{$Element}++;
+    $Self->{XMLLevelCount}->{ $Self->{XMLLevel} }->{$Element}++;
 
     # remember old level
-    $S->{Tll} = $S->{XMLLevel};
+    $Self->{Tll} = $Self->{XMLLevel};
 
     my $Key = '';
-    for ( 1 .. ( $S->{XMLLevel} ) ) {
+    for ( 1 .. ( $Self->{XMLLevel} ) ) {
         if ($Key) {
 
             #            $Key .= "->";
         }
-        $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
-        $Key .= "[" . $S->{XMLLevelCount}->{$_}->{ $S->{XMLLevelTag}->{$_} } . "]";
+        $Key .= "{'$Self->{XMLLevelTag}->{$_}'}";
+        $Key .= "[" . $Self->{XMLLevelCount}->{$_}->{ $Self->{XMLLevelTag}->{$_} } . "]";
     }
 
-    $S->{LastTag} = {
+    $Self->{LastTag} = {
         %Attr,
         TagType  => 'Start',
         Tag      => $Element,
-        TagLevel => $S->{XMLLevel},
-        TagCount => $S->{XMLTagCount},
+        TagLevel => $Self->{XMLLevel},
+        TagCount => $Self->{XMLTagCount},
 
         #        TagKey => $Key,
-        TagLastLevel => $S->{XMLLevelTag}->{ ( $S->{XMLLevel} - 1 ) },
+        TagLastLevel => $Self->{XMLLevelTag}->{ ( $Self->{XMLLevel} - 1 ) },
     };
     return 1;
 }
 
 sub _CS {
-    my ( $Expat, $Element, $I, $II ) = @_;
+    my ( $Self, $Expat, $Element, $I, $II ) = @_;
 
-    if ( $S->{LastTag} ) {
-        $S->{C} .= $Element;
+    if ( $Self->{LastTag} ) {
+        $Self->{C} .= $Element;
     }
     return 1;
 }
 
 sub _ES {
-    my ( $Expat, $Element ) = @_;
+    my ( $Self, $Expat, $Element ) = @_;
 
-    $S->{XMLTagCount}++;
-    if ( $S->{LastTag} ) {
-        push @{ $S->{XMLARRAY} }, { %{ $S->{LastTag} }, Content => $S->{C} };
+    $Self->{XMLTagCount}++;
+    if ( $Self->{LastTag} ) {
+        push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
     }
-    undef $S->{LastTag};
-    undef $S->{C};
+    undef $Self->{LastTag};
+    undef $Self->{C};
     push(
-        @{ $S->{XMLARRAY} },
+        @{ $Self->{XMLARRAY} },
         {
             TagType  => 'End',
-            TagLevel => $S->{XMLLevel},
-            TagCount => $S->{XMLTagCount},
+            TagLevel => $Self->{XMLLevel},
+            TagCount => $Self->{XMLTagCount},
             Tag      => $Element
         },
     );
-    $S->{XMLLevel} = $S->{XMLLevel} - 1;
+    $Self->{XMLLevel} = $Self->{XMLLevel} - 1;
     return 1;
 }
 
@@ -1495,6 +1491,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2010-11-15 09:57:50 $
+$Revision: 1.106 $ $Date: 2011-05-27 13:04:16 $
 
 =cut
