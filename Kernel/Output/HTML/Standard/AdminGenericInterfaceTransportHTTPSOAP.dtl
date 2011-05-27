@@ -2,7 +2,7 @@
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.5 2011-05-24 15:48:01 cr Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.6 2011-05-27 17:25:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@
                     </div>
 
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
                     </div>
