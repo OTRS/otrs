@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.87 2011-05-27 13:49:18 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.88 2011-05-27 13:51:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -376,7 +376,6 @@ sub Run {
                         String => $GetParam{'EmailBody'},
                     );
                 }
-                print STDERR "$GetParam{'EmailSubject'} --- \n";
 
                 # get customer email address
                 my $Customer;
