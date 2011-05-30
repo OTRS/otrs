@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.23 2011-05-03 09:31:54 mb Exp $
+# $Id: otrs.Scheduler.pl,v 1.24 2011-05-30 13:58:16 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -45,7 +45,7 @@ use Proc::Daemon;
 
 # get options
 my %Opts = ();
-getopt( 'hfa', \%Opts );
+getopt( 'hfap', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
@@ -117,7 +117,16 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
 
     # no proces ID means that is not running
     if ( !%PID ) {
-        print "Not Running!\n";
+
+        # print 0 if PID option is required
+        if ( $Opts{p} ) {
+            print "0\n";
+        }
+
+        # otherwise print a human meaningfull message
+        else {
+            print "Not Running!\n";
+        }
         exit 1;
     }
 
@@ -132,13 +141,32 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
 
     # Get the process status
     if ( $Daemon->Status( $PID{PID} ) ) {
-        print "Running $PID{PID}\n"
+
+        # print only the PID if PID option is required
+        if ( $Opts{p} ) {
+            print "$PID{PID}\n";
+        }
+
+        # otherwise print a humman meaningfull message
+        else {
+            print "Running $PID{PID}\n";
+        }
     }
     else {
-        print
-            "Not Running, but PID still registered! Use '-a stop --force' to unregister the PID from the database.\n";
-    }
 
+        # print -1 only id PID option is required, this will diferencite from a corretly stop
+        # message
+        if ( $Opts{p} ) {
+            print "-1\n";
+        }
+
+        # otherwise print a humman meaningfull message
+        else {
+            print
+                "Not Running, but PID still registered! Use '-a stop --force' to unregister "
+                . "the PID from the database.\n";
+        }
+    }
     exit 0;
 }
 
