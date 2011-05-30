@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.25 2011-05-30 14:01:19 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.26 2011-05-30 16:01:17 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -98,6 +98,19 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
                 Message  => "Process could not be deleted from process table! PID $PID{PID}",
             );
             exit 1;
+        }
+
+        #delete PID file
+        my $Home    = $CommonObject{ConfigObject}->Get('Home');
+        my $PIDFILE = $Home . '/var/run/scheduler.pid';
+
+        if ( unlink($PIDFILE) == 0 ) {
+
+            # log PID file cannot be deleted
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Scheduler could not delete PID file! $!",
+            );
         }
     }
 
@@ -310,6 +323,40 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         Name => 'otrs.Scheduler',
     );
 
+    # set run dir for PID Filr
+    my $Home   = $CommonObject{ConfigObject}->Get('Home');
+    my $RunDir = $Home . '/var/run';
+
+    # check if RunDir exists, otherwise create it
+    if ( !-d "$RunDir" ) {
+        my $Success = mkdir "$RunDir", 0755;
+
+        # stop if can't create the PID file
+        if ( !$Success ) {
+            my $ExitCode = _AutoStop(
+                Message   => "Could not create the directory $RunDir! Scheduler is stopping...!",
+                DeletePID => 1,
+            );
+            return $ExitCode;
+        }
+    }
+
+    # write PID on the PID file (if possible)
+    my $PIDFILE = $RunDir . '/scheduler.pid';
+    if ( open PIDFILE, ">", $PIDFILE ) {
+        print PIDFILE $PID{PID};
+        close PIDFILE;
+    }
+
+    # otherwise stop if can't write the PID on the PID file
+    else {
+        my $ExitCode = _AutoStop(
+            Message   => "Can not write into the PIDFILE: $!",
+            DeletePID => 1,
+        );
+        return $ExitCode;
+    }
+
     # Log daemon startup
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
@@ -354,7 +401,6 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
         # check if Framework.xml file exists, otherwise quits because the otrs instalation
         # might not be ok. for example UnitTest machines during change scenario process
-        my $Home                = $CommonObject{ConfigObject}->Get('Home');
         my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
         if ( !-e $FrameworkConfigFile ) {
             my $ExitCode = _AutoStop(
@@ -540,6 +586,20 @@ sub _AutoStop {
             return $ExitCode;
         }
 
+        #delete PID file
+        my $Home    = $CommonObject{ConfigObject}->Get('Home');
+        my $PIDFILE = $Home . '/var/run/scheduler.pid';
+
+        if ( unlink($PIDFILE) == 0 ) {
+
+            # log PID file cannot be deleted
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Scheduler could not delete PID file! $!",
+            );
+            $ExitCode = 1;
+            return $ExitCode;
+        }
         $ExitCode = 0;
         return $ExitCode;
     }
