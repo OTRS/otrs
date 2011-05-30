@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.101 2011-05-27 13:11:19 mg Exp $
+# $Id: CHANGES,v 1.1758.2.102 2011-05-30 08:26:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.9 2011-??-??
+ - 2011-05-30 Fixed bug#7361 - "$HOME/bin/otrs.DeleteCache.pl --expired" causes error message :
+    Invalid option --expired
  - 2011-05-27 Fixed bug#7355 - Memory leak in XML.pm.
  - 2011-05-27 Fixed bug#7356 - AgentTicketForward ignores free text fields.
  - 2011-05-26 Fixed bug#7311 - bouncing a ticket to multiple email-addresses is not possible anymore.

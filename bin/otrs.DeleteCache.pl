@@ -3,7 +3,7 @@
 # bin/otrs.DeleteCache.pl - delete all caches
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteCache.pl,v 1.2.2.1 2011-04-08 13:59:24 ub Exp $
+# $Id: otrs.DeleteCache.pl,v 1.2.2.2 2011-05-30 08:26:37 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.1 $) [1];
+$VERSION = qw($Revision: 1.2.2.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,7 +52,7 @@ if ( $Opts{h} ) {
 }
 my %Options;
 if ( $Opts{e} ) {
-    if ( $Opts{e} eq 'expired' ) {
+    if ( $Opts{e} eq 'xpired' ) {
         $Options{Expired} = 1;
     }
     else {
