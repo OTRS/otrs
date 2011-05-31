@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.51 2011-05-26 16:39:06 cg Exp $
+# $Id: Common.pm,v 1.52 2011-05-31 13:42:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -81,7 +81,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
         Invoker            => 'ReplicateIncident'   # The invoker name
-        WebserviceID       => '123'                 # The ID of the Webservice
+        WebserviceID       => '123'                 # The ID of the Web service
     );
 
 =cut
@@ -122,7 +122,7 @@ sub new {
     $Self->{ObjectLockStateObject}
         = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
-    # get max sync attemps
+    # get max sync attempts
     $Self->{MaxSyncAttempts}
         = $Self->{ConfigObject}->Get('GenericInterface::Invoker::SolMan::MaxSyncAttempts') || 5;
     return $Self;
@@ -131,7 +131,7 @@ sub new {
 # handle common
 
 =item HandleErrors()
-Process errors from remote server, the result will be a string with all erros
+Process errors from remote server, the result will be a string with all errors
 
     my $Result = $SolManCommonObject->HandleErrors(
         Errors     => {
@@ -193,7 +193,7 @@ sub HandleErrors {
     # to store each error item
     my @ErrorItems;
 
-    # check for multimple errors
+    # check for multiple errors
     if ( IsArrayRefWithData( $Param{Errors}->{item} ) ) {
 
         # get all errors
@@ -222,15 +222,15 @@ sub HandleErrors {
 
     if ( scalar @ErrorItems gt 0 ) {
 
-        # cicle trough all error items
+        # cycle trough all error items
         for my $Item (@ErrorItems) {
 
             # check error code
             if ( IsStringWithData( $Item->{ErrorCode} ) ) {
                 $ErrorMessage .= "Error Code $Item->{ErrorCode} ";
 
-                # if at leat one error item contains an error code that is not on the
-                # NonReSchduleerrorCodes list, then the taks should de rescheduled
+                # if at least one error item contains an error code that is not on the
+                # NonReSchduleerrorCodes list, then the tasks should be rescheduled
                 if ( !defined $NonReScheduleErrorCodes{ $Item->{ErrorCode} } ) {
                     $ReSchedule = 1;
                 }
@@ -240,13 +240,13 @@ sub HandleErrors {
                 $ErrorMessage .= 'An error message was received but no Error Code found! ';
             }
 
-            # set the erros description
+            # set the errors description
             if ( IsStringWithData( $Item->{Val1} ) ) {
                 $ErrorMessage .= "$Item->{Val1} ";
             }
             $ErrorMessage .= 'Details: ';
 
-            # cicle trough all details
+            # cycle trough all details
             for my $Val qw(Val2 Val3 Val4) {
                 if ( IsStringWithData( $Item->{"$Val"} ) ) {
                     $ErrorMessage .= "$Item->{$Val}  ";
@@ -303,7 +303,7 @@ Process person maps from the remote server, the result will always be an array r
 
     $Result = {
         Success      => 1,                # 1 or 0
-        ErrorMessage => ' ',              # optional if there is an error hadling the person maps
+        ErrorMessage => ' ',              # optional if there is an error handling the person maps
         PersonMap    => [
                 {
                     PersonId    => '0001',
@@ -330,13 +330,13 @@ sub _HandlePersonMaps {
         }
     }
 
-    # to store each preson map item
+    # to store each person map item
     my @PersonMaps;
 
     # to store possible errors
     my $ErrorMessage;
 
-    # check for multimple person maps
+    # check for multiple person maps
     if ( IsArrayRefWithData( $Param{PersonMaps}->{item} ) ) {
 
         # get all person maps
@@ -436,7 +436,7 @@ sub GetSystemGuid {
         String => $SystemID,
     );
 
-    # conver to upper case to match SolMan style
+    # convert to upper case to match SolMan style
     $SystemIDMD5 = uc $SystemIDMD5;
 
     return $SystemIDMD5;
@@ -512,7 +512,7 @@ sub GetPersonsInfo {
 
     push @IctPersons, $IctCustomerUser;
 
-    # use customer languge as language or english by default
+    # use customer language as language or English by default
     my $Language = $CustomerUser{UserLanguage} || 'en';
 
     # agent
@@ -672,7 +672,7 @@ returns the IctAttachments array and IctStatements array for SolMan communicatio
     my $Result = $SolManCommonObject->GetArticlesInfo(
         UserID   => 123,
         TicketID => 67,
-        LastSync => 1302724965,  # Last sync time as SystemTime fomat or 0 if none
+        LastSync => 1302724965,  # Last sync time as SystemTime format or 0 if none
         Language => 'en'
     );
 
@@ -729,7 +729,7 @@ sub GetArticlesInfo {
     ARTICLE:
     for my $Article (@Articles) {
 
-        # checkif article needs to be synced
+        # check if article needs to be synced
         my $ArticleCreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Article->{Created},
         );
@@ -808,15 +808,15 @@ returns the SystemGuid or empty if it is not set for the invoker
 sub GetRemoteSystemGuid {
     my ( $Self, %Param ) = @_;
 
-    # get webservice configuration
+    # get web service configuration
     my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
         ID => $Self->{WebserviceID},
     );
 
-    # check if webservice configuration is valid
+    # check if web service configuration is valid
     if ( !IsHashRefWithData($Webservice) ) {
         $Self->{DebuggerObject}->Error(
-            Summary => "GetRemoteSystemGuid: Webservice configuration is invalid",
+            Summary => "GetRemoteSystemGuid: Web service configuration is invalid",
         );
         return;
     }
@@ -854,7 +854,7 @@ sub GetRemoteSystemGuid {
 =item SetRemoteSystemGuid()
 writes the SystemGuid in the specified invoker configuration or in all invokers if param AllInvokers
 is present. Only one, Invoker or AllInvokers parameter should be passed.
-returns 1 if the operation was successfull.
+returns 1 if the operation was successful.
 
     my $Success = $SolManCommonObject->SetRemoteSystemGuid(
         WebserviceID => 123,
@@ -907,15 +907,15 @@ sub SetRemoteSystemGuid {
         return;
     }
 
-    # get webservice configuration
+    # get web service configuration
     my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
         ID => $Param{WebserviceID},
     );
 
-    # check if webservice configuration is valid
+    # check if web service configuration is valid
     if ( !IsHashRefWithData($Webservice) ) {
         $Self->{DebuggerObject}->Error(
-            Summary => "SetRemoteSystemGuid: Webservice configuration is invalid",
+            Summary => "SetRemoteSystemGuid: Web service configuration is invalid",
         );
         return;
     }
@@ -929,7 +929,7 @@ sub SetRemoteSystemGuid {
         }
     }
 
-    # otherwise set SystemGuid to especific invoker
+    # otherwise set SystemGuid to specific invoker
     else {
         $Config->{Requester}->{Invoker}->{ $Param{Invoker} }->{RemoteSystemGuid}
             = $Param{SystemGuid};
@@ -947,14 +947,14 @@ sub SetRemoteSystemGuid {
     # if can't update config, write in the debug log
     if ( !$Success ) {
         $Self->{DebuggerObject}->Error(
-            Summary => "SetRemoteSystemGuid: can't update Webservice configuration",
+            Summary => "SetRemoteSystemGuid: can't update Web service configuration",
         );
     }
 
     # otherwise just send notification
     else {
         $Self->{DebuggerObject}->Error(
-            Summary => "SetRemoteSystemGuid: Webservice configuration updated",
+            Summary => "SetRemoteSystemGuid: Web service configuration updated",
         );
     }
 
@@ -1017,7 +1017,7 @@ sub ScheduleTask {
 
 =item PrepareRequest()
 
-prepare the invocation of the configured remote webservice.
+prepare the invocation of the configured remote web service.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => {                               # data payload depending on the invoker
@@ -1103,7 +1103,7 @@ sub PrepareRequest {
             $Self->{DebuggerObject}->Debug(
                 Summary => "$Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
                     . "state but on an \"$Ticket{StateType}\" state,"
-                    . " CloseIncident Invoker Cancelled",
+                    . " CloseIncident Invoker Canceled",
             );
 
             # stop requester communication
@@ -1115,8 +1115,8 @@ sub PrepareRequest {
 
         # return if ticket was already closed
         elsif ( $OldTicketData->{StateType} eq 'closed' ) {
-            $ErrorMessage = "$Self->{Invoker} Prerpare Request: This is ticket was already in "
-                . "closed state, CloseIncident Invoker Cancelled";
+            $ErrorMessage = "$Self->{Invoker} Prepare Request: This is ticket was already in "
+                . "closed state, CloseIncident Invoker Canceled";
             $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
             return {
                 Success      => 0,
@@ -1137,8 +1137,8 @@ sub PrepareRequest {
 
     # check current sync attempts and return if maximum has been reached
     if ( int($SyncAttempts) >= int( $Self->{MaxSyncAttempts} ) ) {
-        $ErrorMessage = "$Self->{Invoker} PrepareRequest: The attempts to syncrhonize ticket "
-            . "$Self->{TicketID} has reached or overpassed the maximum allowed "
+        $ErrorMessage = "$Self->{Invoker} PrepareRequest: The attempts to synchronize ticket "
+            . "$Self->{TicketID} has reached or over passed the maximum allowed "
             . "( $ObjectLockState->{LockStateCounter} / $Self->{MaxSyncAttempts} ), can't continue!";
         $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         return {
@@ -1177,12 +1177,12 @@ sub PrepareRequest {
         )
     {
 
-        # get LastSync as human readeble timestamp
+        # get LastSync as human readable timestamp
         my $LastSyncTimestamp = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $LastSync,
         );
 
-        # this ticket comes from OTRS has a sync flag and this ticket shoud not be replicated again
+        # this ticket comes from OTRS has a sync flag and this ticket should not be replicated again
         # but use AddInfo or CloseInsitent Instead
         if ( $IncidentGuid eq $Ticket{TicketNumber} ) {
             $ErrorMessage = "Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, "
@@ -1190,8 +1190,8 @@ sub PrepareRequest {
             return $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
         }
 
-        # otherwise the ticket was originated in SolMan shoud not continue
-        # but use a StopCommunication so it wil not be logged as an error
+        # otherwise the ticket was originated in SolMan should not continue
+        # but use a StopCommunication so it will not be logged as an error
         else {
             $Self->{DebuggerObject}->Debug(
                 Summary => "The ticket $Self->{TicketID} was originated in SolMan and does not "
@@ -1213,20 +1213,20 @@ sub PrepareRequest {
         )
     {
 
-        # get webservice configuration
+        # get web service configuration
         my $Webservice = $Self->{WebserviceObject}->WebserviceGet(
             ID => $Self->{WebserviceID},
         );
 
-        # check if webservice configuration is valid
+        # check if web service configuration is valid
         if ( !IsHashRefWithData($Webservice) ) {
             $Self->{DebuggerObject}->Error(
-                Summary => 'PrepareRequest: Webservice configuration is invalid',
+                Summary => 'PrepareRequest: Web service configuration is invalid',
             );
             return;
         }
 
-        # determine the type of initial invoker for this webservice, default is ReplicateIncident
+        # determine the type of initial invoker for this web service, default is ReplicateIncident
         my $InitialInvokerType = 'ReplicateIncident';
         if (
             IsHashRefWithData( $Webservice->{Config}->{Requester}->{Invoker}->{'ProcessIncident'} )
@@ -1235,7 +1235,7 @@ sub PrepareRequest {
             $InitialInvokerType = 'ProcessIncident';
         }
 
-        # schedule a new task to replicate insident and exit
+        # schedule a new task to replicate incident and exit
         my $Success = $Self->ScheduleTask(
             Type         => 'GenericInterface',
             Invoker      => $InitialInvokerType,
@@ -1487,7 +1487,7 @@ sub PrepareRequest {
         : '',
     );
 
-    # store all data pased to the invoker in case of a reschdule on handle response
+    # store all data passed to the invoker in case of a reschedule on handle response
     $Self->{RequestData} = $Param{Data};
 
     return {
@@ -1498,11 +1498,11 @@ sub PrepareRequest {
 
 =item HandleResponse()
 
-handle response data of the configured remote webservice.
+handle response data of the configured remote web service.
 
     my $Result = $InvokerObject->HandleResponse(
-        ResponseSuccess      => 1,              # success status of the remote webservice
-        ResponseErrorMessage => '',             # in case of webservice error
+        ResponseSuccess      => 1,              # success status of the remote web service
+        ResponseErrorMessage => '',             # in case of web service error
         Data => {                               # data payload
             PersonMaps => {
                 Item => {
@@ -1525,8 +1525,8 @@ handle response data of the configured remote webservice.
     );
 
     my $Result = $InvokerObject->HandleResponse(
-        ResponseSuccess      => 1,              # success status of the remote webservice
-        ResponseErrorMessage => '',             # in case of webservice error
+        ResponseSuccess      => 1,              # success status of the remote web service
+        ResponseErrorMessage => '',             # in case of web service error
         Data => {                               # data payload
             PersonMaps => {
                 Item => [
@@ -1587,10 +1587,10 @@ sub HandleResponse {
 
     my $ErrorMessage;
 
-    # add sync attemp
+    # add sync attempt
     $Self->_AddSyncAttempt();
 
-    # break early if response was not successfull
+    # break early if response was not successful
     if ( !$Param{ResponseSuccess} ) {
         return {
             Success      => 0,
@@ -1667,7 +1667,7 @@ sub HandleResponse {
         }
     }
 
-    # response should have a person maps and it sould be empty
+    # response should have a person maps and it should be empty
     if ( !defined $Param{Data}->{PersonMaps} ) {
 
         $ErrorMessage = 'Got no PersonMaps!';
@@ -1705,7 +1705,7 @@ sub HandleResponse {
 
     if ( $Self->{Invoker} eq 'ProcessIncident' || $Self->{Invoker} eq 'ReplicateIncident' ) {
 
-        # set Incidentid flag
+        # set IncidentId flag
         my $SuccessTicketFlagSet = $Self->{TicketObject}->TicketFlagSet(
             TicketID => $Self->{RequestData}->{TicketID},
             Key      => "GI_$Self->{WebserviceID}_SolMan_IncidentId",
@@ -1752,7 +1752,7 @@ sub _SetSyncTimestamp {
             "SetSyncTimestamp: Replicate Ticket flag has been set",
     );
 
-    # return succesful or not
+    # return successful or not
     if ( !$SuccessTicketFlagSet || !$SuccessTicketLock ) {
         return 0;
     }
@@ -1804,6 +1804,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2011-05-26 16:39:06 $
+$Revision: 1.52 $ $Date: 2011-05-31 13:42:37 $
 
 =cut
