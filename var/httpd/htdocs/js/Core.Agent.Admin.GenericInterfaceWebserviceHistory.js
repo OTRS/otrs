@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.8 2011-05-25 17:17:20 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.9 2011-05-31 16:37:54 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,22 +54,28 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
             }
             else {
                 $('#WebserviceList tbody').empty();
-                var HTML = '';
+                var HTML = '',
+                Counter = Response.LogData.length;
 
                 $.each(Response.LogData, function(){
                     HTML += '<tr>';
 
-                    HTML += '<td><a href="#" class="AsBlock">' + this.ID + '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" /></a></td>';
+                    HTML += '<td><a href="#" class="AsBlock">' + Counter + 
+                        '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" />' +
+                        '<input type="hidden" class="WebserviceHistoryVersion" value="' + Counter + '" />' +
+                    '</a></td>';
                     HTML += '<td><a href="#" class="AsBlock">' + this.CreateTime + '</a></td>';
                     HTML += '</tr>';
+                    Counter --;
 
                 });
                 $('#WebserviceList tbody').html(HTML);
 
                 $('#WebserviceList a').bind('click', function(Event) {
-                    var WebserviceHistoryID = $(this).blur().parents('tr').find('input.WebserviceHistoryID').val();
+                    var WebserviceHistoryID = $(this).blur().parents('tr').find('input.WebserviceHistoryID').val(),
+                    WebserviceHistoryVersion = $(this).blur().parents('tr').find('input.WebserviceHistoryVersion').val();
 
-                    TargetNS.LoadWebserviceHistoryDetails(WebserviceHistoryID);
+                    TargetNS.LoadWebserviceHistoryDetails(WebserviceHistoryID, WebserviceHistoryVersion);
 
                     return false;
                 });
@@ -78,7 +84,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         }, 'json');
     };
 
-    TargetNS.LoadWebserviceHistoryDetails = function(WebserviceHistoryID) {
+    TargetNS.LoadWebserviceHistoryDetails = function(WebserviceHistoryID, WebserviceHistoryVersion) {
 
         var Data = {
             Action: 'AdminGenericInterfaceWebserviceHistory',
@@ -114,7 +120,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 $('#WebserviceHistoryID').attr('value',WebserviceHistoryID);
                 $('#WebserviceHistoryDetails .ControlRow').empty();
                 $('#WebserviceHistoryDetails .ControlRow').append(
-                    '<h2>History Details: Version ' + Response.LogData.ID + ', ' + Response.LogData.CreateTime +  '</h2>'
+                    '<h2>History Details: Version ' + WebserviceHistoryVersion + ', ' + Response.LogData.CreateTime +  '</h2>'
                 );
 
                 $('#WebserviceHistoryDetails .ConfigCode pre').empty();
