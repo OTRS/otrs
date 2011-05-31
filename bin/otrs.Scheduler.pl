@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.27 2011-05-30 16:02:44 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.28 2011-05-31 07:24:26 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ getopt( 'hfap', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
-    print "This program cannot run in Microsoft Windows!, use otrs.Scheduler4win.pl instead.\n";
+    print "This program cannot run on Microsoft Windows. Use otrs.Scheduler4win.pl instead.\n";
     exit 1;
 }
 
@@ -76,7 +76,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
         exit 1;
     }
 
-    # send interrupt signal to the proces ID to stop it
+    # send interrupt signal to the process ID to stop it
     kill( 2, $PID{PID} );
 
     $CommonObject{LogObject}->Log(
@@ -84,7 +84,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
         Message  => "Scheduler Daemon Stop! PID $PID{PID}",
     );
 
-    # force stop: remove PID from database, might be neccessary if
+    # force stop: remove PID from database, might be necessary if
     #   the process died but is still registered.
     if ( $Opts{f} ) {
 
@@ -100,7 +100,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
             exit 1;
         }
 
-        #delete PID file
+        # delete PID file
         my $Home    = $CommonObject{ConfigObject}->Get('Home');
         my $PIDFILE = $Home . '/var/run/scheduler.pid';
 
@@ -128,7 +128,7 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # no proces ID means that is not running
+    # no process ID means that is not running
     if ( !%PID ) {
 
         # print 0 if PID option is required
@@ -160,23 +160,23 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
             print "$PID{PID}\n";
         }
 
-        # otherwise print a humman meaningful message
+        # otherwise print a human meaningful message
         else {
             print "Running $PID{PID}\n";
         }
     }
     else {
 
-        # print -1 only id PID option is required, this will diferencite from a corretly stop
+        # print -1 only id PID option is required, this will differentiate from a correct stop
         # message
         if ( $Opts{p} ) {
             print "-1\n";
         }
 
-        # otherwise print a humman meaningful message
+        # otherwise print an error message
         else {
             print
-                "Not Running, but PID still registered! Use '-a stop --force' to unregister "
+                "Not Running, but PID is still registered! Use '-a stop --force' to unregister "
                 . "the PID from the database.\n";
         }
     }
@@ -194,13 +194,13 @@ if ( $Opts{a} && $Opts{a} eq "reload" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # no proces ID means that is not running
+    # no process ID means that is not running
     if ( !%PID ) {
-        print "Can't get OTRS Scheduler status because is not running!\n";
+        print "Can't get OTRS Scheduler status because it is not running!\n";
         exit 1;
     }
 
-    # send interrupt signal to the proces ID to stop it
+    # send interrupt signal to the process ID to stop it
     kill( 1, $PID{PID} );
 
     # log daemon stop
@@ -247,11 +247,11 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             }
         }
 
-        # get detault log path from configuration
+        # get default log path from configuration
         my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
             || '<OTRS_CONFIG_Home>/var/log';
 
-        # backup old logfiles
+        # backup old log files
         my $FileExt    = '.log';
         my $FileStdOut = $LogPath . '/SchedulerOUT.log';
         my $FileStdErr = $LogPath . '/SchedulerERR.log';
@@ -323,7 +323,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # set run dir for PID Filr
+    # set run dir for PID File
     my $Home   = $CommonObject{ConfigObject}->Get('Home');
     my $RunDir = $Home . '/var/run';
 
@@ -341,14 +341,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
     }
 
-    # write PID on the PID file (if possible)
+    # write PID to the PID file (if possible)
     my $PIDFILE = $RunDir . '/scheduler.pid';
     if ( open PIDFILE, ">", $PIDFILE ) {
         print PIDFILE $PID{PID};
         close PIDFILE;
     }
 
-    # otherwise stop if can't write the PID on the PID file
+    # otherwise stop if we can't write the PID on the PID file
     else {
         my $ExitCode = _AutoStop(
             Message   => "Can not write into the PIDFILE: $!",
@@ -357,7 +357,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         return $ExitCode;
     }
 
-    # Log daemon startup
+    # Log daemon start up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message  => "Scheduler Daemon start! PID $PID{PID}",
@@ -399,7 +399,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             return $ExitCode;
         }
 
-        # check if Framework.xml file exists, otherwise quits because the otrs instalation
+        # check if Framework.xml file exists, otherwise quit because the otrs installation
         # might not be ok. for example UnitTest machines during change scenario process
         my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
         if ( !-e $FrameworkConfigFile ) {
@@ -415,7 +415,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         # get config checksum
         my $CurrConfigMD5 = $CommonObject{ConfigObject}->ConfigChecksum();
 
-        # check if cheksum changed and restart
+        # check if checksum changed and restart
         if ( $InitConfigMD5 ne $CurrConfigMD5 ) {
 
             my $ExitCode = _AutoRestart(
@@ -481,7 +481,7 @@ sub _help {
     # Not documented!
     # otrs.Scheduler.pl -a status [-p PID]
     #     0 if scheduler is stopped
-    #    -1 if scheduler is registered on the DB but is not running
+    #    -1 if scheduler is registered in the DB but is not running
     # <PID> if scheduler is running where <PID> is the process number of the scheduler process
 }
 
@@ -511,13 +511,13 @@ sub _AutoRestart {
         Name => 'otrs.Scheduler',
     );
 
-    # Log daemon startup
+    # Log daemon start up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message => $Param{Message} || 'Unknown reason to restart',
     );
 
-    # delete pid lock
+    # delete PID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
     my $ExitCode;
