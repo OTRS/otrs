@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.19 2011-05-10 16:31:15 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.20 2011-05-31 12:01:47 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -90,7 +90,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
     if ( $Opts{f} ) {
 
-        # delete pid lock
+        # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
     }
     else {
@@ -100,7 +100,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
             Name => 'otrs.Scheduler',
         );
 
-        # no proces ID means that is not running
+        # no process ID means that is not running
         if ( !%PID ) {
             print "OTRS scheduler was already in stopped state.\n";
             exit 1;
@@ -108,7 +108,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     }
 
     # stop the scheduler service (same as "stop"" in service control manger)
-    # cant use Win32::Daemon becase is called from outside
+    # cant use Win32::Daemon because is called from outside
     my $Result = Win32::Service::StopService( '', $Service );
 
     # sleep to let service stop successfully
@@ -145,7 +145,7 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # no proces ID means that is not running
+    # no process ID means that is not running
     if ( !%PID ) {
         print "Can't get OTRS Scheduler status, it is not running!\n";
         exit 1;
@@ -158,14 +158,14 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
     );
 
     # stop the scheduler service (same as "stop" in service control manger)
-    # can't use Win32::Daemon becase is called from outside
+    # can't use Win32::Daemon because is called from outside
     Win32::Service::StopService( '', $Service );
 
     # needs to wait until the service is stopped completely
     # this value could be changed if needed or check the status
     sleep 2;
 
-    # delete pid lock
+    # delete process ID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
     # start the scheduler service (same as "play" in service control manager)
@@ -221,7 +221,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # start the scheduler service (same as "play" in service control manager)
-    # cant use Win32::Daemon becase is called from outside
+    # cant use Win32::Daemon because is called from outside
     Win32::Service::StartService( '', $Service );
 }
 
@@ -259,14 +259,14 @@ sub _start {
         Name => 'otrs.Scheduler',
     );
 
-    # get detault log path from configuration
+    # get default log path from configuration
     my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
         || '<OTRS_CONFIG_Home>/var/log';
 
     # set proper directory separators on windows
     $LogPath =~ s{/}{\\}g;
 
-    # backup old logfiles
+    # backup old log files
     my $FileStdOut = $LogPath . '\SchedulerOUT.log';
     my $FileStdErr = $LogPath . '\SchedulerERR.log';
     use File::Copy;
@@ -331,7 +331,7 @@ sub _start {
     # start the service
     Win32::Daemon::StartService();
 
-    # to store the current sevice state
+    # to store the current service state
     my $State;
     $State = Win32::Daemon::State();
 
@@ -345,7 +345,7 @@ sub _start {
         # check if service is in start pending state
         if ( SERVICE_START_PENDING == $State ) {
 
-            # Log service startup
+            # Log service start-up
             $CommonObject{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Scheduler Service is starting...!",
@@ -419,8 +419,8 @@ sub _start {
                 return $ExitCode;
             }
 
-            # check if Framework.xml file exists, otherwise quits because the otrs instalation
-            # might not be ok. for example UnitTest machines during change scenario process
+            # check if Framework.xml file exists, otherwise quits because the otrs installation
+            # might not be OK. for example UnitTest machines during change scenario process
             my $Home                = $CommonObject{ConfigObject}->Get('Home');
             my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
 
@@ -489,7 +489,7 @@ sub _stop {
     # stop the service (this can be called because is part of the main loop)
     Win32::Daemon::StopService();
 
-    # delete pid lock
+    # delete process ID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
 
     sleep 2;
@@ -528,7 +528,7 @@ sub _status {
         Name => 'otrs.Scheduler',
     );
 
-    # no proces ID means that is not running
+    # no process ID means that is not running
     if ( !%PID ) {
         print "Not running!\n";
         exit 1;
@@ -549,7 +549,7 @@ sub _status {
         sleep 1;
     }
 
-    # check if service is runing (state 4)
+    # check if service is running (state 4)
     if ( $ServiceStatus->{CurrentState} eq 4 ) {
         print "Running $PID{PID}\n"
     }
@@ -587,13 +587,13 @@ sub _AutoRestart {
         Name => 'otrs.Scheduler',
     );
 
-    # Log daemon startup
+    # Log daemon start-up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message => $Param{Message} || 'Unknown reason to restart',
     );
 
-    # delete pid lock
+    # delete process ID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
     my $ExitCode;
@@ -621,18 +621,18 @@ sub _AutoRestart {
     my $Home      = $CommonObject{ConfigObject}->Get('Home');
     my $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
 
-    # convert Sceduler path to windows format
+    # convert Scheduler path to windows format
     $Scheduler =~ s{/}{\\}g;
 
-    # create a new scheduler intance
-    # this process could take more than 30 secons be aware of that!
-    # needs a separete process
+    # create a new scheduler instance
+    # this process could take more than 30 seconds be aware of that!
+    # needs a separate process
     my $Result = system("\"$^X\" \"$Scheduler\" -a start");
 
     if ( !$Result ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
-            Message  => "Could not startup new Scheduler instance.",
+            Message  => "Could not start-up new Scheduler instance.",
         );
 
         $ExitCode = 1;
@@ -666,7 +666,7 @@ sub _AutoStop {
             Name => 'otrs.Scheduler',
         );
 
-        # delete pid lock
+        # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
         # log daemon stop
