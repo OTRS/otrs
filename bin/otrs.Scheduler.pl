@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# otrs.Scheduler.pl - provides Scheduler Daemon control on unix like OS
+# otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.28 2011-05-31 07:24:26 mb Exp $
+# $Id: otrs.Scheduler.pl,v 1.29 2011-05-31 11:51:56 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -70,7 +70,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # no proces ID means that is not running
+    # no process ID means that is not running
     if ( !%PID ) {
         print "Can't stop OTRS Scheduler because is not running!\n";
         exit 1;
@@ -88,7 +88,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     #   the process died but is still registered.
     if ( $Opts{f} ) {
 
-        # delete pid lock
+        # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
         # log daemon stop
@@ -323,7 +323,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         Name => 'otrs.Scheduler',
     );
 
-    # set run dir for PID File
+    # set run directory for PID File
     my $Home   = $CommonObject{ConfigObject}->Get('Home');
     my $RunDir = $Home . '/var/run';
 
@@ -400,7 +400,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
 
         # check if Framework.xml file exists, otherwise quit because the otrs installation
-        # might not be ok. for example UnitTest machines during change scenario process
+        # might not be OK. for example UnitTest machines during change scenario process
         my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
         if ( !-e $FrameworkConfigFile ) {
             my $ExitCode = _AutoStop(
@@ -539,7 +539,7 @@ sub _AutoRestart {
     if ( !$Result ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
-            Message  => "Could not startup new Scheduler instance.",
+            Message  => "Could not start-up new Scheduler instance.",
         );
 
         $ExitCode = 1;
@@ -573,7 +573,7 @@ sub _AutoStop {
             Name => 'otrs.Scheduler',
         );
 
-        # delete pid lock
+        # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
         # log daemon stop
