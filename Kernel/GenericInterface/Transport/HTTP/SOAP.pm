@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.30 2011-05-05 20:24:22 sb Exp $
+# $Id: SOAP.pm,v 1.31 2011-05-31 11:53:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -87,13 +87,13 @@ sub ProviderProcessRequest {
     # check transport config
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
         return $Self->_Error(
-            Summary   => 'Have no TransportConfig',
+            Summary   => 'HTTP::SOAP Have no TransportConfig',
             HTTPError => 500,
         );
     }
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return $Self->_Error(
-            Summary   => 'Have no Config',
+            Summary   => 'HTTP::SOAP Have no Config',
             HTTPError => 500,
         );
     }
@@ -102,7 +102,7 @@ sub ProviderProcessRequest {
     # check namespace config
     if ( !IsStringWithData( $Config->{NameSpace} ) ) {
         return $Self->_Error(
-            Summary   => 'Have no NameSpace in config',
+            Summary   => 'HTTP::SOAP Have no NameSpace in config',
             HTTPError => 500,
         );
     }
@@ -1094,6 +1094,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-05-05 20:24:22 $
+$Revision: 1.31 $ $Date: 2011-05-31 11:53:42 $
 
 =cut
