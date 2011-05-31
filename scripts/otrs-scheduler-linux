@@ -3,7 +3,7 @@
 # otrs-scheduler-linux - provides Scheduler init control on linux
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs-scheduler-linux,v 1.2 2011-05-21 15:54:28 cr Exp $
+# $Id: otrs-scheduler-linux,v 1.3 2011-05-31 13:47:10 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,10 +33,11 @@
 # Default-Stop:   0 1 6
 # Required-Start: $ALL
 # Required-Stop:
+# Short-Description: Start/stop OTRS Scheduler.
 ### END INIT INFO
 #-----------------------------------------------------------------------
 # User defined variables
-OTRSHome=/opt/otrs
+OTRS_HOME=/opt/otrs
 User=otrs
 Group=otrs
 # User and Group needs to be the same as the apache user and group
@@ -46,7 +47,7 @@ Group=otrs
 PATH=$PATH:/bin:/sbin:/usr/sbin
 prog=otrs-scheduler
 # set Scheduler script
-Scheduler=$OTRSHome/bin/otrs.Scheduler.pl
+Scheduler=$OTRS_HOME/bin/otrs.Scheduler.pl
 
 # Regular expresions
 RegExDigit="[0-9]+"
@@ -220,6 +221,11 @@ start() {
        fail_msg
        return 1
     fi
+
+    # create lock file so redhat can stop service at reboot or halt
+    if [ "$system" = "redhat" ]; then
+        touch /var/lock/subsys/otrs-scheduler-linux
+    fi
     return $RETVAL
 }
 
@@ -250,6 +256,11 @@ stop() {
     else
         begin "Scheduler is already stopped"
         succ_msg
+    fi
+
+    # remove lock file for redhat
+    if [ "$system" = "redhat" ]; then
+        rm -f /var/lock/subsys/otrs-scheduler-linux
     fi
     return $RETVAL
 }
