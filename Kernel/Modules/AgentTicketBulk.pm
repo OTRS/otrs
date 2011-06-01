@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.88 2011-05-27 13:51:58 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.89 2011-06-01 13:50:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -404,12 +404,21 @@ sub Run {
                     $Customer = $Data{From};
                 }
 
+                # generate sender name
                 my $From = $Self->{TemplateGeneratorObject}->Sender(
                     QueueID => $Ticket{QueueID},
                     UserID  => $Self->{UserID},
                 );
 
-                $EmailArticleID = $Self->{TicketObject}->ArticleCreate(
+                # generate subject
+                my $TicketNumber
+                    = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID );
+                $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+                    TicketNumber => $TicketNumber,
+                    Subject => $GetParam{EmailSubject} || '',
+                );
+
+                $EmailArticleID = $Self->{TicketObject}->ArticleSend(
                     TicketID       => $TicketID,
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
