@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.89 2011-06-01 13:50:46 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.90 2011-06-01 14:29:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -392,7 +392,7 @@ sub Run {
                 # check if we have an address, otherwise deduct it from the articles
                 if ( !$Customer ) {
                     my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                        TicketID => $Self->{TicketID}
+                        TicketID => $TicketID,
                     );
 
                     # check article type and replace To with From (in case)
@@ -413,7 +413,8 @@ sub Run {
                 # generate subject
                 my $TicketNumber
                     = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID );
-                $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+
+                my $EmailSubject = $Self->{TicketObject}->TicketSubjectBuild(
                     TicketNumber => $TicketNumber,
                     Subject => $GetParam{EmailSubject} || '',
                 );
@@ -424,7 +425,7 @@ sub Run {
                     SenderType     => 'agent',
                     From           => $From,
                     To             => $Customer,
-                    Subject        => $GetParam{EmailSubject},
+                    Subject        => $EmailSubject,
                     Body           => $GetParam{EmailBody},
                     MimeType       => $MimeType,
                     Charset        => $Self->{LayoutObject}->{UserCharset},
