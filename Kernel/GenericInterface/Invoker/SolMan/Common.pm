@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.52 2011-05-31 13:42:37 cr Exp $
+# $Id: Common.pm,v 1.53 2011-06-01 04:48:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -1101,7 +1101,7 @@ sub PrepareRequest {
         # return if this is not ticket close
         if ( $Ticket{StateType} ne 'closed' ) {
             $Self->{DebuggerObject}->Debug(
-                Summary => "$Self->{Invoker} PreprareRequest: This is ticket is not on a closed "
+                Summary => "$Self->{Invoker} PreprareRequest: This ticket is not on a closed "
                     . "state but on an \"$Ticket{StateType}\" state,"
                     . " CloseIncident Invoker Canceled",
             );
@@ -1804,6 +1804,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2011-05-31 13:42:37 $
+$Revision: 1.53 $ $Date: 2011-06-01 04:48:18 $
 
 =cut
