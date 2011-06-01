@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.69 2011-05-25 08:57:10 mb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.70 2011-06-01 15:22:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@ $Include{"RichTextEditor"}
                         <fieldset class="TableLike FixedLabel">
                             <label class="Mandatory" for="EmailSubject"><span class="Marker">*</span> $Text{"Subject"}:</label>
                             <div class="Field">
-                                <input type="text" class="Validate_DependingRequiredAND Validate_Depending_Body $Data{"SubjectInvalid"} W75pc" id="EmailSubject" name="EmailSubject" value="$QData{"EmailSubject"}" />
+                                <input type="text" class="Validate_DependingRequiredAND Validate_Depending_EmailBody $Data{"SubjectInvalid"} W75pc" id="EmailSubject" name="EmailSubject" value="$QData{"EmailSubject"}" />
                                 <div id="EmailSubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="EmailSubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
@@ -124,7 +124,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:RichTextEmail -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichTextEmail -->
-                                <textarea id="EmailBody" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject $Data{"BodyInvalid"}" name="EmailBody" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"EmailBody"}</textarea>
+                                <textarea id="EmailBody" class="RichText Validate_DependingRequiredAND Validate_Depending_EmailSubject $Data{"BodyInvalid"}" name="EmailBody" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"EmailBody"}</textarea>
                                 <div id="EmailBodyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="EmailBodyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>

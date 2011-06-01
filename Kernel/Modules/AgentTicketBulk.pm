@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.90 2011-06-01 14:29:37 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.91 2011-06-01 15:22:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -503,7 +503,7 @@ sub Run {
             }
 
             # time units for note
-            if ( $GetParam{'TimeUnits'} ) {
+            if ( $GetParam{'TimeUnits'} && $ArticleID ) {
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
                     $Self->{TicketObject}->TicketAccountTime(
                         TicketID  => $TicketID,
@@ -527,7 +527,7 @@ sub Run {
             }
 
             # time units for email
-            if ( $GetParam{'EmailTimeUnits'} ) {
+            if ( $GetParam{ 'EmailTimeUnits' && $EmailArticleID } ) {
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
                     $Self->{TicketObject}->TicketAccountTime(
                         TicketID  => $TicketID,
@@ -907,17 +907,23 @@ sub _Mask {
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         $Param{TimeUnitsRequired} = (
             $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-            ? 'Validate_Required'
+            ? 'Validate_DependingRequiredAND Validate_Depending_Subject'
             : ''
         );
+        $Param{TimeUnitsRequiredEmail} = (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            ? 'Validate_DependingRequiredAND Validate_Depending_EmailSubject'
+            : ''
+        );
+
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnitsLabelMandatory',
-                Data => \%Param,
+                Data => { TimeUnitsRequired => $Param{TimeUnitsRequired} },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TimeUnitsLabelMandatoryEmail',
-                Data => \%Param,
+                Data => { TimeUnitsRequired => $Param{TimeUnitsRequiredEmail} },
             );
         }
         else {
