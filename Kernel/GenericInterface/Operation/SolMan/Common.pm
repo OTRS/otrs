@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.26 2011-05-10 00:42:38 sb Exp $
+# $Id: Common.pm,v 1.27 2011-06-01 20:44:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub new {
         return $Self->_ReturnError(
             ErrorCode => 9,
             ErrorMessage =>
-                'Could not determine Webservice configuration'
+                'Could not determine Web service configuration'
                 . ' in Kernel::GenericInterface::Operation::SolMan::Common::new()',
         );
     }
@@ -269,7 +269,216 @@ sub TicketSync {
         );
     }
 
-    #TODO add person mapping
+    my @PersonMapsArray;
+
+    # get persons from data
+    if ( IsHashRefWithData( $Param{Data}->{IctPersons} ) ) {
+
+        my @IctPersons;
+
+        # in case there is only one person
+        if ( IsHashRefWithData( $Param{Data}->{IctPersons}->{item} ) ) {
+            push @IctPersons, $Param{Data}->{IctPersons}->{item};
+        }
+
+        # otherwise it should be multiple persons
+        elsif ( IsArrayRefWithData( $Param{Data}->{IctPersons}->{item} ) ) {
+            for my $Item ( @{ $Param{Data}->{IctPersons}->{item} } ) {
+                push @IctPersons, $Item;
+            }
+        }
+
+        # TODO might be necessary to return an error if IctPersons is not a Hash not an Array
+
+        for my $Person (@IctPersons) {
+
+            # check if the person has a personID
+            if ( IsStringWithData( $Person->{PersonId} ) ) {
+
+                my $OTRSPersonID;
+
+                # check if this person is customer
+                if (
+                    $Param{Data}->{IctHead}->{ReporterId}
+                    && $Person->{PersonId} eq $Param{Data}->{IctHead}->{ReporterId}
+                    )
+                {
+
+                    # check if SolMan sends otrs customer user id
+                    if ( IsStringWithData( $Person->{PersonIdExt} ) ) {
+
+                        # try to get customer user by the given otrs customer user ID
+                        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                            User => $Person->{PersonIdExt},
+                        );
+
+                        # set OTRSPersonID
+                        if (%CustomerUser) {
+                            $OTRSPersonID = $Person->{PersonIdExt};
+                        }
+                    }
+
+                    # customer user was not found by ID, then search customer by eMail
+                    if ( IsStringWithData( $Person->{Email} ) && !$OTRSPersonID ) {
+
+                        # get all customers that has the given eMail address
+                        my %CustomerList = $Self->{CustomerUserObject}->CustomerSearch(
+                            PostMasterSearch => $Person->{Email},
+                        );
+
+                        CUSTOMER:
+                        for my $CustomerLogin (
+                            sort { $CustomerList{$a} cmp $CustomerList{$b} }
+                            keys %CustomerList
+                            )
+                        {
+
+                            # get customer data
+                            my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                                User => $CustomerLogin,
+                            );
+
+                            # set OTRSPersonID
+                            if (%CustomerUser) {
+                                $OTRSPersonID = $CustomerLogin;
+                                last CUSTOMER;
+                            }
+                        }
+                    }
+
+                    # if customer was not found by ID or eMail then customer creation is needed
+                    if ( !$OTRSPersonID ) {
+                        my $CustomerLogin = $Self->{CustomerUserObject}->CustomerUserAdd(
+                            Source         => 'CustomerUser',         # CustomerUser source config
+                            UserFirstname  => $Person->{FirstName},
+                            UserLastname   => $Person->{LastName},
+                            UserCustomerID => 'SolMan',
+                            UserLogin      => $Person->{Email},
+                            UserEmail      => $Person->{Email},
+                            UserPhone => $Person->{Telephone}->{PhoneNo} || '',
+                            UserFax => $Person->{Fax}->{FaxNo} || '',
+                            ValidID => 1,
+                            UserID  => 1,
+                        );
+
+                        # set OTRSPersonID
+                        if ($CustomerLogin) {
+                            $OTRSPersonID = $CustomerLogin
+                        }
+                    }
+                }
+
+                # otherwise this person is an agent (all persons that are not the requester
+                # are agents)
+                else {
+
+                    # check if SolMan sends otrs agent id
+                    if ( IsStringWithData( $Person->{PersonIdExt} ) ) {
+
+                        # try to get agent by the given otrs agent id
+                        my %User = $Self->{UserObject}->GetUserData(
+                            UserID => $Person->{PersonIdExt},
+                        );
+
+                        # set OTRSPersonID
+                        if (%User) {
+                            $OTRSPersonID = $Person->{PersonIdExt};
+                        }
+                    }
+
+                    # agent was not found by ID, then search customer by eMail
+                    if ( IsStringWithData( $Person->{Email} ) && !$OTRSPersonID ) {
+
+                        # get all agents that has the given eMail address
+                        my %UserList = $Self->{UserObject}->UserSearch(
+                            PostMasterSearch => $Person->{Email},
+                        );
+
+                        USER:
+                        for my $UserID (
+                            sort { $UserList{$a} cmp $UserList{$b} }
+                            keys %UserList
+                            )
+                        {
+
+                            # get agent data
+                            my %User = $Self->{UserObject}->GetUserData(
+                                UserID => $UserID,
+                            );
+
+                            # set OTRSPersonID
+                            if (%User) {
+                                $OTRSPersonID = $UserID;
+                                last USER;
+                            }
+                        }
+                    }
+
+                    # if agent was not found by ID or eMail then agent creation is needed
+                    if ( !$OTRSPersonID ) {
+
+                        # create agent:
+                        # on agent creation time user login is set to email field and after that
+                        # set preferences is called to set the real email. This only works if
+                        # the email from creation time (user login) is different than the real
+                        # email address. For SolMan we don't have a user login information so we use
+                        # the email address. for this reason we concatenate 'SolMan.' to the
+                        # email address to make it different from the user login (this is removed
+                        # later)
+                        my $UserID = $Self->{UserObject}->UserAdd(
+                            UserFirstname => $Person->{FirstName},
+                            UserLastname  => $Person->{LastName},
+                            UserLogin     => $Person->{Email},
+                            UserEmail     => 'SolMan.' . $Person->{Email},
+                            ValidID       => 1,
+                            ChangeUserID  => 1,
+                        );
+
+                        # set OTRSPersonID
+                        if ($UserID) {
+
+                            # update Agent:
+                            # set the correct email address to the previously created agent
+                            $Self->{UserObject}->UserUpdate(
+                                UserID        => $UserID,
+                                UserFirstname => $Person->{FirstName},
+                                UserLastname  => $Person->{LastName},
+                                UserLogin     => $Person->{Email},
+                                UserEmail     => $Person->{Email},
+                                ValidID       => 1,
+                                ChangeUserID  => 1,
+                            );
+
+                            $OTRSPersonID = $UserID
+                        }
+                    }
+                }
+
+                # add person to persons map
+                if ($OTRSPersonID) {
+                    push @PersonMapsArray, {
+                        PersonId    => $OTRSPersonID,
+                        PersonIdExt => $Person->{PersonId},
+                    };
+                }
+
+             # TODO it might be necessary to return an error code if user cannot be created / mapped
+            }
+        }
+    }
+
+    # set PersonMaps (Array or Hash)
+    my $PersonMaps;
+
+    # if only one map then it must be a Hash
+    if ( scalar @PersonMapsArray eq 1 ) {
+        $PersonMaps->{item} = $PersonMapsArray[0];
+    }
+
+    # if more than one map then it should be an array, otherwise keep it empty
+    elsif ( scalar @PersonMapsArray gt 1 ) {
+        $PersonMaps->{item} = \@PersonMapsArray
+    }
 
     # get state and ticket freetext fields from data
     my $NewState;
@@ -660,7 +869,7 @@ sub TicketSync {
     # close ticket
     if ( $Param{Operation} eq 'CloseIncident' ) {
 
-        # use state from data or default from webservice configuration alternatively
+        # use state from data or default from web service configuration alternatively
         my $CloseState = $NewState || $OperationConfig->{CloseState};
         my $CloseSuccess = $Self->{TicketObject}->TicketStateSet(
             State    => $CloseState,
@@ -692,10 +901,8 @@ sub TicketSync {
     # prepare return data
     my $ReturnData = {
         Data => {
-            Errors => '',
-
-            # TODO add for person maps
-            PersonMaps => '',
+            Errors     => '',
+            PersonMaps => $PersonMaps,
             PrdIctId   => '',
         },
         Success => 1,
@@ -736,7 +943,7 @@ sub LocalSystemGuid {
         String => $SystemID,
     );
 
-    # conver to upper case to match SolMan style
+    # convert to upper case to match SolMan style
     return uc $SystemIDMD5;
 }
 
@@ -806,6 +1013,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2011-05-10 00:42:38 $
+$Revision: 1.27 $ $Date: 2011-06-01 20:44:30 $
 
 =cut
