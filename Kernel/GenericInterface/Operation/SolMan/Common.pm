@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.27 2011-06-01 20:44:30 cr Exp $
+# $Id: Common.pm,v 1.28 2011-06-02 13:11:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -270,11 +270,13 @@ sub TicketSync {
     }
 
     my @PersonMapsArray;
+    my @IctPersons;
+
+    # to store information to create ticket, articles and attachments
+    my %OTRSInfo;
 
     # get persons from data
     if ( IsHashRefWithData( $Param{Data}->{IctPersons} ) ) {
-
-        my @IctPersons;
 
         # in case there is only one person
         if ( IsHashRefWithData( $Param{Data}->{IctPersons}->{item} ) ) {
@@ -314,7 +316,9 @@ sub TicketSync {
 
                         # set OTRSPersonID
                         if (%CustomerUser) {
-                            $OTRSPersonID = $Person->{PersonIdExt};
+                            $OTRSPersonID                 = $Person->{PersonIdExt};
+                            $OTRSInfo{ReporterID}         = $Person->{PersonIdExt};
+                            $OTRSInfo{ReporterCustomerID} = $CustomerUser{UserCustomerID};
                         }
                     }
 
@@ -340,7 +344,9 @@ sub TicketSync {
 
                             # set OTRSPersonID
                             if (%CustomerUser) {
-                                $OTRSPersonID = $CustomerLogin;
+                                $OTRSPersonID                 = $CustomerLogin;
+                                $OTRSInfo{ReporterID}         = $CustomerLogin;
+                                $OTRSInfo{ReporterCustomerID} = $CustomerUser{UserCustomerID};
                                 last CUSTOMER;
                             }
                         }
@@ -363,7 +369,9 @@ sub TicketSync {
 
                         # set OTRSPersonID
                         if ($CustomerLogin) {
-                            $OTRSPersonID = $CustomerLogin
+                            $OTRSPersonID                 = $CustomerLogin;
+                            $OTRSInfo{ReporterID}         = $CustomerLogin;
+                            $OTRSInfo{ReporterCustomerID} = 'SolMan';
                         }
                     }
                 }
@@ -383,6 +391,9 @@ sub TicketSync {
                         # set OTRSPersonID
                         if (%User) {
                             $OTRSPersonID = $Person->{PersonIdExt};
+                            if ( $Person->{PersonId} eq $Param{Data}->{IctHead}->{AgentId} ) {
+                                $OTRSInfo{AgentID} = $Person->{PersonIdExt};
+                            }
                         }
                     }
 
@@ -409,6 +420,9 @@ sub TicketSync {
                             # set OTRSPersonID
                             if (%User) {
                                 $OTRSPersonID = $UserID;
+                                if ( $Person->{PersonId} eq $Param{Data}->{IctHead}->{AgentId} ) {
+                                    $OTRSInfo{AgentID} = $UserID;
+                                }
                                 last USER;
                             }
                         }
@@ -449,7 +463,10 @@ sub TicketSync {
                                 ChangeUserID  => 1,
                             );
 
-                            $OTRSPersonID = $UserID
+                            $OTRSPersonID = $UserID;
+                            if ( $Person->{PersonId} eq $Param{Data}->{IctHead}->{AgentId} ) {
+                                $OTRSInfo{AgentID} = $UserID;
+                            }
                         }
                     }
                 }
@@ -533,16 +550,12 @@ sub TicketSync {
             Title => $Param{Data}->{IctHead}->{ShortDescription} || '',
             Queue => $OperationConfig->{Queue}                   || 'Raw',
             Lock  => 'unlock',
-            Priority => $Param{Data}->{IctHead}->{Priority},
-            State => $NewState || 'new',
-
-            # TODO: replace with actual customer id and user from person mapping
-            CustomerID   => $Param{Data}->{IctHead}->{ReporterId} || '',
-            CustomerUser => $Param{Data}->{IctHead}->{ReporterId} || '',
-
-            # TODO: replace with actual agent from person mapping (AgentId)
-            OwnerID => 1,
-            UserID  => 1,
+            Priority     => $Param{Data}->{IctHead}->{Priority},
+            State        => $NewState || 'new',
+            CustomerID   => $OTRSInfo{ReporterCustomerID} || '',
+            CustomerUser => $OTRSInfo{ReporterID} || '',
+            OwnerID      => $OTRSInfo{AgentID} || 1,
+            UserID       => 1,
         );
         if ( !$TicketID ) {
             my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
@@ -647,7 +660,19 @@ sub TicketSync {
         }
 
         # update AgentId if necessary
-        # TODO: implement
+        if ( $OTRSInfo{AgentID} && $OTRSInfo{AgentID} ne $Ticket{OwnerID} ) {
+            my $OwnerSuccess = $Self->{TicketObject}->TicketOwnerSet(
+                TicketID  => $TicketID,
+                NewUserID => $OTRSInfo{AgentID},
+                UserID    => 1,
+            );
+            if ( !$OwnerSuccess ) {
+                return $Self->_ReturnError(
+                    ErrorCode    => 9,
+                    ErrorMessage => "Could not update ticket owner in $FunctionName",
+                );
+            }
+        }
 
         # update Priority if necessary
         if ( $Param{Data}->{IctHead}->{Priority} ne $Ticket{Priority} ) {
@@ -665,7 +690,19 @@ sub TicketSync {
         }
 
         # update ReporterId if necessary
-        # TODO: implement
+        if ( $OTRSInfo{ReporterID} && $OTRSInfo{ReporterID} ne $Ticket{CustomerUserID} ) {
+            my $CustomerSuccess = $Self->{TicketObject}->TicketCustomerSet(
+                User     => $OTRSInfo{ReporterID},
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+            if ( !$CustomerSuccess ) {
+                return $Self->_ReturnError(
+                    ErrorCode    => 9,
+                    ErrorMessage => "Could not update ticket customer in $FunctionName",
+                );
+            }
+        }
 
         # update State if necessary
         if ( $NewState && $NewState ne $Ticket{State} ) {
@@ -730,9 +767,61 @@ sub TicketSync {
                 @Items = ( $Statement->{Texts}->{item} );
             }
 
-        # construct article subject
-        # TODO construct like this (with person mapping): FirstName LastName (PersonIdExt) Timestamp
+            # set default article SernderType
+            my $SenderType = 'system';
+
+            # set default from
+            my $From = 'SolMan';
+
+            # to construct article Subject
             my $Subject;
+
+            my %PersonData;
+
+            # check if SolMan sends a PersonID associated with this statement
+            if ( IsStringWithData( $Statement->{PersonId} ) ) {
+
+                # set article Subject person information
+                PERSON:
+                for my $Person (@IctPersons) {
+                    use Data::Dumper;
+                    if ( $Statement->{PersonId} eq $Person->{PersonId} ) {
+                        %PersonData = %{$Person};
+                        last PERSON;
+                    }
+                }
+
+                if (%PersonData) {
+                    $Subject .= "$PersonData{FirstName} $PersonData{LastName}";
+
+                    if ( $PersonData{PersonIdExt} ) {
+                        $Subject .= " ($PersonData{PersonIdExt})";
+                    }
+                }
+
+                # override article Sender Type
+                if (
+                    $Param{Data}->{IctHead}->{RequesterId}
+                    && $Statement->{PersonId} eq $Param{Data}->{IctHead}->{RequesterId}
+                    )
+                {
+                    $SenderType = 'customer';
+                }
+                elsif (
+                    $Param{Data}->{IctHead}->{AgentId}
+                    && $Statement->{PersonId} eq $Param{Data}->{IctHead}->{AgentId}
+                    )
+                {
+                    $SenderType = 'agent';
+                }
+
+                # override article From
+                if ( $PersonData{Email} ) {
+                    $From = $PersonData{Email};
+                }
+            }
+
+            # set article Subject Timestamp
             my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Statement->{Timestamp} =~
                 m{ \A ( \d{4} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) ( \d{2} ) \z }xms;
             if ( $Year && $Month && $Day && $Hour && $Minute && $Second ) {
@@ -744,14 +833,10 @@ sub TicketSync {
 
             # create article
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $TicketID,
-                ArticleType => $Statement->{TextType},
-
-                # TODO use actual sender type if PersonId is set
-                SenderType => 'system',
-
-                # TODO use actual agent/customer if PersonId is set
-                From           => 'SolMan',
+                TicketID       => $TicketID,
+                ArticleType    => $Statement->{TextType},
+                SenderType     => $SenderType,
+                From           => $From,
                 Subject        => $Subject || 'Statement from SolMan',
                 Body           => $Body,
                 Charset        => 'utf-8',
@@ -1013,6 +1098,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-06-01 20:44:30 $
+$Revision: 1.28 $ $Date: 2011-06-02 13:11:40 $
 
 =cut
