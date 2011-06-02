@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.25 2011-05-24 17:14:50 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.26 2011-06-02 05:51:47 cg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -212,6 +212,24 @@
                 <Item Key="Controller">Test</Item>
                 <Item Key="ConfigDialog">AdminGenericInterfaceInvokerDefault</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Frontend::Module###AdminGenericInterfaceMappingSimple" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <CSS_IE7>Core.Agent.Admin.GenericInterface.IE7.css</CSS_IE7>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceWebserviceMapping.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
         </Setting>
     </ConfigItem>
 
