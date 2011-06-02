@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.54 2011-06-02 22:06:56 cr Exp $
+# $Id: Common.pm,v 1.55 2011-06-02 22:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -514,6 +514,11 @@ sub GetPersonsInfo {
 
     # use customer language as language or English by default
     my $Language = $CustomerUser{UserLanguage} || 'en';
+
+    # trucate language to only use first 2 characters
+    if ( length $Language gt 2 ) {
+        $Language = substr( $Language, 0, 2 );
+    }
 
     # agent
     my %AgentData = $Self->{UserObject}->GetUserData(
@@ -1807,6 +1812,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2011-06-02 22:06:56 $
+$Revision: 1.55 $ $Date: 2011-06-02 22:21:57 $
 
 =cut
