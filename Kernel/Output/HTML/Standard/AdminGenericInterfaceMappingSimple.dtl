@@ -1,0 +1,316 @@
+# --
+# AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.1 2011-06-02 05:47:12 cg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
+    <h1>$Text{"GenericInterface Transport HTTP::SOAP for Web Service %s", "$Data{"WebserviceName"}"}</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+<!-- dtl:block:WebservicePathElement -->
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}$Data{"Link"};Nav=$LQData{"Nav"}">
+                $QData{"Name"}
+            </a>
+<!-- dtl:block:WebservicePathElement -->
+<!-- dtl:block:WebservicePathElementNoLink -->
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            $QData{"Name"}
+<!-- dtl:block:WebservicePathElementNoLink -->
+
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Mapping Simple"}</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" id="CommunicationType"/>
+                    <input type="hidden" name="KeyCounter" value="0" id="KeyCounter"/>
+                    <div class="WidgetSimple">
+                        <div class="Header"
+                            <h3>$Text{"Keys"}</h3>
+                        </div>
+                        <fieldset class="TableLike FixedLabelSmall SpacingTop">
+                            <label for="DefaultKeyType">$Text{"Default rule for unmapped keys"}:</label>
+                            <div class="Field">
+                                $Data{"DefaultKeyTypeStrg"}
+                                <input id="DefaultKeyMapTo" class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}" name="DefaultKeyMapTo"/>
+                                <p class="FieldExplanation">$Text{"This rule will apply for all key with no mapping rule."}</p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="DefaultKeyType">$Text{"New rule"}:</label>
+                            <div class="Field">
+                                <span class="NewRule">
+                                    Map key matching the
+                                    $Data{"KeyMapTypeStrg"}
+                                    <input name="KeyName" id="KeyName" class="W20pc" type="text" maxlength="100" value=""/>
+                                    to new name
+                                    <input name="KeyMapNew" id="KeyMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+                                    <span class="Spacing"></span>
+                                    <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
+                                </span>
+                            </div>
+                            <div class="Clear Spacing"></div>
+                        </div>
+                        <div class="Content" id="KeyInsert">
+                        </fieldset>
+                    </div>
+
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                    </div>
+                    <div class="Clear"></div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="WidgetSimple Expanded KeyTemplate Hidden WidgetKey">
+        <div class="Header">
+            <div class="WidgetAction Toggle">
+                <a href="#" title="$JSText{"Show or hide the content"}"></a>
+            </div>
+            <h3>title</h3>
+
+            <div class="AdditionalInformation SpacingTopMini">
+                <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
+            </div>
+        </div>
+        <div class="Content">
+
+            <fieldset class="TableLike">
+                Map key matching the
+                $Data{"ValueMapTypeStrg"}
+                <input name="KeyName" id="KeyName" class="W20pc" type="text" maxlength="100" value=""/>
+                to new name
+                <input name="KeyMapNew" id="KeyMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+            </fieldset>
+            <div class="WidgetSimple Spacing">
+                <div class="ControlRow">
+                    <h2>Value mapping</h2>
+                    <div class="AdditionalInformation SpacingTopMini">
+                        <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
+                    </div>
+                </div>
+                <fieldset class="TableLike FixedLabelSmall SpacingTop">
+                    <label for="DefaultValueType">$Text{"For unmatched values"}:</label>
+                    <div class="Field">
+                        $Data{"DefaultValueTypeStrg"}
+                        <input id="DefaultValueMapTo" class="W25pc Hidden" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}" name="DefaultValueMapTo"/>
+                        <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
+                    </div>
+                    <div class="Field ValueInsert">
+                        <input type="hidden" name="ValueCounter" value="0" id="ValueCounter"/>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+<!--  -->
+
+    <div class="ValueTemplate Hidden">
+        Map values matching the
+        $Data{"ValueMapTypeStrg"}
+        <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
+        to new value
+        <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+        <span class="Spacing"></span>
+        <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+    </div>
+</div>
+
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+function ToggleMapTo(Object) {
+    if (Object.val() != 'MapTo') {
+        Object.next().addClass('Hidden');
+        Object.next().removeClass('Validate_Required');
+    }
+    else {
+        Object.next().removeClass('Hidden');
+        Object.next().addClass('Validate_Required');
+    }
+}
+
+
+
+function AddValueMapping(ValueInsert, KeyCounter) {
+
+        // clone key dialog
+        var $Clone = $('.ValueTemplate').clone(),
+            ValueCounter = $('#ValueCounter' + KeyCounter).val();
+
+        // increment key counter
+        ValueCounter ++;
+
+        // remove unnecessary classes
+        $Clone.removeClass('Hidden ValueTemplate');
+
+
+
+        // copy values and change ids and names
+        $Clone.find(':input').each(function(){
+            var ID = $(this).attr('id');
+            $(this).attr('id', ID + KeyCounter + '_' + ValueCounter);
+            $(this).attr('name', ID + KeyCounter + '_' +ValueCounter);
+
+            // add event handler to remove button
+            if( $(this).hasClass('Remove') ) {
+                // bind click function to add button
+                $(this).bind('click', function () {
+                    $(this).parent().remove();
+                    return false;
+                });
+            }
+/*             // copy select value
+            $(this).val( $('#' + ID).val() );
+
+
+            if($(this).hasClass('DefaultKeyType')) {
+                $(this).bind('change', function(){
+                    // call function to hide or show
+                    // MapTo field
+                    ToggleMapTo($(this));
+                });
+                $(this).val('');
+            }
+ */
+        });
+
+        // append to container
+        ValueInsert.append($Clone);
+
+
+
+/*         // reset template row values
+        $('.NewRule').find(':input:not(:button)').attr('value','');
+        $('#KeyName' + KeyCounter).focus();
+ */
+        // set new value for KeyCounter
+        $('#ValueCounter' + KeyCounter).val(ValueCounter);
+
+/*         // init toggle action
+        Core.UI.InitWidgetActionToggle(); */
+    return false;
+};
+
+
+function AddKeyMapping() {
+
+        // clone key dialog
+        var $Clone = $('.KeyTemplate').clone(),
+            KeyCounter = $('#KeyCounter').val();
+
+        // increment key counter
+        KeyCounter ++;
+
+        // remove unnecessary classes
+        $Clone.removeClass('Hidden KeyTemplate');
+
+        // add title
+        $Clone.find('h3').html('Mapping for Key' + KeyCounter)
+
+        // copy values and change ids and names
+        $Clone.find(':input').each(function(){
+            var ID = $(this).attr('id');
+            $(this).attr('id', ID + KeyCounter);
+            $(this).attr('name', ID + KeyCounter);
+
+            // copy select value
+            $(this).val( $('#' + ID).val() );
+
+            // add event handler to Add button
+            if( $(this).hasClass('Add') ) {
+                // bind click function to add button
+                $(this).bind('click', function () {
+                    AddValueMapping( $(this).closest('.WidgetSimple').find('.ValueInsert'), KeyCounter );
+                    return false;
+                });
+            }
+
+            if( $(this).hasClass('Remove') ) {
+                // bind click function to add button
+                $(this).bind('click', function () {
+                    if( confirm ('Do you really want to delete this key mapping?') ) {
+                        $(this).closest('.WidgetKey').remove();
+                    }
+                    return false;
+                });
+            }
+
+            if($(this).hasClass('DefaultType')) {
+                $(this).bind('change', function(){
+                    // call function to hide or show
+                    // MapTo field
+                    ToggleMapTo($(this));
+                });
+                $(this).val('');
+            }
+        });
+
+        // append to container
+        $('#KeyInsert').append($Clone);
+
+
+
+        // reset template row values
+        $('.NewRule').find(':input:not(:button)').attr('value','');
+        $('#DefaultKeyType' + KeyCounter).focus();
+
+        // set new value for KeyCounter
+        $('#KeyCounter').val(KeyCounter);
+
+        // init toggle action
+        Core.UI.InitWidgetActionToggle();
+    return false;
+};
+
+
+$('.DefaultType').bind('change', function(){
+    // call function to hide or show
+    // MapTo field
+    ToggleMapTo($(this));
+});
+
+// register add of attribute
+$('#AddKeyMapping').bind('click', function () {
+    AddKeyMapping();
+    return false;
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
