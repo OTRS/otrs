@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.19 2011-05-10 00:42:38 sb Exp $
+# $Id: Common.t,v 1.20 2011-06-02 21:31:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -225,7 +225,7 @@ my @Tests = (
                 },
                 IctId      => "Solman-$RandomID1",
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -241,7 +241,7 @@ my @Tests = (
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -344,7 +344,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -360,7 +360,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -417,7 +417,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -433,7 +433,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -464,7 +464,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -480,7 +480,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -535,7 +535,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -551,7 +551,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -608,7 +608,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -624,7 +624,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -693,7 +693,7 @@ works too',
                     RequestedEnd     => '20111231235959',
                 },
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -709,7 +709,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -768,7 +768,7 @@ works too',
                 },
                 IctId      => "Solman-$RandomID2",
                 IctPersons => {
-                    Item => {
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -833,7 +833,7 @@ works too',
                 },
                 IctId      => "Solman-$RandomID2",
                 IctPersons => {
-                    Item => [
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -849,7 +849,7 @@ works too',
                             FaxNoExtension => '18',
                         },
                         Email => 'stefan.bedorf@otrs.com',
-                    ],
+                    },
                 },
                 IctSapNotes   => {},
                 IctSolutions  => {},
@@ -882,7 +882,7 @@ works too',
                 },
                 IctId      => "Solman-$RandomID2",
                 IctPersons => {
-                    Item => {
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
@@ -930,7 +930,7 @@ works too',
                 },
                 IctId      => "Solman-$RandomID2",
                 IctPersons => {
-                    Item => {
+                    item => {
                         PersonId    => 'stefan.bedorf@otrs.com',
                         PersonIdExt => 292,
                         Sex         => 'm',
