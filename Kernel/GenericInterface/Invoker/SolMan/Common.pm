@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Invoker/SolMan/Common.pm - SolMan common invoker functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.53 2011-06-01 04:48:18 sb Exp $
+# $Id: Common.pm,v 1.54 2011-06-02 22:06:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::Scheduler;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -1083,8 +1083,8 @@ sub PrepareRequest {
         };
     }
 
-    # additional checks for CloseIncident Invoker
-    if ( $Self->{Invoker} eq 'CloseIncident' ) {
+    # common checks for CloseIncident and AddInfo
+    if ( $Self->{Invoker} eq 'CloseIncident' || $Self->{Invoker} eq 'AddInfo' ) {
 
         # we need the old ticket info
         if ( !IsHashRefWithData( $Param{Data}->{OldTicketData} ) ) {
@@ -1095,8 +1095,10 @@ sub PrepareRequest {
                 ErrorMessage => $ErrorMessage,
             };
         }
+    }
 
-        my $OldTicketData = $Param{Data}->{OldTicketData};
+    # additional checks for CloseIncident Invoker
+    if ( $Self->{Invoker} eq 'CloseIncident' ) {
 
         # return if this is not ticket close
         if ( $Ticket{StateType} ne 'closed' ) {
@@ -1114,7 +1116,7 @@ sub PrepareRequest {
         }
 
         # return if ticket was already closed
-        elsif ( $OldTicketData->{StateType} eq 'closed' ) {
+        elsif ( $Param{Data}->{OldTicketData}->{StateType} eq 'closed' ) {
             $ErrorMessage = "$Self->{Invoker} Prepare Request: This is ticket was already in "
                 . "closed state, CloseIncident Invoker Canceled";
             $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
@@ -1250,10 +1252,11 @@ sub PrepareRequest {
             = "$Self->{Invoker} PrepareRequest: The ticket $Self->{TicketID}, needs to be "
             . "replicated on the remote system can't continue! $InitialInvokerType will be fired";
 
-        $Self->{DebuggerObject}->Error( Summary => $ErrorMessage );
+        # stop requester communication
+        $Self->{DebuggerObject}->Debug( Summary => $ErrorMessage );
         return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
+            Success           => 1,
+            StopCommunication => 1,
         };
     }
 
@@ -1804,6 +1807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2011-06-01 04:48:18 $
+$Revision: 1.54 $ $Date: 2011-06-02 22:06:56 $
 
 =cut
