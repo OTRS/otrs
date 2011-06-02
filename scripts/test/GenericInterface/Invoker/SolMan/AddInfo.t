@@ -2,7 +2,7 @@
 # AddInfo.t - AddInfo Invoker tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AddInfo.t,v 1.10 2011-05-26 04:18:40 cg Exp $
+# $Id: AddInfo.t,v 1.11 2011-06-02 22:08:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -418,26 +418,6 @@ my @Tests = (
         },
     },
     {
-        Name           => 'Not Closed Ticket',
-        PrepareRequest => {
-            Data => {
-                TicketID      => $OpenTicketID,
-                OldTicketData => \%Ticket,
-            },
-            Success => 0,
-        },
-    },
-    {
-        Name           => 'Closed Ticket already closed',
-        PrepareRequest => {
-            Data => {
-                TicketID      => $ClosedTicketID,
-                OldTicketData => \%ClosedTicket,
-            },
-            Success => 0,
-        },
-    },
-    {
         Name           => 'Can\'t sync Ticket',
         PrepareRequest => {
             Data => {
@@ -454,7 +434,8 @@ my @Tests = (
                 TicketID      => $ClosedTicketID,
                 OldTicketData => \%Ticket,
             },
-            Success => 0,
+            StopCommunication => 1,
+            Success           => 1,
         },
     },
     {
