@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.29 2011-05-31 11:51:56 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.30 2011-06-03 18:05:59 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -224,8 +224,8 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
             if ( !$Opts{f} ) {
                 print
-                    "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it\n";
-                print "forced)!\n";
+                    "NOTICE: otrs.Scheduler.pl is already running (use '-f 1' if you want to start it "
+                    . "forced)!\n";
 
                 # log daemon already running
                 $CommonObject{LogObject}->Log(
