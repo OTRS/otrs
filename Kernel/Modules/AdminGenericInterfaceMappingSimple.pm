@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.2 2011-06-03 07:31:58 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.3 2011-06-03 23:07:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -99,8 +99,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # subaction ChangeAction: write config and return to overview
     # ------------------------------------------------------------ #
-    #    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-    else {
+    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
@@ -132,17 +131,17 @@ sub Run {
         $NewMapping{ValueMapDefault}->{MapType} = $GetParam->{DefaultValueType};
         $NewMapping{ValueMapDefault}->{MapTo}   = $GetParam->{DefaultValueMapTo};
 
-        for my $KeyCounter ( $GetParam->{KeyCounter} ) {
+        for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
             $NewMapping{ $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } }
                 ->{ $GetParam->{ 'KeyName' . $KeyCounter } }
                 =
                 $GetParam->{ 'KeyMapNew' . $KeyCounter };
 
-            for my $ValueCounter ($KeyCounter) {
+            for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
                 $NewMapping{ValueMap}->{ $GetParam->{ 'KeyMapNew' . $KeyCounter } }->
-                    { $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } }->
-                    { $GetParam->{ 'KeyName' . $KeyCounter } } =
-                    $GetParam->{ 'KeyMapNew' . $KeyCounter };
+                    { $GetParam->{ 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter } }->
+                    { $GetParam->{ 'ValueName' . $KeyCounter . '_' . $ValueCounter } } =
+                    $GetParam->{ 'ValueMapNew' . $KeyCounter . '_' . $ValueCounter };
             }
         }
 
@@ -169,6 +168,7 @@ sub Run {
         #            $Error{EndpointServerErrorMessage} =
         #                'This field is required';
         #        }
+
         # set new mapping
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}
             ->{Config}
@@ -211,12 +211,6 @@ sub Run {
             Action            => $Action,
             Subaction         => 'Change',
         );
-
-#return;
-#        return $Self->{LayoutObject}->Redirect(
-#            OP =>
-#                "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID",
-#        );
     }
 
 }
@@ -231,6 +225,14 @@ sub _ShowEdit {
         { $Param{ActionType} }->{ $Param{Action} }->{ $Param{Direction} }->{Config};
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
     $Param{Type}           = 'Mapping::Simple';
+
+    $Param{DefaultKeyMapTo} = $MappingConfig->{KeyMapDefault}->{MapTo};
+    $Param{DefaultKeyMapToHidden} =
+        $MappingConfig->{KeyMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : '';
+
+    $Param{DefaultValueMapTo} = $MappingConfig->{ValueMapDefault}->{MapTo};
+    $Param{DefaultValueMapToHidden} =
+        $MappingConfig->{ValueMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : '';
 
     # select object for keys
     $Param{DefaultKeyTypeStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -250,6 +252,7 @@ sub _ShowEdit {
         ],
         Name         => 'DefaultKeyType',
         Class        => 'DefaultType',
+        SelectedID   => $MappingConfig->{KeyMapDefault}->{MapType},
         PossibleNone => 1,
         Translate    => 0,
     );
@@ -288,6 +291,7 @@ sub _ShowEdit {
         ],
         Name         => 'DefaultValueType',
         Class        => 'DefaultType',
+        SelectedID   => $MappingConfig->{ValueMapDefault}->{MapType},
         PossibleNone => 1,
         Translate    => 0,
     );
@@ -308,26 +312,6 @@ sub _ShowEdit {
         Translate    => 0,
     );
 
-   #    $Param{Endpoint}
-   #        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-   #        ->{Endpoint};
-   #    $Param{NameSpace}
-   #        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-   #        ->{NameSpace};
-   #    $Param{Encoding}
-   #        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-   #        ->{Encoding};
-   #    $Param{SOAPAction}
-   #        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-   #        ->{SOAPAction};
-   #    $Param{MaxLength}
-   #        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-   #        ->{MaxLength};
-
-    # check if endpoind is required
-    #    if ( $Param{CommunicationType} ne 'Provider' ) {
-    #        $Param{EndpointValidateRequired} = 'Validate_Required';
-    #    }
     $Self->{LayoutObject}->Block(
         Name => 'KeyTemplate',
         Data => {
@@ -335,41 +319,141 @@ sub _ShowEdit {
             %Param,
         },
     );
+
+    # set value index
+    $Self->{LayoutObject}->Block(
+        Name => 'ValueTemplateRowIndex',
+        Data => {
+            KeyIndex   => '',
+            ValueIndex => '0',
+        },
+    );
+
+    # add saved values
+    my $KeyIndex = 0;
+    for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
+        for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
+            $KeyIndex++;
+
+            # build map type selection
+            my $KeyMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
+                Data => [
+                    {
+                        Key   => 'KeyMapExact',
+                        Value => 'Exact value(s)',
+                    },
+                    {
+                        Key   => 'KeyMapRegEx',
+                        Value => 'Regular expression',
+                    },
+                ],
+                Name         => 'KeyMapTypeStrg' . $KeyIndex,
+                SelectedID   => $KeyMapType,
+                PossibleNone => 1,
+                Translate    => 0,
+            );
+            my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
+            $Self->{LayoutObject}->Block(
+                Name => 'KeyTemplate',
+                Data => {
+                    KeyName        => $Key,
+                    KeyIndex       => $KeyIndex,
+                    KeyMapNew      => $NewKey,
+                    KeyMapTypeStrg => $KeyMapTypeStrg,
+                },
+            );
+
+            my $ValueIndex = 0;
+            for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
+                for my $NewVal ( keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} } )
+                {
+                    $ValueIndex++;
+
+                    # build map type selection
+                    my $ValueMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
+                        Data => [
+                            {
+                                Key   => 'ValueMapExact',
+                                Value => 'Exact value(s)',
+                            },
+                            {
+                                Key   => 'ValueMapRegEx',
+                                Value => 'Regular expression',
+                            },
+                        ],
+                        Name         => 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex,
+                        SelectedID   => $ValueMapType,
+                        PossibleNone => 1,
+                        Translate    => 0,
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ValueTemplateRow',
+                        Data => {
+                            KeyIndex   => $KeyIndex,
+                            ValueName  => $NewVal,
+                            ValueIndex => $ValueIndex,
+                            ValueMapNew =>
+                                $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$NewVal},
+                            ValueMapTypeStrg => $ValueMapTypeStrg,
+                        },
+                    );
+                }
+            }
+
+            # set value index
+            $Self->{LayoutObject}->Block(
+                Name => 'ValueTemplateRowIndex',
+                Data => {
+                    KeyIndex   => $KeyIndex,
+                    ValueIndex => $ValueIndex,
+                },
+            );
+        }
+
+    }
+
+    # set key index
+    $Self->{LayoutObject}->Block(
+        Name => 'KeyCounter',
+        Data => {
+            KeyIndex => $KeyIndex,
+        },
+    );
+
     $Self->{LayoutObject}->Block(
         Name => 'ValueTemplate',
         Data => { %Param, },
     );
 
-    # add saved values
-
-    $Self->{LayoutObject}->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => 'Web Services',
-            Link => 'Action=AdminGenericInterfaceWebservice',
-            Nav  => '',
-        },
-    );
-    $Self->{LayoutObject}->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => $Param{WebserviceName},
-            Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Subaction}
-                . ';WebserviceID=' . $Param{WebserviceID},
-            Nav => '',
-        },
-    );
-
-    $Self->{LayoutObject}->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => ' Transport ' . $Param{Type},
-            Link => 'Action=AdminGenericInterfaceMappingSimple;Subaction=' . $Param{Subaction}
-                . ';CommunicationType='
-                . ';WebserviceID=' . $Param{WebserviceID},
-            Nav => '',
-        },
-    );
+    #    $Self->{LayoutObject}->Block(
+    #        Name => 'WebservicePathElement',
+    #        Data => {
+    #            Name => 'Web Services',
+    #            Link => 'Action=AdminGenericInterfaceWebservice',
+    #            Nav  => '',
+    #        },
+    #    );
+    #    $Self->{LayoutObject}->Block(
+    #        Name => 'WebservicePathElement',
+    #        Data => {
+    #            Name => $Param{WebserviceName},
+    #            Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Subaction}
+    #                . ';WebserviceID=' . $Param{WebserviceID},
+    #            Nav => '',
+    #        },
+    #    );
+    #
+    #    $Self->{LayoutObject}->Block(
+    #        Name => 'WebservicePathElement',
+    #        Data => {
+    #            Name => ' Transport ' . $Param{Type},
+    #            Link => 'Action=AdminGenericInterfaceMappingSimple;Subaction=' . $Param{Subaction}
+    #                . ';CommunicationType='
+    #                . ';WebserviceID=' . $Param{WebserviceID},
+    #            Nav => '',
+    #        },
+    #    );
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericInterfaceMappingSimple',
@@ -397,7 +481,7 @@ sub _GetParams {
     }
 
     # get params for keys
-    for my $KeyCounter ( $GetParam->{KeyCounter} ) {
+    for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
         $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } =
             $Self->{ParamObject}->GetParam( Param => 'KeyMapTypeStrg' . $KeyCounter ) || '';
 
@@ -411,7 +495,7 @@ sub _GetParams {
             $Self->{ParamObject}->GetParam( Param => 'ValueCounter' . $KeyCounter ) || 0;
 
         # get params for keys
-        for my $ValueCounter ( $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
+        for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
             $GetParam->{ 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter } =
                 $Self->{ParamObject}
                 ->GetParam( Param => 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter ) || '';

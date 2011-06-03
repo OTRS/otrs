@@ -2,26 +2,21 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.2 2011-06-03 07:32:17 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.3 2011-06-03 23:09:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
-    <h1>$Text{"GenericInterface Transport HTTP::SOAP for Web Service %s", "$Data{"WebserviceName"}"}</h1>
+    <h1>$Text{"GenericInterface Mapping Simple for Web Service %s", "$Data{"WebserviceName"}"}</h1>
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
-<!-- dtl:block:WebservicePathElement -->
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}$Data{"Link"};Nav=$LQData{"Nav"}">
-                $QData{"Name"}
-            </a>
-<!-- dtl:block:WebservicePathElement -->
-<!-- dtl:block:WebservicePathElementNoLink -->
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
+
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            $QData{"Name"}
-<!-- dtl:block:WebservicePathElementNoLink -->
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
 
         </h3>
     </div>
@@ -51,121 +46,111 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action"/>
                     <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" id="WebserviceID"/>
-                    <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" id="CommunicationType"/>
-                    <input type="hidden" name="KeyCounter" value="0" id="KeyCounter"/>
-                    <input type="hidden" name="Operation" value="$QData{"Operation"}" id="KeyCounter"/>
-                    <input type="hidden" name="Invoker" value="$QData{"Invoker"}" id="KeyCounter"/>
-                    <input type="hidden" name="Direction" value="$QData{"Direction"}" id="KeyCounter"/>
-                    <div class="WidgetSimple">
-                        <div class="Header"
-                            <h3>$Text{"Keys"}</h3>
+                    <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" />
+                    <input type="hidden" name="Operation" value="$QData{"Operation"}" />
+                    <input type="hidden" name="Invoker" value="$QData{"Invoker"}" />
+                    <input type="hidden" name="Direction" value="$QData{"Direction"}" "/>
+<!-- dtl:block:KeyCounter -->
+                    <input type="hidden" name="KeyCounter" id="KeyCounter" value="$QData{"KeyIndex"}" />
+<!-- dtl:block:KeyCounter -->
+                    <fieldset class="TableLike  SpacingTop">
+                        <label for="DefaultKeyType">$Text{"Default rule for unmapped keys"}:</label>
+                        <div class="Field">
+                            $Data{"DefaultKeyTypeStrg"}
+                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc $QData{"DefaultKeyMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                            <p class="FieldExplanation">$Text{"This rule will apply for all keys with no mapping rule."}</p>
                         </div>
-                        <fieldset class="TableLike  SpacingTop">
-                            <label for="DefaultKeyType">$Text{"Default rule for unmapped keys"}:</label>
-                            <div class="Field">
-                                $Data{"DefaultKeyTypeStrg"}
-                                <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
-                                <p class="FieldExplanation">$Text{"This rule will apply for all keys with no mapping rule."}</p>
-                            </div>
-                            <div class="Clear"></div>
+                        <div class="Clear"></div>
 
-                            <label for="DefaultKeyType">$Text{"Default rule for unmapped values"}:</label>
-                            <div class="Field">
-                                $Data{"DefaultValueTypeStrg"}
-                                <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
-                                <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
-                            </div>
-                            <div class="Clear"></div>
-
-                            <label for="DefaultKeyType">$Text{"New key map"}:</label>
-                            <div class="Field">
-                                <span class="NewRule">
-                                    <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
-                                </span>
-                            </div>
-                            <div class="Clear Spacing"></div>
+                        <label for="DefaultKeyType">$Text{"Default rule for unmapped values"}:</label>
+                        <div class="Field">
+                            $Data{"DefaultValueTypeStrg"}
+                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc $QData{"DefaultValueMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
+                            <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
                         </div>
-                        <div class="Content" id="KeyInsert">
+                        <div class="Clear"></div>
 
-
-
-
-
-
-
-<!-- dtl:block:KeyTemplate -->
-                            <div class="WidgetSimple Expanded WidgetKey $QData{"Classes"}">
-                                <div class="Header">
-                                    <div class="WidgetAction Toggle">
-                                        <a href="#" title="$JSText{"Show or hide the content"}"></a>
-                                    </div>
-                                    <h3 class="Title"></h3>
-                                    <div class="AdditionalInformation SpacingTopMini">
-                                        <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
-                                    </div>
-                                </div>
-                                <div class="Content">
-
-                                    <fieldset class="TableLike FixedLabelSmall">
-                                        <label>$Text{"Key mapping"}:</label>
-                                        <div class="Field">
-                                            Map key matching the
-                                            $Data{"KeyMapTypeStrg"}
-                                            <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"KeyName"}"/>
-                                            to new name
-                                            <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
-                                        </div>
-                                        <div class="Clear"></div>
-
-                                        <label>Value Mapping</label>
-                                        <div class="Field ValueInsert">
-                                            <input type="hidden" name="ValueCounter" value="0" id="ValueCounter"/>
-                                            <div class="Spacing"></div>
-<!-- dtl:block:ValueTemplateRow -->
-                                            <div class="ValueTemplate Hidden">
-                                                Map values matching the
-                                                $Data{"ValueMapTypeStrg"}
-                                                <input name="ValueName$QData{"ValueIndex"}" id="ValueName$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
-                                                to new value
-                                                <input name="ValueMapNew$QData{"ValueIndex"}" id="ValueMapNew$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
-                                                <span class="Spacing"></span>
-                                                <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
-                                            </div>
-<!-- dtl:block:ValueTemplateRow -->
-                                        </div>
-                                        <div class="Clear"></div>
-
-                                        <label for="DefaultKeyType">$Text{"New key map"}:</label>
-                                        <div class="Field">
-                                            <span class="NewValueMap">
-                                                <button type="button" id="AddValueMapping" class="Add" value="Add Value mapping">$Text{"Add value mapping"}</button>
-                                            </span>
-                                        </div>
-                                        <div class="Clear"></div>
-                                    </fieldset>
-                                </div>
-                            </div>
-<!-- dtl:block:KeyTemplate -->
-
-
-
-<!-- dtl:block:ValueTemplate -->
-                            <div class="ValueTemplate Hidden">
-                                Map values matching the
-                                $Data{"ValueMapTypeStrg"}
-                                <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
-                                to new value
-                                <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
-                                <span class="Spacing"></span>
-                                <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
-                            </div>
-<!-- dtl:block:ValueTemplate -->
-
-
+                        <label for="DefaultKeyType">$Text{"New key map"}:</label>
+                        <div class="Field">
+                            <span class="NewRule">
+                                <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
+                            </span>
                         </div>
+                        <div class="Clear Spacing"></div>
                     </fieldset>
+                    <div class="Content Spacing" id="KeyInsert">
 
-                    <div class="Field SpacingTop">
+<!-- dtl:block:KeyTemplate -->
+                        <div class="WidgetSimple Expanded WidgetKey $QData{"Classes"}">
+                            <div class="Header">
+                                <div class="WidgetAction Toggle">
+                                    <a href="#" title="$JSText{"Show or hide the content"}"></a>
+                                </div>
+                                <h3 class="Title">$Text{"Mapping for Key "} $QData{"KeyMapNew"}</h3>
+                                <div class="AdditionalInformation SpacingTopMini">
+                                    <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
+                                </div>
+                            </div>
+                            <div class="Content">
+
+                                <fieldset class="TableLike FixedLabelSmall">
+                                    <label>$Text{"Key mapping"}:</label>
+                                    <div class="Field">
+                                        Map key matching the
+                                        $Data{"KeyMapTypeStrg"}
+                                        <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"KeyName"}"/>
+                                        to new name
+                                        <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label>Value Mapping</label>
+                                    <div class="Field ValueInsert">
+<!-- dtl:block:ValueTemplateRowIndex -->
+                                        <input type="hidden" name="ValueCounter$QData{"KeyIndex"}" value="$QData{"ValueIndex"}" id="ValueCounter$QData{"KeyIndex"}" class="ValueCounter" />
+<!-- dtl:block:ValueTemplateRowIndex -->
+                                        <div class="Spacing"></div>
+<!-- dtl:block:ValueTemplateRow -->
+                                        <div class="ValueTemplateRow">
+                                            Map values matching the
+                                            $Data{"ValueMapTypeStrg"}
+                                            <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            to new value
+                                            <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                                            <span class="Spacing"></span>
+                                            <button type="button" id="RemoveValueMapping$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                                        </div>
+<!-- dtl:block:ValueTemplateRow -->
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="DefaultKeyType">$Text{"New key map"}:</label>
+                                    <div class="Field">
+                                        <span class="NewValueMap">
+                                            <button type="button" id="AddValueMapping$QData{"KeyIndex"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
+                                        </span>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+                        </div>
+<!-- dtl:block:KeyTemplate -->
+
+<!-- dtl:block:ValueTemplate -->
+                        <div class="ValueTemplate Hidden">
+                            Map values matching the
+                            $Data{"ValueMapTypeStrg"}
+                            <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
+                            to new value
+                            <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+                            <span class="Spacing"></span>
+                            <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                        </div>
+<!-- dtl:block:ValueTemplate -->
+
+                    </div>
+
+                    <div class="Field Spacing">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
@@ -177,10 +162,6 @@
         </div>
 
     </div>
-
-
-<!--  -->
-
 
 </div>
 
@@ -197,8 +178,6 @@ function ToggleMapTo(Object) {
         Object.next().addClass('Validate_Required');
     }
 }
-
-
 
 function AddValueMapping(ValueInsert, KeyCounter) {
 
@@ -321,5 +300,36 @@ $('#AddKeyMapping').bind('click', function () {
     AddKeyMapping();
     return false;
 });
+
+// register change new key name action
+$('.NewValue').bind('change', function(){
+    // modified title
+    $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
+});
+
+
+// register remove key action
+$('.AdditionalInformation .Remove').bind('click', function () {
+    if( confirm ('Do you really want to delete this key mapping?') ) {
+        $(this).closest('.WidgetKey').remove();
+    }
+    return false;
+});
+
+//bind click function to add button
+$('.ValueAdd').bind('click', function () {
+    AddValueMapping(
+        $(this).closest('fieldset').find('.ValueInsert'),
+        $(this).closest('fieldset').find('.ValueCounter').val()
+    );
+    return false;
+});
+
+//bind click function to add button
+$('.ValueRemove').bind('click', function () {
+    $(this).parent().remove();
+    return false;
+});
+
 //]]></script>
 <!-- dtl:js_on_document_complete -->
