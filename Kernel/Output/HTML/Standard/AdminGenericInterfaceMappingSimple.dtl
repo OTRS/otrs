@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.1 2011-06-02 05:47:12 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.2 2011-06-03 07:32:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,40 +49,121 @@
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action"/>
                     <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" id="WebserviceID"/>
                     <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" id="CommunicationType"/>
                     <input type="hidden" name="KeyCounter" value="0" id="KeyCounter"/>
+                    <input type="hidden" name="Operation" value="$QData{"Operation"}" id="KeyCounter"/>
+                    <input type="hidden" name="Invoker" value="$QData{"Invoker"}" id="KeyCounter"/>
+                    <input type="hidden" name="Direction" value="$QData{"Direction"}" id="KeyCounter"/>
                     <div class="WidgetSimple">
                         <div class="Header"
                             <h3>$Text{"Keys"}</h3>
                         </div>
-                        <fieldset class="TableLike FixedLabelSmall SpacingTop">
+                        <fieldset class="TableLike  SpacingTop">
                             <label for="DefaultKeyType">$Text{"Default rule for unmapped keys"}:</label>
                             <div class="Field">
                                 $Data{"DefaultKeyTypeStrg"}
-                                <input id="DefaultKeyMapTo" class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}" name="DefaultKeyMapTo"/>
-                                <p class="FieldExplanation">$Text{"This rule will apply for all key with no mapping rule."}</p>
+                                <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                                <p class="FieldExplanation">$Text{"This rule will apply for all keys with no mapping rule."}</p>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="DefaultKeyType">$Text{"New rule"}:</label>
+                            <label for="DefaultKeyType">$Text{"Default rule for unmapped values"}:</label>
+                            <div class="Field">
+                                $Data{"DefaultValueTypeStrg"}
+                                <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc Hidden $QData{"MaxLengthServerError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                                <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="DefaultKeyType">$Text{"New key map"}:</label>
                             <div class="Field">
                                 <span class="NewRule">
-                                    Map key matching the
-                                    $Data{"KeyMapTypeStrg"}
-                                    <input name="KeyName" id="KeyName" class="W20pc" type="text" maxlength="100" value=""/>
-                                    to new name
-                                    <input name="KeyMapNew" id="KeyMapNew" class="W20pc" type="text" maxlength="100" value=""/>
-                                    <span class="Spacing"></span>
                                     <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
                                 </span>
                             </div>
                             <div class="Clear Spacing"></div>
                         </div>
                         <div class="Content" id="KeyInsert">
-                        </fieldset>
-                    </div>
+
+
+
+
+
+
+
+<!-- dtl:block:KeyTemplate -->
+                            <div class="WidgetSimple Expanded WidgetKey $QData{"Classes"}">
+                                <div class="Header">
+                                    <div class="WidgetAction Toggle">
+                                        <a href="#" title="$JSText{"Show or hide the content"}"></a>
+                                    </div>
+                                    <h3 class="Title"></h3>
+                                    <div class="AdditionalInformation SpacingTopMini">
+                                        <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
+                                    </div>
+                                </div>
+                                <div class="Content">
+
+                                    <fieldset class="TableLike FixedLabelSmall">
+                                        <label>$Text{"Key mapping"}:</label>
+                                        <div class="Field">
+                                            Map key matching the
+                                            $Data{"KeyMapTypeStrg"}
+                                            <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"KeyName"}"/>
+                                            to new name
+                                            <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
+                                        </div>
+                                        <div class="Clear"></div>
+
+                                        <label>Value Mapping</label>
+                                        <div class="Field ValueInsert">
+                                            <input type="hidden" name="ValueCounter" value="0" id="ValueCounter"/>
+                                            <div class="Spacing"></div>
+<!-- dtl:block:ValueTemplateRow -->
+                                            <div class="ValueTemplate Hidden">
+                                                Map values matching the
+                                                $Data{"ValueMapTypeStrg"}
+                                                <input name="ValueName$QData{"ValueIndex"}" id="ValueName$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                                to new value
+                                                <input name="ValueMapNew$QData{"ValueIndex"}" id="ValueMapNew$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                                                <span class="Spacing"></span>
+                                                <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                                            </div>
+<!-- dtl:block:ValueTemplateRow -->
+                                        </div>
+                                        <div class="Clear"></div>
+
+                                        <label for="DefaultKeyType">$Text{"New key map"}:</label>
+                                        <div class="Field">
+                                            <span class="NewValueMap">
+                                                <button type="button" id="AddValueMapping" class="Add" value="Add Value mapping">$Text{"Add value mapping"}</button>
+                                            </span>
+                                        </div>
+                                        <div class="Clear"></div>
+                                    </fieldset>
+                                </div>
+                            </div>
+<!-- dtl:block:KeyTemplate -->
+
+
+
+<!-- dtl:block:ValueTemplate -->
+                            <div class="ValueTemplate Hidden">
+                                Map values matching the
+                                $Data{"ValueMapTypeStrg"}
+                                <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
+                                to new value
+                                <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+                                <span class="Spacing"></span>
+                                <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                            </div>
+<!-- dtl:block:ValueTemplate -->
+
+
+                        </div>
+                    </fieldset>
 
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
@@ -97,60 +178,10 @@
 
     </div>
 
-    <div class="WidgetSimple Expanded KeyTemplate Hidden WidgetKey">
-        <div class="Header">
-            <div class="WidgetAction Toggle">
-                <a href="#" title="$JSText{"Show or hide the content"}"></a>
-            </div>
-            <h3>title</h3>
 
-            <div class="AdditionalInformation SpacingTopMini">
-                <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
-            </div>
-        </div>
-        <div class="Content">
-
-            <fieldset class="TableLike">
-                Map key matching the
-                $Data{"ValueMapTypeStrg"}
-                <input name="KeyName" id="KeyName" class="W20pc" type="text" maxlength="100" value=""/>
-                to new name
-                <input name="KeyMapNew" id="KeyMapNew" class="W20pc" type="text" maxlength="100" value=""/>
-            </fieldset>
-            <div class="WidgetSimple Spacing">
-                <div class="ControlRow">
-                    <h2>Value mapping</h2>
-                    <div class="AdditionalInformation SpacingTopMini">
-                        <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
-                    </div>
-                </div>
-                <fieldset class="TableLike FixedLabelSmall SpacingTop">
-                    <label for="DefaultValueType">$Text{"For unmatched values"}:</label>
-                    <div class="Field">
-                        $Data{"DefaultValueTypeStrg"}
-                        <input id="DefaultValueMapTo" class="W25pc Hidden" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}" name="DefaultValueMapTo"/>
-                        <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
-                    </div>
-                    <div class="Field ValueInsert">
-                        <input type="hidden" name="ValueCounter" value="0" id="ValueCounter"/>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-            </div>
-
-        </div>
-    </div>
 <!--  -->
 
-    <div class="ValueTemplate Hidden">
-        Map values matching the
-        $Data{"ValueMapTypeStrg"}
-        <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
-        to new value
-        <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
-        <span class="Spacing"></span>
-        <button type="button" id="RemoveValueMapping" class="Remove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
-    </div>
+
 </div>
 
 
@@ -181,8 +212,6 @@ function AddValueMapping(ValueInsert, KeyCounter) {
         // remove unnecessary classes
         $Clone.removeClass('Hidden ValueTemplate');
 
-
-
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
             var ID = $(this).attr('id');
@@ -197,35 +226,14 @@ function AddValueMapping(ValueInsert, KeyCounter) {
                     return false;
                 });
             }
-/*             // copy select value
-            $(this).val( $('#' + ID).val() );
-
-
-            if($(this).hasClass('DefaultKeyType')) {
-                $(this).bind('change', function(){
-                    // call function to hide or show
-                    // MapTo field
-                    ToggleMapTo($(this));
-                });
-                $(this).val('');
-            }
- */
         });
 
         // append to container
         ValueInsert.append($Clone);
 
-
-
-/*         // reset template row values
-        $('.NewRule').find(':input:not(:button)').attr('value','');
-        $('#KeyName' + KeyCounter).focus();
- */
         // set new value for KeyCounter
         $('#ValueCounter' + KeyCounter).val(ValueCounter);
 
-/*         // init toggle action
-        Core.UI.InitWidgetActionToggle(); */
     return false;
 };
 
@@ -243,7 +251,7 @@ function AddKeyMapping() {
         $Clone.removeClass('Hidden KeyTemplate');
 
         // add title
-        $Clone.find('h3').html('Mapping for Key' + KeyCounter)
+        $Clone.find('.Title').html('Mapping for Key');
 
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
@@ -251,14 +259,11 @@ function AddKeyMapping() {
             $(this).attr('id', ID + KeyCounter);
             $(this).attr('name', ID + KeyCounter);
 
-            // copy select value
-            $(this).val( $('#' + ID).val() );
-
             // add event handler to Add button
             if( $(this).hasClass('Add') ) {
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    AddValueMapping( $(this).closest('.WidgetSimple').find('.ValueInsert'), KeyCounter );
+                    AddValueMapping( $(this).closest('fieldset').find('.ValueInsert'), KeyCounter );
                     return false;
                 });
             }
@@ -279,18 +284,22 @@ function AddKeyMapping() {
                     // MapTo field
                     ToggleMapTo($(this));
                 });
-                $(this).val('');
+            }
+
+            if($(this).hasClass('NewValue')) {
+                $(this).bind('change', function(){
+                    // modified title
+                    $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
+                });
             }
         });
 
         // append to container
         $('#KeyInsert').append($Clone);
 
-
-
         // reset template row values
         $('.NewRule').find(':input:not(:button)').attr('value','');
-        $('#DefaultKeyType' + KeyCounter).focus();
+        $('#KeyMapTypeStrg' + KeyCounter).focus();
 
         // set new value for KeyCounter
         $('#KeyCounter').val(KeyCounter);
