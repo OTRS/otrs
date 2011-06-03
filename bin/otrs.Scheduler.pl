@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.30 2011-06-03 18:05:59 ep Exp $
+# $Id: otrs.Scheduler.pl,v 1.31 2011-06-03 22:13:44 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -178,6 +178,7 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
             print
                 "Not Running, but PID is still registered! Use '-a stop --force' to unregister "
                 . "the PID from the database.\n";
+            exit 1;
         }
     }
     exit 0;

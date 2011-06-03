@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.20 2011-05-31 12:01:47 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.21 2011-06-03 22:15:50 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -556,6 +556,7 @@ sub _status {
     else {
         print
             "Not running, but PID still registered! Use '-a stop -force' to unregister the PID from the database.\n";
+        exit 1;
     }
 
     exit 0;
