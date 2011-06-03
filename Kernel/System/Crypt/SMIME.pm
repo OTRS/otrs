@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.53 2011-05-19 00:15:32 dz Exp $
+# $Id: SMIME.pm,v 1.54 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -106,8 +106,14 @@ sub Check {
 crypt a message
 
     my $Message = $CryptObject->Crypt(
-        Message => $Message,
-        Hash    => $CertificateHash,
+        Message  => $Message,
+        Filename => $CertificateFilename,
+    );
+
+    my $Message = $CryptObject->Crypt(
+        Message     => $Message,
+        Hash        => $CertificateHash,
+        Fingerprint => $CertificateFingerprint,
     );
 
 =cut
@@ -116,11 +122,19 @@ sub Crypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Message Hash)) {
+    for (qw(Message)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    if ( !$Param{Filename} && !( $Param{Hash} || $Param{Fingerprint} ) ) {
+        $Self->{LogObject}->Log(
+            Message  => "Need Param: Filename or Hash and Fingerprint!",
+            Priority => 'error',
+        );
+        return;
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
@@ -151,8 +165,14 @@ sub Crypt {
 decrypt a message and returns a hash (Successful, Message, Data)
 
     my %Message = $CryptObject->Decrypt(
-        Message => $CryptedMessage,
-        Hash    => $PrivateKeyHash,
+        Message  => $CryptedMessage,
+        Filename => $Filename,
+    );
+
+    my %Message = $CryptObject->Decrypt(
+        Message     => $CryptedMessage,
+        Hash        => $Hash,
+        Fingerprint => $Fingerprint,
     );
 
 =cut
@@ -161,14 +181,24 @@ sub Decrypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Message Hash)) {
+    for (qw(Message)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my ( $Private, $Secret ) = $Self->PrivateGet(%Param);
+
+    if ( !$Param{Filename} && !( $Param{Hash} || $Param{Fingerprint} ) ) {
+        $Self->{LogObject}->Log(
+            Message  => "Need Param: Filename or Hash and Fingerprint!",
+            Priority => 'error',
+        );
+        return;
+    }
+
     my $Certificate = $Self->CertificateGet(%Param);
+    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     my ( $FHPrivate, $PrivateKeyFile ) = $Self->{FileTempObject}->TempFile();
     print $FHPrivate $Private;
@@ -232,9 +262,13 @@ sub Decrypt {
 sign a message
 
     my $Sign = $CryptObject->Sign(
-        Message => $Message,
-        Hash    => $PrivateKeyHash,
-        CACert  => \@Hashes, # optional - Hashes of certificates to embed in the signature
+        Message  => $Message,
+        Filename => $PrivateFilename,
+    );
+    my $Sign = $CryptObject->Sign(
+        Message     => $Message,
+        Hash        => $Hash,
+        Fingerprint => $Fingerprint,
     );
 
 =cut
@@ -243,38 +277,42 @@ sub Sign {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Message Hash)) {
+    for (qw(Message)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my ( $Private, $Secret ) = $Self->PrivateGet( Hash => $Param{Hash} );
-    my $Certificate = $Self->CertificateGet( Hash => $Param{Hash} );
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
 
-    # get CA certs and join all in one file
-    my @CACerts;
-    @CACerts = @{ $Param{CACert} } if ( $Param{CACert} );
+    if ( !$Param{Filename} && !( $Param{Hash} || $Param{Fingerprint} ) ) {
+        $Self->{LogObject}->Log(
+            Message  => "Need Param: Filename or Hash and Fingerprint!",
+            Priority => 'error',
+        );
+        return;
+    }
+
+    my $Certificate = $Self->CertificateGet(%Param);
+    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     # get the related certificates
     my @RelatedCertificates
         = $Self->SignerCertRelationGet( CertFingerprint => $Attributes{Fingerprint} );
-    for my $Cert (@RelatedCertificates) {
-        push @CACerts, $Cert->{CAHash};
-    }
 
     my ( $FHCACertFile, $CAFileName ) = $Self->{FileTempObject}->TempFile();
-    my @CACert;
     my $CertFileCommand = '';
-    if (@CACerts) {
 
-        # get certificate for every array row
-        for my $CertHash (@CACerts) {
-            print $FHCACertFile $Self->CertificateGet( Hash => $CertHash ) . "\n";
-        }
-        $CertFileCommand = " -certfile $CAFileName ";
+    # get every related cert
+    for my $Cert (@RelatedCertificates) {
+        my $CAFilename = $Self->_CertificateFilename(
+            Hash        => $Cert->{CAHash},
+            Fingerprint => $Cert->{CAFingerprint},
+        );
+        print $FHCACertFile $Self->CertificateGet( Filename => $CAFilename ) . "\n";
     }
+
+    $CertFileCommand = " -certfile $CAFileName ";
     close $FHCACertFile;
 
     my ( $FH, $PlainFile ) = $Self->{FileTempObject}->TempFile();
@@ -320,8 +358,8 @@ sub Sign {
 verify a message with signature and returns a hash (Successful, Message, SignerCertificate)
 
     my %Data = $CryptObject->Verify(
-        Message     => $Message,
-        Certificate => $PathtoCert, # optional send path to the CA cert, when unsing self signed certificates
+        Message => $Message,
+        CACert  => $PathtoCACert, # send path to the cert, when using self signed certificates
     );
 
 =cut
@@ -351,8 +389,8 @@ sub Verify {
     # path to the cert, when self signed certs
     # specially for openssl 1.0
     my $CertificateOption = '';
-    if ( $Param{Certificate} ) {
-        $CertificateOption = "-CAfile $Param{Certificate}";
+    if ( $Param{CACert} ) {
+        $CertificateOption = "-CAfile $Param{CACert}";
     }
 
     my $Options
@@ -445,14 +483,15 @@ sub CertificateSearch {
 
     my $Search = $Param{Search} || '';
     my @Result;
-    my @Hash = $Self->CertificateList();
-    for (@Hash) {
-        my $Certificate = $Self->CertificateGet( Hash => $_ );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my @CertList = $Self->CertificateList();
+
+    for my $Filename (@CertList) {
+        my $Certificate = $Self->CertificateGet( Filename => $Filename );
+        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate, );
         my $Hit = 0;
         if ($Search) {
-            for ( keys %Attributes ) {
-                if ( eval { $Attributes{$_} =~ /$Search/i } ) {
+            for my $Attribute ( keys %Attributes ) {
+                if ( $Attributes{$Attribute} =~ m{$Search}xms ) {
                     $Hit = 1;
                 }
             }
@@ -460,6 +499,9 @@ sub CertificateSearch {
         else {
             $Hit = 1;
         }
+
+        $Attributes{Filename} = $Filename;
+
         if ($Hit) {
             push @Result, \%Attributes;
         }
@@ -470,8 +512,9 @@ sub CertificateSearch {
 =item CertificateAdd()
 
 add a certificate to local certificates
+returns result message and new certificate filename
 
-    $CryptObject->CertificateAdd(
+    my %Result = $CryptObject->CertificateAdd(
         Certificate => $CertificateString,
     );
 
@@ -485,21 +528,67 @@ sub CertificateAdd {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
-    my %Attributes = $Self->CertificateAttributes(%Param);
-    if ( $Attributes{Hash} ) {
-        my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
+    my %Attributes = $Self->CertificateAttributes( Certificate => $Param{Certificate}, );
+    my %Result;
+
+    if ( !$Attributes{Hash} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Can\'t add invalid certificate!' );
+        %Result = (
+            Successful => 0,
+            Message    => 'Can\'t add invalid certificate!',
+        );
+        return %Result;
+    }
+
+    # search for certs with same hash
+    my @Result = $Self->CertificateSearch(
+        Search => $Attributes{Hash},
+    );
+
+    # does the cert already exists?
+    for my $CertResult (@Result) {
+        if ( $Attributes{Fingerprint} eq $CertResult->{Fingerprint} ) {
+            %Result = (
+                Successful => 0,
+                Message    => 'Certificate already installed!',
+            );
+            return %Result;
+        }
+    }
+
+    # look for an available filename
+    FILENAME:
+    for my $Count ( 0 .. 9 ) {
+        if ( -e "$Self->{CertPath}/$Attributes{Hash}.$Count" ) {
+            next FILENAME;
+        }
+
+        my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
         if ( open( my $OUT, '>', $File ) ) {
             print $OUT $Param{Certificate};
             close($OUT);
-            return 'Certificate uploaded!';
+            %Result = (
+                Successful => 1,
+                Message    => 'Certificate uploaded',
+                Filename   => "$Attributes{Hash}.$Count",
+            );
+            return %Result;
         }
-        else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
-            return;
-        }
+
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+        %Result = (
+            Successful => 0,
+            Message    => "Can't write $File: $!!",
+        );
+        return %Result;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificat!" );
-    return;
+
+    %Result = (
+        Successful => 0,
+        Message    => "No more available filenames for certificate hash:$Attributes{Hash}!",
+    );
+    return %Result;
 }
 
 =item CertificateGet()
@@ -507,7 +596,12 @@ sub CertificateAdd {
 get a local certificate
 
     my $Certificate = $CryptObject->CertificateGet(
-        Hash => $CertificateHash,
+        Filename => $CertificateFilename,
+    );
+
+    my $Certificate = $CryptObject->CertificateGet(
+        Fingerprint => $Fingerprint,
+        Hash        => $Hash,
     );
 
 =cut
@@ -516,11 +610,18 @@ sub CertificateGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+    if ( !$Param{Filename} && !( $Param{Fingerprint} && $Param{Hash} ) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Need Filename or Fingerprint and Hash!' );
         return;
     }
-    my $File = "$Self->{CertPath}/$Param{Hash}.0";
+
+    if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
+        $Param{Filename} = $Self->_CertificateFilename(%Param);
+        return if !$Param{Filename};
+    }
+
+    my $File = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
 
     return if !$CertificateRef;
@@ -533,7 +634,12 @@ sub CertificateGet {
 remove a local certificate
 
     $CryptObject->CertificateRemove(
-        Hash => $CertificateHash,
+        Filename => $CertificateHash,
+    );
+
+    $CryptObject->CertificateRemove(
+        Hash        => $CertificateHash,
+        Fingerprint => $CertificateHash,
     );
 
 =cut
@@ -542,43 +648,93 @@ sub CertificateRemove {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+    if ( !$Param{Filename} && !( $Param{Hash} && $Param{Fingerprint} ) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Fingerprint!' );
         return;
     }
-    unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
-    return 1;
+
+    if ( !$Param{Filename} && $Param{Hash} && $Param{Fingerprint} ) {
+        $Param{Filename} = $Self->_CertificateFilename(%Param);
+        return if !$Param{Filename};
+    }
+
+    my %Result;
+
+    # private certificate shouldn't exists if certificate is deleted
+    # therefor if exists, first remove private certificate
+    # if private delete fails abort certificate removing
+
+    my ($PrivateExists) = $Self->PrivateGet(
+        Filename => $Param{Filename},
+    );
+
+    if ($PrivateExists) {
+        my %PrivateResults = $Self->PrivateRemove(
+            Filename => $Param{Filename},
+        );
+        if ( !$PrivateResults{Successful} ) {
+            %Result = (
+                Successful => 0,
+                Message    => "Delete certificate aborted, $PrivateResults{Message}: $!!",
+            );
+            return %Result;
+        }
+    }
+
+    my $Message   = "Certificate successfully removed";
+    my $Succesful = 1;
+
+    # remove certificate
+    my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
+    if ( !$Cert ) {
+        $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!",
+            $Succesful = 0;
+    }
+
+    $Message .= ". Private certificate succesfuly deleted" if ($PrivateExists);
+
+    %Result = (
+        Successful => $Succesful,
+        Message    => $Message,
+    );
+    return %Result;
 }
 
 =item CertificateList()
 
-get list of local certificates
+get list of local certificates filenames
 
-    my @HashList = $CryptObject->CertificateList();
+    my @CertList = $CryptObject->CertificateList();
 
 =cut
 
 sub CertificateList {
     my ( $Self, %Param ) = @_;
 
-    my @Hash;
+    my @CertList;
+    my @Filters;
+    for my $Number ( 0 .. 9 ) {
+        push @Filters, "*.$Number";
+    }
+
     my @List = $Self->{MainObject}->DirectoryRead(
         Directory => "$Self->{CertPath}",
-        Filter    => '*.0',
+        Filter    => \@Filters,
     );
+
     for my $File (@List) {
-        $File =~ s!^.*/!!;
-        $File =~ s/(.*)\.0/$1/;
-        push @Hash, $File;
+        $File =~ s{^.*/}{}xms;
+        push @CertList, $File;
     }
-    return @Hash;
+    return @CertList;
 }
 
 =item CertificateAttributes()
 
 get certificate attributes
 
-    my %CertificateArrtibutes = $CryptObject->CertificateAttributes(
+    my %CertificateAttributes = $CryptObject->CertificateAttributes(
         Certificate => $CertificateString,
     );
 
@@ -597,7 +753,7 @@ sub CertificateAttributes {
     close $FH;
     $Self->_FetchAttributesFromCert( $Filename, \%Attributes );
     if ( $Attributes{Hash} ) {
-        my ($Private) = $Self->PrivateGet( Hash => $Attributes{Hash} );
+        my ($Private) = $Self->PrivateGet(%Attributes);
         if ($Private) {
             $Attributes{Private} = 'Yes';
         }
@@ -624,14 +780,16 @@ sub PrivateSearch {
 
     my $Search = $Param{Search} || '';
     my @Result;
-    my @Hash = $Self->CertificateList();
-    for (@Hash) {
-        my $Certificate = $Self->CertificateGet( Hash => $_ );
+    my @Certificates = $Self->CertificateList();
+
+    for my $File (@Certificates) {
+        my $Certificate = $Self->CertificateGet( Filename => $File );
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+
         my $Hit = 0;
         if ($Search) {
-            for ( keys %Attributes ) {
-                if ( $Attributes{$_} =~ /$Search/i ) {
+            for my $Attribute ( keys %Attributes ) {
+                if ( $Attributes{$Attribute} =~ m{$Search}xms ) {
                     $Hit = 1;
                 }
             }
@@ -639,8 +797,9 @@ sub PrivateSearch {
         else {
             $Hit = 1;
         }
-        if ( $Hit && $Attributes{Private} eq 'Yes' ) {
-            $Attributes{Type} = 'key';
+        if ( $Hit && $Attributes{Private} && $Attributes{Private} eq 'Yes' ) {
+            $Attributes{Type}     = 'key';
+            $Attributes{Filename} = $File;
             push @Result, \%Attributes;
         }
     }
@@ -651,7 +810,7 @@ sub PrivateSearch {
 
 add private key
 
-    my $Message = $CryptObject->PrivateAdd(
+    my %Result = $CryptObject->PrivateAdd(
         Private => $PrivateKeyString,
         Secret  => 'Password',
     );
@@ -662,54 +821,83 @@ sub PrivateAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
-        return;
+    for my $Needed (qw(Private Secret)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
     }
+
+    my %Result;
 
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
     if ( !$Attributes{Modulus} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'No Private Key!' );
+        %Result = (
+            Successful => 0,
+            Message    => 'No private key',
+        );
         return;
     }
 
-    # get certificate hash
+    # get certificate
     my @Certificates = $Self->CertificateSearch( Search => $Attributes{Modulus} );
     if ( !@Certificates ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need Certificate of Private Key first -$Attributes{Modulus})!",
         );
-        return;
+        %Result = (
+            Successful => 0,
+            Message    => 'Need Certificate of Private Key first -$Attributes{Modulus})!',
+        );
+        return %Result;
     }
     elsif ( $#Certificates > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Multiple Certificates with the same Modulus, can't add Private Key!",
+            Message  => 'Multiple Certificates with the same Modulus, can\'t add Private Key!',
         );
-        return;
+        %Result = (
+            Successful => 0,
+            Message    => 'Multiple Certificates with the same Modulus, can\'t add Private Key!',
+        );
+        return %Result;
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
-        Certificate => $Self->CertificateGet( Hash => $Certificates[0]->{Hash} ),
+        Certificate => $Self->CertificateGet( Filename => $Certificates[0]->{Filename} ),
     );
     if ( $CertificateAttributes{Hash} ) {
-        my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
-        if ( open( my $PrivKeyFH, '>', "$File.0" ) ) {
+        my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
+        if ( open( my $PrivKeyFH, '>', "$File" ) ) {
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
             open( my $PassFH, '>', "$File.P" );
             print $PassFH $Param{Secret};
             close $PassFH;
-            return 'Private Key uploaded!';
+            %Result = (
+                Successful => 1,
+                Message    => 'Private Key uploaded!',
+                Filename   => $Certificates[0]->{Filename},
+            );
+            return %Result;
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
-            return;
+            %Result = (
+                Successful => 0,
+                Message    => "Can't write $File: $!!",
+            );
+            return %Result;
         }
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid private key!" );
-    return;
+    $Self->{LogObject}->Log( Priority => 'error', Message => 'Can\'t add invalid private key!' );
+    %Result = (
+        Successful => 0,
+        Message    => 'Can\'t add invalid private key!',
+    );
+    return %Result;
 }
 
 =item PrivateGet()
@@ -717,7 +905,12 @@ sub PrivateAdd {
 get private key
 
     my ($PrivateKey, $Secret) = $CryptObject->PrivateGet(
-        Hash => $PrivateKeyHash,
+        Filename => $PrivateFilename,
+    );
+
+    my ($PrivateKey, $Secret) = $CryptObject->PrivateGet(
+        Hash    => $Hash,
+        Modulus => $Modulus,
     );
 
 =cut
@@ -726,37 +919,34 @@ sub PrivateGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+    if ( !$Param{Filename} && !( $Param{Hash} && $Param{Modulus} ) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Modulus!' );
         return;
     }
-    my $File = "$Self->{PrivatePath}/$Param{Hash}.0";
-    if ( !-f $File ) {
 
-        # no private exists
-        return;
-    }
-    elsif ( open( my $IN, '<', $File ) ) {
-        my $Private = '';
-        while (<$IN>) {
-            $Private .= $_;
-        }
-        close($IN);
-
-        # read secret
-        my $File   = "$Self->{PrivatePath}/$Param{Hash}.P";
-        my $Secret = '';
-        if ( open( my $IN, '<', $File ) ) {
-            while (<$IN>) {
-                $Secret .= $_;
-            }
-            close($IN);
-        }
-        return ( $Private, $Secret );
+    if ( !$Param{Filename} && ( $Param{Hash} && $Param{Modulus} ) ) {
+        $Param{Filename} = $Self->_PrivateFilename(
+            Hash    => $Param{Hash},
+            Modulus => $Param{Modulus},
+        );
+        return if !$Param{Filename};
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
-    return;
+    my $File = "$Self->{PrivatePath}/$Param{Filename}";
+
+    my $Private;
+    if ( -e $File ) {
+        $Private = $Self->{MainObject}->FileRead( Location => $File );
+    }
+
+    return if !$Private;
+
+    # read secret
+    $File = "$Self->{PrivatePath}/$Param{Filename}.P";
+    my $Secret = $Self->{MainObject}->FileRead( Location => $File );
+
+    return ( $$Private, $$Secret ) if ( $Private && $Secret );
 }
 
 =item PrivateRemove()
@@ -764,7 +954,12 @@ sub PrivateGet {
 remove private key
 
     $CryptObject->PrivateRemove(
-        Hash => $PrivateKeyHash,
+        Filename => $Filename,
+    );
+
+    $CryptObject->PrivateRemove(
+        Hash    => $Hash,
+        Modulus => $Modulus,
     );
 
 =cut
@@ -773,50 +968,95 @@ sub PrivateRemove {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+    if ( !$Param{Filename} && !( $Param{Hash} && $Param{Modulus} ) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Modulus!' );
         return;
     }
 
-    # get the cert attributes
-    my @Results = $Self->PrivateSearch( Search => $Param{Hash} );
-
-    # delete all relations for this cert
-    if (@Results) {
-        $Self->SignerCertRelationDelete(
-            CertFingerprint => $Results[0]->{Fingerprint},
-            UserID          => 1,
+    my %Return;
+    if ( !$Param{Filename} && ( $Param{Hash} && $Param{Modulus} ) ) {
+        $Param{Filename} = $Self->_PrivateFilename(
+            Hash    => $Param{Hash},
+            Modulus => $Param{Modulus},
         );
+        %Return = (
+            Successful => 0,
+            Message    => "Filename not found for hash: $Param{Hash} in: $Self->{PrivatePath}, $!!",
+        );
+        return %Return if !$Param{Filename};
     }
 
-    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
-    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return;
+    my $SecretDelete = unlink "$Self->{PrivatePath}/$Param{Filename}.P";
 
-    return 1;
+    # abort if secret is not deleted
+    if ( !$SecretDelete ) {
+        %Return = (
+            Successful => 0,
+            Message =>
+                "Delete private aborted, not possible to delete Secret: $Self->{PrivatePath}/$Param{Filename}.P, $!!",
+        );
+        return %Return;
+    }
+
+    my $PrivateDelete = unlink "$Self->{PrivatePath}/$Param{Filename}";
+    if ($PrivateDelete) {
+
+        my $Certificate = $Self->CertificateGet(
+            Filename => $Param{Filename},
+        );
+
+        # get cert attributes
+        my %CertificateAttributes = $Self->CertificateAttributes(
+            Certificate => $Certificate,
+        );
+
+        $Self->SignerCertRelationDelete(
+            CertFingerprint => $CertificateAttributes{Fingerprint},
+        );
+
+        %Return = (
+            Successful => 1,
+            Message    => 'Private key deleted!'
+        );
+        return %Return;
+    }
+
+    %Return = (
+        Successful => 0,
+        Message    => "Impossible to delete key $Param{Filename} $!!"
+    );
+    return %Return;
 }
 
 =item PrivateList()
 
 returns a list of private key hashs
 
-    my @HashList = $CryptObject->PrivateList();
+    my @PrivateList = $CryptObject->PrivateList();
 
 =cut
 
 sub PrivateList {
     my ( $Self, %Param ) = @_;
 
-    my @Hash;
+    my @CertList;
+    my @Filters;
+    for my $Number ( 0 .. 9 ) {
+        push @Filters, "*.$Number";
+    }
+
     my @List = $Self->{MainObject}->DirectoryRead(
         Directory => "$Self->{PrivatePath}",
-        Filter    => '*.0',
+        Filter    => \@Filters,
     );
+
     for my $File (@List) {
-        $File =~ s!^.*/!!;
-        $File =~ s/(.*)\.0/$1/;
-        push @Hash, $File;
+        $File =~ s{^.*/}{}xms;
+        push @CertList, $File;
     }
-    return @Hash;
+    return @CertList;
+
 }
 
 =item PrivateAttributes()
@@ -833,12 +1073,15 @@ returns attributes of private key
 sub PrivateAttributes {
     my ( $Self, %Param ) = @_;
 
+    for my $Needed (qw(Private Secret)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
     my %Attributes;
     my %Option = ( Modulus => '-modulus', );
-    if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
-        return;
-    }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Private};
     close $FH;
@@ -934,10 +1177,10 @@ sub _FetchAttributesFromCert {
     # filters
     my %Filters = (
         Hash        => '(\w{8})',
-        Issuer      => '(issuer=\s.*)',
+        Issuer      => 'issuer=\s*(.*)',
         Fingerprint => 'SHA1\sFingerprint=(.*)',
-        Serial      => '(serial=.*)',
-        Subject     => 'subject=(.*)',
+        Serial      => 'serial=(.*)',
+        Subject     => 'subject=\s*/(.*)',
         StartDate   => 'notBefore=(.*)',
         EndDate     => 'notAfter=(.*)',
         Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
@@ -954,7 +1197,7 @@ sub _FetchAttributesFromCert {
         # look for every attribute by filter
         for my $Filter ( keys %Filters ) {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
-                $AttributesRef->{$Filter} = $1;
+                $AttributesRef->{$Filter} = $1 || '';
 
           # delete the match key from filter  to don't search again this value and improve the speed
                 delete $Filters{$Filter};
@@ -964,10 +1207,9 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer}  =~ s/=/= /g;
-    $AttributesRef->{Subject} =~ s/subject=//;
-    $AttributesRef->{Subject} =~ s/\// /g;
-    $AttributesRef->{Subject} =~ s/=/= /g;
+    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg if $AttributesRef->{Issuer};
+    $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
+    $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
 
     my %Month = (
         Jan => '01',
@@ -980,7 +1222,12 @@ sub _FetchAttributesFromCert {
     );
 
     for my $DateType ( 'StartDate', 'EndDate' ) {
-        if ( $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
+        if (
+            $AttributesRef->{$DateType}
+            &&
+            $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/
+            )
+        {
             my $Day   = $2;
             my $Month = '';
             my $Year  = $4;
@@ -1010,6 +1257,82 @@ sub _CleanOutput {
     }
 
     return $Output;
+}
+
+sub _CertificateFilename {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Fingerprint Hash)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # get all certificates with hash name
+    my @CertList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{CertPath},
+        Filter    => "$Param{Hash}.*",
+    );
+
+    # open every file, get attributes and compare fingerprint
+    for my $CertFile (@CertList) {
+        my %Attributes;
+        $Self->_FetchAttributesFromCert( $CertFile, \%Attributes );
+
+        # exit and return on first finger print found
+        if ( $Attributes{Fingerprint} && $Attributes{Fingerprint} eq $Param{Fingerprint} ) {
+            $CertFile =~ s{^.*/}{}xms;
+            return $CertFile;
+        }
+    }
+
+    return;
+}
+
+sub _PrivateFilename {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Hash Modulus)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # get all certificates with hash name
+    my @CertList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{PrivatePath},
+        Filter    => $Param{Hash} . '\.*',
+    );
+
+    # open every file, get attributes and compare modulus
+    CERTFILE:
+    for my $CertFile (@CertList) {
+        my %Attributes;
+        next CERTFILE if $CertFile =~ m{\.P}xms;
+
+        # open secret
+        my $Private = $Self->{MainObject}->FileRead(
+            Location => $CertFile,
+        );
+        my $Secret = $Self->{MainObject}->FileRead(
+            Location => $CertFile . '.P',
+        );
+
+        %Attributes = $Self->PrivateAttributes(
+            Private => $$Private,
+            Secret  => $$Secret,
+        );
+
+        # exit and return on first modulus found
+        if ( $Attributes{Modulus} && $Attributes{Modulus} eq $Param{Modulus} ) {
+            $CertFile =~ s{^.*/}{}xms;
+            return $CertFile;
+        }
+    }
 }
 
 =item SignerCertRelationAdd ()
@@ -1274,14 +1597,12 @@ returns 1 if success
     # delete one relation by ID
     $Success = $CryptObject->SignerCertRelationDelete (
         ID => '45',
-        UserID => 1,
     );
 
     # delete one relation by CertFingerprint & CAFingerprint
     $Success = $CryptObject->SignerCertRelationDelete (
         CertFingerprint => $CertFingerprint,
         CAFingerprint   => $CAFingerprint,
-        UserID => 1,
     );
 
 =cut
@@ -1290,13 +1611,6 @@ sub SignerCertRelationDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw( UserID )) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
     if ( !$Param{CertFingerprint} && !$Param{ID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or CertFingerprint!' );
         return;
@@ -1379,6 +1693,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2011-05-19 00:15:32 $
+$Revision: 1.54 $ $Date: 2011-06-03 03:38:01 $
 
 =cut

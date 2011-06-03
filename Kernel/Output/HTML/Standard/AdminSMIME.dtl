@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.26 2011-05-23 20:47:20 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.27 2011-06-03 03:39:00 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,11 +119,11 @@
                     </thead>
                     <tbody>
                         <tr class="FilterMessage Hidden">
-                            <td colspan="7">$Text{"No matches found."}</td>
+                            <td colspan="8">$Text{"No matches found."}</td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
-                            <td colspan="7">$Text{"No data found."}</td>
+                            <td colspan="8">$Text{"No data found."}</td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Row -->
@@ -140,15 +140,15 @@
                             <td>$QData{"Type"}</td>
                             <td>$QData{"Subject"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Filename=$LQData{"Filename"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Filename=$LQData{"Filename"}" title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</a>
                             </td>
                             <td>$QData{"ShortStartDate"}</td>
                             <td>$QData{"ShortEndDate"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Filename=$LQData{"Filename"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Row -->
@@ -258,10 +258,10 @@
                         <td>$QData{"Type"}</td>
                         <td>$QData{"Subject"}</td>
                         <td>
-                            <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
+                            $QData{"Hash","12"}
                         </td>
-                        <td>
-                            <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</a>
+                        <td title="$QData{"Fingerprint"}">
+                            $QData{"Fingerprint","12"}
                         </td>
                         <td>$QData{"ShortStartDate"}</td>
                         <td>$QData{"ShortEndDate"}</td>
@@ -312,10 +312,10 @@
                         <td>$QData{"Type"}</td>
                         <td>$QData{"Subject"}</td>
                         <td>
-                            <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Hash"}">$QData{"Hash","12"}</a>
+                            $QData{"Hash","12"}
                         </td>
-                        <td>
-                            <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Hash=$LQData{"Hash"}" title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</a>
+                        <td title="$QData{"Fingerprint"}">
+                            $QData{"Fingerprint","12"}
                         </td>
                         <td>$QData{"ShortStartDate"}</td>
                         <td>$QData{"ShortEndDate"}</td>

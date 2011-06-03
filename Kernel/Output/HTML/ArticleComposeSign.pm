@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.22 2011-02-11 17:55:37 dz Exp $
+# $Id: ArticleComposeSign.pm,v 1.23 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,8 +130,8 @@ sub Data {
                 Search => $SearchAddress[0]->address(),
             );
             for my $DataRef (@PrivateKeys) {
-                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                    = "SMIME-Detached: $DataRef->{Hash} [$DataRef->{EndDate}] $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Filename}"}
+                    = "SMIME-Detached: $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
             }
         }
 

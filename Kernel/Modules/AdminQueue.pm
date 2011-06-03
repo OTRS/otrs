@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.80 2011-03-20 08:41:54 mb Exp $
+# $Id: AdminQueue.pm,v 1.81 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,8 +83,8 @@ sub Run {
         if ($CryptObjectSMIME) {
             my @PrivateKeys = $CryptObjectSMIME->PrivateSearch( Search => $QueueData{Email}, );
             for my $DataRef (@PrivateKeys) {
-                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                    = "SMIME-Detached: $DataRef->{Hash} [$DataRef->{EndDate}] $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Filename}"}
+                    = "SMIME-Detached: $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
             }
         }
     }

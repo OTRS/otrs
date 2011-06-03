@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.20 2010-11-23 20:42:30 dz Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.21 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,8 +165,8 @@ sub Data {
                 if ( $DataRef->{EndDate} ) {
                     $EndDate = "[$DataRef->{EndDate}]";
                 }
-                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                    = "SMIME-Detached: $DataRef->{Hash} $EndDate $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Filename}"}
+                    = "SMIME-Detached: $DataRef->{Filename} $EndDate $DataRef->{Email}";
             }
         }
 

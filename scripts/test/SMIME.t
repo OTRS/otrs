@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.20 2011-05-18 20:41:15 dz Exp $
+# $Id: SMIME.t,v 1.21 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,15 +75,15 @@ my %Check = (
             'B5D12B210C8EF3E6B404162157022CEFF46AF6519571F985C116A3CF096B5BD9DBE306CA6683221F08858C8BA1422F934916FE29EF89DA1F1DD55AA47443F796CB882843E16CB4F722F8038768B6FDCE8F4ADEC5E81DB46F9B300A765737B698FC0B7D1E57410BCF810E4B3B4F74FD5C805378879E8C23CD5CB6A0A160AE42E9',
         EndDate => 'Mar 29 11:20:56 2012 GMT',
         Subject =>
-            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
         Hash         => '980a83c7',
         Private      => 'No',
-        Serial       => 'serial=D51FC7523893BCFD',
+        Serial       => 'D51FC7523893BCFD',
         ShortEndDate => '2012-03-29',
         Type         => 'cert',
         Fingerprint  => 'E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
         Issuer =>
-            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
         Email          => 'unittest@example.org',
         StartDate      => 'Feb 19 11:20:56 2008 GMT',
         ShortStartDate => '2008-02-19',
@@ -93,15 +93,15 @@ my %Check = (
             'C37422BAB1D6CDE930ED44E79C4D3BD3BECBD4E391FB80C3FC74B639A926D670FDDF6A75EBC304E42FD83311C64356C3DF4E468484CF0A71CAACA333BB99B1ACF418B72020A4D44FA28DF97F0DC2E8D64A0926673FBAC1F29A669E6F3776601CC27937A3212228856CAB9396923B60998198FFD2BB10E8667C02C66F11BA5787',
         EndDate => 'Mar 29 11:32:20 2012 GMT',
         Subject =>
-            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
         Hash         => '999bcb2f',
         Private      => 'No',
-        Serial       => 'serial=9BCC39BD2A958C37',
+        Serial       => '9BCC39BD2A958C37',
         ShortEndDate => '2012-03-29',
         Fingerprint  => '3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
         Type         => 'cert',
         Issuer =>
-            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
         Email          => 'unittest2@example.org',
         StartDate      => 'Feb 19 11:32:20 2008 GMT',
         ShortStartDate => '2008-02-19',
@@ -171,11 +171,13 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
-    my $Message = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+
+    $Certs[0]->{Filename} = $Result{Filename};
 
     $Self->True(
-        $Message || '',
-        "#$Count CertificateAdd() - $Message",
+        $Result{Successful} || '',
+        "#$Count CertificateAdd() - $Result{Message}",
     );
 
     # test if read cert from file is the same as in unittest file
@@ -211,12 +213,12 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
-    $Message = $CryptObject->PrivateAdd(
+    %Result = $CryptObject->PrivateAdd(
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
     $Self->True(
-        $Message || '',
+        $Result{Successful} || '',
         "#$Count PrivateAdd()",
     );
 
@@ -227,13 +229,19 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PrivateSearch()",
     );
 
-    my $CertificateString = $CryptObject->CertificateGet( Hash => $Certs[0]->{Hash} );
+    my $CertificateString = $CryptObject->CertificateGet(
+        Hash        => $Certs[0]->{Hash},
+        Fingerprint => $Certs[0]->{Fingerprint},
+    );
     $Self->True(
         $CertificateString || '',
         "#$Count CertificateGet()",
     );
 
-    my $PrivateKeyString = $CryptObject->PrivateGet( Hash => $Keys[0]->{Hash} );
+    my $PrivateKeyString = $CryptObject->PrivateGet(
+        Hash    => $Keys[0]->{Hash},
+        Modulus => $Certs[0]->{Modulus},
+    );
     $Self->True(
         $PrivateKeyString || '',
         "#$Count PrivateGet()",
@@ -241,12 +249,12 @@ for my $Count ( 1 .. 2 ) {
 
     # crypt
     my $Crypted = $CryptObject->Crypt(
-        Message => $TestText,
-        Hash    => $Certs[0]->{Hash},
+        Message  => $TestText,
+        Filename => $Certs[0]->{Filename},
     );
     $Self->True(
         $Crypted || '',
-        "#$Count Crypt()",
+        "#$Count Crypt() by cert filename",
     );
 
     $Self->True(
@@ -257,12 +265,12 @@ for my $Count ( 1 .. 2 ) {
 
     # decrypt
     my %Decrypt = $CryptObject->Decrypt(
-        Message => $Crypted,
-        Hash    => $Certs[0]->{Hash},
+        Message  => $Crypted,
+        Filename => $Certs[0]->{Filename},
     );
     $Self->True(
         $Decrypt{Successful} || '',
-        "#$Count Decrypt() - Successful",
+        "#$Count Decrypt() by cert filename - Successful: $Decrypt{Message}",
     );
     $Self->Is(
         $Decrypt{Data} || '',
@@ -272,8 +280,8 @@ for my $Count ( 1 .. 2 ) {
 
     # sign
     my $Sign = $CryptObject->Sign(
-        Message => $TestText,
-        Hash    => $Keys[0]->{Hash},
+        Message  => $TestText,
+        Filename => $Certs[0]->{Filename},
     );
     $Self->True(
         $Sign || '',
@@ -282,8 +290,8 @@ for my $Count ( 1 .. 2 ) {
 
     # verify
     my %Verify = $CryptObject->Verify(
-        Message     => $Sign,
-        Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
+        Message => $Sign,
+        CACert  => "$CertPath/$Certs[0]->{Filename}",
     );
 
     $Self->True(
@@ -310,8 +318,8 @@ for my $Count ( 1 .. 2 ) {
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{Q}{W}g;
     %Verify = $CryptObject->Verify(
-        Message     => $ManipulatedSign,
-        Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
+        Message => $ManipulatedSign,
+        CACert  => "$CertPath/$Certs[0]->{Filename}",
     );
     $Self->True(
         !$Verify{Successful},
@@ -333,8 +341,9 @@ for my $Count ( 1 .. 2 ) {
 
         # crypt
         my $Crypted = $CryptObject->Crypt(
-            Message => $Reference,
-            Hash    => $Certs[0]->{Hash},
+            Message     => $Reference,
+            Hash        => $Certs[0]->{Hash},
+            Fingerprint => $Certs[0]->{Fingerprint},
         );
         $Self->True(
             $Crypted || '',
@@ -348,8 +357,9 @@ for my $Count ( 1 .. 2 ) {
 
         # decrypt
         my %Decrypt = $CryptObject->Decrypt(
-            Message => $Crypted,
-            Hash    => $Certs[0]->{Hash},
+            Message     => $Crypted,
+            Hash        => $Certs[0]->{Hash},
+            Fingerprint => $Certs[0]->{Fingerprint},
         );
         $Self->True(
             $Decrypt{Successful} || '',
@@ -362,8 +372,9 @@ for my $Count ( 1 .. 2 ) {
 
         # sign
         my $Signed = $CryptObject->Sign(
-            Message => $Reference,
-            Hash    => $Keys[0]->{Hash},
+            Message     => $Reference,
+            Hash        => $Keys[0]->{Hash},
+            Fingerprint => $Keys[0]->{Fingerprint},
         );
         $Self->True(
             $Signed || '',
@@ -372,8 +383,8 @@ for my $Count ( 1 .. 2 ) {
 
         # verify
         my %Verify = $CryptObject->Verify(
-            Message     => $Signed,
-            Certificate => "$CertPath/$Check{$Count}->{Hash}.0",
+            Message => $Signed,
+            CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
         $Self->True(
             $Verify{Successful} || '',
@@ -395,15 +406,22 @@ for my $Count ( 1 .. 2 ) {
         $Keys[0] || '',
         "#$Count Search()",
     );
-    my $PrivateRemoved = $CryptObject->PrivateRemove( Hash => $Keys[0]->{Hash} );
+    my %Result = $CryptObject->PrivateRemove(
+        Hash    => $Keys[0]->{Hash},
+        Modulus => $Keys[0]->{Modulus},
+    );
     $Self->True(
-        $PrivateRemoved || '',
-        "#$Count PrivateRemove()",
+        $Result{Successful} || '',
+        "#$Count PrivateRemove() - $Result{Message}",
     );
 
-    my $CertificateRemoved = $CryptObject->CertificateRemove( Hash => $Keys[0]->{Hash} );
+    %Result = $CryptObject->CertificateRemove(
+        Hash        => $Keys[0]->{Hash},
+        Fingerprint => $Keys[0]->{Fingerprint},
+    );
+
     $Self->True(
-        $CertificateRemoved || '',
+        $Result{Successful} || '',
         "#$Count CertificateRemove()",
     );
 
@@ -443,6 +461,7 @@ Ke3EvjnBq5V0R6TCSHXWMyE5qzSy+z9ZI4dqbBC5m18XokXqK4D1nBKK+mMY532w
 AFZc+igKesPcdjhaBJFPZ+Q=
 -----END CERTIFICATE-----',
         PrivateSecret => 'smimeuser1',
+        PrivateHash   => '051d6705',
         PrivateString =>
             '-----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
@@ -464,23 +483,27 @@ XgLpk1hOJqMI3lGeiFINPcGWCQW8l6/wqiRZHqM/wdXXoNzvLLayIQ==
 -----END RSA PRIVATE KEY-----',
     );
 
-    $CryptObject->CertificateAdd(
+    my %Result = $CryptObject->CertificateAdd(
         Certificate => $SMIMEUser1Certificate{String},
     );
 
-    $CryptObject->PrivateAdd(
+    $SMIMEUser1Certificate{Filename} = $Result{Filename};
+
+    %Result = $CryptObject->PrivateAdd(
         Private => $SMIMEUser1Certificate{PrivateString},
         Secret  => $SMIMEUser1Certificate{PrivateSecret},
     );
+
+    $SMIMEUser1Certificate{PrivateFilename} = $Result{Filename};
 
     # sign a message with smimeuser1
     my $Message =
         'This is a signed message to sign, and verification must pass a certificate chain validation. -dz';
 
-    my $PrivateKeyHash = '051d6705';
-    my $Sign           = $CryptObject->Sign(
-        Message => $Message,
-        Hash    => $PrivateKeyHash,
+    my $Sign = $CryptObject->Sign(
+        Message     => $Message,
+        Hash        => $SMIMEUser1Certificate{PrivateHash},
+        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     # verify it
@@ -550,12 +573,11 @@ PexBgADUDM/q9w==
         );
     }
 
-    # sign a message with smimeuser1 cert and embed all the  needed certificates
-    my @CACertHash = ( "$Certificates{otrslabCA}->{Hash}", "$Certificates{otrsrdCA}->{Hash}" );
+    # sign a message with smimeuser1
     $Sign = $CryptObject->Sign(
-        Message => $Message,
-        Hash    => $PrivateKeyHash,
-        CACert  => \@CACertHash,
+        Message     => $Message,
+        Hash        => $SMIMEUser1Certificate{PrivateHash},
+        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     # verify must fail not root cert added to the trusted cert path
@@ -569,7 +591,8 @@ PexBgADUDM/q9w==
 
     # add the root CA (dzCA) cert to the trusted certificates path
     $Certificates{dzCA} = {
-        Hash => '8b0cc41f',
+        Hash        => '8b0cc41f',
+        Fingerprint => '8C:8A:07:DA:78:B3:C0:1B:37:5A:9E:47:B8:08:00:33:44:AE:74:F8',
         String =>
             '-----BEGIN CERTIFICATE-----
 MIID4zCCA0ygAwIBAgIJAIyAzC4orpb1MA0GCSqGSIb3DQEBBQUAMIGoMQswCQYD
@@ -668,8 +691,8 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
 # sign a message after relations added not send CA certs now should be taken automatically by the sign function
     $Sign = $CryptObject->Sign(
-        Message => $Message,
-        Hash    => $PrivateKeyHash,
+        Message  => $Message,
+        Filename => $SMIMEUser1Certificate{Filename},
     );
 
     # verify now must works
@@ -723,8 +746,7 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
     # delete one relation by ID
     $CryptObject->SignerCertRelationDelete(
-        ID     => $CertResults[0]->{ID},
-        UserID => 1,
+        ID => $CertResults[0]->{ID},
     );
     $Success = $CryptObject->SignerCertRelationExists(
         ID => $CertResults[0]->{ID},
@@ -737,7 +759,6 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
     # delete all relations for a certificate
     $CryptObject->SignerCertRelationDelete(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
-        UserID          => 1,
     );
     $Success = $CryptObject->SignerCertRelationExists(
         ID => $CertResults[1]->{ID},
@@ -749,19 +770,373 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
     # delete certificates
     $CryptObject->CertificateRemove(
-        Hash => $SMIMEUser1Certificate{Hash},
-    );
-
-    $CryptObject->PrivateRemove(
-        Hash => $SMIMEUser1Certificate{Hash},
+        Hash        => $SMIMEUser1Certificate{Hash},
+        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     for my $Cert ( values %Certificates ) {
         $CryptObject->CertificateRemove(
-            Hash => $Cert->{Hash},
+            Hash        => $Cert->{Hash},
+            Fingerprint => $Cert->{Fingerprint},
         );
     }
 
 }
 
+# testing new features for CertificateAdd
+{
+
+    # insert certificates with same hash value
+    my %CertInfo;
+
+    # insert certificate information in a hash to compare later
+    # insert first the not common cert content
+    $CertInfo{'SmimeTest_0'} = {
+        Serial      => '8C640B7D82967C5A',
+        Fingerprint => '8F:5A:BD:42:0F:4C:19:DC:15:09:69:1F:60:62:A0:A4:7A:33:02:54',
+        Modulus =>
+            'A28172017D075C69600A03CFAC610FD44D348369E107DB5DA23B72D79E5F1E34583BE5E41D11203CE609AB34E6CA4F371D0D906C66693F1AAF59E8EA8D3A7756EAA73E3C0A081095191149B2AA82BCCD6918E73283A01D33641035164A9854FC9E174815E0BE90D08DED47B512B3CFCF42EEC60F3C486285A3B7E633AEC454BF',
+        StartDate      => 'Feb 25 20:12:47 2011 GMT',
+        EndDate        => 'Feb 25 20:12:47 2012 GMT',
+        ShortStartDate => '2011-02-25',
+        ShortEndDate   => '2012-02-25',
+        CertString =>
+            '-----BEGIN CERTIFICATE-----
+MIICqzCCAhQCCQCMZAt9gpZ8WjANBgkqhkiG9w0BAQUFADCBmTELMAkGA1UEBhMC
+TVgxEDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMQ0wCwYD
+VQQKEwRPVFJTMSEwHwYDVQQLExhSZXNlYXJjaCBhbmQgRGV2ZWxvcG1lbnQxETAP
+BgNVBAMTCG90cnMub3JnMR0wGwYJKoZIhvcNAQkBFg5zbWltZUB0ZXN0LmNvbTAe
+Fw0xMTAyMjUyMDEyNDdaFw0xMjAyMjUyMDEyNDdaMIGZMQswCQYDVQQGEwJNWDEQ
+MA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWphcmExDTALBgNVBAoT
+BE9UUlMxITAfBgNVBAsTGFJlc2VhcmNoIGFuZCBEZXZlbG9wbWVudDERMA8GA1UE
+AxMIb3Rycy5vcmcxHTAbBgkqhkiG9w0BCQEWDnNtaW1lQHRlc3QuY29tMIGfMA0G
+CSqGSIb3DQEBAQUAA4GNADCBiQKBgQCigXIBfQdcaWAKA8+sYQ/UTTSDaeEH212i
+O3LXnl8eNFg75eQdESA85gmrNObKTzcdDZBsZmk/Gq9Z6OqNOndW6qc+PAoIEJUZ
+EUmyqoK8zWkY5zKDoB0zZBA1FkqYVPyeF0gV4L6Q0I3tR7USs8/PQu7GDzxIYoWj
+t+YzrsRUvwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAGr1Uhgbwf+Z/qpMwPl+ugOU
+Jb0CGVc7eJtos8nTYGhg3Ws/bdENDOhf8iIhFegK1litZeQx/WAXgiCZYHClj7tD
+/5vsMJVA0WSJNUZvi+MXi5VVG+gwGGgqyCvgyiU8XAaEPZY/olSIW/flv/KQA+f4
+hX1v0pAMYoGlj4pLmNqp
+-----END CERTIFICATE-----
+',
+    };
+    $CertInfo{'SmimeTest_1'} = {
+        Serial      => 'EBBDEED192DEF3D5',
+        Fingerprint => '45:BB:21:E6:AD:9B:0A:95:52:D6:0E:C1:95:94:D6:A4:AA:1E:A8:07',
+        Modulus =>
+            'E0F44A17A52FF5930737244074CEE25CC8E28C65259A43F39BEFF0F600C81C8ABABB44C38B5BB2A45FABC87E00D9B51232CAE7F35E1AD13C0A0A8E87CD54D6CCF0734E3EE791544DA206AD485718DA0677EF7761DEEE0E32E8A1DC3EBCAE0ED5DA9C2B56207993319168E00621D17972687DA4C956821D2CF6A636675094E581',
+        StartDate      => 'Apr  8 14:23:22 2011 GMT',
+        EndDate        => 'Apr  7 14:23:22 2012 GMT',
+        ShortStartDate => '2011-04-08',
+        ShortEndDate   => '2012-04-07',
+        CertString =>
+            '-----BEGIN CERTIFICATE-----
+MIICqzCCAhQCCQDrve7Rkt7z1TANBgkqhkiG9w0BAQUFADCBmTELMAkGA1UEBhMC
+TVgxEDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMQ0wCwYD
+VQQKEwRPVFJTMSEwHwYDVQQLExhSZXNlYXJjaCBhbmQgRGV2ZWxvcG1lbnQxETAP
+BgNVBAMTCG90cnMub3JnMR0wGwYJKoZIhvcNAQkBFg5zbWltZUB0ZXN0LmNvbTAe
+Fw0xMTA0MDgxNDIzMjJaFw0xMjA0MDcxNDIzMjJaMIGZMQswCQYDVQQGEwJNWDEQ
+MA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWphcmExDTALBgNVBAoT
+BE9UUlMxITAfBgNVBAsTGFJlc2VhcmNoIGFuZCBEZXZlbG9wbWVudDERMA8GA1UE
+AxMIb3Rycy5vcmcxHTAbBgkqhkiG9w0BCQEWDnNtaW1lQHRlc3QuY29tMIGfMA0G
+CSqGSIb3DQEBAQUAA4GNADCBiQKBgQDg9EoXpS/1kwc3JEB0zuJcyOKMZSWaQ/Ob
+7/D2AMgcirq7RMOLW7KkX6vIfgDZtRIyyufzXhrRPAoKjofNVNbM8HNOPueRVE2i
+Bq1IVxjaBnfvd2He7g4y6KHcPryuDtXanCtWIHmTMZFo4AYh0XlyaH2kyVaCHSz2
+pjZnUJTlgQIDAQABMA0GCSqGSIb3DQEBBQUAA4GBALtZQpsB1UA3WtfHl7qoVM3d
+X/umav+OgOsBHZKH4UV1CgLmgDz9i8kVy2yEKL/QgCE/aPjSOf46TSKQX4pQy/2w
+sc8WqMKf2rOWj65HEarZnVMzTIErm14HJzJljkQg0gdR8ph4gFIscIfO9csLd8ud
+BLrMsW3mKPx9cPinBGIH
+-----END CERTIFICATE-----
+',
+    };
+    $CertInfo{'SmimeTest_2'} = {
+        Serial      => '92AC1D548E1ACAD9',
+        Fingerprint => '7E:63:F2:63:65:80:BB:8E:EB:B7:A8:6A:5C:2C:58:C0:6F:EA:F8:37',
+        Modulus =>
+            'C93D9FEA0914DBF689B1D11E69A7D059ABA12AF3D39415E18837A29F6EF018ECF89105BA50838C7298636B7B055DDCD898E10C78357902F381423A32D0974CF5CE8A3593CBEA0DBC902AE994DEFF2B131A4E0A03FA59E445EF08D31CA854EE2BDF01F039C27119ED8AE2CB8A54040D54EC20BB502B13D9A2D41808BFD2CBC62F',
+        StartDate      => 'May 10 16:18:07 2011 GMT',
+        EndDate        => 'May  9 16:18:07 2012 GMT',
+        ShortStartDate => '2011-05-10',
+        ShortEndDate   => '2011-05-09',
+        CertString =>
+            '-----BEGIN CERTIFICATE-----
+MIICqzCCAhQCCQCSrB1UjhrK2TANBgkqhkiG9w0BAQUFADCBmTELMAkGA1UEBhMC
+TVgxEDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMQ0wCwYD
+VQQKEwRPVFJTMSEwHwYDVQQLExhSZXNlYXJjaCBhbmQgRGV2ZWxvcG1lbnQxETAP
+BgNVBAMTCG90cnMub3JnMR0wGwYJKoZIhvcNAQkBFg5zbWltZUB0ZXN0LmNvbTAe
+Fw0xMTA1MTAxNjE4MDdaFw0xMjA1MDkxNjE4MDdaMIGZMQswCQYDVQQGEwJNWDEQ
+MA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWphcmExDTALBgNVBAoT
+BE9UUlMxITAfBgNVBAsTGFJlc2VhcmNoIGFuZCBEZXZlbG9wbWVudDERMA8GA1UE
+AxMIb3Rycy5vcmcxHTAbBgkqhkiG9w0BCQEWDnNtaW1lQHRlc3QuY29tMIGfMA0G
+CSqGSIb3DQEBAQUAA4GNADCBiQKBgQDJPZ/qCRTb9omx0R5pp9BZq6Eq89OUFeGI
+N6KfbvAY7PiRBbpQg4xymGNrewVd3NiY4Qx4NXkC84FCOjLQl0z1zoo1k8vqDbyQ
+KumU3v8rExpOCgP6WeRF7wjTHKhU7ivfAfA5wnEZ7Yriy4pUBA1U7CC7UCsT2aLU
+GAi/0svGLwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAAU2T96dFsU3ScksB7yDQ29H
+rf34bF5GIoBmFoTTjjlP0qlON3ksk7q5fwqv2gQAcLpsyKivngX4ykQVUfBt4WMv
+XFvmf5o761D/LVa7affvUbMMeqpBMOizONfxWGhm0BuMkbM72OyK0UNyMLTkeNLc
+PHquavB33QpjlKE/X01O
+-----END CERTIFICATE-----
+',
+    };
+    $CertInfo{'SmimeTest_3'} = {
+        Serial      => '94791BB083403427',
+        Fingerprint => '8D:57:A4:EA:90:B2:CF:2A:80:40:9A:06:B1:EC:A9:14:02:91:46:BF',
+        Modulus =>
+            'A57D1A863BFAC706576464E9DAC3AEDAF83FC3EB2E830EC9399D5A2D2187D74ABC192F97942FB457F0E7563F9E2F926DC3A0A6D4C281766DE698485D4C8EEF213954F810F78195DA244B3754E84A9B55F20796937F19BB9EA3E10210E7F610E030061413DD0565A1D6E8D9726641EF11073FECBAF2A78172F2DBB86944D324AD',
+        StartDate      => 'May 10 16:24:37 2011 GMT',
+        EndDate        => 'May  9 16:24:37 2012 GMT',
+        ShortStartDate => '2011-05-10',
+        ShortEndDate   => '2011-05-09',
+        CertString =>
+            '-----BEGIN CERTIFICATE-----
+MIICqzCCAhQCCQCUeRuwg0A0JzANBgkqhkiG9w0BAQUFADCBmTELMAkGA1UEBhMC
+TVgxEDAOBgNVBAgTB0phbGlzY28xFDASBgNVBAcTC0d1YWRhbGFqYXJhMQ0wCwYD
+VQQKEwRPVFJTMSEwHwYDVQQLExhSZXNlYXJjaCBhbmQgRGV2ZWxvcG1lbnQxETAP
+BgNVBAMTCG90cnMub3JnMR0wGwYJKoZIhvcNAQkBFg5zbWltZUB0ZXN0LmNvbTAe
+Fw0xMTA1MTAxNjI0MzdaFw0xMjA1MDkxNjI0MzdaMIGZMQswCQYDVQQGEwJNWDEQ
+MA4GA1UECBMHSmFsaXNjbzEUMBIGA1UEBxMLR3VhZGFsYWphcmExDTALBgNVBAoT
+BE9UUlMxITAfBgNVBAsTGFJlc2VhcmNoIGFuZCBEZXZlbG9wbWVudDERMA8GA1UE
+AxMIb3Rycy5vcmcxHTAbBgkqhkiG9w0BCQEWDnNtaW1lQHRlc3QuY29tMIGfMA0G
+CSqGSIb3DQEBAQUAA4GNADCBiQKBgQClfRqGO/rHBldkZOnaw67a+D/D6y6DDsk5
+nVotIYfXSrwZL5eUL7RX8OdWP54vkm3DoKbUwoF2beaYSF1Mju8hOVT4EPeBldok
+SzdU6EqbVfIHlpN/Gbueo+ECEOf2EOAwBhQT3QVlodbo2XJmQe8RBz/suvKngXLy
+27hpRNMkrQIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAHMzv3AdAdg3bo9EjdiRdUmu
+y/lGMs8Q/9vyOlCM8NxdvjrjB0T6r67Nhjp9pRzy9GAdeCXvkKjH3fYa0O6H98v5
+2ZUGDxkv+qL4Wb9MwQsm1DmAEzhExMIEL90GhiBO1OUzRsr0AOyYjSVejXf//Igg
+xqdO7PfndBF8qwrJ7S91
+-----END CERTIFICATE-----
+',
+    };
+
+    for my $Number ( 0 .. 3 ) {
+
+        # insert the common content
+        $CertInfo{ 'SmimeTest_' . $Number }->{Subject} =
+            'C= MX ST= Jalisco L= Guadalajara O= OTRS OU= Research and Development CN= otrs.org emailAddress= smime@test.com';
+        $CertInfo{ 'SmimeTest_' . $Number }->{Hash}    = 'b93941b5';
+        $CertInfo{ 'SmimeTest_' . $Number }->{Private} = 'No';
+        $CertInfo{ 'SmimeTest_' . $Number }->{Type}    = 'cert';
+        $CertInfo{ 'SmimeTest_' . $Number }->{Issuer} =
+            'C= MX/ST= Jalisco/L= Guadalajara/O= OTRS/OU= Research and Development/CN= otrs.org/emailAddress= smime@test.com';
+        $CertInfo{ 'SmimeTest_' . $Number }->{Email} = 'smime@test.com';
+
+        # add every SmimeTest_N certificate
+        my %Result = $CryptObject->CertificateAdd(
+            Certificate => $CertInfo{ 'SmimeTest_' . $Number }->{CertString}
+        );
+
+        $Self->True(
+            $Result{Successful},
+            "# SmimeTest_$Number.crt - CertificateAdd(), certificates with duplicate hash - $Result{Message}",
+        );
+
+        $CertInfo{ 'SmimeTest_' . $Number }->{Filename} = $Result{Filename} || '';
+
+        my @Result = $CryptObject->CertificateSearch(
+            Search => 'smime@test.com',
+        );
+
+        $Self->Is(
+            ( scalar @Result ),
+            ( $Number + 1 ),
+            '# Testing the addition, no overwriting other certs with same hash',
+        );
+
+        my $CertificateString = $CryptObject->CertificateGet(
+            Filename => $Result{Filename},
+        );
+
+        $Self->Is(
+            $CertificateString,
+            $CertInfo{ 'SmimeTest_' . $Number }->{CertString},
+            '# CertificateGet(), by filename',
+        );
+
+        $CertificateString = $CryptObject->CertificateGet(
+            Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
+            Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
+        );
+
+        $Self->Is(
+            $CertificateString,
+            $CertInfo{ 'SmimeTest_' . $Number }->{CertString},
+            '# CertificateGet(), by hash/fingerprint',
+        );
+    }
+
+    # working with privates
+    # add private
+
+    my %Private;
+    $Private{SmimeTest_0} = {
+        CertString => '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,41DF8969735B2C68
+
+STE29gngpyNuoEuQGLNEQKhSkpLk+No4nuyOK0kuzC1pOzEanqLGo9v5Aee9Yqvf
+3zuneRmUUePalh4B+0X3Kt1MgnvELhxVTBWqKLq3VKNnSg5br90a9M/AA2mW90T8
+CeGgUDS36pw+pswYkEMZT3kUMOsRjYjz4Y7Yp+nm1WwtqEbfplbzG8gvfO29LLpN
+dq5KoYU5kIwgHHzph1foswVjSy0XKYnMYXMY4Yrp10zdF/diOH/6j4YBOv6AQIwL
+lMCmja8URbrXSOKYFZb+Ghda6rkJkuuno87e6WM9dCO2fELyMIS50jat5g4SriUE
+VNvW+R3Z9L5Lf+uc67x8JJw+rQRagMhNZ37xH3qDbWiiWdnlbGp/HbaIlcSKJ+zA
+bcT1EFtJIXXTq7Mg/6npLeRN0Whc6ogn0Wm6nZbjy58eXFx49nn/WXPVx7cnsIiD
+4bb5AmltFPU/q+qFFayFtfrw6AIEaRdhFpX4sjUum+WNq2cf5t8R9GttN92VkAAf
+OmlaI5bgSkFa+YwFr8kZkugYDEzJ9eof78n2K3YKJXp5o3++Qrl9+q/rI6nCpHXV
+fcZPEpAsK1py6Vab+LYjKqUdciTj131Dz3UizjoUF1csGv8qpnlR5eqARzb5vhOY
+qjD4PlLuP28vcC22VciW/Zjw5ybaGHF/PLW0Yh5QzJRlW6JpiVjmLbXniY4dv3eG
+iyeQzaId1Uf+WL6Xt2XsBv4igGO4sEgee1nJX01pg7RkkhM+c9SnktR6OPAvuGnh
+VXFf9uJZzQlCWrp3d/UyzA1An5cjiXuPThvJqV9accP/YS8InoL9KA==
+-----END RSA PRIVATE KEY-----',
+    };
+    $Private{SmimeTest_1} = {
+        CertString => '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,65D18B149F5BF8FC
+
+g0d8L+u8iVCbxKnKy31QZosXrJrNY5xinR1hfEdkuN9KXNRYFuP+zgKxpX3dXKPN
+iJYppfQ1qETOPMIz/Rbsm6gvfJU+LRgTjYB2Lc3fdnrMsTewH2grwiTPOOM5upVe
+5bTzo0964qwwsKdehAb3UIXlY6sw3F++Jx0A8nNUpECki8w/WZuBGdpBzXIDOTyk
+Qmg+T9GZhv5odmlbmAE79TC1ynXXB9FR5AbYxxWiNTh23BPi5fPs042d6afDDj8C
+NAxJvULOApQpYiMwLG1Z7fhiXdYpAMLzQeZYuQl6JuiLMLgHwBV2VHh2jw2Z2OQq
+4fDaN6cArKNJ380k2OgElH77XLPY5om22CTYlkIHdNFpZBhHi9OjgZnmwDUIZ4ld
+V1XLZh0frxEabwoSJag1BWWhJqU/bMgcttt2fnXQx9hby3aJqPVyEzRP/FSGaWf9
+Og8KOECBqTuY5G5yM6erJQNEuiAGu8ZQpT51N5oHk74+OjJYTnDZmn2IQZvz8/g8
+pRvELzhHmpERmbYPVJwio121gH+fKAD+AvxvXLB6ZyUeEySjyEfXUzFc2mS59nKS
+kZGfdNnzNpnq2IOf7zYXXPH8kUz/nppw+LchFwjYHapgjC5U434vBa2VG/Ln+YGS
+6XJnjzdJtDh8ATmD/lBH5bJLkuaeiW+2+7PL9Hk4idzE6LeL1i+P9DupIfegfRS3
+H2qt6l1rbBmTDUnSkqKXap1VPURmbh2/xn062plVQ+lAQNDFQKcPXpYsmJrKsF0O
+eQnDsF9Lh7LTm6eKYcMkms1EEUvjHbNzIuOaG5Vo5pgJD+f7CqR6xQ==
+-----END RSA PRIVATE KEY-----',
+    };
+    $Private{SmimeTest_2} = {
+        CertString => '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,12B5DE96A0F259F6
+
+euFPqBOVa5lzjF1/BGSDzeBBL+YLRrEidHq7mzGffPy0c7YZMJrohcIg/QekioYQ
+LXFuNhUvQ1Jw29oDOcjwimG81HOefZjo4ofk7GAqmcg10hA79n54tAXatC6DcgVO
+4SxK26bTyXuXs7UCWqOO93izVUTqoTLpfQiDK35GW9jaLLXqHtfG0WlGobq7VyfG
+lMo+3/Q7psyrJYn1N65aQGFtPnMf6/5vq3FFENjl4X+ulBerb7VYKl+a4AJv67rp
+h/1MT+JMxLuukLZgveIYzgU5h4xn6EUjqJ/wQ1NvdL9WTmr7TOLtQIyWx4GNf+GN
+ssec5nacjz10XCWDQSTyxoB2WkIbXAHWK77/kYXww75QmCV6cNsyrCn/9m3ND3hi
+enreXaL6l4H7HOWwiSjf7oFs1XCWpn7H4sorgulGWxUEHORl6I36wb8ilLpa4NIj
+YaFrrGh+h472ZgKvVHfX/I77vyLrYAeVZD416qpuoZPO6LrKj4pMED9saegn5iPN
+a6k2smWVaPe1Z1vFbynxLOJi/OBBRxCyUUVrNd8MOccU8e1vaP8c4QAiyc9EtTx4
+BaOwC10gQZgSa0hopMT1p5l6cHXbEY9+S8Qcrpq+8JoPfN4B6N/MecQ2EYzX0R2H
+RfG20fFWOdDylLQew7OukmiCluY1mXEr56e26DU0o9hkJw1BkbB40kSO02zkhwy/
+XAydFSgfQxly2GWwnzhy/MBoETNy/3Sr0TTg1QTioeCsRtCkKvQ8NqAN1DEBUyqd
+d0/4/ghNIYjPUweuQr+UuVxKuKBCLmnQRPBCk3WFagY=
+-----END RSA PRIVATE KEY-----',
+    };
+    $Private{SmimeTest_3} = {
+        CertString => '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,BF96FF804B2B5B68
+
+twu71c7Ug0UaiAfc64vKbJ3g5Xoq74dZ/zumiSWk6qDXvkb4irl2fe/YoQVoJcEZ
+RQb0lCfi4GprcRRNa59BCFlOilTvI+xPpqL2wCNX8U8PuTahG/orVGxjK5wZZXWC
+gwt4nsJ4lRIJk2ggrYMJq6qpE548D4c/6EvcO29069vVajEakkkwpmc24V9Bc4nj
+7yPuRwPWc/6oWbT/5G6AYnGYeC3E3D7YXiVLvWW9qCk8UhNMXNvzSXrzqszOkA0I
+iQH/OM5VW7myBCdRzWm0yByJxK8D8L5J7kPkkJsDrt/lsB9MZcIZsLG7cNqYpWHJ
+H+OLSmTGTNxpC3LAk/HJZRznOikbUJXyBE30kswWP6VtYH0aISJ5FRiSvmkb5IMu
+aNYhVfOhTul9xrhSICZ25ZKaB+ogG8ihiwIoqnzFUaS8uOnLNg2J/L5FYp2tV7PP
+MCYgR5uzjDdqJ3AG9x05Dd1bIMs/he0ZkPY+RcyhHGDzndlzppjvQfq2w37HLCV8
+mdoutGlm+q3AXd2mOa6J4yhNcmDjGV2ETg+fmKRtFG3I/GGzvFy0mF4dHGy9fegl
+ZxwJTZoIST0i34OhzgjzB3YQtMGKuvYgYBKsRxNRjLcqy6hCS3N3RKX5g1hUQwih
+gIvXzDO84PIhTB6iHfBlPTf7bUzJAGm5J2cHL/W0JyKWmdiRK8ei+BNGH6WvdFKy
+VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
+0w07C53r3xsbkSL6m0dU3Z0O7ax2wcCLAA0mA5JfqsMdn59ACA9aEw==
+-----END RSA PRIVATE KEY-----',
+    };
+
+    # test privates
+    for my $Number ( 0 .. 3 ) {
+        my %Result = $CryptObject->PrivateAdd(
+            Private => $Private{ 'SmimeTest_' . $Number }->{CertString},
+            Secret  => 'smime',
+        );
+
+        $Private{ 'SmimeTest_' . $Number }->{Filename} = $Result{Filename} || '';
+
+        # added
+        $Self->True(
+            $Result{Successful} || '',
+            'PrivateAdd() - private certs with same hash'
+        );
+
+        $Self->Is(
+            $Private{ 'SmimeTest_' . $Number }->{Filename},
+            $CertInfo{ 'SmimeTest_' . $Number }->{Filename},
+            "# Cert and private key has the same filename: $Private{'SmimeTest_'.$Number}->{Filename}",
+        );
+
+        # is overwriting one each other?
+        my @Result       = $CryptObject->PrivateSearch( Search => 'smime@test.com', );
+        my $Counter      = $Number + 1;
+        my $ResultNumber = scalar @Result;
+        $Self->Is(
+            $ResultNumber,
+            $Counter,
+            '# Added private without overwriting others with same hash',
+        );
+
+        # is linked to the correct certificate? - ADD TEST
+
+        @Result       = $CryptObject->PrivateList();
+        $ResultNumber = scalar @Result;
+        $Self->Is(
+            $ResultNumber,
+            $Counter,
+            "# private list must be return also $Counter",
+        );
+    }
+
+    # delete certificates
+    for my $Number ( 0 .. 1 ) {
+
+        # delete certificates
+        my %Result = $CryptObject->CertificateRemove(
+            Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
+            Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
+        );
+
+        $Self->True(
+            $Result{Successful},
+            "# CertificateRemove() by Hash/Fingerprint, $Result{Message}",
+        );
+
+        my @Result = $CryptObject->CertificateSearch(
+            Search => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint}
+        );
+        $Self->False(
+            ( scalar @Result ),
+            "# CertificateSearch(), certificate not found, successfuly deleted",
+        );
+    }
+
+    for my $Number ( 2 .. 3 ) {
+
+        # delete certificate 2, must delete its corresponding private
+        my %Result = $CryptObject->CertificateRemove(
+            Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
+            Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
+        );
+
+        $Self->True(
+            $Result{Successful},
+            "# CertificateRemove() by filename, $Result{Message}",
+        );
+
+        # private must be deleted
+        my ($PrivateExists) = $CryptObject->PrivateGet(
+            Filename => $Private{ 'SmimeTest_' . $Number }->{Filename},
+        );
+
+        $Self->False(
+            $PrivateExists,
+            '# Private was correctly removed on certificate remove',
+        );
+    }
+
+}
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.73 2011-04-01 07:18:21 jb Exp $
+# $Id: Email.pm,v 1.74 2011-06-03 03:38:01 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 =head1 NAME
 
@@ -531,9 +531,9 @@ sub Send {
             $T =~ s/\x0A/\x0D\x0A/g;
             $T =~ s/\x0D+/\x0D/g;
             my $Sign = $CryptObject->Sign(
-                Message => $T,
-                Hash    => $Param{Sign}->{Key},
-                Type    => 'Detached',
+                Message  => $T,
+                Filename => $Param{Sign}->{Key},
+                Type     => 'Detached',
             );
             if ($Sign) {
                 use MIME::Parser;
@@ -636,8 +636,8 @@ sub Send {
 
         # crypt it
         my $Crypt = $CryptObject->Crypt(
-            Message => $Entity->parts(0)->as_string(),
-            Hash    => $Param{Crypt}->{Key},
+            Message  => $Entity->parts(0)->as_string(),
+            Filename => $Param{Crypt}->{Key},
         );
         use MIME::Parser;
         my $Parser = MIME::Parser->new();
@@ -884,6 +884,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2011-04-01 07:18:21 $
+$Revision: 1.74 $ $Date: 2011-06-03 03:38:01 $
 
 =cut
