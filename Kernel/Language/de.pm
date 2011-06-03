@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.278 2011-05-24 10:48:13 mb Exp $
+# $Id: de.pm,v 1.279 2011-06-03 04:21:02 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.278 $) [1];
+$VERSION = qw($Revision: 1.279 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3611,7 +3611,16 @@ sub Data {
         'utf8' => 'utf8',
         'verified' => 'verifiziert',
         'x' => 'x',
-
+        'Handle Private Certificate Relations' => '',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' => '',
+        'Related Certificates for' => '',
+        'Embed related certificates' => '',
+        'Relation exists!' => '',
+        'Relation added!' => '',
+        'Imposible to add relation!' => '',
+        'Relation doesn\'t exists' => '',
+        'Relation deleted!' => '',
+        'Imposible to delete relation!' => '',
     };
     # $$STOP$$
     return;

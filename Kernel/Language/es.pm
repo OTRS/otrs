@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.128 2011-05-13 21:43:16 mp Exp $
+# $Id: es.pm,v 1.129 2011-06-03 04:21:02 dz Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3505,7 +3505,17 @@ sub Data {
         'to get the realname of the sender (if given)' => 'para obtener el nombre del emisor (si lo proporcionó)',
         'up' => 'arriba',
         'utf8' => 'utf8',
-
+        'Handle Private Certificate Relations' => 'Administrar relaciones para certificado privado',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+        'Aquí usted puede agregar relaciones a su certificado privado, estos serán embebidos a sus firmas SMIME cada vez que utilice este certificado para firmar sus emails',
+        'Related Certificates for' => 'Certificados relacionados para',
+        'Embed related certificates' => 'Embeber certificados relacionados',
+        'Relation exists!' => '¡La relación existe!',
+        'Relation added!' => '¡Relacion agregada!',
+        'Imposible to add relation!' => '¡Imposible agregar relación!',
+        'Relation doesn\'t exists' => 'La relación no existe',
+        'Relation deleted!' => '¡Relación eliminada!',
+        'Imposible to delete relation!' => '¡Imposible eliminar la relación!',
     };
     # $$STOP$$
     return;
