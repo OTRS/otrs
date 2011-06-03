@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.10 2011-05-26 06:41:34 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.11 2011-06-03 15:27:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@
                 <form action="$Env{"CGIHandle"}" class="Validate" method="post">
                     <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
                     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
-                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" />
+                    <input type="hidden" id="WebserviceID" name="WebserviceID" value="$QData{"WebserviceID"}" />
                     <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
 
                     <fieldset class="TableLike">
@@ -112,7 +112,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 
     if ($('#MappingInboundConfigDialog').val()) {
         URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound';
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound' + ';WebserviceID=' + $('#WebserviceID').val() ;
         window.location.href = URL;
     }
 });
@@ -148,7 +148,7 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
 
     if ($('#MappingOutboundConfigDialog').val()) {
         URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound';
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound' + ';WebserviceID=' + $('#WebserviceID').val();
         window.location.href = URL;
     }
 });
