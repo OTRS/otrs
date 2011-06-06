@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.279 2011-06-03 04:21:02 dz Exp $
+# $Id: de.pm,v 1.280 2011-06-06 00:09:47 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.279 $) [1];
+$VERSION = qw($Revision: 1.280 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1038,7 +1038,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the package again!' => 'Paket ist nicht korrekt installiert. Sie sollten es erneut installieren!',
         'Reinstall' => 'Erneut installieren',
         'Download package' => 'Paket herunterladen',
-        'Rebuild package' => 'Paket neu aufbauen(rebuild)',
+        'Rebuild package' => 'Paket neu aufbauen (rebuild)',
         'Metadata' => 'Meta-Daten',
         'Change Log' => 'Änderungsprotokoll',
         'Date' => 'Datum',
