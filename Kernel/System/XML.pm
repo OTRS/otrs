@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.105.2.1 2011-05-27 13:11:20 mg Exp $
+# $Id: XML.pm,v 1.105.2.2 2011-06-07 07:22:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105.2.1 $) [1];
+$VERSION = qw($Revision: 1.105.2.2 $) [1];
 
 =head1 NAME
 
@@ -761,9 +761,9 @@ sub XMLParse {
 
         my $Parser = XML::Parser::Lite->new(
             Handlers => {
-                Start => \&_HS,
-                End   => \&_ES,
-                Char  => \&_CS,
+                Start => sub { $Self->_HS(@_); },
+                End   => sub { $Self->_ES(@_); },
+                Char  => sub { $Self->_CS(@_); },
             },
         );
         $Parser->parse( $Param{String} );
@@ -1491,6 +1491,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.105.2.1 $ $Date: 2011-05-27 13:11:20 $
+$Revision: 1.105.2.2 $ $Date: 2011-06-07 07:22:35 $
 
 =cut
