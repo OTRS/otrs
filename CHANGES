@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1894 2011-06-07 07:35:14 jb Exp $
+# $Id: CHANGES,v 1.1895 2011-06-07 12:59:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,6 +62,7 @@
      of > 70 characters exists.
 
 3.0.9 2011-??-??
+ - 2011-06-07 Fixed bug#7119 - Search profile names not visible in URL anymore.
  - 2011-05-30 Fixed bug#7361 - "$HOME/bin/otrs.DeleteCache.pl --expired" causes error message :
     Invalid option --expired
  - 2011-05-27 Fixed bug#7355 - Memory leak in XML.pm.
