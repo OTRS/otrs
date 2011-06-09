@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.441 2011-05-18 11:43:11 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.442 2011-06-09 13:24:01 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -87,7 +87,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Translatable="1">If configured, all emails sent by the application will contain an X-Header with this organization or company name.</Description>
+        <Description Translatable="1">Company name for the customer web interface. Will also be included in emails as an X-Header.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
