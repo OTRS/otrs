@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.351.2.9 2011-05-09 16:04:25 mp Exp $
+# $Id: Layout.pm,v 1.351.2.10 2011-06-11 21:12:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351.2.9 $) [1];
+$VERSION = qw($Revision: 1.351.2.10 $) [1];
 
 =head1 NAME
 
@@ -2532,16 +2532,18 @@ sub PageNavBar {
         KeepScriptTags => $Param{KeepScriptTags},
     );
 
-    # return if only 1 page is shown
-    return ( Link => $Param{Link} ) if $Pages eq 1;
+    # only show total amount of pages if there is more than one
+    if ( $Pages > 1 ) {
+        $Param{NavBarLong} = "- \$Text{\"Page\"}: $Param{SearchNavBar}";
+    }
 
     # return data
     return (
         TotalHits      => $Param{TotalHits},
         Result         => $Param{Results},
-        ResultLong     => "$Param{Results} \$Text{\"of\"} $Param{TotalHits} -",
+        ResultLong     => "$Param{Results} \$Text{\"of\"} $Param{TotalHits}",
         SiteNavBar     => $Param{SearchNavBar},
-        SiteNavBarLong => "\$Text{\"Page\"}: $Param{SearchNavBar}",
+        SiteNavBarLong => $Param{NavBarLong},
         Link           => $Param{Link},
     );
 }
@@ -4889,6 +4891,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.351.2.9 $ $Date: 2011-05-09 16:04:25 $
+$Revision: 1.351.2.10 $ $Date: 2011-06-11 21:12:37 $
 
 =cut
