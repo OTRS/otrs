@@ -3,7 +3,7 @@
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Cron4Win32.pl,v 1.3.2.2 2011-05-10 11:50:26 mb Exp $
+# $Id: otrs.Cron4Win32.pl,v 1.3.2.3 2011-06-11 19:02:21 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,12 +30,12 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3.2.2 $) [1];
+$VERSION = qw($Revision: 1.3.2.3 $) [1];
 
-my $PerlExe     = "";
-my $Directory   = "";
-my $CronTabFile = "";
-my $OTRSHome    = "";
+my $PerlExe     = "c:/perl/bin/perl.exe";
+my $Directory   = "e:/workspace/otrs30/var/cron";
+my $CronTabFile = "e:/workspace/otrs30/crontab.txt";
+my $OTRSHome    = "e:/workspace/otrs30";
 
 opendir( my $DirHandle, $Directory ) or die "ERROR: Can't open $Directory: $!";
 
@@ -45,7 +45,7 @@ open my $CronTab, '>', $CronTabFile
     or die "ERROR: Can't write to file $CronTabFile: $!";
 CRONFILE:
 for my $CronData (@Entries) {
-    next CRONFILE if ( !-f $CronData );
+    next CRONFILE if ( !-f "$Directory/$CronData" );
     next CRONFILE if ( $CronData eq 'postmaster.dist' );
     open( my $Data, '<', "$Directory/$CronData" )
         or die "ERROR: Can't open file $Directory/$CronData: $!";
