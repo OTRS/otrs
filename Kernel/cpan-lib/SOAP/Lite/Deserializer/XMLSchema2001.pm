@@ -1,4 +1,4 @@
-# $Id: XMLSchema2001.pm,v 1.1 2011-03-04 20:38:27 sb Exp $
+# $Id: XMLSchema2001.pm,v 1.2 2011-06-13 17:16:20 cr Exp $
 # $OldId: There is no old ID for this file
 
 package SOAP::Lite::Deserializer::XMLSchema2001;
