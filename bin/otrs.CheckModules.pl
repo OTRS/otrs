@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.24 2011-04-28 16:46:28 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.25 2011-06-13 16:54:33 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -70,6 +70,16 @@ my @NeededModules = (
             },
         ],
         Comment => 'Required to connect to a MS-SQL database.',
+    },
+    {
+        Module   => 'DBD::Oracle',
+        Required => 0,
+        Comment  => 'Required to connect to a Oracle database.',
+    },
+    {
+        Module   => 'DBD::Pg',
+        Required => 0,
+        Comment  => 'Required to connect to a PostgreSQL database.',
     },
     {
         Module   => 'Digest::MD5',
@@ -317,6 +327,11 @@ my @NeededModules = (
         Depends => [
             {
                 Module   => 'version',
+                Required => 0,
+                Comment  => 'Required for SOAP::Lite.',
+            },
+            {
+                Module   => 'Class::Inspector',
                 Required => 0,
                 Comment  => 'Required for SOAP::Lite.',
             },
