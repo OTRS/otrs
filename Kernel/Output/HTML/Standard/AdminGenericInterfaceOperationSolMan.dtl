@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.2 2011-05-26 06:42:47 mg Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.3 2011-06-13 17:30:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,10 +65,10 @@
                 <h2>$Text{"Operation Details"}</h2>
             </div>
             <div class="Content">
-                <form action="#">
-                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationSolMan" />
+                <form action="$Env{"CGIHandle"}" class="Validate" method="post">
+                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
                     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
-                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" />
+                    <input type="hidden" id="WebserviceID" name="WebserviceID" value="$QData{"WebserviceID"}" />
                     <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
 
                     <fieldset class="TableLike">
@@ -112,7 +112,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 
     if ($('#MappingInboundConfigDialog').val()) {
         URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound';
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound' + ';WebserviceID=' + $('#WebserviceID').val() ;
         window.location.href = URL;
     }
 });
@@ -148,7 +148,7 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
 
     if ($('#MappingOutboundConfigDialog').val()) {
         URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound';
+        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound' + ';WebserviceID=' + $('#WebserviceID').val();
         window.location.href = URL;
     }
 });
@@ -229,7 +229,6 @@ $('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function
 });
 
 $('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceOperation.ShowDeleteDialog);
-
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->
