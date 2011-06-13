@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.26 2011-06-13 21:35:20 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.27 2011-06-13 22:19:27 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -93,7 +93,7 @@ my @NeededModules = (
     },
     {
         Module       => 'Encode',
-        Version      => '2.26',
+        Version      => '2.23',
         Required     => 1,
         Comment      => 'Required to handle character sets.',
         NotSupported => [
