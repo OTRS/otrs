@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.31 2011-05-31 11:53:42 cr Exp $
+# $Id: SOAP.pm,v 1.32 2011-06-13 17:27:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -234,15 +234,13 @@ sub ProviderProcessRequest {
     # remember operation for response
     $Self->{Operation} = $Operation;
 
-    # remember if utf8 mode is set for stdin
-    my @IOLayers = PerlIO::get_layers(STDIN);
-    $Self->{LastIOLayer} = $IOLayers[-1];
+    my $OperationData = $Body->{$Operation};
 
     # all ok - return data
     return {
         Success   => 1,
         Operation => $Operation,
-        Data      => $Body->{$Operation} || undef,
+        Data      => $OperationData || undef,
     };
 }
 
@@ -469,9 +467,25 @@ sub RequesterPerformRequest {
     }
 
     # send request to server
+    # for SOAP::Lite version > .712 if $SOAPData->{Data} is an array and is sent directly the
+    # result is that the data is surrounded by <soapenc:Array>, to avoid this is necessary to
+    # pass each part of the $SOAPData->{Data} Array one by one
     my @CallData = ($SOAPMethod);
     if ($SOAPData) {
-        push @CallData, $SOAPData->{Data};
+
+        # check if $SOAPData->{Data} is an array reference
+        if ( IsArrayRefWithData( $SOAPData->{Data} ) ) {
+
+            # push array element ($DataPart) one by one
+            for my $DataPart ( @{ $SOAPData->{Data} } ) {
+                push @CallData, $DataPart;
+            }
+        }
+
+        # otherwise use the same method as before
+        else {
+            push @CallData, $SOAPData->{Data};
+        }
     }
     my $SOAPResult = eval {
         $SOAPHandle->call(@CallData);
@@ -515,17 +529,6 @@ sub RequesterPerformRequest {
         };
     }
     my $XMLResponse = $SOAPResult->context()->transport()->proxy()->http_response()->content();
-
-    # workaround for double encoded string on perl 5.8 setups
-    # TODO: REMOVE ME FOR OTRS 3.2
-    my $PerlVersion = sprintf "%vd\n", $^V;
-    if ( $PerlVersion =~ /^5\.8/ ) {
-        $XMLResponse = $Self->{EncodeObject}->Convert(
-            Text => $XMLResponse,
-            From => 'utf-8',
-            To   => 'iso-8859-1',
-        );
-    }
 
     # convert charset if necessary
     if ( $Config->{Encoding} && $Config->{Encoding} !~ m{ \A utf -? 8 \z }xmsi ) {
@@ -682,8 +685,8 @@ sub _Output {
         $ContentType = 'text/plain';
     }
 
-    # calculate content length (before convert for correct result)
-    my $ContentLength = length $Param{Content};
+    # calculate content length (based on the bytes length not on the characters length)
+    my $ContentLength = bytes::length( $Param{Content} );
 
     # log to debugger
     my $DebugLevel;
@@ -699,23 +702,6 @@ sub _Output {
         Data       => $Param{Content},
     );
 
-    # remember if utf8 mode is set for stout
-    my @IOLayers    = PerlIO::get_layers(STDOUT);
-    my $LastIOLayer = $IOLayers[-1];
-
-    # set binmode if necessary
-    my $LayerReset;
-    if ( $LastIOLayer ne $Self->{LastIOLayer} ) {
-        if ( $LastIOLayer eq 'utf8' ) {
-            $LayerReset = ':utf8';
-            binmode STDOUT, ':raw';
-        }
-        elsif ( $Self->{LastIOLayer} eq 'utf8' ) {
-            $LayerReset = ':raw';
-            binmode STDOUT, ':utf8';
-        }
-    }
-
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
     print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
@@ -723,11 +709,6 @@ sub _Output {
     print STDOUT "Content-Length: $ContentLength\r\n";
     print STDOUT "\r\n";
     print STDOUT $Param{Content};
-
-    # reset binmode for stdout
-    if ($LayerReset) {
-        binmode STDOUT, $LayerReset;
-    }
 
     return {
         Success      => $Success,
@@ -904,7 +885,7 @@ sub _SOAPOutputRecursion {
             push @Result, \SOAP::Data->value( @{ $RecurseResult->{Data} } );
         }
 
-        # return result of succesful recursion
+        # return result of successful recursion
         return {
             Success => 1,
             Data    => \@Result,
@@ -1070,9 +1051,6 @@ sub _SOAPOutputProcessString {
     $Param{Data} =~ s{ & }{&amp;}xmsg;
     $Param{Data} =~ s{ < }{&lt;}xmsg;
 
-    # encode
-    $Self->{EncodeObject}->EncodeOutput( \$Param{Data} );
-
     return $Param{Data};
 }
 
@@ -1094,6 +1072,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2011-05-31 11:53:42 $
+$Revision: 1.32 $ $Date: 2011-06-13 17:27:54 $
 
 =cut
