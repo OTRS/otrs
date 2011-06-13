@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.12 2011-05-05 20:24:23 sb Exp $
+# $Id: SOAP.t,v 1.13 2011-06-13 17:28:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -436,6 +436,187 @@ my @Tests = (
                                 },
                             },
                         },
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 6',
+        SuccessRequest => '1',
+        RequestData    => {
+            PriorityName => '5 very high',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                PriorityName => '5 very high',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Basic test for provider and requester using SOAP transport backend.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 7',
+        SuccessRequest => '1',
+        RequestData    => {
+            PriorityName => [ '5 very high', '4 high' ],
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                PriorityName => [ '5 very high', '4 high' ],
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Basic test for provider and requester using SOAP transport backend.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 7',
+        SuccessRequest => '1',
+        RequestData    => {
+            PriorityName => [
+                '5 very high',
+                Hash => {
+                    Val => 1,
+                },
+            ],
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                PriorityName => [
+                    '5 very high',
+                    Hash => {
+                        Val => 1,
+                    },
+                ],
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Basic test for provider and requester using SOAP transport backend.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
                         Type => 'Test::TestSimple',
                     },
                 },
