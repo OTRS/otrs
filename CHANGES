@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1898 2011-06-11 21:13:56 mb Exp $
+# $Id: CHANGES,v 1.1899 2011-06-14 09:15:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,7 @@
      of > 70 characters exists.
 
 3.0.9 2011-??-??
+ - 2011-06-14 Added new Lithuanian translation, thanks to Edgaras Lukoschevidsius!
  - 2011-06-11 Fixed bug#7161 - Single page ticket list does not indicate how much tickets are displayed.
  - 2011-06-11 Updated Net::SMTP::TLS::ButMaintained to 0.17.
  - 2011-06-11 Fixed bug#7354 - bin/otrs.Cron4Win32.pl creates an empty crontab.txt.
