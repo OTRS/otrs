@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.33 $
+ * @version     $Revision: 1.34 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -120,6 +120,7 @@ ul.Tablelike li.Header + li {
     -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
+    overflow: auto;
 }
 
 .WidgetSimple.Collapsed > .Content {
