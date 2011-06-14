@@ -3,7 +3,7 @@
 # bin/otrs.DeleteCache.pl - delete all caches
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteCache.pl,v 1.2.2.2 2011-05-30 08:26:37 ub Exp $
+# $Id: otrs.DeleteCache.pl,v 1.2.2.3 2011-06-14 20:30:50 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,9 +30,9 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.2 $) [1];
+$VERSION = qw($Revision: 1.2.2.3 $) [1];
 
-use Getopt::Std;
+use Getopt::Long;
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -42,23 +42,23 @@ use Kernel::System::DB;
 use Kernel::System::Cache;
 
 # get options
+Getopt::Long::Configure('no_ignore_case');
 my %Opts = ();
-getopt( 'he', \%Opts );
+GetOptions(
+    'expired|e' => \$Opts{e},
+    'all|a'     => \$Opts{a},
+    'help|h'    => \$Opts{h},
+);
+
 if ( $Opts{h} ) {
-    print "otrs.DeleteCache.pl <Revision $VERSION> - delete all caches\n";
+    print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.DeleteCache.pl [--expired]\n";
     exit 1;
 }
 my %Options;
 if ( $Opts{e} ) {
-    if ( $Opts{e} eq 'xpired' ) {
-        $Options{Expired} = 1;
-    }
-    else {
-        print STDERR "ERROR: Invalid option --e$Opts{e}!\n";
-        exit 1;
-    }
+    $Options{Expired} = 1;
 }
 
 # ---
