@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesOutOfOffice.pm,v 1.8 2011-01-26 17:46:46 en Exp $
+# $Id: PreferencesOutOfOffice.pm,v 1.9 2011-06-15 09:57:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,6 +53,7 @@ sub Param {
         OutOfOfficeStartMinute => 0,
         YearPeriodPast         => 1,
         YearPeriodFuture       => 5,
+        Validate               => 1,
     );
     $Param{OptionEnd} = $Self->{LayoutObject}->BuildDateSelection(
         Format               => 'DateInputFormat',
@@ -66,6 +67,7 @@ sub Param {
         OutOfOfficeEndMinute => 0,
         YearPeriodPast       => 1,
         YearPeriodFuture     => 5,
+        Validate             => 1,
     );
 
     push(
