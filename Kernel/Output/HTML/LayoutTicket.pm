@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.127 2011-05-18 22:26:49 en Exp $
+# $Id: LayoutTicket.pm,v 1.128 2011-06-15 09:19:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -547,6 +547,7 @@ sub AgentFreeDate {
         if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
             %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
         }
+
         $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
             %Param,
             %Ticket,
@@ -555,7 +556,10 @@ sub AgentFreeDate {
             'TicketFreeTime' . $Count . 'Class' => $Class,
             DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
             %TimePeriod,
+            Validate => 1,
+            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
         );
+
         if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
             $Data{ 'TicketFreeTimeKey' . $Count } =
                 '<label class="Mandatory" id="LabelTicketFreeTime'
@@ -785,6 +789,7 @@ sub CustomerFreeDate {
         if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
             %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
         }
+
         $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
             Area => 'Customer',
             %Param,
@@ -794,7 +799,10 @@ sub CustomerFreeDate {
             DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
             "TicketFreeTime${Count}Class" => 'DateSelection',
             %TimePeriod,
+            Validate => 1,
+            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
         );
+
         if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
             $Data{ 'TicketFreeTimeKey' . $Count } =
                 '<label class="Mandatory" id="LabelTicketFreeTime'
