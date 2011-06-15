@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.93.2.2 2011-04-06 16:37:27 en Exp $
+# $Id: AdminGenericAgent.pm,v 1.93.2.3 2011-06-15 09:57:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93.2.2 $) [1];
+$VERSION = qw($Revision: 1.93.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -741,11 +741,13 @@ sub _MaskUpdate {
             Prefix   => $Type . 'TimeStart',
             Format   => 'DateInputFormat',
             DiffTime => -( 60 * 60 * 24 ) * 30,
+            Validate => 1,
         );
         $JobData{ $Type . 'TimeStop' } = $Self->{LayoutObject}->BuildDateSelection(
             %JobData,
-            Prefix => $Type . 'TimeStop',
-            Format => 'DateInputFormat',
+            Prefix   => $Type . 'TimeStop',
+            Format   => 'DateInputFormat',
+            Validate => 1,
         );
     }
 
