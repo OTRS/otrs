@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.27 2011-06-13 22:19:27 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.28 2011-06-16 20:23:16 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -90,19 +90,6 @@ my @NeededModules = (
         Version  => '5.48',
         Required => 1,
         Comment  => 'Required to authenticate users and customers using SHA-1 or SHA-2 methods',
-    },
-    {
-        Module       => 'Encode',
-        Version      => '2.23',
-        Required     => 1,
-        Comment      => 'Required to handle character sets.',
-        NotSupported => [
-            {
-                Version => '2.12',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-        ],
     },
     {
         Module   => 'Encode::HanExtra',

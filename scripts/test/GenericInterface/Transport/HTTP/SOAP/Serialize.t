@@ -2,7 +2,7 @@
 # Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.12 2011-03-22 09:50:39 mg Exp $
+# $Id: Serialize.t,v 1.13 2011-06-16 20:23:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,6 @@ use utf8;
 
 use SOAP::Lite;
 use XML::TreePP;
-use Encode;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
@@ -334,10 +333,6 @@ for my $Test (@SoapTests) {
         '',
         "Test $Test->{Name}: Serializer success",
     );
-
-    # Set utf8-Flag on the result string to make sure it can be compared to the
-    #   expected value.
-    $Content = Encode::decode_utf8($Content);
 
     # create an XML file to compare the expected results
     my $SOAPRawContent;

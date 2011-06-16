@@ -2,7 +2,7 @@
 # Deserialize.t - Deserialize tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.10 2011-03-22 09:56:42 mg Exp $
+# $Id: Deserialize.t,v 1.11 2011-06-16 20:23:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,6 @@ use utf8;
 use vars (qw($Self));
 
 use SOAP::Lite;
-use Encode;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
@@ -285,8 +284,6 @@ for my $Test (@Tests) {
     my $Content = SOAP::Serializer
         ->autotype(0)
         ->envelope(@CallData);
-
-    $Content = Encode::decode_utf8($Content);
 
     $Self->Is(
         $Content,
