@@ -1,8 +1,8 @@
 # --
-# Kernel/System/SLA.pm - all sla function
+# Kernel/System/SLA.pm - all sla functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.38 2011-04-25 22:19:15 en Exp $
+# $Id: SLA.pm,v 1.39 2011-06-16 23:02:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -166,9 +166,9 @@ sub SLAList {
 
 =item SLAGet()
 
-return a sla as hash
+return an sla as hash
 
-Return
+Returns
     $SLAData{SLAID}
     $SLAData{ServiceIDs}
     $SLAData{Name}
@@ -266,7 +266,7 @@ sub SLAGet {
     # add the ids
     $SLAData{ServiceIDs} = \@ServiceIDs;
 
-    # get queue preferences
+    # get sla preferences
     my %Preferences = $Self->SLAPreferencesGet( SLAID => $Param{SLAID} );
 
     # merge hash
@@ -282,7 +282,7 @@ sub SLAGet {
 
 =item SLALookup()
 
-return the name or the sla id
+returns the name or the sla id
 
     my $SLAName = $SLAObject->SLALookup(
         SLAID => 123,
@@ -401,7 +401,7 @@ sub SLAAdd {
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'ServiceIDs need to be an array reference!',
+            Message  => 'ServiceIDs needs to be an array reference!',
         );
         return;
     }
@@ -634,7 +634,7 @@ sub SLAUpdate {
 
 =item SLAPreferencesSet()
 
-set queue preferences
+set SLA preferences
 
     $SLAObject->SLAPreferencesSet(
         SLAID => 123,
@@ -653,7 +653,7 @@ sub SLAPreferencesSet {
 
 =item SLAPreferencesGet()
 
-get queue preferences
+get SLA preferences
 
     my %Preferences = $SLAObject->SLAPreferencesGet(
         SLAID => 123,
@@ -684,6 +684,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2011-04-25 22:19:15 $
+$Revision: 1.39 $ $Date: 2011-06-16 23:02:19 $
 
 =cut
