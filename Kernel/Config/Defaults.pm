@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.387 2011-06-14 09:15:40 mb Exp $
+# $Id: Defaults.pm,v 1.388 2011-06-16 07:27:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.387 $) [1];
+$VERSION = qw($Revision: 1.388 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1344,13 +1344,18 @@ Your OTRS Notification Master
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
+            # if your frontend is unicode and the charset of your
+            # customer database server is iso-8859-1, use these options.
+#           SourceCharset => 'iso-8859-1',
+#           DestCharset => 'utf-8',
+
             # CaseSensitive will control if the SQL statements need LOWER()
             #   function calls to work case insensitively. Setting this to
             #   1 will improve performance dramatically on large databases.
             CaseSensitive => 0,
         },
 
-        # customer uniq id
+        # customer unique id
         CustomerKey => 'login',
 
         # customer #
@@ -1439,10 +1444,10 @@ Your OTRS Notification Master
 #            # if both your frontend and your LDAP are unicode, use this:
 #            SourceCharset => 'utf-8',
 #            DestCharset   => 'utf-8',
-#            # if your frontend is e. g. iso-8859-1 and the charset of your
-#            # ldap server is utf-8, use these options.
-#            SourceCharset => 'utf-8',
-#            DestCharset => 'iso-8859-1',
+#            # if your frontend is unicode and the charset of your
+#            # ldap server is iso-8859-1, use these options.
+#            # SourceCharset => 'iso-8859-1',
+#            # DestCharset => 'utf-8',
 #            # die if backend can't work, e. g. can't connect to server
 #            Die => 0,
 #            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
@@ -1453,7 +1458,7 @@ Your OTRS Notification Master
 #                version => 3,
 #            },
 #        },
-#        # customer uniq id
+#        # customer unique id
 #        CustomerKey => 'uid',
 #        # customer #
 #        CustomerID => 'mail',
@@ -1500,7 +1505,7 @@ Your OTRS Notification Master
 #            ForeignDB => 0,    # set this to 1 if your table does not have create_time, create_by, change_time and change_by fields
         },
 
-        # customer uniq id
+        # company unique id
         CustomerCompanyKey          => 'customer_id',
         CustomerCompanyValid        => 'valid_id',
         CustomerCompanyListFields   => [ 'customer_id', 'name' ],
@@ -2220,6 +2225,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.387 $ $Date: 2011-06-14 09:15:40 $
+$Revision: 1.388 $ $Date: 2011-06-16 07:27:37 $
 
 =cut
