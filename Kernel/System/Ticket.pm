@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.503 2011-06-17 11:34:55 mb Exp $
+# $Id: Ticket.pm,v 1.504 2011-06-17 11:40:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.503 $) [1];
+$VERSION = qw($Revision: 1.504 $) [1];
 
 =head1 NAME
 
@@ -4155,8 +4155,8 @@ sub TicketSearch {
 
     # current ticket state type
     # NOTE: Open and Closed are not valid state types. It's for compat.
-    # Open   -> All states with are grouped as open (new, open, pending, ...)
-    # Closed -> All states with are grouped as closed (closed successful, closed unsuccessful)
+    # Open   -> All states which are grouped as open (new, open, pending, ...)
+    # Closed -> All states which are grouped as closed (closed successful, closed unsuccessful)
     if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type   => 'Viewable',
@@ -8484,6 +8484,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.503 $ $Date: 2011-06-17 11:34:55 $
+$Revision: 1.504 $ $Date: 2011-06-17 11:40:07 $
 
 =cut
