@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.97.2.4 2011-05-27 10:06:37 mn Exp $
+# $Id: AgentTicketForward.pm,v 1.97.2.5 2011-06-17 12:01:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97.2.4 $) [1];
+$VERSION = qw($Revision: 1.97.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -217,14 +217,17 @@ sub Form {
         # prepare body, subject, ReplyTo ...
         $Data{Body} = '<br/>' . $Data{Body};
         if ( $Data{Created} ) {
-            $Data{Body} = "Date: $Data{Created}<br/>" . $Data{Body};
+            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                ": $Data{Created}<br/>" . $Data{Body};
         }
         for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
             if ( $Data{$Key} ) {
+                my $KeyText = $Self->{LayoutObject}->{LanguageObject}->Get($Key);
+
                 my $Value = $Self->{LayoutObject}->Ascii2RichText(
                     String => $Data{$Key},
                 );
-                $Data{Body} = "$Key: $Value<br/>" . $Data{Body};
+                $Data{Body} = "$KeyText: $Value<br/>" . $Data{Body};
             }
         }
 
@@ -247,9 +250,14 @@ sub Form {
         my $From = $Self->{LayoutObject}->Ascii2RichText(
             String => $Data{From},
         );
-        $Data{Body} = "<br/>---- Forwarded message from $From ---<br/><br/>"
-            . $Data{Body};
-        $Data{Body} .= "<br/>---- End forwarded message ---<br/>";
+
+        my $ForwardedMessageFrom
+            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage
+            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+
+        $Data{Body} = "<br/>---- $ForwardedMessageFrom $From ---<br/><br/>" . $Data{Body};
+        $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
         $Data{Body} = $Data{Signature} . $Data{Body};
 
         $Data{ContentType} = 'text/html';
@@ -267,15 +275,23 @@ sub Form {
             $Data{Body} = "\n" . $Data{Body};
         }
         if ( $Data{Created} ) {
-            $Data{Body} = "Date: $Data{Created}\n" . $Data{Body};
+            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                ": $Data{Created}\n" . $Data{Body};
         }
         for (qw(Subject ReplyTo Reply-To Cc To From)) {
             if ( $Data{$_} ) {
-                $Data{Body} = "$_: $Data{$_}\n" . $Data{Body};
+                $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                    ": $Data{$_}\n" . $Data{Body};
             }
         }
-        $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n" . $Data{Body};
-        $Data{Body} .= "\n---- End forwarded message ---\n";
+
+        my $ForwardedMessageFrom
+            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage
+            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+
+        $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
+        $Data{Body} .= "\n---- $EndForwardedMessage ---\n";
         $Data{Body} = $Data{Signature} . $Data{Body};
     }
 

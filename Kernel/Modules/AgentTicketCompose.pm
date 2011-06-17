@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.124.2.7 2011-05-10 22:34:01 en Exp $
+# $Id: AgentTicketCompose.pm,v 1.124.2.8 2011-06-17 12:01:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.7 $) [1];
+$VERSION = qw($Revision: 1.124.2.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -778,16 +778,28 @@ sub Run {
                 }
                 else {
                     $Data{Body} = "<br/>" . $Data{Body};
+
                     if ( $Data{Created} ) {
-                        $Data{Body} = "Date: $Data{Created}<br/>" . $Data{Body};
+                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                            ": $Data{Created}<br/>" . $Data{Body};
                     }
+
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
                         if ( $Data{$_} ) {
-                            $Data{Body} = "$_: $Data{$_}<br/>" . $Data{Body};
+                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                                ": $Data{$_}<br/>" . $Data{Body};
                         }
                     }
-                    $Data{Body} = "<br/>---- Message from $Data{From} ---<br/><br/>" . $Data{Body};
-                    $Data{Body} .= "<br/>---- End Message ---<br/>";
+
+                    my $From = $Self->{LayoutObject}->Ascii2RichText(
+                        String => $Data{From},
+                    );
+
+                    my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Message from');
+                    my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End message');
+
+                    $Data{Body} = "<br/>---- $MessageFrom $From ---<br/><br/>" . $Data{Body};
+                    $Data{Body} .= "<br/>---- $EndMessage ---<br/>";
                 }
             }
         }
@@ -805,15 +817,22 @@ sub Run {
                 else {
                     $Data{Body} = "\n" . $Data{Body};
                     if ( $Data{Created} ) {
-                        $Data{Body} = "Date: $Data{Created}\n" . $Data{Body};
+                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                            ": $Data{Created}\n" . $Data{Body};
                     }
+
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
                         if ( $Data{$_} ) {
-                            $Data{Body} = "$_: $Data{$_}\n" . $Data{Body};
+                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                                ": $Data{$_}\n" . $Data{Body};
                         }
                     }
-                    $Data{Body} = "\n---- Message from $Data{From} ---\n\n" . $Data{Body};
-                    $Data{Body} .= "\n---- End Message ---\n";
+
+                    my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Message from');
+                    my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End message');
+
+                    $Data{Body} = "\n---- $MessageFrom $Data{From} ---\n\n" . $Data{Body};
+                    $Data{Body} .= "\n---- $EndMessage ---\n";
                 }
             }
         }
