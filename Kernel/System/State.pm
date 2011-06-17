@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.51 2011-02-27 14:01:50 bes Exp $
+# $Id: State.pm,v 1.52 2011-06-17 09:10:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -157,8 +157,7 @@ sub StateAdd {
     return if !$ID;
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
-    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $ID, );
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $ID;
 }
@@ -301,8 +300,7 @@ sub StateUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::Name::' . $Param{Name}, );
-    $Self->{CacheInternalObject}->Delete( Key => 'StateGet::ID::' . $Param{ID} );
+    $Self->{CacheInternalObject}->CleanUp();
 
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
@@ -717,6 +715,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2011-02-27 14:01:50 $
+$Revision: 1.52 $ $Date: 2011-06-17 09:10:56 $
 
 =cut
