@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.111 2011-06-15 09:57:36 mg Exp $
+# $Id: CHANGES,v 1.1758.2.112 2011-06-17 10:10:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,9 @@
 # --
 
 3.0.9 2011-??-??
- - 2011-06-15 Fixed bug 4606: Possible to select invalid dates for Out-of-Office.
- - 2011-06-15 Fixed bug 7398: FreeTime fields have no validation.
+ - 2011-06-17 Fixed bug#7420 - Cache issue when updating states.
+ - 2011-06-15 Fixed bug#4606 - Possible to select invalid dates for Out-of-Office.
+ - 2011-06-15 Fixed bug#7398 - FreeTime fields have no validation.
  - 2011-06-14 Fixed bug#7396 - Selectboxes with long entries are cut off in dialogs in IE7.
  - 2011-06-14 Fixed bug#7350 - Permissiontable in Role <-> Group is cut.
  - 2011-06-14 Added new Lithuanian translation, thanks to Edgaras Lukoschevidsius!
