@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.81 2011-05-26 08:39:24 mb Exp $
+# $Id: Ticket.t,v 1.82 2011-06-17 11:34:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -5691,6 +5691,53 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     $Self->True(
         $Delete,
         'TicketDelete()',
+    );
+}
+
+# tests for searching StateTypes that might not have states
+# this should return an empty list rather then a big SQL error
+# the problem is, we can't really test if there is an SQL error or not
+# ticketsearch returns an empty list anyway
+
+my @NewStates = $StateObject->StateGetStatesByType(
+    StateType => ['new'],
+    Result    => 'ID',
+);
+
+# make sure we dont have valid states for state type new
+for my $NewStateID (@NewStates) {
+    my %State = $StateObject->StateGet( ID => $NewStateID, );
+    $StateObject->StateUpdate(
+        %State,
+        ValidID => 2,
+        UserID  => 1,
+    );
+}
+
+my @TicketIDs = $TicketObject->TicketSearch(
+
+    # result (required)
+    Result => 'LIST',
+
+    # result limit
+    Limit        => 100,
+    TicketNumber => [ $Ticket{TicketNumber}, 'ABC' ],
+    StateType    => 'New',
+    UserID       => 1,
+    Permission   => 'rw',
+);
+$Self->False(
+    $TicketIDs[0],
+    'TicketSearch() (LIST:TicketNumber,StateType:new (no valid states of state type new)',
+);
+
+# activate states again
+for my $NewStateID (@NewStates) {
+    my %State = $StateObject->StateGet( ID => $NewStateID, );
+    $StateObject->StateUpdate(
+        %State,
+        ValidID => 1,
+        UserID  => 1,
     );
 }
 
