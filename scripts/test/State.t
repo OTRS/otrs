@@ -1,8 +1,8 @@
 # --
 # State.t - State tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.t,v 1.7 2010-10-29 22:16:59 en Exp $
+# $Id: State.t,v 1.8 2011-06-17 08:42:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,34 @@ $Self->True(
     'StateList()',
 );
 
+my $StateType = $StateObject->StateTypeLookup(
+    StateTypeID => 1,
+);
+
+$Self->True(
+    $StateType,
+    'StateTypeLookup()',
+);
+
+my @List = $StateObject->StateGetStatesByType(
+    StateType => [$StateType],
+    Result    => 'ID',
+);
+
+$Hit = 0;
+STATEID:
+for my $StateListID (@List) {
+    if ( $StateID == $StateListID ) {
+        $Hit = 1;
+        last STATEID;
+    }
+}
+
+$Self->True(
+    $Hit eq 1,
+    'StateGetStatesByType()',
+);
+
 my $StateUpdate = $StateObject->StateUpdate(
     ID      => $StateID,
     Name    => $StateNameRand1,
@@ -76,6 +104,25 @@ my $StateUpdate = $StateObject->StateUpdate(
 $Self->True(
     $StateUpdate,
     'StateUpdate()',
+);
+
+@List = $StateObject->StateGetStatesByType(
+    StateType => [$StateType],
+    Result    => 'ID',
+);
+
+$Hit = 0;
+STATEID:
+for my $StateListID (@List) {
+    if ( $StateID == $StateListID ) {
+        $Hit = 1;
+        last STATEID;
+    }
+}
+
+$Self->True(
+    $Hit eq 0,
+    'StateGetStatesByType() after StateUpdate()',
 );
 
 %State = $StateObject->StateGet( ID => $StateID );
