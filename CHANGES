@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.113 2011-06-17 11:08:35 mg Exp $
+# $Id: CHANGES,v 1.1758.2.114 2011-06-17 11:39:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.9 2011-??-??
- - 2011-06-17 Fixed bug 7368: Error in TicketEscalationDateCalculation.
+ - 2011-06-17 Fixed bug#4524 - SQL errors when there are no valid states for a given state type.
+ - 2011-06-17 Fixed bug#7368 - Error in TicketEscalationDateCalculation.
  - 2011-06-17 Fixed bug#7420 - Cache issue when updating states.
  - 2011-06-15 Fixed bug#4606 - Possible to select invalid dates for Out-of-Office.
  - 2011-06-15 Fixed bug#7398 - FreeTime fields have no validation.
