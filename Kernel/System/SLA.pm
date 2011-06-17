@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.39 2011-06-16 23:02:19 mb Exp $
+# $Id: SLA.pm,v 1.40 2011-06-17 08:14:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -166,29 +166,36 @@ sub SLAList {
 
 =item SLAGet()
 
-return an sla as hash
-
-Returns
-    $SLAData{SLAID}
-    $SLAData{ServiceIDs}
-    $SLAData{Name}
-    $SLAData{Calendar}
-    $SLAData{FirstResponseTime}
-    $SLAData{FirstResponseNotify}
-    $SLAData{UpdateTime}
-    $SLAData{UpdateNotify}
-    $SLAData{SolutionTime}
-    $SLAData{SolutionNotify}
-    $SLAData{ValidID}
-    $SLAData{Comment}
-    $SLAData{CreateTime}
-    $SLAData{CreateBy}
-    $SLAData{ChangeTime}
-    $SLAData{ChangeBy}
+Returns an SLA as a hash
 
     my %SLAData = $SLAObject->SLAGet(
         SLAID  => 123,
         UserID => 1,
+    );
+
+Returns:
+
+    my %SLAData = (
+          'SLAID'               => '2',
+          'Name'                => 'Diamond Pacific - S2',
+          'Calendar'            => '2',
+          'FirstResponseTime'   => '60',  # in minutes according to business hours
+          'FirstResponseNotify' => '70',  # in percent
+          'UpdateTime'          => '360', # in minutes according to business hours
+          'UpdateNotify'        => '70',  # in percent
+          'SolutionTime'        => '960', # in minutes according to business hours
+          'SolutionNotify'      => '80',  # in percent
+          'ServiceIDs'          => [
+                                     '4'
+                                     '7'
+                                     '8'
+                                   ],
+          'ValidID'             => '1',
+          'Comment'             => 'Some Comment',
+          'CreateBy'            => '93',
+          'CreateTime'          => '2011-06-16 22:54:54',
+          'ChangeBy'            => '93',
+          'ChangeTime'          => '2011-06-16 22:54:54',
     );
 
 =cut
@@ -684,6 +691,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2011-06-16 23:02:19 $
+$Revision: 1.40 $ $Date: 2011-06-17 08:14:12 $
 
 =cut
