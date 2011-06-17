@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.8 2011-05-24 14:38:32 martin Exp $
+# $Id: Ticket.pm,v 1.488.2.9 2011-06-17 11:08:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.8 $) [1];
+$VERSION = qw($Revision: 1.488.2.9 $) [1];
 
 =head1 NAME
 
@@ -2204,9 +2204,9 @@ sub TicketEscalationDateCalculation {
     my %Ticket = %{ $Param{Ticket} };
 
     # do no escalations on (merge|close|remove) tickets
-    return if $Ticket{StateType} eq 'merge';
-    return if $Ticket{StateType} eq 'close';
-    return if $Ticket{StateType} eq 'remove';
+    return if $Ticket{StateType} eq 'merged';
+    return if $Ticket{StateType} eq 'closed';
+    return if $Ticket{StateType} eq 'removed';
 
     # get escalation properties
     my %Escalation = $Self->TicketEscalationPreferences(
@@ -8448,6 +8448,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.8 $ $Date: 2011-05-24 14:38:32 $
+$Revision: 1.488.2.9 $ $Date: 2011-06-17 11:08:35 $
 
 =cut
