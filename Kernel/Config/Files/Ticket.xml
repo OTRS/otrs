@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.425.2.3 2011-05-09 19:28:48 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.425.2.4 2011-06-19 19:37:36 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7733,7 +7733,7 @@ $QData{"Body"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Number of displayed tickets</Item>
-                <Item Key="Key" Translatable="1">Max. displayed tickets</Item>
+                <Item Key="Key" Translatable="1">Tickets per page</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="15">15</Item>
