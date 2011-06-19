@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All ticket state related functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.53 2011-06-17 10:15:03 mb Exp $
+# $Id: State.pm,v 1.54 2011-06-19 20:28:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -495,6 +495,11 @@ sub StateList {
         $Valid = 0;
     }
 
+    # check cache
+    my $CacheKey = 'StateList::' . $Valid;
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # sql
     my $SQL = 'SELECT id, name FROM ticket_state';
     if ($Valid) {
@@ -505,6 +510,10 @@ sub StateList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+
     return %Data;
 }
 
@@ -612,6 +621,11 @@ sub StateTypeList {
         return;
     }
 
+    # check cache
+    my $CacheKey = 'StateTypeList';
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # sql
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_state_type',
@@ -620,6 +634,10 @@ sub StateTypeList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+
     return %Data;
 }
 
@@ -715,6 +733,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2011-06-17 10:15:03 $
+$Revision: 1.54 $ $Date: 2011-06-19 20:28:11 $
 
 =cut
