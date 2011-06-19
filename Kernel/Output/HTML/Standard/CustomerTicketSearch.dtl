@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.36 2011-04-01 08:54:00 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.37 2011-06-19 20:11:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,7 +100,7 @@
             <fieldset class="TimeSearchType">
                 <h2>$Text{"Time restrictions"}</h2>
                 <div>
-                    <input title="No time settings" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" $Data{"TimeSearchType::None"} />
+                    <input title="$Text{"No time settings"}" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" $Data{"TimeSearchType::None"} />
                     <label for="NoTimeSet">$Text{"All"}</label>
                 </div>
                 <div>
@@ -115,14 +115,14 @@
                 </div>
             </fieldset>
             <fieldset>
-                <h2>$Text{"Search-Profile as Template?"}</h2>
+                <h2>$Text{"Save search as template?"}</h2>
                 <div>
                     <label for="SaveProfile">$Text{"Save as Template?"}</label>
-                    <input title="Save as Template" type="checkbox" id="SaveProfile" name="SaveProfile" />
+                    <input title="$Text{"Save as Template"}" type="checkbox" id="SaveProfile" name="SaveProfile" />
                 </div>
                 <div>
-                    <label for="Profil">$Text{"Template Name"}</label>
-                    <input title="Pick a profil name" type="text" id="Profil" name="Profile" size="30" value="$QData{"Profile"}" />
+                    <label for="Profile">$Text{"Template Name"}</label>
+                    <input title="$Text{"Pick a profile name"}" type="text" id="Profile" name="Profile" size="30" value="$QData{"Profile"}" />
                 </div>
             </fieldset>
             <div id="BottomActionRow" class="ActionRow">
