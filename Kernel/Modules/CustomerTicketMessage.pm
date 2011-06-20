@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.86 2011-06-20 10:41:25 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.87 2011-06-20 10:48:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -273,18 +273,16 @@ sub Run {
         );
 
         my %TicketFree;
+        my %TicketFreeText;
+
         for my $Count ( 1 .. 16 ) {
+            next if !$Self->{Config}->{TicketFreeText}->{$Count};
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
             $TicketFree{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
             $TicketFree{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-        }
 
-        # get free text config options
-        my %TicketFreeText;
-        for my $Count ( 1 .. 16 ) {
-            my $Key  = 'TicketFreeKey' . $Count;
-            my $Text = 'TicketFreeText' . $Count;
+            # get free text config options
             $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
@@ -327,6 +325,7 @@ sub Run {
         # get ticket free time params
         my %TicketFreeTime;
         for my $Count ( 1 .. 6 ) {
+            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
             for my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{ "TicketFreeTime" . $Count . $Type }
                     = $Self->{ParamObject}->GetParam(
@@ -353,6 +352,7 @@ sub Run {
         # article free text
         my %ArticleFreeText;
         for my $Count ( 1 .. 3 ) {
+            next if !$Self->{Config}->{ArticleFreeText}->{$Count};
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
             $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
