@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.16 2011-04-01 09:44:43 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.17 2011-06-20 10:02:30 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     function GetCustomerTickets(CustomerUserID, CustomerID) {
         // check if customer tickets should be shown
-        if (isNaN(parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets'), 10))) {
+        if (!parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets'), 10)) {
             return;
         }
 
