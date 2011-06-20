@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.82 2011-06-17 11:34:16 mb Exp $
+# $Id: Ticket.t,v 1.83 2011-06-20 08:33:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4788,13 +4788,15 @@ my $Success = $TicketObject->TicketStateSet(
 
 # find newest ticket by priority, age
 my @TicketIDsSortOrder = $TicketObject->TicketSearch(
-    Result  => 'ARRAY',
-    Title   => '%sort/order by test%',
-    Queues  => ['Raw'],
-    OrderBy => [ 'Down', 'Up' ],
-    SortBy  => [ 'Priority', 'Age' ],
-    UserID  => 1,
-    Limit   => 1,
+    Result       => 'ARRAY',
+    Title        => '%sort/order by test%',
+    Queues       => ['Raw'],
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OrderBy      => [ 'Down', 'Up' ],
+    SortBy       => [ 'Priority', 'Age' ],
+    UserID       => 1,
+    Limit        => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
@@ -4803,13 +4805,15 @@ $Self->True(
 
 # find oldest ticket by priority, age
 @TicketIDsSortOrder = $TicketObject->TicketSearch(
-    Result  => 'ARRAY',
-    Title   => '%sort/order by test%',
-    Queues  => ['Raw'],
-    OrderBy => [ 'Down', 'Down' ],
-    SortBy  => [ 'Priority', 'Age' ],
-    UserID  => 1,
-    Limit   => 1,
+    Result       => 'ARRAY',
+    Title        => '%sort/order by test%',
+    Queues       => ['Raw'],
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OrderBy      => [ 'Down', 'Down' ],
+    SortBy       => [ 'Priority', 'Age' ],
+    UserID       => 1,
+    Limit        => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
@@ -4818,13 +4822,15 @@ $Self->True(
 
 # find last modified ticket by changed time
 @TicketIDsSortOrder = $TicketObject->TicketSearch(
-    Result  => 'ARRAY',
-    Title   => '%sort/order by test%',
-    Queues  => ['Raw'],
-    OrderBy => [ 'Down', ],
-    SortBy  => ['Changed'],
-    UserID  => 1,
-    Limit   => 1,
+    Result       => 'ARRAY',
+    Title        => '%sort/order by test%',
+    Queues       => ['Raw'],
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OrderBy      => [ 'Down', ],
+    SortBy       => ['Changed'],
+    UserID       => 1,
+    Limit        => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
@@ -4833,13 +4839,15 @@ $Self->True(
 
 # find oldest modified by changed time
 @TicketIDsSortOrder = $TicketObject->TicketSearch(
-    Result  => 'ARRAY',
-    Title   => '%sort/order by test%',
-    Queues  => ['Raw'],
-    OrderBy => [ 'Up', ],
-    SortBy  => [ 'Changed', ],
-    UserID  => 1,
-    Limit   => 1,
+    Result       => 'ARRAY',
+    Title        => '%sort/order by test%',
+    Queues       => ['Raw'],
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OrderBy      => [ 'Up', ],
+    SortBy       => [ 'Changed', ],
+    UserID       => 1,
+    Limit        => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
