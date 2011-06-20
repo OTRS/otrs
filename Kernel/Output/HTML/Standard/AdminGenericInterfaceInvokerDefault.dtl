@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.1 2011-06-20 17:35:40 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.2 2011-06-20 17:37:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,6 @@ $('#MappingInboundConfigureButton').bind('click', function(){
                         </div>
                         <div class="Clear"></div>
 
-
                         <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
                         <div class="Field">
                             $Data{"MappingOutboundStrg"}
@@ -251,17 +250,6 @@ $('#SaveAndFinishButton').bind('click', function(){
                             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
-
-
-
-
-
-
-
-
-
-
-
                     </fieldset>
                 </form>
             </div>
