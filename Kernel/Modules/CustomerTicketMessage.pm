@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.85 2011-05-18 17:55:54 en Exp $
+# $Id: CustomerTicketMessage.pm,v 1.86 2011-06-20 10:41:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,7 @@ sub Run {
 
     # get article free text params
     for my $Count ( 1 .. 3 ) {
+        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
         my $Key  = 'ArticleFreeKey' . $Count;
         my $Text = 'ArticleFreeText' . $Count;
         $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
@@ -83,20 +84,18 @@ sub Run {
             }
         }
 
-        # get default selections for ticket free text fields
         my %TicketFreeDefault;
+        my %TicketFreeText;
         for my $Count ( 1 .. 16 ) {
+            next if !$Self->{Config}->{TicketFreeText}->{$Count};
+
+            # get default selections for ticket free text fields
             my $Key  = 'TicketFreeKey' . $Count;
             my $Text = 'TicketFreeText' . $Count;
             $TicketFreeDefault{$Key}  = $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
             $TicketFreeDefault{$Text} = $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
-        }
 
-        # get free text config options
-        my %TicketFreeText;
-        for my $Count ( 1 .. 16 ) {
-            my $Key  = 'TicketFreeKey' . $Count;
-            my $Text = 'TicketFreeText' . $Count;
+            # get free text config options
             $TicketFreeText{$Key} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID       => $Self->{TicketID},
                 Action         => $Self->{Action},
@@ -128,6 +127,7 @@ sub Run {
         # get ticket free time params
         my %TicketFreeTime;
         for my $Count ( 1 .. 6 ) {
+            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
             for my $Type (qw(Used Year Month Day Hour Minute)) {
                 $TicketFreeTime{ "TicketFreeTime" . $Count . $Type }
                     = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $Count . $Type );
@@ -141,10 +141,8 @@ sub Run {
             if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
             }
-        }
 
-        # transform free time, time stamp based on user time zone
-        for my $Count ( 1 .. 6 ) {
+            # transform free time, time stamp based on user time zone
             my $Prefix = 'TicketFreeTime' . $Count;
             next if !$TicketFreeTime{ $Prefix . 'Year' };
             next if !$TicketFreeTime{ $Prefix . 'Month' };
@@ -163,20 +161,19 @@ sub Run {
             Ticket => \%TicketFreeTime,
         );
 
-        # get default selections for article free text fields
         my %ArticleFreeDefault;
+        my %ArticleFreeText;
+
         for my $Count ( 1 .. 3 ) {
+            next if !$Self->{Config}->{ArticleFreeText}->{$Count};
+
+            # get default selections for article free text fields
             my $Key  = 'ArticleFreeKey' . $Count;
             my $Text = 'ArticleFreeText' . $Count;
             $ArticleFreeDefault{$Key}  = $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
             $ArticleFreeDefault{$Text} = $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
-        }
 
-        # get article free text config options
-        my %ArticleFreeText;
-        for my $Count ( 1 .. 3 ) {
-            my $Key  = 'ArticleFreeKey' . $Count;
-            my $Text = 'ArticleFreeText' . $Count;
+            # get article free text config options
             $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
                 ArticleID      => $Self->{ArticleID},
                 Action         => $Self->{Action},
@@ -184,7 +181,7 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
             $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
-                TicketID       => $Self->{TicketID},
+                ArticleID      => $Self->{ArticleID},
                 Action         => $Self->{Action},
                 Type           => $Text,
                 CustomerUserID => $Self->{UserID},
