@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.4 2011-06-20 18:48:38 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.5 2011-06-20 19:24:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@
             </div>
             <div class="Content">
                 <form action="$Env{"CGIHandle"}" class="Validate" method="post">
-                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
+                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationSolMan" />
                     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
                     <input type="hidden" id="WebserviceID" name="WebserviceID" value="$QData{"WebserviceID"}" />
                     <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
@@ -212,6 +212,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 Core.Agent.Admin.GenericInterfaceOperation.Init({
     WebserviceID: $QData{"WebserviceID"},
     Operation: "$QData{"Operation"}",
+    Action: 'AdminGenericInterfaceOperationSolMan',
     Localization: {
         CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
         DeleteOperationMsg: '$JSText{"Delete this Operation"}',
