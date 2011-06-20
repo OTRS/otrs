@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.84 2011-06-20 12:39:14 mb Exp $
+# $Id: Ticket.t,v 1.85 2011-06-20 18:23:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4779,6 +4779,18 @@ my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
+my %TicketCreated = $TicketObject->TicketGet(
+    TicketID => $TicketIDSortOrder1,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketCreated{Changed},
+    $TicketCreated{Created},
+    'TicketCreated for sort - change time eq create time'
+        . "$TicketCreated{Changed} eq $TicketCreated{Created}",
+);
+
 sleep 2;
 my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests2',
@@ -4795,7 +4807,23 @@ sleep 2;
 my $Success = $TicketObject->TicketStateSet(
     State    => 'open',
     TicketID => $TicketIDSortOrder1,
-    UserID   => 123,
+    UserID   => 1,
+);
+$Self->True(
+    $Success,
+    'TicketTicketStateUpdate - update ticket state',
+);
+
+my %TicketUpdated = $TicketObject->TicketGet(
+    TicketID => $TicketIDSortOrder1,
+    UserID   => 1,
+);
+
+$Self->IsNot(
+    $TicketUpdated{Changed},
+    $TicketUpdated{Created},
+    'TicketUpdated for sort - change time ne create time'
+        . "$TicketUpdated{Changed} eq $TicketUpdated{Created}",
 );
 
 # find newest ticket by priority, age
@@ -4845,8 +4873,9 @@ $Self->True(
     Limit        => 1,
 );
 $Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
-    'TicketTicketSearch() - ticket sort/order by (Changed (Down))',
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+    'TicketTicketSearch() - ticket sort/order by (Changed (Down))'
+        . "$TicketIDsSortOrder[0] instead of $TicketIDSortOrder1",
 );
 
 # find oldest modified by changed time
@@ -4862,8 +4891,9 @@ $Self->True(
     Limit        => 1,
 );
 $Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
-    'TicketTicketSearch() - ticket sort/order by (Changed (Up)))',
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+    'TicketTicketSearch() - ticket sort/order by (Changed (Up)))'
+        . "$TicketIDsSortOrder[0]  instead of $TicketIDSortOrder2",
 );
 
 my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
