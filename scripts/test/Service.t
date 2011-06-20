@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.15 2011-06-20 08:48:41 mb Exp $
+# $Id: Service.t,v 1.16 2011-06-20 09:06:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -654,7 +654,7 @@ for my $Item ( @{$ItemData} ) {
         }
 
         # update non-existing service
-        my $NonexistingServiceID = $LastAddedServiceID + 1;
+        my $NonexistingServiceID = 32567 - 1;
         my $UpdateNonSucess      = $ServiceObject->ServiceUpdate(
             %{ $Item->{Update} },
             ServiceID => $NonexistingServiceID,
