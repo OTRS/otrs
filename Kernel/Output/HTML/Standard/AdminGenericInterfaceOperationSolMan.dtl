@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.3 2011-06-13 17:30:28 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.4 2011-06-20 18:48:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,10 +161,9 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
                         </div>
                         <div class="Clear"></div>
 
-
                         <label for="RemoteSystemGuidDisplay">$Text{"Remote System GUID"}:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc " id="RemoteSystemGuidDisplay" value="$QData{"RemoteSystemGuid"}" />
+                            <input type="text" readonly="readonly" class="W50pc " name="RemoteSystemGuid" id="RemoteSystemGuidDisplay" value="$QData{"RemoteSystemGuid"}" />
                             <button type="button" class="$QData{"ResetGuidClass"}" id="ResetRemoteSystemGuid" value="$Text{"Reset"}">$Text{"Reset"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -180,8 +179,6 @@ $('#ResetRemoteSystemGuid').bind('click', function(){
                             </p>
                         </div>
                         <div class="Clear"></div>
-
-
 
                         <div class="Field SpacingTop">
                             <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
