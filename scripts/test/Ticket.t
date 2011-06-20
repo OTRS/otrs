@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.83 2011-06-20 08:33:56 mb Exp $
+# $Id: Ticket.t,v 1.84 2011-06-20 12:39:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4755,6 +4755,18 @@ $Self->True(
     'TicketDelete()',
 );
 
+my $DeleteCheck = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->False(
+    $DeleteCheck,
+    'TicketDelete() worked',
+);
+
+my $CustomerNo = '42' . int rand 1_000_000;
+
 # ticket search sort/order test
 my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title - ticket sort/order by tests',
@@ -4762,7 +4774,7 @@ my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -4774,7 +4786,7 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -4791,7 +4803,7 @@ my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     Result       => 'ARRAY',
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OrderBy      => [ 'Down', 'Up' ],
     SortBy       => [ 'Priority', 'Age' ],
@@ -4808,7 +4820,7 @@ $Self->True(
     Result       => 'ARRAY',
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OrderBy      => [ 'Down', 'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
@@ -4825,7 +4837,7 @@ $Self->True(
     Result       => 'ARRAY',
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OrderBy      => [ 'Down', ],
     SortBy       => ['Changed'],
@@ -4842,7 +4854,7 @@ $Self->True(
     Result       => 'ARRAY',
     Title        => '%sort/order by test%',
     Queues       => ['Raw'],
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OrderBy      => [ 'Up', ],
     SortBy       => [ 'Changed', ],
@@ -4860,7 +4872,7 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '4 high',
     State        => 'new',
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -4872,7 +4884,7 @@ my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '4 high',
     State        => 'new',
-    CustomerNo   => '123465',
+    CustomerNo   => $CustomerNo,
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
     UserID       => 1,
