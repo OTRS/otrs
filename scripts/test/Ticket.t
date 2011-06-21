@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.87 2011-06-21 10:53:10 mb Exp $
+# $Id: Ticket.t,v 1.88 2011-06-21 12:30:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@ use strict;
 use warnings;
 
 use utf8;
-
+use Kernel::System::UnitTest::Helper;
 use vars (qw($Self));
 
 use Time::HiRes qw( usleep );
@@ -44,6 +44,10 @@ my $QueueObject = Kernel::System::Queue->new(
 my $TypeObject    = Kernel::System::Type->new( %{$Self} );
 my $ServiceObject = Kernel::System::Service->new( %{$Self} );
 my $SLAObject     = Kernel::System::SLA->new( %{$Self} );
+my $HelperObject  = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+);
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -358,6 +362,21 @@ $Self->Is(
     'TicketGet() (Owner)',
 );
 $Self->Is(
+    $Ticket{CreateBy},
+    1,
+    'TicketGet() (CreateBy)',
+);
+$Self->Is(
+    $Ticket{ChangeBy},
+    1,
+    'TicketGet() (ChangeBy)',
+);
+$Self->Is(
+    $Ticket{Title},
+    'Some Ticket Title',
+    'TicketGet() (Title)',
+);
+$Self->Is(
     $Ticket{Responsible},
     'root@localhost',
     'TicketGet() (Responsible)',
@@ -381,6 +400,72 @@ $Self->Is(
     $Ticket{TypeID},
     '1',
     'TicketGet() (TypeID)',
+);
+
+my $TestUserLogin = $HelperObject->TestUserCreate(
+    Groups => [ 'users', ],
+);
+
+my $TestUserID = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+
+my $TicketIDCreatedBy = $TicketObject->TicketCreate(
+    Title        => 'Some Ticket Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => $TestUserID,
+);
+
+my %CheckCreatedBy = $TicketObject->TicketGet(
+    TicketID => $TicketIDCreatedBy,
+    UserID   => $TestUserID,
+);
+
+$Self->Is(
+    $CheckCreatedBy{ChangeBy},
+    $TestUserID,
+    'TicketGet() (ChangeBy - not system ID 1 user)',
+);
+
+$Self->Is(
+    $CheckCreatedBy{CreateBy},
+    $TestUserID,
+    'TicketGet() (CreateBy - not system ID 1 user)',
+);
+
+$TicketObject->TicketOwnerSet(
+    TicketID  => $TicketIDCreatedBy,
+    NewUserID => $TestUserID,
+    UserID    => 1,
+);
+
+%CheckCreatedBy = $TicketObject->TicketGet(
+    TicketID => $TicketIDCreatedBy,
+    UserID   => $TestUserID,
+);
+
+$Self->Is(
+    $CheckCreatedBy{CreateBy},
+    $TestUserID,
+    'TicketGet() (CreateBy - still the same after OwnerSet)',
+);
+
+$Self->Is(
+    $CheckCreatedBy{OwnerID},
+    $TestUserID,
+    'TicketOwnerSet()',
+);
+
+$Self->Is(
+    $CheckCreatedBy{ChangeBy},
+    1,
+    'TicketOwnerSet() (ChangeBy - System ID 1 now)',
 );
 
 my $ArticleID = $TicketObject->ArticleCreate(
