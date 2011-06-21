@@ -263,7 +263,7 @@ This option forces pasrsehttp() method to use a L<HTTP::Lite> instance.
 
 =head2 lwp_useragent
 
-This option forces pasrsehttp() method to use a L<LWP::UserAgent> instance.
+This option forces parsehttp() method to use a L<LWP::UserAgent> instance.
 
     my $ua = LWP::UserAgent->new();
     $ua->timeout( 60 );
@@ -308,6 +308,14 @@ Note that, for security reasons and your convenient,
 this module dereferences the predefined character entity references,
 &amp;, &lt;, &gt;, &apos; and &quot;, and the numeric character
 references up to U+007F without xml_deref per default.
+
+=head2 require_xml_decl
+
+This option requires XML declaration at the top of XML document to parse.
+
+    $tpp->set( require_xml_decl => 1 );
+
+This will die when <?xml .../?> declration not found.
 
 =head1 OPTIONS FOR WRITING XML
 
@@ -405,11 +413,18 @@ This makes parsing performance slow.
 
 Yusuke Kawasaki, http://www.kawa.net/
 
-=head1 COPYRIGHT AND LICENSE
+=head1 COPYRIGHT
 
-Copyright (c) 2006-2009 Yusuke Kawasaki. All rights reserved.
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+The following copyright notice applies to all the files provided in
+this distribution, including binary files, unless explicitly noted
+otherwise.
+
+Copyright 2006-2010 Yusuke Kawasaki
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
 
@@ -419,7 +434,7 @@ use Carp;
 use Symbol;
 
 use vars qw( $VERSION );
-$VERSION = '0.39';
+$VERSION = '0.41';
 
 my $XML_ENCODING      = 'UTF-8';
 my $INTERNAL_ENCODING = 'UTF-8';
@@ -510,7 +525,6 @@ sub write {
     my $apre = $self->{attr_prefix} if exists $self->{attr_prefix};
     $apre = $ATTR_PREFIX unless defined $apre;
     local $self->{__attr_prefix_len} = length($apre);
-#    local $self->{__attr_prefix_rex} = defined $apre ? qr/^\Q$apre\E/s : undef;
     local $self->{__attr_prefix_rex} = $apre;
 
     local $self->{__indent};
@@ -720,6 +734,11 @@ sub parse {
 
     if ( exists $self->{use_ixhash} && $self->{use_ixhash} ) {
         return $self->die( "Tie::IxHash is required." ) unless &load_tie_ixhash();
+    }
+
+    # Avoid segfaults when receving random input (RT #42441)
+    if ( exists $self->{require_xml_decl} && $self->{require_xml_decl} ) {
+        return $self->die( "XML declaration not found" ) unless looks_like_xml(\$text);
     }
 
     my $flat  = $self->xml_to_flat(\$text);
@@ -968,6 +987,7 @@ sub hash_to_xml {
     }
     my $prelen = $self->{__attr_prefix_len};
     my $pregex = $self->{__attr_prefix_rex};
+    my $textnk = $self->{text_node_key};
 
     foreach my $keys ( $firstkeys, $allkeys, $lastkeys ) {
         next unless ref $keys;
@@ -977,6 +997,7 @@ sub hash_to_xml {
         foreach my $key ( @$elemkey ) {
             my $val = $hash->{$key};
             if ( !defined $val ) {
+                next if ($key eq $textnk);
                 push( @$out, "<$key />" );
             }
             elsif ( UNIVERSAL::isa( $val, 'HASH' ) ) {
@@ -1101,10 +1122,19 @@ sub read_raw_xml {
     $text;
 }
 
+sub looks_like_xml {
+    my $textref = shift;
+    my $args = ( $$textref =~ /^(?:\s*\xEF\xBB\xBF)?\s*<\?xml(\s+\S.*)\?>/s )[0];
+    if ( ! $args ) {
+        return;
+    }
+    return $args;
+}
+
 sub xml_decl_encoding {
     my $textref = shift;
     return unless defined $$textref;
-    my $args    = ( $$textref =~ /^(?:\s*\xEF\xBB\xBF)?\s*<\?xml(\s+\S.*)\?>/s )[0] or return;
+    my $args    = looks_like_xml($textref) or return;
     my $getcode = ( $args =~ /\s+encoding=(".*?"|'.*?')/ )[0] or return;
     $getcode =~ s/^['"]//;
     $getcode =~ s/['"]$//;
