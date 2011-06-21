@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.85 2011-06-20 18:23:57 mb Exp $
+# $Id: Ticket.t,v 1.86 2011-06-21 10:52:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4838,8 +4838,9 @@ my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     UserID       => 1,
     Limit        => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Up))',
 );
 
@@ -4855,8 +4856,9 @@ $Self->True(
     UserID       => 1,
     Limit        => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
 
@@ -4872,8 +4874,9 @@ $Self->True(
     UserID       => 1,
     Limit        => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Changed (Down))'
         . "$TicketIDsSortOrder[0] instead of $TicketIDSortOrder1",
 );
@@ -4890,8 +4893,9 @@ $Self->True(
     UserID       => 1,
     Limit        => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Changed (Up)))'
         . "$TicketIDsSortOrder[0]  instead of $TicketIDSortOrder2",
 );
@@ -4930,8 +4934,9 @@ my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     UserID  => 1,
     Limit   => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder4,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
 
@@ -4945,8 +4950,9 @@ $Self->True(
     UserID  => 1,
     Limit   => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Priority (Up), Age (Down))',
 );
 
@@ -4960,8 +4966,9 @@ $Self->True(
     UserID  => 1,
     Limit   => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder4,
     'TicketTicketSearch() - ticket sort/order by (Age (Down))',
 );
 
@@ -4975,8 +4982,9 @@ $Self->True(
     UserID  => 1,
     Limit   => 1,
 );
-$Self->True(
-    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+$Self->Is(
+    $TicketIDsSortOrder[0],
+    $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Age (Up))',
 );
 $Self->True(
