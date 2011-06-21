@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.86 2011-06-21 10:52:01 mb Exp $
+# $Id: Ticket.t,v 1.87 2011-06-21 10:53:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3908,7 +3908,7 @@ $Self->IsNot(
 
 # set as invalid the test service
 $ServiceObject->ServiceUpdate(
-    ServiceID => 123,
+    ServiceID => $ServiceID,
     Name      => 'Unit Test New Service' . int( rand(10000) ),
     ValidID   => 2,
     UserID    => 1,
