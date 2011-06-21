@@ -28,7 +28,7 @@ Generate an RDF file and save it:
 
 Convert some RSS/RDF files to Atom format:
 
-    my $feed = XML::FeedPP::Atom->new();                # create empty atom file
+    my $feed = XML::FeedPP::Atom::Atom10->new();        # create empty atom file
     $feed->merge( "rss.xml" );                          # load local RSS file
     $feed->merge( "http://www.kawa.net/index.rdf" );    # load remote RDF file
     my $now = time();
@@ -64,7 +64,7 @@ The XML source code is also available as the first argument.
 
 =head2  $feed = XML::FeedPP->new( $source, -type => $type );
 
-The C<-type> argument allows you to specify type of $source 
+The C<-type> argument allows you to specify type of $source
 from choice of C<'file'>, C<'url'> or C<'string'>.
 
 =head2  $feed = XML::FeedPP->new( $source, utf8_flag => 1 );
@@ -72,7 +72,7 @@ from choice of C<'file'>, C<'url'> or C<'string'>.
 This makes utf8 flag on for every feed elements.
 Perl 5.8.1 or later is required to use this.
 
-Note that any other options for C<XML::TreePP> constructor are also 
+Note that any other options for C<XML::TreePP> constructor are also
 allowed like this. See more detail on L<XML::TreePP>.
 
 =head2  $feed = XML::FeedPP::RSS->new( $source );
@@ -134,7 +134,7 @@ the Jcode module are available: 'UTF-8', 'Shift_JIS', 'EUC-JP' and
 This makes the output more human readable by indenting appropriately.
 This does not strictly follow the XML specification but does looks nice.
 
-Note that any other options for C<XML::TreePP> constructor are also 
+Note that any other options for C<XML::TreePP> constructor are also
 allowed like this. See more detail on L<XML::TreePP>.
 
 =head2  $feed->to_file( $filename, $encoding );
@@ -172,10 +172,10 @@ This method finds item(s) which match all regular expressions given.
 This method returns an array of all matched items in array context.
 This method returns the first matched item in scalar context.
 
-=head2  $feed->remove_item( $index );
+=head2  $feed->remove_item( $index or $link );
 
-This method removes an item/entry from $feed, where $index is a valid
-zero-based array index.
+This method removes an item/entry specified by zero-based array index or
+link URL.
 
 =head2  $feed->clear_item();
 
@@ -364,6 +364,19 @@ The last format is the number of seconds since the epoch,
 C<1970-01-01T00:00:00Z>.
 You know, this is the native format of Perl's C<time()> function.
 
+=head1 USING MEDIA RSS
+
+To publish Media RSS, add the C<media> namespace then use C<set()>
+setter method to manipulate C<media:content> element, etc.
+
+    my $feed = XML::FeedPP::RSS->new();
+    $feed->xmlns('xmlns:media' => 'http://search.yahoo.com/mrss/');
+    my $item = $feed->add_item('http://www.example.com/index.html');
+    $item->set('media:content@url' => 'http://www.example.com/image.jpg');
+    $item->set('media:content@type' => 'image/jpeg');
+    $item->set('media:content@width' => 640);
+    $item->set('media:content@height' => 480);
+
 =head1 MODULE DEPENDENCIES
 
 C<XML::FeedPP> requires only L<XML::TreePP>
@@ -377,11 +390,18 @@ and 5.6.1, but is NOT required on Perl 5.8.x and later.
 
 Yusuke Kawasaki, http://www.kawa.net/
 
-=head1 COPYRIGHT AND LICENSE
+=head1 COPYRIGHT
 
-Copyright (c) 2006-2009 Yusuke Kawasaki. All rights reserved.
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+The following copyright notice applies to all the files provided in
+this distribution, including binary files, unless explicitly noted
+otherwise.
+
+Copyright 2006-2011 Yusuke Kawasaki
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
 
@@ -400,7 +420,7 @@ use vars qw(
     $XMLNS_ATOM10
 );
 
-$VERSION = "0.41";
+$VERSION = "0.43";
 
 $RSS20_VERSION  = '2.0';
 $ATOM03_VERSION = '0.3';
@@ -851,6 +871,14 @@ sub new {
     $self;
 }
 
+sub channel_class {
+    'XML::FeedPP::RSS::Channel';
+}
+
+sub item_class {
+    'XML::FeedPP::RSS::Item';
+}
+
 sub validate_feed {
     my $self   = shift;
     my $source = shift || $self;
@@ -868,8 +896,8 @@ sub init_feed {
     }
     $self->{rss}->{'-version'} ||= $XML::FeedPP::RSS20_VERSION;
 
-    $self->{rss}->{channel} ||= XML::FeedPP::Element->new();
-    XML::FeedPP::Element->ref_bless( $self->{rss}->{channel} );
+    $self->{rss}->{channel} ||= $self->channel_class->new();
+    $self->channel_class->ref_bless( $self->{rss}->{channel} );
 
     $self->{rss}->{channel}->{item} ||= [];
     if ( UNIVERSAL::isa( $self->{rss}->{channel}->{item}, 'HASH' ) ) {
@@ -878,7 +906,7 @@ sub init_feed {
         $self->{rss}->{channel}->{item} = [ $self->{rss}->{channel}->{item} ];
     }
     foreach my $item ( @{ $self->{rss}->{channel}->{item} } ) {
-        XML::FeedPP::RSS::Item->ref_bless($item);
+        $self->item_class->ref_bless($item);
     }
 
     $self;
@@ -1037,6 +1065,12 @@ sub image {
 }
 
 # ----------------------------------------------------------------
+package XML::FeedPP::RSS::Channel;
+use strict;
+use vars qw( @ISA );
+@ISA = qw( XML::FeedPP::Element );
+
+# ----------------------------------------------------------------
 package XML::FeedPP::RSS::Item;
 use strict;
 use vars qw( @ISA );
@@ -1138,6 +1172,14 @@ sub new {
     $self;
 }
 
+sub channel_class {
+    'XML::FeedPP::RDF::Channel';
+}
+
+sub item_class {
+    'XML::FeedPP::RDF::Item';
+}
+
 sub validate_feed {
     my $self   = shift;
     my $source = shift || $self;
@@ -1156,8 +1198,8 @@ sub init_feed {
     $self->xmlns( 'xmlns:rdf' => $XML::FeedPP::XMLNS_RDF );
     $self->xmlns( 'xmlns:dc'  => $XML::FeedPP::XMLNS_DC );
 
-    $self->{'rdf:RDF'}->{channel} ||= XML::FeedPP::Element->new();
-    XML::FeedPP::Element->ref_bless( $self->{'rdf:RDF'}->{channel} );
+    $self->{'rdf:RDF'}->{channel} ||= $self->channel_class->new();
+    $self->channel_class->ref_bless( $self->{'rdf:RDF'}->{channel} );
 
     $self->{'rdf:RDF'}->{channel}->{items}              ||= {};
     $self->{'rdf:RDF'}->{channel}->{items}->{'rdf:Seq'} ||= {};
@@ -1187,7 +1229,7 @@ sub init_feed {
         $self->{'rdf:RDF'}->{item} = [ $self->{'rdf:RDF'}->{item} ];
     }
     foreach my $item ( @{ $self->{'rdf:RDF'}->{item} } ) {
-        XML::FeedPP::RDF::Item->ref_bless($item);
+        $self->item_class->ref_bless($item);
     }
 
     $self;
@@ -1215,7 +1257,7 @@ sub add_item {
         return $self->add_clone_item( $link );
     }
 
-    my $rdfli = XML::FeedPP::Element->new();
+    my $rdfli = $self->item_class->new();
     $rdfli->{'-rdf:resource'} = $link;
     $self->{'rdf:RDF'}->{channel}->{items}->{'rdf:Seq'}->{'rdf:li'} ||= [];
     push(
@@ -1382,6 +1424,12 @@ sub image {
 }
 
 # ----------------------------------------------------------------
+package XML::FeedPP::RDF::Channel;
+use strict;
+use vars qw( @ISA );
+@ISA = qw( XML::FeedPP::Element );
+
+# ----------------------------------------------------------------
 package XML::FeedPP::RDF::Item;
 use strict;
 use vars qw( @ISA );
@@ -1467,7 +1515,7 @@ sub add_item {
         return $self->add_clone_item( $link );
     }
 
-    my $item = $self->_entry_new(@rest);
+    my $item = $self->item_class->new(@rest);
     $item->link($link) if $link;
     $item->elements(@$init) if ref $init;
     push( @{ $self->{feed}->{entry} }, $item );
@@ -1618,16 +1666,19 @@ use strict;
 use vars qw( @ISA );
 @ISA = qw( XML::FeedPP::Atom::Common );
 
-sub _entry_new {
-    my $self = shift;
-    XML::FeedPP::Atom::Atom03::Entry->new(@_);
+sub channel_class {
+    'XML::FeedPP::Atom::Atom03::Feed';
+}
+
+sub item_class {
+    'XML::FeedPP::Atom::Atom03::Entry';
 }
 
 sub init_feed {
     my $self = shift or return;
 
-    $self->{feed} ||= XML::FeedPP::Element->new();
-    XML::FeedPP::Element->ref_bless( $self->{feed} );
+    $self->{feed} ||= $self->channel_class->new();
+    $self->channel_class->ref_bless( $self->{feed} );
 
     if ( ! UNIVERSAL::isa( $self->{feed}, 'HASH' ) ) {
         Carp::croak "Invalid Atom 0.3 format: $self->{feed}";
@@ -1642,7 +1693,7 @@ sub init_feed {
         $self->{feed}->{entry} = [ $self->{feed}->{entry} ];
     }
     foreach my $item ( @{ $self->{feed}->{entry} } ) {
-        XML::FeedPP::Atom::Atom03::Entry->ref_bless($item);
+        $self->item_class->ref_bless($item);
     }
     $self->{feed}->{author} ||= { name => '' };    # dummy for validation
     $self;
@@ -1736,16 +1787,19 @@ use strict;
 use vars qw( @ISA );
 @ISA = qw( XML::FeedPP::Atom::Common );
 
-sub _entry_new {
-    my $self = shift;
-    XML::FeedPP::Atom::Atom10::Entry->new(@_);
+sub channel_class {
+    'XML::FeedPP::Atom::Atom10::Feed';
+}
+
+sub item_class {
+    'XML::FeedPP::Atom::Atom10::Entry';
 }
 
 sub init_feed {
     my $self = shift or return;
 
-    $self->{feed} ||= XML::FeedPP::Element->new();
-    XML::FeedPP::Element->ref_bless( $self->{feed} );
+    $self->{feed} ||= $self->channel_class->new();
+    $self->channel_class->ref_bless( $self->{feed} );
 
     if ( ! UNIVERSAL::isa( $self->{feed}, 'HASH' ) ) {
         Carp::croak "Invalid Atom 1.0 format: $self->{feed}";
@@ -1760,7 +1814,7 @@ sub init_feed {
         $self->{feed}->{entry} = [ $self->{feed}->{entry} ];
     }
     foreach my $item ( @{ $self->{feed}->{entry} } ) {
-        XML::FeedPP::Atom::Atom10::Entry->ref_bless($item);
+        $self->item_class->ref_bless($item);
     }
 #   $self->{feed}->{author} ||= { name => '' };    # dummy for validation
     $self;
@@ -1855,6 +1909,50 @@ use vars qw( @ISA );
 # @ISA = qw( XML::FeedPP::Atom::Atom10 );   # if Atom 1.0 for default
 
 # ----------------------------------------------------------------
+package XML::FeedPP::Atom::Common::Feed;
+use strict;
+use vars qw( @ISA );
+@ISA = qw( XML::FeedPP::Element );
+
+# <content type="xhtml"><div>...</div></content>
+# http://www.ietf.org/rfc/rfc4287.txt
+# 3. If the value of "type" is "xhtml", the content of atom:content
+#    MUST be a single XHTML div element [XHTML] and SHOULD be suitable
+#    for handling as XHTML. The XHTML div element itself MUST NOT be
+#    considered part of the content.
+
+sub _fetch_value {
+    my $self  = shift;
+    my $value = shift;
+
+    if ( UNIVERSAL::isa( $value, 'HASH' )
+        && exists $value->{'-type'}
+        && ($value->{'-type'} eq "xhtml")) {
+        my $child = [ grep { /^[^\-\#]/ } keys %$value ];
+        if (scalar @$child == 1) {
+            my $div = shift @$child;
+            if ($div =~ /^([^:]+:)?div$/i) {
+                return $value->{$div};
+            }
+        }
+    }
+
+    $self->SUPER::_fetch_value($value);
+}
+
+# ----------------------------------------------------------------
+package XML::FeedPP::Atom::Atom03::Feed;
+use strict;
+use vars qw( @ISA );
+@ISA = qw( XML::FeedPP::Atom::Common::Feed );
+
+# ----------------------------------------------------------------
+package XML::FeedPP::Atom::Atom10::Feed;
+use strict;
+use vars qw( @ISA );
+@ISA = qw( XML::FeedPP::Atom::Common::Feed );
+
+# ----------------------------------------------------------------
 package XML::FeedPP::Atom::Common::Entry;
 use strict;
 use vars qw( @ISA );
@@ -1872,6 +1970,8 @@ sub author {
 }
 
 sub guid { shift->get_or_set( 'id', @_ ); }
+
+*_fetch_value = \&XML::FeedPP::Atom::Common::Feed::_fetch_value;
 
 # ----------------------------------------------------------------
 package XML::FeedPP::Atom::Atom03::Entry;
@@ -2061,12 +2161,6 @@ sub category {
 }
 
 # ----------------------------------------------------------------
-package XML::FeedPP::Atom::Entry;
-use strict;
-use vars qw( @ISA );
-@ISA = qw( XML::FeedPP::Atom::Atom03::Entry );
-
-# ----------------------------------------------------------------
 package XML::FeedPP::Element;
 use strict;
 
@@ -2109,7 +2203,7 @@ sub set {
             $node->{ '-' . $attr } = $val;
         }
         elsif ( defined $attr ) {
-            if ( ref $node->{$tagname} && 
+            if ( ref $node->{$tagname} &&
                  UNIVERSAL::isa( $node->{$tagname}, 'ARRAY' )) {
                 $node->{$tagname} = shift @{$node->{$tagname}};
             }
@@ -2128,7 +2222,7 @@ sub set {
             }
         }
         elsif ( defined $tagname ) {
-            if ( ref $node->{$tagname} && 
+            if ( ref $node->{$tagname} &&
                  UNIVERSAL::isa( $node->{$tagname}, 'ARRAY' )) {
                 $node->{$tagname} = shift @{$node->{$tagname}};
             }
@@ -2213,41 +2307,35 @@ sub get_value {
     my $self = shift;
     my $elem = shift;
     return unless exists $self->{$elem};
-    my $value = $self->{$elem} or return;
+    my $value = $self->{$elem};
     return $value unless ref $value;
 
     # multiple elements
     if ( UNIVERSAL::isa( $value, 'ARRAY' )) {
         if ( wantarray ) {
-            return map { &get_avalue($_) } @$value;
+            return map { $self->_fetch_value($_) } @$value;
         } else {
-            return &get_avalue($value->[0]);
+            return $self->_fetch_value($value->[0]);
         }
     }
 
-    # a hack for atom: <content type="xhtml"><div>...</div></content>
-    if ( UNIVERSAL::isa( $value, 'HASH' )
-        && exists $value->{'-type'}
-        && ($value->{'-type'} eq "xhtml")) {
-        my $child = [ grep { /^[^_-_#]/ } keys %$value ];
-        if (scalar @$child == 1) {
-            return &get_value( $value, $child->[0] );
-        }
-    }
-    return &get_avalue($value);
+    return $self->_fetch_value($value);
 }
 
-sub get_avalue {
+sub _fetch_value {
+    my $self  = shift;
     my $value = shift;
-    
+
     if ( UNIVERSAL::isa( $value, 'HASH' )) {
         # text node of an element with attributes
-        return &get_avalue($value->{'#text'}) if exists $value->{'#text'};
+        if ( exists $value->{'#text'} ) {
+            return $self->_fetch_value($value->{'#text'})
+        }
     } elsif ( UNIVERSAL::isa( $value, 'SCALAR' )) {
         # CDATA section as a scalar reference
         return $$value;
     }
-    
+
     return $value;
 }
 
@@ -2256,7 +2344,7 @@ sub set_value {
     my $elem = shift;
     my $text = shift;
     my $attr = \@_;
-    if ( ref $self->{$elem} ) {
+    if ( UNIVERSAL::isa( $self->{$elem}, 'HASH' )) {
         $self->{$elem}->{'#text'} = $text;
     }
     else {
