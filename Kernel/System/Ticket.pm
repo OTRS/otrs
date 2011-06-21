@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.504 2011-06-17 11:40:07 mb Exp $
+# $Id: Ticket.pm,v 1.505 2011-06-21 12:31:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.504 $) [1];
+$VERSION = qw($Revision: 1.505 $) [1];
 
 =head1 NAME
 
@@ -914,7 +914,9 @@ Returns:
         Age                => 3456,
         Created            => '2010-10-27 20:15:00'
         CreateTimeUnix     => '1231414141',
+        CreateBy           => 123,
         Changed            => '2010-10-27 20:15:15',
+        ChangeBy           => 123,
         ArchiveFlag        => 'y',
         TicketFreeKey1-16
         TicketFreeText1-16
@@ -1014,7 +1016,8 @@ sub TicketGet {
             . ' st.freetime5, st.freetime6,'
             . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
             . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
-            . ' st.escalation_solution_time, st.escalation_time, st.archive_flag'
+            . ' st.escalation_solution_time, st.escalation_time, st.archive_flag,'
+            . ' st.create_by, st.change_by'
             . ' FROM ticket st, ticket_priority sp, queue sq'
             . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?',
         Bind  => [ \$Param{TicketID} ],
@@ -1035,8 +1038,10 @@ sub TicketGet {
         $Ticket{Created}        = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $Ticket{CreateTimeUnix},
         );
+        $Ticket{CreateBy}               = $Row[65];
         $Ticket{ArchiveFlag}            = $Row[64] ? 'y' : 'n';
         $Ticket{Changed}                = $Row[54];
+        $Ticket{ChangeBy}               = $Row[66];
         $Ticket{EscalationTime}         = $Row[63];
         $Ticket{EscalationUpdateTime}   = $Row[56];
         $Ticket{EscalationResponseTime} = $Row[61];
@@ -8484,6 +8489,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.504 $ $Date: 2011-06-17 11:40:07 $
+$Revision: 1.505 $ $Date: 2011-06-21 12:31:23 $
 
 =cut
