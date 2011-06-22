@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.38 2011-05-03 08:47:08 mb Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.39 2011-06-22 09:12:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Record -->
                 <tr title="$QData{"TicketNumber"}">
-                    <td class="Status">$Quote{"$Text{"$Data{"State"}"}","18"}</td>
+                    <td class="Status">$Text{"$Data{"State"}","18"}</td>
                     <td class="Ticket"><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$Data{"TicketNumber"}</a></td>
                     <td class="Title"><div><h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$QData{"Subject","60"}</a></h2>&nbsp;-&nbsp; $QData{"Body","200"}</div></td>
                     <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"Age","20"}</td>
@@ -108,7 +108,7 @@
 #                        <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>&nbsp;
 #                    </td>
 #                    <td class="$Env{"Color"}">
-#                        <div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
+#                        <div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","30"}</div>
 #                    </td>
 #                    <td class="$Env{"Color"}">
 #                        <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>

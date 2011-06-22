@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.60 2011-04-05 09:34:59 mg Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.61 2011-06-22 09:06:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,7 +142,7 @@
                             <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
                         </td>
                         <td>
-                            <label>$Text{"State"}</label><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","26"}</div>
+                            <label>$Text{"State"}</label><div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","26"}</div>
                         </td>
                         <td>
 <!-- dtl:block:Type -->
@@ -181,7 +181,7 @@
                             <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                         </td>
                         <td>
-                            <label>$Text{"Lock"}</label><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","26"}</div>
+                            <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}","26"}</div>
                         </td>
                         <td>
 <!-- dtl:block:Service -->
