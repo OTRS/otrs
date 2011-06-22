@@ -2,7 +2,7 @@
 # Provider.t - Provider tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.10 2011-03-18 12:58:42 mg Exp $
+# $Id: Provider.t,v 1.11 2011-06-22 09:54:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -308,7 +308,12 @@ for my $Test (@Tests) {
 
                     # prepare CGI environment variables
                     $ENV{REQUEST_URI}
-                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?$Test->{RequestData}";
+                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
+                        . $CreateQueryString->(
+                        $Self,
+                        Data   => $Test->{RequestData},
+                        Encode => 1,
+                        );
                     $ENV{QUERY_STRING} = $CreateQueryString->(
                         $Self,
                         Data   => $Test->{RequestData},
