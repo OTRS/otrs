@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.85 2011-04-27 10:05:39 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.86 2011-06-22 08:59:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -776,7 +776,7 @@
                             </td>
                             <td>$QData{"Age"}</td>
                             <td>$QData{"From","30"}$QData{"Subject","30"}</td>
-                            <td>$Quote{"$Text{"$Data{"State"}"}","30"}</td>
+                            <td>$Text{"$Data{"State"}","30"}</td>
                             <td>$QData{"Queue","30"}</td>
                             <td>$QData{"Owner","30"}($QData{"UserFirstname"} $QData{"UserLastname"})</td>
                             <td>
