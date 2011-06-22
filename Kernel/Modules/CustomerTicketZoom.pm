@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.76 2011-05-03 08:46:35 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.77 2011-06-22 08:51:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -481,6 +481,27 @@ sub _Mask {
     if ( $Self->{Config}->{AttributesView}->{Queue} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Queue',
+            Data => \%Param,
+        );
+    }
+
+    # ticket owner
+    if ( $Self->{Config}->{AttributesView}->{Owner} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Owner',
+            Data => \%Param,
+        );
+    }
+
+    # ticket responsible
+    if (
+        $Self->{ConfigObject}->Get('Ticket::Responsible')
+        &&
+        $Self->{Config}->{AttributesView}->{Responsible}
+        )
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'Responsible',
             Data => \%Param,
         );
     }
