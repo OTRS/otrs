@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.13 2011-06-13 17:28:40 cr Exp $
+# $Id: SOAP.t,v 1.14 2011-06-23 22:31:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -624,6 +624,68 @@ my @Tests = (
         },
     },
 
+    {
+        Name           => 'Test 8',
+        SuccessRequest => '1',
+        RequestData    => {
+            TestError => 123,
+            ErrorData => {
+                PriorityName => [ '5 very high', '4 high' ],
+            },
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                ErrorData => {
+                    PriorityName => [ '5 very high', '4 high' ],
+                },
+            },
+        },
+        WebserviceConfig => {
+            Name => 'SOAPTest1',
+            Description =>
+                'Operation handling rrrors test for provider and requester using SOAP transport backend.',
+            Debugger => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
+                        Encoding       => 'UTF-8',
+                        Endpoint       => $RemoteSystem,
+                        Authentication => {
+                            Type     => 'BasicAuth',
+                            User     => 'MyUser',
+                            Password => 'MyPass',
+                        },
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
 );
 
 for my $Test (@Tests) {
