@@ -2,7 +2,7 @@
 # Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.4 2011-03-29 12:36:15 mg Exp $
+# $Id: Test.t,v 1.5 2011-06-23 20:15:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,6 +73,25 @@ my @OperationTests = (
         ResultData    => {},
         ResultSuccess => 1,
     },
+    {
+        Data => {
+            TestError => 123,
+            ErrorData => {
+                Value1 => 1,
+                Value2 => 2,
+                Value3 => 3,
+            },
+        },
+        ResultData => {
+            ErrorData => {
+                Value1 => 1,
+                Value2 => 2,
+                Value3 => 3,
+            },
+        },
+        ResultErrorMessage => 'Error message for error code: 123',
+        ResultSuccess      => 0,
+    },
 );
 
 my $Counter;
@@ -101,6 +120,14 @@ for my $Test (@OperationTests) {
         $Test->{ResultSuccess},
         'Test data set ' . $Counter . ' success status',
     );
+
+    if ( !$OperationResult->{Success} && $Test->{ResultErrorMessage} ) {
+        $Self->Is(
+            $OperationResult->{ErrorMessage},
+            $Test->{ResultErrorMessage},
+            'Test data set ' . $Counter . ' Test: Error Message.',
+        );
+    }
 }
 
 1;
