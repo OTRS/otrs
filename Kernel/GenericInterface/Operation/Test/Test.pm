@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.6 2011-06-23 19:42:41 cg Exp $
+# $Id: Test.pm,v 1.7 2011-06-23 20:13:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -89,10 +89,11 @@ was handed to the function or return a variable data if 'TestError' and
     );
 
     $Result = {
-        Success         => 0,                       # it always return 0
-        ErrorMessage    => 'A fixed error message', # including the 'TestError' param
+        Success         => 0,                                   # it always return 0
+        ErrorMessage    => 'Error message for error code: 1',   # including the 'TestError' param
         Data            => {
-            ErrorData   => {                        # same data was sended as 'ErrorData' param
+            ErrorData   => {                                    # same data was sended as
+                                                                # 'ErrorData' param
 
             },
             ...
@@ -111,7 +112,7 @@ sub Run {
         );
     }
 
-    if ( $Param{Data}->{TestError} ) {
+    if ( defined $Param{Data} && $Param{Data}->{TestError} ) {
         return {
             Success      => 0,
             ErrorMessage => "Error message for error code: $Param{Data}->{TestError}",
@@ -123,6 +124,7 @@ sub Run {
 
     # copy data
     my $ReturnData;
+
     if ( ref $Param{Data} eq 'HASH' ) {
         $ReturnData = \%{ $Param{Data} };
     }
@@ -153,6 +155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-06-23 19:42:41 $
+$Revision: 1.7 $ $Date: 2011-06-23 20:13:52 $
 
 =cut
