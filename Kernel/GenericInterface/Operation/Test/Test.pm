@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.5 2011-04-14 11:57:34 mg Exp $
+# $Id: Test.pm,v 1.6 2011-06-23 19:42:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -62,7 +62,8 @@ sub new {
 =item Run()
 
 perform the selected test Operation. This will return the data that
-was handed to the function.
+was handed to the function or return a variable data if 'TestError' and
+'ErrorData' params are sended.
 
     my $Result = $OperationObject->Run(
         Data => {                               # data payload before Operation
@@ -78,6 +79,26 @@ was handed to the function.
         },
     };
 
+    my $Result = $OperationObject->Run(
+        Data => {                               # data payload before Operation
+            TestError   => 1,
+            ErrorData   => {
+                ...
+            },
+        },
+    );
+
+    $Result = {
+        Success         => 0,                       # it always return 0
+        ErrorMessage    => 'A fixed error message', # including the 'TestError' param
+        Data            => {
+            ErrorData   => {                        # same data was sended as 'ErrorData' param
+
+            },
+            ...
+        },
+    };
+
 =cut
 
 sub Run {
@@ -88,6 +109,16 @@ sub Run {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Operation Test backend)!'
         );
+    }
+
+    if ( $Param{Data}->{TestError} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Error message for error code: $Param{Data}->{TestError}",
+            Data         => {
+                ErrorData => $Param{Data}->{ErrorData},
+            },
+        };
     }
 
     # copy data
@@ -122,6 +153,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-04-14 11:57:34 $
+$Revision: 1.6 $ $Date: 2011-06-23 19:42:41 $
 
 =cut
