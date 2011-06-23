@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.7 2011-06-23 20:13:52 cr Exp $
+# $Id: Test.pm,v 1.8 2011-06-23 22:27:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -114,7 +114,7 @@ sub Run {
 
     if ( defined $Param{Data} && $Param{Data}->{TestError} ) {
         return {
-            Success      => 0,
+            Success      => 1,
             ErrorMessage => "Error message for error code: $Param{Data}->{TestError}",
             Data         => {
                 ErrorData => $Param{Data}->{ErrorData},
@@ -155,6 +155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-06-23 20:13:52 $
+$Revision: 1.8 $ $Date: 2011-06-23 22:27:57 $
 
 =cut

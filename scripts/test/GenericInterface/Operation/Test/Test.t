@@ -2,7 +2,7 @@
 # Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.5 2011-06-23 20:15:03 cr Exp $
+# $Id: Test.t,v 1.6 2011-06-23 22:27:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ my @OperationTests = (
             },
         },
         ResultErrorMessage => 'Error message for error code: 123',
-        ResultSuccess      => 0,
+        ResultSuccess      => 1,
     },
 );
 
@@ -121,7 +121,7 @@ for my $Test (@OperationTests) {
         'Test data set ' . $Counter . ' success status',
     );
 
-    if ( !$OperationResult->{Success} && $Test->{ResultErrorMessage} ) {
+    if ( $OperationResult->{Success} && $Test->{ResultErrorMessage} ) {
         $Self->Is(
             $OperationResult->{ErrorMessage},
             $Test->{ResultErrorMessage},

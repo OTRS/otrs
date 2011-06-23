@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.28 2011-06-02 13:11:40 cr Exp $
+# $Id: Common.pm,v 1.29 2011-06-23 22:28:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1060,7 +1060,7 @@ sub _ReturnError {
 
     # return structure
     return {
-        Success      => 0,
+        Success      => 1,
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
         Data         => {
             Errors => {
@@ -1098,6 +1098,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-06-02 13:11:40 $
+$Revision: 1.29 $ $Date: 2011-06-23 22:28:32 $
 
 =cut

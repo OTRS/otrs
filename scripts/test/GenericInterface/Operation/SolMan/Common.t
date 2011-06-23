@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.20 2011-06-02 21:31:55 cr Exp $
+# $Id: Common.t,v 1.21 2011-06-23 22:28:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,25 +157,28 @@ my $LocalSystemGuid;
 my @Tests = (
     [
         {
-            Name      => 'ReplicateIncident without data',
-            Operation => 'ReplicateIncident',
-            Success   => 0,
+            Name         => 'ReplicateIncident without data',
+            Operation    => 'ReplicateIncident',
+            Success      => 1,
+            HandledError => 1,
         },
     ],
     [
         {
-            Name      => 'ReplicateIncident with wrong data (arrayref)',
-            Operation => 'ReplicateIncident',
-            Success   => 0,
-            Data      => [],
+            Name         => 'ReplicateIncident with wrong data (arrayref)',
+            Operation    => 'ReplicateIncident',
+            Success      => 1,
+            HandledError => 1,
+            Data         => [],
         },
     ],
     [
         {
-            Name      => 'ReplicateIncident with correct structure, no data',
-            Operation => 'ReplicateIncident',
-            Success   => 0,
-            Data      => {
+            Name         => 'ReplicateIncident with correct structure, no data',
+            Operation    => 'ReplicateIncident',
+            Success      => 1,
+            HandledError => 1,
+            Data         => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {},
                 IctHead            => {},
@@ -400,7 +403,8 @@ works too',
             Name                 => 'AddInfo for incompletely synchronized ticket',
             Operation            => 'AddInfo',
             TicketSyncIncomplete => 1,
-            Success              => 0,
+            Success              => 1,
+            HandledError         => 1,
             Data                 => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {},
@@ -447,7 +451,8 @@ works too',
             Name                  => 'AddInfo for incompletely synchronized articles',
             Operation             => 'AddInfo',
             ArticleSyncIncomplete => 1,
-            Success               => 0,
+            Success               => 1,
+            HandledError          => 1,
             Data                  => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {},
@@ -862,10 +867,11 @@ works too',
     ],
     [
         {
-            Name      => 'ProcessIncident with wrong RequesterGuid',
-            Operation => 'ProcessIncident',
-            Success   => 0,
-            Data      => {
+            Name         => 'ProcessIncident with wrong RequesterGuid',
+            Operation    => 'ProcessIncident',
+            Success      => 1,
+            HandledError => 1,
+            Data         => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {},
                 IctHead            => {
@@ -910,10 +916,11 @@ works too',
     ],
     [
         {
-            Name      => 'ProcessIncident with wrong RequesterGuid',
-            Operation => 'ProcessIncident',
-            Success   => 0,
-            Data      => {
+            Name         => 'ProcessIncident with wrong RequesterGuid',
+            Operation    => 'ProcessIncident',
+            Success      => 1,
+            HandledError => 1,
+            Data         => {
                 IctAdditionalInfos => {},
                 IctAttachments     => {},
                 IctHead            => {
@@ -1117,7 +1124,7 @@ for my $TestChain (@Tests) {
             );
         }
 
-        if ( !$Test->{Success} ) {
+        if ( !$Test->{Success} || $Test->{HandledError} ) {
 
             $Self->True(
                 $Result->{ErrorMessage},
