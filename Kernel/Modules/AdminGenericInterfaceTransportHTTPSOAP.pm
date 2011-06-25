@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.4 2011-05-24 15:48:01 cr Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.5 2011-06-25 00:25:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -168,10 +168,21 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
+        # Save button: stay in edit mode.
+        my $RedirectURL
+            = "Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=Change;WebserviceID=$WebserviceID;CommunicationType=$CommunicationType;";
+
+        # Save and finish button: go to Webservice.
+        if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
+            $RedirectURL
+                = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+
+        }
+
         return $Self->{LayoutObject}->Redirect(
-            OP =>
-                "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID",
+            OP => $RedirectURL,
         );
+
     }
 
 }
@@ -237,6 +248,13 @@ sub _ShowEdit {
             Nav => '',
         },
     );
+
+    if ( $Param{NameSpace} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SaveAndFinishButton',
+            Data => \%Param
+        );
+    }
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericInterfaceTransportHTTPSOAP',

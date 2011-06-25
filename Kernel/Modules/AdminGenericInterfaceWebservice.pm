@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.27 2011-05-27 16:55:09 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.28 2011-06-25 00:25:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -200,6 +200,15 @@ sub Run {
 
         # define notification
         my $Notify = 'Webservice "%s" updated!", "' . $WebserviceData->{Name};
+
+        # Save and finish button: go to Webservice.
+        if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
+            my $RedirectURL
+                = "Action=AdminGenericInterfaceWebservice;";
+            return $Self->{LayoutObject}->Redirect(
+                OP => $RedirectURL,
+            );
+        }
 
         # return to edit to continue changing the configuration
         return $Self->_ShowEdit(
@@ -816,6 +825,13 @@ sub _ShowEdit {
             ValidtyStrg        => $ValidtyStrg,
             }
     );
+
+    if ( $Param{Action} eq 'Change' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SaveAndFinishButton',
+            Data => \%Param
+        );
+    }
 
     # set transports data
     my %GITransports;

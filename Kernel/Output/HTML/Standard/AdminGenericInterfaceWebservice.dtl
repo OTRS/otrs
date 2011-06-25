@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.29 2011-05-27 23:08:52 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.30 2011-06-25 00:25:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -352,15 +352,34 @@
                             $Data{"ControllersStrg"}
                         </div>
                     </div>
-                    <div class="SpacingTop"></div>
+
 <!-- dtl:block:DetailsCommunicationType -->
+                    <div class="Field SpacingTop">
+                        <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
+<!-- dtl:block:SaveAndFinishButton -->
+                        <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                        <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToWebservice').val(1);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:SaveAndFinishButton -->
+                        or
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
+                    </div>
+                    <div class="Clear"></div>
+<!--
+                    <div class="SpacingTop"></div>
                     <div class="Field SpacingTop">
                         <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
                     </div>
                     <div class="Clear"></div>
-
+                    -->
                 </form>
             </div>
         </div>

@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.5 2011-06-20 19:24:59 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.6 2011-06-25 00:25:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,7 +183,7 @@ $('#ResetRemoteSystemGuid').bind('click', function(){
                         <div class="Field SpacingTop">
                             <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
 <!-- dtl:block:SaveAndFinishButton -->
-                            <button type="submit" id="SaveAndFinishButton" class="HideOnChange" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                            <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
                             <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
