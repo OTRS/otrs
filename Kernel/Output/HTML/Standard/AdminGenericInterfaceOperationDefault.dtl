@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.13 2011-06-25 00:25:35 cg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.dtl,v 1.14 2011-06-25 18:38:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,9 +48,14 @@
                     <li>
                         <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Delete"}</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
-                            <p id="DeleteDialog" class="Warning">
-                                $Text{"Do you really want to delete this operation? All configuration data will be lost."}
+                            <span class="WarningDialog ">&nbsp;</span>
+                            <p id="DeleteDialog" class="Center Warning">
+                                $Text{"Do you really want to delete this operation?"}
                             </p>
+                            <p class="Center Warning">
+                                $Text{"All configuration data will be lost."}
+                            </p>
+                            <div class="SpacingTop"></div>
                         </div>
                     </li>
 <!-- dtl:block:ActionListDelete -->

@@ -2,7 +2,7 @@
 # AdminGenericInterfaceDebugger.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceDebugger.dtl,v 1.19 2011-05-24 15:48:01 cr Exp $
+# $Id: AdminGenericInterfaceDebugger.dtl,v 1.20 2011-06-25 18:38:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,9 +37,11 @@
                     <li>
                         <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Clear"}</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
-                            <p id="DeleteDialog" class="Warning">
+                            <span class="WarningDialog ">&nbsp;</span>
+                            <p id="DeleteDialog" class="Center Warning">
                                 $Text{"Do you really want to clear the debug log of this web service?"}
                             </p>
+                            <div class="SpacingTop"></div>
                         </div>
                     </li>
                 </ul>

@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.30 2011-06-25 00:25:35 cg Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.31 2011-06-25 18:38:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,7 +143,7 @@
                         <div class="Hidden" id="DeleteDialogContainer">
                             <div id ="DeleteDialog" class="InnerContent GenericInterfaceDialog">
                                 <span class="WarningDialog ">&nbsp;</span>
-                                <p class="Center">$Text{"Are you sure to that you want to delete this web service?"}</p>
+                                <p class="Center Warning">$Text{"Do you really want to delete this web service?"}</p>
                                 <div class="SpacingTop"></div>
                             </div>
                         </div>
