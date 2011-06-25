@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.3 2011-06-03 23:09:52 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.4 2011-06-25 18:33:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,6 @@
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
-
         </h3>
     </div>
 
@@ -49,7 +48,7 @@
                     <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" />
                     <input type="hidden" name="Operation" value="$QData{"Operation"}" />
                     <input type="hidden" name="Invoker" value="$QData{"Invoker"}" />
-                    <input type="hidden" name="Direction" value="$QData{"Direction"}" "/>
+                    <input type="hidden" name="Direction" value="$QData{"Direction"}"/>
 <!-- dtl:block:KeyCounter -->
                     <input type="hidden" name="KeyCounter" id="KeyCounter" value="$QData{"KeyIndex"}" />
 <!-- dtl:block:KeyCounter -->
@@ -72,9 +71,9 @@
 
                         <label for="DefaultKeyType">$Text{"New key map"}:</label>
                         <div class="Field">
-                            <span class="NewRule">
+                            <div class="NewRule">
                                 <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
-                            </span>
+                            </div>
                         </div>
                         <div class="Clear Spacing"></div>
                     </fieldset>
@@ -88,7 +87,7 @@
                                 </div>
                                 <h3 class="Title">$Text{"Mapping for Key "} $QData{"KeyMapNew"}</h3>
                                 <div class="AdditionalInformation SpacingTopMini">
-                                    <button type="button" id="RemoveKeyMapping" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
+                                    <button type="button" id="RemoveKeyMapping$QData{"KeyIndex"}" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
                                 </div>
                             </div>
                             <div class="Content">
@@ -117,8 +116,7 @@
                                             <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                                             to new value
                                             <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
-                                            <span class="Spacing"></span>
-                                            <button type="button" id="RemoveValueMapping$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                                            <button type="button" id="RemoveValueMapping$QData{"KeyIndex"}_$QData{"ValueIndex"}" class=" Spacing Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
                                         </div>
 <!-- dtl:block:ValueTemplateRow -->
                                     </div>
@@ -126,9 +124,9 @@
 
                                     <label for="DefaultKeyType">$Text{"New key map"}:</label>
                                     <div class="Field">
-                                        <span class="NewValueMap">
+                                        <div class="NewValueMap">
                                             <button type="button" id="AddValueMapping$QData{"KeyIndex"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
-                                        </span>
+                                        </div>
                                     </div>
                                     <div class="Clear"></div>
                                 </fieldset>
@@ -143,15 +141,14 @@
                             <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
                             to new value
                             <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
-                            <span class="Spacing"></span>
-                            <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                            <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Spacing Remove value mapping">$Text{"Remove value mapping"}</button>
                         </div>
 <!-- dtl:block:ValueTemplate -->
 
                     </div>
 
                     <div class="Field Spacing">
-                        <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
                     </div>
@@ -164,10 +161,26 @@
     </div>
 
 </div>
+<div class="Hidden" id="DeleteDialogContainer">
+    <span class="WarningDialog ">&nbsp;</span>
+    <p id="DeleteDialog" class="Center Warning">
+        $Text{"Do you really want to delete this key mapping?"}
+    </p>
+    <div class="SpacingTop"></div>
+</div>
 
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.GenericInterfaceMapping.Init({
+    WebserviceID: $QData{"WebserviceID"},
+    Localization: {
+        DeleteKeyMappingMsg: '$JSText{"Delete this Key Mapping"}',
+        DeleteMsg: '$JSText{"Delete"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+
 function ToggleMapTo(Object) {
     if (Object.val() != 'MapTo') {
         Object.next().addClass('Hidden');
@@ -199,6 +212,7 @@ function AddValueMapping(ValueInsert, KeyCounter) {
 
             // add event handler to remove button
             if( $(this).hasClass('Remove') ) {
+
                 // bind click function to add button
                 $(this).bind('click', function () {
                     $(this).parent().remove();
@@ -215,7 +229,6 @@ function AddValueMapping(ValueInsert, KeyCounter) {
 
     return false;
 };
-
 
 function AddKeyMapping() {
 
@@ -240,6 +253,7 @@ function AddKeyMapping() {
 
             // add event handler to Add button
             if( $(this).hasClass('Add') ) {
+
                 // bind click function to add button
                 $(this).bind('click', function () {
                     AddValueMapping( $(this).closest('fieldset').find('.ValueInsert'), KeyCounter );
@@ -248,17 +262,17 @@ function AddKeyMapping() {
             }
 
             if( $(this).hasClass('Remove') ) {
+
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    if( confirm ('Do you really want to delete this key mapping?') ) {
-                        $(this).closest('.WidgetKey').remove();
-                    }
+                    Core.Agent.Admin.GenericInterfaceMapping.ShowDeleteDialog( $(this).attr('id') );
                     return false;
                 });
             }
 
             if($(this).hasClass('DefaultType')) {
                 $(this).bind('change', function(){
+
                     // call function to hide or show
                     // MapTo field
                     ToggleMapTo($(this));
@@ -267,6 +281,7 @@ function AddKeyMapping() {
 
             if($(this).hasClass('NewValue')) {
                 $(this).bind('change', function(){
+
                     // modified title
                     $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
                 });
@@ -290,6 +305,7 @@ function AddKeyMapping() {
 
 
 $('.DefaultType').bind('change', function(){
+
     // call function to hide or show
     // MapTo field
     ToggleMapTo($(this));
@@ -303,6 +319,7 @@ $('#AddKeyMapping').bind('click', function () {
 
 // register change new key name action
 $('.NewValue').bind('change', function(){
+
     // modified title
     $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
 });
@@ -310,10 +327,8 @@ $('.NewValue').bind('change', function(){
 
 // register remove key action
 $('.AdditionalInformation .Remove').bind('click', function () {
-    if( confirm ('Do you really want to delete this key mapping?') ) {
-        $(this).closest('.WidgetKey').remove();
-    }
-    return false;
+      Core.Agent.Admin.GenericInterfaceMapping.ShowDeleteDialog( $(this).attr('id') );
+      return false;
 });
 
 //bind click function to add button
