@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.34 2011-06-27 20:01:52 cr Exp $
+# $Id: SOAP.pm,v 1.35 2011-06-27 21:58:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -580,7 +580,7 @@ sub RequesterPerformRequest {
 
     my $Body = $Deserialized->body();
 
-    # checl if we got a SOAP Fault message
+    # check if we got a SOAP Fault message
     if ( exists $Body->{'Fault'} ) {
         return {
             Success => 1,
@@ -1098,6 +1098,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2011-06-27 20:01:52 $
+$Revision: 1.35 $ $Date: 2011-06-27 21:58:34 $
 
 =cut
