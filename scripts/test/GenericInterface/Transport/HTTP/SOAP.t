@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.14 2011-06-23 22:31:22 cr Exp $
+# $Id: SOAP.t,v 1.15 2011-06-27 20:19:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -636,15 +636,14 @@ my @Tests = (
         ExpectedReturnData => {
             Success => 1,
             Data    => {
-                ErrorData => {
-                    PriorityName => [ '5 very high', '4 high' ],
-                },
+                faultcode   => 'Server',
+                faultstring => 'Error message for error code: 123',
             },
         },
         WebserviceConfig => {
             Name => 'SOAPTest1',
             Description =>
-                'Operation handling rrrors test for provider and requester using SOAP transport backend.',
+                'Operation handling errors test for provider and requester using SOAP transport backend.',
             Debugger => {
                 DebugThreshold => 'debug',
                 TestMode       => 1,
