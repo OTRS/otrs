@@ -2,7 +2,7 @@
 # Test.t - Operations tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.t,v 1.7 2011-06-27 20:05:11 cg Exp $
+# $Id: Test.t,v 1.8 2011-06-27 20:16:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ my @OperationTests = (
             },
         },
         ResultErrorMessage => 'Error message for error code: 123',
-        ResultSuccess      => 1,
+        ResultSuccess      => 0,
     },
 );
 
