@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.32 2011-06-13 17:27:54 cr Exp $
+# $Id: SOAP.pm,v 1.33 2011-06-27 19:16:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -257,7 +257,8 @@ The HTTP code is set accordingly
 - 500 for content syntax errors
 
     my $Result = $TransportObject->ProviderGenerateResponse(
-        Data            => { # data payload for response, optional
+        Success => 1m
+        Data    => { # data payload for response, optional
             ...
         },
     );
@@ -288,6 +289,22 @@ sub ProviderGenerateResponse {
         );
     }
 
+    my $OperationResponse = $Self->{Operation} . 'Response';
+
+    # check success param
+    if ( !$Param{Success} ) {
+
+        # create SOAP Fault structure
+        my $FaultString = $Param{ErrorMessage} || 'Unknown';
+        $Param{Data} = {
+            faultcode   => 'Server',
+            faultstring => $FaultString,
+        };
+
+        # override OperationResponse string to Fault to make the corect SOAP envelope
+        $OperationResponse = 'Fault';
+    }
+
     # prepare data
     my $SOAPResult;
     if ( defined $Param{Data} && IsHashRefWithData( $Param{Data} ) ) {
@@ -313,7 +330,7 @@ sub ProviderGenerateResponse {
     }
 
     # create return structure
-    my @CallData = ( 'response', $Self->{Operation} . 'Response' );
+    my @CallData = ( 'response', $OperationResponse );
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
@@ -1072,6 +1089,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2011-06-13 17:27:54 $
+$Revision: 1.33 $ $Date: 2011-06-27 19:16:16 $
 
 =cut
