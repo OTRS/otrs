@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.121 2011-06-24 18:36:13 en Exp $
+# $Id: CHANGES,v 1.1758.2.122 2011-06-27 20:12:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.9 2011-??-??
+ - 2011-06-27 Fixed bug#7367 - No notification of notes when ticket is closed.
  - 2011-06-24 Fixed bug#7335 - No empty state selection in AgentTicketForward.
  - 2011-06-22 Fixed bug#7433 - CustomerTicketZoom is not able to display owner and/or responsible.
  - 2011-06-21 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
