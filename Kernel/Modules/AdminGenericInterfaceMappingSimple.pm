@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.3 2011-06-03 23:07:43 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.4 2011-06-28 22:34:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -160,15 +160,6 @@ sub Run {
         #            }
         #        }
 
-        #        # check if endpoind is required
-        #        if ( $CommunicationType ne 'Provider' && !$GetParam->{Endpoint} ) {
-        #
-        #            # add server error error class
-        #            $Error{EndpointServerError} = 'ServerError';
-        #            $Error{EndpointServerErrorMessage} =
-        #                'This field is required';
-        #        }
-
         # set new mapping
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}
             ->{Config}
@@ -194,10 +185,6 @@ sub Run {
             ValidID => $WebserviceData->{ValidID},
             UserID  => $Self->{UserID},
         );
-
-        # get webserice configuration
-        #        my $WebserviceData2 =
-        #            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
         return $Self->_ShowEdit(
             %Param,
@@ -425,35 +412,6 @@ sub _ShowEdit {
         Name => 'ValueTemplate',
         Data => { %Param, },
     );
-
-    #    $Self->{LayoutObject}->Block(
-    #        Name => 'WebservicePathElement',
-    #        Data => {
-    #            Name => 'Web Services',
-    #            Link => 'Action=AdminGenericInterfaceWebservice',
-    #            Nav  => '',
-    #        },
-    #    );
-    #    $Self->{LayoutObject}->Block(
-    #        Name => 'WebservicePathElement',
-    #        Data => {
-    #            Name => $Param{WebserviceName},
-    #            Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Subaction}
-    #                . ';WebserviceID=' . $Param{WebserviceID},
-    #            Nav => '',
-    #        },
-    #    );
-    #
-    #    $Self->{LayoutObject}->Block(
-    #        Name => 'WebservicePathElement',
-    #        Data => {
-    #            Name => ' Transport ' . $Param{Type},
-    #            Link => 'Action=AdminGenericInterfaceMappingSimple;Subaction=' . $Param{Subaction}
-    #                . ';CommunicationType='
-    #                . ';WebserviceID=' . $Param{WebserviceID},
-    #            Nav => '',
-    #        },
-    #    );
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericInterfaceMappingSimple',

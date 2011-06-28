@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.4 2011-06-25 18:33:01 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.5 2011-06-28 22:34:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,7 +169,6 @@
     <div class="SpacingTop"></div>
 </div>
 
-
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.GenericInterfaceMapping.Init({
@@ -180,171 +179,5 @@ Core.Agent.Admin.GenericInterfaceMapping.Init({
         CancelMsg: '$JSText{"Cancel"}'
     }
 });
-
-function ToggleMapTo(Object) {
-    if (Object.val() != 'MapTo') {
-        Object.next().addClass('Hidden');
-        Object.next().removeClass('Validate_Required');
-    }
-    else {
-        Object.next().removeClass('Hidden');
-        Object.next().addClass('Validate_Required');
-    }
-}
-
-function AddValueMapping(ValueInsert, KeyCounter) {
-
-        // clone key dialog
-        var $Clone = $('.ValueTemplate').clone(),
-            ValueCounter = $('#ValueCounter' + KeyCounter).val();
-
-        // increment key counter
-        ValueCounter ++;
-
-        // remove unnecessary classes
-        $Clone.removeClass('Hidden ValueTemplate');
-
-        // copy values and change ids and names
-        $Clone.find(':input').each(function(){
-            var ID = $(this).attr('id');
-            $(this).attr('id', ID + KeyCounter + '_' + ValueCounter);
-            $(this).attr('name', ID + KeyCounter + '_' +ValueCounter);
-
-            // add event handler to remove button
-            if( $(this).hasClass('Remove') ) {
-
-                // bind click function to add button
-                $(this).bind('click', function () {
-                    $(this).parent().remove();
-                    return false;
-                });
-            }
-        });
-
-        // append to container
-        ValueInsert.append($Clone);
-
-        // set new value for KeyCounter
-        $('#ValueCounter' + KeyCounter).val(ValueCounter);
-
-    return false;
-};
-
-function AddKeyMapping() {
-
-        // clone key dialog
-        var $Clone = $('.KeyTemplate').clone(),
-            KeyCounter = $('#KeyCounter').val();
-
-        // increment key counter
-        KeyCounter ++;
-
-        // remove unnecessary classes
-        $Clone.removeClass('Hidden KeyTemplate');
-
-        // add title
-        $Clone.find('.Title').html('Mapping for Key');
-
-        // copy values and change ids and names
-        $Clone.find(':input').each(function(){
-            var ID = $(this).attr('id');
-            $(this).attr('id', ID + KeyCounter);
-            $(this).attr('name', ID + KeyCounter);
-
-            // add event handler to Add button
-            if( $(this).hasClass('Add') ) {
-
-                // bind click function to add button
-                $(this).bind('click', function () {
-                    AddValueMapping( $(this).closest('fieldset').find('.ValueInsert'), KeyCounter );
-                    return false;
-                });
-            }
-
-            if( $(this).hasClass('Remove') ) {
-
-                // bind click function to add button
-                $(this).bind('click', function () {
-                    Core.Agent.Admin.GenericInterfaceMapping.ShowDeleteDialog( $(this).attr('id') );
-                    return false;
-                });
-            }
-
-            if($(this).hasClass('DefaultType')) {
-                $(this).bind('change', function(){
-
-                    // call function to hide or show
-                    // MapTo field
-                    ToggleMapTo($(this));
-                });
-            }
-
-            if($(this).hasClass('NewValue')) {
-                $(this).bind('change', function(){
-
-                    // modified title
-                    $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
-                });
-            }
-        });
-
-        // append to container
-        $('#KeyInsert').append($Clone);
-
-        // reset template row values
-        $('.NewRule').find(':input:not(:button)').attr('value','');
-        $('#KeyMapTypeStrg' + KeyCounter).focus();
-
-        // set new value for KeyCounter
-        $('#KeyCounter').val(KeyCounter);
-
-        // init toggle action
-        Core.UI.InitWidgetActionToggle();
-    return false;
-};
-
-
-$('.DefaultType').bind('change', function(){
-
-    // call function to hide or show
-    // MapTo field
-    ToggleMapTo($(this));
-});
-
-// register add of attribute
-$('#AddKeyMapping').bind('click', function () {
-    AddKeyMapping();
-    return false;
-});
-
-// register change new key name action
-$('.NewValue').bind('change', function(){
-
-    // modified title
-    $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
-});
-
-
-// register remove key action
-$('.AdditionalInformation .Remove').bind('click', function () {
-      Core.Agent.Admin.GenericInterfaceMapping.ShowDeleteDialog( $(this).attr('id') );
-      return false;
-});
-
-//bind click function to add button
-$('.ValueAdd').bind('click', function () {
-    AddValueMapping(
-        $(this).closest('fieldset').find('.ValueInsert'),
-        $(this).closest('fieldset').find('.ValueCounter').val()
-    );
-    return false;
-});
-
-//bind click function to add button
-$('.ValueRemove').bind('click', function () {
-    $(this).parent().remove();
-    return false;
-});
-
 //]]></script>
 <!-- dtl:js_on_document_complete -->
