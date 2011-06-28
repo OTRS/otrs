@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.20 2011-03-29 12:36:15 mg Exp $
+# $Id: Provider.pm,v 1.21 2011-06-28 16:37:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -264,7 +264,16 @@ sub Run {
             Summary => 'Operation could not be initialized',
             Data    => $OperationObject,
         );
-        return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+        # set default error message
+        my $ErrorMessage = 'Unknow error in Operation initialization';
+
+        # check if we got an error message from the operation and overite it
+        if ( IsHashRefWithData($OperationObject) && $OperationObject->{ErrorMessage} ) {
+            $ErrorMessage = $OperationObject->{ErrorMessage};
+        }
+
+        return $Self->_GenerateErrorResponse( ErrorMessage => $ErrorMessage );
     }
 
     $FunctionResult = $OperationObject->Run(
@@ -387,6 +396,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-03-29 12:36:15 $
+$Revision: 1.21 $ $Date: 2011-06-28 16:37:03 $
 
 =cut
