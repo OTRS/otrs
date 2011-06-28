@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.106 2011-06-24 18:37:42 en Exp $
+# $Id: AgentTicketForward.pm,v 1.107 2011-06-28 16:41:15 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -492,9 +492,14 @@ sub SendEmail {
     }
 
     my $QueueID   = $Self->{QueueID};
-    my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-        ID => $GetParam{ComposeStateID},
-    );
+    my %StateData = ();
+
+    if ( $GetParam{ComposeStateID} ) {
+        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $GetParam{ComposeStateID},
+        );
+    }
+
     my $NextState = $StateData{Name};
 
     # check pending date
@@ -956,12 +961,13 @@ sub SendEmail {
         UserID    => $Self->{UserID},
     );
 
-    # should I set an unlock?
-    if ( $StateData{TypeName} =~ /^close/i ) {
-        $Self->{TicketObject}->TicketLockSet(
-            TicketID => $Self->{TicketID},
-            Lock     => 'unlock',
-            UserID   => $Self->{UserID},
+    # set state
+    if ($NextState) {
+        $Self->{TicketObject}->TicketStateSet(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $ArticleID,
+            State     => $NextState,
+            UserID    => $Self->{UserID},
         );
     }
 
