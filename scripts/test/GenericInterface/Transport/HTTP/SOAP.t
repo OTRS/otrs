@@ -2,7 +2,7 @@
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.15 2011-06-27 20:19:40 cr Exp $
+# $Id: SOAP.t,v 1.16 2011-06-28 16:00:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -626,7 +626,7 @@ my @Tests = (
 
     {
         Name           => 'Test 8',
-        SuccessRequest => '1',
+        SuccessRequest => '0',
         RequestData    => {
             TestError => 123,
             ErrorData => {
@@ -634,11 +634,8 @@ my @Tests = (
             },
         },
         ExpectedReturnData => {
-            Success => 1,
-            Data    => {
-                faultcode   => 'Server',
-                faultstring => 'Error message for error code: 123',
-            },
+            Success      => 0,
+            ErrorMessage => 'faultcode: Server, faultstring: Error message for error code: 123',
         },
         WebserviceConfig => {
             Name => 'SOAPTest1',
@@ -732,6 +729,14 @@ for my $Test (@Tests) {
             $RequesterResult->{Success},
             "$Test->{Name} - Requester unsuccessful result",
         );
+
+        if ( $Test->{ExpectedReturnData} ) {
+            $Self->IsDeeply(
+                $RequesterResult,
+                $Test->{ExpectedReturnData},
+                "$Test->{Name} - Requester unsuccessful status (needs configured and running webserver)",
+            );
+        }
 
         next;
     }
