@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.505 2011-06-21 12:31:23 mb Exp $
+# $Id: Ticket.pm,v 1.506 2011-06-29 14:48:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.505 $) [1];
+$VERSION = qw($Revision: 1.506 $) [1];
 
 =head1 NAME
 
@@ -8217,7 +8217,7 @@ sub TicketArticleStorageSwitch {
         }
 
         # nothing to transfer
-        return 1 if !@Attachments && !$Plain;
+        next ARTICLEID if !@Attachments && !$Plain;
 
         # write target attachments
         $Self->{ConfigObject}->Set(
@@ -8489,6 +8489,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.505 $ $Date: 2011-06-21 12:31:23 $
+$Revision: 1.506 $ $Date: 2011-06-29 14:48:28 $
 
 =cut
