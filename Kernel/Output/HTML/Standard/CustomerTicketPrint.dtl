@@ -1,8 +1,8 @@
 # --
 # CustomerTicketPrint.dtl - provides HTML print view
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.16 2010-11-26 13:29:24 mb Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.17 2011-06-29 19:03:00 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,18 +24,24 @@
                 <tr>
                     <td width="50%" valign="top">
                         <table border="0" cellspacing="3" cellpadding="0" width="100%">
+<!-- dtl:block:TicketState -->
                             <tr>
                                 <td class="contentkey" width="40%">$Text{"State"}:</td>
                                 <td class="contentvalue" width="60%">$Text{"$Data{"State"}"}</td>
                             </tr>
+<!-- dtl:block:TicketState -->
+<!-- dtl:block:TicketPriority -->
                             <tr>
                                 <td class="contentkey">$Text{"Priority"}:</td>
                                 <td class="contentvalue">$Text{"$Data{"Priority"}"}</td>
                             </tr>
+<!-- dtl:block:TicketPriority -->
+<!-- dtl:block:TicketQueue -->
                             <tr>
                                 <td class="contentkey">$Text{"Queue"}:</td>
                                 <td class="contentvalue">$QData{"Queue"}</td>
                             </tr>
+<!-- dtl:block:TicketQueue -->
 <!-- dtl:block:TicketType -->
                             <tr>
                                 <td class="contentkey">$Text{"Type"}:</td>
@@ -47,11 +53,25 @@
                                 <td class="contentkey">$Text{"Service"}:</td>
                                 <td class="contentvalue">$QData{"Service"}</td>
                             </tr>
+<!-- dtl:block:TicketService -->
+<!-- dtl:block:TicketSLA -->
                             <tr>
                                 <td class="contentkey">$Text{"SLA"}:</td>
                                 <td class="contentvalue">$QData{"SLA"}</td>
                             </tr>
-<!-- dtl:block:TicketService -->
+<!-- dtl:block:TicketSLA -->
+<!-- dtl:block:TicketOwner -->
+                            <tr>
+                                <td class="contentkey">$Text{"Owner"}:</td>
+                                <td class="contentvalue">$QData{"Owner"}</td>
+                            </tr>
+<!-- dtl:block:TicketOwner -->
+<!-- dtl:block:TicketResponsible -->
+                            <tr>
+                                <td class="contentkey">$Text{"Responsible"}:</td>
+                                <td class="contentvalue">$QData{"Responsible"}</td>
+                            </tr>
+<!-- dtl:block:TicketResponsible -->
                         </table>
                     </td>
                     <td width="50%" valign="top">
