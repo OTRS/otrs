@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Popup.js,v 1.11.2.2 2011-04-19 12:14:49 mn Exp $
+// $Id: Core.UI.Popup.js,v 1.11.2.3 2011-06-30 09:44:36 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -125,9 +125,10 @@ Core.UI.Popup = (function (TargetNS) {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
-            // Therefor we check if the popup has a defined WindowType, because this is a
-            // special OTRS property, which is only present at real OTRS popups
-            if (Value.WindowType) {
+            // Therefor we check if the popup is a real OTRS popup.
+            // IE9 can't read the WindowType property from the window object,
+            // so we check for the correct popup window name now.
+            if (Value.name.match(/OTRSPopup_.+/)) {
                 Size++;
             }
         });
@@ -146,9 +147,10 @@ Core.UI.Popup = (function (TargetNS) {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
-            // Therefor we check if the popup has a defined WindowType, because this is a
-            // special OTRS property, which is only present at real OTRS popups
-            if (Value.WindowType) {
+            // Therefor we check if the popup is a real OTRS popup.
+            // IE9 can't read the WindowType property from the window object,
+            // so we check for the correct popup window name now.
+            if (Value.name.match(/OTRSPopup_.+/)) {
                 TargetNS.ClosePopup(Value);
             }
         });
@@ -162,7 +164,8 @@ Core.UI.Popup = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.RegisterPopupAtParentWindow = function (WindowObject) {
-        var Type = WindowObject.WindowType;
+        var TypeRegEx = /OTRSPopup_([^_]+)_.*/.exec(WindowObject.name),
+            Type = RegExp.$1;
         if (typeof OpenPopups[Type] === 'undefined') {
             OpenPopups[Type] = WindowObject;
         }
@@ -181,7 +184,7 @@ Core.UI.Popup = (function (TargetNS) {
      */
     TargetNS.InitRegisterPopupAtParentWindow = function () {
         window.setTimeout(function () {
-            if (window.WindowType &&
+            if (window.name.match(/OTRSPopup_.+/) &&
                 window.opener &&
                 window.opener.Core &&
                 window.opener.Core.UI &&
@@ -252,10 +255,10 @@ Core.UI.Popup = (function (TargetNS) {
                  * Special treatment for the window name. At least in some browsers, window names
                  *  are global, so only one popup window with a particular name may exist across
                  *  all browser tabs. To avoid conflicts with that, we use 'randomized' names
-                 *  by including the current time in the name string. This name is not needed
-                 *  for anything as we keep track of the popup windows on our own.
+                 *  by including the current time in the name string. This name is also needed
+                 *  to save the Type parameter.
                  */
-                WindowName = 'OTRSPopup' + Date.parse(new Date());
+                WindowName = 'OTRSPopup_' + Type + '_' + Date.parse(new Date());
                 NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile]);
 
                 // check for popup blockers.
@@ -266,7 +269,6 @@ Core.UI.Popup = (function (TargetNS) {
                 }
                 else {
                     OpenPopups[Type] = NewWindow;
-                    OpenPopups[Type].WindowType = Type;
                 }
             }
         }
@@ -305,7 +307,7 @@ Core.UI.Popup = (function (TargetNS) {
         Core.UI.Popup.RegisterPopupEvent();
 
         // if this window is a popup itself, register another function
-        if (window.WindowType && window.opener !== null) {
+        if (window.name.match(/OTRSPopup_.+/) && window.opener !== null) {
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
             $('.CancelClosePopup').bind('click', function () {
                 window.close();
