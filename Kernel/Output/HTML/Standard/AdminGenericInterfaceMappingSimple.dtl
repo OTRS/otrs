@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.5 2011-06-28 22:34:29 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.6 2011-06-30 22:09:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,6 +57,12 @@
                         <div class="Field">
                             $Data{"DefaultKeyTypeStrg"}
                             <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc $QData{"DefaultKeyMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                            <div id="DefaultKeyMapToError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="DefaultKeyMapToServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <p class="FieldExplanation">$Text{"This rule will apply for all keys with no mapping rule."}</p>
                         </div>
                         <div class="Clear"></div>
@@ -65,6 +71,12 @@
                         <div class="Field">
                             $Data{"DefaultValueTypeStrg"}
                             <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc $QData{"DefaultValueMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
+                            <div id="DefaultValueMapToError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="DefaultValueMapToServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <p class="FieldExplanation">$Text{"This rule will apply for all values with no mapping rule."}</p>
                         </div>
                         <div class="Clear"></div>
@@ -98,8 +110,21 @@
                                         Map key matching the
                                         $Data{"KeyMapTypeStrg"}
                                         <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"KeyName"}"/>
+                                        <div id="KeyName$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
+                                        <div id="KeyName$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
                                         to new name
-                                        <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
+                                        <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc Validate_Required NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
+                                        <div id="KeyMapNew$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
+                                        <div id="KeyMapNew$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
+                                        <input type="hidden" id="KeyCounter$QData{"KeyIndex"}" value="$QData{"KeyIndex"}" class="KeyCounter" />
                                     </div>
                                     <div class="Clear"></div>
 
@@ -110,13 +135,25 @@
 <!-- dtl:block:ValueTemplateRowIndex -->
                                         <div class="Spacing"></div>
 <!-- dtl:block:ValueTemplateRow -->
-                                        <div class="ValueTemplateRow">
+                                        <div class="ValueTemplateRow SpacingTopSmall">
                                             Map values matching the
                                             $Data{"ValueMapTypeStrg"}
-                                            <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            <div id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
+                                            <div id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
                                             to new value
-                                            <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
-                                            <button type="button" id="RemoveValueMapping$QData{"KeyIndex"}_$QData{"ValueIndex"}" class=" Spacing Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                                            <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                                            <div id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
+                                            <div id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
+                                            <button type="button" id="RemoveValueMapping$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
                                         </div>
 <!-- dtl:block:ValueTemplateRow -->
                                     </div>
@@ -135,12 +172,24 @@
 <!-- dtl:block:KeyTemplate -->
 
 <!-- dtl:block:ValueTemplate -->
-                        <div class="ValueTemplate Hidden">
+                        <div class="ValueTemplate SpacingTopSmall Hidden">
                             Map values matching the
                             $Data{"ValueMapTypeStrg"}
                             <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
+                            <div id="ValueNameError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValueNameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             to new value
                             <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+                            <div id="ValueMapNewError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValueMapNewServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
                             <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Spacing Remove value mapping">$Text{"Remove value mapping"}</button>
                         </div>
 <!-- dtl:block:ValueTemplate -->

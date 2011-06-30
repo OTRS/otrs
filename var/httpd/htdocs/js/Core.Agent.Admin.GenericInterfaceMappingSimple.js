@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMapping.js,v 1.2 2011-06-28 22:34:29 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.1 2011-06-30 22:09:55 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Localization = Params.Localization;
 
+        $('.KeyTemplate').find(':input').removeClass('Validate_Required');
         $('.DefaultType').bind('change', function(){
 
             // call function to hide or show
@@ -64,7 +65,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         $('.ValueAdd').bind('click', function () {
             TargetNS.AddValueMapping(
                 $(this).closest('fieldset').find('.ValueInsert'),
-                $(this).closest('fieldset').find('.ValueCounter').val()
+                $(this).closest('fieldset').find('.KeyCounter').val()
             );
             return false;
         });
@@ -103,6 +104,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
             var ID = $(this).attr('id');
             $(this).attr('id', ID + KeyCounter);
             $(this).attr('name', ID + KeyCounter);
+            $(this).addClass('Validate_Required');
 
             // add event handler to Add button
             if( $(this).hasClass('Add') ) {
@@ -167,19 +169,23 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
         // clone key dialog
         var $Clone = $('.ValueTemplate').clone(),
-            ValueCounter = $('#ValueCounter' + KeyCounter).val();
+            ValueCounter = $('#ValueCounter' + KeyCounter).val(),
+            Sufix;
 
-        // increment key counter
+        // increment value counter
         ValueCounter ++;
 
+        Sufix = KeyCounter + '_' + ValueCounter;
+        
         // remove unnecessary classes
         $Clone.removeClass('Hidden ValueTemplate');
 
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
             var ID = $(this).attr('id');
-            $(this).attr('id', ID + KeyCounter + '_' + ValueCounter);
-            $(this).attr('name', ID + KeyCounter + '_' +ValueCounter);
+            $(this).attr('id', ID + Sufix);
+            $(this).attr('name', ID + Sufix);
+            $(this).addClass('Validate_Required');
 
             // add event handler to remove button
             if( $(this).hasClass('Remove') ) {
@@ -190,10 +196,16 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
                     return false;
                 });
             }
-        });
 
+            $(this).parent().find('#' + ID + 'Error').attr('id', ID + Sufix + 'Error');
+            $(this).parent().find('#' + ID + 'Error').attr('name', ID + Sufix + 'Error');
+
+            $(this).parent().find('#' + ID + 'ServerError').attr('id', ID + Sufix + 'ServerError');
+            $(this).parent().find('#' + ID + 'ServerError').attr('name', ID + Sufix + 'ServerError');
+        });
         // append to container
         ValueInsert.append($Clone);
+
 
         // set new value for KeyCounter
         $('#ValueCounter' + KeyCounter).val(ValueCounter);

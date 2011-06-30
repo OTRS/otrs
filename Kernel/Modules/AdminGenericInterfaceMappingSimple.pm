@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.4 2011-06-28 22:34:29 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.5 2011-06-30 22:09:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -215,11 +215,11 @@ sub _ShowEdit {
 
     $Param{DefaultKeyMapTo} = $MappingConfig->{KeyMapDefault}->{MapTo};
     $Param{DefaultKeyMapToHidden} =
-        $MappingConfig->{KeyMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : '';
+        $MappingConfig->{KeyMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
 
     $Param{DefaultValueMapTo} = $MappingConfig->{ValueMapDefault}->{MapTo};
     $Param{DefaultValueMapToHidden} =
-        $MappingConfig->{ValueMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : '';
+        $MappingConfig->{ValueMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
 
     # select object for keys
     $Param{DefaultKeyTypeStrg} = $Self->{LayoutObject}->BuildSelection(
