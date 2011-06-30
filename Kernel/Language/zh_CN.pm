@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.88.2.3 2011-05-16 20:41:25 mp Exp $
+# $Id: zh_CN.pm,v 1.88.2.4 2011-06-30 11:34:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.3 $) [1];
+$VERSION = qw($Revision: 1.88.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -307,7 +307,7 @@ sub Data {
         'City' => '城市',
         'Street' => '街道',
         'Country' => '国家',
-        'Location' => '区',
+        'Location' => '区域',
         'installed' => '已安装',
         'uninstalled' => '未安装',
         'Security Note: You should activate %s because application is already running!' => '安全提示: 您不能激活的 %s, 因为此应用已经在运行!',
@@ -1703,7 +1703,7 @@ sub Data {
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        'Powered by' => '驱动方',
+        'Powered by' => '基于',
         'One or more errors occurred!' => '',
         'Close this dialog' => '关闭该对话',
         'Could not open popup window. Please disable any popup blockers for this application.' => '',
