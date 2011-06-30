@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.106.2.3 2011-06-22 08:47:35 mb Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.106.2.4 2011-06-30 18:53:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,16 +29,16 @@
                 <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
-                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}","18"}</span></li>
+                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}"}</span></li>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}","18"}</span></li>
+                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}"}</span></li>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:State -->
-                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</span></li>
+                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</span></li>
 <!-- dtl:block:State -->
 <!-- dtl:block:Priority -->
-                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</span></li>
+                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
                 <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
