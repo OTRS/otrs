@@ -2,7 +2,7 @@
 # CustomerTicketOverview.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.dtl,v 1.2 2011-06-22 09:13:52 mb Exp $
+# $Id: CustomerTicketOverview.dtl,v 1.3 2011-07-01 08:00:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,36 +91,34 @@
                 <a class="$QData{"ClassA"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};Filter=$LQData{"Filter"};SortBy=$LQData{"SortBy"};OrderBy=$LQData{"OrderBy"};">
                     $Text{"$Data{"Name"}"} ($QData{"Count"})
                 </a>
+            </li>
 <!-- dtl:block:FilterFooterItem -->
-                <li class="Clear"></li>
-            </ul>
-            <div class="Tabs Pagination">
-                $Data{"SiteNavBar"}
-            </div>
-            <div class="Clear"></div>
+            <li class="Clear"></li>
+        </ul>
+        <div class="Tabs Pagination">
+            $Data{"SiteNavBar"}
         </div>
+        <div class="Clear"></div>
+    </div>
 <!-- dtl:block:FilterFooter -->
 <!-- dtl:block:Filled -->
 
 <!-- dtl:block:Empty -->
-        <div class="Placeholder">
-
+    <div class="Placeholder">
 <!-- dtl:block:EmptyDefault -->
-            <h2>$Text{"Welcome!"}</h2>
-            <p>
-                $Text{"Please click the button below to create your first ticket."}
-            </p>
-            <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first ticket"}</a>
+        <h2>$Text{"Welcome!"}</h2>
+        <p>
+            $Text{"Please click the button below to create your first ticket."}
+        </p>
+        <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$Text{"Create your first ticket"}</a>
 <!-- dtl:block:EmptyDefault -->
 <!-- dtl:block:EmptyCustom -->
-            <h2>$QData{"Title"}</h2>
-            <p>
-                $QData{"Text"}
-            </p>
-            <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$QData{"Button"}</a>
+        <h2>$QData{"Title"}</h2>
+        <p>
+            $QData{"Text"}
+        </p>
+        <a class="Button" href="$Env{"Baselink"}Action=CustomerTicketMessage">$QData{"Button"}</a>
 <!-- dtl:block:EmptyCustom -->
-
-        </div>
-<!-- dtl:block:Empty -->
-
     </div>
+<!-- dtl:block:Empty -->
+</div>
