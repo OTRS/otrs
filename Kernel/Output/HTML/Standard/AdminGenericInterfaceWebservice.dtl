@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.31 2011-06-25 18:38:09 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.32 2011-07-01 10:18:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -198,9 +198,9 @@
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Description"}</th>
-                            <th>$Text{"Remote System"}</th>
-                            <th>$Text{"Provider Transport"}</th>
-                            <th>$Text{"Requester Transport"}</th>
+                            <th>$Text{"Remote system"}</th>
+                            <th>$Text{"Provider transport"}</th>
+                            <th>$Text{"Requester transport"}</th>
                             <th>$Text{"Validity"}</th>
                         </tr>
                     </thead>
@@ -252,12 +252,14 @@
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                 </div>
                                 <div class="Clear"></div>
+
                                 <label for="Description">$Text{"Description"}:</label>
                                 <div class="Field">
                                     <input id="Description" class="W50pc HideTrigger" type="text" maxlength="250" value="$QData{"Description"}" name="Description"/>
                                 </div>
                                 <div class="Clear"></div>
-                                <label for="RemoteSystem">$Text{"Remote System"}:</label>
+
+                                <label for="RemoteSystem">$Text{"Remote system"}:</label>
                                 <div class="Field">
                                     <input id="RemoteSystem" class="W50pc HideTrigger" type="text" maxlength="250" value="$QData{"RemoteSystem"}" name="RemoteSystem"/>
                                 </div>
@@ -266,17 +268,17 @@
                         </div>
                         <div class="Size1of2">
                             <fieldset class="TableLike">
-                                <label for="DebugThreshold">$Text{"Debug Threshold"}:</label>
+                                <label for="DebugThreshold">$Text{"Debug threshold"}:</label>
                                 <div class="Field">
                                     $Data{"DebugThresholdStrg"}
                                 </div>
                                 <div class="Clear"></div>
+
                                 <label for="ValidID">$Text{"Validity"}:</label>
                                 <div class="Field">
                                     $Data{"ValidtyStrg"}
                                 </div>
                                 <div class="Clear"></div>
-
                             </fieldset>
                         </div>
                     </div>
@@ -300,9 +302,7 @@
                             <h3>$Text{"$Data{"Title"}"}</h3>
                         </div>
                         <div class="Content">
-                            <div class="Header">
-                                <h4>$Text{"Settings"}</h4>
-                            </div>
+                            <h4 class="SpacingTop SpacingBottom">$Text{"Settings"}</h4>
                             <fieldset class="TableLike">
                                 <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
                                 <div class="Field">
@@ -312,18 +312,15 @@
 <!-- dtl:block:DetailsTransportPropertiesButton -->
                                 </div>
                             </fieldset>
-                            <div class="SpacingTop"></div>
-                            <div class="Header">
-                                <h4>$Text{"$Data{"ActionsTitle"}"}</h4>
-                            </div>
+                            <h4 class="SpacingTop SpacingBottom">$Text{"$Data{"ActionsTitle"}"}</h4>
                             <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
                                     <tr>
                                         <th>$Text{"Name"}</th>
                                         <th>$Text{"Description"}</th>
                                         <th>$Text{"Controller"}</th>
-                                        <th>$Text{"Mapping Inbound"}</th>
-                                        <th>$Text{"Mapping Outbound"}</th>
+                                        <th>$Text{"Inbound mapping"}</th>
+                                        <th>$Text{"Outbound mapping"}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -354,11 +351,12 @@
                     </div>
 
 <!-- dtl:block:DetailsCommunicationType -->
-                    <div class="Field SpacingTop">
-                        <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
 <!-- dtl:block:SaveAndFinishButton -->
-                        <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
-                        <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+                            <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                            <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#SaveAndFinishButton').bind('click', function(){
@@ -367,19 +365,11 @@ $('#SaveAndFinishButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
-                        or
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
-                    </div>
-                    <div class="Clear"></div>
-<!--
-                    <div class="SpacingTop"></div>
-                    <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
-                        $Text{"or"}
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
-                    </div>
-                    <div class="Clear"></div>
-                    -->
+                            or
+                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
                 </form>
             </div>
         </div>
