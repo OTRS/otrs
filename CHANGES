@@ -2,12 +2,64 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.128 2011-07-01 07:30:48 mg Exp $
+# $Id: CHANGES,v 1.1920 2011-07-01 07:31:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.0 beta1 2011-??-??
+ - 2011-06-21 TicketGet() now also returns ChangeBy and CreateBy.
+ - 2011-06-06 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
+ - 2011-05-20 Added feature bug#7340 - It's not possible to sort tickets on last changed date.
+ - 2011-05-18 Added feature bug#7207 - Display warning if user is logged in and out-of-office
+    is activated.
+ - 2011-05-16 Added feature bug#7316 - Possibility to exclude articles of certain sender types from
+    being displayed in OverviewPreview mode and to display a certain article type as expanded when
+    entering the view.
+ - 2011-05-03 Added feature Ideascale#488 - Use ticket number in the URL to access to
+    its zoom view.
+ - 2011-05-02 Added feature bug#6108 / Ideascale#87 - add the possibility to
+    register inbound phone conversations.
+ - 2011-04-29 Added enhancement bug#7267 0 Performance issue in dtl with large
+    pages. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
+ - 2011-04-29 Added enhancement bug#7266 - Performance issue in ticket zoom -
+    article seen with many article. Thanks to Stelios Gikas <stelios.gikas@noris.net>!
+ - 2011-04-27 Added feature bug#5484 / IdeaScale#497 - Bulk action to set/change Ticket Type.
+ - 2011-04-27 Added feature bug#7258 - Stats output always has a timestamp and report name in
+    the filename.
+ - 2011-04-27 Fixed bug#7257 - Stats CSV outputs report name and timestamp as first line.
+ - 2011-04-27 Added feature bug#5607 - otrs.GenerateStats.pl report only can be sent to one
+    recipient at a time.
+ - 2011-04-27 Fixed bug#7211 - 'Valid' used in labels is now replaced with 'Validity'.
+ - 2011-04-25 Fixed bug#7236 - Ticket::TicketTitleUpdate() does not update change_time of ticket.
+ - 2011-04-20 Fixed ticket#2011041942007629 - Uninitialized value problem in AgentPreferences.pm.
+ - 2011-04-20 Fixed bug#7243 - Problem if current_timestamp of database system is
+    different to system time (e. g. time()).
+ - 2011-04-19 Fixed bug#3549 - ACLs don't work against queues with nonlatin characters.
+ - 2011-04-18 Fixed bug#7216 - Company names containing "&" pulled from Active Directory cause
+    errors in error.log when using Company Tickets.
+ - 2011-04-06 Added generic notification module to show messages in the agent interface.
+ - 2011-04-05 Fixed bug#7182 - AgentDashboard preferences are always translated.
+ - 2011-03-29 Fixed bug#6994 - AgentSelfNotifyOnAction is ignored for event based
+    notifications.
+ - 2011-03-24 Fixed bug#6981 - ReadOnly CustomerUser sources should not be selectable for
+    creating new customers.
+ - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken.
+ - 2011-03-15 Fixed bug#7053 - Installer page titles are not localized.
+ - 2011-03-07 Added feature bug#6992 - Ticket Responsible can't be set by GenericAgent.
+ - 2011-03-07 Added feature bug#6140 - Make the refresh interval of the dashboard
+    configurable.
+ - 2011-03-01 Added feature bug#6977 - Next Screen after AgentTicketMove should
+    be configurable.
+ - 2011-02-28 Added feature bug#6894. Events for escalations.
+ - 2011-02-24 Fixed bug#6867. CustomerCompany external source requires
+    change_time and create_time columns.
+ - 2011-02-07 Fixed Bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS.
+ - 2011-02-02 Fixed bug#3125 - No translation for ticket-state in notifications.
+ - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
+     of > 70 characters exists.
 
 3.0.9 2011-07-05
  - 2011-07-01 Fixed bug#7419 - 3.0.8 RPM does not include var/fonts directory.
@@ -20,8 +72,8 @@
  - 2011-06-21 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
  - 2011-06-21 Updated XML::TreePP to 0.41.
  - 2011-06-21 Updated XML::FeedPP to 0.43.
- - 2011-06-20 Fixed bug#7400 - Setting Ticket::Frontend::ShowCustomerTickets not effective.
- - 2011-06-17 Fixed bug#6469 - i18n: "Forwarded message" string is not translatable.
+ - 2011-06-20 Fixed bug 7400: Setting Ticket::Frontend::ShowCustomerTickets not effective.
+ - 2011-06-17 Fixed bug 6469: i18n: "Forwarded message" string is not translatable.
  - 2011-06-17 Fixed bug#4524 - SQL errors when there are no valid states for a given state type.
  - 2011-06-17 Fixed bug#7368 - Error in TicketEscalationDateCalculation.
  - 2011-06-17 Fixed bug#7420 - Cache issue when updating states.
@@ -50,14 +102,13 @@
  - 2011-05-16 Fixed bug#7300 - Wrong dropdown pre-selection in AdminQueue.
  - 2011-05-16 Fixed bug#7288 - hyperlink creationcuts URLs after a closing square bracket.
  - 2011-05-16 Fixed bug#7287 - Ticket Type in Customer Interface is not indicated as a required field.
- - 2011-05-16 Fixed bug#6937 - Vacation Days not indicated and translated in DatePicker.
  - 2011-05-16 Fixed bug#7310 - AdminNotification.dtl restricts subject line to 120 characters.
  - 2011-05-10 Fixed bug#7280 - AgentTicketCompose :: empty state selection causes many log entries.
  - 2011-05-10 Fixed bug#7111 - Customer Password reset mail is sent even if the DB could not be updated.
  - 2011-05-10 Fixed bug#7271 - AJAX issue when clicking 'Submit' while AJAX requests are still running.
  - 2011-05-09 Fixed bug#7270 - Changing the customer from overviews opens the ticket zoom.
  - 2011-05-09 Fixed bug#7262 - Customer Ticket Overview Sorting by <th>.
- - 2011-05-09 Fixed bug#6901 - Ticket Search -> CSV export -> close date incorrect
+ - 2011-05-09 Fixed bug#6901 - Ticket Search -> CSV export -> close date incorrect.
  - 2011-05-09 Fixed bug#7289 - Ticket::Frontend::CustomerSearchAutoComplete###QueryDelay
     should be specified in milliseconds rather than seconds.
  - 2011-05-09 Added new Croatian translation, thanks to Damir Dzeko!
@@ -70,7 +121,6 @@
  - 2011-05-02 Updated Brasilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2011-05-02 Updated Persian translation, thanks to Masood Ramezani!
  - 2011-04-28 Fixed bug#7244 - Plain Auth with SMTP/TLS does not work.
- - 2011-04-26 Fixed bug#7249 - Definition of role based notification - selected roles are not stored initially.
  - 2011-04-21 Fixed bug#7212 - IE7 Move box alignment issue in AgentTicketZoom.
  - 2011-04-21 Fixed bug#7188 - Resizable handle always in foreground.
  - 2011-04-19 Fixed bug#7229 - Apache configuration file references nonexisting javascript directory.
@@ -81,7 +131,7 @@
  - 2011-04-11 Updated Italian translation, thanks to Lucia Magnanelli!
  - 2011-04-06 Fixed bug#7058 - AJAX communication error when picking queue during ticket split.
  - 2011-04-05 Fixed bug#7179 - MasterAction causes browser problem.
- - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived with GenericAgent.
+ - 2011-04-05 Fixed bug#7169 - Archived tickets can not be un-archived.
  - 2011-04-04 Fixed bug#6801 - Bulk Actions are not working.
  - 2011-04-04 Fixed bug#7156 - NewTicketInNewWindow misplaced group.
  - 2011-04-01 Fixed bug#7096 - CSS for navigation bar :: wrong z-index for selected area and hover.
@@ -99,7 +149,7 @@
  - 2011-03-22 Fixed bug#7077 - Customer Interface Article Information not displayed properly in IE7.
  - 2011-03-18 Fixed bug#7063 - TicketZoom Customer information display issue in IE7.
  - 2011-03-16 Fixed bug#7060 - Unexisting value is passed to several subroutines in AgentTicketPhone when there is no subaction.
- - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken.
+ - 2011-03-15 Fixed bug#7057 - Kernel::System::StandardResponse->StandardResponseLookup() is broken
  - 2011-03-15 Fixed bug#5604 - Show name of static statistic, if there is only one.
  - 2011-03-14 Updated Norwegian translation, thanks to Espen Stefansen!
  - 2011-03-14 Fixed bug#7040 - SQL error when retrieving CustomerCompanyList with Valid => 0.
@@ -109,7 +159,7 @@
  - 2011-03-09 Fixed bug#7007 - Loader unit tests fail on MSWin32.
  - 2011-03-08 Fixed bug#6790 - Custom directory not considered when running in CGI.
  - 2011-03-08 Fixed bug#5354 - Gratuitous "use lib '../..';" in Kernel::Output::HTML::Layout
-    preventing modules in /Custom to be loaded when deployed as CGI.
+     preventing modules in /Custom to be loaded when deployed as CGI.
  - 2011-03-07 Fixed bug#6014 - Printed pdf tickets are not searchable.
  - 2011-03-07 Fixed bug#7006 - One MainObject unit test fails on Win32.
  - 2011-03-02 Fixed bug#6936 - Click on Customer triggers Wildcard-Search.
@@ -118,7 +168,7 @@
  - 2011-02-28 Fixed bug#6974 - Ticket Search does not find tickets if searching by
     in between 2 dates, and the ticket time is 00:00:00.
  - 2011-02-28 Fixed bug#6930 - en_GB (united kingdom) notification events blank.
- - 2011-02-25 Fixed bug#6822 - Underscore in username problem in 3.0.5.
+ - 2011-02-25 Fixed bug#6822 -  Underscore in username problem in 3.0.5.
  - 2011-02-25 Added Hindi translation, thanks to Chetan Nagaonkar!
 
 3.0.6 2011-02-29
@@ -137,7 +187,7 @@
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
  - 2011-02-03 Fixed bug#6831 - CustomerLogo not shown if external URL.
  - 2011-02-02 Fixed bug#2877 - Licence is "License" in British English.
- - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed.
+ - 2011-02-01 Fixed bug#6837 - Queue cannot be created, just changed
  - 2011-02-01 Fixed bug#6696 - TicketFreeTime options are line breaked in the
     search window.
  - 2011-01-31 Implemented bug#6824 - Adding system addresses from CLI, via new
