@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceInvoker.js - provides the special module functions for the GenericInterface invoker.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.2 2011-06-25 15:37:46 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.3 2011-07-01 12:38:52 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -84,6 +84,13 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             true,
             [
                {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
+                   }
+               },
+               {
                    Label: TargetNS.Localization.DeleteMsg,
                    Function: function () {
                        var Data = {
@@ -105,14 +112,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
-               },
-               {
-                   Label: TargetNS.Localization.CancelMsg,
-                   Function: function () {
-                       Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
-                   }
-               }
-           ]
+               }           ]
         );
 
         Event.stopPropagation();
@@ -137,6 +137,13 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             true,
             [
                {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('#DeleteEventDialog'));
+                   }
+               },
+               {
                    Label: TargetNS.Localization.DeleteMsg,
                    Function: function () {
                        var Data = {
@@ -157,12 +164,6 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
                         }, 'json');
 
-                       Core.UI.Dialog.CloseDialog($('#DeleteEventDialog'));
-                   }
-               },
-               {
-                   Label: TargetNS.Localization.CancelMsg,
-                   Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteEventDialog'));
                    }
                }
