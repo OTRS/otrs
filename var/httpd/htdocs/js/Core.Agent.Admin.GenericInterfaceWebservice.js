@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.10 2011-05-25 13:32:07 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.11 2011-07-01 14:47:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
     TargetNS.HideElements = function(){
-        $('button.HideActionOnChange').parent().addClass('Hidden');
-        $('.HideOnChange').addClass('Hidden');
+        $('button.HideActionOnChange').parent().hide();
+        $('.HideOnChange').hide();
         $('.HideLinkOnChange').contents().unwrap();
     };
 
