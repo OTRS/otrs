@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.4 2011-06-25 18:38:09 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.5 2011-07-01 14:08:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,10 +85,10 @@
                             <input type="text" class="W50pc RegisterChange Validate_Required $QData{"InvokerServerError"}" maxlength="200" id="Invoker" name="Invoker" value="$QData{"Invoker"}" />
                             <input type="hidden" id="OldInvoker" name="OldInvoker" value="$QData{"Invoker"}" />
                             <p class="FieldExplanation">
-                                $Text{"The name is typically used to call up this web service invoker from a remote system."}
+                                $Text{"The name is typically used to call up an operation of a remote web service."}
                             </p>
                             <div id="InvokerError" class="TooltipErrorMessage">
-                                $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
+                                $Text{"This field is required."} $Text{"Please provide a unique name for this web service invoker."}
                             </div>
                             <div id="InvokerServerError" class="TooltipErrorMessage">
                                 $Text{"The name you entered already exists."}
@@ -104,42 +104,16 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="MappingInbound">$Text{"Mapping for incoming request data"}:</label>
-                        <div class="Field">
-                            $Data{"MappingInboundStrg"}
-                            <input type="hidden" id="MappingInboundConfigDialog" value="$QData{"MappingInboundConfigDialog"}" />
-<!-- dtl:block:MappingInboundConfigureButton -->
-                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('#MappingInboundConfigureButton').bind('click', function(){
-    var URL;
-
-    if ($('#MappingInboundConfigDialog').val()) {
-        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
-        URL += ';Subaction=Change;Invoker=' + $('#OldInvoker').val() + ';Direction=MappingInbound';
-        window.location.href = URL;
-    }
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-<!-- dtl:block:MappingInboundConfigureButton -->
-                            <p class="FieldExplanation">
-                                $Text{"The request data will be processed by this mapping, allowing it to map it to the kind of data OTRS expects."}
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-
                         <label for="InvokerTypeDisplay">$Text{"Invoker backend"}:</label>
                         <div class="Field">
                             <input type="text" readonly="readonly" class="W50pc" id="InvokerTypeDisplay" value="$QData{"InvokerType"}" />
                             <p class="FieldExplanation">
-                                $Text{"This OTRS invoker backend module will be called internally to process the request, generating data for the response."}
+                                $Text{"This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data."}
                             </p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
+                        <label for="MappingOutbound">$Text{"Mapping for outgoing request data"}:</label>
                         <div class="Field">
                             $Data{"MappingOutboundStrg"}
                             <input type="hidden" id="MappingOutboundConfigDialog" value="$QData{"MappingOutboundConfigDialog"}" />
@@ -160,7 +134,33 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingOutboundConfigureButton -->
                             <p class="FieldExplanation">
-                                $Text{"The response data will be processed by this mapping, allowing it to map it to the kind of data the remote system expects."}
+                                $Text{"The data from the invoker of OTRS will be processed by this mapping, to transformit to the kind of data the remote system expects."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="MappingInbound">$Text{"Mapping for incoming response data"}:</label>
+                        <div class="Field">
+                            $Data{"MappingInboundStrg"}
+                            <input type="hidden" id="MappingInboundConfigDialog" value="$QData{"MappingInboundConfigDialog"}" />
+<!-- dtl:block:MappingInboundConfigureButton -->
+                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#MappingInboundConfigureButton').bind('click', function(){
+    var URL;
+
+    if ($('#MappingInboundConfigDialog').val()) {
+        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
+        URL += ';Subaction=Change;Invoker=' + $('#OldInvoker').val() + ';Direction=MappingInbound';
+        window.location.href = URL;
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:MappingInboundConfigureButton -->
+                            <p class="FieldExplanation">
+                                $Text{"The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects."}
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -208,7 +208,7 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
                                 </tbody>
                             </table>
                             <p class="FieldExplanation">
-                                $Text{"This invoker will be triggered by the events from the table above"}.
+                                $Text{"This invoker will be triggered by the configured events."}
                             </p>
                         </div>
 
@@ -230,10 +230,12 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
                             <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><span>Asynchronus</span>
                             <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
                             <p class="FieldExplanation">
-                                $Text{"To add a new event select the event object and event name set asynchronous or not and click on the "+" button"}.
+                                $Text{"To add a new event select the event object and event name and click on the "+" button"}.
                             </p>
                             <p class="FieldExplanation">
-                                $Text{"Asynchronous events are handled by the OTRS Scheduler in background. This is recommended for most of the invokers"}.
+                                $Text{"Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended)."}
+                                <br/>
+                                $Text{"Synchronous event triggers would be processed directly during the web request."}
                             </p>
                         </div>
                         <div class="Clear"></div>
