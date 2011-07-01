@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebserviceHistory.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.6 2011-05-25 17:18:02 cg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.dtl,v 1.7 2011-07-01 10:25:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,9 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to Web Service"}</span></a>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction">
+                            <span>$Text{"Go back to Web Service"}</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -103,6 +105,8 @@
         <div class="Hidden" id="RollbackDialogContainer">
             <p id="RollbackDialog" class="Warning">
                 $Text{"Do you really want to restore this version of the web service configuration?"}
+                <br/>
+                $Text{"Your current web service configuration will be overwritten."}
             </p>
         </div>
         <div class="Hidden">
@@ -139,6 +143,8 @@ $('#ExportButton').bind('click', function(){
     $('#Subaction').attr('value','Export');
     $('#ActionForm').submit();
 });
+
 $('#RollbackButton').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.ShowRollbackDialog);
+
 //]]></script>
 <!-- dtl:js_on_document_complete -->
