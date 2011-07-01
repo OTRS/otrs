@@ -2,7 +2,7 @@
 # AdminGenericInterfaceOperationSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.7 2011-06-25 18:38:09 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.dtl,v 1.8 2011-07-01 12:21:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,7 +125,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingInboundConfigureButton -->
                             <p class="FieldExplanation">
-                                $Text{"The request data will be processed by this mapping, allowing it to map it to the kind of data OTRS expects."}
+                                $Text{"The request data will be processed by this mapping, to transform it to the kind of data OTRS expects."}
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -138,7 +138,6 @@ $('#MappingInboundConfigureButton').bind('click', function(){
                             </p>
                         </div>
                         <div class="Clear"></div>
-
 
                         <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
                         <div class="Field">
@@ -161,7 +160,7 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingOutboundConfigureButton -->
                             <p class="FieldExplanation">
-                                $Text{"The response data will be processed by this mapping, allowing it to map it to the kind of data the remote system expects."}
+                                $Text{"The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."}
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -180,7 +179,9 @@ $('#ResetRemoteSystemGuid').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
                             <p class="FieldExplanation">
-                                $Text{"This Global Unique ID form Solution Manager this value is set automatically. This value can be reset if another Solution Manager is used (i.e. imported web service from development to production)."}
+                                $Text{"This global unique ID (GUID) from the Solution Manager system is set automatically."}
+                                <br/>
+                                $Text{"This value can be reset if another Solution Manager is used (e.g. on development and production systems)."}
                             </p>
                         </div>
                         <div class="Clear"></div>
