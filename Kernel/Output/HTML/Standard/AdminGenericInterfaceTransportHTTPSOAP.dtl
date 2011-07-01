@@ -2,7 +2,7 @@
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.7 2011-06-25 00:25:35 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.8 2011-07-01 11:06:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,49 +55,77 @@
                     <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" id="CommunicationType"/>
                     <div class="LayoutGrid ColumnsWithSpacing">
                         <fieldset class="TableLike">
+
                             <label>$Text{"Type"}:</label>
-                            <div class="Field">
-                                $QData{"Type"}
-                            </div>
+                            <div class="Field">$QData{"Type"}</div>
                             <div class="Clear"></div>
+
+<!--
+                            #TODO: QA: It seems to me that not all fields are neccessary for OTRS as a provider
+                            (Endpoint, for example). If not, hide them with blocks, please.
+                            Maybe for OTRS as a provider this screen does not have to be configured at all?
+                            In this case we should decide if the screen should be shown or not.
+                            -->
+
 <!-- dtl:block:TransportEndpointProvider -->
-                            <label for="Endpoint">$Text{"End Point"}:</label>
+                            <label for="Endpoint">$Text{"Endpoint"}:</label>
 <!-- dtl:block:TransportEndpointProvider -->
 <!-- dtl:block:TransportEndpointRequester -->
-                            <label class="Mandatory" for="Endpoint"><span class="Marker">*</span> $Text{"End Point"}:</label>
+                            <label class="Mandatory" for="Endpoint">
+                                <span class="Marker">*</span> $Text{"Endpoint"}:
+                            </label>
 <!-- dtl:block:TransportEndpointRequester -->
                             <div class="Field">
                                 <input id="Endpoint" class="W50pc $QData{"EndpointServerError"} $QData{"EndpointValidateRequired"}" type="text" maxlength="250" value="$QData{"Endpoint"}" name="Endpoint"/>
                                 <div id="EndpointError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="EndpointServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EndpointServerErrorMessage"}"}</p></div>
+                                <p class="FieldExplanation">
+                                    $Text{"#TODO: QA: Short explanation of this field. Give example."}
+                                </p>
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span> $Text{"Name Space"}:</label>
+
+                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span> $Text{"Namespace"}:</label>
                             <div class="Field">
                                 <input id="NameSpace" class="W50pc $QData{"NameSpaceServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"NameSpace"}" name="NameSpace"/>
                                 <div id="NameSpaceError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="NameSpaceServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameSpaceServerErrorMessage"}"}</p></div>
+                                <p class="FieldExplanation">
+                                    $Text{"#TODO: QA: Short explanation of this field. Give example."}
+                                </p>
                             </div>
                             <div class="Clear"></div>
+
                             <label class="Mandatory" for="Encoding"><span class="Marker">*</span> $Text{"Encoding"}:</label>
                             <div class="Field">
                                 <input id="Encoding" class="W50pc $QData{"EncodingServerError"} Validate_Required" type="text" maxlength="250" value="$QData{"Encoding"}" name="Encoding"/>
                                 <div id="EncodingError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="EncodingServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"EncodingServerErrorMessage"}"}</p></div>
+                                <p class="FieldExplanation">
+                                    $Text{"#TODO: QA: Short explanation of this field and possible values."}
+                                </p>
                             </div>
                             <div class="Clear"></div>
-                            <label for="SOAPAction">$Text{"SOAP Action"}:</label>
+
+                            <label for="SOAPAction">$Text{"SOAP action"}:</label>
                             <div class="Field">
                                 <input id="SOAPAction" class="W50pc $QData{"SOAPActionServerError"}" type="text" maxlength="250" value="$QData{"SOAPAction"}" name="SOAPAction"/>
                                 <div id="SOAPActionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="SOAPActionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"SOAPActionServerErrorMessage"}"}</p></div>
+                                <p class="FieldExplanation">
+                                    $Text{"#TODO: QA: Short explanation of this field. Give example."}
+                                </p>
                             </div>
                             <div class="Clear"></div>
-                            <label for="MaxLength">$Text{"Maximum Length"}:</label>
+
+                            <label for="MaxLength">$Text{"Maximum message length"}:</label>
                             <div class="Field">
                                 <input id="MaxLength" class="W25pc $QData{"MaxLengthServerError"} Validate_Number" type="text" maxlength="10" value="$QData{"MaxLength"}" name="MaxLength"/>
                                 <div id="MaxLengthError" class="TooltipErrorMessage"><p>$Text{"This should be a number."}</p></div>
                                 <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"MaxLengthServerErrorMessage"}"}</p></div>
+                                <p class="FieldExplanation">
+                                    $Text{"Here you can specify the maximum size of SOAP messages that OTRS will process."}
+                                </p>
                             </div>
                             <div class="Clear"></div>
 
