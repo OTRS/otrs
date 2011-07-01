@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceOperation.js - provides the special module functions for the GenericInterface debugger.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceOperation.js,v 1.3 2011-06-20 19:24:59 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceOperation.js,v 1.4 2011-07-01 11:15:39 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,13 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
             true,
             [
                {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
+                   }
+               },
+               {
                    Label: TargetNS.Localization.DeleteMsg,
                    Function: function () {
                        var Data = {
@@ -58,12 +65,6 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
 
                         }, 'json');
 
-                       Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
-                   }
-               },
-               {
-                   Label: TargetNS.Localization.CancelMsg,
-                   Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
                }
