@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.9 2011-06-20 13:30:10 mg Exp $
+# $Id: de.pm,v 1.265.2.10 2011-07-01 07:30:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.9 $) [1];
+$VERSION = qw($Revision: 1.265.2.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -356,7 +356,6 @@ sub Data {
         'SHIFT' => 'Umschalt',
         'Undo' => 'Rückgängig',
         'Redo' => 'Wiederholen',
-        'out of office till' => 'außer Haus bis',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
