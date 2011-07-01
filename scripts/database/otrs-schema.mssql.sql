@@ -1,12 +1,12 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-05-18 18:41:44
+--  driver: mssql, generated: 2011-07-01 20:57:56
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
 -- ----------------------------------------------------------
 CREATE TABLE valid (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -19,11 +19,11 @@ CREATE TABLE valid (
 -- ----------------------------------------------------------
 CREATE TABLE users (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    login VARCHAR (200) NOT NULL,
-    pw VARCHAR (64) NOT NULL,
-    title VARCHAR (50) NULL,
-    first_name VARCHAR (100) NOT NULL,
-    last_name VARCHAR (100) NOT NULL,
+    login NVARCHAR (200) NOT NULL,
+    pw NVARCHAR (64) NOT NULL,
+    title NVARCHAR (50) NULL,
+    first_name NVARCHAR (100) NOT NULL,
+    last_name NVARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -37,8 +37,8 @@ CREATE TABLE users (
 -- ----------------------------------------------------------
 CREATE TABLE user_preferences (
     user_id INTEGER NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (250) NULL
 );
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
@@ -46,8 +46,8 @@ CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE groups (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE groups (
 CREATE TABLE group_user (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20) NOT NULL,
+    permission_key NVARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -77,7 +77,7 @@ CREATE INDEX group_user_user_id ON group_user (user_id);
 CREATE TABLE group_role (
     role_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20) NOT NULL,
+    permission_key NVARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -90,9 +90,9 @@ CREATE INDEX group_role_role_id ON group_role (role_id);
 --  create table group_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE group_customer_user (
-    user_id VARCHAR (100) NOT NULL,
+    user_id NVARCHAR (100) NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20) NOT NULL,
+    permission_key NVARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -106,8 +106,8 @@ CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE roles (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -143,10 +143,10 @@ CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    text VARCHAR (3000) NOT NULL,
-    content_type VARCHAR (250) NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    text NVARCHAR (3000) NOT NULL,
+    content_type NVARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -160,10 +160,10 @@ CREATE TABLE salutation (
 -- ----------------------------------------------------------
 CREATE TABLE signature (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    text VARCHAR (3000) NOT NULL,
-    content_type VARCHAR (250) NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    text NVARCHAR (3000) NOT NULL,
+    content_type NVARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -177,12 +177,12 @@ CREATE TABLE signature (
 -- ----------------------------------------------------------
 CREATE TABLE system_address (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    value0 VARCHAR (200) NOT NULL,
-    value1 VARCHAR (200) NOT NULL,
-    value2 VARCHAR (200) NULL,
-    value3 VARCHAR (200) NULL,
+    value0 NVARCHAR (200) NOT NULL,
+    value1 NVARCHAR (200) NOT NULL,
+    value2 NVARCHAR (200) NULL,
+    value3 NVARCHAR (200) NULL,
     queue_id INTEGER NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -195,8 +195,8 @@ CREATE TABLE system_address (
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE follow_up_possible (
 -- ----------------------------------------------------------
 CREATE TABLE queue (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER NULL,
     first_response_time INTEGER NULL,
@@ -220,13 +220,13 @@ CREATE TABLE queue (
     solution_time INTEGER NULL,
     solution_notify SMALLINT NULL,
     system_address_id SMALLINT NOT NULL,
-    calendar_name VARCHAR (100) NULL,
-    default_sign_key VARCHAR (100) NULL,
+    calendar_name NVARCHAR (100) NULL,
+    default_sign_key NVARCHAR (100) NULL,
     salutation_id SMALLINT NOT NULL,
     signature_id SMALLINT NOT NULL,
     follow_up_id SMALLINT NOT NULL,
     follow_up_lock SMALLINT NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -241,8 +241,8 @@ CREATE INDEX queue_group_id ON queue (group_id);
 -- ----------------------------------------------------------
 CREATE TABLE queue_preferences (
     queue_id INTEGER NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (250) NULL
 );
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
@@ -250,7 +250,7 @@ CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -264,7 +264,7 @@ CREATE TABLE ticket_priority (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -278,7 +278,7 @@ CREATE TABLE ticket_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -292,8 +292,8 @@ CREATE TABLE ticket_lock_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -308,8 +308,8 @@ CREATE TABLE ticket_state (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -322,8 +322,8 @@ CREATE TABLE ticket_state_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    tn VARCHAR (50) NOT NULL,
-    title VARCHAR (255) NULL,
+    tn NVARCHAR (50) NOT NULL,
+    title NVARCHAR (255) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
@@ -339,46 +339,46 @@ CREATE TABLE ticket (
     group_write SMALLINT NULL,
     other_read SMALLINT NULL,
     other_write SMALLINT NULL,
-    customer_id VARCHAR (150) NULL,
-    customer_user_id VARCHAR (250) NULL,
+    customer_id NVARCHAR (150) NULL,
+    customer_user_id NVARCHAR (250) NULL,
     timeout INTEGER NOT NULL,
     until_time INTEGER NOT NULL,
     escalation_time INTEGER NOT NULL,
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
-    freekey1 VARCHAR (80) NULL,
-    freetext1 VARCHAR (150) NULL,
-    freekey2 VARCHAR (80) NULL,
-    freetext2 VARCHAR (150) NULL,
-    freekey3 VARCHAR (80) NULL,
-    freetext3 VARCHAR (150) NULL,
-    freekey4 VARCHAR (80) NULL,
-    freetext4 VARCHAR (150) NULL,
-    freekey5 VARCHAR (80) NULL,
-    freetext5 VARCHAR (150) NULL,
-    freekey6 VARCHAR (80) NULL,
-    freetext6 VARCHAR (150) NULL,
-    freekey7 VARCHAR (80) NULL,
-    freetext7 VARCHAR (150) NULL,
-    freekey8 VARCHAR (80) NULL,
-    freetext8 VARCHAR (150) NULL,
-    freekey9 VARCHAR (80) NULL,
-    freetext9 VARCHAR (150) NULL,
-    freekey10 VARCHAR (80) NULL,
-    freetext10 VARCHAR (150) NULL,
-    freekey11 VARCHAR (80) NULL,
-    freetext11 VARCHAR (150) NULL,
-    freekey12 VARCHAR (80) NULL,
-    freetext12 VARCHAR (150) NULL,
-    freekey13 VARCHAR (80) NULL,
-    freetext13 VARCHAR (150) NULL,
-    freekey14 VARCHAR (80) NULL,
-    freetext14 VARCHAR (150) NULL,
-    freekey15 VARCHAR (80) NULL,
-    freetext15 VARCHAR (150) NULL,
-    freekey16 VARCHAR (80) NULL,
-    freetext16 VARCHAR (150) NULL,
+    freekey1 NVARCHAR (80) NULL,
+    freetext1 NVARCHAR (150) NULL,
+    freekey2 NVARCHAR (80) NULL,
+    freetext2 NVARCHAR (150) NULL,
+    freekey3 NVARCHAR (80) NULL,
+    freetext3 NVARCHAR (150) NULL,
+    freekey4 NVARCHAR (80) NULL,
+    freetext4 NVARCHAR (150) NULL,
+    freekey5 NVARCHAR (80) NULL,
+    freetext5 NVARCHAR (150) NULL,
+    freekey6 NVARCHAR (80) NULL,
+    freetext6 NVARCHAR (150) NULL,
+    freekey7 NVARCHAR (80) NULL,
+    freetext7 NVARCHAR (150) NULL,
+    freekey8 NVARCHAR (80) NULL,
+    freetext8 NVARCHAR (150) NULL,
+    freekey9 NVARCHAR (80) NULL,
+    freetext9 NVARCHAR (150) NULL,
+    freekey10 NVARCHAR (80) NULL,
+    freetext10 NVARCHAR (150) NULL,
+    freekey11 NVARCHAR (80) NULL,
+    freetext11 NVARCHAR (150) NULL,
+    freekey12 NVARCHAR (80) NULL,
+    freetext12 NVARCHAR (150) NULL,
+    freekey13 NVARCHAR (80) NULL,
+    freetext13 NVARCHAR (150) NULL,
+    freekey14 NVARCHAR (80) NULL,
+    freetext14 NVARCHAR (150) NULL,
+    freekey15 NVARCHAR (80) NULL,
+    freetext15 NVARCHAR (150) NULL,
+    freekey16 NVARCHAR (80) NULL,
+    freetext16 NVARCHAR (150) NULL,
     freetime1 DATETIME NULL,
     freetime2 DATETIME NULL,
     freetime3 DATETIME NULL,
@@ -422,8 +422,8 @@ CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_flag (
     ticket_id BIGINT NOT NULL,
-    ticket_key VARCHAR (50) NOT NULL,
-    ticket_value VARCHAR (50) NULL,
+    ticket_key NVARCHAR (50) NOT NULL,
+    ticket_value NVARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL
 );
@@ -435,7 +435,7 @@ CREATE INDEX ticket_flag_ticket_id_ticket_key ON ticket_flag (ticket_id, ticket_
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NULL,
@@ -464,8 +464,8 @@ CREATE INDEX ticket_history_type_id ON ticket_history (type_id);
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -493,10 +493,10 @@ CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (200) NOT NULL,
+    queue NVARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
-    s_lock VARCHAR (200) NOT NULL,
-    s_state VARCHAR (200) NOT NULL,
+    s_lock NVARCHAR (200) NOT NULL,
+    s_state NVARCHAR (200) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
@@ -513,8 +513,8 @@ CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
 CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR (250) NOT NULL,
-    sent_date VARCHAR (150) NOT NULL
+    sent_to NVARCHAR (250) NOT NULL,
+    sent_date NVARCHAR (150) NOT NULL
 );
 CREATE INDEX ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
 CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
@@ -523,8 +523,8 @@ CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
 CREATE TABLE article_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -538,8 +538,8 @@ CREATE TABLE article_type (
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -553,8 +553,8 @@ CREATE TABLE article_sender_type (
 -- ----------------------------------------------------------
 CREATE TABLE article_flag (
     article_id BIGINT NOT NULL,
-    article_key VARCHAR (50) NOT NULL,
-    article_value VARCHAR (50) NULL,
+    article_key NVARCHAR (50) NOT NULL,
+    article_value NVARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL
 );
@@ -570,24 +570,24 @@ CREATE TABLE article (
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
-    a_from VARCHAR (3800) NULL,
-    a_reply_to VARCHAR (500) NULL,
-    a_to VARCHAR (3800) NULL,
-    a_cc VARCHAR (3800) NULL,
-    a_subject VARCHAR (3800) NULL,
-    a_message_id VARCHAR (3800) NULL,
-    a_in_reply_to VARCHAR (3800) NULL,
-    a_references VARCHAR (3800) NULL,
-    a_content_type VARCHAR (250) NULL,
-    a_body TEXT NOT NULL,
+    a_from NVARCHAR (3800) NULL,
+    a_reply_to NVARCHAR (500) NULL,
+    a_to NVARCHAR (3800) NULL,
+    a_cc NVARCHAR (3800) NULL,
+    a_subject NVARCHAR (3800) NULL,
+    a_message_id NVARCHAR (3800) NULL,
+    a_in_reply_to NVARCHAR (3800) NULL,
+    a_references NVARCHAR (3800) NULL,
+    a_content_type NVARCHAR (250) NULL,
+    a_body NVARCHAR (MAX) NOT NULL,
     incoming_time INTEGER NOT NULL,
-    content_path VARCHAR (250) NULL,
-    a_freekey1 VARCHAR (250) NULL,
-    a_freetext1 VARCHAR (250) NULL,
-    a_freekey2 VARCHAR (250) NULL,
-    a_freetext2 VARCHAR (250) NULL,
-    a_freekey3 VARCHAR (250) NULL,
-    a_freetext3 VARCHAR (250) NULL,
+    content_path NVARCHAR (250) NULL,
+    a_freekey1 NVARCHAR (250) NULL,
+    a_freetext1 NVARCHAR (250) NULL,
+    a_freekey2 NVARCHAR (250) NULL,
+    a_freetext2 NVARCHAR (250) NULL,
+    a_freekey3 NVARCHAR (250) NULL,
+    a_freetext3 NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -607,19 +607,19 @@ CREATE TABLE article_search (
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
-    a_from VARCHAR (3800) NULL,
-    a_to VARCHAR (3800) NULL,
-    a_cc VARCHAR (3800) NULL,
-    a_subject VARCHAR (3800) NULL,
-    a_message_id VARCHAR (3800) NULL,
-    a_body TEXT NOT NULL,
+    a_from NVARCHAR (3800) NULL,
+    a_to NVARCHAR (3800) NULL,
+    a_cc NVARCHAR (3800) NULL,
+    a_subject NVARCHAR (3800) NULL,
+    a_message_id NVARCHAR (3800) NULL,
+    a_body NVARCHAR (MAX) NOT NULL,
     incoming_time INTEGER NOT NULL,
-    a_freekey1 VARCHAR (250) NULL,
-    a_freetext1 VARCHAR (250) NULL,
-    a_freekey2 VARCHAR (250) NULL,
-    a_freetext2 VARCHAR (250) NULL,
-    a_freekey3 VARCHAR (250) NULL,
-    a_freetext3 VARCHAR (250) NULL,
+    a_freekey1 NVARCHAR (250) NULL,
+    a_freetext1 NVARCHAR (250) NULL,
+    a_freekey2 NVARCHAR (250) NULL,
+    a_freetext2 NVARCHAR (250) NULL,
+    a_freekey3 NVARCHAR (250) NULL,
+    a_freetext3 NVARCHAR (250) NULL,
     PRIMARY KEY(id)
 );
 CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
@@ -632,7 +632,7 @@ CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     article_id BIGINT NOT NULL,
-    body TEXT NOT NULL,
+    body VARBINARY (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -646,12 +646,12 @@ CREATE INDEX article_plain_article_id ON article_plain (article_id);
 CREATE TABLE article_attachment (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     article_id BIGINT NOT NULL,
-    filename VARCHAR (250) NULL,
-    content_size VARCHAR (30) NULL,
-    content_type VARCHAR (450) NULL,
-    content_id VARCHAR (250) NULL,
-    content_alternative VARCHAR (50) NULL,
-    content TEXT NOT NULL,
+    filename NVARCHAR (250) NULL,
+    content_size NVARCHAR (30) NULL,
+    content_type NVARCHAR (450) NULL,
+    content_id NVARCHAR (250) NULL,
+    content_alternative NVARCHAR (50) NULL,
+    content VARBINARY (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -679,10 +679,10 @@ CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE standard_response (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    text TEXT NULL,
-    content_type VARCHAR (250) NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    text NVARCHAR (MAX) NULL,
+    content_type NVARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -707,11 +707,11 @@ CREATE TABLE queue_standard_response (
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    content_type VARCHAR (250) NOT NULL,
-    content TEXT NOT NULL,
-    filename VARCHAR (250) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    content_type NVARCHAR (250) NOT NULL,
+    content VARBINARY (MAX) NOT NULL,
+    filename NVARCHAR (250) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -738,8 +738,8 @@ CREATE TABLE standard_response_attachment (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -753,15 +753,15 @@ CREATE TABLE auto_response_type (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    text0 VARCHAR (6000) NULL,
-    text1 VARCHAR (6000) NULL,
-    text2 VARCHAR (6000) NULL,
+    name NVARCHAR (200) NOT NULL,
+    text0 NVARCHAR (MAX) NULL,
+    text1 NVARCHAR (MAX) NULL,
+    text2 NVARCHAR (MAX) NULL,
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
-    charset VARCHAR (80) NOT NULL,
-    content_type VARCHAR (250) NULL,
-    comments VARCHAR (250) NULL,
+    charset NVARCHAR (80) NOT NULL,
+    content_type NVARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -788,9 +788,9 @@ CREATE TABLE queue_auto_response (
 -- ----------------------------------------------------------
 CREATE TABLE service (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -803,15 +803,15 @@ CREATE TABLE service (
 -- ----------------------------------------------------------
 CREATE TABLE service_preferences (
     service_id INTEGER NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (250) NULL
 );
 CREATE INDEX service_preferences_service_id ON service_preferences (service_id);
 -- ----------------------------------------------------------
 --  create table service_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE service_customer_user (
-    customer_user_login VARCHAR (200) NOT NULL,
+    customer_user_login NVARCHAR (200) NOT NULL,
     service_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL
@@ -823,8 +823,8 @@ CREATE INDEX service_customer_user_service_id ON service_customer_user (service_
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    calendar_name VARCHAR (100) NULL,
+    name NVARCHAR (200) NOT NULL,
+    calendar_name NVARCHAR (100) NULL,
     first_response_time INTEGER NOT NULL,
     first_response_notify SMALLINT NULL,
     update_time INTEGER NOT NULL,
@@ -832,7 +832,7 @@ CREATE TABLE sla (
     solution_time INTEGER NOT NULL,
     solution_notify SMALLINT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -845,8 +845,8 @@ CREATE TABLE sla (
 -- ----------------------------------------------------------
 CREATE TABLE sla_preferences (
     sla_id INTEGER NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (250) NULL
 );
 CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);
 -- ----------------------------------------------------------
@@ -861,8 +861,8 @@ CREATE TABLE service_sla (
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    session_id VARCHAR (150) NOT NULL,
-    session_value TEXT NOT NULL,
+    session_id NVARCHAR (150) NOT NULL,
+    session_value NVARCHAR (MAX) NOT NULL,
     PRIMARY KEY(session_id)
 );
 -- ----------------------------------------------------------
@@ -870,21 +870,21 @@ CREATE TABLE sessions (
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    login VARCHAR (200) NOT NULL,
-    email VARCHAR (150) NOT NULL,
-    customer_id VARCHAR (150) NOT NULL,
-    pw VARCHAR (64) NULL,
-    title VARCHAR (50) NULL,
-    first_name VARCHAR (100) NOT NULL,
-    last_name VARCHAR (100) NOT NULL,
-    phone VARCHAR (150) NULL,
-    fax VARCHAR (150) NULL,
-    mobile VARCHAR (150) NULL,
-    street VARCHAR (150) NULL,
-    zip VARCHAR (200) NULL,
-    city VARCHAR (200) NULL,
-    country VARCHAR (200) NULL,
-    comments VARCHAR (250) NULL,
+    login NVARCHAR (200) NOT NULL,
+    email NVARCHAR (150) NOT NULL,
+    customer_id NVARCHAR (150) NOT NULL,
+    pw NVARCHAR (64) NULL,
+    title NVARCHAR (50) NULL,
+    first_name NVARCHAR (100) NOT NULL,
+    last_name NVARCHAR (100) NOT NULL,
+    phone NVARCHAR (150) NULL,
+    fax NVARCHAR (150) NULL,
+    mobile NVARCHAR (150) NULL,
+    street NVARCHAR (150) NULL,
+    zip NVARCHAR (200) NULL,
+    city NVARCHAR (200) NULL,
+    country NVARCHAR (200) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -897,23 +897,23 @@ CREATE TABLE customer_user (
 --  create table customer_preferences
 -- ----------------------------------------------------------
 CREATE TABLE customer_preferences (
-    user_id VARCHAR (250) NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    user_id NVARCHAR (250) NOT NULL,
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (250) NULL
 );
 CREATE INDEX customer_preferences_user_id ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table customer_company
 -- ----------------------------------------------------------
 CREATE TABLE customer_company (
-    customer_id VARCHAR (150) NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    street VARCHAR (200) NULL,
-    zip VARCHAR (200) NULL,
-    city VARCHAR (200) NULL,
-    country VARCHAR (200) NULL,
-    url VARCHAR (200) NULL,
-    comments VARCHAR (250) NULL,
+    customer_id NVARCHAR (150) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    street NVARCHAR (200) NULL,
+    zip NVARCHAR (200) NULL,
+    city NVARCHAR (200) NULL,
+    country NVARCHAR (200) NULL,
+    url NVARCHAR (200) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -927,13 +927,13 @@ CREATE TABLE customer_company (
 -- ----------------------------------------------------------
 CREATE TABLE mail_account (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    login VARCHAR (200) NOT NULL,
-    pw VARCHAR (200) NOT NULL,
-    host VARCHAR (200) NOT NULL,
-    account_type VARCHAR (20) NOT NULL,
+    login NVARCHAR (200) NOT NULL,
+    pw NVARCHAR (200) NOT NULL,
+    host NVARCHAR (200) NOT NULL,
+    account_type NVARCHAR (20) NOT NULL,
     queue_id INTEGER NOT NULL,
     trusted SMALLINT NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -945,31 +945,31 @@ CREATE TABLE mail_account (
 --  create table postmaster_filter
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
-    f_name VARCHAR (200) NOT NULL,
+    f_name NVARCHAR (200) NOT NULL,
     f_stop SMALLINT NULL,
-    f_type VARCHAR (20) NOT NULL,
-    f_key VARCHAR (200) NOT NULL,
-    f_value VARCHAR (200) NOT NULL
+    f_type NVARCHAR (20) NOT NULL,
+    f_key NVARCHAR (200) NOT NULL,
+    f_value NVARCHAR (200) NOT NULL
 );
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 -- ----------------------------------------------------------
 --  create table generic_agent_jobs
 -- ----------------------------------------------------------
 CREATE TABLE generic_agent_jobs (
-    job_name VARCHAR (200) NOT NULL,
-    job_key VARCHAR (200) NOT NULL,
-    job_value VARCHAR (200) NULL
+    job_name NVARCHAR (200) NOT NULL,
+    job_key NVARCHAR (200) NOT NULL,
+    job_value NVARCHAR (200) NULL
 );
 CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  create table search_profile
 -- ----------------------------------------------------------
 CREATE TABLE search_profile (
-    login VARCHAR (200) NOT NULL,
-    profile_name VARCHAR (200) NOT NULL,
-    profile_type VARCHAR (30) NOT NULL,
-    profile_key VARCHAR (200) NOT NULL,
-    profile_value VARCHAR (200) NULL
+    login NVARCHAR (200) NOT NULL,
+    profile_name NVARCHAR (200) NOT NULL,
+    profile_type NVARCHAR (30) NOT NULL,
+    profile_key NVARCHAR (200) NOT NULL,
+    profile_value NVARCHAR (200) NULL
 );
 CREATE INDEX search_profile_login ON search_profile (login);
 CREATE INDEX search_profile_profile_name ON search_profile (profile_name);
@@ -977,21 +977,21 @@ CREATE INDEX search_profile_profile_name ON search_profile (profile_name);
 --  create table process_id
 -- ----------------------------------------------------------
 CREATE TABLE process_id (
-    process_name VARCHAR (200) NOT NULL,
-    process_id VARCHAR (200) NOT NULL,
-    process_host VARCHAR (200) NOT NULL,
+    process_name NVARCHAR (200) NOT NULL,
+    process_id NVARCHAR (200) NOT NULL,
+    process_host NVARCHAR (200) NOT NULL,
     process_create INTEGER NOT NULL
 );
 -- ----------------------------------------------------------
 --  create table web_upload_cache
 -- ----------------------------------------------------------
 CREATE TABLE web_upload_cache (
-    form_id VARCHAR (250) NULL,
-    filename VARCHAR (250) NULL,
-    content_id VARCHAR (250) NULL,
-    content_size VARCHAR (30) NULL,
-    content_type VARCHAR (250) NULL,
-    content TEXT NOT NULL,
+    form_id NVARCHAR (250) NULL,
+    filename NVARCHAR (250) NULL,
+    content_id NVARCHAR (250) NULL,
+    content_size NVARCHAR (30) NULL,
+    content_type NVARCHAR (250) NULL,
+    content VARBINARY (MAX) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 -- ----------------------------------------------------------
@@ -999,12 +999,12 @@ CREATE TABLE web_upload_cache (
 -- ----------------------------------------------------------
 CREATE TABLE notifications (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    notification_type VARCHAR (200) NOT NULL,
-    notification_charset VARCHAR (60) NOT NULL,
-    notification_language VARCHAR (60) NOT NULL,
-    subject VARCHAR (200) NOT NULL,
-    text VARCHAR (4000) NOT NULL,
-    content_type VARCHAR (250) NULL,
+    notification_type NVARCHAR (200) NOT NULL,
+    notification_charset NVARCHAR (60) NOT NULL,
+    notification_language NVARCHAR (60) NOT NULL,
+    subject NVARCHAR (200) NOT NULL,
+    text NVARCHAR (4000) NOT NULL,
+    content_type NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1016,13 +1016,13 @@ CREATE TABLE notifications (
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    subject VARCHAR (200) NOT NULL,
-    text VARCHAR (4000) NOT NULL,
-    content_type VARCHAR (250) NOT NULL,
-    charset VARCHAR (100) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    subject NVARCHAR (200) NOT NULL,
+    text NVARCHAR (4000) NOT NULL,
+    content_type NVARCHAR (250) NOT NULL,
+    charset NVARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1035,8 +1035,8 @@ CREATE TABLE notification_event (
 -- ----------------------------------------------------------
 CREATE TABLE notification_event_item (
     notification_id INTEGER NOT NULL,
-    event_key VARCHAR (200) NOT NULL,
-    event_value VARCHAR (200) NOT NULL
+    event_key NVARCHAR (200) NOT NULL,
+    event_value NVARCHAR (200) NOT NULL
 );
 CREATE INDEX notification_event_item_event_key ON notification_event_item (event_key);
 CREATE INDEX notification_event_item_event_value ON notification_event_item (event_value);
@@ -1046,7 +1046,7 @@ CREATE INDEX notification_event_item_notification_id ON notification_event_item 
 -- ----------------------------------------------------------
 CREATE TABLE link_type (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (50) NOT NULL,
+    name NVARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1060,7 +1060,7 @@ CREATE TABLE link_type (
 -- ----------------------------------------------------------
 CREATE TABLE link_state (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (50) NOT NULL,
+    name NVARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1074,7 +1074,7 @@ CREATE TABLE link_state (
 -- ----------------------------------------------------------
 CREATE TABLE link_object (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (100) NOT NULL,
+    name NVARCHAR (100) NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT link_object_name UNIQUE (name)
 );
@@ -1083,9 +1083,9 @@ CREATE TABLE link_object (
 -- ----------------------------------------------------------
 CREATE TABLE link_relation (
     source_object_id SMALLINT NOT NULL,
-    source_key VARCHAR (50) NOT NULL,
+    source_key NVARCHAR (50) NOT NULL,
     target_object_id SMALLINT NOT NULL,
-    target_key VARCHAR (50) NOT NULL,
+    target_key NVARCHAR (50) NOT NULL,
     type_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1096,10 +1096,10 @@ CREATE TABLE link_relation (
 --  create table xml_storage
 -- ----------------------------------------------------------
 CREATE TABLE xml_storage (
-    xml_type VARCHAR (200) NOT NULL,
-    xml_key VARCHAR (250) NOT NULL,
-    xml_content_key VARCHAR (250) NOT NULL,
-    xml_content_value TEXT NULL
+    xml_type NVARCHAR (200) NOT NULL,
+    xml_key NVARCHAR (250) NOT NULL,
+    xml_content_key NVARCHAR (250) NOT NULL,
+    xml_content_value NVARCHAR (MAX) NULL
 );
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
@@ -1108,9 +1108,9 @@ CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    filename VARCHAR (350) NOT NULL,
-    backend VARCHAR (60) NOT NULL,
-    backend_key VARCHAR (160) NOT NULL,
+    filename NVARCHAR (350) NOT NULL,
+    backend NVARCHAR (60) NOT NULL,
+    backend_key NVARCHAR (160) NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -1121,8 +1121,8 @@ CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs_preferences (
     virtual_fs_id BIGINT NOT NULL,
-    preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (350) NULL
+    preferences_key NVARCHAR (150) NOT NULL,
+    preferences_value NVARCHAR (350) NULL
 );
 CREATE INDEX virtual_fs_preferences_key_value ON virtual_fs_preferences (preferences_key, preferences_value);
 CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (virtual_fs_id);
@@ -1131,8 +1131,8 @@ CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (vir
 -- ----------------------------------------------------------
 CREATE TABLE virtual_fs_db (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    filename VARCHAR (350) NOT NULL,
-    content TEXT NOT NULL,
+    filename NVARCHAR (350) NOT NULL,
+    content VARBINARY (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -1142,14 +1142,14 @@ CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 -- ----------------------------------------------------------
 CREATE TABLE package_repository (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    version VARCHAR (250) NOT NULL,
-    vendor VARCHAR (250) NOT NULL,
-    install_status VARCHAR (250) NOT NULL,
-    filename VARCHAR (250) NULL,
-    content_size VARCHAR (30) NULL,
-    content_type VARCHAR (250) NULL,
-    content TEXT NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    version NVARCHAR (250) NOT NULL,
+    vendor NVARCHAR (250) NOT NULL,
+    install_status NVARCHAR (250) NOT NULL,
+    filename NVARCHAR (250) NULL,
+    content_size NVARCHAR (30) NULL,
+    content_type NVARCHAR (250) NULL,
+    content VARBINARY (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1161,9 +1161,9 @@ CREATE TABLE package_repository (
 -- ----------------------------------------------------------
 CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    config VARBINARY (MAX) NOT NULL,
+    config_md5 NVARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1179,8 +1179,8 @@ CREATE TABLE gi_webservice_config (
 CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     config_id INTEGER NOT NULL,
-    config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config VARBINARY (MAX) NOT NULL,
+    config_md5 NVARCHAR (32) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1193,9 +1193,9 @@ CREATE TABLE gi_webservice_config_history (
 -- ----------------------------------------------------------
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    task_data VARCHAR (8000) NOT NULL,
-    task_data_md5 VARCHAR (32) NOT NULL,
-    task_type VARCHAR (200) NOT NULL,
+    task_data NVARCHAR (MAX) NOT NULL,
+    task_data_md5 NVARCHAR (32) NOT NULL,
+    task_type NVARCHAR (200) NOT NULL,
     due_time DATETIME NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
@@ -1206,9 +1206,9 @@ CREATE TABLE scheduler_task_list (
 -- ----------------------------------------------------------
 CREATE TABLE gi_debugger_entry (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    communication_id VARCHAR (32) NOT NULL,
-    communication_type VARCHAR (50) NOT NULL,
-    remote_ip VARCHAR (50) NULL,
+    communication_id NVARCHAR (32) NOT NULL,
+    communication_type NVARCHAR (50) NOT NULL,
+    remote_ip NVARCHAR (50) NULL,
     webservice_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
@@ -1221,9 +1221,9 @@ CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);
 CREATE TABLE gi_debugger_entry_content (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     gi_debugger_entry_id BIGINT NOT NULL,
-    debug_level VARCHAR (50) NOT NULL,
-    subject VARCHAR (255) NOT NULL,
-    content TEXT NULL,
+    debug_level NVARCHAR (50) NOT NULL,
+    subject NVARCHAR (255) NOT NULL,
+    content VARBINARY (MAX) NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -1234,13 +1234,13 @@ CREATE INDEX gi_debugger_entry_content_debug_level ON gi_debugger_entry_content 
 -- ----------------------------------------------------------
 CREATE TABLE gi_object_lock_state (
     webservice_id INTEGER NOT NULL,
-    object_type VARCHAR (30) NOT NULL,
+    object_type NVARCHAR (30) NOT NULL,
     object_id BIGINT NOT NULL,
-    lock_state VARCHAR (30) NOT NULL,
+    lock_state NVARCHAR (30) NOT NULL,
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_975 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_607 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1248,10 +1248,10 @@ CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id
 -- ----------------------------------------------------------
 CREATE TABLE smime_signer_cert_relations (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    cert_hash VARCHAR (8) NOT NULL,
-    cert_fingerprint VARCHAR (59) NOT NULL,
-    ca_hash VARCHAR (8) NOT NULL,
-    ca_fingerprint VARCHAR (59) NOT NULL,
+    cert_hash NVARCHAR (8) NOT NULL,
+    cert_fingerprint NVARCHAR (59) NOT NULL,
+    ca_hash NVARCHAR (8) NOT NULL,
+    ca_fingerprint NVARCHAR (59) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
