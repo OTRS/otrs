@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.58 2011-02-25 19:26:38 en Exp $
+# $Id: mssql.pm,v 1.59 2011-07-01 14:18:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -776,15 +776,15 @@ sub _TypeTranslation {
         $Tag->{Type} = 'DATETIME';
     }
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
-        if ( $Tag->{Size} > 8000 ) {
-            $Tag->{Type} = 'TEXT';
+        if ( $Tag->{Size} > 4000 ) {
+            $Tag->{Type} = 'NVARCHAR (MAX)';
         }
         else {
-            $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
+            $Tag->{Type} = 'NVARCHAR (' . $Tag->{Size} . ')';
         }
     }
     elsif ( $Tag->{Type} =~ /^longblob$/i ) {
-        $Tag->{Type} = 'TEXT';
+        $Tag->{Type} = 'NVARCHAR (MAX)';
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
