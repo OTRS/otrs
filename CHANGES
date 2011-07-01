@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1921 2011-07-01 08:00:09 mb Exp $
+# $Id: CHANGES,v 1.1922 2011-07-01 14:20:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-07-01 Fixed bug#7454 - MS SQL should use NVARCHAR to store text strings
+    rather than VARCHAR.
  - 2011-06-21 TicketGet() now also returns ChangeBy and CreateBy.
  - 2011-06-06 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
  - 2011-05-20 Added feature bug#7340 - It's not possible to sort tickets on last changed date.
